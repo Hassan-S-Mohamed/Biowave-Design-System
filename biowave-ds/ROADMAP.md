@@ -8,7 +8,7 @@
 | Working week | Sunday–Thursday (Cairo). Dates move with the plan; the day number is what counts. |
 | Pace | 2–3 items per day (1 for very large items) |
 | Platforms | **W** Web (React + MUI) · **T** Tablet (Flutter + M3) · **M** Mobile (Flutter + M3) |
-| Target | Design System 1.0 = 42 components + 13 patterns · Day 26 (≈ 23 Nov 2026) |
+| Target | Design System 1.0 = 44 components + 13 patterns · Day 26 (≈ 23 Nov 2026) |
 
 ## 1. Phases
 
@@ -52,7 +52,7 @@ Every item goes through the AGENTS.md workflow. One day looks like this:
 | # | Task | Why it blocks |
 |---|---|---|
 | 0.1 | Close foundation decisions **D-07 … D-11** (`2-foundations/AUDIT.md`) | Font weights and the numeral style (D-10) affect every component, especially Date/Time pickers and tables |
-| 0.2 | ~~Decide P-01 … P-04~~ ✅ closed 2026-10-15 (§7). ~~Decide B-01 … B-05~~ ✅ 2026-10-16 (`_audits/button-family.md`) | Button family is Day 1–2 and already exists in Figma; its fixes depend on these |
+| 0.2 | ~~Decide P-01 … P-04~~ ✅ closed 2026-10-15 (§7). ~~Decide B-01 … B-05~~ ✅ 2026-10-16 (`_audits/button-family.md`). ~~Decide I-01 … I-10~~ ✅ 2026-10-18 (`_audits/input-family.md`) | Button family is Day 1–2 and already exists in Figma; its fixes depend on these |
 | 0.3 | Build the **Figma Doc Kit** (`2-foundations/figma-doc-kit.md`, incl. the 4 home-page components) | Required before the first component's doc pages |
 | 0.4 | Confirm the icon set and naming in `2-foundations/guidelines/icons.md` | Icon is the first component |
 | 0.6 | **Figma files (D-12)** — done by Claude 2026-10-16: 3 component files created with page structure; legacy sections marked in Foundations; `↳ Doc Kit` page; `Focus/Ring Inverse` style. Manual steps done by the design lead and **verified 2026-10-16**: Foundations renamed, all four files in the team project, library published (incl. control tokens, inverse/overlay colors, `Focus/Ring Inverse`) and enabled in the 3 component files | ✅ |
@@ -83,7 +83,8 @@ The **button family** goes first and already exists in Figma, so it is *audit �
 | 6 | | Switch | ● | ● | ● | `Switch` / `Switch` | Icon |
 | 7 | Tue 27 Oct | Text field (single line, multiline, label, helper, error, counter) | ● | ● | ● | `TextField` / `TextField` + `InputDecorationTheme` | Icon, Icon button, control tokens |
 | 7 | | Select | ● | ● | ● | `Select` / `DropdownMenu` | Text field, Icon |
-| 8 | Wed 28 Oct | List (list + list item) | ● | ● | ● | `List` · `ListItem` / `ListTile` | Avatar, Icon, Checkbox, Switch, Divider |
+| 8 | Wed 28 Oct | Verification code (OTP, 4 or 6 digits; digits always LTR, I-08) | ● | ● | ● | custom on `InputBase` × n / custom `TextField` × n | Text field (shared field parts) |
+| 8 | | List (list + list item) | ● | ● | ● | `List` · `ListItem` / `ListTile` | Avatar, Icon, Checkbox, Switch, Divider |
 | 8 | | Segmented button (connected single/multi select) | ● | ● | ● | `ToggleButtonGroup` / `SegmentedButton` | Icon |
 | **9** | **Thu 29 Oct** | **Buffer + Core release** | | | | Clear carry-overs, cross-component consistency pass, packages **0.5.0** | All of Phase 1 |
 
@@ -101,6 +102,7 @@ The **button family** goes first and already exists in Figma, so it is *audit �
 | 12 | | Side sheet (drawer) | ● | ● | — | `Drawer` / custom side sheet | Button group, Icon button, Divider |
 | 12 | | Accordion | ● | ● | ● | `Accordion` / `ExpansionTile` | Icon, Divider |
 | 13 | Wed 4 Nov | Search field | ● | ● | ● | `TextField` + adornments / `SearchBar` · `SearchAnchor` | Text field, Icon button |
+| 13 | | Phone field (country code Select + Text field, I-07) | ● | ● | ● | `TextField` + `Select` / `TextField` + `DropdownMenu` | Text field, Select, Menu |
 | 13 | | Autocomplete (single + multi) | ● | ● | ● | `Autocomplete` / `Autocomplete` + `RawAutocomplete` | Text field, Menu, Chip, Progress |
 | 14 | Thu 5 Nov | **Date picker** (field + calendar) — whole day: web is our own build (P-01) | ● | ● | ● | custom on `Popover` + `TextField` / `showDatePicker` | Text field, Icon button, Dialog, D-10 |
 | 15 | Sun 8 Nov | Time picker | ● | ● | ● | custom / `showTimePicker` | Text field, Dialog, D-10 |
@@ -144,6 +146,7 @@ A pattern is a documented composition of components that solves one recurring Bi
 | P-03 | Where patterns live | New section **`7-patterns/`** with README + `_templates/pattern.md`, created on Day 19 | ✅ 2026-10-15 |
 | P-04 | Component tokens | Handled **in the semantic layer first**: values shared by several components become semantic tokens (e.g. `size.control.{sm,md,lg}.height`, `spacing.control.padding-x.*`, `spacing.control.gap`). A component-specific token is added only when no shared semantic token fits, and only by the Planner in the spec's *Token gaps*. Figma-only component collections are migrated into the token source (Day 0.5) | ✅ 2026-10-15 |
 | D-10 | Numerals in Arabic UI | **Western digits (0-9)** for IDs, times, dates, numbers and tables in both languages | ✅ 2026-10-16 |
+| I-01 … I-10 | Input family: static label above the field · outlined only · field focus = border in `color-border-focus` (no offset ring) · `sm·md·lg` · Text area inside Text field · shared field parts · Verification code (Day 8) and Phone field (Day 13) added | [`_audits/input-family.md`](_audits/input-family.md) §4 | ✅ 2026-10-18 |
 | B-01 … B-05 | Button family: emphasis `filled·tonal·outlined·text` · colors `brand·secondary·neutral·error·inverse` · sizes `sm·md·lg·xl` · one EN/AR set · deprecate duplicates | [`audits/button-family.md`](_audits/button-family.md) §4 | ✅ 2026-10-16 |
 
 ## 8. Backlog (after 1.0, not scheduled)

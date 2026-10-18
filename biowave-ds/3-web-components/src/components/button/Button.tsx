@@ -1,7 +1,7 @@
 import * as React from 'react';
 import MuiButton from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
-import { useBiowave } from '@biowave/foundations';
+import { cssVars, useBiowave } from '@biowave/foundations';
 import { visuallyHidden } from '../../internal/visuallyHidden';
 import { warnOnce } from '../../internal/warnOnce';
 import { ButtonSpinner } from './ButtonSpinner';
@@ -42,11 +42,17 @@ export interface ButtonProps extends React.AriaAttributes {
   [dataAttribute: `data-${string}`]: unknown;
 }
 
+interface ButtonInternalProps extends ButtonProps {
+  /** @internal Used only when Button is composed inside SplitButton. */
+  segment?: 'start' | 'end';
+}
+
 interface ButtonRootProps {
   $variant: ButtonVariant;
   $color: ButtonColor;
   $size: ButtonSize;
   $instantColorTransition: boolean;
+  $segment?: 'start' | 'end';
 }
 
 function stateLayer(value: string | undefined): string {
@@ -58,8 +64,9 @@ const ButtonRoot = styled(MuiButton, {
     prop !== '$variant' &&
     prop !== '$color' &&
     prop !== '$size' &&
-    prop !== '$instantColorTransition',
-})<ButtonRootProps>(({ $variant, $color, $size, $instantColorTransition }) => {
+    prop !== '$instantColorTransition' &&
+    prop !== '$segment',
+})<ButtonRootProps>(({ $variant, $color, $size, $instantColorTransition, $segment }) => {
   const visual = resolveButtonTokens($variant, $color);
   const size = buttonSizeTokens[$size];
   const focusColor = $color === 'inverse' ? buttonFocusTokens.inverse : buttonFocusTokens.default;
@@ -75,7 +82,11 @@ const ButtonRoot = styled(MuiButton, {
     minWidth: 0,
     paddingInline: size.paddingInline,
     paddingBlock: 0,
-    borderRadius: size.radius,
+    borderRadius: $segment ? undefined : size.radius,
+    borderStartStartRadius: $segment === 'end' ? cssVars.radius.xs : size.radius,
+    borderEndStartRadius: $segment === 'end' ? cssVars.radius.xs : size.radius,
+    borderStartEndRadius: $segment === 'start' ? cssVars.radius.xs : size.radius,
+    borderEndEndRadius: $segment === 'start' ? cssVars.radius.xs : size.radius,
     borderWidth: visual.border ? size.borderWidth : 0,
     borderStyle: visual.border ? 'solid' : 'none',
     borderColor: visual.border?.default,
@@ -203,12 +214,13 @@ function prepareIcon(icon: React.ReactNode): PreparedIcon {
  * class, or use `ButtonDirectionalIconProps` and `mirrorInRtl` on a custom
  * icon. Button removes either marker from the icon and mirrors its wrapper once.
  */
-export const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonProps>(
+const ButtonInternal = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonInternalProps>(
   function Button(
     {
       variant = 'filled',
       color = 'brand',
       size = 'md',
+      segment,
       startIcon,
       endIcon,
       fullWidth = false,
@@ -278,6 +290,7 @@ export const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, Bu
           $variant={effectiveVariant}
           $color={color}
           $size={size}
+          $segment={segment}
           $instantColorTransition={disabled || justReenabled}
           variant="text"
           color="inherit"
@@ -316,3 +329,11 @@ export const Button = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, Bu
     );
   },
 );
+
+export const Button = ButtonInternal as React.ForwardRefExoticComponent<
+  React.PropsWithoutRef<ButtonProps> &
+    React.RefAttributes<HTMLButtonElement | HTMLAnchorElement>
+>;
+
+/** @internal SplitButton composition primitive; not exported from the package. */
+export const InternalButton = ButtonInternal;

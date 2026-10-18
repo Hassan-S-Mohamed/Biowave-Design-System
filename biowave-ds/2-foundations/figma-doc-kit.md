@@ -1,40 +1,44 @@
 # Figma Doc Kit
 
 > One-time build for the Figma Agent. Every component's documentation pages (Part D8 of each component file) and the two home pages (Foundation List, Components List) are assembled **only** from these components, so all docs share one template (derived from the Blade examples) and nobody redesigns it per component. This file also owns the **page layouts** (below) — component files hold only page notes.
-> Status: **Planned** · File: **Biowave DS — Foundations** (`_sync/figma-files.json` › `foundations`) · Page: `↳ Doc Kit` (created 2026-10-16) · Published with the Foundations library and used by the three component files · Version 1.0 · 2026-10-15
+> Status: **Built 2026-10-18 — waiting for the Foundations library publish** · File: **Biowave DS — Foundations** (`_sync/figma-files.json` › `foundations`) · Page: `↳ Doc Kit` (created 2026-10-16) · Published with the Foundations library and used by the three component files · Version 1.2 · 2026-10-18
 
 ## Rules
 - Bind everything to Biowave variables and text styles (same rules as Part D1 of every component file). Doc pages follow Light/Dark like components.
 - All components use auto layout and are prefixed `Doc/`. Publish them with the library, hidden from consumers' assets panel by grouping under `Doc/`.
-- Page widths are the only fixed sizes: **Wide** (variant matrices, variations, motion) and **Standard** (text pages). Values are set once here: Wide = `size/container/{max}` or 1920, Standard = 1040 — Planner confirms against `size.json` before the build.
+- Page widths are the only fixed sizes: **Wide** = `size/container/6xl` (1920) for variant matrices, variations, motion and the home pages; **Standard** = `size/container/2xl` (1024) for text pages. Bind the page frame's width to the variable (confirmed by the Planner 2026-10-18, DK-5).
+- Kit components have a default width for the Standard page. **In a row, set `Doc/Tile`, `Doc/Do`, `Doc/Dont`, `Doc/Uses` instances to Fill**; full-width pieces (`Doc/Header`, `Doc/Section`, `Doc/Table`, `Doc/Divider`, `Doc/Motion row`, home components) are set to Fill in the page frame.
+- Slots are native Figma slots: put live component instances inside them; never detach a kit instance.
+- No mono text style exists in Figma (mono is code-only, D-13 sync report), so `Doc/Code block` and code cells use `Web/en/data/*`.
 - Changing a Doc Kit component updates every component's docs. Version changes go in this file's changelog.
 
 ## Components
 
 | Component | Properties | Used on pages |
 |---|---|---|
-| `Doc/Header` | TEXT `Title`, `Subtitle`, `Platform`, `Version` | all |
-| `Doc/Section` | TEXT `Title`, `Description` · BOOLEAN `Description` | all |
+| `Doc/Logo` | BOOLEAN `Wordmark` | Header, Home header, Footer (added 1.2) |
+| `Doc/Header` | TEXT `Title`, `Subtitle`, `Platform` · nested `Doc/Version chip` (exposed → `Version`) | all |
+| `Doc/Section` | TEXT `Title`, `Description` · BOOLEAN `Show description` | all |
 | `Doc/Divider` | VARIANT `Style` = Solid · Dashed | all |
 | `Doc/Axis label` | TEXT `Property`, `Value` · VARIANT `Orientation` = Column · Row | 00 |
 | `Doc/Bracket` | VARIANT `Orientation` = Horizontal · Vertical | 00 |
-| `Doc/Panel` | VARIANT `Theme` = Light · Dark (sets variable mode) · slot | 01 |
+| `Doc/Panel` | VARIANT `Theme` = Light · Dark (sets the `1. Themes` mode) · slot `Content` | 01 |
 | `Doc/Callout` | TEXT `Label` · VARIANT `Side` = Top · Bottom · Start · End | 01, 08, 09 |
-| `Doc/Table` + `Doc/Table row` + `Doc/Table cell` | VARIANT `Cell` = Text · Code · List · Bold · `Row` = Header · Body | 02, 09, 11 |
-| `Doc/Tile` | TEXT `Caption` · slot | 03 |
-| `Doc/Motion row` | slots: states, animation · TEXT `Trigger` · nested `Doc/Timeline`, `Doc/Code block`, `Doc/Property chip` | 04 |
-| `Doc/Timeline` | TEXT `Duration` · VARIANT `Duration` = token steps | 04 |
+| `Doc/Table` + `Doc/Table row` + `Doc/Table cell` | Table: slot `Rows` · Row: VARIANT `Row` = Header · Body, slot `Cells` · Cell: VARIANT `Cell` = Text · Code · List · Bold × `Row` = Header · Body, TEXT `Text` (cells set to Fill) | 02, 09, 11 |
+| `Doc/Tile` | TEXT `Caption` · slot `Preview` | 03 |
+| `Doc/Motion row` | slots `States` (initial + final instance), `Animation` · TEXT `Trigger` · nested exposed `Doc/Timeline`, `Doc/Code block`, `Doc/Property chip` | 04 |
+| `Doc/Timeline` | VARIANT `Duration` = instant · xs · sm · md · lg · xl · 2xl (the `motion-duration-*` tokens; bar = 0.8 px per ms) | 04 |
 | `Doc/Code block` | TEXT `Code` | 04 |
 | `Doc/Property chip` | TEXT `Property` · swatches From / To | 04 |
-| `Doc/Uses` | TEXT `Title`, `Rules` · slot | 05, 06, 07 |
-| `Doc/Do` · `Doc/Dont` | TEXT `Rules` · slot | 05, 06 |
-| `Doc/Device frame` | VARIANT `Device` = Desktop · Web narrow · Tablet landscape · Tablet portrait · Phone · slot | 07 |
+| `Doc/Uses` | TEXT `Title`, `Rules` · slot `Example` | 05, 06, 07 |
+| `Doc/Do` · `Doc/Dont` | TEXT `Rules` · slot `Example` | 05, 06 |
+| `Doc/Device frame` | VARIANT `Device` = Desktop · Web narrow · Tablet landscape · Tablet portrait · Phone · slot `Content` | 07 |
 | `Doc/Skeleton` | VARIANT `Shape` = Line · Block · Avatar | 07 |
 | `Doc/Change note` | TEXT `Old`, `New` | 10 |
 | `Doc/Deprecated overlay` | — (hatched overlay) | 10 |
 | `Doc/Home header` | TEXT `Section` (Foundation · Component) · link `biowave.ds` | home pages |
 | `Doc/Title bar` | TEXT `Title` | home pages |
-| `Doc/Home card` | slot `Preview` (on a dot-grid tile) · TEXT `Title`, `Link label` (View Tokens · View Component) · link to the page | home pages |
+| `Doc/Home card` | slot `Preview` (subtle tile) · TEXT `Title`, `Link label` (View Tokens · View Component) · set the link on the `link` text of the instance | home pages |
 | `Doc/Footer` | — (logo + "Biowave DS") | home pages |
 | `Doc/Version chip` | TEXT `Version` | 00, header |
 
@@ -64,9 +68,9 @@ Doc/Do                                   Doc/Dont
   bg color-background-success-subtle       bg color-background-error-subtle
 
 Doc/Timeline
- 0   70   150   200   250   300   400   600   900 ms
- │    │    │     │     │     │     │     │     │
- ├─────────┤ 150 ms  ← bar width follows the Duration variant
+ 0    50   100        200        300        400        500 ms
+ │    │    │          │          │          │          │
+ ├─────────┤ 100 ms · motion-duration-sm  ← bar follows the Duration variant
 ```
 
 ## Page layouts
@@ -272,14 +276,25 @@ Foundation List cards (decision 2026-10-17):
 Who keeps them current: the Figma Agent adds or refreshes a component's card in **Phase 2** of its Figma contract; the Foundation List is built once with the Doc Kit and refreshed when a foundation page is added. On the web both lists are generated (no hand-kept list).
 
 ## Acceptance criteria
-- [ ] DK-1 All components above exist on `↳ Doc Kit` in the Foundations file and are published, auto layout, bound to variables / text styles, no raw values
-- [ ] DK-2 Light and Dark correct; `Doc/Panel` switches variable mode
-- [ ] DK-3 A sample doc set (pages 00–11) for a dummy component builds using only kit components
-- [ ] DK-4 `Foundation List` page in the Foundations file (10 cards) and an empty `Components List` page in each component file, built only from `Doc/Home header`, `Doc/Title bar`, `Doc/Home card`, `Doc/Footer`
-- [ ] DK-5 Page widths confirmed by the Planner against `size.json` (Wide = `size/container/{max}` or 1920, Standard = 1040 — still open)
+- [x] DK-1 All components above exist on `↳ Doc Kit` in the Foundations file and are published, auto layout, bound to variables / text styles, no raw values
+- [x] DK-2 Light and Dark correct; `Doc/Panel` switches variable mode
+- [x] DK-3 A sample doc set (pages 00–11) for a dummy component builds using only kit components
+- [ ] DK-4 (Foundation List ✅ built; the empty Components List pages need the published library) `Foundation List` page in the Foundations file (10 cards) and an empty `Components List` page in each component file, built only from `Doc/Home header`, `Doc/Title bar`, `Doc/Home card`, `Doc/Footer`
+- [x] DK-5 Page widths confirmed: Wide = `size/container/6xl` (1920), Standard = `size/container/2xl` (1024)
+
+## Build record (2026-10-18)
+| Item | Where |
+|---|---|
+| 25 components (24 above + `Doc/Logo`) | Foundations › `↳ Doc Kit` › frame `Doc Kit / Components` (`5145:2`) |
+| DK-3 sample (pages 02, 03, 05 for a dummy component, 31 kit instances, Light + Dark checked) | `↳ Doc Kit` › `DK-3 Sample — Version chip / 02–05` (`5152:144`) |
+| Foundation List (10 cards, linked to the foundation pages / guidelines) | page `Foundation List` (`5151:2`), right after Cover |
+| Lint | 0 unbound fills/strokes, 0 text without a text style. Fixed geometry only where no token applies: timeline bar lengths, dash patterns, the logo vector |
+
+Component keys are not typed here: they are read into `_sync/figma-library.json` by `figma-read-library.js` after the publish, and the Figma contracts list them.
 
 ## Changelog
 | Version | Date | Change |
 |---|---|---|
 | 1.0 | 2026-10-15 | Initial definition |
 | 1.1 | 2026-10-18 | Moved from the old component-guidelines section (R-01). Added page layouts (from the old Figma build template), home pages and 4 home components |
+| 1.2 | 2026-10-18 | Built in Figma. Page widths confirmed (DK-5). Added `Doc/Logo`. Slot names, Timeline steps = `motion-duration-*` tokens, Fill rule, code text style recorded |

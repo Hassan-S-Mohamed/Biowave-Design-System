@@ -4,6 +4,7 @@
     "button",
     "button-group",
     "icon-button",
-    "split-button"
+    "split-button",
+    "text-field"
   ]
 }

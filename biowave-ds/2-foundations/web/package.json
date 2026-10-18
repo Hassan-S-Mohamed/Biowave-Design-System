@@ -29,7 +29,7 @@
     "@types/stylis": "^4.2.7",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "stylis": "^4.3.0",
+    "stylis": "4.2.0",
     "stylis-plugin-rtl": "^2.1.1"
   }
 }

@@ -45,8 +45,9 @@ Status is written in each file header and here; `npm run docs:check` fails if th
 |---|---|---|---|---|---|---|
 | Button | Finished | Built | Planned | Round 1 · 2026-10-16 · Changes requested | [page](components/button/button.html) | [button.md](components/button/button.md) |
 | Button group | Finished | Planned | Planned | — | [page](components/button-group/button-group.html) | [button-group.md](components/button-group/button-group.md) |
-| Icon button | Finished | Planned | Planned | — | [page](components/icon-button/icon-button.html) | [icon-button.md](components/icon-button/icon-button.md) |
-| Split button | Finished | Planned | Planned | — | [page](components/split-button/split-button.html) | [split-button.md](components/split-button/split-button.md) |
+| Icon button | Finished | In progress | Planned | — | [page](components/icon-button/icon-button.html) | [icon-button.md](components/icon-button/icon-button.md) |
+| Split button | Finished | In progress | Planned | — | [page](components/split-button/split-button.html) | [split-button.md](components/split-button/split-button.md) |
+| Text field | Open | Changes requested | Planned | Round 1 · 2026-10-18 · Changes requested | [page](components/text-field/text-field.html) | [text-field.md](components/text-field/text-field.md) |
 
 ## 5. Backlog (from the Figma "Web Components" pages, suggested order)
 1. Button · Icon button · Button group · Split button

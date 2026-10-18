@@ -2,6 +2,36 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Review — Web Text field round 1: Changes requested] — 2026-10-18
+### Reviewed
+- Clean install: typecheck ✅, `test:web` 35/35 ✅, `component-tokens` ✅, `sync` READY; `docs:check` ❌ (all 13 Figma contracts stale since Doc Kit 1.2). Field colour pairs checked on both field backgrounds, light + dark: all pass.
+- Findings: 1 gate blocker (stale Figma contracts, not caused by Text field), 3 should-fix (read-only identical to default in dark mode; input `aria-*` routed to the root div; required indicator stays error-coloured when disabled), 4 nits. Figma build, Tablet, Mobile and Select not started. Full record: `3-web-components/components/text-field/text-field.md` › Part E.
+### Changed
+- Web Text field status: Plan `Finished` → `Open`, Code `Built` → `Changes requested`; `3-web-components/README.md` row updated.
+
+## [Figma Doc Kit 1.2 — built] — 2026-10-18
+### Added
+- Figma Doc Kit built in **Biowave DS — Foundations** › `↳ Doc Kit`: the 24 `Doc/*` components from `2-foundations/figma-doc-kit.md` plus `Doc/Logo`, all auto layout with native slots, every fill/stroke/padding/gap/radius/width bound to Foundations variables and every text to a `Web/en/*` text style (lint: 0 violations). Unblocks Phase 2 (documentation pages + Components List card) of every Figma contract once the library is published and the keys are read.
+- `Foundation List` home page (10 linked cards) right after Cover, built only from the four home components.
+- DK-3 sample doc page (31 kit instances, checked in Light and Dark).
+### Changed
+- `figma-doc-kit.md` 1.2: page widths confirmed (DK-5): Wide = `size/container/6xl`, Standard = `size/container/2xl`; Fill rule for kit instances in rows; slot names; `Doc/Timeline` steps are the `motion-duration-*` tokens; code text uses `Web/en/data/*` (no mono style in Figma).
+
+## [Web Text field — planned and built] — 2026-10-18
+### Added
+- `TextField` for Web: static visible/visually-hidden label, `sm·md·lg`, single-line and multiline input, required/error/helper/counter states, leading/trailing adornments, disabled/read-only behavior, native form semantics, RTL, dark theme and public package exports.
+- Contract-first source, component-token collections, generated code/Figma contracts and 11 focused tests covering token parity, state semantics, Unicode counting, warnings, keyboard order, EN/AR, light/dark and axe.
+### Changed
+- Accessibility guidance records the approved editable-field focus exception: focused border at `border-width-focus`, no exterior offset; the contract generator now preserves that exception instead of emitting the generic offset-ring rule.
+- Pinned Stylis 4.2 across the workspace so `stylis-plugin-rtl` and Emotion serialize the same AST version; this fixes disabled/read-only MUI input rendering in Arabic.
+
+## [Audit — Input family: Figma audit, decisions I-01 … I-10 closed] — 2026-10-18
+### Added
+- `_audits/input-family.md`: read-only audit of the legacy input sets (web `Inputs`, `Dropdown`, `Textarea`, `Verification code`; mobile `Inputs` + parts, `PIN Input`, `Phone Number`, `Search Input`, `Details input`), token check (no foundation change needed before Day 7), decisions I-01 … I-10 and the proposed build order (Text field + Select Day 7, Verification code Day 8, Phone field Day 13). Nothing in Figma or tokens changed.
+### Changed
+- Decisions I-01 … I-10 confirmed by Hassan (all recommendations): static label above the field, outlined only, field focus = border in `color-border-focus` at `border-width-focus` (exception to be recorded in `a11y.md` with the Day 7 plan), `sm·md·lg`, Text area inside Text field, shared `.Field/*` parts, legacy sets deprecated after approval.
+- `ROADMAP.md`: Verification code added to Day 8, Phone field added to Day 13, I-01 … I-10 row in §7, Phase 0.2 updated.
+
 ## [Web Button — code round 2 built] — 2026-10-18
 - Fixed review findings #1, #2, #3, #5, #6, #7 and #8: stable loading name with external live status, one sanitized RTL icon flip, opacity fades, progress-duration spinner, instant disabled transitions, shared visually-hidden helper, and the complete 24-test contract matrix.
 

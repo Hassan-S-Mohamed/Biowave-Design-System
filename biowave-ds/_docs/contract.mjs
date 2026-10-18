@@ -119,6 +119,7 @@ function codeContract(c) {
   const tfile = tokensFile(plat, name);
   const bText = ['B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'B9'].map((i) => sec(doc, i)).join('\n');
   const named = tokensNamed(bText);
+  const fieldFocusException = /\*\*Field exception:\*\*|no exterior offset/i.test(sec(doc, 'B6'));
   const idx = tokenIndex();
   const access = (k) => {
     const t = idx.get(k);
@@ -167,7 +168,7 @@ function codeContract(c) {
     '3. Never use primitives (`primitive.*`, `BwPalette`).',
     `4. RTL first: logical properties only (${plat === 'web' ? '`margin-inline-start`, `padding-inline`, `inset-inline-end`' : '`EdgeInsetsDirectional`, `AlignmentDirectional`, `BorderRadiusDirectional`'}); mirror only directional icons (§6).`,
     '5. Light + dark and en + ar, always — and tested.',
-    `6. WCAG 2.2 AA: keyboard, visible focus (\`color-border-focus\`, 2px, 2px offset), labels, targets ≥ \`target-min\` (${plat === 'web' ? '24px' : '48dp'}), reduced motion.`,
+    `6. WCAG 2.2 AA: keyboard, visible focus (${fieldFocusException ? '\`color-border-focus\` at \`border-width-focus\`, with no exterior offset per the documented field exception in §7' : '\`color-border-focus\`, 2px, 2px offset'}), labels, targets ≥ \`target-min\` (${plat === 'web' ? '24px' : '48dp'}), reduced motion.`,
     '7. Stay inside this contract; one component per task; do not refactor unrelated files.', '');
   L.push('## 13. Commands that must pass', '', '```bash', ...cmds, '```', '');
   L.push('## 14. When you finish', '', `1. Fill [C8 Execution log](${name}.md#c8-execution-log-filled-by-the-executor) in \`${name}.md\` (agent, date, files, deviations, questions).`,

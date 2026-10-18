@@ -1,0 +1,124 @@
+{
+  "$schema": "component-tokens/v1",
+  "$description": "Text field component tokens (D-13). Every value aliases a semantic Foundations token.",
+  "text-field": {
+    "size": {
+      "$extensions": {
+        "figma": {
+          "collection": "Text field / Size",
+          "modes": true
+        }
+      },
+      "sm": {
+        "height": { "$value": "{size.control.height.sm}" },
+        "padding-inline": { "$value": "{spacing.control.padding-inline.sm}" },
+        "gap": { "$value": "{spacing.control.gap.sm}" },
+        "label-gap": { "$value": "{spacing.sm}" },
+        "supporting-gap": { "$value": "{spacing.xs}" },
+        "icon": { "$value": "{size.icon.sm}" },
+        "radius": { "$value": "{radius.md}" },
+        "border-width": { "$value": "{border.width.default}" }
+      },
+      "md": {
+        "height": { "$value": "{size.control.height.md}" },
+        "padding-inline": { "$value": "{spacing.control.padding-inline.md}" },
+        "gap": { "$value": "{spacing.control.gap.md}" },
+        "label-gap": { "$value": "{spacing.sm}" },
+        "supporting-gap": { "$value": "{spacing.xs}" },
+        "icon": { "$value": "{size.icon.md}" },
+        "radius": { "$value": "{radius.md}" },
+        "border-width": { "$value": "{border.width.default}" }
+      },
+      "lg": {
+        "height": { "$value": "{size.control.height.lg}" },
+        "padding-inline": { "$value": "{spacing.control.padding-inline.lg}" },
+        "gap": { "$value": "{spacing.control.gap.lg}" },
+        "label-gap": { "$value": "{spacing.sm}" },
+        "supporting-gap": { "$value": "{spacing.xs}" },
+        "icon": { "$value": "{size.icon.lg}" },
+        "radius": { "$value": "{radius.md}" },
+        "border-width": { "$value": "{border.width.default}" }
+      }
+    },
+    "state": {
+      "$extensions": {
+        "figma": {
+          "collection": "Text field / State",
+          "modes": true
+        }
+      },
+      "default": {
+        "background": { "$value": "{color.background.base.default}" },
+        "border": { "$value": "{color.border.input.default}" },
+        "border-width": { "$value": "{border.width.default}" },
+        "label": { "$value": "{color.text.neutral.default}" },
+        "input": { "$value": "{color.text.neutral.default}" },
+        "placeholder": { "$value": "{color.text.neutral.placeholder}" },
+        "icon": { "$value": "{color.icon.neutral.muted}" },
+        "supporting": { "$value": "{color.text.neutral.muted}" },
+        "counter": { "$value": "{color.text.neutral.muted}" },
+        "required": { "$value": "{color.text.role.error}" }
+      },
+      "hover": {
+        "background": { "$value": "{color.background.base.default}" },
+        "border": { "$value": "{color.border.input.hover}" },
+        "border-width": { "$value": "{border.width.default}" },
+        "label": { "$value": "{color.text.neutral.default}" },
+        "input": { "$value": "{color.text.neutral.default}" },
+        "placeholder": { "$value": "{color.text.neutral.placeholder}" },
+        "icon": { "$value": "{color.icon.neutral.muted}" },
+        "supporting": { "$value": "{color.text.neutral.muted}" },
+        "counter": { "$value": "{color.text.neutral.muted}" },
+        "required": { "$value": "{color.text.role.error}" }
+      },
+      "focus": {
+        "background": { "$value": "{color.background.base.default}" },
+        "border": { "$value": "{color.border.focus}" },
+        "border-width": { "$value": "{border.width.focus}" },
+        "label": { "$value": "{color.text.neutral.default}" },
+        "input": { "$value": "{color.text.neutral.default}" },
+        "placeholder": { "$value": "{color.text.neutral.placeholder}" },
+        "icon": { "$value": "{color.icon.neutral.default}" },
+        "supporting": { "$value": "{color.text.neutral.muted}" },
+        "counter": { "$value": "{color.text.neutral.muted}" },
+        "required": { "$value": "{color.text.role.error}" }
+      },
+      "error": {
+        "background": { "$value": "{color.background.base.default}" },
+        "border": { "$value": "{color.border.input.error}" },
+        "border-width": { "$value": "{border.width.default}" },
+        "label": { "$value": "{color.text.neutral.default}" },
+        "input": { "$value": "{color.text.neutral.default}" },
+        "placeholder": { "$value": "{color.text.neutral.placeholder}" },
+        "icon": { "$value": "{color.icon.role.error}" },
+        "supporting": { "$value": "{color.text.role.error}" },
+        "counter": { "$value": "{color.text.role.error}" },
+        "required": { "$value": "{color.text.role.error}" }
+      },
+      "disabled": {
+        "background": { "$value": "{color.background.base.disabled}" },
+        "border": { "$value": "{color.border.disabled}" },
+        "border-width": { "$value": "{border.width.default}" },
+        "label": { "$value": "{color.text.neutral.disabled}" },
+        "input": { "$value": "{color.text.neutral.disabled}" },
+        "placeholder": { "$value": "{color.text.neutral.disabled}" },
+        "icon": { "$value": "{color.icon.neutral.disabled}" },
+        "supporting": { "$value": "{color.text.neutral.disabled}" },
+        "counter": { "$value": "{color.text.neutral.disabled}" },
+        "required": { "$value": "{color.text.neutral.disabled}" }
+      },
+      "read-only": {
+        "background": { "$value": "{color.background.neutral.subtle}" },
+        "border": { "$value": "{color.border.input.default}" },
+        "border-width": { "$value": "{border.width.default}" },
+        "label": { "$value": "{color.text.neutral.default}" },
+        "input": { "$value": "{color.text.neutral.default}" },
+        "placeholder": { "$value": "{color.text.neutral.placeholder}" },
+        "icon": { "$value": "{color.icon.neutral.muted}" },
+        "supporting": { "$value": "{color.text.neutral.muted}" },
+        "counter": { "$value": "{color.text.neutral.muted}" },
+        "required": { "$value": "{color.text.role.error}" }
+      }
+    }
+  }
+}

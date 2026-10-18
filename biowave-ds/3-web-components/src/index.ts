@@ -12,3 +12,11 @@ export {
   type ButtonColor,
   type ButtonSize,
 } from './components/button';
+export {
+  IconButton,
+  type IconButtonProps,
+  type IconButtonVariant,
+  type IconButtonColor,
+  type IconButtonSize,
+} from './components/icon-button';
+export { TextField, type TextFieldProps, type TextFieldSize } from './components/text-field';

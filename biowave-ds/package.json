@@ -39,7 +39,11 @@
   "engines": {
     "node": ">=18.17"
   },
+  "overrides": {
+    "stylis": "4.2.0"
+  },
   "devDependencies": {
+    "stylis": "4.2.0",
     "typescript": "^5.6.0"
   }
 }

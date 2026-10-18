@@ -15,7 +15,7 @@
 | Figma | **Biowave DS — Web Components** › `↳ Split Button` (legacy reference: Foundations `4298:3591`) · build: [Part D](#d--figma-build) |
 | Version | 1.0 · 2026-10-16 |
 | Plan | Finished |
-| Code | Planned |
+| Code | In progress |
 | Figma build | Planned |
 | Review | — |
 | Source code | `src/components/split-button/` — not built yet (the Executor creates it) |
