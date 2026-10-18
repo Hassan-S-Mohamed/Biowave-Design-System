@@ -138,6 +138,7 @@ const IconButtonRoot = styled(MuiIconButton, {
       justifyContent: 'center',
       inlineSize: size.icon,
       blockSize: size.icon,
+      fontSize: size.icon,
       opacity: 1,
       transition: `opacity ${buttonMotionTokens.loadingDuration} ${buttonMotionTokens.linearEasing}`,
     },

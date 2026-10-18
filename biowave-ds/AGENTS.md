@@ -116,6 +116,7 @@ Figma is split into four files (D-12). Keys live only in `_sync/figma-files.json
 | **Biowave DS — Web Components** | `web` | Web component sets + docs + Components List page | `3-web-components/components/*/figma-*-contract.md` |
 | **Biowave DS — Tablet Components** | `tablet` | Tablet component sets + docs + Components List page | `4-tablet-components/components/*/figma-*-contract.md` |
 | **Biowave DS — Mobile Components** | `mobile` | Mobile component sets + docs + Components List page | `5-mobile-components/components/*/figma-*-contract.md` |
+| **Google · Material Symbols** | `icons` | Icon library (D-18): one component set per glyph, Style=Rounded used. Published library | `2-foundations/guidelines/icons.md`, `_sync/figma-icons.json` |
 
 - Start of any task: `npm run sync` (or `_sync/status.txt` if the watcher runs).
   - **✗ BLOCKED** (stale generated code, Figma variables pending, component tokens pending or invalid) → do not start component work; report it.

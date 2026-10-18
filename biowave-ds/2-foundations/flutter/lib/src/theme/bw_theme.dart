@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 
 import '../generated/bw_tokens.g.dart';
+import 'bw_icons.dart';
 
 /// The Flutter platforms Biowave ships. (Web is React; see 3-web-components.)
 enum BwPlatform { tablet, mobile }
@@ -103,6 +104,15 @@ abstract final class BwTheme {
       disabledColor: colors.textNeutralDisabled,
       materialTapTargetSize: MaterialTapTargetSize.padded,
       visualDensity: VisualDensity.standard,
+      // D-18: Material Symbols Rounded defaults; components override size per their spec.
+      iconTheme: IconThemeData(
+        size: BwSize.iconLg,
+        opticalSize: BwSize.iconLg,
+        color: colors.iconNeutralDefault,
+        fill: BwIconAxes.fill,
+        weight: BwIconAxes.weight,
+        grade: BwIconAxes.grade,
+      ),
       extensions: <ThemeExtension<dynamic>>[colors, elevation, text, layout],
     );
   }

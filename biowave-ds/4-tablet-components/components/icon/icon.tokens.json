@@ -1,0 +1,6 @@
+{
+  "$schema": "component-tokens/v1",
+  "$extends": "../../../3-web-components/components/icon/icon.tokens.json",
+  "$description": "Icon component tokens for Tablet: identical to the Web file (D-13).",
+  "icon": {}
+}

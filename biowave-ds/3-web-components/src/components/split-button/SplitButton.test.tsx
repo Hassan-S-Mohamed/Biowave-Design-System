@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import DownloadRounded from '@mui/icons-material/DownloadRounded';
-import TableChartRounded from '@mui/icons-material/TableChartRounded';
 import { axe } from 'vitest-axe';
 import { describe, expect, it, vi } from 'vitest';
 import { cssVars } from '@biowave/foundations';
@@ -18,7 +16,7 @@ import {
   type SplitButtonSize,
   type SplitButtonVariant,
 } from './SplitButton';
-
+import { MaterialSymbol } from '../../test/materialSymbol';
 const variants: SplitButtonVariant[] = ['filled', 'tonal', 'outlined'];
 const colors: SplitButtonColor[] = ['brand', 'secondary', 'neutral'];
 const sizes: SplitButtonSize[] = ['sm', 'md', 'lg'];
@@ -27,7 +25,7 @@ const locales = ['en', 'ar'] as const;
 
 function makeOptions(onSelect = vi.fn()): SplitButtonOption[] {
   return [
-    { label: 'Export as Excel', onSelect, icon: <TableChartRounded /> },
+    { label: 'Export as Excel', onSelect, icon: <MaterialSymbol name="table_chart" /> },
     { label: 'Export as CSV', onSelect: vi.fn() },
     { label: 'Export as JSON', onSelect: vi.fn() },
   ];
@@ -98,7 +96,7 @@ describe('SplitButton rendering', () => {
     for (const locale of locales) {
       const view = renderWithBiowave(
         <SplitButton
-          startIcon={<DownloadRounded />}
+          startIcon={<MaterialSymbol name="download" />}
           onClick={vi.fn()}
           options={makeOptions()}
         >

@@ -15,7 +15,7 @@
 | Figma | **Biowave DS — Web Components** › `↳ Text field` |
 | Version | 1.1 · 2026-10-18 |
 | Plan | Finished |
-| Code | Changes requested |
+| Code | In progress |
 | Figma build | Planned |
 | Review | Round 1 · 2026-10-18 · Changes requested |
 | Source code | [`src/components/text-field/`](../../src/components/text-field/) |
@@ -437,19 +437,20 @@ No physical left/right properties are permitted.
 ### B7 Examples
 ```tsx
 import { TextField } from '@biowave/web';
+import Icon from '@mui/material/Icon';   // Material Symbols Rounded font (D-18) until the Biowave Icon ships
 
 <TextField label="Work email" name="email" type="email" autoComplete="email"
-  placeholder="name@company.com" required startAdornment={<MailOutlineRounded />}
+  placeholder="name@company.com" required startAdornment={<Icon baseClassName="material-symbols-rounded">mail</Icon>}
   helpText="We send shift reminders to this address" />
 
 <TextField label="Password" type="password" autoComplete="current-password" />  {/* show/hide built in */}
 
-<TextField label="Search employees" clearable startAdornment={<SearchRounded />} />
+<TextField label="Search employees" clearable startAdornment={<Icon baseClassName="material-symbols-rounded">search</Icon>} />
 
 <TextField label="Hourly rate" inputMode="decimal" suffix="SAR" />
 
 <TextField label="Invite link" readOnly value={link}
-  endButton={{ label: 'Copy', icon: <ContentCopyRounded />, onClick: copy }} />
+  endButton={{ label: 'Copy', icon: <Icon baseClassName="material-symbols-rounded">content_copy</Icon>, onClick: copy }} />
 
 <TextField label="Request reason" multiline minRows={3} maxRows={8}
   maxLength={400} showCounter helperText="Explain why you need remote work" />
@@ -521,6 +522,7 @@ Structure, properties, the Figma ↔ code mapping and Code Connect: [Part D](#d-
 - **Add-ons:** `FieldAddon` is a non-interactive segment inside the outlined border (`startAdornment`/`endAdornment` of `OutlinedInput` with negative inline margin equal to the padding so it reaches the border), divider on the inner edge, `aria-hidden` visual + id text in `aria-describedby`
 - **End button:** the Biowave `Button` (`outlined`, `neutral`, field size) placed after the `OutlinedInput` in an inline flex row; square the touching corners with logical radius properties and collapse the shared border with a negative `margin-inline-start` of `border-width-default`
 - **Click to focus (AD-6):** decorative wrappers get `pointer-events: none`; a root `onMouseDown` on non-interactive targets focuses the input
+- **Icons (D-18):** built-in glyphs come from the Material Symbols Rounded font — clear `close`, password `visibility` / `visibility_off`, help `help`, error `error` — rendered with MUI `Icon` `baseClassName="material-symbols-rounded"` at the B2 sizes (opsz = size). Never import `@mui/icons-material`
 - **Error colour (AD-4):** only border, supporting text and error icon change colour in error
 - **State priority:** native MUI classes plus transient props implement Disabled → Error → Focus → Hover → Default. Read-only has its background and border tokens and still receives focus styling
 - **Focus exception:** style only `.MuiOutlinedInput-notchedOutline`; never add an exterior outline or shadow to the field. Controls inside keep their own focus ring
@@ -569,6 +571,7 @@ Implement every item in B9, plus:
 - [ ] AC-8 Single-line and multiline use one public component, with private reusable field parts
 - [ ] AC-9 `npm run component-tokens`, `npm run sync` and `npm run docs:check` pass
 - [ ] AC-10 AD-1 … AD-6 fixed: action inside the border at every size and viewport, disabled with the field, neutral icons in error, first-line alignment, click-to-focus
+- [ ] AC-12 Icons from Material Symbols Rounded only (D-18); no `@mui/icons-material` import in the component folder
 - [ ] AC-11 Trailing action, help icon and end button reuse the Biowave Icon button and Button (no restyled MUI copies)
 
 ### C8 Execution log
@@ -584,6 +587,19 @@ Implement every item in B9, plus:
 - Updated the contract generator's generic focus rule to honor the B6 editable-field exception; without this, the generated contract contradicted its own component-specific focus requirement.
 
 **Questions for the Planner**
+- none
+
+**Round 2 · spec 1.1**
+- Implemented every v1.1 API and fallback: managed custom / clear / password actions, help tooltip, error icon, prefix and suffix add-ons, attached end button, multiline resize and `inputMode`.
+- Closed E2 findings 3, 4, 6, 7 and 8, plus AD-1 … AD-6: native-input ARIA routing, disabled required colour, selector-specific state tests, label hit area, form-reset counter, in-border action sizing, disabled action semantics, neutral error adornments, first-line alignment and click-to-focus.
+- Added private `FieldAddon` and `FieldAction`; built-in glyphs use Material Symbols Rounded via MUI `Icon` per D-18.
+- Expanded Text field coverage from 11 to 19 tests, including both review viewports, light/dark, EN/AR, axe, native form behavior and every component-token alias.
+- Verification: Text field 19/19; full Web suite 77/77 with file parallelism disabled; `typecheck`, `component-tokens`, `sync` and `docs:check` pass. The exact parallel `npm run test:web` command still times out in pre-existing Button / Icon button / Split button tests while Text field passes; Code remains `In progress` until that shared runner gate is resolved.
+
+**Round 2 deviations**
+- none
+
+**Round 2 questions**
 - none
 
 ---
@@ -855,3 +871,4 @@ Planner items from E2 closed in spec 1.1: **#2** read-only border `color-border-
 | 1.0 | 2026-10-18 | Initial Web Text field and Text area plan | No | — |
 | 1.0 | 2026-10-18 | Review round 1: Changes requested (E2) | No | — |
 | 1.1 | 2026-10-18 | Legacy properties added (help icon, error icon, prefix/suffix, end button, resize); managed trailing action API replaces interactive `endAdornment` (fixes AD-1 … AD-6); read-only border; `aria-*` to the input | **Yes** — interactive `endAdornment` content is no longer allowed | Move clear / show-password / custom buttons to `clearable`, `passwordToggle`, `action` |
+| 1.1 | 2026-10-18 | Round 2 Web implementation built with all E2 and AD-1 … AD-6 fixes, private field parts and 19 contract tests | No further break | — |

@@ -1,4 +1,4 @@
-<!-- GENERATED from split-button.md @ 143145e61bcf749b — do not edit; change the source and run: npm run contract -- mobile split-button -->
+<!-- GENERATED from split-button.md @ dfdc5ab9b50eb755 — do not edit; change the source and run: npm run contract -- mobile split-button -->
 # Split button · زر مقسّم — Mobile — Figma contract
 
 > **Everything the Figma Agent needs to build Split button in the Mobile Components file, with our variables and styles.** Read this file only. Generated from [`split-button.md`](split-button.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-18). Questions go to [D11 Execution log](split-button.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
@@ -12,7 +12,7 @@
 | Component | Split button · زر مقسّم |
 | Platform | Mobile · Flutter + Material 3 |
 | Version | 1.0 · 2026-10-16 |
-| Source | [`split-button.md`](split-button.md) @ `143145e61bcf749b` |
+| Source | [`split-button.md`](split-button.md) @ `dfdc5ab9b50eb755` |
 
 ## 1. Library connections in this file
 
@@ -58,6 +58,14 @@ None named in B/D.
 ## 6. Components to instance (keys)
 
 Nested Biowave components (e.g. Button inside Split button) are instances of the sets **in this file** — build them first; never detach.
+
+### Icons (keys) — Google · Material Symbols library (D-18)
+
+Library file **Google · Material Symbols** · key `RXlnhYgUKBBE6HveEr7e9C` — must be enabled in this file. Import the set, then use the **Style=Rounded** variant (`Fill=Filled` only for selected states). Colour the glyph by binding its vector fills to the icon colour token of the part.
+
+| Icon | Set key | Rounded (unfilled) | Rounded (filled) |
+|---|---|---|---|
+| `expand_more` | `267ced323de796ae4f53245aaa13fb0ed7d0f310` | `7614dc418009adcc275d35ff07afcb7b4f62b1fd` | `c18d6c2b6b894f64a7fd0981b1168b638f45c91f` |
 
 ## 7. Phase 1 — values (from Part B)
 
@@ -141,6 +149,8 @@ As [Web D2–D4](../../../3-web-components/components/split-button/split-button.
 
 As [Web D3](../../../3-web-components/components/split-button/split-button.md#d3-layer-tree-and-auto-layout), with the Mobile differences listed in D2.
 
+**Icons used:** `expand_more` — menu trigger chevron, Google · Material Symbols Rounded (D-18)
+
 ### D4 Properties
 
 As [Web D4](../../../3-web-components/components/split-button/split-button.md#d4-properties), with the Mobile differences listed in D2.
@@ -182,6 +192,8 @@ Split Button            ↔ horizontal · gap spacing/xxs · hug
 ├── primary-action      ◇ Button instance · Variant/Color/Size/Language follow the set · inner corners radius/xs · exposed: Label, Leading icon, Leading icon glyph
 └── menu-trigger        ◇ Icon Button instance · same Variant/Color/Size · inner corners radius/xs · Icon = expand_more · Tooltip label = "More options"
 ```
+
+**Icons used:** `expand_more` — menu trigger chevron, Google · Material Symbols Rounded (D-18)
 
 #### D4 Properties
 

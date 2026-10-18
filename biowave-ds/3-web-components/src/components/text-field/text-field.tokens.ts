@@ -16,6 +16,8 @@ export interface TextFieldSizeTokens {
   labelGap: string;
   supportingGap: string;
   icon: string;
+  actionBox: string;
+  actionInset: string;
   radius: string;
   borderWidth: string;
   labelTypography: React.CSSProperties;
@@ -33,6 +35,9 @@ export interface TextFieldStateTokens {
   supporting: string;
   counter: string;
   required: string;
+  addonBackground: string;
+  addonText: string;
+  errorIcon: string;
 }
 
 const sharedSizeTokens = {
@@ -49,6 +54,8 @@ export const textFieldSizeTokens: Record<TextFieldSize, TextFieldSizeTokens> = {
     paddingInline: cssVars.spacing.control['padding-inline'].sm,
     gap: cssVars.spacing.control.gap.sm,
     icon: cssVars.size.icon.sm,
+    actionBox: cssVars.size.icon.lg,
+    actionInset: cssVars.spacing.xs,
     labelTypography: biowaveVariants.labelSm,
     inputTypography: biowaveVariants.bodySm,
   },
@@ -58,6 +65,8 @@ export const textFieldSizeTokens: Record<TextFieldSize, TextFieldSizeTokens> = {
     paddingInline: cssVars.spacing.control['padding-inline'].md,
     gap: cssVars.spacing.control.gap.md,
     icon: cssVars.size.icon.md,
+    actionBox: cssVars.size.control.height.sm,
+    actionInset: cssVars.spacing.xs,
     labelTypography: biowaveVariants.labelMd,
     inputTypography: biowaveVariants.bodyMd,
   },
@@ -67,6 +76,8 @@ export const textFieldSizeTokens: Record<TextFieldSize, TextFieldSizeTokens> = {
     paddingInline: cssVars.spacing.control['padding-inline'].lg,
     gap: cssVars.spacing.control.gap.lg,
     icon: cssVars.size.icon.lg,
+    actionBox: cssVars.size.control.height.md,
+    actionInset: cssVars.spacing.xs,
     labelTypography: biowaveVariants.labelLg,
     inputTypography: biowaveVariants.bodyLg,
   },
@@ -83,6 +94,9 @@ const defaultState: TextFieldStateTokens = {
   supporting: cssVars.color.text.neutral.muted,
   counter: cssVars.color.text.neutral.muted,
   required: cssVars.color.text.role.error,
+  addonBackground: cssVars.color.background.neutral.default,
+  addonText: cssVars.color.text.neutral.subtle,
+  errorIcon: cssVars.color.icon.role.error,
 };
 
 export const textFieldStateTokens: Record<TextFieldState, TextFieldStateTokens> = {
@@ -100,7 +114,6 @@ export const textFieldStateTokens: Record<TextFieldState, TextFieldStateTokens> 
   error: {
     ...defaultState,
     border: cssVars.color.border.input.error,
-    icon: cssVars.color.icon.role.error,
     supporting: cssVars.color.text.role.error,
     counter: cssVars.color.text.role.error,
   },
@@ -115,10 +128,14 @@ export const textFieldStateTokens: Record<TextFieldState, TextFieldStateTokens> 
     supporting: cssVars.color.text.neutral.disabled,
     counter: cssVars.color.text.neutral.disabled,
     required: cssVars.color.text.neutral.disabled,
+    addonBackground: cssVars.color.background.base.disabled,
+    addonText: cssVars.color.text.neutral.disabled,
+    errorIcon: cssVars.color.icon.neutral.disabled,
   },
   'read-only': {
     ...defaultState,
     background: cssVars.color.background.neutral.subtle,
+    border: cssVars.color.border.default,
   },
 };
 
@@ -131,3 +148,5 @@ export const textFieldMotionTokens = {
 } as const;
 
 export const textFieldTargetToken = cssVars.target.min;
+export const textFieldErrorIconSize = cssVars.size.icon.sm;
+export const textFieldErrorGap = cssVars.spacing.xs;

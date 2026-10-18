@@ -1,4 +1,4 @@
-<!-- GENERATED from icon-button.md @ 2f73ab63d81a36be — do not edit; change the source and run: npm run contract -- tablet icon-button -->
+<!-- GENERATED from icon-button.md @ 7becb0e38b4b033a — do not edit; change the source and run: npm run contract -- tablet icon-button -->
 # Icon button · زر أيقونة — Tablet — code contract
 
 > **Everything you need to build Icon button on Tablet, and nothing else.** Read this file only. Generated from [`icon-button.md`](icon-button.md) (Parts B and C). If something is unclear or impossible, stop and write it in [C8 Execution log → Questions](icon-button.md#c8-execution-log-filled-by-the-executor) — never invent behaviour.
@@ -12,7 +12,7 @@
 | Version | 1.0 · 2026-10-16 |
 | Source code | `lib/src/components/icon-button/` — not built yet (the Executor creates it) |
 | Tokens | — |
-| Source | [`icon-button.md`](icon-button.md) @ `2f73ab63d81a36be` |
+| Source | [`icon-button.md`](icon-button.md) @ `7becb0e38b4b033a` |
 
 ## 1. What it is
 
@@ -39,7 +39,7 @@ An icon button starts an action shown only as an icon: close, edit, more options
 ### BwIconButton
 | Param | Type | Values | Default | Required | Description |
 |---|---|---|---|---|---|
-| `icon` | `IconData` | Material Symbols Rounded | — | ✓ | `icon` |
+| `icon` | `IconData` | `Symbols.*_rounded` (D-18; re-exported by `biowave_foundations`) | — | ✓ | `icon` |
 | `label` | `String` | | — | ✓ | Semantics label and tooltip |
 | `onPressed` | `VoidCallback?` | | — | ✓ | `null` = disabled |
 | `variant` | `BwButtonVariant` | `filled` · `tonal` · `outlined` · `text` | `text` | | A4.1 |
@@ -99,10 +99,10 @@ Same as the [Web B5](../../../3-web-components/components/icon-button/icon-butto
 ```dart
 import 'package:biowave_tablet/biowave_tablet.dart';
 
-BwIconButton(icon: Icons.edit_rounded, label: 'Edit device', onPressed: edit);
-BwIconButton(icon: Icons.push_pin_outlined, selectedIcon: Icons.push_pin, toggle: true, selected: pinned,
+BwIconButton(icon: Symbols.edit_rounded, label: 'Edit device', onPressed: edit);
+BwIconButton(icon: Symbols.push_pin_rounded, selectedIcon: Symbols.push_pin_rounded, /* drawn with fill 1 when selected */ toggle: true, selected: pinned,
     label: pinned ? 'Unpin' : 'Pin', onPressed: togglePin);
-BwIconButton(icon: Icons.edit_rounded, label: 'تعديل الجهاز', onPressed: edit);
+BwIconButton(icon: Symbols.edit_rounded, label: 'تعديل الجهاز', onPressed: edit);
 ```
 
 ## 9. How to build it
@@ -137,7 +137,7 @@ None.
 - [ ] Goldens: every allowed `variant` × `color` (selected and not) at `lg`, every size for `text neutral`, light + dark, en + ar
 - [ ] Semantics: label read once; toggle state exposed
 - [ ] Tap target guideline for `sm`/`md`; contrast guideline
-- [ ] Directional icon mirrors in RTL (`matchTextDirection`), `Icons.close_rounded` does not
+- [ ] Directional icon mirrors in RTL (`matchTextDirection`), `Symbols.close_rounded` does not
 - [ ] Invalid combinations assert; no raw values
 
 B9, plus earlier button-family tests still pass.

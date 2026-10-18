@@ -34,4 +34,10 @@ export {
   type SplitButtonColor,
   type SplitButtonSize,
 } from './components/split-button';
-export { TextField, type TextFieldProps, type TextFieldSize } from './components/text-field';
+export {
+  TextField,
+  type TextFieldAction,
+  type TextFieldEndButton,
+  type TextFieldProps,
+  type TextFieldSize,
+} from './components/text-field';

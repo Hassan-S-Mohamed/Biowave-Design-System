@@ -1,4 +1,4 @@
-<!-- GENERATED from button.md @ 6d60ddc310d2e4a2 — do not edit; change the source and run: npm run contract -- web button -->
+<!-- GENERATED from button.md @ 26e182f0acecf31b — do not edit; change the source and run: npm run contract -- web button -->
 # Button · زر — Web — code contract
 
 > **Everything you need to build Button on Web, and nothing else.** Read this file only. Generated from [`button.md`](button.md) (Parts B and C). If something is unclear or impossible, stop and write it in [C8 Execution log → Questions](button.md#c8-execution-log-filled-by-the-executor) — never invent behaviour.
@@ -12,7 +12,7 @@
 | Version | 1.1 · 2026-10-18 |
 | Source code | [`src/components/button/`](../../src/components/button/) |
 | Tokens | [`button.tokens.json`](button.tokens.json) |
-| Source | [`button.md`](button.md) @ `6d60ddc310d2e4a2` |
+| Source | [`button.md`](button.md) @ `26e182f0acecf31b` |
 
 ## 1. What it is
 
@@ -45,7 +45,7 @@ A button starts an action the user chose: save a form, approve a request, clock 
 | `variant` | enum | `filled` · `tonal` · `outlined` · `text` | `filled` | | Emphasis — A4.1 |
 | `color` | enum | `brand` · `secondary` · `neutral` · `error` · `inverse` | `brand` | | A4.2 |
 | `size` | enum | `sm` · `md` · `lg` | `md` | | A4.3 (`xl` is touch only) |
-| `startIcon` | `ReactNode` | an icon from `@mui/icons-material` | — | | `leading-icon` — A4.4 |
+| `startIcon` | `ReactNode` | a Material Symbols Rounded glyph (`icons.md`, D-18) | — | | `leading-icon` — A4.4 |
 | `endIcon` | `ReactNode` | an icon | — | | `trailing-icon` |
 | `fullWidth` | boolean | | `false` | | A4.5 |
 | `loading` | boolean | | `false` | | Shows `spinner`, blocks activation, keeps focus |
@@ -319,7 +319,7 @@ RTL  │          إضافة جهاز  [◆]  │      │  [◂]  التالي 
 
 ```tsx
 import { Button } from '@biowave/web';
-import AddRounded from '@mui/icons-material/AddRounded';
+import Icon from '@mui/material/Icon';   // until the Biowave Icon ships (D-18)
 
 // Dialog footer: one filled + one outlined
 <Button variant="outlined" color="neutral">Cancel</Button>
@@ -329,7 +329,7 @@ import AddRounded from '@mui/icons-material/AddRounded';
 <Button color="error">Delete user</Button>
 
 // With an icon, small, in a table toolbar
-<Button size="sm" variant="tonal" startIcon={<AddRounded />}>Add device</Button>
+<Button size="sm" variant="tonal" startIcon={<Icon baseClassName="material-symbols-rounded">add</Icon>}>Add device</Button>
 
 // Arabic (direction and fonts come from BiowaveProvider locale="ar" — no extra props)
 <Button>حفظ التغييرات</Button>
@@ -392,7 +392,7 @@ None. Added on 2026-10-16 before this plan (Foundations 1.1.0): `size-control-he
 package.json (root)                                   change: "test:web": "npm test -w 3-web-components"
 ```
 
-devDependencies to add to `3-web-components`: `@mui/material@^9.5`, `@mui/icons-material@^9.5`, `@emotion/react`, `@emotion/styled`, `react@^19`, `react-dom@^19`, `@types/react`, `@types/react-dom`, `vitest`, `jsdom`, `@testing-library/react`, `@testing-library/user-event`, `@testing-library/jest-dom`, `vitest-axe`. Run `npm install` at the repo root first (no `node_modules` exist yet; `npm run typecheck` currently fails only because MUI is not installed).
+devDependencies to add to `3-web-components`: `@mui/material@^9.5`, `material-symbols` (D-18; was `@mui/icons-material`), `@emotion/react`, `@emotion/styled`, `react@^19`, `react-dom@^19`, `@types/react`, `@types/react-dom`, `vitest`, `jsdom`, `@testing-library/react`, `@testing-library/user-event`, `@testing-library/jest-dom`, `vitest-axe`. Run `npm install` at the repo root first (no `node_modules` exist yet; `npm run typecheck` currently fails only because MUI is not installed).
 
 ## 10. Tests
 

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import ExpandMoreRounded from '@mui/icons-material/ExpandMoreRounded';
+import Icon from '@mui/material/Icon';
 import { styled } from '@mui/material/styles';
 import { cssVars, useBiowave } from '@biowave/foundations';
 import { warnOnce } from '../../internal/warnOnce';
@@ -150,7 +150,7 @@ export const SplitButton = React.forwardRef<HTMLDivElement, SplitButtonProps>(
         </InternalButton>
         <InternalIconButton
           ref={triggerRef}
-          icon={<ExpandMoreRounded className="bw-split-button__chevron" />}
+          icon={<Icon baseClassName="material-symbols-rounded" fontSize="inherit" className="bw-split-button__chevron">expand_more</Icon>}
           label={effectiveMenuLabel}
           variant={effectiveVariant}
           color={color}

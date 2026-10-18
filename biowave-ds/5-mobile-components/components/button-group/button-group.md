@@ -352,6 +352,8 @@ As [Web D2–D4](../../../3-web-components/components/button-group/button-group.
 
 As [Web D3](../../../3-web-components/components/button-group/button-group.md#d3-layer-tree-and-auto-layout), with the Mobile differences listed in D2.
 
+**Icons used:** `more_horiz` — overflow (More) trigger, Google · Material Symbols Rounded (D-18)
+
 ### D4 Properties
 
 As [Web D4](../../../3-web-components/components/button-group/button-group.md#d4-properties), with the Mobile differences listed in D2.

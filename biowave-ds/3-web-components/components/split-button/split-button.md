@@ -390,6 +390,8 @@ Split Button            ↔ horizontal · gap spacing/xxs · hug
 └── menu-trigger        ◇ Icon Button instance · same Variant/Color/Size · inner corners radius/xs · Icon = expand_more · Tooltip label = "More options"
 ```
 
+**Icons used:** `expand_more` — menu trigger chevron, Google · Material Symbols Rounded (D-18)
+
 ### D4 Properties
 
 | Figma property | Type | Values | Default | Code prop (web) |

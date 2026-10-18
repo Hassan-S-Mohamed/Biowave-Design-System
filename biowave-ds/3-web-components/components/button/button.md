@@ -237,7 +237,7 @@ Web (dialog footer, end-aligned)              Mobile (screen bottom, full width)
 | `variant` | enum | `filled` · `tonal` · `outlined` · `text` | `filled` | | Emphasis — A4.1 |
 | `color` | enum | `brand` · `secondary` · `neutral` · `error` · `inverse` | `brand` | | A4.2 |
 | `size` | enum | `sm` · `md` · `lg` | `md` | | A4.3 (`xl` is touch only) |
-| `startIcon` | `ReactNode` | an icon from `@mui/icons-material` | — | | `leading-icon` — A4.4 |
+| `startIcon` | `ReactNode` | a Material Symbols Rounded glyph (`icons.md`, D-18) | — | | `leading-icon` — A4.4 |
 | `endIcon` | `ReactNode` | an icon | — | | `trailing-icon` |
 | `fullWidth` | boolean | | `false` | | A4.5 |
 | `loading` | boolean | | `false` | | Shows `spinner`, blocks activation, keeps focus |
@@ -387,7 +387,7 @@ RTL  │          إضافة جهاز  [◆]  │      │  [◂]  التالي 
 
 ```tsx
 import { Button } from '@biowave/web';
-import AddRounded from '@mui/icons-material/AddRounded';
+import Icon from '@mui/material/Icon';   // until the Biowave Icon ships (D-18)
 
 // Dialog footer: one filled + one outlined
 <Button variant="outlined" color="neutral">Cancel</Button>
@@ -397,7 +397,7 @@ import AddRounded from '@mui/icons-material/AddRounded';
 <Button color="error">Delete user</Button>
 
 // With an icon, small, in a table toolbar
-<Button size="sm" variant="tonal" startIcon={<AddRounded />}>Add device</Button>
+<Button size="sm" variant="tonal" startIcon={<Icon baseClassName="material-symbols-rounded">add</Icon>}>Add device</Button>
 
 // Arabic (direction and fonts come from BiowaveProvider locale="ar" — no extra props)
 <Button>حفظ التغييرات</Button>
@@ -489,7 +489,7 @@ None. Added on 2026-10-16 before this plan (Foundations 1.1.0): `size-control-he
 package.json (root)                                   change: "test:web": "npm test -w 3-web-components"
 ```
 
-devDependencies to add to `3-web-components`: `@mui/material@^9.5`, `@mui/icons-material@^9.5`, `@emotion/react`, `@emotion/styled`, `react@^19`, `react-dom@^19`, `@types/react`, `@types/react-dom`, `vitest`, `jsdom`, `@testing-library/react`, `@testing-library/user-event`, `@testing-library/jest-dom`, `vitest-axe`. Run `npm install` at the repo root first (no `node_modules` exist yet; `npm run typecheck` currently fails only because MUI is not installed).
+devDependencies to add to `3-web-components`: `@mui/material@^9.5`, `material-symbols` (D-18; was `@mui/icons-material`), `@emotion/react`, `@emotion/styled`, `react@^19`, `react-dom@^19`, `@types/react`, `@types/react-dom`, `vitest`, `jsdom`, `@testing-library/react`, `@testing-library/user-event`, `@testing-library/jest-dom`, `vitest-axe`. Run `npm install` at the repo root first (no `node_modules` exist yet; `npm run typecheck` currently fails only because MUI is not installed).
 
 ### C6 Tests
 
@@ -570,7 +570,7 @@ Implement every item in B9, plus:
 3. **Never** bind `_Primitive/*`, `_deprecated/*` or the old `Button size` collection.
 4. **Layer names = anatomy part names** (A2): `container` is the component itself, children `leading-icon`, `label`, `trailing-icon`, `spinner`, `state-layer`.
 5. Auto layout everywhere. Absolute position only for `state-layer` and `spinner` (both centered, constraints scale).
-6. Icons are instances from the Icons page (`↳ Icons`), never detached.
+6. Icons are instances from the **Google · Material Symbols** library (Style=Rounded; D-18, keys in the contract), never detached.
 
 ### D2 Component structure
 
@@ -613,9 +613,9 @@ This table is the source for Code Connect (D9).
 | `Language` | VARIANT | `EN` · `AR` | `EN` | — | Figma only; code takes language and direction from the provider |
 | `Label` | TEXT | | `Save changes` (AR variants: `حفظ التغييرات`) | `children` | |
 | `Leading icon` | BOOLEAN | | `false` | `startIcon` | present / absent |
-| `Leading icon glyph` | INSTANCE_SWAP | preferred: Icons page | `add` | `startIcon` | `<{Glyph}Rounded />` |
+| `Leading icon glyph` | INSTANCE_SWAP | preferred: Google · Material Symbols (Rounded) | `add` | `startIcon` | `<Icon baseClassName="material-symbols-rounded">{glyph}</Icon>` |
 | `Trailing icon` | BOOLEAN | | `false` | `endIcon` | present / absent |
-| `Trailing icon glyph` | INSTANCE_SWAP | preferred: Icons page | `arrow_forward` | `endIcon` | |
+| `Trailing icon glyph` | INSTANCE_SWAP | preferred: Google · Material Symbols (Rounded) | `arrow_forward` | `endIcon` | |
 | — (instance width Fill) | | | | `fullWidth` | not mapped; resizing the instance to Fill = `fullWidth` |
 
 ### D5 Variants to generate

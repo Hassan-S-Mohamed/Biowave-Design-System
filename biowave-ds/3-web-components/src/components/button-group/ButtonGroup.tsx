@@ -1,5 +1,5 @@
 import * as React from 'react';
-import MoreHorizRounded from '@mui/icons-material/MoreHorizRounded';
+import Icon from '@mui/material/Icon';
 import { styled } from '@mui/material/styles';
 import { cssVars, useBiowave } from '@biowave/foundations';
 import { warnOnce } from '../../internal/warnOnce';
@@ -199,7 +199,7 @@ export const ButtonGroup = React.forwardRef<HTMLDivElement, ButtonGroupProps>(
           {overflowOptions.length > 0 ? (
             <InternalIconButton
               ref={triggerRef}
-              icon={<MoreHorizRounded />}
+              icon={<Icon baseClassName="material-symbols-rounded" fontSize="inherit">more_horiz</Icon>}
               label={effectiveOverflowLabel}
               variant="text"
               color="neutral"

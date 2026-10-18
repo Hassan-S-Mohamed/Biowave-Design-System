@@ -1,4 +1,4 @@
-<!-- GENERATED from icon-button.md @ 6042716e7b58abed — do not edit; change the source and run: npm run contract -- web icon-button -->
+<!-- GENERATED from icon-button.md @ eae8719cb1e1d6d3 — do not edit; change the source and run: npm run contract -- web icon-button -->
 # Icon button · زر أيقونة — Web — code contract
 
 > **Everything you need to build Icon button on Web, and nothing else.** Read this file only. Generated from [`icon-button.md`](icon-button.md) (Parts B and C). If something is unclear or impossible, stop and write it in [C8 Execution log → Questions](icon-button.md#c8-execution-log-filled-by-the-executor) — never invent behaviour.
@@ -12,7 +12,7 @@
 | Version | 1.0 · 2026-10-16 |
 | Source code | `src/components/icon-button/` — not built yet (the Executor creates it) |
 | Tokens | — |
-| Source | [`icon-button.md`](icon-button.md) @ `6042716e7b58abed` |
+| Source | [`icon-button.md`](icon-button.md) @ `eae8719cb1e1d6d3` |
 
 ## 1. What it is
 
@@ -39,7 +39,7 @@ An icon button starts an action shown only as an icon: close, edit, more options
 ### IconButton
 | Prop | Type | Values | Default | Required | Description |
 |---|---|---|---|---|---|
-| `icon` | `ReactNode` | an icon from `@mui/icons-material` (outlined/rounded glyph) | — | ✓ | `icon` |
+| `icon` | `ReactNode` | a Material Symbols Rounded glyph (`icons.md`, D-18); selected = same glyph with `'FILL' 1` | — | ✓ | `icon` |
 | `label` | string | | — | ✓ | Accessible name and tooltip text |
 | `variant` | enum | `filled` · `tonal` · `outlined` · `text` | `text` | | A4.1 |
 | `color` | enum | `brand` · `secondary` · `neutral` · `error` · `inverse` | `neutral` | | A4.2 |
@@ -192,15 +192,13 @@ Reduced motion: instant; tooltip appears without fade.
 
 ```tsx
 import { IconButton } from '@biowave/web';
-import EditRounded from '@mui/icons-material/EditRounded';
-import PushPinOutlined from '@mui/icons-material/PushPinOutlined';
-import PushPin from '@mui/icons-material/PushPin';
+import Icon from '@mui/material/Icon';   // until the Biowave Icon ships (D-18)
 
-<IconButton icon={<EditRounded />} label="Edit device" onClick={edit} />
-<IconButton toggle selected={pinned} icon={<PushPinOutlined />} selectedIcon={<PushPin />}
+<IconButton icon={<Icon baseClassName="material-symbols-rounded">edit</Icon>} label="Edit device" onClick={edit} />
+<IconButton toggle selected={pinned} icon={<Icon baseClassName="material-symbols-rounded">push_pin</Icon>} selectedIcon={<Icon baseClassName="material-symbols-rounded" sx={{ fontVariationSettings: "'FILL' 1" }}>push_pin</Icon>}
             label={pinned ? 'Unpin' : 'Pin'} onClick={() => setPinned(!pinned)} />
 // Arabic: same props, Arabic label
-<IconButton icon={<EditRounded />} label="تعديل الجهاز" onClick={edit} />
+<IconButton icon={<Icon baseClassName="material-symbols-rounded">edit</Icon>} label="تعديل الجهاز" onClick={edit} />
 ```
 
 ## 9. How to build it

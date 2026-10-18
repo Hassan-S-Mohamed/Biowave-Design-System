@@ -7,9 +7,15 @@
   "types": "src/index.ts",
   "exports": {
     ".": "./src/index.ts",
-    "./tokens.css": "./src/generated/tokens.css"
+    "./tokens.css": "./src/generated/tokens.css",
+    "./icons.css": "./src/icons.css"
   },
-  "sideEffects": ["*.css"],
+  "sideEffects": [
+    "*.css"
+  ],
+  "dependencies": {
+    "@material-symbols/font-400": "0.48.0"
+  },
   "peerDependencies": {
     "@emotion/cache": "^11.14.0",
     "@emotion/react": "^11.14.0",

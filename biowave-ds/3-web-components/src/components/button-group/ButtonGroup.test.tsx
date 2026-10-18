@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import EditRounded from '@mui/icons-material/EditRounded';
 import { axe } from 'vitest-axe';
 import { describe, expect, it, vi } from 'vitest';
 import { cssVars } from '@biowave/foundations';
@@ -19,7 +18,7 @@ import {
   type ButtonGroupAlign,
   type ButtonGroupOrientation,
 } from './ButtonGroup';
-
+import { MaterialSymbol } from '../../test/materialSymbol';
 const orientations: ButtonGroupOrientation[] = ['horizontal', 'vertical'];
 const aligns: ButtonGroupAlign[] = ['start', 'center', 'end', 'space-between', 'fill'];
 const locales = ['en', 'ar'] as const;
@@ -98,7 +97,7 @@ describe('ButtonGroup layout', () => {
     renderWithBiowave(
       <ButtonGroup size="lg" aria-label="Actions">
         <Button size="sm" variant="outlined">Cancel</Button>
-        <IconButton size="sm" icon={<EditRounded />} label="Edit" tooltip={false} />
+        <IconButton size="sm" icon={<MaterialSymbol name="edit" />} label="Edit" tooltip={false} />
         <SplitButton
           size="sm"
           variant="outlined"
@@ -154,7 +153,7 @@ describe('ButtonGroup overflow', () => {
     const cancel = vi.fn();
     renderWithBiowave(
       <ButtonGroup maxVisible={2} aria-label="Actions">
-        <IconButton icon={<EditRounded />} label="Edit" onClick={edit} tooltip={false} />
+        <IconButton icon={<MaterialSymbol name="edit" />} label="Edit" onClick={edit} tooltip={false} />
         <Button variant="outlined" onClick={cancel}>Cancel</Button>
         <Button variant="outlined">Preview</Button>
         <Button>Save</Button>

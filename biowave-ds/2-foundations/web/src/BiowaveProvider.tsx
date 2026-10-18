@@ -1,7 +1,8 @@
 // Root provider for every Biowave web app. Wrap the app once:
 //   <BiowaveProvider locale="ar" theme="system"><App /></BiowaveProvider>
 // It sets <html lang / dir / data-platform>, wires MUI (theme + RTL cache) and keeps
-// MUI's color scheme in sync with the `theme` prop. Import '@biowave/foundations/tokens.css' once.
+// MUI's color scheme in sync with the `theme` prop. Import '@biowave/foundations/tokens.css' and
+// '@biowave/foundations/icons.css' (Material Symbols Rounded, D-18) once.
 import * as React from 'react';
 import { CacheProvider } from '@emotion/react';
 import createCache from '@emotion/cache';

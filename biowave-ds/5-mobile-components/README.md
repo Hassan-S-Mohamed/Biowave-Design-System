@@ -8,7 +8,7 @@
 | UI base | Material 3 widgets (`FilledButton`, `TextField`, `Checkbox`…) styled through ThemeData / component themes; custom widgets only when M3 has no equivalent |
 | Tokens | `context.bw.colors`, `context.bw.text`, `context.bw.elevation`, `context.bw.layout`, `BwSpacing`, `BwRadius`, `BwBorder`, `BwSize`, `BwDuration`, `BwEasing` |
 | RTL | Automatic from `MaterialApp(locale:)`. Use `EdgeInsetsDirectional`, `AlignmentDirectional`, `PositionedDirectional`, `BorderRadiusDirectional` |
-| Icons | Material Symbols (`Icons.*` or `material_symbols_icons`) |
+| Icons | Google Material Symbols Rounded — `material_symbols_icons` (`Symbols.*_rounded`, D-18). Not `Icons.*` |
 | Tests | `flutter_test` — golden + semantics + `meetsGuideline` (tap target, contrast) |
 
 ## 2. Structure
@@ -45,9 +45,11 @@ Status is written in each file header and here; `npm run docs:check` fails if th
 | Component | Plan | Code | Figma | Review | Docs | File |
 |---|---|---|---|---|---|---|
 | Button | Finished | Planned | Planned | — | [page](components/button/button.html) | [button.md](components/button/button.md) |
+| Icon | Finished | Planned | Planned | — | [page](components/icon/icon.html) | [icon.md](components/icon/icon.md) |
 | Button group | Finished | Planned | Planned | — | [page](components/button-group/button-group.html) | [button-group.md](components/button-group/button-group.md) |
 | Icon button | Finished | Planned | Planned | — | [page](components/icon-button/icon-button.html) | [icon-button.md](components/icon-button/icon-button.md) |
 | Split button | Finished | Planned | Planned | — | [page](components/split-button/split-button.html) | [split-button.md](components/split-button/split-button.md) |
+| Text field | Finished | Planned | Planned | — | [page](components/text-field/text-field.html) | [text-field.md](components/text-field/text-field.md) |
 
 ## 5. Backlog (suggested order)
 Figma "Mobile Components" pages: Buttons, Inputs, Text Area, Bottom Sheet, Chips, Labels, Avatars, Cards, Tabs, Top App Bar, Navigation Bar, Banners, Snackbar, Checkbox, Radio button, Calendars, Badges, Toggle.

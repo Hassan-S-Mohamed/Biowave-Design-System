@@ -1,4 +1,4 @@
-<!-- GENERATED from text-field.md @ fd92eae4c6721a8e — do not edit; change the source and run: npm run contract -- web text-field -->
+<!-- GENERATED from text-field.md @ 816a066fb9712baa — do not edit; change the source and run: npm run contract -- web text-field -->
 # Text field · حقل نص — Web — code contract
 
 > **Everything you need to build Text field on Web, and nothing else.** Read this file only. Generated from [`text-field.md`](text-field.md) (Parts B and C). If something is unclear or impossible, stop and write it in [C8 Execution log → Questions](text-field.md#c8-execution-log-filled-by-the-executor) — never invent behaviour.
@@ -12,7 +12,7 @@
 | Version | 1.1 · 2026-10-18 |
 | Source code | [`src/components/text-field/`](../../src/components/text-field/) |
 | Tokens | [`text-field.tokens.json`](text-field.tokens.json) |
-| Source | [`text-field.md`](text-field.md) @ `fd92eae4c6721a8e` |
+| Source | [`text-field.md`](text-field.md) @ `816a066fb9712baa` |
 
 ## 1. What it is
 
@@ -321,19 +321,20 @@ No physical left/right properties are permitted.
 
 ```tsx
 import { TextField } from '@biowave/web';
+import Icon from '@mui/material/Icon';   // Material Symbols Rounded font (D-18) until the Biowave Icon ships
 
 <TextField label="Work email" name="email" type="email" autoComplete="email"
-  placeholder="name@company.com" required startAdornment={<MailOutlineRounded />}
+  placeholder="name@company.com" required startAdornment={<Icon baseClassName="material-symbols-rounded">mail</Icon>}
   helpText="We send shift reminders to this address" />
 
 <TextField label="Password" type="password" autoComplete="current-password" />  {/* show/hide built in */}
 
-<TextField label="Search employees" clearable startAdornment={<SearchRounded />} />
+<TextField label="Search employees" clearable startAdornment={<Icon baseClassName="material-symbols-rounded">search</Icon>} />
 
 <TextField label="Hourly rate" inputMode="decimal" suffix="SAR" />
 
 <TextField label="Invite link" readOnly value={link}
-  endButton={{ label: 'Copy', icon: <ContentCopyRounded />, onClick: copy }} />
+  endButton={{ label: 'Copy', icon: <Icon baseClassName="material-symbols-rounded">content_copy</Icon>, onClick: copy }} />
 
 <TextField label="Request reason" multiline minRows={3} maxRows={8}
   maxLength={400} showCounter helperText="Explain why you need remote work" />
@@ -374,6 +375,7 @@ import { TextField } from '@biowave/web';
 - **Add-ons:** `FieldAddon` is a non-interactive segment inside the outlined border (`startAdornment`/`endAdornment` of `OutlinedInput` with negative inline margin equal to the padding so it reaches the border), divider on the inner edge, `aria-hidden` visual + id text in `aria-describedby`
 - **End button:** the Biowave `Button` (`outlined`, `neutral`, field size) placed after the `OutlinedInput` in an inline flex row; square the touching corners with logical radius properties and collapse the shared border with a negative `margin-inline-start` of `border-width-default`
 - **Click to focus (AD-6):** decorative wrappers get `pointer-events: none`; a root `onMouseDown` on non-interactive targets focuses the input
+- **Icons (D-18):** built-in glyphs come from the Material Symbols Rounded font — clear `close`, password `visibility` / `visibility_off`, help `help`, error `error` — rendered with MUI `Icon` `baseClassName="material-symbols-rounded"` at the B2 sizes (opsz = size). Never import `@mui/icons-material`
 - **Error colour (AD-4):** only border, supporting text and error icon change colour in error
 - **State priority:** native MUI classes plus transient props implement Disabled → Error → Focus → Hover → Default. Read-only has its background and border tokens and still receives focus styling
 - **Focus exception:** style only `.MuiOutlinedInput-notchedOutline`; never add an exterior outline or shadow to the field. Controls inside keep their own focus ring
@@ -444,6 +446,7 @@ Implement every item in B9, plus:
 - [ ] AC-8 Single-line and multiline use one public component, with private reusable field parts
 - [ ] AC-9 `npm run component-tokens`, `npm run sync` and `npm run docs:check` pass
 - [ ] AC-10 AD-1 … AD-6 fixed: action inside the border at every size and viewport, disabled with the field, neutral icons in error, first-line alignment, click-to-focus
+- [ ] AC-12 Icons from Material Symbols Rounded only (D-18); no `@mui/icons-material` import in the component folder
 - [ ] AC-11 Trailing action, help icon and end button reuse the Biowave Icon button and Button (no restyled MUI copies)
 
 ## 12. Rules

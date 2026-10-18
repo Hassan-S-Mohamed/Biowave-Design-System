@@ -18,6 +18,8 @@
     "contract": "node _docs/contract.mjs",
     "contracts:status": "node _docs/contract.mjs --status",
     "sync:library": "node _sync/sync.mjs library",
+    "sync:icons:plan": "node _sync/sync.mjs icons-plan",
+    "sync:icons": "node _sync/sync.mjs icons",
     "tokens:check": "node 2-foundations/scripts/check.mjs --verbose",
     "typecheck": "tsc -p 2-foundations/web && tsc -p 3-web-components",
     "test:web": "npm test -w 3-web-components",

@@ -36,5 +36,11 @@
     "name": "Biowave DS — Mobile Components",
     "owns": "Mobile component sets and their documentation pages",
     "repo": "5-mobile-components/components/*/figma-*-contract.md (generated from <name>.md)"
+  },
+  "icons": {
+    "key": "RXlnhYgUKBBE6HveEr7e9C",
+    "name": "Google · Material Symbols",
+    "owns": "Icon library (D-18): one component set per Material Symbols glyph, `Material Symbols/<name>` with Style = Outlined · Rounded · Sharp × Fill = Unfilled · Filled. Biowave uses Style=Rounded. Published library; enable it in the three component files.",
+    "repo": "2-foundations/guidelines/icons.md · _sync/figma-icons.json"
   }
 }

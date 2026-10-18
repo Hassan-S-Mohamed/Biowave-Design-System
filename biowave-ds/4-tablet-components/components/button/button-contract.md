@@ -1,4 +1,4 @@
-<!-- GENERATED from button.md @ 31fe860bcfadf2b0 — do not edit; change the source and run: npm run contract -- tablet button -->
+<!-- GENERATED from button.md @ cedd9b27ebcebdef — do not edit; change the source and run: npm run contract -- tablet button -->
 # Button · زر — Tablet — code contract
 
 > **Everything you need to build Button on Tablet, and nothing else.** Read this file only. Generated from [`button.md`](button.md) (Parts B and C). If something is unclear or impossible, stop and write it in [C8 Execution log → Questions](button.md#c8-execution-log-filled-by-the-executor) — never invent behaviour.
@@ -12,7 +12,7 @@
 | Version | 1.0 · 2026-10-16 |
 | Source code | `lib/src/components/button/` — not built yet (the Executor creates it) |
 | Tokens | [`button.tokens.json`](button.tokens.json) |
-| Source | [`button.md`](button.md) @ `31fe860bcfadf2b0` |
+| Source | [`button.md`](button.md) @ `cedd9b27ebcebdef` |
 
 ## 1. What it is
 
@@ -47,7 +47,7 @@ A button starts an action the user chose: save a form, approve a request, clock 
 | `variant` | `BwButtonVariant` | `filled` · `tonal` · `outlined` · `text` | `filled` | | Emphasis — A4.1 |
 | `color` | `BwButtonColor` | `brand` · `secondary` · `neutral` · `error` · `inverse` | `brand` | | A4.2 |
 | `size` | `BwControlSize` | `sm` · `md` · `lg` · `xl` | `lg` | | A4.3 |
-| `leadingIcon` | `IconData?` | Material Symbols Rounded | `null` | | `leading-icon` |
+| `leadingIcon` | `IconData?` | `Symbols.*_rounded` (D-18; re-exported by `biowave_foundations`) | `null` | | `leading-icon` |
 | `trailingIcon` | `IconData?` | | `null` | | `trailing-icon` |
 | `fullWidth` | `bool` | | `false` | | A4.5 |
 | `loading` | `bool` | | `false` | | Shows `spinner`, ignores presses, keeps focus |
@@ -194,7 +194,7 @@ RTL  │          إضافة جهاز  [◆]  │      │  [◂]  التالي 
 | Part | In RTL |
 |---|---|
 | layout | Mirrors automatically from `Directionality`; padding is `EdgeInsetsDirectional` |
-| directional icons | Mirror automatically when `IconData.matchTextDirection` is true (`Icons.arrow_forward_rounded`, `chevron_right`, `logout`…). Do not wrap in `Transform` |
+| directional icons | Mirrored by `material_symbols_icons` itself for directional glyphs (`Symbols.arrow_forward_rounded`, `chevron_right`, `logout`…; D-18). Do not wrap in `Transform` |
 | non-directional icons, `spinner` | Do not mirror |
 
 ## 7. Accessibility (implementation)
@@ -231,7 +231,7 @@ BwButton(label: 'Save changes', loading: saving, loadingLabel: 'Saving…', onPr
 BwButton(label: 'Delete user', color: BwButtonColor.error, onPressed: confirmDelete);
 
 // Arabic: same code; MaterialApp(locale: Locale('ar')) + BwTabletTheme.light(locale) give RTL and the Arabic font
-BwButton(label: 'تسجيل الحضور', leadingIcon: Icons.login_rounded, onPressed: clockIn);
+BwButton(label: 'تسجيل الحضور', leadingIcon: Symbols.login_rounded, onPressed: clockIn);
 ```
 
 ## 9. How to build it
@@ -281,7 +281,7 @@ None (Foundations 1.1.0 added the control and inverse/overlay tokens).
 - [ ] Each invalid combination in B1 asserts in debug
 - [ ] `meetsGuideline(androidTapTargetGuideline)` and `textContrastGuideline` for every variant × color
 - [ ] Text scale 2.0: label not clipped
-- [ ] Directional icon mirrors in RTL; `Icons.add` does not
+- [ ] Directional icon mirrors in RTL; `Symbols.add_rounded` does not
 - [ ] No raw values: the widget file contains no `Color(0x`, no numeric `EdgeInsets`/`SizedBox` sizes, no `Duration(milliseconds:` (lint test)
 
 Implement every item in B9, plus:

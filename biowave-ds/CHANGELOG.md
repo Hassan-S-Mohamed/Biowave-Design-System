@@ -2,6 +2,59 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Icon — planned for Web, Tablet, Mobile (1.0)] — 2026-10-18
+### Added
+- `icon.md` for W/T/M (Plan `Finished`): Part A shared (A8 per platform); Web `Icon` on MUI `Icon` + Material Symbols Rounded font (`name: MaterialSymbol`, `size` xs…3xl or inherit, `filled`, `color` 10 roles, `directional`, `label`); Flutter `BwIcon` on `Icon` + `Symbols.*_rounded` (`BwIconSize`, `BwIconColor`, `directional` via `Transform.flip`, `semanticLabel`). Web C2 includes adopting `Icon` inside the built components and tests; Flutter Icon is the first component of each package.
+- `icon.tokens.json` (`Icon / Size` 7 modes, `Icon / Color` 10 modes — `disabled` left out: Figma allows 10 modes and disabled icons inherit from their parent). Collections created in the Web, Tablet and Mobile Figma files; lint 0; `sync:verify-tokens` ✓ 66 tokens per file (sorted-dump checksums matched); `sync:done:tokens:*`.
+- Icon colour contrast on the base background checked in both themes: all ≥ 3:1 (lowest: warning 3.24 light).
+- Docs pages, README rows, contracts (`npm run contract -- <plat> icon`).
+
+## [Tooling — Material Symbols icon library connected (D-18)] — 2026-10-18
+### Added
+- `_sync/figma-files.json` › `icons`: **Google · Material Symbols** (`RXlnhYgUKBBE6HveEr7e9C`, 4 154 sets `Material Symbols/<name>`, Style × Fill). Published; import by key verified from the Web Components file.
+- On-demand icon index `_sync/figma-icons.json` (17 icons): `_sync/icons.mjs`, `_sync/figma-read-icons.js` (template), `npm run sync:icons:plan` (finds icons named in specs: `Symbols.x_rounded`, `<Icon …>x</Icon>`, `MaterialSymbol name="x"`, D4 INSTANCE_SWAP values/defaults, `**Icons used:**` lines) and `npm run sync:icons -- <dump>`. `npm run sync` shows the icon index; every Figma contract has an “Icons (keys)” section (set + Rounded unfilled/filled keys) and goes stale when its icons change.
+- `**Icons used:**` lines in Split button (`expand_more`) and Button group (`more_horiz`) Part D on all platforms; Web Button / Icon button D4 rows point to the Material Symbols library (no more “Icons page” / `<{Glyph}Rounded />`).
+- `AGENTS.md` §7, `_sync/README.md`, `icons.md` updated. `_sync/figma-read-icons.generated.js` git-ignored.
+
+## [Code — icons migrated to Google Material Symbols (D-18)] — 2026-10-18
+### Changed
+- `@biowave/foundations` (web): dependency `@material-symbols/font-400@0.48.0` (Rounded, FILL axis only — ≈ 0.56 MB woff2 instead of ≈ 5.4 MB for the full `material-symbols` font); new `src/icons.css` exported as `@biowave/foundations/icons.css` (font import, `font-size: inherit` so token-sized wrappers are not overridden by the package's 24px, `'FILL' 0`, `.bw-icon-fill` = `'FILL' 1`).
+- `@biowave/web`: removed `@mui/icons-material`. `SplitButton` (`expand_more`) and `ButtonGroup` (`more_horiz`) render MUI `Icon` with `baseClassName="material-symbols-rounded"`; `IconButton` and `SplitButtonMenu` icon wrappers set `font-size` from the size token. Tests use `src/test/materialSymbol.tsx` (to be replaced by the Icon component). New guard test `src/test/noLegacyIcons.test.ts` fails on any `@mui/icons-material` import. Text field (round 2, other agent) had already switched; not touched.
+- `biowave_foundations` (Flutter): `material_symbols_icons ^4.2960.0`, re-exported; `BwIconAxes`; theme `iconTheme` (size/opticalSize `BwSize.iconLg`, `color-icon-neutral-default`, fill 0, weight 400, grade 0). Tablet/Mobile Button plans no longer add the dependency themselves.
+### Verified
+- Clean install: `npm run typecheck` ✓; `test:web` serial: Button 24, Icon button 11, Split button 11, Button group 10, guard 2 ✓ — the one remaining failure is Text field's axe test timing out at the 5 s default (round-2 work in progress, not caused by this change); one Icon button tooltip test flaked once under load and passed in two reruns.
+- Browser render (Chromium, en/ar): Material Symbols font loads; icons 16/20/24 at token sizes with no clipping; `arrow_forward` mirrored in RTL; filled push pin; Text field help/error/clear/visibility/copy glyphs correct.
+- Flutter changes not compiled — no Flutter SDK in this environment; run `flutter pub get && flutter analyze` in `2-foundations/flutter`.
+### Note
+- Run `npm install` on your machine: the lockfile now has `@material-symbols/font-400` and no `@mui/icons-material`.
+
+## [Web Text field — round 2 implementation (1.1)] — 2026-10-18
+### Added
+- Managed trailing actions (`action`, `clearable`, password visibility), label help tooltip, supporting-row error icon, prefix/suffix add-ons, attached end button, multiline resize and `inputMode`.
+- Private `FieldAction` and `FieldAddon` pieces; built-in clear, visibility, help and error glyphs use Material Symbols Rounded via MUI `Icon`.
+### Fixed
+- Review E2 findings 3, 4, 6, 7 and 8 and adornment bugs AD-1 … AD-6: native-input ARIA routing, disabled required colour, exact label hit area, form-reset counter, token-sized in-border actions, disabled controls, neutral error adornments, multiline first-line alignment and decorative click-to-focus.
+### Verified
+- Text field: 19/19 tests including light/dark, EN/AR, both review viewports, native form behavior and axe; full Web suite 77/77 when run serially; `typecheck`, `component-tokens`, `sync` and `docs:check` pass. The default parallel Web runner still times out in unrelated pre-existing suites, so Code remains `In progress`.
+
+## [Foundations — D-18: Google Material Symbols is the icon set] — 2026-10-18
+### Changed
+- `2-foundations/guidelines/icons.md`: sources made exact — Web npm `material-symbols` (self-hosted Rounded variable font, `rounded.css`, class `material-symbols-rounded`, axes `'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' <size>`); Flutter `material_symbols_icons` ≥ 4.2960 (`Symbols.*_rounded`, `Icon(fill:, weight:, grade:, opticalSize:)`, built-in RTL mirroring); Figma `Google · Material Symbols` page. `@mui/icons-material` and Flutter `Icons.*` (the older Material Icons set) are no longer allowed. Migration section added.
+- `ROADMAP.md`: decision D-18; Phase 0.4 closed. Section READMEs (2/3/4/5) stack rows.
+- Specs (plans stay `Finished`, contracts regenerated): Web Button, Icon button, Text field (API value descriptions, examples, Text field C3 built-in glyphs + AC-12); Tablet and Mobile Button, Icon button, Text field (`Symbols.*_rounded`, RTL mirroring by the package, Code Connect mapping, `material_symbols_icons` added to Button C5 `pubspec.yaml`).
+### Found (not changed — code Executor task, `icons.md` › Migration)
+- Built web code still imports `@mui/icons-material`: `SplitButton.tsx`, `ButtonGroup.tsx`, `TextField.tsx`, `FieldLabel.tsx`, `FieldSupportingText.tsx` and the Button, Icon button, Split button, Button group tests.
+- The Figma library index has no icon components: `figma-read-library.js` scans pages matching `Doc Kit|Icon|Annotation`, which misses `Google · Material Symbols`. Extend the page pattern before the Icon component's Figma contract.
+
+## [Tablet + Mobile Text field — planned (1.1)] — 2026-10-18
+### Added
+- `4-tablet-components/components/text-field/text-field.md` and `5-mobile-components/components/text-field/text-field.md` (Plan `Finished`): Part A copied from Web 1.1 with a platform A8; Flutter spec `BwTextField` on M3 `TextFormField` (static label, `WidgetStateInputBorder`, decoration `helper`/`error`/`counter` widgets for semantics, `BwIconButton` trailing action / help icon, attached `BwButton`, add-on segments, `obscureText` + show/hide, `clearable`, `validator`, keyboard type/action, grapheme counter); code plan C1–C7 (depends on `BwButton` + `BwIconButton` being built first); Figma D referencing Web D2–D4 with platform differences.
+- Platform sizes: **Tablet `md` · `lg`** (default `lg`; `md` hit area padded to 48) · **Mobile `lg` only** (every field ≥ the 48 touch target). No Hover variant in Figma on touch platforms. Variants: Tablet 112 · Mobile 56.
+- `text-field.tokens.json` for both platforms (`$extends` the Web file, same aliases); docs pages, `components/index.json`, README rows; contracts generated (`npm run contract -- tablet|mobile text-field`).
+- Biowave DS — Tablet and Mobile Components: `Text field / Size` + `Text field / State` collections created (23 tokens each, aliases to Foundations semantic variables). Lint 0 in both files; `sync:verify-tokens` ✓ 64 tokens per file (Tablet Button lines read in full; Mobile Button and both Text field dumps matched by checksum); `sync:done:tokens:tablet|mobile`.
+### Verified
+- `component-tokens` ✓ · `docs:check` ✓ (15 component files, Part A identical on all three platforms) · `sync` ✓ READY.
+
 ## [Sync — library index re-read, all contracts regenerated, Web component tokens pushed] — 2026-10-18
 ### Changed
 - `_sync/figma-library.json` re-read: styles from Foundations (140 text · 8 effect · 6 grid), **28 `Doc/*` components with keys from the Annotation Doc Kit library (D-17)**, reach from the Web Components file (318 variables). Variables kept from the previous read (token source unchanged). Doc Kit components verified importable by key from the Web Components file.

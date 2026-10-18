@@ -1,4 +1,5 @@
 import '@biowave/foundations/tokens.css';
+import '@biowave/foundations/icons.css';
 import '@testing-library/jest-dom/vitest';
 import 'vitest-axe/extend-expect';
 import * as axeMatchers from 'vitest-axe/matchers';

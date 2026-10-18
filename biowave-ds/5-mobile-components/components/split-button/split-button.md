@@ -337,6 +337,8 @@ As [Web D2–D4](../../../3-web-components/components/split-button/split-button.
 
 As [Web D3](../../../3-web-components/components/split-button/split-button.md#d3-layer-tree-and-auto-layout), with the Mobile differences listed in D2.
 
+**Icons used:** `expand_more` — menu trigger chevron, Google · Material Symbols Rounded (D-18)
+
 ### D4 Properties
 
 As [Web D4](../../../3-web-components/components/split-button/split-button.md#d4-properties), with the Mobile differences listed in D2.

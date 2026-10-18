@@ -381,6 +381,8 @@ Button Group           ↔ horizontal (Orientation=Horizontal) · ↕ vertical, 
 └── actions            SLOT `Actions` · default content: Button Outlined Neutral "Cancel" + Button Filled Brand "Save changes"
 ```
 
+**Icons used:** `more_horiz` — overflow (More) trigger, Google · Material Symbols Rounded (D-18)
+
 ### D4 Properties
 
 | Figma property | Type | Values | Default | Code prop (web) |

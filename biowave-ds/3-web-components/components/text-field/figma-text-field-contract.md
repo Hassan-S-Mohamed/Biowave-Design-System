@@ -1,4 +1,4 @@
-<!-- GENERATED from text-field.md @ c1d8000d5bbf3280 — do not edit; change the source and run: npm run contract -- web text-field -->
+<!-- GENERATED from text-field.md @ ce2b9086d08dece5 — do not edit; change the source and run: npm run contract -- web text-field -->
 # Text field · حقل نص — Web — Figma contract
 
 > **Everything the Figma Agent needs to build Text field in the Web Components file, with our variables and styles.** Read this file only. Generated from [`text-field.md`](text-field.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-18). Questions go to [D11 Execution log](text-field.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
@@ -12,7 +12,7 @@
 | Component | Text field · حقل نص |
 | Platform | Web · React + MUI |
 | Version | 1.1 · 2026-10-18 |
-| Source | [`text-field.md`](text-field.md) @ `c1d8000d5bbf3280` |
+| Source | [`text-field.md`](text-field.md) @ `ce2b9086d08dece5` |
 
 ## 1. Library connections in this file
 
@@ -119,6 +119,20 @@ None named in B/D.
 ## 6. Components to instance (keys)
 
 Nested Biowave components (e.g. Button inside Split button) are instances of the sets **in this file** — build them first; never detach.
+
+### Icons (keys) — Google · Material Symbols library (D-18)
+
+Library file **Google · Material Symbols** · key `RXlnhYgUKBBE6HveEr7e9C` — must be enabled in this file. Import the set, then use the **Style=Rounded** variant (`Fill=Filled` only for selected states). Colour the glyph by binding its vector fills to the icon colour token of the part.
+
+| Icon | Set key | Rounded (unfilled) | Rounded (filled) |
+|---|---|---|---|
+| `close` | `e59e13c612139f0079fe8e1c86a696f24a335eec` | `59b74c3af3cc86471fc3c3da406e1af6f4653030` | `ba5c2563c6776e81c31d5f5212c1376851c1ff4d` |
+| `content_copy` | `fc159a0ce009ac359e9475a03e0ad9b7432c55d8` | `58d486f14b503e32dabe8a8ffaf37052576fbcd6` | `73bede15d7ba0b94ccd1d0db4dcedf5d6eca00ef` |
+| `lock` | `6d6db24b56e1aedc14c06debb38ebc4c4efa6b9f` | `7dc2d539af63651f3d5a05a45e199e30af0e03a1` | `114b8dcc062a768a73ad5d1f8fd4feafa3c437f8` |
+| `mail` | `c0a48a046c2a3fb66c36765d7f150b2ac9a045e0` | `0414b32813202713bf05545f2c8154575f842511` | `c625c93be50f00889f8de6e1d8b1747d848531c9` |
+| `search` | `744f9679cd7bc248d4408574f1fde6ce4384c6b5` | `4320ce7aad1cd292e9f5b18a0e2ee5e051888702` | `a80aea8ea3e3761d01a170c3a003b40c9a049455` |
+| `visibility` | `d4d08ec08d56bace685378780686e9bd9ba2fbc3` | `83dc756659ab4833731edbafcfd2361e27a9c1c8` | `f46d69180f0839c329e6351aaf0fe815437c4452` |
+| `visibility_off` | `054d29dbcf6cb2420c4873417710beff739fef54` | `adbd73bbe19f80439bea7d89c8e4a6d2aea759c7` | `bac555932dd47f792543c1adfdb8223644f531ef` |
 
 ## 7. Phase 1 — values (from Part B)
 

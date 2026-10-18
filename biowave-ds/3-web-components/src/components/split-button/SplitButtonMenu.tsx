@@ -68,6 +68,7 @@ const StyledMenuItem = styled(MuiMenuItem)(() => ({
     justifyContent: 'center',
     inlineSize: cssVars.size.icon.md,
     blockSize: cssVars.size.icon.md,
+    fontSize: cssVars.size.icon.md,
     color: cssVars.color.icon.neutral.subtle,
   },
   '& .bw-split-button-menu__icon > *': {

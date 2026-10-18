@@ -1,0 +1,6 @@
+{
+  "$schema": "component-tokens/v1",
+  "$extends": "../../../3-web-components/components/text-field/text-field.tokens.json",
+  "$description": "Text field component tokens for Mobile: identical to the Web file (D-13); the Mobile spec uses only the sizes listed in B2.",
+  "text-field": {}
+}

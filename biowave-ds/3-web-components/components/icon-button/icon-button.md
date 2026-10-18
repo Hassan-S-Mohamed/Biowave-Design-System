@@ -177,7 +177,7 @@ Same states as [Button A5](../button/button.md#a5-states-and-behavior), plus:
 #### IconButton
 | Prop | Type | Values | Default | Required | Description |
 |---|---|---|---|---|---|
-| `icon` | `ReactNode` | an icon from `@mui/icons-material` (outlined/rounded glyph) | — | ✓ | `icon` |
+| `icon` | `ReactNode` | a Material Symbols Rounded glyph (`icons.md`, D-18); selected = same glyph with `'FILL' 1` | — | ✓ | `icon` |
 | `label` | string | | — | ✓ | Accessible name and tooltip text |
 | `variant` | enum | `filled` · `tonal` · `outlined` · `text` | `text` | | A4.1 |
 | `color` | enum | `brand` · `secondary` · `neutral` · `error` · `inverse` | `neutral` | | A4.2 |
@@ -282,15 +282,13 @@ Reduced motion: instant; tooltip appears without fade.
 
 ```tsx
 import { IconButton } from '@biowave/web';
-import EditRounded from '@mui/icons-material/EditRounded';
-import PushPinOutlined from '@mui/icons-material/PushPinOutlined';
-import PushPin from '@mui/icons-material/PushPin';
+import Icon from '@mui/material/Icon';   // until the Biowave Icon ships (D-18)
 
-<IconButton icon={<EditRounded />} label="Edit device" onClick={edit} />
-<IconButton toggle selected={pinned} icon={<PushPinOutlined />} selectedIcon={<PushPin />}
+<IconButton icon={<Icon baseClassName="material-symbols-rounded">edit</Icon>} label="Edit device" onClick={edit} />
+<IconButton toggle selected={pinned} icon={<Icon baseClassName="material-symbols-rounded">push_pin</Icon>} selectedIcon={<Icon baseClassName="material-symbols-rounded" sx={{ fontVariationSettings: "'FILL' 1" }}>push_pin</Icon>}
             label={pinned ? 'Unpin' : 'Pin'} onClick={() => setPinned(!pinned)} />
 // Arabic: same props, Arabic label
-<IconButton icon={<EditRounded />} label="تعديل الجهاز" onClick={edit} />
+<IconButton icon={<Icon baseClassName="material-symbols-rounded">edit</Icon>} label="تعديل الجهاز" onClick={edit} />
 ```
 
 ### B8 Figma
@@ -430,8 +428,8 @@ Icon Button              ↔ centered · width = height {B2} · padding 0
 | `Size` | VARIANT | `SM` · `MD` · `LG` | `MD` | `size` | |
 | `Toggle` | VARIANT | `Off` · `On` | `Off` | `toggle` | |
 | `Selected` | VARIANT | `False` · `True` | `False` | `selected` | only with `Toggle=On` |
-| `Icon` | INSTANCE_SWAP | Icons page | `edit` | `icon` | `<{Glyph}Rounded />` |
-| `Selected icon` | INSTANCE_SWAP | Icons page (filled) | `edit` filled | `selectedIcon` | |
+| `Icon` | INSTANCE_SWAP | Google · Material Symbols (Rounded) | `edit` | `icon` | `<Icon baseClassName="material-symbols-rounded">{glyph}</Icon>` |
+| `Selected icon` | INSTANCE_SWAP | Google · Material Symbols (Rounded, Fill=Filled) | `edit` | `selectedIcon` | same glyph with class `bw-icon-fill` |
 | `Tooltip label` | TEXT | | `Edit device` | `label` | |
 
 ### D5 Variants to generate

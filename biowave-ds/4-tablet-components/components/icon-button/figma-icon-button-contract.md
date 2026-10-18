@@ -1,4 +1,4 @@
-<!-- GENERATED from icon-button.md @ 38f2beac2a89af42 — do not edit; change the source and run: npm run contract -- tablet icon-button -->
+<!-- GENERATED from icon-button.md @ 1ca35f6b3483369f — do not edit; change the source and run: npm run contract -- tablet icon-button -->
 # Icon button · زر أيقونة — Tablet — Figma contract
 
 > **Everything the Figma Agent needs to build Icon button in the Tablet Components file, with our variables and styles.** Read this file only. Generated from [`icon-button.md`](icon-button.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-18). Questions go to [D11 Execution log](icon-button.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
@@ -12,7 +12,7 @@
 | Component | Icon button · زر أيقونة |
 | Platform | Tablet · Flutter + Material 3 |
 | Version | 1.0 · 2026-10-16 |
-| Source | [`icon-button.md`](icon-button.md) @ `38f2beac2a89af42` |
+| Source | [`icon-button.md`](icon-button.md) @ `1ca35f6b3483369f` |
 
 ## 1. Library connections in this file
 
@@ -60,6 +60,15 @@ None named in B/D.
 
 Nested Biowave components (e.g. Button inside Split button) are instances of the sets **in this file** — build them first; never detach.
 
+### Icons (keys) — Google · Material Symbols library (D-18)
+
+Library file **Google · Material Symbols** · key `RXlnhYgUKBBE6HveEr7e9C` — must be enabled in this file. Import the set, then use the **Style=Rounded** variant (`Fill=Filled` only for selected states). Colour the glyph by binding its vector fills to the icon colour token of the part.
+
+| Icon | Set key | Rounded (unfilled) | Rounded (filled) |
+|---|---|---|---|
+| `edit` | `47f86c39f6fbbb469725e7588206eb14a23c69f6` | `93286c7f439c043811484dccef5cad3ac0d2bee0` | `d4b89f22fb040445e4d2bfca5ebfc1e4bde47025` |
+| `push_pin` | `f1e809edda8007dffbdd448fff9cb97cb4e20dd1` | `4437341389767b81fdaf68b5442cefa86d97f1ae` | `c41709f31358d03a6bdb4bba1201c75f5f8227a6` |
+
 ## 7. Phase 1 — values (from Part B)
 
 ### B1 API
@@ -67,7 +76,7 @@ Nested Biowave components (e.g. Button inside Split button) are instances of the
 ### BwIconButton
 | Param | Type | Values | Default | Required | Description |
 |---|---|---|---|---|---|
-| `icon` | `IconData` | Material Symbols Rounded | — | ✓ | `icon` |
+| `icon` | `IconData` | `Symbols.*_rounded` (D-18; re-exported by `biowave_foundations`) | — | ✓ | `icon` |
 | `label` | `String` | | — | ✓ | Semantics label and tooltip |
 | `onPressed` | `VoidCallback?` | | — | ✓ | `null` = disabled |
 | `variant` | `BwButtonVariant` | `filled` · `tonal` · `outlined` · `text` | `text` | | A4.1 |
@@ -198,8 +207,8 @@ Icon Button              ↔ centered · width = height {B2} · padding 0
 | `Size` | VARIANT | `SM` · `MD` · `LG` | `MD` | `size` | |
 | `Toggle` | VARIANT | `Off` · `On` | `Off` | `toggle` | |
 | `Selected` | VARIANT | `False` · `True` | `False` | `selected` | only with `Toggle=On` |
-| `Icon` | INSTANCE_SWAP | Icons page | `edit` | `icon` | `<{Glyph}Rounded />` |
-| `Selected icon` | INSTANCE_SWAP | Icons page (filled) | `edit` filled | `selectedIcon` | |
+| `Icon` | INSTANCE_SWAP | Google · Material Symbols (Rounded) | `edit` | `icon` | `<Icon baseClassName="material-symbols-rounded">{glyph}</Icon>` |
+| `Selected icon` | INSTANCE_SWAP | Google · Material Symbols (Rounded, Fill=Filled) | `edit` | `selectedIcon` | same glyph with class `bw-icon-fill` |
 | `Tooltip label` | TEXT | | `Edit device` | `label` | |
 
 #### D6 States, interactions and motion

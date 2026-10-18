@@ -1,4 +1,4 @@
-<!-- GENERATED from button.md @ cc830d9e6f7a4671 — do not edit; change the source and run: npm run contract -- tablet button -->
+<!-- GENERATED from button.md @ 3345946f2ffe5973 — do not edit; change the source and run: npm run contract -- tablet button -->
 # Button · زر — Tablet — Figma contract
 
 > **Everything the Figma Agent needs to build Button in the Tablet Components file, with our variables and styles.** Read this file only. Generated from [`button.md`](button.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-18). Questions go to [D11 Execution log](button.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
@@ -12,7 +12,7 @@
 | Component | Button · زر |
 | Platform | Tablet · Flutter + Material 3 |
 | Version | 1.0 · 2026-10-16 |
-| Source | [`button.md`](button.md) @ `cc830d9e6f7a4671` |
+| Source | [`button.md`](button.md) @ `3345946f2ffe5973` |
 
 ## 1. Library connections in this file
 
@@ -175,6 +175,16 @@ Code-only tokens (no Figma variable by design — motion, layers): `motion-durat
 
 Nested Biowave components (e.g. Button inside Split button) are instances of the sets **in this file** — build them first; never detach.
 
+### Icons (keys) — Google · Material Symbols library (D-18)
+
+Library file **Google · Material Symbols** · key `RXlnhYgUKBBE6HveEr7e9C` — must be enabled in this file. Import the set, then use the **Style=Rounded** variant (`Fill=Filled` only for selected states). Colour the glyph by binding its vector fills to the icon colour token of the part.
+
+| Icon | Set key | Rounded (unfilled) | Rounded (filled) |
+|---|---|---|---|
+| `add` | `7d426edec81a6ef6e44ffdcc37eab6863c7943a7` | `d20bdb7a3a61cd1a31b9e9dddf5c46330cc9bbff` | `cbadf0df7af23f20cf573e9b3856c059d146c57d` |
+| `arrow_forward` | `90a6ad2ece86bb88d2f44286bd9efd3a60a5c815` | `48427bac81c0253cee4049d8ad243a4fb4da643d` | `1df1f77448d6e530948cc17302f5ae41c6fa453c` |
+| `login` | `96fef76a21c64dbad56e12bc0037352d5ab132e7` | `5dd2182dd69b19ede449f1c31e57246959afa909` | `1cbc2303acd1b0ab1e11dc23790f0af47d9e084b` |
+
 ## 7. Phase 1 — values (from Part B)
 
 ### B1 API
@@ -187,7 +197,7 @@ Nested Biowave components (e.g. Button inside Split button) are instances of the
 | `variant` | `BwButtonVariant` | `filled` · `tonal` · `outlined` · `text` | `filled` | | Emphasis — A4.1 |
 | `color` | `BwButtonColor` | `brand` · `secondary` · `neutral` · `error` · `inverse` | `brand` | | A4.2 |
 | `size` | `BwControlSize` | `sm` · `md` · `lg` · `xl` | `lg` | | A4.3 |
-| `leadingIcon` | `IconData?` | Material Symbols Rounded | `null` | | `leading-icon` |
+| `leadingIcon` | `IconData?` | `Symbols.*_rounded` (D-18; re-exported by `biowave_foundations`) | `null` | | `leading-icon` |
 | `trailingIcon` | `IconData?` | | `null` | | `trailing-icon` |
 | `fullWidth` | `bool` | | `false` | | A4.5 |
 | `loading` | `bool` | | `false` | | Shows `spinner`, ignores presses, keeps focus |
@@ -261,7 +271,7 @@ RTL  │          إضافة جهاز  [◆]  │      │  [◂]  التالي 
 | Part | In RTL |
 |---|---|
 | layout | Mirrors automatically from `Directionality`; padding is `EdgeInsetsDirectional` |
-| directional icons | Mirror automatically when `IconData.matchTextDirection` is true (`Icons.arrow_forward_rounded`, `chevron_right`, `logout`…). Do not wrap in `Transform` |
+| directional icons | Mirrored by `material_symbols_icons` itself for directional glyphs (`Symbols.arrow_forward_rounded`, `chevron_right`, `logout`…; D-18). Do not wrap in `Transform` |
 | non-directional icons, `spinner` | Do not mirror |
 
 ### B6 Accessibility (implementation)
@@ -344,7 +354,7 @@ The Tablet Part D refers to these Web sections; they are copied here so you read
 3. **Never** bind `_Primitive/*`, `_deprecated/*` or the old `Button size` collection.
 4. **Layer names = anatomy part names** (A2): `container` is the component itself, children `leading-icon`, `label`, `trailing-icon`, `spinner`, `state-layer`.
 5. Auto layout everywhere. Absolute position only for `state-layer` and `spinner` (both centered, constraints scale).
-6. Icons are instances from the Icons page (`↳ Icons`), never detached.
+6. Icons are instances from the **Google · Material Symbols** library (Style=Rounded; D-18, keys in the contract), never detached.
 
 #### D2 Component structure
 
@@ -387,9 +397,9 @@ This table is the source for Code Connect (D9).
 | `Language` | VARIANT | `EN` · `AR` | `EN` | — | Figma only; code takes language and direction from the provider |
 | `Label` | TEXT | | `Save changes` (AR variants: `حفظ التغييرات`) | `children` | |
 | `Leading icon` | BOOLEAN | | `false` | `startIcon` | present / absent |
-| `Leading icon glyph` | INSTANCE_SWAP | preferred: Icons page | `add` | `startIcon` | `<{Glyph}Rounded />` |
+| `Leading icon glyph` | INSTANCE_SWAP | preferred: Google · Material Symbols (Rounded) | `add` | `startIcon` | `<Icon baseClassName="material-symbols-rounded">{glyph}</Icon>` |
 | `Trailing icon` | BOOLEAN | | `false` | `endIcon` | present / absent |
-| `Trailing icon glyph` | INSTANCE_SWAP | preferred: Icons page | `arrow_forward` | `endIcon` | |
+| `Trailing icon glyph` | INSTANCE_SWAP | preferred: Google · Material Symbols (Rounded) | `arrow_forward` | `endIcon` | |
 | — (instance width Fill) | | | | `fullWidth` | not mapped; resizing the instance to Fill = `fullWidth` |
 
 #### D6 States, interactions and motion

@@ -1,0 +1,21 @@
+/* Google Material Symbols — Rounded (decision D-18, 2-foundations/guidelines/icons.md).
+   Import once in the app entry, next to tokens.css:
+     import '@biowave/foundations/tokens.css';
+     import '@biowave/foundations/icons.css';
+   Render glyphs with the Biowave Icon (or MUI <Icon baseClassName="material-symbols-rounded">name</Icon>).
+   Font: @material-symbols/font-400 — Rounded at weight 400 with only the FILL axis (≈ 0.6 MB
+   woff2 instead of ≈ 5.4 MB for the full material-symbols variable font). Weight 400 and grade 0
+   are built in; optical size is the font default. */
+@import '@material-symbols/font-400/rounded.css';
+
+.material-symbols-rounded {
+  /* The package sets font-size: 24px; Biowave sizes icons with size-icon-* tokens on the
+     icon or its wrapper, so the glyph must follow the inherited size (avoids clipping). */
+  font-size: inherit;
+  font-variation-settings: 'FILL' 0;
+}
+
+/* Selected / active state: same glyph, filled. */
+.material-symbols-rounded.bw-icon-fill {
+  font-variation-settings: 'FILL' 1;
+}

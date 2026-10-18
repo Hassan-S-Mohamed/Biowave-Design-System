@@ -14,6 +14,7 @@ import { expectedFigma } from '../_sync/figma-map.mjs';
 import { figmaModel, expectedComponentTokens } from '../_sync/component-tokens.mjs';
 import { libraryState } from '../_sync/library.mjs';
 import { FIGMA_FILES, readJson } from '../_sync/lib.mjs';
+import { readIcons, iconNamesIn } from '../_sync/icons.mjs';
 
 const TOKENS = readJson(path.join(ROOT, '2-foundations/dist/tokens.json'));
 const DOC_KIT = '2-foundations/figma-doc-kit.md';
@@ -75,8 +76,9 @@ function figmaHash(c, lib) {
   const ids = [...'123456789'.split('').map((n) => `A${n}`), 'A10', 'B1', 'B2', 'B3', 'B4', 'B5', 'B6', ...Array.from({ length: 10 }, (_, i) => `D${i + 1}`)];
   const inh = inheritedWeb(c.plat, c.name, c.doc);
   const libPart = lib ? { v: lib.variables, t: lib.textStyles, e: lib.effectStyles, c: lib.components, r: lib.reach } : null;
+  const icx = readIcons(); const iconPart = [...iconNamesIn(c.doc.raw ?? JSON.stringify(ids.map((i) => sec(c.doc, i))))].sort().map((n) => [n, icx.icons[n] || icx.missing?.[n] || null]);
   return sha(JSON.stringify([c.doc.title, c.doc.header.Figma, ids.map((i) => sec(c.doc, i)), c.doc.parts.D?.introText, t && fs.readFileSync(path.join(ROOT, t), 'utf8'),
-    inh.web ? inh.ids.map((i) => sec(inh.web.doc, i)) : null, libPart, fs.existsSync(path.join(ROOT, DOC_KIT)) ? fs.readFileSync(path.join(ROOT, DOC_KIT), 'utf8') : '', 'v1']));
+    inh.web ? inh.ids.map((i) => sec(inh.web.doc, i)) : null, libPart, iconPart, fs.existsSync(path.join(ROOT, DOC_KIT)) ? fs.readFileSync(path.join(ROOT, DOC_KIT), 'utf8') : '', 'v1']));
 }
 const contractPaths = (plat, name) => ({
   code: `${SECTIONS[plat]}/components/${name}/${name}-contract.md`,
@@ -257,6 +259,14 @@ function figmaContract(c, lib, errors) {
   L.push('## 6. Components to instance (keys)', '');
   if (otherComps.length) L.push('| Component | Page | Key | Kind |', '|---|---|---|---|', ...otherComps.map((x) => `| \`${x.name}\` | ${x.page} | \`${x.key}\` | ${x.kind} |`), '');
   L.push('Nested Biowave components (e.g. Button inside Split button) are instances of the sets **in this file** — build them first; never detach.', '');
+  const icx = readIcons();
+  const iconNames = [...iconNamesIn(['A2', 'A4', ...['B1', 'B2', 'B3', 'B4', 'B5', 'B6', 'B7'], ...Array.from({ length: 10 }, (_, i) => `D${i + 1}`)].map((i) => sec(doc, i)).join('\n') + bdText)].sort();
+  L.push('### Icons (keys) — Google · Material Symbols library (D-18)', '');
+  if (iconNames.length) {
+    L.push(`Library file **${FIGMA_FILES.icons?.name || 'Google · Material Symbols'}** · key \`${FIGMA_FILES.icons?.key || '—'}\` — must be enabled in this file. Import the set, then use the **Style=Rounded** variant (\`Fill=Filled\` only for selected states). Colour the glyph by binding its vector fills to the icon colour token of the part.`, '',
+      '| Icon | Set key | Rounded (unfilled) | Rounded (filled) |', '|---|---|---|---|',
+      ...iconNames.map((n) => { const k = icx.icons[n]; return k ? `| \`${n}\` | \`${k.set}\` | \`${k.rounded}\` | \`${k.roundedFilled}\` |` : `| \`${n}\` | ⏳ not indexed — Planner runs \`npm run sync:icons:plan\` | | |`; }), '');
+  } else L.push('No icon named in this spec. Icons come only from the Google · Material Symbols library (Style=Rounded).', '');
   L.push('## 7. Phase 1 — values (from Part B)', '');
   for (const id of ['B1', 'B2', 'B3', 'B4', 'B5', 'B6']) L.push(block(doc, id, '###'));
   L.push('## 8. Phase 1 — build the component set (from Part D)', '');

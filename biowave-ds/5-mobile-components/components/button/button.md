@@ -241,7 +241,7 @@ Context: Mobile app (portrait first, SafeArea). Touch only in practice; hover/ke
 | `variant` | `BwButtonVariant` | `filled` · `tonal` · `outlined` · `text` | `filled` | | Emphasis — A4.1 |
 | `color` | `BwButtonColor` | `brand` · `secondary` · `neutral` · `error` · `inverse` | `brand` | | A4.2 |
 | `size` | `BwControlSize` | `sm` · `md` · `lg` · `xl` | `lg` | | A4.3 |
-| `leadingIcon` | `IconData?` | Material Symbols Rounded | `null` | | `leading-icon` |
+| `leadingIcon` | `IconData?` | `Symbols.*_rounded` (D-18; re-exported by `biowave_foundations`) | `null` | | `leading-icon` |
 | `trailingIcon` | `IconData?` | | `null` | | `trailing-icon` |
 | `fullWidth` | `bool` | | `false` | | A4.5 |
 | `loading` | `bool` | | `false` | | Shows `spinner`, ignores presses, keeps focus |
@@ -315,7 +315,7 @@ RTL  │          إضافة جهاز  [◆]  │      │  [◂]  التالي 
 | Part | In RTL |
 |---|---|
 | layout | Mirrors automatically from `Directionality`; padding is `EdgeInsetsDirectional` |
-| directional icons | Mirror automatically when `IconData.matchTextDirection` is true (`Icons.arrow_forward_rounded`, `chevron_right`, `logout`…). Do not wrap in `Transform` |
+| directional icons | Mirrored by `material_symbols_icons` itself for directional glyphs (`Symbols.arrow_forward_rounded`, `chevron_right`, `logout`…; D-18). Do not wrap in `Transform` |
 | non-directional icons, `spinner` | Do not mirror |
 
 ### B6 Accessibility (implementation)
@@ -352,7 +352,7 @@ BwButton(label: 'Save changes', loading: saving, loadingLabel: 'Saving…', onPr
 BwButton(label: 'Delete user', color: BwButtonColor.error, onPressed: confirmDelete);
 
 // Arabic: same code; MaterialApp(locale: Locale('ar')) + BwMobileTheme.light(locale) give RTL and the Arabic font
-BwButton(label: 'تسجيل الحضور', leadingIcon: Icons.login_rounded, onPressed: clockIn);
+BwButton(label: 'تسجيل الحضور', leadingIcon: Symbols.login_rounded, onPressed: clockIn);
 ```
 
 ### B8 Figma
@@ -367,7 +367,7 @@ Structure, properties, the Figma ↔ code mapping and Code Connect: [Part D](#d-
 - [ ] Each invalid combination in B1 asserts in debug
 - [ ] `meetsGuideline(androidTapTargetGuideline)` and `textContrastGuideline` for every variant × color
 - [ ] Text scale 2.0: label not clipped
-- [ ] Directional icon mirrors in RTL; `Icons.add` does not
+- [ ] Directional icon mirrors in RTL; `Symbols.add_rounded` does not
 - [ ] No raw values: the widget file contains no `Color(0x`, no numeric `EdgeInsets`/`SizedBox` sizes, no `Duration(milliseconds:` (lint test)
 
 ---

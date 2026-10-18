@@ -19,6 +19,7 @@ import { P, SYNC, ROOT, FIGMA_FILE_KEY, FIGMA_FILES, COMPONENT_FILES, sourceHash
 import { expectedFigma, codeOnly } from './figma-map.mjs';
 import { expectedComponentTokens } from './component-tokens.mjs';
 import { libraryState, saveLibrary } from './library.mjs';
+import { iconsState, planIcons, saveIcons } from './icons.mjs';
 
 const [cmd = 'status', ...args] = process.argv.slice(2);
 const quiet = args.includes('--short');
@@ -117,6 +118,8 @@ async function status() {
   const ls = libraryState();
   line(`\n5. Figma library index (_sync/figma-library.json — keys for the Figma contracts)   ${ls.ok ? '✓ fresh' : '⏳ ' + ls.reason}`);
   if (ls.lib) line(`   read ${ls.lib.readAt} · ${ls.lib.variables.length} variables · ${ls.lib.textStyles.length} text / ${ls.lib.effectStyles.length} effect styles · ${ls.lib.components.length} components · reachable from component files: ${ls.lib.reach ? ls.lib.reach.variables : '—'}`);
+  const ic = iconsState();
+  line(`   icons (_sync/figma-icons.json, D-18): ${ic.indexed} indexed · ${ic.used.size} used by specs${ic.missing.length ? ` · ⏳ ${ic.missing.length} not indexed → npm run sync:icons:plan` : ' · ✓ all indexed'}${ic.notInLibrary.length ? ` · ✗ not in the icon library: ${ic.notInLibrary.join(', ')}` : ''}`);
   line('\n6. Contracts (generated when a plan is Finished — npm run contract)');
   try {
     const { contractState } = await import('../_docs/contract.mjs');
@@ -257,6 +260,8 @@ function markSynced() {
 switch (cmd) {
   case 'status': process.exit((await status()) ? 0 : 1);
   case 'library': process.exit(saveLibrary(args.filter((a) => !a.startsWith('--'))) ? 0 : 1);
+  case 'icons-plan': process.exit(planIcons() ? 0 : 1);
+  case 'icons': process.exit(saveIcons(args.filter((a) => !a.startsWith('--'))) ? 0 : 1);
   case 'stamp': writeJson(P.buildStamp, { sourceHash: sourceHash(), builtAt: now() }); if (!quiet) console.log('✓ build stamp updated'); break;
   case 'plan': plan(); break;
   case 'verify': process.exit(verify(args.filter((a) => !a.startsWith('--'))) ? 0 : 1);

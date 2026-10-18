@@ -1,0 +1,107 @@
+{
+  "$schema": "component-tokens/v1",
+  "$description": "Icon component tokens (D-13). Every value aliases a semantic Foundations token.",
+  "icon": {
+    "size": {
+      "$extensions": {
+        "figma": {
+          "collection": "Icon / Size",
+          "modes": true
+        }
+      },
+      "xs": {
+        "size": {
+          "$value": "{size.icon.xs}"
+        }
+      },
+      "sm": {
+        "size": {
+          "$value": "{size.icon.sm}"
+        }
+      },
+      "md": {
+        "size": {
+          "$value": "{size.icon.md}"
+        }
+      },
+      "lg": {
+        "size": {
+          "$value": "{size.icon.lg}"
+        }
+      },
+      "xl": {
+        "size": {
+          "$value": "{size.icon.xl}"
+        }
+      },
+      "2xl": {
+        "size": {
+          "$value": "{size.icon.2xl}"
+        }
+      },
+      "3xl": {
+        "size": {
+          "$value": "{size.icon.3xl}"
+        }
+      }
+    },
+    "color": {
+      "$extensions": {
+        "figma": {
+          "collection": "Icon / Color",
+          "modes": true
+        }
+      },
+      "default": {
+        "color": {
+          "$value": "{color.icon.neutral.default}"
+        }
+      },
+      "subtle": {
+        "color": {
+          "$value": "{color.icon.neutral.subtle}"
+        }
+      },
+      "muted": {
+        "color": {
+          "$value": "{color.icon.neutral.muted}"
+        }
+      },
+      "inverse": {
+        "color": {
+          "$value": "{color.icon.neutral.inverse}"
+        }
+      },
+      "brand": {
+        "color": {
+          "$value": "{color.icon.role.brand}"
+        }
+      },
+      "secondary": {
+        "color": {
+          "$value": "{color.icon.role.secondary}"
+        }
+      },
+      "success": {
+        "color": {
+          "$value": "{color.icon.role.success}"
+        }
+      },
+      "error": {
+        "color": {
+          "$value": "{color.icon.role.error}"
+        }
+      },
+      "warning": {
+        "color": {
+          "$value": "{color.icon.role.warning}"
+        }
+      },
+      "info": {
+        "color": {
+          "$value": "{color.icon.role.info}"
+        }
+      }
+    }
+  }
+}

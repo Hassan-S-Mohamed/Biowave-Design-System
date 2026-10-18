@@ -31,7 +31,7 @@
 | [Colors](guidelines/colors.md) | Primary navy #193351, secondary teal #0C5F79. Groups: surface, background (+states), text, icon, border, link, overlay. Roles: brand, secondary, success, warning, error, info, neutral. Warning uses dark text. |
 | [Typography](guidelines/typography.md) | Inter (en), IBM Plex Sans Arabic (ar). Roles: display, heading, title, body, label, caption, action, data. Body 14 web / 16 touch. Arabic: taller line heights, letter-spacing 0. |
 | [Motion](guidelines/motion.md) | Material 3: xs 50, sm 100, md 200, lg 300, xl 400, 2xl 500 ms. Easing standard / emphasized (decelerate in, accelerate out). Reduced motion → 0. |
-| [Icons](guidelines/icons.md) | Material Symbols Rounded. Sizes xs 12 … 3xl 48; default 20 web, 24 touch. Mirror directional icons in RTL only. |
+| [Icons](guidelines/icons.md) | Google Material Symbols Rounded (D-18): web `material-symbols` font, Flutter `material_symbols_icons`. Sizes xs 12 … 3xl 48; default 20 web, 24 touch. Mirror directional icons in RTL only. |
 | [Illustration](guidelines/illustration.md) | Flat geometric, token colors, no text inside, decorative for screen readers. Assets not created yet. |
 | [Logos](guidelines/logos.md) | Variants (en/ar wordmark, symbol, mono, partner lock-up). Never mirror. Assets to be added. |
 | [Elevation](guidelines/elevation.md) | elevation-0…4 + shadow-control, light (navy tint) and dark (black, stronger) values. Pair with surface-raised. |

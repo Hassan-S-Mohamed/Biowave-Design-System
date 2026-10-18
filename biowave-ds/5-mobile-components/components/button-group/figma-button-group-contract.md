@@ -1,4 +1,4 @@
-<!-- GENERATED from button-group.md @ c5f9341ea8cb23f1 — do not edit; change the source and run: npm run contract -- mobile button-group -->
+<!-- GENERATED from button-group.md @ 8d723e46cb3b3a28 — do not edit; change the source and run: npm run contract -- mobile button-group -->
 # Button group · مجموعة أزرار — Mobile — Figma contract
 
 > **Everything the Figma Agent needs to build Button group in the Mobile Components file, with our variables and styles.** Read this file only. Generated from [`button-group.md`](button-group.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-18). Questions go to [D11 Execution log](button-group.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
@@ -12,7 +12,7 @@
 | Component | Button group · مجموعة أزرار |
 | Platform | Mobile · Flutter + Material 3 |
 | Version | 1.0 · 2026-10-16 |
-| Source | [`button-group.md`](button-group.md) @ `c5f9341ea8cb23f1` |
+| Source | [`button-group.md`](button-group.md) @ `8d723e46cb3b3a28` |
 
 ## 1. Library connections in this file
 
@@ -53,6 +53,14 @@ None named in B/D.
 ## 6. Components to instance (keys)
 
 Nested Biowave components (e.g. Button inside Split button) are instances of the sets **in this file** — build them first; never detach.
+
+### Icons (keys) — Google · Material Symbols library (D-18)
+
+Library file **Google · Material Symbols** · key `RXlnhYgUKBBE6HveEr7e9C` — must be enabled in this file. Import the set, then use the **Style=Rounded** variant (`Fill=Filled` only for selected states). Colour the glyph by binding its vector fills to the icon colour token of the part.
+
+| Icon | Set key | Rounded (unfilled) | Rounded (filled) |
+|---|---|---|---|
+| `more_horiz` | `b20a6f8323610d658f0068b530f72b73c210f748` | `cb1fe2d468d51ec6d86fc2d94af892a1ed536637` | `c9b7dd7b9258c0fce05cb4c11b632b8fc7b96ecd` |
 
 ## 7. Phase 1 — values (from Part B)
 
@@ -132,6 +140,8 @@ As [Web D2–D4](../../../3-web-components/components/button-group/button-group.
 
 As [Web D3](../../../3-web-components/components/button-group/button-group.md#d3-layer-tree-and-auto-layout), with the Mobile differences listed in D2.
 
+**Icons used:** `more_horiz` — overflow (More) trigger, Google · Material Symbols Rounded (D-18)
+
 ### D4 Properties
 
 As [Web D4](../../../3-web-components/components/button-group/button-group.md#d4-properties), with the Mobile differences listed in D2.
@@ -172,6 +182,8 @@ Button Group           ↔ horizontal (Orientation=Horizontal) · ↕ vertical, 
 │                        Align → primary-axis alignment (Start/Center/End/Space between); Fill → children FILL
 └── actions            SLOT `Actions` · default content: Button Outlined Neutral "Cancel" + Button Filled Brand "Save changes"
 ```
+
+**Icons used:** `more_horiz` — overflow (More) trigger, Google · Material Symbols Rounded (D-18)
 
 #### D4 Properties
 

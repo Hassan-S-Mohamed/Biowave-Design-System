@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { act, fireEvent, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import AddRounded from '@mui/icons-material/AddRounded';
-import ArrowForwardRounded from '@mui/icons-material/ArrowForwardRounded';
 // @ts-expect-error The installed package's exports map omits its bundled declaration file.
 import { computeAccessibleName } from 'dom-accessibility-api';
 import { axe } from 'vitest-axe';
@@ -27,7 +25,7 @@ import {
   type ButtonVariant,
   type ButtonVisualTokens,
 } from './button.tokens';
-
+import { MaterialSymbol } from '../../test/materialSymbol';
 const sizes: ButtonSize[] = ['sm', 'md', 'lg'];
 const themes = ['light', 'dark'] as const;
 const locales = ['en', 'ar'] as const;
@@ -211,7 +209,7 @@ describe('Button rendering', () => {
             key={`${variant}-${color}`}
             variant={variant}
             color={color}
-            startIcon={<AddRounded />}
+            startIcon={<MaterialSymbol name="add" />}
           >
             {`${variant}-${color}`}
           </Button>
@@ -236,7 +234,7 @@ describe('Button rendering', () => {
     const view = renderWithBiowave(
       <>
         {sizes.map((size) => (
-          <Button key={size} size={size} startIcon={<AddRounded />}>
+          <Button key={size} size={size} startIcon={<MaterialSymbol name="add" />}>
             {size}
           </Button>
         ))}
@@ -274,7 +272,7 @@ describe('Button rendering', () => {
             key={`${variant}-${color}`}
             variant={variant}
             color={color}
-            startIcon={<AddRounded />}
+            startIcon={<MaterialSymbol name="add" />}
             disabled={state === 'disabled'}
             loading={state === 'loading'}
           >
@@ -508,12 +506,12 @@ describe('Button validation', () => {
   it('warns once and keeps only startIcon when both icons are supplied', () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     const view = renderWithBiowave(
-      <Button startIcon={<AddRounded />} endIcon={<ArrowForwardRounded />}>
+      <Button startIcon={<MaterialSymbol name="add" />} endIcon={<MaterialSymbol name="arrow_forward" />}>
         Action
       </Button>,
     );
     view.rerender(
-      <Button startIcon={<AddRounded />} endIcon={<ArrowForwardRounded />}>
+      <Button startIcon={<MaterialSymbol name="add" />} endIcon={<MaterialSymbol name="arrow_forward" />}>
         Action
       </Button>,
     );
@@ -538,7 +536,7 @@ describe('Button validation', () => {
 describe('Button RTL', () => {
   it('moves the directional class to one wrapper and leaves other icons unchanged', () => {
     const directional = renderWithBiowave(
-      <Button startIcon={<ArrowForwardRounded className="bw-icon-directional" />}>
+      <Button startIcon={<MaterialSymbol name="arrow_forward" className="bw-icon-directional" />}>
         التالي
       </Button>,
       { locale: 'ar' },
@@ -555,7 +553,7 @@ describe('Button RTL', () => {
     directional.unmount();
 
     renderWithBiowave(
-      <Button startIcon={<AddRounded />}>
+      <Button startIcon={<MaterialSymbol name="add" />}>
         إضافة
       </Button>,
       { locale: 'ar' },

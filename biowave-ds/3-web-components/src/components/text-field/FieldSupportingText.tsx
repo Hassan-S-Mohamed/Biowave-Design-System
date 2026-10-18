@@ -1,6 +1,10 @@
 import * as React from 'react';
+import Icon from '@mui/material/Icon';
 import { styled } from '@mui/material/styles';
 import {
+  textFieldErrorGap,
+  textFieldErrorIconSize,
+  textFieldMotionTokens,
   textFieldSizeTokens,
   textFieldStateTokens,
   textFieldSupportingTypography,
@@ -39,6 +43,9 @@ const SupportingRoot = styled('div', {
     gap: textFieldSizeTokens[$size].gap,
     marginBlockStart: textFieldSizeTokens[$size].supportingGap,
     color: state.supporting,
+    transition: `color ${
+      $disabled ? textFieldMotionTokens.instantDuration : textFieldMotionTokens.duration
+    } ${textFieldMotionTokens.easing}`,
   };
 });
 
@@ -47,12 +54,47 @@ const Helper = styled('span')({
   minInlineSize: 0,
 });
 
-const Counter = styled('span')({
+const Message = styled('span')({
+  display: 'inline-flex',
+  alignItems: 'flex-start',
+  gap: textFieldErrorGap,
+  flex: '1 1 auto',
+  minInlineSize: 0,
+});
+
+const ErrorIcon = styled('span', {
+  shouldForwardProp: (prop) => prop !== '$disabled',
+})<{ $disabled: boolean }>(({ $disabled }) => ({
+  display: 'inline-flex',
+  flex: 'none',
+  inlineSize: textFieldErrorIconSize,
+  blockSize: textFieldErrorIconSize,
+  fontSize: textFieldErrorIconSize,
+  color: textFieldStateTokens[$disabled ? 'disabled' : 'error'].errorIcon,
+  transition: `color ${
+    $disabled ? textFieldMotionTokens.instantDuration : textFieldMotionTokens.duration
+  } ${textFieldMotionTokens.easing}`,
+
+  '& > *': {
+    inlineSize: '100%',
+    blockSize: '100%',
+    fontOpticalSizing: 'auto',
+  },
+}));
+
+const Counter = styled('span', {
+  shouldForwardProp: (prop) => prop !== '$disabled' && prop !== '$error',
+})<{ $disabled: boolean; $error: boolean }>(({ $disabled, $error }) => ({
   flex: '0 0 auto',
-  color: 'inherit',
+  color: textFieldStateTokens[
+    $disabled ? 'disabled' : $error ? 'error' : 'default'
+  ].counter,
+  transition: `color ${
+    $disabled ? textFieldMotionTokens.instantDuration : textFieldMotionTokens.duration
+  } ${textFieldMotionTokens.easing}`,
   direction: 'ltr',
   unicodeBidi: 'isolate',
-});
+}));
 
 export function FieldSupportingText({
   counter,
@@ -71,12 +113,31 @@ export function FieldSupportingText({
       $size={size}
     >
       {helperText != null ? (
-        <Helper id={helperId} className="bw-text-field__supporting-text">
-          {helperText}
-        </Helper>
+        <Message>
+          {error ? (
+            <ErrorIcon
+              className="bw-text-field__error-icon"
+              aria-hidden="true"
+              $disabled={disabled}
+            >
+              <Icon baseClassName="material-symbols-rounded" fontSize="inherit">
+                error
+              </Icon>
+            </ErrorIcon>
+          ) : null}
+          <Helper id={helperId} className="bw-text-field__supporting-text">
+            {helperText}
+          </Helper>
+        </Message>
       ) : null}
       {counter != null ? (
-        <Counter id={counterId} className="bw-text-field__counter" dir="ltr">
+        <Counter
+          id={counterId}
+          className="bw-text-field__counter"
+          dir="ltr"
+          $disabled={disabled}
+          $error={error}
+        >
           {counter}
         </Counter>
       ) : null}

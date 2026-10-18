@@ -181,7 +181,7 @@ Same states as [Button A5](../button/button.md#a5-states-and-behavior), plus:
 #### BwIconButton
 | Param | Type | Values | Default | Required | Description |
 |---|---|---|---|---|---|
-| `icon` | `IconData` | Material Symbols Rounded | — | ✓ | `icon` |
+| `icon` | `IconData` | `Symbols.*_rounded` (D-18; re-exported by `biowave_foundations`) | — | ✓ | `icon` |
 | `label` | `String` | | — | ✓ | Semantics label and tooltip |
 | `onPressed` | `VoidCallback?` | | — | ✓ | `null` = disabled |
 | `variant` | `BwButtonVariant` | `filled` · `tonal` · `outlined` · `text` | `text` | | A4.1 |
@@ -231,10 +231,10 @@ Same as the [Web B5](../../../3-web-components/components/icon-button/icon-butto
 ```dart
 import 'package:biowave_mobile/biowave_mobile.dart';
 
-BwIconButton(icon: Icons.edit_rounded, label: 'Edit device', onPressed: edit);
-BwIconButton(icon: Icons.push_pin_outlined, selectedIcon: Icons.push_pin, toggle: true, selected: pinned,
+BwIconButton(icon: Symbols.edit_rounded, label: 'Edit device', onPressed: edit);
+BwIconButton(icon: Symbols.push_pin_rounded, selectedIcon: Symbols.push_pin_rounded, /* drawn with fill 1 when selected */ toggle: true, selected: pinned,
     label: pinned ? 'Unpin' : 'Pin', onPressed: togglePin);
-BwIconButton(icon: Icons.edit_rounded, label: 'تعديل الجهاز', onPressed: edit);
+BwIconButton(icon: Symbols.edit_rounded, label: 'تعديل الجهاز', onPressed: edit);
 ```
 
 ### B8 Figma
@@ -246,7 +246,7 @@ Structure, properties, the Figma ↔ code mapping and Code Connect: [Part D](#d-
 - [ ] Goldens: every allowed `variant` × `color` (selected and not) at `lg`, every size for `text neutral`, light + dark, en + ar
 - [ ] Semantics: label read once; toggle state exposed
 - [ ] Tap target guideline for `sm`/`md`; contrast guideline
-- [ ] Directional icon mirrors in RTL (`matchTextDirection`), `Icons.close_rounded` does not
+- [ ] Directional icon mirrors in RTL (`matchTextDirection`), `Symbols.close_rounded` does not
 - [ ] Invalid combinations assert; no raw values
 
 ---
