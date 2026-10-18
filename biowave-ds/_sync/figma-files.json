@@ -1,5 +1,5 @@
 {
-  "$description": "The Biowave Figma files — the only place their keys are written. Tooling (lib.mjs) and docs read from here. Decision D-12 (2026-10-16). Verified 2026-10-16: all four files in the team project, Foundations published, library enabled in the three component files.",
+  "$description": "The Biowave Figma files (D-12 + D-17 Doc Kit file) — the only place their keys are written. Tooling (lib.mjs) and docs read from here. Decision D-12 (2026-10-16). Verified 2026-10-16: all four files in the team project, Foundations published, library enabled in the three component files.",
   "$project": {
     "team": "1163803546741559987",
     "project": "671823218",
@@ -10,8 +10,14 @@
   "foundations": {
     "key": "AyFaSmfDUlTax3GpKhRdHI",
     "name": "Biowave DS — Foundations",
-    "owns": "Variables, text and effect styles, icons, foundation docs, Doc Kit (_Doc Kit page). Published library consumed by the three component files.",
-    "repo": "2-foundations/, 2-foundations/figma-doc-kit.md"
+    "owns": "Variables, text and effect styles, icons, foundation docs, Foundation List page. Published library consumed by the three component files and the Doc Kit file.",
+    "repo": "2-foundations/"
+  },
+  "docKit": {
+    "key": "cBPWg6YZNqK8UIzgMQIpXl",
+    "name": "Annotation (Biowave Doc Kit)",
+    "owns": "Doc Kit: the Doc/* components every documentation page and home page is built from (decision D-17, 2026-10-18). Published library; its components bind to the Foundations library variables and text styles. Enable it in Foundations and the three component files.",
+    "repo": "2-foundations/figma-doc-kit.md"
   },
   "web": {
     "key": "7nDhsPNntzIWlrjmuSmZ9l",

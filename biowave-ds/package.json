@@ -31,7 +31,7 @@
     "sync:done:web": "node _sync/sync.mjs mark-synced --components=web",
     "sync:done:tablet": "node _sync/sync.mjs mark-synced --components=tablet",
     "sync:done:mobile": "node _sync/sync.mjs mark-synced --components=mobile",
-    "sync:done:doc-kit": "node _sync/sync.mjs mark-synced --components=foundations",
+    "sync:done:doc-kit": "node _sync/sync.mjs mark-synced --components=docKit",
     "component-tokens": "node _sync/component-tokens.mjs check",
     "sync:verify-tokens": "node _sync/sync.mjs verify-tokens",
     "sync:done:tokens:web": "node _sync/sync.mjs mark-synced --component-tokens=web",

@@ -1,11 +1,11 @@
 # Figma Doc Kit
 
 > One-time build for the Figma Agent. Every component's documentation pages (Part D8 of each component file) and the two home pages (Foundation List, Components List) are assembled **only** from these components, so all docs share one template (derived from the Blade examples) and nobody redesigns it per component. This file also owns the **page layouts** (below) — component files hold only page notes.
-> Status: **Built 2026-10-18 — waiting for the Foundations library publish** · File: **Biowave DS — Foundations** (`_sync/figma-files.json` › `foundations`) · Page: `↳ Doc Kit` (created 2026-10-16) · Published with the Foundations library and used by the three component files · Version 1.2 · 2026-10-18
+> Status: **Built 2026-10-18** · File: **Annotation** — the Doc Kit library file (`_sync/figma-files.json` › `docKit`, decision D-17, 2026-10-18; moved from Foundations › `↳ Doc Kit`) · Page: `Annotation` › frame `Doc Kit / Components` · Published as its own library; its components bind to the **Foundations** library variables and text styles. Enable it in Foundations and the three component files · Version 1.3 · 2026-10-18
 
 ## Rules
 - Bind everything to Biowave variables and text styles (same rules as Part D1 of every component file). Doc pages follow Light/Dark like components.
-- All components use auto layout and are prefixed `Doc/`. Publish them with the library, hidden from consumers' assets panel by grouping under `Doc/`.
+- All components use auto layout and are prefixed `Doc/`. They live in the Annotation file and are published from there; every colour, spacing, radius, width and text style is a **Foundations library** variable/style (no local variables in the Annotation file).
 - Page widths are the only fixed sizes: **Wide** = `size/container/6xl` (1920) for variant matrices, variations, motion and the home pages; **Standard** = `size/container/2xl` (1024) for text pages. Bind the page frame's width to the variable (confirmed by the Planner 2026-10-18, DK-5).
 - Kit components have a default width for the Standard page. **In a row, set `Doc/Tile`, `Doc/Do`, `Doc/Dont`, `Doc/Uses` instances to Fill**; full-width pieces (`Doc/Header`, `Doc/Section`, `Doc/Table`, `Doc/Divider`, `Doc/Motion row`, home components) are set to Fill in the page frame.
 - Slots are native Figma slots: put live component instances inside them; never detach a kit instance.
@@ -279,22 +279,24 @@ Who keeps them current: the Figma Agent adds or refreshes a component's card in 
 - [x] DK-1 All components above exist on `↳ Doc Kit` in the Foundations file and are published, auto layout, bound to variables / text styles, no raw values
 - [x] DK-2 Light and Dark correct; `Doc/Panel` switches variable mode
 - [x] DK-3 A sample doc set (pages 00–11) for a dummy component builds using only kit components
-- [ ] DK-4 (Foundation List ✅ built; the empty Components List pages need the published library) `Foundation List` page in the Foundations file (10 cards) and an empty `Components List` page in each component file, built only from `Doc/Home header`, `Doc/Title bar`, `Doc/Home card`, `Doc/Footer`
+- [x] DK-4 (Foundation List in Foundations, relinked to the Annotation library; empty Components List pages in Web / Tablet / Mobile, 2026-10-18) `Foundation List` page in the Foundations file (10 cards) and an empty `Components List` page in each component file, built only from `Doc/Home header`, `Doc/Title bar`, `Doc/Home card`, `Doc/Footer`
 - [x] DK-5 Page widths confirmed: Wide = `size/container/6xl` (1920), Standard = `size/container/2xl` (1024)
 
 ## Build record (2026-10-18)
 | Item | Where |
 |---|---|
-| 25 components (24 above + `Doc/Logo`) | Foundations › `↳ Doc Kit` › frame `Doc Kit / Components` (`5145:2`) |
-| DK-3 sample (pages 02, 03, 05 for a dummy component, 31 kit instances, Light + Dark checked) | `↳ Doc Kit` › `DK-3 Sample — Version chip / 02–05` (`5152:144`) |
+| 25 components (24 above + `Doc/Logo`) | Annotation › page `Annotation` › frame `Doc Kit / Components` (built in Foundations, moved 2026-10-18; the 8 components that arrived as instances were rebuilt as components and nested instances relinked to the local ones) |
+| DK-3 sample (pages 02, 03, 05 for a dummy component, 31 kit instances, Light + Dark checked) | Annotation › `DK-3 Sample — Version chip / 02–05` |
 | Foundation List (10 cards, linked to the foundation pages / guidelines) | page `Foundation List` (`5151:2`), right after Cover |
-| Lint | 0 unbound fills/strokes, 0 text without a text style. Fixed geometry only where no token applies: timeline bar lengths, dash patterns, the logo vector |
+| Components List (empty, cards added by each contract's Phase 2) | page `Components List` after Cover in Web, Tablet and Mobile Components (the old `Index` pages are untouched) |
+| Lint (Annotation, after the move) | 419 fills/strokes, all bound to Foundations `1. Themes`; 0 unbound; 0 text without a text style; 0 instances pointing at the old Foundations copies. Fixed geometry only where no token applies: timeline bar lengths, dash patterns, the logo vector |
 
-Component keys are not typed here: they are read into `_sync/figma-library.json` by `figma-read-library.js` after the publish, and the Figma contracts list them.
+Component keys are not typed here: `figma-read-library.js` (PART `components`) is run in the **Annotation** file after each publish, `npm run sync:library` saves them in `_sync/figma-library.json`, and `npm run contract -- --all` lists them in every Figma contract (§9).
 
 ## Changelog
 | Version | Date | Change |
 |---|---|---|
 | 1.0 | 2026-10-15 | Initial definition |
 | 1.1 | 2026-10-18 | Moved from the old component-guidelines section (R-01). Added page layouts (from the old Figma build template), home pages and 4 home components |
+| 1.3 | 2026-10-18 | Doc Kit moved to its own library file, **Annotation** (D-17). Tooling reads `Doc/*` keys from that file; Foundation List instances relinked to the Annotation library |
 | 1.2 | 2026-10-18 | Built in Figma. Page widths confirmed (DK-5). Added `Doc/Logo`. Slot names, Timeline steps = `motion-duration-*` tokens, Fill rule, code text style recorded |

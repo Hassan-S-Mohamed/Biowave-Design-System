@@ -105,7 +105,7 @@ Component status lives in each component file header and in the Components table
 | 3 · Web components | 4 planned · 1 built | Button: Changes requested (plan Open). Contracts ready: 3 |
 | 4 · Tablet components | 4 planned · 0 built | Contracts ready: 4 |
 | 5 · Mobile components | 4 planned · 0 built | Contracts ready: 4 |
-| Figma Doc Kit | Planned | Blocks all Figma documentation pages and home pages (`2-foundations/figma-doc-kit.md`) |
+| Figma Doc Kit | Built — in the Annotation library file (D-17) | Unblocks Figma documentation pages and home pages once published and enabled (`2-foundations/figma-doc-kit.md`) |
 | Roadmap | v2 | [`ROADMAP.md`](ROADMAP.md): 42 components + 13 patterns, button family first, DS 1.0 ≈ 23 Nov 2026 |
 
 ## Key decisions
@@ -121,6 +121,7 @@ Component status lives in each component file header and in the Components table
 | D-13 | **Component tokens** (2026-10-16): semantic variables live only in Foundations. Component files hold only component-token collections (`<Component> / <Group>`) whose every value aliases a Foundations semantic variable. Source: `<section>/components/<name>/<name>.tokens.json` per platform (Tablet/Mobile may `$extends` Web). Enforced by `npm run component-tokens` (repo) and `figma-read-tokens.js` + `sync:verify-tokens` (Figma). |
 | D-14 | **One file per component per platform** (R-01, 2026-10-18): `<section>/components/<name>/<name>.md` holds guidelines (copied on all three platforms, only A8 differs), spec, code plan, Figma build, review and changelog. The old separate guidelines section and per-platform spec folders are gone. |
 | D-15 | **Generated contracts** (R-01): when a plan is Finished, `npm run contract` writes `<name>-contract.md` (code Executor) and `figma-<name>-contract.md` (Figma Agent, with library connections and variable / style / component keys from `_sync/figma-library.json`). Builders read only their contract; contracts are never edited. |
+| D-17 | **Doc Kit in its own library file** (2026-10-18, Hassan): the `Doc/*` components live in the **Annotation** file (`figma-files.json` › `docKit`), published separately and bound to the Foundations library. Foundations keeps variables, styles, icons and the Foundation List page. |
 | D-16 | **Docs output** (R-01): web docs keep the catalog design, one HTML page per component; Foundation List and Components List home pages on the web and in Figma; Figma docs use the 12-page Blade-derived template from the Doc Kit. Figma contract = Phase 1 set, Phase 2 docs + Components List card. |
 | D-06 | Language is not a theme: direction comes from `dir`/`Directionality`; only fonts, line heights and letter-spacing change per language. |
 

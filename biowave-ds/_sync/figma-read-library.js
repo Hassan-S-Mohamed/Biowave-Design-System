@@ -1,15 +1,16 @@
 // READ-ONLY Figma Plugin API script — run with use_figma. Builds the Figma library index (keys) that the
 // Figma contracts need, so the Figma Agent imports by key instead of searching by name.
 //
-//   1. In the FOUNDATIONS file, once per PART ('variables', 'styles', 'components'); save each output.
-//   2. In ONE COMPONENT file (Web, Tablet or Mobile) with PART = 'reach' — proves the library is enabled there.
-//   3. npm run sync:library -- <dump-variables> <dump-styles> <dump-components> <dump-reach>
+//   1. In the FOUNDATIONS file, PART = 'variables' and 'styles' (+ 'components' for icons); save each output.
+//   2. In the DOC KIT file (figma-files.json › docKit, D-17), PART = 'components'; save the output.
+//   3. In ONE COMPONENT file (Web, Tablet or Mobile) with PART = 'reach' — proves the library is enabled there.
+//   4. npm run sync:library -- <dump-variables> <dump-styles> <dump-components…> <dump-reach>
 //
 // Lines:  V|collection|name|key|type|scopes|webSyntax|hidden   T|name|key   E|name|key   P|name|key   G|name|key
 //         C|page|name|key|kind   R|library|collections|variables|libraryKey   F|file|part
 const PART = /*__PART__*/'variables';
 const LIBRARY = 'Biowave DS — Foundations';
-const COMPONENT_PAGES = /Doc Kit|Icon/i; // components the contracts can reference: Doc Kit + icons
+const COMPONENT_PAGES = /Doc Kit|Icon|Annotation/i; // pages to scan; only Doc/* components and icon pages are kept
 const out = [`F|${figma.root.name}|${PART}`];
 const clean = (s) => String(s ?? '').replace(/[|\n]/g, ' ');
 
@@ -26,10 +27,11 @@ if (PART === 'variables') {
   for (const s of await figma.getLocalPaintStylesAsync()) out.push(`P|${clean(s.name)}|${s.key}`);
   for (const s of await figma.getLocalGridStylesAsync()) out.push(`G|${clean(s.name)}|${s.key}`);
 } else if (PART === 'components') {
-  await figma.loadAllPagesAsync();
   for (const page of figma.root.children.filter((p) => COMPONENT_PAGES.test(p.name))) {
+    await page.loadAsync();
     for (const n of page.findAllWithCriteria({ types: ['COMPONENT_SET', 'COMPONENT'] })) {
       if (n.type === 'COMPONENT' && n.parent?.type === 'COMPONENT_SET') continue; // variants come with their set
+      if (!/^Doc\//.test(n.name) && !/Icon/i.test(page.name)) continue; // Doc Kit components + icons only
       out.push(`C|${clean(page.name)}|${clean(n.name)}|${n.key}|${n.type}`);
     }
   }

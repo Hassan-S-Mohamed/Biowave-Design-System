@@ -11,7 +11,7 @@
 //   node _sync/sync.mjs mark-synced --component-tokens=web[,…]   after verify-tokens passed
 //   node _sync/sync.mjs mark-synced       after Figma VARIABLES are updated and verified (Foundations file)
 //   node _sync/sync.mjs library <dump…>   save figma-read-library.js output as _sync/figma-library.json (keys for the Figma contracts)
-//   node _sync/sync.mjs mark-synced --components=web[,tablet,mobile,foundations]
+//   node _sync/sync.mjs mark-synced --components=web[,tablet,mobile,docKit]
 //                                         after the Figma Agent rebuilt components in those files (docs baseline per file)
 import fs from 'node:fs';
 import path from 'node:path';
@@ -96,7 +96,7 @@ async function status() {
   show('removed (will be deprecated, not deleted)', f.removed, (e) => `${e.collection} › ${e.name}`);
   if (tokenChanges) line('   → next: npm run sync:plan, then ask Claude / the Figma Agent to "apply the pending Figma sync"');
   line(`\n3. Figma build queue (Figma contracts not yet built in Figma — NOT blocking; work list for the Figma Agent)   ${queued ? `⏳ ${queued} doc(s)` : '✓ empty'}`);
-  for (const file of ['foundations', ...COMPONENT_FILES]) {
+  for (const file of ['docKit', ...COMPONENT_FILES]) {
     const ch = f.docChanges.filter((d) => d.file === file), rm = f.docRemoved.filter((d) => d.file === file);
     if (!ch.length && !rm.length) continue;
     line(`   ${FIGMA_FILES[file].name} (${FIGMA_FILES[file].key}) — ${ch.length + rm.length}:`);

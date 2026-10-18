@@ -60,7 +60,7 @@ npm run contract -- <plat> <name>   ──►   Code Executor: <name>-contract.m
 
 - **Contracts are generated, never written.** The generator refuses unless `Plan` is `Finished`, component tokens pass, C4 has no token gaps, and every variable / style / component the Figma side needs has a key in `_sync/figma-library.json`. If the source changes, the contract becomes **stale** and builders stop until it is regenerated.
 - A review that sends Planner items back sets `Plan` to `Open`; the Planner fixes A–D, sets `Finished`, regenerates.
-- The Figma Agent builds docs only from the Doc Kit (`2-foundations/figma-doc-kit.md`). Until the Doc Kit is built, Phase 2 is reported "blocked — Doc Kit" in D11; Phase 1 still goes ahead.
+- The Figma Agent builds docs only from the Doc Kit (`2-foundations/figma-doc-kit.md`), imported by key from the **Annotation** library (`figma-files.json` › `docKit`). Until the Doc Kit is built, Phase 2 is reported "blocked — Doc Kit" in D11; Phase 1 still goes ahead.
 - Status values (`<name>.md` header and the section README Components table, kept equal by `docs:check`):
   - Plan: `Draft` · `Finished` · `Open`
   - Code / Figma build: `Planned` → `In progress` → `Built` → `In review` → `Approved` (or `Changes requested` → back to `In progress`)
@@ -111,7 +111,8 @@ Figma is split into four files (D-12). Keys live only in `_sync/figma-files.json
 
 | File | Key | Owns | Repo source |
 |---|---|---|---|
-| **Biowave DS — Foundations** | `foundations` | Variables, text/effect styles, icons, Doc Kit, Foundation List page. Published library | `2-foundations/`, `2-foundations/figma-doc-kit.md` |
+| **Biowave DS — Foundations** | `foundations` | Variables, text/effect styles, icons, Foundation List page. Published library | `2-foundations/` |
+| **Annotation** (Doc Kit, D-17) | `docKit` | The `Doc/*` components for every documentation and home page. Published library, bound to the Foundations library; enable it in Foundations and the component files | `2-foundations/figma-doc-kit.md` |
 | **Biowave DS — Web Components** | `web` | Web component sets + docs + Components List page | `3-web-components/components/*/figma-*-contract.md` |
 | **Biowave DS — Tablet Components** | `tablet` | Tablet component sets + docs + Components List page | `4-tablet-components/components/*/figma-*-contract.md` |
 | **Biowave DS — Mobile Components** | `mobile` | Mobile component sets + docs + Components List page | `5-mobile-components/components/*/figma-*-contract.md` |

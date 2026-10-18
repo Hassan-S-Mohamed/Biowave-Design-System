@@ -2,6 +2,12 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Doc Kit 1.3 — own library file (D-17)] — 2026-10-18
+### Changed
+- **D-17:** the Figma Doc Kit lives in its own library file, **Annotation** (`_sync/figma-files.json` › `docKit`, key `cBPWg6YZNqK8UIzgMQIpXl`), moved from Foundations › `↳ Doc Kit` by Hassan. All 28 `Doc/*` entries are components there again (8 had arrived as instances and were rebuilt; nested instances relinked to the local ones); every value stays bound to the Foundations library (lint: 0 unbound, 0 unstyled text).
+- Tooling: the sync status queues `figma-doc-kit.md` for the Annotation file (`sync:done:doc-kit` → `--components=docKit`); `figma-read-library.js` reads `Doc/*` components in the Annotation file (no `loadAllPagesAsync`); the contract generator takes Doc Kit keys by the `Doc/` name and tells the Figma Agent to enable the Annotation library.
+- `figma-doc-kit.md` 1.3, `AGENTS.md` §7, `_sync/README.md`, `README.md` (D-17, status), `ROADMAP.md` 0.3.
+
 ## [Docs — one project: `npm start` runs everything] — 2026-10-18
 ### Added
 - `npm start` (also `npm run dev` / `npm run docs`): one Vite dev server for the whole system. `/` opens the **Foundation List** (`2-foundations/index.html`) as the home page; Foundations, token preview, the three Components Lists and every component page are served together.

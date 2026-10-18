@@ -13,7 +13,8 @@ Figma files (D-12) — keys only in [`figma-files.json`](figma-files.json):
 
 | File | Key (`_sync/figma-files.json`) | Owns | Repo source |
 |---|---|---|---|
-| **Biowave DS — Foundations** | `foundations` | Variables, text/effect styles, icons, foundation docs, Doc Kit. Published library | `2-foundations/`, `2-foundations/figma-doc-kit.md` |
+| **Biowave DS — Foundations** | `foundations` | Variables, text/effect styles, icons, foundation docs, Foundation List. Published library | `2-foundations/` |
+| **Annotation** (Doc Kit, D-17) | `docKit` | `Doc/*` components (documentation + home pages), bound to the Foundations library. Published library | `2-foundations/figma-doc-kit.md` |
 | **Biowave DS — Web Components** | `web` | Web component sets + docs | `3-web-components/components/*/figma-*-contract.md` |
 | **Biowave DS — Tablet Components** | `tablet` | Tablet component sets + docs | `4-tablet-components/components/*/figma-*-contract.md` |
 | **Biowave DS — Mobile Components** | `mobile` | Mobile component sets + docs | `5-mobile-components/components/*/figma-*-contract.md` |
@@ -60,7 +61,7 @@ Component tokens come from `<3|4|5>-*/components/<name>/<name>.tokens.json` (Tab
 Components: `npm run sync` lists every generated `figma-<name>-contract.md` that is new or changed since the last `sync:done:<file>` (and `figma-doc-kit.md` for Foundations). Editing a plan, review or changelog never re-queues Figma work — only a regenerated Figma contract does. The Figma Agent builds the component from its contract (Phase 1 set, Phase 2 docs + Components List card); after review, `npm run sync:done:<file>`.
 
 ## Reading the library index (keys for the Figma contracts)
-1. In the **Foundations** file run `figma-read-library.js` with `PART` = `'variables'` (page through if the output is too large), `'styles'`, `'components'`; in **one component file** run it with `PART = 'reach'`. Save each output.
+1. In the **Foundations** file run `figma-read-library.js` with `PART` = `'variables'` (page through if the output is too large) and `'styles'`; in the **Annotation** (Doc Kit) file with `PART = 'components'`; in **one component file** with `PART = 'reach'`. Save each output.
 2. `npm run sync:library -- <dumps…>` → writes `figma-library.json` and checks that every published variable is reachable from the component file.
 3. `npm run contract -- --all` regenerates the contracts with the new keys.
 

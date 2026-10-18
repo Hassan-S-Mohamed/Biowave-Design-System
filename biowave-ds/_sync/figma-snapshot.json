@@ -1731,11 +1731,17 @@
   "docs": {
     "foundations": {
       "2-foundations/figma-doc-kit.md": "7d3ce2ad10775ae3"
+    },
+    "docKit": {
+      "2-foundations/figma-doc-kit.md": "4357f5479d99546e"
     }
   },
   "componentTokens": {
     "web": "302f3d9f74850f52",
     "tablet": "5c9bbd1e893284d6",
     "mobile": "5c9bbd1e893284d6"
+  },
+  "docsSyncedAt": {
+    "docKit": "2026-10-18T10:45:49.592Z"
   }
 }

@@ -11,6 +11,8 @@ export const FIGMA_FILES = JSON.parse(fs.readFileSync(path.join(SYNC, 'figma-fil
 for (const k of Object.keys(FIGMA_FILES)) if (k.startsWith('$')) delete FIGMA_FILES[k];
 export const FIGMA_FILE_KEY = FIGMA_FILES.foundations.key; // variables + styles live in Foundations
 export const COMPONENT_FILES = ['web', 'tablet', 'mobile'];
+// Files the Figma Agent builds docs in: the Doc Kit file (D-17) + the three component files.
+export const DOC_FILES = ['docKit', ...COMPONENT_FILES];
 export const P = {
   tokensJson: path.join(ROOT, '2-foundations/dist/tokens.json'),
   buildStamp: path.join(SYNC, 'build-stamp.json'),
@@ -52,12 +54,12 @@ export const designDocs = () => ['2-foundations', '3-web-components', '4-tablet-
 export const docHashes = () => Object.fromEntries(designDocs().map((f) => [f, hashFile(f)]));
 // Which Figma file must be rebuilt when a doc changes.
 export function docTargets(rel) {
-  if (rel === '2-foundations/figma-doc-kit.md') return ['foundations'];
+  if (rel === '2-foundations/figma-doc-kit.md') return ['docKit'];
   return [{ '3': 'web', '4': 'tablet', '5': 'mobile' }[rel[0]]];
 }
-// Doc hashes grouped by Figma file: { foundations: {path: hash}, web: {...}, tablet: {...}, mobile: {...} }
+// Doc hashes grouped by Figma file: { docKit: {path: hash}, web: {...}, tablet: {...}, mobile: {...} }
 export function docHashesByFile() {
-  const out = Object.fromEntries(['foundations', ...COMPONENT_FILES].map((k) => [k, {}]));
+  const out = Object.fromEntries(DOC_FILES.map((k) => [k, {}]));
   for (const [f, h] of Object.entries(docHashes())) for (const t of docTargets(f)) out[t][f] = h;
   return out;
 }

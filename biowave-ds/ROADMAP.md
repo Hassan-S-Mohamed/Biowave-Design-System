@@ -53,7 +53,7 @@ Every item goes through the AGENTS.md workflow. One day looks like this:
 |---|---|---|
 | 0.1 | Close foundation decisions **D-07 … D-11** (`2-foundations/AUDIT.md`) | Font weights and the numeral style (D-10) affect every component, especially Date/Time pickers and tables |
 | 0.2 | ~~Decide P-01 … P-04~~ ✅ closed 2026-10-15 (§7). ~~Decide B-01 … B-05~~ ✅ 2026-10-16 (`_audits/button-family.md`). ~~Decide I-01 … I-10~~ ✅ 2026-10-18 (`_audits/input-family.md`) | Button family is Day 1–2 and already exists in Figma; its fixes depend on these |
-| 0.3 | Build the **Figma Doc Kit** (`2-foundations/figma-doc-kit.md`, incl. the 4 home-page components) | Required before the first component's doc pages |
+| 0.3 | Build the **Figma Doc Kit** (`2-foundations/figma-doc-kit.md`, incl. the 4 home-page components) — built 2026-10-18 in the **Annotation** library file (D-17) | ✅ built · publish + enable in each file |
 | 0.4 | Confirm the icon set and naming in `2-foundations/guidelines/icons.md` | Icon is the first component |
 | 0.6 | **Figma files (D-12)** — done by Claude 2026-10-16: 3 component files created with page structure; legacy sections marked in Foundations; `↳ Doc Kit` page; `Focus/Ring Inverse` style. Manual steps done by the design lead and **verified 2026-10-16**: Foundations renamed, all four files in the team project, library published (incl. control tokens, inverse/overlay colors, `Focus/Ring Inverse`) and enabled in the 3 component files | ✅ |
 | 0.5 | Move Figma-only component variables into the token source as semantic **control** tokens (P-04, audit G-04) | Button heights, padding and gaps must exist in code before the Button spec |

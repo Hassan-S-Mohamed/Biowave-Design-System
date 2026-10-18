@@ -217,8 +217,8 @@ function figmaContract(c, lib, errors) {
   }
   missingT.forEach((n) => errors.push(`text style "${n}" (named in B/D) is not in the library index`));
   const eRows = [...effNames.values()].filter((s) => new RegExp(`(^|[^\\w/])${s.name.replace(/[.*+?^${}()|[\]\\/]/g, '\\$&')}(?![\\w/])`).test(bdText)).map((s) => `| \`${s.name}\` | \`${s.key}\` |`);
-  const docKit = lib.components.filter((x) => /Doc Kit/i.test(x.page));
-  const otherComps = lib.components.filter((x) => !/Doc Kit/i.test(x.page) && bdText.includes(x.name));
+  const docKit = lib.components.filter((x) => /^Doc\//.test(x.name));
+  const otherComps = lib.components.filter((x) => !/^Doc\//.test(x.name) && bdText.includes(x.name));
   const docKitSpec = fs.existsSync(path.join(ROOT, DOC_KIT)) ? fs.readFileSync(path.join(ROOT, DOC_KIT), 'utf8') : '';
   const layouts = (/\n## Page layouts\n([\s\S]*?)\n## /.exec(docKitSpec) || [])[1] || '';
   const kitNames = [...docKitSpec.matchAll(/^\| `(Doc\/[^`]+)`/gm)].map((m) => m[1]);
@@ -236,6 +236,7 @@ function figmaContract(c, lib, errors) {
     '| | |', '|---|---|',
     `| Library | **${lib.library}** · library key \`${lib.libraryKey}\` |`,
     `| Library file | Foundations · key \`${lib.foundationsFile}\` |`,
+    `| Doc Kit library (Phase 2) | ${FIGMA_FILES.docKit ? `**${FIGMA_FILES.docKit.name}** · file key \`${FIGMA_FILES.docKit.key}\` — must be enabled in this file (Assets → Libraries)` : 'not registered'} |`,
     `| Enabled here | ${lib.reach ? `✓ verified from a component file: ${lib.reach.collections} collections, ${lib.reach.variables} variables reachable` : '✗ not verified — check Assets → Libraries'} |`, '',
     'Import by key — never search by name, never copy:', '', '```js',
     "const v = await figma.variables.importVariableByKeyAsync('<variable key>');   // library reference, not a local copy",
@@ -269,7 +270,7 @@ function figmaContract(c, lib, errors) {
   L.push(block(doc, 'D8', '###'));
   L.push('### Doc Kit components (keys)', '');
   if (docKit.length) L.push('| Component | Key | Kind |', '|---|---|---|', ...docKit.map((x) => `| \`${x.name}\` | \`${x.key}\` | ${x.kind} |`), '');
-  else L.push(`> **Blocked — Doc Kit not built.** None of ${kitNames.length ? kitNames.map((n) => `\`${n}\``).join(', ') : 'the Doc/* components'} exist in the Foundations library yet. Finish Phase 1, then stop and report "docs waiting for Doc Kit" in D11. Do not draw doc layouts by hand.`, '');
+  else L.push(`> **Blocked — Doc Kit not built.** None of ${kitNames.length ? kitNames.map((n) => `\`${n}\``).join(', ') : 'the Doc/* components'} exist in the published Doc Kit library yet (the Annotation file, \`_sync/figma-files.json\` › \`docKit\`). Finish Phase 1, then stop and report "docs waiting for Doc Kit" in D11. Do not draw doc layouts by hand.`, '');
   L.push('### Components List card', '', `On page \`Components List\` of this file, add (or refresh) one \`Doc/Home card\`: preview = live instance of the default variant on the dot-grid tile, title = component name, link "View Component ↗" to the \`↳\` page of this component. Cards stay in alphabetical order.`, '');
   if (layouts) L.push('### Page layouts (from the Doc Kit spec)', '', layouts.trim().replace(/^### /gm, '#### '), '');
   L.push(block(doc, 'D9', '## 10. Code Connect —').replace(/^## 10\. Code Connect — D9 Code Connect/m, '## 10. Code Connect'));
