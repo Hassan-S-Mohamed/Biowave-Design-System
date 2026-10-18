@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { fireEvent, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import ArrowForwardRounded from '@mui/icons-material/ArrowForwardRounded';
 import CloseRounded from '@mui/icons-material/CloseRounded';
@@ -136,14 +136,14 @@ describe('IconButton behavior', () => {
     const button = screen.getByRole('button', { name: 'Edit device' });
     expect(computeAccessibleName(button)).toBe('Edit device');
 
-    button.focus();
+    act(() => button.focus());
     expect(button).toHaveFocus();
     expect(await screen.findByRole('tooltip')).toHaveTextContent('Edit device');
 
     fireEvent.keyDown(document, { key: 'Escape' });
     await waitFor(() => expect(screen.queryByRole('tooltip')).not.toBeInTheDocument());
 
-    button.blur();
+    act(() => button.blur());
     fireEvent.mouseOver(button);
     expect(await screen.findByRole('tooltip')).toHaveTextContent('Edit device');
     view.unmount();

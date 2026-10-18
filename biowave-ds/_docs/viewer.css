@@ -1465,3 +1465,78 @@ a:focus-visible,
 .fp-chip { padding: var(--bw-spacing-sm) var(--bw-spacing-lg); border-radius: var(--bw-radius-md); background: var(--bw-color-background-brand-default); color: var(--bw-color-text-on-brand); font-weight: var(--bw-font-weight-action); }
 
 .spec-link.is-missing { opacity: 0.6; cursor: not-allowed; border-style: dashed; }
+
+/* ---------- Text field demo (static preview; the real component renders in the live React card) ---------- */
+.demo-field {
+  display: grid;
+  gap: var(--bw-spacing-xs);
+  inline-size: min(100%, 18rem);
+  font-family: var(--bw-font-family);
+  text-align: start;
+}
+.demo-field-label {
+  color: var(--bw-color-text-neutral-default);
+  font-size: var(--bw-font-size-label-md);
+  font-weight: 600;
+}
+.demo-field-box {
+  display: flex;
+  min-block-size: var(--bw-size-control-height-md);
+  padding-inline: var(--bw-spacing-control-padding-inline-md);
+  gap: var(--bw-spacing-control-gap-md);
+  align-items: center;
+  border: var(--bw-border-width-default) solid var(--bw-color-border-strong);
+  border-radius: var(--bw-radius-md);
+  background: var(--bw-color-surface-default);
+  color: var(--bw-color-icon-neutral-muted);
+  transition: border-color var(--bw-motion-duration-sm) var(--bw-motion-easing-standard);
+}
+.demo-field[data-s='sm'] .demo-field-box { min-block-size: var(--bw-size-control-height-sm); }
+.demo-field[data-s='lg'] .demo-field-box { min-block-size: var(--bw-size-control-height-lg); }
+[data-platform='tablet'] .demo-field-box,
+[data-platform='mobile'] .demo-field-box { min-block-size: var(--bw-size-control-height-lg); }
+.demo-field-box:hover,
+.demo-field-box.is-hover { border-color: var(--bw-color-text-neutral-default); }
+.demo-field-box:focus-within,
+.demo-field-box.is-focus { border-color: var(--bw-color-border-focus); box-shadow: inset 0 0 0 calc(var(--bw-border-width-focus) - var(--bw-border-width-default)) var(--bw-color-border-focus); }
+.demo-field-box.is-error { border-color: var(--bw-color-border-error); }
+.demo-field-box.is-readonly { border-style: dashed; }
+.demo-field-box.is-multiline { align-items: stretch; padding-block: var(--bw-spacing-sm); }
+.demo-field-box input,
+.demo-field-box textarea {
+  flex: 1;
+  min-inline-size: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--bw-color-text-neutral-default);
+  font: inherit;
+  font-size: var(--bw-font-size-body-md);
+  resize: none;
+}
+.demo-field-box input::placeholder,
+.demo-field-box textarea::placeholder { color: var(--bw-color-text-neutral-placeholder); }
+.demo-field.is-disabled .demo-field-label,
+.demo-field.is-disabled input { color: var(--bw-color-text-neutral-disabled); }
+.demo-field.is-disabled .demo-field-box { border-color: var(--bw-color-border-disabled); background: var(--bw-color-background-neutral-disabled); }
+.demo-field-helper {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--bw-spacing-sm);
+  color: var(--bw-color-text-neutral-muted);
+  font-size: var(--bw-font-size-body-sm);
+}
+.demo-field-helper.is-error { color: var(--bw-color-text-role-error); }
+
+/* ---------- Live React card (npm start) ---------- */
+.live-react-card { margin-block-start: var(--bw-spacing-xl); }
+.live-react-card .section-lead { margin: 0; padding: var(--bw-spacing-md) var(--bw-spacing-lg) 0; }
+.live-react-card .live-react-frame { margin: var(--bw-spacing-md) var(--bw-spacing-lg) var(--bw-spacing-lg); inline-size: calc(100% - 2 * var(--bw-spacing-lg)); }
+.live-react-frame {
+  display: block;
+  inline-size: 100%;
+  block-size: 24rem;
+  border: var(--bw-border-width-default) solid var(--bw-color-border-default);
+  border-radius: var(--bw-radius-xl);
+  background: var(--bw-color-surface-default);
+}

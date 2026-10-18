@@ -5,6 +5,7 @@ import { cssVars, useBiowave } from '@biowave/foundations';
 import { visuallyHidden } from '../../internal/visuallyHidden';
 import { warnOnce } from '../../internal/warnOnce';
 import { ButtonSpinner } from '../button/ButtonSpinner';
+import { useButtonGroupSize } from '../button-group/ButtonGroupContext';
 import {
   buttonElevationToken,
   buttonFocusTokens,
@@ -225,7 +226,7 @@ const IconButtonInternal = React.forwardRef<HTMLButtonElement, IconButtonInterna
       label,
       variant = 'text',
       color = 'neutral',
-      size = 'md',
+      size: sizeProp,
       segment,
       toggle = false,
       selected = false,
@@ -241,6 +242,8 @@ const IconButtonInternal = React.forwardRef<HTMLButtonElement, IconButtonInterna
     ref,
   ) {
     const { locale } = useBiowave();
+    const groupSize = useButtonGroupSize();
+    const size = groupSize ?? sizeProp ?? 'md';
     const effectiveVariant =
       variant === 'tonal' && (color === 'neutral' || color === 'inverse')
         ? 'outlined'

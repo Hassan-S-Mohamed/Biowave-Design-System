@@ -4,6 +4,7 @@ import { styled } from '@mui/material/styles';
 import { cssVars, useBiowave } from '@biowave/foundations';
 import { visuallyHidden } from '../../internal/visuallyHidden';
 import { warnOnce } from '../../internal/warnOnce';
+import { useButtonGroupSize } from '../button-group/ButtonGroupContext';
 import { ButtonSpinner } from './ButtonSpinner';
 import {
   buttonElevationToken,
@@ -219,7 +220,7 @@ const ButtonInternal = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, B
     {
       variant = 'filled',
       color = 'brand',
-      size = 'md',
+      size: sizeProp,
       segment,
       startIcon,
       endIcon,
@@ -236,6 +237,8 @@ const ButtonInternal = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, B
     ref,
   ) {
     const { locale } = useBiowave();
+    const groupSize = useButtonGroupSize();
+    const size = groupSize ?? sizeProp ?? 'md';
     const previouslyDisabled = React.useRef(disabled);
     const [, advanceTransitionFrame] = React.useState(0);
     const justReenabled = previouslyDisabled.current && !disabled;

@@ -15,7 +15,7 @@
 | Figma | **Biowave DS — Web Components** › `↳ Icon Button` (legacy reference: Foundations `4310:3146`) · build: [Part D](#d--figma-build) |
 | Version | 1.0 · 2026-10-16 |
 | Plan | Finished |
-| Code | In progress |
+| Code | Built |
 | Figma build | Planned |
 | Review | — |
 | Source code | `src/components/icon-button/` — not built yet (the Executor creates it) |
@@ -373,12 +373,12 @@ B9.
 
 | Field | Value |
 |---|---|
-| Agent | |
-| Date | |
-| Files changed | |
+| Agent | Codex |
+| Date | 2026-10-18 |
+| Files changed | `src/components/icon-button/IconButton.tsx`, `IconButtonTooltip.tsx`, `iconButton.tokens.ts`, `IconButton.test.tsx`, `index.ts`; package `src/index.ts`; Web components README |
 
 **Deviations:** none
-**Questions for the Planner:** none
+**Questions for the Planner:** `npm run docs:check` remains blocked by the repository-wide Doc Kit 1.2 change: 12 Figma contracts are stale, including this component's Figma contract. The code contract is current; no generated contract was edited by the Executor.
 
 ---
 
@@ -515,7 +515,7 @@ Component description: "Starts an action shown as an icon. Always has a label. S
 
 ### F0 Changes from previous version
 
-None — version 1.0. Filled when the version is above 1.0; it feeds Figma doc page 10.
+1.0 — initial Web implementation: MUI IconButton composition, shared Button visual tokens, selected-toggle tokens, tokenized tooltip, loading state, RTL icon handling, public exports and contract tests. No API change from the initial spec.
 
 ### F1 Guidelines changelog
 

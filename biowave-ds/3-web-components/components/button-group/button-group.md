@@ -15,7 +15,7 @@
 | Figma | **Biowave DS — Web Components** › `↳ Button Group` (legacy reference: Foundations `4833:35916`) · build: [Part D](#d--figma-build) |
 | Version | 1.0 · 2026-10-16 |
 | Plan | Finished |
-| Code | Planned |
+| Code | Built |
 | Figma build | Planned |
 | Review | — |
 | Source code | `src/components/button-group/` — not built yet (the Executor creates it) |
@@ -339,12 +339,12 @@ B9; Button/IconButton/SplitButton tests still pass.
 
 | Field | Value |
 |---|---|
-| Agent | |
-| Date | |
-| Files changed | |
+| Agent | Codex |
+| Date | 2026-10-18 |
+| Files changed | `src/components/button-group/ButtonGroup.tsx`, `ButtonGroupContext.ts`, `ButtonGroup.test.tsx`, `index.ts`; group-size support in Button, IconButton and SplitButton; package `src/index.ts`; Web components README |
 
 **Deviations:** none
-**Questions for the Planner:** none
+**Questions for the Planner:** `npm run docs:check` remains blocked by the repository-wide Doc Kit 1.2 change: 12 Figma contracts are stale, including this component's Figma contract. The code contract is current; no generated contract was edited by the Executor.
 
 ---
 
@@ -465,7 +465,7 @@ Component description: "Lays out 2–4 related actions with the right order and 
 
 ### F0 Changes from previous version
 
-None — version 1.0. Filled when the version is above 1.0; it feeds Figma doc page 10.
+1.0 — initial Web implementation: horizontal/vertical layouts, alignment and fill modes, shared child sizing, overflow menu, localized trigger, validation, public exports and contract tests. No API change from the initial spec.
 
 ### F1 Guidelines changelog
 

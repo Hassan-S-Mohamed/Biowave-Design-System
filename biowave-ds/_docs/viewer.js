@@ -55,7 +55,10 @@
     'icon-button': { variants: ['filled', 'tonal', 'outlined', 'text'] },
     'split-button': { variants: ['filled', 'tonal', 'outlined'] },
     'button-group': { variants: ['horizontal', 'vertical', 'overflow', 'fill'] },
+    'text-field': { variants: ['single-line', 'multiline', 'adornment'] },
   };
+  // Components with a real React build in 3-web-components/src — shown live (npm start) on their Web pages.
+  const LIVE_REACT = ['button', 'icon-button', 'split-button', 'button-group', 'text-field'];
   let components = {}; // filled by loadComponents() from components/index.json + each <name>.md header
 
   const copy = {
@@ -124,6 +127,9 @@
         vertical: 'Full-width actions for narrow surfaces.',
         overflow: 'Moves lower-priority actions into a menu.',
         fill: 'Distributes available width across actions.',
+        'single-line': 'One line of text with a static label above.',
+        multiline: 'Grows with the content for longer text.',
+        adornment: 'Leading or trailing icon or text inside the field.',
       },
     },
     ar: {
@@ -191,11 +197,17 @@
         vertical: 'إجراءات بعرض كامل للأسطح الضيقة.',
         overflow: 'ينقل الإجراءات الأقل أولوية إلى قائمة.',
         fill: 'يوزّع العرض المتاح بين الإجراءات.',
+        'single-line': 'سطر نصي واحد مع تسمية ثابتة أعلاه.',
+        multiline: 'يتمدد مع المحتوى للنصوص الأطول.',
+        adornment: 'أيقونة أو نص في بداية الحقل أو نهايته.',
       },
     },
   };
 
   Object.assign(copy.en, {
+    fieldLabel: 'Email', fieldPlaceholder: 'name@company.com', fieldHelper: 'We send the sign-in link here.', fieldErrorText: 'Enter a valid email address.',
+    notesLabel: 'Notes', searchLabel: 'Search devices', fieldError: 'Error', readOnly: 'Read-only',
+    liveReact: 'Live React component', liveReactNote: 'The real @biowave/web component from 3-web-components/src — click, type and tab through it.',
     color: 'Color',
     leadingIcon: 'Leading icon',
     trailingIcon: 'Trailing icon',
@@ -242,6 +254,9 @@
   });
 
   Object.assign(copy.ar, {
+    fieldLabel: 'البريد الإلكتروني', fieldPlaceholder: 'name@company.com', fieldHelper: 'نرسل رابط تسجيل الدخول إلى هنا.', fieldErrorText: 'أدخل بريداً إلكترونياً صحيحاً.',
+    notesLabel: 'ملاحظات', searchLabel: 'البحث في الأجهزة', fieldError: 'خطأ', readOnly: 'للقراءة فقط',
+    liveReact: 'مكوّن React مباشر', liveReactNote: 'مكوّن @biowave/web الحقيقي من 3-web-components/src — انقر واكتب وتنقّل بينه.',
     color: 'اللون',
     leadingIcon: 'أيقونة البداية',
     trailingIcon: 'أيقونة النهاية',
@@ -290,6 +305,7 @@
   const icons = {
     check: '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="m6.5 12.5 3.4 3.4 7.6-8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     chevron: '<svg class="demo-icon directional" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    search: '<svg class="demo-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="m16 16 4 4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
     chevronDown: '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     edit: '<svg class="demo-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4l11-11-4-4L4 16v4Zm9.8-13.8 4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     external: '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M14 5h5v5M12 12l7-7M19 13v5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
@@ -359,8 +375,14 @@
     els.platformTabs.setAttribute('aria-label', t('platform'));
     els.platformTabs.innerHTML = Object.entries(platformData).map(([key, item]) => {
       const current = key === platform ? ' aria-current="page"' : '';
-      return `<a class="platform-tab" href="${ROOT}${SECTION[key]}/components/${state.component}/${state.component}.html#${state.tab}"${current}>${item.label[state.lang]}</a>`;
+      return `<a class="platform-tab" href="${ROOT}${SECTION[key]}/components/${state.component}/${state.component}.html#${state.tab}"${current} data-platform-link="${key}">${item.label[state.lang]}</a>`;
     }).join('');
+    // A component may exist on one platform only (e.g. Text field is Web-only so far): send that tab to the platform's Components List.
+    els.platformTabs.querySelectorAll('[data-platform-link]').forEach(async (a) => {
+      if (a.dataset.platformLink === platform) return;
+      const ok = await fetch(a.getAttribute('href').split('#')[0], { method: 'HEAD', cache: 'no-store' }).then((r) => r.ok).catch(() => true);
+      if (!ok) a.setAttribute('href', `${ROOT}${SECTION[a.dataset.platformLink]}/index.html`);
+    });
   }
 
   function renderMenu() {
@@ -381,6 +403,7 @@
     'icon-button': { colors: allColors, defaultColor: 'neutral', noTonal: ['neutral', 'inverse'], icons: [] },
     'split-button': { colors: ['brand', 'secondary', 'neutral'], defaultColor: 'brand', noTonal: ['neutral'], icons: ['leading'] },
     'button-group': { colors: [], defaultColor: 'brand', noTonal: [], icons: [] },
+    'text-field': { colors: [], defaultColor: 'brand', noTonal: [], icons: [], states: ['default', 'hover', 'focus', 'fieldError', 'readOnly', 'disabled'] },
   };
 
   const tabKeys = ['overview', 'props', 'variations', 'states', 'usage', 'content', 'platform', 'rtl', 'accessibility', 'changelog'];
@@ -437,7 +460,25 @@
     return `<div class="button-group-demo${fillClass}"${style}>${demoButton('outlined', t('cancel'), { ...plain, color: 'neutral' })}${demoButton('filled', t('save'), plain)}</div>`;
   }
 
+  function demoTextField(variant = 'single-line', opts = {}) {
+    const st = opts.state || 'default';
+    const cls = `demo-field-box${st === 'hover' ? ' is-hover' : ''}${st === 'focus' ? ' is-focus' : ''}${st === 'fieldError' ? ' is-error' : ''}${st === 'readOnly' ? ' is-readonly' : ''}`;
+    const dis = st === 'disabled' ? ' disabled' : '';
+    const ro = st === 'readOnly' ? ' readonly' : '';
+    const value = st === 'fieldError' ? 'hassan@biowave' : (st === 'readOnly' || st === 'disabled' ? 'hassan@biowave.io' : '');
+    const helper = st === 'fieldError' ? t('fieldErrorText') : t('fieldHelper');
+    const helperCls = st === 'fieldError' ? ' is-error' : '';
+    const size = opts.size ? ` data-s="${opts.size}"` : '';
+    if (variant === 'multiline') {
+      return `<label class="demo-field${st === 'disabled' ? ' is-disabled' : ''}"${size}><span class="demo-field-label">${t('notesLabel')}</span><span class="${cls} is-multiline"><textarea rows="3"${dis}${ro} placeholder="${t('notesLabel')}"></textarea></span><span class="demo-field-helper"><span></span><span>0 / 120</span></span></label>`;
+    }
+    const lead = variant === 'adornment' ? icons.search || '' : '';
+    const label = variant === 'adornment' ? t('searchLabel') : t('fieldLabel');
+    return `<label class="demo-field${st === 'disabled' ? ' is-disabled' : ''}"${size}><span class="demo-field-label">${label}</span><span class="${cls}">${lead}<input type="${variant === 'adornment' ? 'search' : 'email'}" value="${value}" placeholder="${variant === 'adornment' ? t('searchLabel') : t('fieldPlaceholder')}"${dis}${ro}${st === 'fieldError' ? ' aria-invalid="true"' : ''}></span><span class="demo-field-helper${helperCls}"><span>${helper}</span></span></label>`;
+  }
+
   function componentDemo(component = state.component, variant, opts = {}) {
+    if (component === 'text-field') return demoTextField(variant || 'single-line', opts);
     if (component === 'button') return demoButton(variant || 'filled', opts.label || t('save'), opts);
     if (component === 'icon-button') return demoIconButton(variant || 'text', variant === 'tonal', opts);
     if (component === 'split-button') return demoSplitButton(variant || 'filled', opts);
@@ -647,8 +688,24 @@
 
   function renderOverview(item) {
     const inverse = demoColor() === 'inverse' ? ' is-inverse' : '';
-    return `${lead('overview')}${renderControls()}<div class="overview-grid"><article class="preview-card"><div class="card-header"><span class="card-title">${t('livePreview')}</span><span class="live-indicator">${isBuilt(state.component) ? t('built') : t('planned')}</span></div><div class="preview-stage"><div class="device-surface${inverse}"><div class="demo-cluster">${componentDemo()}</div></div></div></article><aside class="info-stack"><article class="info-card"><p class="info-label">${t('anatomy')}</p><p class="info-value">${item.parts[state.lang]}</p></article><article class="info-card"><p class="info-label">${t('implementation')}</p><p class="info-value code-value">${inline(item.importName || '—', docUrl())}</p></article><article class="info-card"><p class="info-label">${t('stack')}</p><p class="info-value">${platformData[platform].stack}</p></article><article class="info-card"><p class="info-label">${t('status')}</p><p class="info-value">${['plan', 'code', 'figma', 'review'].map((k) => `${t('statusNames')[k]}: <strong>${escapeHtml(item[k] || '—')}</strong>`).join('<br>')}</p></article><a class="spec-link" href="${state.component}.md#b--spec">${t('readSpec')}${icons.external}</a><a class="spec-link" href="${state.component}.md">${t('sourceFile')}${icons.external}</a><a class="spec-link" href="${state.component}-contract.md">${t('codeContract')}${icons.external}</a><a class="spec-link" href="figma-${state.component}-contract.md">${t('figmaContract')}${icons.external}</a></aside></div>${docs([['g', '^overview'], ['g', '^anatomy']])}`;
+    return `${lead('overview')}${renderControls()}<div class="overview-grid"><article class="preview-card"><div class="card-header"><span class="card-title">${t('livePreview')}</span><span class="live-indicator">${isBuilt(state.component) ? t('built') : t('planned')}</span></div><div class="preview-stage"><div class="device-surface${inverse}"><div class="demo-cluster">${componentDemo()}</div></div></div></article><aside class="info-stack"><article class="info-card"><p class="info-label">${t('anatomy')}</p><p class="info-value">${item.parts[state.lang]}</p></article><article class="info-card"><p class="info-label">${t('implementation')}</p><p class="info-value code-value">${inline(item.importName || '—', docUrl())}</p></article><article class="info-card"><p class="info-label">${t('stack')}</p><p class="info-value">${platformData[platform].stack}</p></article><article class="info-card"><p class="info-label">${t('status')}</p><p class="info-value">${['plan', 'code', 'figma', 'review'].map((k) => `${t('statusNames')[k]}: <strong>${escapeHtml(item[k] || '—')}</strong>`).join('<br>')}</p></article><a class="spec-link" href="${state.component}.md#b--spec">${t('readSpec')}${icons.external}</a><a class="spec-link" href="${state.component}.md">${t('sourceFile')}${icons.external}</a><a class="spec-link" href="${state.component}-contract.md">${t('codeContract')}${icons.external}</a><a class="spec-link" href="figma-${state.component}-contract.md">${t('figmaContract')}${icons.external}</a></aside></div>${liveReactCard()}${docs([['g', '^overview'], ['g', '^anatomy']])}`;
   }
+
+  // ---------- Live React (npm start serves _docs/live.html through Vite) ----------
+  function livePrefs() {
+    return { lang: state.lang, theme: state.theme, color: options().colors.length ? state.color : 'brand' };
+  }
+  function liveReactCard() {
+    if (platform !== 'web' || !LIVE_REACT.includes(state.component)) return '';
+    const q = new URLSearchParams({ component: state.component, ...livePrefs() });
+    return `<article class="preview-card live-react-card"><div class="card-header"><span class="card-title">${t('liveReact')}</span><span class="live-indicator">React + MUI</span></div><p class="section-lead">${t('liveReactNote')}</p><iframe class="live-react-frame" title="${t('liveReact')} · ${escapeHtml(components[state.component]?.name[state.lang] || state.component)}" src="${ROOT}_docs/live.html?${q}" loading="lazy" data-live-react></iframe></article>`;
+  }
+  window.addEventListener('message', (event) => {
+    if (event.origin !== window.location.origin || event.data?.type !== 'biowave:live-height') return;
+    document.querySelectorAll('[data-live-react]').forEach((frame) => {
+      if (frame.contentWindow === event.source) frame.style.height = `${Math.ceil(event.data.height)}px`;
+    });
+  });
 
   function renderProps() {
     return `${lead('props')}${docs([['s', '^api'], ['s', '^dimension'], ['s', '^token'], ['s', '^example']])}`;
@@ -688,6 +745,7 @@
   }
 
   function stateDemo(key) {
+    if (state.component === 'text-field') return demoTextField('single-line', { state: key });
     let demo = componentDemo();
     if (key === 'loading') {
       return demo
@@ -702,7 +760,7 @@
   }
 
   function renderStates() {
-    const states = ['default', 'hover', 'pressed', 'focus', 'loading', 'disabled'];
+    const states = options().states || ['default', 'hover', 'pressed', 'focus', 'loading', 'disabled'];
     const grid = states.map((key) => `<article class="state-card"><div><h3>${t(key)}</h3><p>${key === 'loading' ? t('motion') : key === 'focus' ? t('focusText') : t('statesLead')}</p></div>${surface(stateDemo(key))}</article>`).join('');
     return `${lead('states')}${renderControls()}<div class="state-grid">${grid}</div>${docs([['s', '^states'], ['g', '^states']])}`;
   }

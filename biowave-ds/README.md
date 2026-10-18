@@ -22,7 +22,7 @@ biowave-ds/
 ├── ROADMAP.md               ← build order: core → complex → patterns, 2–3 per day
 ├── CHANGELOG.md             ← every change, newest first (rule: logged in the same task)
 ├── _templates/              ← component.md (the ONE component template) · section-readme.md · README.md (writing rules)
-├── _docs/                   ← docs viewer (viewer.js/css), docs:build, docs:check, contract generator, server
+├── _docs/                   ← docs viewer (viewer.js/css), live React preview (live.html/tsx), vite.config (npm start), docs:build, docs:check, contract generator
 ├── _sync/                   ← keeps generated code + Figma in step (npm run sync / watch) + Figma library index
 ├── _audits/                 ← cross-component audits (button-family.md)
 │
@@ -59,13 +59,15 @@ How the pieces depend on each other:
 
 ```bash
 npm install            # once
+npm start              # ONE command: opens the docs home (Foundation List) with every foundation + all Web/Tablet/Mobile component pages,
+                       #   and the real React components live on each Web page (Vite, http://localhost:4173)
 npm run tokens         # rebuild CSS / TS / Dart + preview, runs contrast checks (fails on any violation)
 npm run watch          # auto-rebuild on every token edit + Figma sync alerts (watch:install = start at login)
 npm run sync           # is code ↔ files ↔ Figma in sync? (see _sync/README.md)
 npm run tokens:check   # contrast + parity report only
 npm run typecheck      # React packages
 cd 5-mobile-components && flutter test   # Flutter packages
-npm run docs           # open the docs: Foundation List → Components List → component pages
+npm run docs           # same as npm start (docs:static = old static server, no live React)
 npm run docs:check     # structure, guidelines, status, generated pages, contracts, links
 npm run contract -- <web|tablet|mobile> <name>   # generate both contracts when a plan is Finished
 ```

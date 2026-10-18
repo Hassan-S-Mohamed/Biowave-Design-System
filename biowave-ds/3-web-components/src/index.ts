@@ -13,10 +13,25 @@ export {
   type ButtonSize,
 } from './components/button';
 export {
+  ButtonGroup,
+  type ButtonGroupProps,
+  type ButtonGroupOrientation,
+  type ButtonGroupAlign,
+  type ButtonGroupSize,
+} from './components/button-group';
+export {
   IconButton,
   type IconButtonProps,
   type IconButtonVariant,
   type IconButtonColor,
   type IconButtonSize,
 } from './components/icon-button';
+export {
+  SplitButton,
+  type SplitButtonProps,
+  type SplitButtonOption,
+  type SplitButtonVariant,
+  type SplitButtonColor,
+  type SplitButtonSize,
+} from './components/split-button';
 export { TextField, type TextFieldProps, type TextFieldSize } from './components/text-field';

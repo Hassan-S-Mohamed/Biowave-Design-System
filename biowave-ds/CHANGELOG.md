@@ -2,6 +2,26 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Docs — one project: `npm start` runs everything] — 2026-10-18
+### Added
+- `npm start` (also `npm run dev` / `npm run docs`): one Vite dev server for the whole system. `/` opens the **Foundation List** (`2-foundations/index.html`) as the home page; Foundations, token preview, the three Components Lists and every component page are served together.
+- Live React previews: `_docs/live.html` + `_docs/live.tsx` render the real `@biowave/web` components (Button, Icon button, Split button, Button group, Text field) from `3-web-components/src` inside each Web component page (Overview tab), following the page's language, theme and color. `_docs/vite.config.mjs`. Dev deps: `vite`, `@vitejs/plugin-react`. No folders added or moved.
+### Fixed
+- Text field docs page crashed (no playground config) — now has a static preview and states (default, hover, focus, error, read-only, disabled).
+- Component page logo linked to a non-existent path — now goes to the Foundation List.
+- Platform tabs on a component that exists on one platform only now open that platform's Components List instead of a 404.
+### Changed
+- Old static server kept as `npm run docs:static`.
+
+## [Web Button family — Icon button, Split button, Button group built] — 2026-10-18
+### Added
+- `IconButton`: four emphasis variants, five semantic colors, `sm·md·lg`, controlled toggle/selected glyphs, tokenized visual tooltip, loading/disabled behavior, RTL directional icons and accessible native-button semantics.
+- `SplitButton`: real Button + IconButton segments with logical inner corners, controlled/uncontrolled menu state, tokenized temporary MUI menu, complete menu-button keyboard navigation and localized trigger labels.
+- `ButtonGroup`: horizontal/vertical action layout, five alignment modes, group-owned child sizing, DOM-order-preserving vertical layout, localized overflow menu and validation warnings.
+- Public package exports and 32 focused tests for the three components; the complete Web suite now covers 67 passing tests.
+### Changed
+- `Button`, `IconButton` and `SplitButton` consume Button Group size context; Button and IconButton also expose private segmented-corner primitives for Split Button composition without widening the public API.
+
 ## [Review — Web Text field round 1: Changes requested] — 2026-10-18
 ### Reviewed
 - Clean install: typecheck ✅, `test:web` 35/35 ✅, `component-tokens` ✅, `sync` READY; `docs:check` ❌ (all 13 Figma contracts stale since Doc Kit 1.2). Field colour pairs checked on both field backgrounds, light + dark: all pass.
