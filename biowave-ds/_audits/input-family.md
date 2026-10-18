@@ -93,3 +93,78 @@ Day 7 stays a two-item heavy day (ROADMAP §9). Day 8 and Day 13 become three it
 2. Planner: same for `select.md`.
 3. Planner: `a11y.md` note for I-04; ROADMAP rows for I-07 / I-08; `CHANGELOG.md`.
 4. Code Executors (W, T, M) and Figma Agent run from the contracts; Planner reviews in Part E.
+
+## 6. Legacy property inventory (web `↳ Inputs` 1268:1776, read 2026-10-18)
+
+Every component property on the four legacy sets, and where it goes in Biowave. ✅ = already in a Biowave spec · ➕ = proposed addition (decision I-11 … I-14) · → = belongs to another component · ✗ = dropped.
+
+### 6.1 Shared field properties (all four sets)
+
+| Legacy property | Sets | Type | Biowave | Where |
+|---|---|---|---|---|
+| `Show label` · `Label` | Inputs, Dropdown, Textarea, Verification code | BOOLEAN · TEXT | ✅ `label` + `hideLabel` | Text field B1 |
+| `Required` (asterisk) | Inputs, Dropdown, Textarea | BOOLEAN | ✅ `required` | B1 |
+| `Help icon` (instance `Help icon`, tooltip variants) | Inputs (inside field, trailing), Dropdown + Textarea (label row) | INSTANCE_SWAP + BOOLEAN | ➕ I-11 | label row or field |
+| `Supporting text` / `Hint text` | all | TEXT + BOOLEAN | ✅ `helperText` | B1 |
+| `Destructive` | Inputs, Textarea, Verification code | VARIANT | ✅ `error` (renamed) | B1 |
+| `Error icon` (`alert-circle`) | Inputs | INSTANCE_SWAP + BOOLEAN | ➕ I-11 | field trailing or supporting row |
+| `State` = Placeholder · Filled/Default · Focused · Disabled | all | VARIANT | ✅ State + `Filled` boolean (I-05); adds Hover, Read-only | D4 |
+| `State` = Open | Dropdown | VARIANT | → Select | Select B1 |
+
+### 6.2 Inputs set (56 variants) — `Type` values
+
+| `Type` | What it is (layer tree) | Extra properties | Biowave |
+|---|---|---|---|
+| Default | `Content` = leading icon + text; `Help icon` trailing | `Leading visual` (swap `mail-01`) | ✅ `startAdornment` |
+| Leading dropdown | `Dropdown` segment ("US ▾", 53 px) + `Text input`, no divider | `Dropdown text`, `Chevron icon` | → Phone field (I-07); unit/currency select ➕ I-14 |
+| Trailing dropdown | `Text input` + `Dropdown` segment at end | same | ➕ I-14 |
+| Leading text | `Add-on` segment ("http://") with divider + `Text input` | `Add-on text` | ➕ I-12 prefix |
+| Trailing text | `Text input` + `Add-on` segment at end | `Add-on text` | ➕ I-12 suffix |
+| Payment | card-brand icon as leading visual | `Payment method` (swap) | ✗ not used in Biowave (I-01) |
+| Tags | `Tags` (2 × `Tag` with avatar + ×) + text | `Tag 1`, `Tag 2` | → Autocomplete multi (Day 13) |
+| Trailing button | `Text input` + attached secondary `Button` ("Copy", `copy-01`) | `Trailing action` (swap Button) | ➕ I-14 (was ✗ in I-01) |
+
+### 6.3 Dropdown set (30 variants) → Select
+
+| Property | Values | Biowave Select |
+|---|---|---|
+| `Type` | Default · Icon leading · Avatar leading · Dot leading · Search · Tags | Default ✅ · Icon leading ✅ · Avatar leading ➕ · Dot leading ➕ (status dot, e.g. employee status) · Search → Search field / Autocomplete · Tags → Autocomplete |
+| `Leading visual` (`user-01`) · `Search icon` · `Shortcut text` (⌘K) | swap / text | icon ✅ · shortcut → Search field (backlog) |
+| `Option 1 … 8` (`_Select menu item`) | swap + bool | ✗ menu not inside the component (IG-04) — Menu, Day 10 |
+| `Chevron icon` | swap | fixed part, rotates when open |
+| `State=Open` | | ✅ `Expanded` / open state |
+
+### 6.4 Textarea set (14 variants) → Text field `multiline`
+
+| Property | Biowave |
+|---|---|
+| `Type` = Default · Tags | Default ✅ · Tags → Autocomplete |
+| `Resize handle` (BOOLEAN) | ➕ `resize` = `vertical · none` (web only; spec allows resize today but has no prop) |
+| `↳ Required *`, `↳ Help icon` in label row | ✅ required · ➕ I-11 |
+| Counter | not in legacy · ✅ already in Biowave |
+
+### 6.5 Verification code set (48 variants)
+
+`Size` sm·md·lg ✅ · `Digits` 4·6 ✅ · `Label` ✅ · `Hint text` ✅ · `Destructive` → `error` ✅ · `State` ✅. Built from private `_Mega input field base` (one cell, 64 × 64) — keep the pattern as `.Verification code/Cell`.
+
+### 6.6 Decisions (✅ confirmed by design lead 2026-10-18 — all recommendations accepted, error icon added)
+
+| ID | Question | Decision |
+|---|---|---|
+| I-11 | Help icon and error icon | ✅ Help icon (with Tooltip) in the **label row**, never inside the field. Error icon at the start of the supporting text, not inside the field, so the trailing slot stays free for one action |
+| I-12 | Prefix / suffix text (`http://`, `SAR`, `%`, `kg`) | ✅ Add `prefix` / `suffix` as attached add-on segments with a divider (legacy look) |
+| I-13 | Trailing action API (fixes the adornment bug, §7) | ✅ Replace free `endAdornment` content with a managed `action` prop (`{ icon, label, onClick }`) that the field renders as an Icon button sized to the field and disabled with it; keep built-ins `clearable` and the password visibility toggle. `endAdornment` keeps decorative icons only |
+| I-14 | Attached button / attached select segments | ✅ Add `endButton` (attached secondary Button, e.g. "Copy") to Text field; attached unit/currency select → backlog (Phone field covers country code) |
+
+## 7. Adornment bug (Web Text field, found 2026-10-18)
+
+Reproduced by rendering the built component in Chromium (en/ar, viewport 980 px and 1280 px). Details and fixes: `3-web-components/components/text-field/text-field.md` › E3.
+
+| # | Bug | Evidence |
+|---|---|---|
+| AD-1 | Trailing slot is sized by `target-min`, which is **48 px below 1200 px viewport**: slot 48 × 48 overflows `sm` (32) and `md` (40) fields by 8 / 4 px, and pushes a decorative trailing icon 24–28 px from the edge while the leading icon sits at the field padding (8–16 px) | `.bw-text-field__trailing-action` 48×48 at top −8 (sm) |
+| AD-2 | An Icon button in the slot is not sized by the field: `md`/`lg` buttons are as tall as the field and paint over its border; hover/focus backgrounds cover the outline | Password md: button 40×40 at 0,0 in a 40 px field |
+| AD-3 | Disabled field does not disable its trailing action: Clear button stays in the tab order, clickable, full colour | Tab reaches "Clear" in the Disabled field; colour `rgb(10,10,10)`, cursor pointer |
+| AD-4 | Error turns **every** icon red (leading mail icon, help icon) | B3 maps all icons to `color-icon-role-error` — legacy keeps the leading icon neutral and shows a separate error icon |
+| AD-5 | Multiline: trailing action is not aligned to the first text line (spec A4.5) — it sits between line 1 and 2 | Notes md: button top 14 px vs first line 6 px |
+| AD-6 | Clicking the leading icon or empty slot area does not focus the input | `click(.bw-text-field__leading-icon)` → `document.activeElement = BODY` |

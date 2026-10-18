@@ -2,11 +2,32 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Sync — library index re-read, all contracts regenerated, Web component tokens pushed] — 2026-10-18
+### Changed
+- `_sync/figma-library.json` re-read: styles from Foundations (140 text · 8 effect · 6 grid), **28 `Doc/*` components with keys from the Annotation Doc Kit library (D-17)**, reach from the Web Components file (318 variables). Variables kept from the previous read (token source unchanged). Doc Kit components verified importable by key from the Web Components file.
+- `npm run contract -- --all`: all 13 code + Figma contracts regenerated (Web Text field now on spec 1.1; Figma contracts carry Doc Kit keys, so Phase 2 docs are no longer blocked).
+- Biowave DS — Web Components: component tokens pushed with `figma-apply-tokens-web.js` — created `Text field / Size › action-box, action-inset`, `Text field / State › addon-background, addon-text, error-icon`; updated `Text field / State › border, icon`; 57 unchanged. `figma-read-tokens.js` lint 0 · `sync:verify-tokens web` ✓ 64 tokens · `sync:done:tokens:web`.
+### Verified
+- `npm run sync` ✓ READY (13 Figma contracts in the build queue) · `npm run docs:check` ✓ · `npm run component-tokens` ✓.
+
 ## [Doc Kit 1.3 — own library file (D-17)] — 2026-10-18
 ### Changed
 - **D-17:** the Figma Doc Kit lives in its own library file, **Annotation** (`_sync/figma-files.json` › `docKit`, key `cBPWg6YZNqK8UIzgMQIpXl`), moved from Foundations › `↳ Doc Kit` by Hassan. All 28 `Doc/*` entries are components there again (8 had arrived as instances and were rebuilt; nested instances relinked to the local ones); every value stays bound to the Foundations library (lint: 0 unbound, 0 unstyled text).
 - Tooling: the sync status queues `figma-doc-kit.md` for the Annotation file (`sync:done:doc-kit` → `--components=docKit`); `figma-read-library.js` reads `Doc/*` components in the Annotation file (no `loadAllPagesAsync`); the contract generator takes Doc Kit keys by the `Doc/` name and tells the Figma Agent to enable the Annotation library.
 - `figma-doc-kit.md` 1.3, `AGENTS.md` §7, `_sync/README.md`, `README.md` (D-17, status), `ROADMAP.md` 0.3.
+
+## [Web Text field — plan 1.1: legacy properties + adornment bug] — 2026-10-18
+### Added
+- `_audits/input-family.md` §6–7: full property inventory of the legacy web `↳ Inputs` page (Inputs 56, Dropdown 30, Textarea 14, Verification code 48 variants) mapped to Biowave components; decisions **I-11 … I-14** confirmed by Hassan (help icon in the label row, error icon in the supporting row, prefix/suffix as attached add-ons, managed trailing action API, attached end button); adornment bugs AD-1 … AD-6.
+- Text field spec 1.1 (`text-field.md`): new parts `help-icon`, `prefix`, `suffix`, `trailing-icon`, `end-button`, `error-icon`; props `helpText`/`helpLabel`, `action`, `clearable`/`clearLabel`/`onClear`, `passwordToggle`, `prefix`, `suffix`, `endButton`, `resize`, `inputMode`; private parts `FieldAddon`, `FieldAction`; Figma D2–D5 and D10 updated (216 variants unchanged; new options are component properties); E3 review addendum.
+- `text-field.tokens.json`: `action-box`, `action-inset`, `addon-background`, `addon-text`, `error-icon` (aliases of existing semantic tokens). `component-tokens` ✓.
+### Changed
+- **Breaking (spec 1.1):** `endAdornment` is decorative only; interactive trailing content moves to `action` / `clearable` / `passwordToggle`. Caller `aria-*` now goes to the native input.
+- Error no longer recolours leading/trailing icons; read-only border is `color-border-default` (read-only was identical to default in dark mode).
+- Web Text field Plan `Open` → `Finished`; Code stays `Changes requested` (round 2 implements spec 1.1).
+### Found (not changed)
+- Bug reproduced in Chromium: trailing slot sized by `target-min` (48 px below the 1200 px breakpoint) overflows `sm`/`md` fields; Icon buttons cover the border; disabled field keeps the trailing button active.
+- ~~Doc Kit components missing~~ — corrected: the Doc Kit had moved to its own Annotation library (D-17); see the next entry.
 
 ## [Docs — one project: `npm start` runs everything] — 2026-10-18
 ### Added

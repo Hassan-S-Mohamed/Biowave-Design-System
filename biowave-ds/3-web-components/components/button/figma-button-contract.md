@@ -1,4 +1,4 @@
-<!-- GENERATED from button.md @ 090b76c2c05be44c — do not edit; change the source and run: npm run contract -- web button -->
+<!-- GENERATED from button.md @ 2b378c8ad8a641ad — do not edit; change the source and run: npm run contract -- web button -->
 # Button · زر — Web — Figma contract
 
 > **Everything the Figma Agent needs to build Button in the Web Components file, with our variables and styles.** Read this file only. Generated from [`button.md`](button.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-18). Questions go to [D11 Execution log](button.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
@@ -12,7 +12,7 @@
 | Component | Button · زر |
 | Platform | Web · React + MUI |
 | Version | 1.1 · 2026-10-18 |
-| Source | [`button.md`](button.md) @ `090b76c2c05be44c` |
+| Source | [`button.md`](button.md) @ `2b378c8ad8a641ad` |
 
 ## 1. Library connections in this file
 

@@ -1,4 +1,4 @@
-<!-- GENERATED from text-field.md @ afb6038475b860cb — do not edit; change the source and run: npm run contract -- web text-field -->
+<!-- GENERATED from text-field.md @ fd92eae4c6721a8e — do not edit; change the source and run: npm run contract -- web text-field -->
 # Text field · حقل نص — Web — code contract
 
 > **Everything you need to build Text field on Web, and nothing else.** Read this file only. Generated from [`text-field.md`](text-field.md) (Parts B and C). If something is unclear or impossible, stop and write it in [C8 Execution log → Questions](text-field.md#c8-execution-log-filled-by-the-executor) — never invent behaviour.
@@ -9,10 +9,10 @@
 | Platform | Web · React + MUI |
 | Built on | MUI `FormControl` + `OutlinedInput`; static native label above a notchless outlined field |
 | Import | `import { TextField } from '@biowave/web'` |
-| Version | 1.0 · 2026-10-18 |
+| Version | 1.1 · 2026-10-18 |
 | Source code | [`src/components/text-field/`](../../src/components/text-field/) |
 | Tokens | [`text-field.tokens.json`](text-field.tokens.json) |
-| Source | [`text-field.md`](text-field.md) @ `afb6038475b860cb` |
+| Source | [`text-field.md`](text-field.md) @ `fd92eae4c6721a8e` |
 
 ## 1. What it is
 
@@ -25,20 +25,27 @@ A text field lets a user enter or edit text. It uses a static label above an out
 | 1 | `field` | Yes | Outlined input surface and interaction boundary |
 | 2 | `label` | Yes | Persistent name for the input; visually hidden only when nearby context makes repetition unnecessary |
 | 3 | `required-indicator` | No | Marks a value that must be supplied; never the only required instruction |
-| 4 | `input` | Yes | Native editable value, single-line or multiline |
-| 5 | `placeholder` | No | Short format hint or example; never replaces the label |
+| 4 | `help-icon` | No | Icon button in the label row that shows a short explanation in a tooltip |
+| 5 | `prefix` | No | Attached add-on segment before the input with fixed text such as `http://` or a currency |
 | 6 | `leading-icon` | No | Non-interactive cue for the expected content |
-| 7 | `trailing-action` | No | One labelled action such as clear or show password |
-| 8 | `supporting-text` | No | Hint or error linked to the input |
-| 9 | `counter` | No | Current character count and optional limit |
+| 7 | `input` | Yes | Native editable value, single-line or multiline; shows `placeholder` when empty |
+| 8 | `trailing-action` | No | One in-field control: clear, show/hide password or one custom action |
+| 9 | `trailing-icon` | No | Decorative icon in the same position as ⑧; never together with a trailing action |
+| 10 | `suffix` | No | Attached add-on segment after the input with fixed text such as `SAR`, `%` or `kg` |
+| 11 | `end-button` | No | Attached button segment after the field, e.g. Copy |
+| 12 | `error-icon` | Auto | Shown before the supporting text when `error` is on; never inside the field |
+| 13 | `supporting-text` | No | Hint or error linked to the input |
+| 14 | `counter` | No | Current character count and optional limit |
 
 **Options** (names and values are the props in §2):
 
 - 4.1 `size`
 - 4.2 `multiline`
-- 4.3 Label and required indicator
-- 4.4 Leading icon and trailing action
-- 4.5 Supporting text and counter
+- 4.3 Label, required indicator and help icon
+- 4.4 Leading icon, trailing icon and trailing action
+- 4.5 Supporting text, error icon and counter
+- 4.6 Prefix and suffix
+- 4.7 End button
 
 ## 2. API
 
@@ -50,73 +57,94 @@ A text field lets a user enter or edit text. It uses a static label above an out
 | `hideLabel` | boolean | | `false` | | Visually hides `label`; it remains associated with the input |
 | `size` | enum | `sm` · `md` · `lg` | `md` | | A4.1 |
 | `multiline` | boolean | | `false` | | A4.2; renders a native textarea through MUI |
-| `rows` | number | | | | Fixed visible rows for multiline input |
-| `minRows` | number | | `3` when multiline | | Minimum auto-growing rows; ignored when `rows` is set |
-| `maxRows` | number | | | | Maximum auto-growing rows |
+| `rows` · `minRows` · `maxRows` | number | | `minRows=3` when multiline | | Multiline only |
+| `resize` | enum | `vertical` · `none` | `vertical` | | Multiline only; manual resize handle (legacy `Resize handle`) |
 | `required` | boolean | | `false` | | Shows the required indicator and sets native required semantics |
+| `helpText` | `ReactNode` | | | | A4.3; shows `help-icon` in the label row with this tooltip content |
+| `helpLabel` | string | | locale: “More information about {label}” / “مزيد من المعلومات عن {label}” | | Accessible name of the help icon (string labels only; otherwise required with `helpText`) |
 | `helperText` | `ReactNode` | | | | Hint, or correction text when `error=true` |
-| `error` | boolean | | `false` | | Invalid visual and `aria-invalid` state |
-| `showCounter` | boolean | | `false` | | Shows `current / maxLength`; requires `maxLength` |
-| `maxLength` | number | | | | Native character limit and counter maximum |
-| `startAdornment` | `ReactNode` | | | | Decorative leading icon; hidden from assistive technology |
-| `endAdornment` | `ReactNode` | | | | One trailing action or decorative icon; interactive content supplies its own name |
-| `readOnly` | boolean | | `false` | | Native read-only state; disabled wins if both are true |
-| `disabled` | boolean | | `false` | | Native disabled state |
+| `error` | boolean | | `false` | | Invalid visual and `aria-invalid` state; adds `error-icon` when `helperText` is set |
+| `showCounter` · `maxLength` | boolean · number | | `false` · — | | Counter needs `maxLength` |
+| `startAdornment` | `ReactNode` | icon | | | Decorative `leading-icon`; hidden from assistive technology |
+| `endAdornment` | `ReactNode` | icon | | | Decorative `trailing-icon` only; hidden from assistive technology. Never interactive content |
+| `action` | object | `{ icon: ReactNode; label: string; onClick }` | | | Custom `trailing-action`, rendered by the field as an Icon button |
+| `clearable` | boolean | | `false` | | Clear `trailing-action` while the field has a value and is editable |
+| `clearLabel` | string | | locale: “Clear {label}” / “مسح {label}” | | |
+| `onClear` | callback | | | | Called after the value is cleared (controlled fields clear through `onChange` with an empty value) |
+| `passwordToggle` | boolean | | `true` when `type=password` | | Show/hide password `trailing-action` (`aria-pressed`); labels from locale |
+| `prefix` · `suffix` | `ReactNode` | short text | | | A4.6 attached add-on segments; single-line only |
+| `endButton` | object | `{ label: string; icon?: ReactNode; onClick; loading?: boolean }` | | | A4.7 attached Button segment; single-line only |
+| `readOnly` · `disabled` | boolean | | `false` | | Native states; disabled wins if both are true |
 | `fullWidth` | boolean | | `true` | | Fills the parent inline size |
 | `id`, `name` | string | | generated / — | | Native form identity |
 | `type` | string | native input types | `text` | | Ignored for multiline |
 | `placeholder` | string | | | | Format hint, never the accessible name |
 | `value`, `defaultValue` | string or number | | | | Controlled or uncontrolled value |
-| `onChange` | callback | | | | Native input/textarea change event |
-| `onBlur`, `onFocus` | callback | | | | Native focus events |
-| `autoComplete` | string | | | | Native autofill purpose |
+| `onChange` · `onBlur` · `onFocus` | callback | | | | Native events |
+| `autoComplete` · `inputMode` | string | | | | Native autofill purpose and virtual keyboard |
 | `inputRef` | ref | | | | Ref to the native input or textarea |
-| `className`, `aria-*`, `data-*` | | | | | Forwarded to the root form control |
+| `aria-*` | | | | | **Forwarded to the native input** (`aria-label`, `aria-labelledby`, `aria-errormessage`, …); caller `aria-describedby` is merged with the field's ids |
+| `className`, `data-*` | | | | | Forwarded to the root form control |
 
 **Invalid combinations** (`console.warn` once in development; fallback still renders):
 
 | Combination | Fallback |
 |---|---|
 | `showCounter=true` without `maxLength` | Counter is hidden |
-| `rows`, `minRows` or `maxRows` while `multiline=false` | Row props are ignored |
+| `rows`, `minRows`, `maxRows` or `resize` while `multiline=false` | Ignored |
 | `type` other than `text` while `multiline=true` | Native textarea renders; `type` is ignored |
 | `disabled=true` and `readOnly=true` | Disabled semantics and visuals win |
+| More than one of `passwordToggle` (on), `action`, `clearable` | One is shown, in that priority |
+| `endAdornment` with any trailing action | `endAdornment` is ignored |
+| `prefix`, `suffix` or `endButton` with `multiline=true` | Ignored |
+| `suffix` and `endButton` together | `suffix` is ignored |
+| `helpText` with a non-string `label` and no `helpLabel` | Help icon is not rendered |
 
 ## 3. Dimensions
 
 ```
-      label text style label-md
-      Work email
-      ├──────── spacing-sm ────────┤
-   ┬  ┌──────────────────────────────────────────────────────────┐
-   │  │ spacing-control-padding-inline-md  Value text      [◆] │ radius-md
-   │  └──────────────────────────────────────────────────────────┘ border-width-default
-   ┴ size-control-height-md           └ size-icon-md
-      ├──────── spacing-xs ────────┤
-      supporting text style caption-md                         counter
+   label-* style   help icon box = target-min, glyph size-icon-sm
+   Work email *  (?)
+   ├── label-gap = spacing-sm ──┤
+┬  ┌─────────┬──────────────────────────────────────────┬──────────┐
+│  │ http:// │ [◆] value text                    ┌──┐   │ [ Copy ] │ radius-md (outer corners only)
+│  │ addon   │                                   │×│   │ Button   │ border-width-default
+│  └─────────┴──────────────────────────────────┴──┘───┴──────────┘
+┴ size-control-height-*     action box = field height − 2 × spacing-xs, inset spacing-xs
+   ├ spacing-xs ┤ [!] Error text                                (16 / 80)
 ```
 
 | Part | Property | sm | md | lg |
 |---|---|---|---|---|
 | `field` | single-line height | `size-control-height-sm` | `size-control-height-md` | `size-control-height-lg` |
 | `field` | padding-inline | `spacing-control-padding-inline-sm` | `spacing-control-padding-inline-md` | `spacing-control-padding-inline-lg` |
+| `field` | padding-inline-end with `trailing-action` | `spacing-xs` | `spacing-xs` | `spacing-xs` |
 | `field` | internal gap | `spacing-control-gap-sm` | `spacing-control-gap-md` | `spacing-control-gap-lg` |
+| `field` | multiline padding-block | `spacing-control-gap-sm` | `spacing-control-gap-md` | `spacing-control-gap-lg` |
 | `field` | radius | `radius-md` | `radius-md` | `radius-md` |
-| `field` | border width | `border-width-default` | same | same |
-| `field` | focused border width | `border-width-focus` | same | same |
-| `leading-icon`, `trailing-action` | visual size | `size-icon-sm` | `size-icon-md` | `size-icon-lg` |
+| `field` | border width · focused | `border-width-default` · `border-width-focus` | same | same |
+| `leading-icon` · `trailing-icon` | glyph | `size-icon-sm` | `size-icon-md` | `size-icon-lg` |
+| `trailing-action` | box (inline + block) | `size-icon-lg` (24) | `size-control-height-sm` (32) | `size-control-height-md` (40) |
+| `trailing-action` | glyph | `size-icon-sm` | `size-icon-md` | `size-icon-lg` |
+| `trailing-action` | pointer target | ≥ `target-min`, extended invisibly around the box; never changes layout | same | same |
+| `prefix` · `suffix` | padding-inline | = field padding-inline | same | same |
+| `prefix` · `suffix` | divider | `border-width-default` | same | same |
+| `end-button` | Button size | `sm` | `md` | `lg` |
+| `help-icon` | glyph · box | `size-icon-sm` · `target-min` | same | same |
 | `label` | text style | `label-sm` | `label-md` | `label-lg` |
-| `input` | text style | `body-sm` | `body-md` | `body-lg` |
+| `input` · `prefix` · `suffix` | text style | `body-sm` | `body-md` | `body-lg` |
 | `supporting-text`, `counter` | text style | `caption-md` | `caption-md` | `caption-md` |
+| `error-icon` | glyph · gap to text | `size-icon-sm` · `spacing-xs` | same | same |
 | label → field | gap | `spacing-sm` | same | same |
 | field → supporting row | gap | `spacing-xs` | same | same |
 
 Layout rules:
 - Root fills the available inline size by default; `fullWidth=false` hugs the MUI intrinsic width
-- The single-line height includes the border. The input and adornments center on the block axis
-- Multiline uses the same inline padding, top-aligns adornments and derives its block size from the text style plus `rows`/`minRows`/`maxRows`; it has no separate raw minimum-height value
+- The single-line height includes the border. Input, icons and add-ons center on the block axis
+- The trailing action is inset by `spacing-xs` from the border on the top, bottom and inline end, so it never covers the border at any size. A decorative trailing icon sits at the normal padding, mirroring the leading icon
+- Multiline: icons top-align; the trailing action's centre aligns with the centre of the first text line
+- `prefix`/`suffix` are part of the field (one outer border, one focus indicator). With `end-button`, the field's inline-end corners are square and the Button's inline-start corners are square; they share one border
 - Label, helper text and counter can wrap. The helper grows first; the counter stays at inline end and does not overlap it
-- The trailing action supplies its own target box of at least `target-min`; the field does not shrink that target
 
 ## 4. Tokens by part and state
 
@@ -128,23 +156,29 @@ Layout rules:
 |---|---|---|---|---|
 | `field` | height | `size-control-height-sm` | `size-control-height-md` | `size-control-height-lg` |
 | `field` | padding-inline | `spacing-control-padding-inline-sm` | `spacing-control-padding-inline-md` | `spacing-control-padding-inline-lg` |
+| `field` | action-inset | `spacing-xs` | `spacing-xs` | `spacing-xs` |
 | `field` | gap | `spacing-control-gap-sm` | `spacing-control-gap-md` | `spacing-control-gap-lg` |
 | `field` | radius | `radius-md` | `radius-md` | `radius-md` |
 | `field` | border | `border-width-default` | `border-width-default` | `border-width-default` |
-| adornments | icon size | `size-icon-sm` | `size-icon-md` | `size-icon-lg` |
+| icons | icon size | `size-icon-sm` | `size-icon-md` | `size-icon-lg` |
+| `trailing-action` | action-box | `size-icon-lg` | `size-control-height-sm` | `size-control-height-md` |
 
 ### 3.2 State tokens
 
-| State | `field` background | `field` border | Border width | `label` · `input` | `placeholder` | icons | `supporting-text` · `counter` |
-|---|---|---|---|---|---|---|---|
-| Default | `color-background-base-default` | `color-border-input-default` | `border-width-default` | `color-text-neutral-default` | `color-text-neutral-placeholder` | `color-icon-neutral-muted` | `color-text-neutral-muted` |
-| Hover | same | `color-border-input-hover` | same | same | same | same | same |
-| Focus | same | `color-border-focus` | `border-width-focus` | same | same | `color-icon-neutral-default` | same |
-| Error | same | `color-border-input-error` | `border-width-default` (focused: `border-width-focus`) | same | same | `color-icon-role-error` | `color-text-role-error` |
-| Disabled | `color-background-base-disabled` | `color-border-disabled` | `border-width-default` | `color-text-neutral-disabled` | `color-text-neutral-disabled` | `color-icon-neutral-disabled` | `color-text-neutral-disabled` |
-| Read-only | `color-background-neutral-subtle` | `color-border-input-default` | `border-width-default` (focused: `border-width-focus`) | `color-text-neutral-default` | `color-text-neutral-placeholder` | `color-icon-neutral-muted` | `color-text-neutral-muted` |
+| State | `field` background | `field` border | Border width | `label` · `input` | `placeholder` | icons | `prefix`/`suffix` bg · text | `supporting-text` · `counter` | `error-icon` |
+|---|---|---|---|---|---|---|---|---|---|
+| Default | `color-background-base-default` | `color-border-input-default` | `border-width-default` | `color-text-neutral-default` | `color-text-neutral-placeholder` | `color-icon-neutral-muted` | `color-background-neutral-default` · `color-text-neutral-subtle` | `color-text-neutral-muted` | — |
+| Hover | same | `color-border-input-hover` | same | same | same | same | same | same | — |
+| Focus | same | `color-border-focus` | `border-width-focus` | same | same | `color-icon-neutral-default` | same | same | — |
+| Error | same | `color-border-input-error` | `border-width-default` (focused: `border-width-focus`) | same | same | `color-icon-neutral-muted` (unchanged) | same | `color-text-role-error` | `color-icon-role-error` |
+| Disabled | `color-background-base-disabled` | `color-border-disabled` | `border-width-default` | `color-text-neutral-disabled` | `color-text-neutral-disabled` | `color-icon-neutral-disabled` | `color-background-base-disabled` · `color-text-neutral-disabled` | `color-text-neutral-disabled` | — |
+| Read-only | `color-background-neutral-subtle` | `color-border-default` | `border-width-default` (focused: `border-width-focus`) | `color-text-neutral-default` | `color-text-neutral-placeholder` | `color-icon-neutral-muted` | same as Default | `color-text-neutral-muted` | — |
 
-`required-indicator` uses `color-text-role-error`. Error priority is Disabled → Error → Focus → Hover → Default; an error that receives focus keeps the error color and changes to `border-width-focus`. Dark theme uses the same token names and switches values automatically.
+- Add-on divider = the field border token of the current state.
+- `required-indicator` uses `color-text-role-error`, `color-text-neutral-disabled` when disabled.
+- Trailing action and help icon: Icon button `text` · `neutral` tokens (Icon button spec); end button: Button `outlined` · `neutral`.
+- Error priority is Disabled → Error → Focus → Hover → Default; an error that receives focus keeps the error colour and changes to `border-width-focus`.
+- Read-only uses a lighter border (`color-border-default`) so it differs from an editable field in both themes; `color-background-neutral-subtle` equals the base background in dark mode, so the border carries the difference. Dark theme uses the same token names and switches values automatically.
 
 ### 4.1 How to use each token on Web
 
@@ -156,7 +190,9 @@ Values are for checking only — never paste a value.
 | `border-width-focus` | `var(--bw-border-width-focus)` · `cssVars.border.width.focus` | 2 | 2 |
 | `color-background-base-default` | `var(--bw-color-background-base-default)` · `cssVars.color.background.base.default` | #FFFFFF | #141414 |
 | `color-background-base-disabled` | `var(--bw-color-background-base-disabled)` · `cssVars.color.background.base.disabled` | #EDEDED | #292929 |
+| `color-background-neutral-default` | `var(--bw-color-background-neutral-default)` · `cssVars.color.background.neutral.default` | #EDEDED | #292929 |
 | `color-background-neutral-subtle` | `var(--bw-color-background-neutral-subtle)` · `cssVars.color.background.neutral.subtle` | #F7F7F7 | #141414 |
+| `color-border-default` | `var(--bw-color-border-default)` · `cssVars.color.border.default` | #DBDBDB | #404040 |
 | `color-border-disabled` | `var(--bw-color-border-disabled)` · `cssVars.color.border.disabled` | #DBDBDB | #404040 |
 | `color-border-focus` | `var(--bw-color-border-focus)` · `cssVars.color.border.focus` | #254471 | #90A3BC |
 | `color-border-input-default` | `var(--bw-color-border-input-default)` · `cssVars.color.border.input.default` | #707070 | #969696 |
@@ -170,6 +206,7 @@ Values are for checking only — never paste a value.
 | `color-text-neutral-disabled` | `var(--bw-color-text-neutral-disabled)` · `cssVars.color.text.neutral.disabled` | #969696 | #545454 |
 | `color-text-neutral-muted` | `var(--bw-color-text-neutral-muted)` · `cssVars.color.text.neutral.muted` | #707070 | #BDBDBD |
 | `color-text-neutral-placeholder` | `var(--bw-color-text-neutral-placeholder)` · `cssVars.color.text.neutral.placeholder` | #707070 | #969696 |
+| `color-text-neutral-subtle` | `var(--bw-color-text-neutral-subtle)` · `cssVars.color.text.neutral.subtle` | #292929 | #DBDBDB |
 | `color-text-role-error` | `var(--bw-color-text-role-error)` · `cssVars.color.text.role.error` | #D42222 | #FEA3A3 |
 | `motion-duration-instant` | `var(--bw-motion-duration-instant)` · `cssVars.motion.duration.instant` | 0 | 0 |
 | `motion-duration-sm` | `var(--bw-motion-duration-sm)` · `cssVars.motion.duration.sm` | 100 | 100 |
@@ -205,16 +242,21 @@ The code token map must equal [`text-field.tokens.json`](text-field.tokens.json)
 | Text field / Size | icon | sm: `size-icon-sm` · md: `size-icon-md` · lg: `size-icon-lg` |
 | Text field / Size | radius | sm: `radius-md` · md: `radius-md` · lg: `radius-md` |
 | Text field / Size | border-width | sm: `border-width-default` · md: `border-width-default` · lg: `border-width-default` |
+| Text field / Size | action-box | sm: `size-icon-lg` · md: `size-control-height-sm` · lg: `size-control-height-md` |
+| Text field / Size | action-inset | sm: `spacing-xs` · md: `spacing-xs` · lg: `spacing-xs` |
 | Text field / State | background | default: `color-background-base-default` · hover: `color-background-base-default` · focus: `color-background-base-default` · error: `color-background-base-default` · disabled: `color-background-base-disabled` · read-only: `color-background-neutral-subtle` |
-| Text field / State | border | default: `color-border-input-default` · hover: `color-border-input-hover` · focus: `color-border-focus` · error: `color-border-input-error` · disabled: `color-border-disabled` · read-only: `color-border-input-default` |
+| Text field / State | border | default: `color-border-input-default` · hover: `color-border-input-hover` · focus: `color-border-focus` · error: `color-border-input-error` · disabled: `color-border-disabled` · read-only: `color-border-default` |
 | Text field / State | border-width | default: `border-width-default` · hover: `border-width-default` · focus: `border-width-focus` · error: `border-width-default` · disabled: `border-width-default` · read-only: `border-width-default` |
 | Text field / State | label | default: `color-text-neutral-default` · hover: `color-text-neutral-default` · focus: `color-text-neutral-default` · error: `color-text-neutral-default` · disabled: `color-text-neutral-disabled` · read-only: `color-text-neutral-default` |
 | Text field / State | input | default: `color-text-neutral-default` · hover: `color-text-neutral-default` · focus: `color-text-neutral-default` · error: `color-text-neutral-default` · disabled: `color-text-neutral-disabled` · read-only: `color-text-neutral-default` |
 | Text field / State | placeholder | default: `color-text-neutral-placeholder` · hover: `color-text-neutral-placeholder` · focus: `color-text-neutral-placeholder` · error: `color-text-neutral-placeholder` · disabled: `color-text-neutral-disabled` · read-only: `color-text-neutral-placeholder` |
-| Text field / State | icon | default: `color-icon-neutral-muted` · hover: `color-icon-neutral-muted` · focus: `color-icon-neutral-default` · error: `color-icon-role-error` · disabled: `color-icon-neutral-disabled` · read-only: `color-icon-neutral-muted` |
+| Text field / State | icon | default: `color-icon-neutral-muted` · hover: `color-icon-neutral-muted` · focus: `color-icon-neutral-default` · error: `color-icon-neutral-muted` · disabled: `color-icon-neutral-disabled` · read-only: `color-icon-neutral-muted` |
 | Text field / State | supporting | default: `color-text-neutral-muted` · hover: `color-text-neutral-muted` · focus: `color-text-neutral-muted` · error: `color-text-role-error` · disabled: `color-text-neutral-disabled` · read-only: `color-text-neutral-muted` |
 | Text field / State | counter | default: `color-text-neutral-muted` · hover: `color-text-neutral-muted` · focus: `color-text-neutral-muted` · error: `color-text-role-error` · disabled: `color-text-neutral-disabled` · read-only: `color-text-neutral-muted` |
 | Text field / State | required | default: `color-text-role-error` · hover: `color-text-role-error` · focus: `color-text-role-error` · error: `color-text-role-error` · disabled: `color-text-neutral-disabled` · read-only: `color-text-role-error` |
+| Text field / State | addon-background | default: `color-background-neutral-default` · hover: `color-background-neutral-default` · focus: `color-background-neutral-default` · error: `color-background-neutral-default` · disabled: `color-background-base-disabled` · read-only: `color-background-neutral-default` |
+| Text field / State | addon-text | default: `color-text-neutral-subtle` · hover: `color-text-neutral-subtle` · focus: `color-text-neutral-subtle` · error: `color-text-neutral-subtle` · disabled: `color-text-neutral-disabled` · read-only: `color-text-neutral-subtle` |
+| Text field / State | error-icon | default: `color-icon-role-error` · hover: `color-icon-role-error` · focus: `color-icon-role-error` · error: `color-icon-role-error` · disabled: `color-icon-neutral-disabled` · read-only: `color-icon-role-error` |
 
 ## 5. States and transitions
 
@@ -230,21 +272,21 @@ Reduced motion: durations resolve to instant through Foundations; no spatial mot
 ## 6. RTL
 
 ```
-LTR  Work email
-     │ [◆] name@example.com                         [×] │
-     Helper text                              (16 / 80)
+LTR  Work email (?)
+     │ http:// │ [◆] name@example.com                  [×] │[ Copy ]│
+     [!] Helper text                                    (16 / 80)
 
-RTL  البريد الإلكتروني للعمل
-     │ [×]                         name@example.com [◆] │
-                                      (16 / 80) نص مساعد
+RTL                                      البريد الإلكتروني للعمل (?)
+     │[ نسخ ]│ [×]                  name@example.com [◆] │ http:// │
+     (16 / 80)                                      نص مساعد [!]
 ```
 
 | Part | In RTL |
 |---|---|
-| Root, label and supporting row | Mirror automatically through logical layout and provider direction |
+| Root, label row and supporting row | Mirror automatically through logical layout and provider direction |
 | `input` | Uses the document direction by default; consumers may set native `dir` only for intrinsically LTR values such as email when needed |
-| `leading-icon` | Moves to inline start; ordinary field icons do not mirror |
-| `trailing-action` | Moves to inline end; its own directional glyph follows that component's mirroring rule |
+| `prefix` · `suffix` · `end-button` | Move to inline start / inline end; their text is not reversed (`http://` stays LTR via bidi isolation) |
+| `leading-icon` · `trailing-icon` · `trailing-action` · `help-icon` · `error-icon` | Move with the layout; glyphs do not mirror |
 | `counter` | Moves to inline end; Western digits and slash remain LTR |
 
 No physical left/right properties are permitted.
@@ -254,21 +296,25 @@ No physical left/right properties are permitted.
 | Requirement | Implementation |
 |---|---|
 | Role / semantics | Native `<input>` or `<textarea>` inside MUI `OutlinedInput`; no redundant ARIA role |
-| Accessible name | Native `<label for=id>`; `hideLabel` applies the shared visually-hidden style, never `display:none` |
+| Accessible name | Native `<label for=id>`; `hideLabel` applies the shared visually-hidden style, never `display:none`. Caller `aria-label`/`aria-labelledby` go to the input |
 | Required | Native `required` plus visible `required-indicator` with `aria-hidden=true` |
-| Error | `aria-invalid=true`; `supporting-text` id included in `aria-describedby`; error message is text, not color alone |
-| Supporting text / counter | Stable ids combined in `aria-describedby`; counter is not a live region |
-| Adornments | Leading icon wrapper is `aria-hidden=true`; interactive trailing content provides its own name and keyboard behavior |
-| Disabled / read-only | Native `disabled` removes input from tab order; native `readOnly` remains focusable and selectable |
-| Focus | **Field exception:** focused outline border uses `border-width-focus` and `color-border-focus` with no exterior offset. Error focus uses the same width with `color-border-input-error` |
-| Target size | Field height is ≥ `target-min`; interactive trailing content must also be ≥ `target-min` |
-| Screen reader output | “Work email, required, edit text” · error adds “invalid” then the linked correction |
+| Error | `aria-invalid=true`; supporting-text id in `aria-describedby`; `error-icon` is `aria-hidden` (the text carries the meaning) |
+| Supporting text / counter / prefix / suffix | Stable ids combined in `aria-describedby` (prefix and suffix text so “SAR” is announced); counter is not a live region |
+| Decorative icons | `leading-icon`, `trailing-icon` wrappers `aria-hidden=true` and `pointer-events: none`; a click on them focuses the input |
+| Help icon | Icon button (`text`, `neutral`) with `helpLabel`; tooltip on hover and focus, content linked with `aria-describedby`; Esc closes it; stays enabled when the field is disabled |
+| Trailing action | Icon button rendered by the field; `disabled` follows the field; clear = `aria-label` `clearLabel`, returns focus to the input; password toggle = `aria-pressed` with “Show password” / “Hide password” |
+| End button | Button rendered by the field; disabled with the field; normal Button semantics |
+| Disabled / read-only | Native `disabled` removes input and every field control from the tab order; native `readOnly` remains focusable and selectable; clear hidden |
+| Focus | **Field exception:** the input border uses `border-width-focus` and `color-border-focus` with no exterior offset. Error focus uses the same width with `color-border-input-error`. Help icon, trailing action and end button use the normal 2px ring with 2px offset |
+| Target size | Field height ≥ `target-min`; trailing action and help icon pointer targets ≥ `target-min` without changing layout |
+| Screen reader output | “Work email, required, edit text, SAR” · error adds “invalid” then the linked correction |
 
 | Key | Action |
 |---|---|
-| Tab / Shift+Tab | Moves focus into or out of the input and any interactive trailing action in document order |
+| Tab / Shift+Tab | Order: help icon → input → trailing action → end button |
 | Arrow keys | Moves the text caret; never intercepted by the wrapper |
 | Enter | Submits the owning form for single-line input; inserts a line break for multiline input |
+| Esc | Closes an open help tooltip; does not clear the value |
 | Home / End | Native caret behavior |
 
 ## 8. Examples
@@ -276,31 +322,24 @@ No physical left/right properties are permitted.
 ```tsx
 import { TextField } from '@biowave/web';
 
-<TextField
-  label="Work email"
-  name="email"
-  type="email"
-  autoComplete="email"
-  placeholder="name@company.com"
-  required
-/>
+<TextField label="Work email" name="email" type="email" autoComplete="email"
+  placeholder="name@company.com" required startAdornment={<MailOutlineRounded />}
+  helpText="We send shift reminders to this address" />
 
-<TextField
-  label="Request reason"
-  multiline
-  minRows={3}
-  maxRows={8}
-  maxLength={400}
-  showCounter
-  helperText="Explain why you need remote work"
-/>
+<TextField label="Password" type="password" autoComplete="current-password" />  {/* show/hide built in */}
 
-<TextField
-  label="البريد الإلكتروني للعمل"
-  type="email"
-  error
-  helperText="أدخل بريدًا إلكترونيًا صالحًا للعمل"
-/>
+<TextField label="Search employees" clearable startAdornment={<SearchRounded />} />
+
+<TextField label="Hourly rate" inputMode="decimal" suffix="SAR" />
+
+<TextField label="Invite link" readOnly value={link}
+  endButton={{ label: 'Copy', icon: <ContentCopyRounded />, onClick: copy }} />
+
+<TextField label="Request reason" multiline minRows={3} maxRows={8}
+  maxLength={400} showCounter helperText="Explain why you need remote work" />
+
+<TextField label="البريد الإلكتروني للعمل" type="email" error
+  helperText="أدخل بريدًا إلكترونيًا صالحًا للعمل" />
 ```
 
 ## 9. How to build it
@@ -313,10 +352,13 @@ import { TextField } from '@biowave/web';
 
 **In scope**
 - [ ] All B1 props, B2 dimensions, B3 tokens, B4 states, B5 RTL, B6 accessibility and B9 tests
-- [ ] Private shared pieces `FieldLabel` and `FieldSupportingText` in the text-field folder for later field-family components to reuse after their own contracts approve that dependency
+- [ ] Round 2 fixes: E2 findings 3, 4, 6, 7, 8 and E3 bugs AD-1 … AD-6
+- [ ] Private shared pieces `FieldLabel` (with help icon), `FieldSupportingText` (with error icon), `FieldAddon` and `FieldAction` in the text-field folder for later field-family components
 
 **Out of scope (do not build)**
 - Select, Verification code, Phone field, Search field or Autocomplete
+- Attached dropdown segments (legacy `Leading/Trailing dropdown`) — Phone field and backlog
+- Tags inside the field (Autocomplete), payment icons (dropped)
 - Form-level validation, error summaries or submit orchestration
 - Masking, parsing, currency formatting, rich text or autosuggest menus
 - A public base-field component; shared pieces remain internal
@@ -325,19 +367,24 @@ import { TextField } from '@biowave/web';
 
 - **Base:** compose MUI `FormControl` and `OutlinedInput`. Keep the label outside the outline and do not pass MUI's floating/notched label. Use the native input/textarea that `OutlinedInput` creates
 - **Token map:** `text-field.tokens.ts` exports typed size and state maps using `cssVars.*`; its semantic references equal `text-field.tokens.json`. Styling reads this map only
-- **Structure:** root form control → native `label` → styled `OutlinedInput` → supporting row. `FieldLabel.tsx` and `FieldSupportingText.tsx` are private exports inside the folder, not package exports
-- **State priority:** native MUI classes plus transient props implement Disabled → Error → Focus → Hover → Default. Read-only has its background token and still receives focus styling
-- **Focus exception:** style only `.MuiOutlinedInput-notchedOutline`; never add an exterior CSS outline or shadow. Focus changes the border to the B6 token and width
-- **Multiline:** pass `multiline`, row props and textarea semantics to MUI. Use `minRows=3` only when no fixed `rows` is supplied. Top-align adornments and use token padding/gaps; derive height from rows and typography
-- **Counter:** maintain only an internal string mirror for uncontrolled counting. Controlled count always derives from `value`. Count Unicode code points with `Array.from(String(value)).length`; native `maxLength` enforces new entry without slicing a controlled value
-- **Ids:** `useId()` supplies an id when absent. Stable `-supporting` and `-counter` ids are merged with caller `aria-describedby` without duplicates
-- **Adornments:** render wrappers at logical start/end. Leading is always decorative. End content is not forcibly hidden; the consumer owns semantics when interactive
-- **Warnings:** use the existing `warnOnce` helper for B1 invalid combinations; never throw for recoverable misuse
-- **Gotchas:** override MUI's default padding, radius, colors, hover, focus and disabled rules with sufficient specificity. Preserve native autofill, password managers, selection and form submission
+- **Structure:** root form control → `FieldLabel` (label, required indicator, help icon) → field row (`FieldAddon` prefix · styled `OutlinedInput` · `FieldAddon` suffix) + attached `Button` → `FieldSupportingText` (error icon, text, counter). Private pieces are not package exports
+- **Trailing action (fixes AD-1 … AD-3):** remove the `target-min` box from the slot. `FieldAction` renders the Biowave `IconButton` (`variant="text"`, `color="neutral"`, `disabled={disabled}`) and overrides its box to the B3 `action-box` with the field's icon size through a scoped class; the pointer target is extended with a `::before` of at least `target-min`, centred, so layout never changes. Field `padding-inline-end` becomes `action-inset` when an action exists. A decorative `endAdornment` keeps only the icon size at the normal padding
+- **Clear and password:** clear writes an empty value through a native input event so `onChange` fires for controlled and uncontrolled fields, then focuses the input and calls `onClear`. Password toggle keeps internal `visible` state, swaps `type` and restores the caret
+- **Help icon:** `IconButton` (`text`, `neutral`) + tooltip. Reuse the private tooltip wrapper styling (`iconButtonTooltipTokens`) with tooltip content = `helpText`, name = `helpLabel`; replace with the shared Tooltip on Day 4 (TODO comment). It is never disabled
+- **Add-ons:** `FieldAddon` is a non-interactive segment inside the outlined border (`startAdornment`/`endAdornment` of `OutlinedInput` with negative inline margin equal to the padding so it reaches the border), divider on the inner edge, `aria-hidden` visual + id text in `aria-describedby`
+- **End button:** the Biowave `Button` (`outlined`, `neutral`, field size) placed after the `OutlinedInput` in an inline flex row; square the touching corners with logical radius properties and collapse the shared border with a negative `margin-inline-start` of `border-width-default`
+- **Click to focus (AD-6):** decorative wrappers get `pointer-events: none`; a root `onMouseDown` on non-interactive targets focuses the input
+- **Error colour (AD-4):** only border, supporting text and error icon change colour in error
+- **State priority:** native MUI classes plus transient props implement Disabled → Error → Focus → Hover → Default. Read-only has its background and border tokens and still receives focus styling
+- **Focus exception:** style only `.MuiOutlinedInput-notchedOutline`; never add an exterior outline or shadow to the field. Controls inside keep their own focus ring
+- **Multiline:** pass `multiline`, row props and textarea semantics to MUI; `resize` maps to CSS `resize: vertical | none`. Top-align icons; align the action's centre with the first line using the input line height
+- **Counter:** unchanged; additionally reset the uncontrolled mirror on the owning form's `reset` event (E2 finding 8)
+- **Ids and aria:** `useId()` id; route every `aria-*` prop to `inputProps` and merge `aria-describedby` (finding 3)
+- **Warnings:** existing `warnOnce` helper for every B1 invalid combination; never throw
 
 ### Token gaps
 
-None. Multiline height derives from row count and the semantic text/padding tokens; no raw component height is needed.
+None in Foundations. New component tokens in `text-field.tokens.json`: `size.*.action-box`, `size.*.action-inset`, `state.*.addon-background`, `state.*.addon-text`, `state.*.error-icon`, and changed `state.error.icon`, `state.read-only.border`, `state.disabled.required` — all alias existing semantic tokens (B3).
 
 ### Files to create / change
 
@@ -345,34 +392,43 @@ None. Multiline height derives from row count and the semantic text/padding toke
 3-web-components/src/components/text-field/TextField.tsx
 3-web-components/src/components/text-field/FieldLabel.tsx
 3-web-components/src/components/text-field/FieldSupportingText.tsx
+3-web-components/src/components/text-field/FieldAddon.tsx        (new)
+3-web-components/src/components/text-field/FieldAction.tsx       (new)
 3-web-components/src/components/text-field/text-field.tokens.ts
 3-web-components/src/components/text-field/TextField.test.tsx
 3-web-components/src/components/text-field/index.ts
 3-web-components/src/index.ts
 3-web-components/README.md
-2-foundations/guidelines/a11y.md
 CHANGELOG.md
 ```
 
 ## 10. Tests
 
 - [ ] Renders single-line and multiline fields for `sm` · `md` · `lg` in light + dark and en + ar
-- [ ] Associates visible and visually hidden labels with the native control
-- [ ] Required, error, helper and counter ids/semantics match B6
-- [ ] Default, hover, focus, error, disabled and read-only use the B3 token map
+- [ ] Associates visible and visually hidden labels with the native control; caller `aria-*` lands on the input
+- [ ] Required, error, helper, counter, prefix and suffix ids/semantics match B6; error icon is shown with error text and is `aria-hidden`
+- [ ] Default, hover, focus, error, disabled and read-only use the B3 token map; leading icon keeps its neutral colour in error; read-only border differs from default
+- [ ] Trailing action box equals the B3 action-box per size, is inset `spacing-xs` and stays inside the field border at viewport widths below and above the web breakpoint
+- [ ] Disabled field: trailing action and end button are disabled and skipped by Tab; help icon is still reachable
+- [ ] Clear: hidden when empty, read-only or disabled; clears, keeps focus, fires `onChange` and `onClear`
+- [ ] Password toggle switches `type`, `aria-pressed` and label; keeps caret position
+- [ ] Help icon opens on hover and focus, closes on Esc, content linked by `aria-describedby`
+- [ ] Clicking the leading icon, prefix or suffix focuses the input
+- [ ] Multiline: trailing action centre aligns with the first line
 - [ ] Controlled and uncontrolled values update the counter without mutating or truncating the supplied value
-- [ ] Invalid combinations warn once and use the B1 fallback
-- [ ] RTL mirrors layout without mirroring ordinary icons; counter remains LTR
-- [ ] Keyboard behavior remains native; disabled is skipped and read-only remains focusable
+- [ ] Every invalid combination warns once and uses the B1 fallback
+- [ ] RTL mirrors layout without mirroring icons; counter and prefix text remain LTR
+- [ ] Keyboard order matches B6; read-only remains focusable
 - [ ] axe has no violations in both themes and languages
 - [ ] Source contains no raw hex, px, ms or font names
 
 Implement every item in B9, plus:
 - [ ] Label click/focus association and generated-id stability
-- [ ] Caller `aria-describedby` is preserved and merged with supporting/counter ids
-- [ ] `endAdornment` interactive content remains reachable after the input
-- [ ] Counter counts Arabic and emoji as Unicode code points and never has `aria-live`
-- [ ] Error focus uses error color plus focus width; normal focus uses focus color plus focus width
+- [ ] Caller `aria-describedby` is preserved and merged with supporting, counter, prefix and suffix ids
+- [ ] Counter counts Arabic and emoji as Unicode code points and never has `aria-live`; uncontrolled counter resets with the form
+- [ ] Error focus uses error colour plus focus width; normal focus uses focus colour plus focus width
+- [ ] Hover and disabled-required colours asserted on their selectors, not only present in CSS
+- [ ] Layout test in a real layout engine (or computed styles) for AD-1 / AD-2 at 980 px and 1280 px viewports
 - [ ] Token-map test covers every size/state entry and matches component-token aliases
 - [ ] “No raw values” source check covers every file in the component folder
 
@@ -381,12 +437,14 @@ Implement every item in B9, plus:
 - [ ] AC-1 Public API, defaults, warnings and fallbacks match B1 exactly
 - [ ] AC-2 Every visual value comes from B2–B3 through `cssVars`/`biowaveVariants`; no raw values or primitives
 - [ ] AC-3 Every B4 transition exists and reduced motion resolves through Foundations
-- [ ] AC-4 RTL matches B5; semantics and native keyboard behavior match B6
+- [ ] AC-4 RTL matches B5; semantics and keyboard order match B6
 - [ ] AC-5 B9 and C6 tests pass with `npm run typecheck` and `npm run test:web`
 - [ ] AC-6 Exported from `src/index.ts`; header and section README status are `Built`
 - [ ] AC-7 MUI floating label/notch styling and palette defaults do not appear
 - [ ] AC-8 Single-line and multiline use one public component, with private reusable field parts
 - [ ] AC-9 `npm run component-tokens`, `npm run sync` and `npm run docs:check` pass
+- [ ] AC-10 AD-1 … AD-6 fixed: action inside the border at every size and viewport, disabled with the field, neutral icons in error, first-line alignment, click-to-focus
+- [ ] AC-11 Trailing action, help icon and end button reuse the Biowave Icon button and Button (no restyled MUI copies)
 
 ## 12. Rules
 

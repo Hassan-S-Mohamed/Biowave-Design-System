@@ -1,4 +1,4 @@
-<!-- GENERATED from icon-button.md @ 4f200e79e30c2e81 — do not edit; change the source and run: npm run contract -- mobile icon-button -->
+<!-- GENERATED from icon-button.md @ 5b6c55492ba5dcd1 — do not edit; change the source and run: npm run contract -- mobile icon-button -->
 # Icon button · زر أيقونة — Mobile — Figma contract
 
 > **Everything the Figma Agent needs to build Icon button in the Mobile Components file, with our variables and styles.** Read this file only. Generated from [`icon-button.md`](icon-button.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-18). Questions go to [D11 Execution log](icon-button.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
@@ -12,7 +12,7 @@
 | Component | Icon button · زر أيقونة |
 | Platform | Mobile · Flutter + Material 3 |
 | Version | 1.0 · 2026-10-16 |
-| Source | [`icon-button.md`](icon-button.md) @ `4f200e79e30c2e81` |
+| Source | [`icon-button.md`](icon-button.md) @ `5b6c55492ba5dcd1` |
 
 ## 1. Library connections in this file
 
