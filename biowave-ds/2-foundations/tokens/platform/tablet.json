@@ -1,0 +1,685 @@
+{
+  "platform": {
+    "$description": "tablet platform values (Figma mode: Tablet).",
+    "breakpoint": {
+      "$description": "Viewport range for this platform (Material 3 window size classes: compact <600, medium/expanded 600-1199, large >=1200).",
+      "min": {
+        "$type": "dimension",
+        "$value": {
+          "value": 600,
+          "unit": "px"
+        }
+      },
+      "max": {
+        "$type": "dimension",
+        "$value": {
+          "value": 1199,
+          "unit": "px"
+        }
+      }
+    },
+    "font": {
+      "size": {
+        "$description": "Font sizes (shared by EN and AR).",
+        "display": {
+          "lg": {
+            "$type": "dimension",
+            "$value": {
+              "value": 34,
+              "unit": "px"
+            },
+            "$description": "Rare, very large hero title. Use for onboarding splash or major report covers on web; high-emphasis screens on tablet; onboarding or hero-style screens on mobile. Not for normal pages."
+          },
+          "md": {
+            "$type": "dimension",
+            "$value": {
+              "value": 30,
+              "unit": "px"
+            },
+            "$description": "Large feature title used when Display.lg is too dominant. Web: featured report titles. Tablet: large feature screens. Mobile: important entry screens."
+          }
+        },
+        "heading": {
+          "lg": {
+            "$type": "dimension",
+            "$value": {
+              "value": 26,
+              "unit": "px"
+            },
+            "$description": "Default page title across web, tablet, and mobile. Use at the top of any standard page."
+          },
+          "md": {
+            "$type": "dimension",
+            "$value": {
+              "value": 22,
+              "unit": "px"
+            },
+            "$description": "Heading for a major section within a page, on web, tablet, and mobile."
+          },
+          "sm": {
+            "$type": "dimension",
+            "$value": {
+              "value": 18,
+              "unit": "px"
+            },
+            "$description": "Subsection heading nested under a section heading, on web, tablet, and mobile."
+          }
+        },
+        "title": {
+          "lg": {
+            "$type": "dimension",
+            "$value": {
+              "value": 18,
+              "unit": "px"
+            },
+            "$description": "Title for a card, panel, or surface — not a full page. Used on web, tablet, and mobile."
+          },
+          "md": {
+            "$type": "dimension",
+            "$value": {
+              "value": 16,
+              "unit": "px"
+            },
+            "$description": "Compact title inside a dense surface (e.g. sidebar widget on web, compact list/card on tablet and mobile)."
+          }
+        },
+        "body": {
+          "lg": {
+            "$type": "dimension",
+            "$value": {
+              "value": 16,
+              "unit": "px"
+            },
+            "$description": "Long-form readable text — empty-state copy, important descriptions on web; comfortable long-reading content on tablet (extra line-height); prominent readable text on mobile."
+          },
+          "md": {
+            "$type": "dimension",
+            "$value": {
+              "value": 16,
+              "unit": "px"
+            },
+            "$description": "Default paragraph or dashboard text size on web, tablet, and mobile."
+          },
+          "sm": {
+            "$type": "dimension",
+            "$value": {
+              "value": 14,
+              "unit": "px"
+            },
+            "$description": "Secondary, less prominent body copy on web, tablet, and mobile."
+          }
+        },
+        "label": {
+          "lg": {
+            "$type": "dimension",
+            "$value": {
+              "value": 16,
+              "unit": "px"
+            },
+            "$description": "Prominent form label or strong UI label, used on web, tablet, and mobile."
+          },
+          "md": {
+            "$type": "dimension",
+            "$value": {
+              "value": 14,
+              "unit": "px"
+            },
+            "$description": "Standard compact UI label, used on web, tablet, and mobile."
+          },
+          "sm": {
+            "$type": "dimension",
+            "$value": {
+              "value": 12,
+              "unit": "px"
+            },
+            "$description": "Smallest label size — dense metadata in tight spaces, on web, tablet, and mobile."
+          }
+        },
+        "caption": {
+          "md": {
+            "$type": "dimension",
+            "$value": {
+              "value": 12,
+              "unit": "px"
+            },
+            "$description": "Helper text, hints, or low-emphasis notes below an input or section. Used on web, tablet, and mobile — the smallest readable text on tablet/mobile (do not go below this on those platforms)."
+          },
+          "sm": {
+            "$type": "dimension",
+            "$value": {
+              "value": 12,
+              "unit": "px"
+            },
+            "$description": "Web only. Rare, extremely dense metadata where 12px is still too large. Use sparingly. Not used on tablet or mobile — those platforms have no value smaller than Caption.md."
+          }
+        },
+        "action": {
+          "lg": {
+            "$type": "dimension",
+            "$value": {
+              "value": 18,
+              "unit": "px"
+            },
+            "$description": "High-emphasis action text, e.g. a large primary button/CTA, on web, tablet, and mobile."
+          },
+          "md": {
+            "$type": "dimension",
+            "$value": {
+              "value": 16,
+              "unit": "px"
+            },
+            "$description": "Default button or link action text, on web, tablet, and mobile."
+          },
+          "sm": {
+            "$type": "dimension",
+            "$value": {
+              "value": 14,
+              "unit": "px"
+            },
+            "$description": "Compact action text, e.g. small inline link or icon button label, on web, tablet, and mobile."
+          }
+        },
+        "data": {
+          "lg": {
+            "$type": "dimension",
+            "$value": {
+              "value": 22,
+              "unit": "px"
+            },
+            "$description": "Important metric or dashboard value that needs visual weight, on web, tablet, and mobile."
+          },
+          "md": {
+            "$type": "dimension",
+            "$value": {
+              "value": 16,
+              "unit": "px"
+            },
+            "$description": "Everyday numeric values — dates, times, counts — on web, tablet, and mobile."
+          },
+          "sm": {
+            "$type": "dimension",
+            "$value": {
+              "value": 13,
+              "unit": "px"
+            },
+            "$description": "Small, secondary numeric values, e.g. count badges, on web, tablet, and mobile."
+          }
+        }
+      },
+      "line-height": {
+        "en": {
+          "display": {
+            "lg": {
+              "$type": "dimension",
+              "$value": {
+                "value": 42,
+                "unit": "px"
+              }
+            },
+            "md": {
+              "$type": "dimension",
+              "$value": {
+                "value": 38,
+                "unit": "px"
+              }
+            }
+          },
+          "heading": {
+            "lg": {
+              "$type": "dimension",
+              "$value": {
+                "value": 34,
+                "unit": "px"
+              }
+            },
+            "md": {
+              "$type": "dimension",
+              "$value": {
+                "value": 30,
+                "unit": "px"
+              }
+            },
+            "sm": {
+              "$type": "dimension",
+              "$value": {
+                "value": 26,
+                "unit": "px"
+              }
+            }
+          },
+          "title": {
+            "lg": {
+              "$type": "dimension",
+              "$value": {
+                "value": 26,
+                "unit": "px"
+              }
+            },
+            "md": {
+              "$type": "dimension",
+              "$value": {
+                "value": 24,
+                "unit": "px"
+              }
+            }
+          },
+          "body": {
+            "lg": {
+              "$type": "dimension",
+              "$value": {
+                "value": 26,
+                "unit": "px"
+              }
+            },
+            "md": {
+              "$type": "dimension",
+              "$value": {
+                "value": 24,
+                "unit": "px"
+              }
+            },
+            "sm": {
+              "$type": "dimension",
+              "$value": {
+                "value": 22,
+                "unit": "px"
+              }
+            }
+          },
+          "label": {
+            "lg": {
+              "$type": "dimension",
+              "$value": {
+                "value": 24,
+                "unit": "px"
+              }
+            },
+            "md": {
+              "$type": "dimension",
+              "$value": {
+                "value": 20,
+                "unit": "px"
+              }
+            },
+            "sm": {
+              "$type": "dimension",
+              "$value": {
+                "value": 18,
+                "unit": "px"
+              }
+            }
+          },
+          "caption": {
+            "md": {
+              "$type": "dimension",
+              "$value": {
+                "value": 18,
+                "unit": "px"
+              }
+            },
+            "sm": {
+              "$type": "dimension",
+              "$value": {
+                "value": 18,
+                "unit": "px"
+              }
+            }
+          },
+          "action": {
+            "lg": {
+              "$type": "dimension",
+              "$value": {
+                "value": 26,
+                "unit": "px"
+              }
+            },
+            "md": {
+              "$type": "dimension",
+              "$value": {
+                "value": 24,
+                "unit": "px"
+              }
+            },
+            "sm": {
+              "$type": "dimension",
+              "$value": {
+                "value": 20,
+                "unit": "px"
+              }
+            }
+          },
+          "data": {
+            "lg": {
+              "$type": "dimension",
+              "$value": {
+                "value": 30,
+                "unit": "px"
+              }
+            },
+            "md": {
+              "$type": "dimension",
+              "$value": {
+                "value": 24,
+                "unit": "px"
+              }
+            },
+            "sm": {
+              "$type": "dimension",
+              "$value": {
+                "value": 18,
+                "unit": "px"
+              }
+            }
+          }
+        },
+        "ar": {
+          "display": {
+            "lg": {
+              "$type": "dimension",
+              "$value": {
+                "value": 44,
+                "unit": "px"
+              }
+            },
+            "md": {
+              "$type": "dimension",
+              "$value": {
+                "value": 40,
+                "unit": "px"
+              }
+            }
+          },
+          "heading": {
+            "lg": {
+              "$type": "dimension",
+              "$value": {
+                "value": 36,
+                "unit": "px"
+              }
+            },
+            "md": {
+              "$type": "dimension",
+              "$value": {
+                "value": 32,
+                "unit": "px"
+              }
+            },
+            "sm": {
+              "$type": "dimension",
+              "$value": {
+                "value": 28,
+                "unit": "px"
+              }
+            }
+          },
+          "title": {
+            "lg": {
+              "$type": "dimension",
+              "$value": {
+                "value": 28,
+                "unit": "px"
+              }
+            },
+            "md": {
+              "$type": "dimension",
+              "$value": {
+                "value": 26,
+                "unit": "px"
+              }
+            }
+          },
+          "body": {
+            "lg": {
+              "$type": "dimension",
+              "$value": {
+                "value": 28,
+                "unit": "px"
+              }
+            },
+            "md": {
+              "$type": "dimension",
+              "$value": {
+                "value": 26,
+                "unit": "px"
+              }
+            },
+            "sm": {
+              "$type": "dimension",
+              "$value": {
+                "value": 24,
+                "unit": "px"
+              }
+            }
+          },
+          "label": {
+            "lg": {
+              "$type": "dimension",
+              "$value": {
+                "value": 26,
+                "unit": "px"
+              }
+            },
+            "md": {
+              "$type": "dimension",
+              "$value": {
+                "value": 22,
+                "unit": "px"
+              }
+            },
+            "sm": {
+              "$type": "dimension",
+              "$value": {
+                "value": 20,
+                "unit": "px"
+              }
+            }
+          },
+          "caption": {
+            "md": {
+              "$type": "dimension",
+              "$value": {
+                "value": 20,
+                "unit": "px"
+              }
+            },
+            "sm": {
+              "$type": "dimension",
+              "$value": {
+                "value": 20,
+                "unit": "px"
+              }
+            }
+          },
+          "action": {
+            "lg": {
+              "$type": "dimension",
+              "$value": {
+                "value": 28,
+                "unit": "px"
+              }
+            },
+            "md": {
+              "$type": "dimension",
+              "$value": {
+                "value": 26,
+                "unit": "px"
+              }
+            },
+            "sm": {
+              "$type": "dimension",
+              "$value": {
+                "value": 22,
+                "unit": "px"
+              }
+            }
+          },
+          "data": {
+            "lg": {
+              "$type": "dimension",
+              "$value": {
+                "value": 32,
+                "unit": "px"
+              }
+            },
+            "md": {
+              "$type": "dimension",
+              "$value": {
+                "value": 26,
+                "unit": "px"
+              }
+            },
+            "sm": {
+              "$type": "dimension",
+              "$value": {
+                "value": 20,
+                "unit": "px"
+              }
+            }
+          }
+        }
+      },
+      "weight": {
+        "$description": "PROPOSED role weights (decision D-07).",
+        "display": {
+          "$type": "fontWeight",
+          "$value": "{primitive.font.weight.semibold}"
+        },
+        "heading": {
+          "$type": "fontWeight",
+          "$value": "{primitive.font.weight.semibold}"
+        },
+        "title": {
+          "$type": "fontWeight",
+          "$value": "{primitive.font.weight.medium}"
+        },
+        "body": {
+          "$type": "fontWeight",
+          "$value": "{primitive.font.weight.regular}"
+        },
+        "label": {
+          "$type": "fontWeight",
+          "$value": "{primitive.font.weight.medium}"
+        },
+        "caption": {
+          "$type": "fontWeight",
+          "$value": "{primitive.font.weight.regular}"
+        },
+        "action": {
+          "$type": "fontWeight",
+          "$value": "{primitive.font.weight.medium}"
+        },
+        "data": {
+          "$type": "fontWeight",
+          "$value": "{primitive.font.weight.medium}"
+        }
+      },
+      "letter-spacing": {
+        "en": {
+          "display": {
+            "$type": "dimension",
+            "$value": {
+              "value": -0.16,
+              "unit": "px"
+            },
+            "$description": "Slight negative tracking for large Latin text."
+          },
+          "default": {
+            "$type": "dimension",
+            "$value": {
+              "value": 0,
+              "unit": "px"
+            }
+          }
+        },
+        "ar": {
+          "default": {
+            "$type": "dimension",
+            "$value": {
+              "value": 0,
+              "unit": "px"
+            },
+            "$description": "Arabic is a connected script: letter-spacing must always be 0."
+          }
+        }
+      }
+    },
+    "grid": {
+      "columns": {
+        "$type": "number",
+        "$value": 8
+      },
+      "gutter": {
+        "$type": "dimension",
+        "$value": {
+          "value": 24,
+          "unit": "px"
+        }
+      },
+      "margin": {
+        "full": {
+          "$type": "dimension",
+          "$value": {
+            "value": 24,
+            "unit": "px"
+          },
+          "$description": "Outer margin, no persistent sidebar."
+        },
+        "sidebar": {
+          "$type": "dimension",
+          "$value": {
+            "value": 24,
+            "unit": "px"
+          },
+          "$description": "Outer margin next to a persistent sidebar."
+        }
+      }
+    },
+    "layout": {
+      "height": {
+        "app-bar": {
+          "$type": "dimension",
+          "$value": {
+            "value": 64,
+            "unit": "px"
+          }
+        },
+        "system-status": {
+          "$type": "dimension",
+          "$value": {
+            "value": 40,
+            "unit": "px"
+          },
+          "$description": "Biowave System Status Bar (not the OS status bar)."
+        }
+      },
+      "width": {
+        "sidebar-start": {
+          "$type": "dimension",
+          "$value": {
+            "value": 248,
+            "unit": "px"
+          },
+          "$description": "Renamed from sidebar-left (logical, RTL-safe)."
+        },
+        "sidebar-end": {
+          "$type": "dimension",
+          "$value": {
+            "value": 248,
+            "unit": "px"
+          },
+          "$description": "Renamed from sidebar-right (logical, RTL-safe)."
+        }
+      }
+    },
+    "target": {
+      "min": {
+        "$type": "dimension",
+        "$value": {
+          "value": 48,
+          "unit": "px"
+        },
+        "$description": "Minimum interactive target. Web: WCAG 2.5.8 (24px). Touch: 48dp (Material) / 44pt (Apple)."
+      }
+    }
+  }
+}

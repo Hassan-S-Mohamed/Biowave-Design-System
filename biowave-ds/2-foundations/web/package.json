@@ -1,0 +1,35 @@
+{
+  "name": "@biowave/foundations",
+  "version": "1.1.0",
+  "description": "Biowave design tokens (CSS variables + TypeScript) and the MUI theme for the Web App.",
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./tokens.css": "./src/generated/tokens.css"
+  },
+  "sideEffects": ["*.css"],
+  "peerDependencies": {
+    "@emotion/cache": "^11.14.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/material": "^9.5.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "stylis-plugin-rtl": "^2.1.1"
+  },
+  "devDependencies": {
+    "@emotion/cache": "^11.14.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/material": "^9.5.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@types/stylis": "^4.2.7",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "stylis": "^4.3.0",
+    "stylis-plugin-rtl": "^2.1.1"
+  }
+}

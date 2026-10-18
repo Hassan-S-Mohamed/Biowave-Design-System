@@ -1,0 +1,29 @@
+{
+  "$schema": "component-tokens/v1",
+  "$extends": "../../../3-web-components/components/button/button.tokens.json",
+  "$description": "Button component tokens for touch: the Web file plus size xl (D-13).",
+  "button": {
+    "size": {
+      "xl": {
+        "height": {
+          "$value": "{size.control.height.xl}"
+        },
+        "padding-inline": {
+          "$value": "{spacing.control.padding-inline.xl}"
+        },
+        "gap": {
+          "$value": "{spacing.control.gap.xl}"
+        },
+        "icon": {
+          "$value": "{size.icon.lg}"
+        },
+        "radius": {
+          "$value": "{radius.xl}"
+        },
+        "border-width": {
+          "$value": "{border.width.default}"
+        }
+      }
+    }
+  }
+}

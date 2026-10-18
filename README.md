@@ -1,1 +1,2 @@
-# Biowave-Design-System
+# Biowave Design System
+Updated design system for Biowave

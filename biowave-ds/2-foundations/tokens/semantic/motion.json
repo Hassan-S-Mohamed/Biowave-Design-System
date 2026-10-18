@@ -1,0 +1,95 @@
+{
+  "motion": {
+    "duration": {
+      "$description": "Aligned to Material 3 motion tokens. Respect prefers-reduced-motion / MediaQuery.disableAnimations.",
+      "instant": {
+        "$value": "{primitive.duration.0}"
+      },
+      "xs": {
+        "$value": "{primitive.duration.50}",
+        "$description": "Ripple start, color change on small controls."
+      },
+      "sm": {
+        "$value": "{primitive.duration.100}",
+        "$description": "Hover, press, toggle, checkbox."
+      },
+      "md": {
+        "$value": "{primitive.duration.200}",
+        "$description": "Tooltip, menu open, expand small content."
+      },
+      "lg": {
+        "$value": "{primitive.duration.300}",
+        "$description": "Dialog, drawer, bottom sheet enter."
+      },
+      "xl": {
+        "$value": "{primitive.duration.400}",
+        "$description": "Large layout or page transitions."
+      },
+      "2xl": {
+        "$value": "{primitive.duration.500}",
+        "$description": "Rare: complex choreography."
+      },
+      "progress": {
+        "$value": "{primitive.duration.1000}",
+        "$description": "One turn of a looping progress indicator (spinner). NOT reduced to 0 under prefers-reduced-motion — progress indicators are the allowed exception (motion.md)."
+      }
+    },
+    "easing": {
+      "$type": "cubicBezier",
+      "standard": {
+        "$value": [
+          0.2,
+          0,
+          0,
+          1
+        ],
+        "$description": "Default for elements that stay on screen."
+      },
+      "standard-decelerate": {
+        "$value": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "$description": "Elements entering."
+      },
+      "standard-accelerate": {
+        "$value": [
+          0.3,
+          0,
+          1,
+          1
+        ],
+        "$description": "Elements exiting."
+      },
+      "emphasized-decelerate": {
+        "$value": [
+          0.05,
+          0.7,
+          0.1,
+          1
+        ],
+        "$description": "Prominent entrances (dialog, sheet)."
+      },
+      "emphasized-accelerate": {
+        "$value": [
+          0.3,
+          0,
+          0.8,
+          0.15
+        ],
+        "$description": "Prominent exits."
+      },
+      "linear": {
+        "$value": [
+          0,
+          0,
+          1,
+          1
+        ],
+        "$description": "Progress, color fades only."
+      }
+    }
+  }
+}

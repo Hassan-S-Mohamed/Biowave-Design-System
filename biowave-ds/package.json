@@ -1,0 +1,45 @@
+{
+  "name": "biowave-ds",
+  "private": true,
+  "description": "Biowave Design System monorepo: tokens, React (MUI) web components, Flutter (Material 3) tablet & mobile components.",
+  "workspaces": [
+    "2-foundations/web",
+    "3-web-components"
+  ],
+  "scripts": {
+    "tokens": "node 2-foundations/scripts/build.mjs && node 2-foundations/scripts/preview.mjs && node _sync/sync.mjs stamp",
+    "docs": "node _docs/server.mjs",
+    "preview:components": "node _docs/server.mjs",
+    "docs:build": "node _docs/build.mjs",
+    "docs:check": "node _docs/check.mjs",
+    "contract": "node _docs/contract.mjs",
+    "contracts:status": "node _docs/contract.mjs --status",
+    "sync:library": "node _sync/sync.mjs library",
+    "tokens:check": "node 2-foundations/scripts/check.mjs --verbose",
+    "typecheck": "tsc -p 2-foundations/web && tsc -p 3-web-components",
+    "test:web": "npm test -w 3-web-components",
+    "sync": "node _sync/sync.mjs status",
+    "sync:plan": "node _sync/sync.mjs plan",
+    "sync:verify": "node _sync/sync.mjs verify",
+    "sync:done": "node _sync/sync.mjs mark-synced",
+    "watch": "node _sync/watch.mjs",
+    "watch:install": "node _sync/install-watch.mjs",
+    "watch:uninstall": "node _sync/install-watch.mjs --uninstall",
+    "sync:done:web": "node _sync/sync.mjs mark-synced --components=web",
+    "sync:done:tablet": "node _sync/sync.mjs mark-synced --components=tablet",
+    "sync:done:mobile": "node _sync/sync.mjs mark-synced --components=mobile",
+    "sync:done:doc-kit": "node _sync/sync.mjs mark-synced --components=foundations",
+    "component-tokens": "node _sync/component-tokens.mjs check",
+    "sync:verify-tokens": "node _sync/sync.mjs verify-tokens",
+    "sync:done:tokens:web": "node _sync/sync.mjs mark-synced --component-tokens=web",
+    "sync:done:tokens:tablet": "node _sync/sync.mjs mark-synced --component-tokens=tablet",
+    "sync:done:tokens:mobile": "node _sync/sync.mjs mark-synced --component-tokens=mobile",
+    "sync:strict": "node _sync/sync.mjs status --strict"
+  },
+  "engines": {
+    "node": ">=18.17"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.0"
+  }
+}

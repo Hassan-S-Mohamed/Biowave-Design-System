@@ -1,0 +1,34 @@
+{
+  "$description": "The Biowave Figma files — the only place their keys are written. Tooling (lib.mjs) and docs read from here. Decision D-12 (2026-10-16). Verified 2026-10-16: all four files in the team project, Foundations published, library enabled in the three component files.",
+  "$project": {
+    "team": "1163803546741559987",
+    "project": "671823218",
+    "url": "https://www.figma.com/files/team/1163803546741559987/folder/671823218",
+    "library": "Biowave DS — Foundations",
+    "libraryKey": "lk-e00b31b21f924b36eeea820da99c4b306c460986c83e894f415a1c194ba5a2e670f3142c2fccca81280a80bcaee6a87bc47c9a9505d186d7b693aa9805ad7031"
+  },
+  "foundations": {
+    "key": "AyFaSmfDUlTax3GpKhRdHI",
+    "name": "Biowave DS — Foundations",
+    "owns": "Variables, text and effect styles, icons, foundation docs, Doc Kit (_Doc Kit page). Published library consumed by the three component files.",
+    "repo": "2-foundations/, 2-foundations/figma-doc-kit.md"
+  },
+  "web": {
+    "key": "7nDhsPNntzIWlrjmuSmZ9l",
+    "name": "Biowave DS — Web Components",
+    "owns": "Web component sets and their documentation pages",
+    "repo": "3-web-components/components/*/figma-*-contract.md (generated from <name>.md)"
+  },
+  "tablet": {
+    "key": "KTlAsEow60qCiYyU3J90kp",
+    "name": "Biowave DS — Tablet Components",
+    "owns": "Tablet component sets and their documentation pages",
+    "repo": "4-tablet-components/components/*/figma-*-contract.md (generated from <name>.md)"
+  },
+  "mobile": {
+    "key": "249tIAxlZogRvgBBXjcIZ5",
+    "name": "Biowave DS — Mobile Components",
+    "owns": "Mobile component sets and their documentation pages",
+    "repo": "5-mobile-components/components/*/figma-*-contract.md (generated from <name>.md)"
+  }
+}

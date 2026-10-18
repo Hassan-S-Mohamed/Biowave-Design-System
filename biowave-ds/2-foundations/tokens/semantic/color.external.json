@@ -1,0 +1,74 @@
+{
+  "color": {
+    "external": {
+      "$description": "Third-party brand colors (payment networks). Never themed, never used for UI meaning. Moved out of icon/payment.",
+      "payment": {
+        "red": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.9294,
+              0.0,
+              0.0235
+            ],
+            "alpha": 1,
+            "hex": "#ED0006"
+          }
+        },
+        "silver": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.8549,
+              0.8549,
+              0.8549
+            ],
+            "alpha": 1,
+            "hex": "#DADADA"
+          }
+        },
+        "gold": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.9765,
+              0.6275,
+              0.0
+            ],
+            "alpha": 1,
+            "hex": "#F9A000"
+          }
+        },
+        "purple": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.4275,
+              0.4275,
+              0.7333
+            ],
+            "alpha": 1,
+            "hex": "#6D6DBB"
+          }
+        },
+        "orange": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              1.0,
+              0.3686,
+              0.0
+            ],
+            "alpha": 1,
+            "hex": "#FF5E00"
+          }
+        }
+      }
+    }
+  }
+}

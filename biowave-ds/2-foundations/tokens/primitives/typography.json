@@ -1,0 +1,56 @@
+{
+  "primitive": {
+    "font": {
+      "family": {
+        "en": {
+          "$type": "fontFamily",
+          "$value": [
+            "Inter",
+            "system-ui",
+            "-apple-system",
+            "Segoe UI",
+            "Roboto",
+            "sans-serif"
+          ],
+          "$description": "Latin UI typeface."
+        },
+        "ar": {
+          "$type": "fontFamily",
+          "$value": [
+            "IBM Plex Sans Arabic",
+            "Noto Sans Arabic",
+            "Tahoma",
+            "sans-serif"
+          ],
+          "$description": "Arabic UI typeface. Noto Sans Arabic is the fallback."
+        },
+        "mono": {
+          "$type": "fontFamily",
+          "$value": [
+            "JetBrains Mono",
+            "SFMono-Regular",
+            "Menlo",
+            "Consolas",
+            "monospace"
+          ],
+          "$description": "Code, IDs and serial numbers (optional)."
+        }
+      },
+      "weight": {
+        "$type": "fontWeight",
+        "regular": {
+          "$value": 400
+        },
+        "medium": {
+          "$value": 500
+        },
+        "semibold": {
+          "$value": 600
+        },
+        "bold": {
+          "$value": 700
+        }
+      }
+    }
+  }
+}

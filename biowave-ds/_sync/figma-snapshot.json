@@ -1,0 +1,1741 @@
+{
+  "syncedAt": "2026-10-15T21:37:08.537Z",
+  "fileKey": "AyFaSmfDUlTax3GpKhRdHI",
+  "sourceHash": "0279cdfc91e6af5a",
+  "tokens": {
+    "1. Themes::color-surface-page": {
+      "Light": "#F7F7F7",
+      "Dark": "#0A0A0A"
+    },
+    "1. Themes::color-surface-default": {
+      "Light": "#FFFFFF",
+      "Dark": "#141414"
+    },
+    "1. Themes::color-surface-subtle": {
+      "Light": "#F7F7F7",
+      "Dark": "#292929"
+    },
+    "1. Themes::color-surface-raised": {
+      "Light": "#FFFFFF",
+      "Dark": "#292929"
+    },
+    "1. Themes::color-surface-inverse": {
+      "Light": "#141414",
+      "Dark": "#FFFFFF"
+    },
+    "1. Themes::color-background-transparent": {
+      "Light": "#54545400",
+      "Dark": "#54545400"
+    },
+    "1. Themes::color-background-base-default": {
+      "Light": "#FFFFFF",
+      "Dark": "#141414"
+    },
+    "1. Themes::color-background-base-hover": {
+      "Light": "#EDEDED",
+      "Dark": "#404040"
+    },
+    "1. Themes::color-background-base-pressed": {
+      "Light": "#DBDBDB",
+      "Dark": "#545454"
+    },
+    "1. Themes::color-background-base-disabled": {
+      "Light": "#EDEDED",
+      "Dark": "#292929"
+    },
+    "1. Themes::color-background-inverse-default": {
+      "Light": "#FFFFFF",
+      "Dark": "#0A0A0A"
+    },
+    "1. Themes::color-background-inverse-hover": {
+      "Light": "#EDEDED",
+      "Dark": "#141414"
+    },
+    "1. Themes::color-background-inverse-pressed": {
+      "Light": "#DBDBDB",
+      "Dark": "#292929"
+    },
+    "1. Themes::color-background-neutral-default": {
+      "Light": "#EDEDED",
+      "Dark": "#292929"
+    },
+    "1. Themes::color-background-neutral-subtle": {
+      "Light": "#F7F7F7",
+      "Dark": "#141414"
+    },
+    "1. Themes::color-background-neutral-hover": {
+      "Light": "#DBDBDB",
+      "Dark": "#404040"
+    },
+    "1. Themes::color-background-neutral-pressed": {
+      "Light": "#BDBDBD",
+      "Dark": "#545454"
+    },
+    "1. Themes::color-background-neutral-disabled": {
+      "Light": "#EDEDED",
+      "Dark": "#292929"
+    },
+    "1. Themes::color-background-brand-default": {
+      "Light": "#193351",
+      "Dark": "#607D9F"
+    },
+    "1. Themes::color-background-brand-subtle": {
+      "Light": "#E8ECF2",
+      "Dark": "#071323"
+    },
+    "1. Themes::color-background-brand-hover": {
+      "Light": "#132843",
+      "Dark": "#90A3BC"
+    },
+    "1. Themes::color-background-brand-pressed": {
+      "Light": "#0D1E33",
+      "Dark": "#BEC9D9"
+    },
+    "1. Themes::color-background-brand-disabled": {
+      "Light": "#BDBDBD",
+      "Dark": "#404040"
+    },
+    "1. Themes::color-background-secondary-default": {
+      "Light": "#0C5F79",
+      "Dark": "#5DA8C2"
+    },
+    "1. Themes::color-background-secondary-subtle": {
+      "Light": "#E8F4F8",
+      "Dark": "#032A37"
+    },
+    "1. Themes::color-background-secondary-hover": {
+      "Light": "#094E65",
+      "Dark": "#90C3D5"
+    },
+    "1. Themes::color-background-secondary-pressed": {
+      "Light": "#063C4E",
+      "Dark": "#C0DDE8"
+    },
+    "1. Themes::color-background-secondary-disabled": {
+      "Light": "#BDBDBD",
+      "Dark": "#404040"
+    },
+    "1. Themes::color-background-success-default": {
+      "Light": "#1E6D41",
+      "Dark": "#55BE87"
+    },
+    "1. Themes::color-background-success-subtle": {
+      "Light": "#E9F7EF",
+      "Dark": "#0E3921"
+    },
+    "1. Themes::color-background-success-hover": {
+      "Light": "#165331",
+      "Dark": "#8DD4AE"
+    },
+    "1. Themes::color-background-success-pressed": {
+      "Light": "#0E3921",
+      "Dark": "#C1E8D2"
+    },
+    "1. Themes::color-background-success-disabled": {
+      "Light": "#BDBDBD",
+      "Dark": "#404040"
+    },
+    "1. Themes::color-background-error-default": {
+      "Light": "#D42222",
+      "Dark": "#FF7676"
+    },
+    "1. Themes::color-background-error-subtle": {
+      "Light": "#FEF0EE",
+      "Dark": "#721212"
+    },
+    "1. Themes::color-background-error-hover": {
+      "Light": "#A31A1A",
+      "Dark": "#FEA3A3"
+    },
+    "1. Themes::color-background-error-pressed": {
+      "Light": "#721212",
+      "Dark": "#FECFCF"
+    },
+    "1. Themes::color-background-error-disabled": {
+      "Light": "#BDBDBD",
+      "Dark": "#404040"
+    },
+    "1. Themes::color-background-warning-default": {
+      "Light": "#FF9435",
+      "Dark": "#FFB05E"
+    },
+    "1. Themes::color-background-warning-subtle": {
+      "Light": "#FFF3E8",
+      "Dark": "#773F12"
+    },
+    "1. Themes::color-background-warning-hover": {
+      "Light": "#FF8C32",
+      "Dark": "#FFC88F"
+    },
+    "1. Themes::color-background-warning-pressed": {
+      "Light": "#D97424",
+      "Dark": "#FFE0C0"
+    },
+    "1. Themes::color-background-warning-disabled": {
+      "Light": "#BDBDBD",
+      "Dark": "#404040"
+    },
+    "1. Themes::color-background-info-default": {
+      "Light": "#2559D4",
+      "Dark": "#6D9CE8"
+    },
+    "1. Themes::color-background-info-subtle": {
+      "Light": "#EEF4FF",
+      "Dark": "#0E265F"
+    },
+    "1. Themes::color-background-info-hover": {
+      "Light": "#1D48AD",
+      "Dark": "#9CBCF2"
+    },
+    "1. Themes::color-background-info-pressed": {
+      "Light": "#153786",
+      "Dark": "#CBDCFA"
+    },
+    "1. Themes::color-background-info-disabled": {
+      "Light": "#BDBDBD",
+      "Dark": "#404040"
+    },
+    "1. Themes::color-text-neutral-default": {
+      "Light": "#0A0A0A",
+      "Dark": "#F7F7F7"
+    },
+    "1. Themes::color-text-neutral-subtle": {
+      "Light": "#292929",
+      "Dark": "#DBDBDB"
+    },
+    "1. Themes::color-text-neutral-muted": {
+      "Light": "#707070",
+      "Dark": "#BDBDBD"
+    },
+    "1. Themes::color-text-neutral-placeholder": {
+      "Light": "#707070",
+      "Dark": "#969696"
+    },
+    "1. Themes::color-text-neutral-disabled": {
+      "Light": "#969696",
+      "Dark": "#545454"
+    },
+    "1. Themes::color-text-neutral-inverse": {
+      "Light": "#FFFFFF",
+      "Dark": "#0A0A0A"
+    },
+    "1. Themes::color-text-role-brand": {
+      "Light": "#132843",
+      "Dark": "#90A3BC"
+    },
+    "1. Themes::color-text-role-secondary": {
+      "Light": "#094E65",
+      "Dark": "#90C3D5"
+    },
+    "1. Themes::color-text-role-success": {
+      "Light": "#1E6D41",
+      "Dark": "#8DD4AE"
+    },
+    "1. Themes::color-text-role-error": {
+      "Light": "#D42222",
+      "Dark": "#FEA3A3"
+    },
+    "1. Themes::color-text-role-warning": {
+      "Light": "#A85A1A",
+      "Dark": "#FFC88F"
+    },
+    "1. Themes::color-text-role-info": {
+      "Light": "#1D48AD",
+      "Dark": "#9CBCF2"
+    },
+    "1. Themes::color-text-on-brand": {
+      "Light": "#FFFFFF",
+      "Dark": "#0A0A0A"
+    },
+    "1. Themes::color-text-on-secondary": {
+      "Light": "#FFFFFF",
+      "Dark": "#0A0A0A"
+    },
+    "1. Themes::color-text-on-success": {
+      "Light": "#FFFFFF",
+      "Dark": "#0A0A0A"
+    },
+    "1. Themes::color-text-on-error": {
+      "Light": "#FFFFFF",
+      "Dark": "#0A0A0A"
+    },
+    "1. Themes::color-text-on-warning": {
+      "Light": "#0A0A0A",
+      "Dark": "#0A0A0A"
+    },
+    "1. Themes::color-text-on-info": {
+      "Light": "#FFFFFF",
+      "Dark": "#0A0A0A"
+    },
+    "1. Themes::color-icon-neutral-default": {
+      "Light": "#0A0A0A",
+      "Dark": "#F7F7F7"
+    },
+    "1. Themes::color-icon-neutral-subtle": {
+      "Light": "#292929",
+      "Dark": "#DBDBDB"
+    },
+    "1. Themes::color-icon-neutral-muted": {
+      "Light": "#707070",
+      "Dark": "#BDBDBD"
+    },
+    "1. Themes::color-icon-neutral-disabled": {
+      "Light": "#969696",
+      "Dark": "#545454"
+    },
+    "1. Themes::color-icon-neutral-inverse": {
+      "Light": "#FFFFFF",
+      "Dark": "#0A0A0A"
+    },
+    "1. Themes::color-icon-role-brand": {
+      "Light": "#193351",
+      "Dark": "#90A3BC"
+    },
+    "1. Themes::color-icon-role-secondary": {
+      "Light": "#0C5F79",
+      "Dark": "#90C3D5"
+    },
+    "1. Themes::color-icon-role-success": {
+      "Light": "#268751",
+      "Dark": "#8DD4AE"
+    },
+    "1. Themes::color-icon-role-error": {
+      "Light": "#FF2B2B",
+      "Dark": "#FEA3A3"
+    },
+    "1. Themes::color-icon-role-warning": {
+      "Light": "#D97424",
+      "Dark": "#FFC88F"
+    },
+    "1. Themes::color-icon-role-info": {
+      "Light": "#2559D4",
+      "Dark": "#9CBCF2"
+    },
+    "1. Themes::color-icon-on-brand": {
+      "Light": "#FFFFFF",
+      "Dark": "#0A0A0A"
+    },
+    "1. Themes::color-icon-on-secondary": {
+      "Light": "#FFFFFF",
+      "Dark": "#0A0A0A"
+    },
+    "1. Themes::color-icon-on-success": {
+      "Light": "#FFFFFF",
+      "Dark": "#0A0A0A"
+    },
+    "1. Themes::color-icon-on-error": {
+      "Light": "#FFFFFF",
+      "Dark": "#0A0A0A"
+    },
+    "1. Themes::color-icon-on-warning": {
+      "Light": "#0A0A0A",
+      "Dark": "#0A0A0A"
+    },
+    "1. Themes::color-icon-on-info": {
+      "Light": "#FFFFFF",
+      "Dark": "#0A0A0A"
+    },
+    "1. Themes::color-border-default": {
+      "Light": "#DBDBDB",
+      "Dark": "#404040"
+    },
+    "1. Themes::color-border-subtle": {
+      "Light": "#EDEDED",
+      "Dark": "#292929"
+    },
+    "1. Themes::color-border-strong": {
+      "Light": "#BDBDBD",
+      "Dark": "#545454"
+    },
+    "1. Themes::color-border-disabled": {
+      "Light": "#DBDBDB",
+      "Dark": "#404040"
+    },
+    "1. Themes::color-border-brand": {
+      "Light": "#607D9F",
+      "Dark": "#254471"
+    },
+    "1. Themes::color-border-secondary": {
+      "Light": "#5DA8C2",
+      "Dark": "#1A7596"
+    },
+    "1. Themes::color-border-success": {
+      "Light": "#55BE87",
+      "Dark": "#2D9860"
+    },
+    "1. Themes::color-border-error": {
+      "Light": "#FF7676",
+      "Dark": "#FF3B3B"
+    },
+    "1. Themes::color-border-warning": {
+      "Light": "#FFB05E",
+      "Dark": "#FF9435"
+    },
+    "1. Themes::color-border-info": {
+      "Light": "#6D9CE8",
+      "Dark": "#336CD9"
+    },
+    "1. Themes::color-border-inverse": {
+      "Light": "#FFFFFF",
+      "Dark": "#0A0A0A"
+    },
+    "1. Themes::color-border-input-default": {
+      "Light": "#707070",
+      "Dark": "#969696"
+    },
+    "1. Themes::color-border-input-hover": {
+      "Light": "#404040",
+      "Dark": "#BDBDBD"
+    },
+    "1. Themes::color-border-input-error": {
+      "Light": "#D42222",
+      "Dark": "#FF7676"
+    },
+    "1. Themes::color-border-focus": {
+      "Light": "#254471",
+      "Dark": "#90A3BC"
+    },
+    "1. Themes::color-link-default": {
+      "Light": "#2559D4",
+      "Dark": "#6D9CE8"
+    },
+    "1. Themes::color-link-hover": {
+      "Light": "#1D48AD",
+      "Dark": "#9CBCF2"
+    },
+    "1. Themes::color-link-pressed": {
+      "Light": "#153786",
+      "Dark": "#CBDCFA"
+    },
+    "1. Themes::color-link-visited": {
+      "Light": "#1D48AD",
+      "Dark": "#9CBCF2"
+    },
+    "1. Themes::color-overlay-backdrop": {
+      "Light": "#54545499",
+      "Dark": "#545454B3"
+    },
+    "1. Themes::color-overlay-scrim": {
+      "Light": "#5454544D",
+      "Dark": "#54545466"
+    },
+    "1. Themes::color-overlay-subtle": {
+      "Light": "#5454541A",
+      "Dark": "#54545433"
+    },
+    "1. Themes::color-overlay-brand": {
+      "Light": "#19335133",
+      "Dark": "#1933514D"
+    },
+    "1. Themes::color-overlay-secondary": {
+      "Light": "#0C5F7933",
+      "Dark": "#0C5F794D"
+    },
+    "1. Themes::color-overlay-success": {
+      "Light": "#26875133",
+      "Dark": "#2687514D"
+    },
+    "1. Themes::color-overlay-error": {
+      "Light": "#FF2B2B33",
+      "Dark": "#FF2B2B4D"
+    },
+    "1. Themes::color-overlay-warning": {
+      "Light": "#FF8C3233",
+      "Dark": "#FF8C324D"
+    },
+    "1. Themes::color-overlay-info": {
+      "Light": "#2559D433",
+      "Dark": "#2559D44D"
+    },
+    "1. Themes::color-overlay-hover": {
+      "Light": "#5454541A",
+      "Dark": "#54545466"
+    },
+    "1. Themes::color-overlay-pressed": {
+      "Light": "#54545433",
+      "Dark": "#54545499"
+    },
+    "1. Themes::color-shadow-ambient": {
+      "Light": "#071323",
+      "Dark": "#000000"
+    },
+    "1. Themes::color-external-payment-red": {
+      "Light": "#ED0006",
+      "Dark": "#ED0006"
+    },
+    "1. Themes::color-external-payment-silver": {
+      "Light": "#DADADA",
+      "Dark": "#DADADA"
+    },
+    "1. Themes::color-external-payment-gold": {
+      "Light": "#F9A000",
+      "Dark": "#F9A000"
+    },
+    "1. Themes::color-external-payment-purple": {
+      "Light": "#6D6DBB",
+      "Dark": "#6D6DBB"
+    },
+    "1. Themes::color-external-payment-orange": {
+      "Light": "#FF5E00",
+      "Dark": "#FF5E00"
+    },
+    "1. Themes::color/shadow/elevation-1": {
+      "Light": "#0713230D",
+      "Dark": "#0000001F"
+    },
+    "1. Themes::color/shadow/elevation-2": {
+      "Light": "#07132317",
+      "Dark": "#00000038"
+    },
+    "1. Themes::color/shadow/elevation-3": {
+      "Light": "#0713231F",
+      "Dark": "#0000004D"
+    },
+    "1. Themes::color/shadow/elevation-4": {
+      "Light": "#0713232E",
+      "Dark": "#00000073"
+    },
+    "1. Themes::color/shadow/control-drop": {
+      "Light": "#1933510D",
+      "Dark": "#0000001F"
+    },
+    "1. Themes::color/shadow/control-ring": {
+      "Light": "#19335133",
+      "Dark": "#00000066"
+    },
+    "3. Spacing::spacing-none": {
+      "Values": 0
+    },
+    "3. Spacing::spacing-xxs": {
+      "Values": 2
+    },
+    "3. Spacing::spacing-xs": {
+      "Values": 4
+    },
+    "3. Spacing::spacing-sm": {
+      "Values": 6
+    },
+    "3. Spacing::spacing-md": {
+      "Values": 8
+    },
+    "3. Spacing::spacing-lg": {
+      "Values": 12
+    },
+    "3. Spacing::spacing-xl": {
+      "Values": 16
+    },
+    "3. Spacing::spacing-2xl": {
+      "Values": 20
+    },
+    "3. Spacing::spacing-3xl": {
+      "Values": 24
+    },
+    "3. Spacing::spacing-4xl": {
+      "Values": 32
+    },
+    "3. Spacing::spacing-5xl": {
+      "Values": 40
+    },
+    "3. Spacing::spacing-6xl": {
+      "Values": 48
+    },
+    "3. Spacing::spacing-7xl": {
+      "Values": 64
+    },
+    "3. Spacing::spacing-8xl": {
+      "Values": 80
+    },
+    "3. Spacing::spacing-9xl": {
+      "Values": 96
+    },
+    "3. Spacing::spacing-10xl": {
+      "Values": 128
+    },
+    "3. Spacing::spacing-11xl": {
+      "Values": 160
+    },
+    "3. Spacing::spacing-control-padding-inline-sm": {
+      "Values": 8
+    },
+    "3. Spacing::spacing-control-padding-inline-md": {
+      "Values": 12
+    },
+    "3. Spacing::spacing-control-padding-inline-lg": {
+      "Values": 16
+    },
+    "3. Spacing::spacing-control-padding-inline-xl": {
+      "Values": 24
+    },
+    "3. Spacing::spacing-control-gap-sm": {
+      "Values": 4
+    },
+    "3. Spacing::spacing-control-gap-md": {
+      "Values": 6
+    },
+    "3. Spacing::spacing-control-gap-lg": {
+      "Values": 8
+    },
+    "3. Spacing::spacing-control-gap-xl": {
+      "Values": 8
+    },
+    "2. Radius::radius-none": {
+      "Values": 0
+    },
+    "2. Radius::radius-xxs": {
+      "Values": 2
+    },
+    "2. Radius::radius-xs": {
+      "Values": 4
+    },
+    "2. Radius::radius-sm": {
+      "Values": 6
+    },
+    "2. Radius::radius-md": {
+      "Values": 8
+    },
+    "2. Radius::radius-lg": {
+      "Values": 10
+    },
+    "2. Radius::radius-xl": {
+      "Values": 12
+    },
+    "2. Radius::radius-2xl": {
+      "Values": 16
+    },
+    "2. Radius::radius-3xl": {
+      "Values": 20
+    },
+    "2. Radius::radius-4xl": {
+      "Values": 24
+    },
+    "2. Radius::radius-full": {
+      "Values": 9999
+    },
+    "9. Border::border-width-none": {
+      "Value": 0
+    },
+    "9. Border::border-width-default": {
+      "Value": 1
+    },
+    "9. Border::border-width-strong": {
+      "Value": 2
+    },
+    "9. Border::border-width-focus": {
+      "Value": 2
+    },
+    "9. Border::border-focus-offset": {
+      "Value": 2
+    },
+    "4. Size::size-container-xxs": {
+      "Value": 320
+    },
+    "4. Size::size-container-xs": {
+      "Value": 384
+    },
+    "4. Size::size-container-sm": {
+      "Value": 480
+    },
+    "4. Size::size-container-md": {
+      "Value": 560
+    },
+    "4. Size::size-container-lg": {
+      "Value": 640
+    },
+    "4. Size::size-container-xl": {
+      "Value": 768
+    },
+    "4. Size::size-container-2xl": {
+      "Value": 1024
+    },
+    "4. Size::size-container-3xl": {
+      "Value": 1280
+    },
+    "4. Size::size-container-4xl": {
+      "Value": 1440
+    },
+    "4. Size::size-container-5xl": {
+      "Value": 1600
+    },
+    "4. Size::size-container-6xl": {
+      "Value": 1920
+    },
+    "4. Size::size-icon-xs": {
+      "Value": 12
+    },
+    "4. Size::size-icon-sm": {
+      "Value": 16
+    },
+    "4. Size::size-icon-md": {
+      "Value": 20
+    },
+    "4. Size::size-icon-lg": {
+      "Value": 24
+    },
+    "4. Size::size-icon-xl": {
+      "Value": 32
+    },
+    "4. Size::size-icon-2xl": {
+      "Value": 40
+    },
+    "4. Size::size-icon-3xl": {
+      "Value": 48
+    },
+    "4. Size::size-control-height-sm": {
+      "Value": 32
+    },
+    "4. Size::size-control-height-md": {
+      "Value": 40
+    },
+    "4. Size::size-control-height-lg": {
+      "Value": 48
+    },
+    "4. Size::size-control-height-xl": {
+      "Value": 56
+    },
+    "5. Typography (EN)::Font Family": {
+      "Web": "Inter",
+      "Tablet": "Inter",
+      "Mobile": "Inter"
+    },
+    "5. Typography (EN)::font-size-display-lg": {
+      "Web": 40,
+      "Tablet": 34,
+      "Mobile": 36
+    },
+    "5. Typography (EN)::font-size-display-md": {
+      "Web": 32,
+      "Tablet": 30,
+      "Mobile": 32
+    },
+    "5. Typography (EN)::font-size-heading-lg": {
+      "Web": 24,
+      "Tablet": 26,
+      "Mobile": 28
+    },
+    "5. Typography (EN)::font-size-heading-md": {
+      "Web": 20,
+      "Tablet": 22,
+      "Mobile": 24
+    },
+    "5. Typography (EN)::font-size-heading-sm": {
+      "Web": 18,
+      "Tablet": 18,
+      "Mobile": 20
+    },
+    "5. Typography (EN)::font-size-title-lg": {
+      "Web": 16,
+      "Tablet": 18,
+      "Mobile": 18
+    },
+    "5. Typography (EN)::font-size-title-md": {
+      "Web": 14,
+      "Tablet": 16,
+      "Mobile": 16
+    },
+    "5. Typography (EN)::font-size-body-lg": {
+      "Web": 16,
+      "Tablet": 16,
+      "Mobile": 18
+    },
+    "5. Typography (EN)::font-size-body-md": {
+      "Web": 14,
+      "Tablet": 16,
+      "Mobile": 16
+    },
+    "5. Typography (EN)::font-size-body-sm": {
+      "Web": 13,
+      "Tablet": 14,
+      "Mobile": 14
+    },
+    "5. Typography (EN)::font-size-label-lg": {
+      "Web": 14,
+      "Tablet": 16,
+      "Mobile": 16
+    },
+    "5. Typography (EN)::font-size-label-md": {
+      "Web": 13,
+      "Tablet": 14,
+      "Mobile": 14
+    },
+    "5. Typography (EN)::font-size-label-sm": {
+      "Web": 12,
+      "Tablet": 12,
+      "Mobile": 12
+    },
+    "5. Typography (EN)::font-size-caption-md": {
+      "Web": 12,
+      "Tablet": 12,
+      "Mobile": 12
+    },
+    "5. Typography (EN)::font-size-caption-sm": {
+      "Web": 11,
+      "Tablet": 12,
+      "Mobile": 12
+    },
+    "5. Typography (EN)::font-size-action-lg": {
+      "Web": 16,
+      "Tablet": 18,
+      "Mobile": 18
+    },
+    "5. Typography (EN)::font-size-action-md": {
+      "Web": 14,
+      "Tablet": 16,
+      "Mobile": 16
+    },
+    "5. Typography (EN)::font-size-action-sm": {
+      "Web": 13,
+      "Tablet": 14,
+      "Mobile": 14
+    },
+    "5. Typography (EN)::font-size-data-lg": {
+      "Web": 20,
+      "Tablet": 22,
+      "Mobile": 24
+    },
+    "5. Typography (EN)::font-size-data-md": {
+      "Web": 14,
+      "Tablet": 16,
+      "Mobile": 16
+    },
+    "5. Typography (EN)::font-size-data-sm": {
+      "Web": 12,
+      "Tablet": 13,
+      "Mobile": 13
+    },
+    "5. Typography (EN)::font-line-height-display-lg": {
+      "Web": 40,
+      "Tablet": 42,
+      "Mobile": 44
+    },
+    "5. Typography (EN)::font-line-height-display-md": {
+      "Web": 36,
+      "Tablet": 38,
+      "Mobile": 40
+    },
+    "5. Typography (EN)::font-line-height-heading-lg": {
+      "Web": 32,
+      "Tablet": 34,
+      "Mobile": 36
+    },
+    "5. Typography (EN)::font-line-height-heading-md": {
+      "Web": 28,
+      "Tablet": 30,
+      "Mobile": 32
+    },
+    "5. Typography (EN)::font-line-height-heading-sm": {
+      "Web": 24,
+      "Tablet": 26,
+      "Mobile": 28
+    },
+    "5. Typography (EN)::font-line-height-title-lg": {
+      "Web": 24,
+      "Tablet": 26,
+      "Mobile": 28
+    },
+    "5. Typography (EN)::font-line-height-title-md": {
+      "Web": 22,
+      "Tablet": 24,
+      "Mobile": 24
+    },
+    "5. Typography (EN)::font-line-height-body-lg": {
+      "Web": 24,
+      "Tablet": 26,
+      "Mobile": 28
+    },
+    "5. Typography (EN)::font-line-height-body-md": {
+      "Web": 22,
+      "Tablet": 24,
+      "Mobile": 24
+    },
+    "5. Typography (EN)::font-line-height-body-sm": {
+      "Web": 20,
+      "Tablet": 22,
+      "Mobile": 22
+    },
+    "5. Typography (EN)::font-line-height-label-lg": {
+      "Web": 20,
+      "Tablet": 24,
+      "Mobile": 24
+    },
+    "5. Typography (EN)::font-line-height-label-md": {
+      "Web": 18,
+      "Tablet": 20,
+      "Mobile": 20
+    },
+    "5. Typography (EN)::font-line-height-label-sm": {
+      "Web": 16,
+      "Tablet": 18,
+      "Mobile": 16
+    },
+    "5. Typography (EN)::font-line-height-caption-md": {
+      "Web": 16,
+      "Tablet": 18,
+      "Mobile": 18
+    },
+    "5. Typography (EN)::font-line-height-caption-sm": {
+      "Web": 16,
+      "Tablet": 18,
+      "Mobile": 18
+    },
+    "5. Typography (EN)::font-line-height-action-lg": {
+      "Web": 24,
+      "Tablet": 26,
+      "Mobile": 28
+    },
+    "5. Typography (EN)::font-line-height-action-md": {
+      "Web": 20,
+      "Tablet": 24,
+      "Mobile": 24
+    },
+    "5. Typography (EN)::font-line-height-action-sm": {
+      "Web": 18,
+      "Tablet": 20,
+      "Mobile": 20
+    },
+    "5. Typography (EN)::font-line-height-data-lg": {
+      "Web": 28,
+      "Tablet": 30,
+      "Mobile": 32
+    },
+    "5. Typography (EN)::font-line-height-data-md": {
+      "Web": 20,
+      "Tablet": 24,
+      "Mobile": 24
+    },
+    "5. Typography (EN)::font-line-height-data-sm": {
+      "Web": 16,
+      "Tablet": 18,
+      "Mobile": 18
+    },
+    "5. Typography (EN)::font-weight-display": {
+      "Web": "Semi Bold",
+      "Tablet": "Semi Bold",
+      "Mobile": "Semi Bold"
+    },
+    "5. Typography (EN)::font-weight-heading": {
+      "Web": "Semi Bold",
+      "Tablet": "Semi Bold",
+      "Mobile": "Semi Bold"
+    },
+    "5. Typography (EN)::font-weight-title": {
+      "Web": "Medium",
+      "Tablet": "Medium",
+      "Mobile": "Medium"
+    },
+    "5. Typography (EN)::font-weight-body": {
+      "Web": "Regular",
+      "Tablet": "Regular",
+      "Mobile": "Regular"
+    },
+    "5. Typography (EN)::font-weight-label": {
+      "Web": "Medium",
+      "Tablet": "Medium",
+      "Mobile": "Medium"
+    },
+    "5. Typography (EN)::font-weight-caption": {
+      "Web": "Regular",
+      "Tablet": "Regular",
+      "Mobile": "Regular"
+    },
+    "5. Typography (EN)::font-weight-action": {
+      "Web": "Medium",
+      "Tablet": "Medium",
+      "Mobile": "Medium"
+    },
+    "5. Typography (EN)::font-weight-data": {
+      "Web": "Medium",
+      "Tablet": "Medium",
+      "Mobile": "Medium"
+    },
+    "6. Typography (AR)::Font Family": {
+      "Web": "IBM Plex Sans Arabic",
+      "Tablet": "IBM Plex Sans Arabic",
+      "Mobile": "IBM Plex Sans Arabic"
+    },
+    "6. Typography (AR)::font-size-display-lg": {
+      "Web": 40,
+      "Tablet": 34,
+      "Mobile": 36
+    },
+    "6. Typography (AR)::font-size-display-md": {
+      "Web": 32,
+      "Tablet": 30,
+      "Mobile": 32
+    },
+    "6. Typography (AR)::font-size-heading-lg": {
+      "Web": 24,
+      "Tablet": 26,
+      "Mobile": 28
+    },
+    "6. Typography (AR)::font-size-heading-md": {
+      "Web": 20,
+      "Tablet": 22,
+      "Mobile": 24
+    },
+    "6. Typography (AR)::font-size-heading-sm": {
+      "Web": 18,
+      "Tablet": 18,
+      "Mobile": 20
+    },
+    "6. Typography (AR)::font-size-title-lg": {
+      "Web": 16,
+      "Tablet": 18,
+      "Mobile": 18
+    },
+    "6. Typography (AR)::font-size-title-md": {
+      "Web": 14,
+      "Tablet": 16,
+      "Mobile": 16
+    },
+    "6. Typography (AR)::font-size-body-lg": {
+      "Web": 16,
+      "Tablet": 16,
+      "Mobile": 18
+    },
+    "6. Typography (AR)::font-size-body-md": {
+      "Web": 14,
+      "Tablet": 16,
+      "Mobile": 16
+    },
+    "6. Typography (AR)::font-size-body-sm": {
+      "Web": 13,
+      "Tablet": 14,
+      "Mobile": 14
+    },
+    "6. Typography (AR)::font-size-label-lg": {
+      "Web": 14,
+      "Tablet": 16,
+      "Mobile": 16
+    },
+    "6. Typography (AR)::font-size-label-md": {
+      "Web": 13,
+      "Tablet": 14,
+      "Mobile": 14
+    },
+    "6. Typography (AR)::font-size-label-sm": {
+      "Web": 12,
+      "Tablet": 12,
+      "Mobile": 12
+    },
+    "6. Typography (AR)::font-size-caption-md": {
+      "Web": 12,
+      "Tablet": 12,
+      "Mobile": 12
+    },
+    "6. Typography (AR)::font-size-caption-sm": {
+      "Web": 11,
+      "Tablet": 12,
+      "Mobile": 12
+    },
+    "6. Typography (AR)::font-size-action-lg": {
+      "Web": 16,
+      "Tablet": 18,
+      "Mobile": 18
+    },
+    "6. Typography (AR)::font-size-action-md": {
+      "Web": 14,
+      "Tablet": 16,
+      "Mobile": 16
+    },
+    "6. Typography (AR)::font-size-action-sm": {
+      "Web": 13,
+      "Tablet": 14,
+      "Mobile": 14
+    },
+    "6. Typography (AR)::font-size-data-lg": {
+      "Web": 20,
+      "Tablet": 22,
+      "Mobile": 24
+    },
+    "6. Typography (AR)::font-size-data-md": {
+      "Web": 14,
+      "Tablet": 16,
+      "Mobile": 16
+    },
+    "6. Typography (AR)::font-size-data-sm": {
+      "Web": 12,
+      "Tablet": 13,
+      "Mobile": 13
+    },
+    "6. Typography (AR)::font-line-height-display-lg": {
+      "Web": 50,
+      "Tablet": 44,
+      "Mobile": 48
+    },
+    "6. Typography (AR)::font-line-height-display-md": {
+      "Web": 40,
+      "Tablet": 40,
+      "Mobile": 44
+    },
+    "6. Typography (AR)::font-line-height-heading-lg": {
+      "Web": 34,
+      "Tablet": 36,
+      "Mobile": 40
+    },
+    "6. Typography (AR)::font-line-height-heading-md": {
+      "Web": 30,
+      "Tablet": 32,
+      "Mobile": 34
+    },
+    "6. Typography (AR)::font-line-height-heading-sm": {
+      "Web": 26,
+      "Tablet": 28,
+      "Mobile": 30
+    },
+    "6. Typography (AR)::font-line-height-title-lg": {
+      "Web": 26,
+      "Tablet": 28,
+      "Mobile": 30
+    },
+    "6. Typography (AR)::font-line-height-title-md": {
+      "Web": 24,
+      "Tablet": 26,
+      "Mobile": 26
+    },
+    "6. Typography (AR)::font-line-height-body-lg": {
+      "Web": 26,
+      "Tablet": 28,
+      "Mobile": 30
+    },
+    "6. Typography (AR)::font-line-height-body-md": {
+      "Web": 24,
+      "Tablet": 26,
+      "Mobile": 26
+    },
+    "6. Typography (AR)::font-line-height-body-sm": {
+      "Web": 22,
+      "Tablet": 24,
+      "Mobile": 24
+    },
+    "6. Typography (AR)::font-line-height-label-lg": {
+      "Web": 22,
+      "Tablet": 26,
+      "Mobile": 26
+    },
+    "6. Typography (AR)::font-line-height-label-md": {
+      "Web": 20,
+      "Tablet": 22,
+      "Mobile": 22
+    },
+    "6. Typography (AR)::font-line-height-label-sm": {
+      "Web": 18,
+      "Tablet": 20,
+      "Mobile": 18
+    },
+    "6. Typography (AR)::font-line-height-caption-md": {
+      "Web": 18,
+      "Tablet": 20,
+      "Mobile": 20
+    },
+    "6. Typography (AR)::font-line-height-caption-sm": {
+      "Web": 18,
+      "Tablet": 20,
+      "Mobile": 20
+    },
+    "6. Typography (AR)::font-line-height-action-lg": {
+      "Web": 26,
+      "Tablet": 28,
+      "Mobile": 30
+    },
+    "6. Typography (AR)::font-line-height-action-md": {
+      "Web": 22,
+      "Tablet": 26,
+      "Mobile": 26
+    },
+    "6. Typography (AR)::font-line-height-action-sm": {
+      "Web": 20,
+      "Tablet": 22,
+      "Mobile": 22
+    },
+    "6. Typography (AR)::font-line-height-data-lg": {
+      "Web": 30,
+      "Tablet": 32,
+      "Mobile": 34
+    },
+    "6. Typography (AR)::font-line-height-data-md": {
+      "Web": 22,
+      "Tablet": 26,
+      "Mobile": 26
+    },
+    "6. Typography (AR)::font-line-height-data-sm": {
+      "Web": 18,
+      "Tablet": 20,
+      "Mobile": 20
+    },
+    "6. Typography (AR)::font-weight-display": {
+      "Web": "SemiBold",
+      "Tablet": "SemiBold",
+      "Mobile": "SemiBold"
+    },
+    "6. Typography (AR)::font-weight-heading": {
+      "Web": "SemiBold",
+      "Tablet": "SemiBold",
+      "Mobile": "SemiBold"
+    },
+    "6. Typography (AR)::font-weight-title": {
+      "Web": "Medium",
+      "Tablet": "Medium",
+      "Mobile": "Medium"
+    },
+    "6. Typography (AR)::font-weight-body": {
+      "Web": "Regular",
+      "Tablet": "Regular",
+      "Mobile": "Regular"
+    },
+    "6. Typography (AR)::font-weight-label": {
+      "Web": "Medium",
+      "Tablet": "Medium",
+      "Mobile": "Medium"
+    },
+    "6. Typography (AR)::font-weight-caption": {
+      "Web": "Regular",
+      "Tablet": "Regular",
+      "Mobile": "Regular"
+    },
+    "6. Typography (AR)::font-weight-action": {
+      "Web": "Medium",
+      "Tablet": "Medium",
+      "Mobile": "Medium"
+    },
+    "6. Typography (AR)::font-weight-data": {
+      "Web": "Medium",
+      "Tablet": "Medium",
+      "Mobile": "Medium"
+    },
+    "7. Grid & Layout::breakpoint-min": {
+      "Web": 1200,
+      "Tablet": 600,
+      "Mobile": 0
+    },
+    "7. Grid & Layout::grid-columns": {
+      "Web": 12,
+      "Tablet": 8,
+      "Mobile": 6
+    },
+    "7. Grid & Layout::grid-gutter": {
+      "Web": 24,
+      "Tablet": 24,
+      "Mobile": 8
+    },
+    "7. Grid & Layout::grid-margin-full": {
+      "Web": 40,
+      "Tablet": 24,
+      "Mobile": 16
+    },
+    "7. Grid & Layout::grid-margin-sidebar": {
+      "Web": 24,
+      "Tablet": 24,
+      "Mobile": 16
+    },
+    "7. Grid & Layout::layout-height-app-bar": {
+      "Web": 72,
+      "Tablet": 64,
+      "Mobile": 64
+    },
+    "7. Grid & Layout::layout-height-system-status": {
+      "Web": 40,
+      "Tablet": 40,
+      "Mobile": 40
+    },
+    "7. Grid & Layout::layout-width-sidebar-start": {
+      "Web": 248,
+      "Tablet": 248,
+      "Mobile": 0
+    },
+    "7. Grid & Layout::layout-width-sidebar-end": {
+      "Web": 248,
+      "Tablet": 248,
+      "Mobile": 0
+    },
+    "7. Grid & Layout::target-min": {
+      "Web": 24,
+      "Tablet": 48,
+      "Mobile": 48
+    },
+    "7. Grid & Layout::breakpoint-max": {
+      "Tablet": 1199,
+      "Mobile": 599
+    },
+    "_Primitive::Colors/primary/50": {
+      "Values": "#E8ECF2"
+    },
+    "_Primitive::Colors/primary/100": {
+      "Values": "#BEC9D9"
+    },
+    "_Primitive::Colors/primary/200": {
+      "Values": "#90A3BC"
+    },
+    "_Primitive::Colors/primary/300": {
+      "Values": "#607D9F"
+    },
+    "_Primitive::Colors/primary/400": {
+      "Values": "#3D5E88"
+    },
+    "_Primitive::Colors/primary/500": {
+      "Values": "#254471"
+    },
+    "_Primitive::Colors/primary/600": {
+      "Values": "#193351"
+    },
+    "_Primitive::Colors/primary/700": {
+      "Values": "#132843"
+    },
+    "_Primitive::Colors/primary/800": {
+      "Values": "#0D1E33"
+    },
+    "_Primitive::Colors/primary/900": {
+      "Values": "#071323"
+    },
+    "_Primitive::Colors/primary/950": {
+      "Values": "#030A14"
+    },
+    "_Primitive::Colors/primary/alpha/0": {
+      "Values": "#19335100"
+    },
+    "_Primitive::Colors/primary/alpha/5": {
+      "Values": "#1933510D"
+    },
+    "_Primitive::Colors/primary/alpha/10": {
+      "Values": "#1933511A"
+    },
+    "_Primitive::Colors/primary/alpha/20": {
+      "Values": "#19335133"
+    },
+    "_Primitive::Colors/primary/alpha/30": {
+      "Values": "#1933514D"
+    },
+    "_Primitive::Colors/primary/alpha/40": {
+      "Values": "#19335166"
+    },
+    "_Primitive::Colors/primary/alpha/50": {
+      "Values": "#19335180"
+    },
+    "_Primitive::Colors/primary/alpha/60": {
+      "Values": "#19335199"
+    },
+    "_Primitive::Colors/primary/alpha/70": {
+      "Values": "#193351B3"
+    },
+    "_Primitive::Colors/primary/alpha/80": {
+      "Values": "#193351CC"
+    },
+    "_Primitive::Colors/primary/alpha/90": {
+      "Values": "#193351E6"
+    },
+    "_Primitive::Colors/secondary/50": {
+      "Values": "#E8F4F8"
+    },
+    "_Primitive::Colors/secondary/100": {
+      "Values": "#C0DDE8"
+    },
+    "_Primitive::Colors/secondary/200": {
+      "Values": "#90C3D5"
+    },
+    "_Primitive::Colors/secondary/300": {
+      "Values": "#5DA8C2"
+    },
+    "_Primitive::Colors/secondary/400": {
+      "Values": "#3591B2"
+    },
+    "_Primitive::Colors/secondary/500": {
+      "Values": "#1A7596"
+    },
+    "_Primitive::Colors/secondary/600": {
+      "Values": "#0C5F79"
+    },
+    "_Primitive::Colors/secondary/700": {
+      "Values": "#094E65"
+    },
+    "_Primitive::Colors/secondary/800": {
+      "Values": "#063C4E"
+    },
+    "_Primitive::Colors/secondary/900": {
+      "Values": "#032A37"
+    },
+    "_Primitive::Colors/secondary/950": {
+      "Values": "#011820"
+    },
+    "_Primitive::Colors/secondary/alpha/0": {
+      "Values": "#0C5F7900"
+    },
+    "_Primitive::Colors/secondary/alpha/5": {
+      "Values": "#0C5F790D"
+    },
+    "_Primitive::Colors/secondary/alpha/10": {
+      "Values": "#0C5F791A"
+    },
+    "_Primitive::Colors/secondary/alpha/20": {
+      "Values": "#0C5F7933"
+    },
+    "_Primitive::Colors/secondary/alpha/30": {
+      "Values": "#0C5F794D"
+    },
+    "_Primitive::Colors/secondary/alpha/40": {
+      "Values": "#0C5F7966"
+    },
+    "_Primitive::Colors/secondary/alpha/50": {
+      "Values": "#0C5F7980"
+    },
+    "_Primitive::Colors/secondary/alpha/60": {
+      "Values": "#0C5F7999"
+    },
+    "_Primitive::Colors/secondary/alpha/70": {
+      "Values": "#0C5F79B3"
+    },
+    "_Primitive::Colors/secondary/alpha/80": {
+      "Values": "#0C5F79CC"
+    },
+    "_Primitive::Colors/secondary/alpha/90": {
+      "Values": "#0C5F79E6"
+    },
+    "_Primitive::Colors/neutral/0": {
+      "Values": "#FFFFFF"
+    },
+    "_Primitive::Colors/neutral/50": {
+      "Values": "#F7F7F7"
+    },
+    "_Primitive::Colors/neutral/100": {
+      "Values": "#EDEDED"
+    },
+    "_Primitive::Colors/neutral/200": {
+      "Values": "#DBDBDB"
+    },
+    "_Primitive::Colors/neutral/300": {
+      "Values": "#BDBDBD"
+    },
+    "_Primitive::Colors/neutral/400": {
+      "Values": "#969696"
+    },
+    "_Primitive::Colors/neutral/500": {
+      "Values": "#707070"
+    },
+    "_Primitive::Colors/neutral/600": {
+      "Values": "#545454"
+    },
+    "_Primitive::Colors/neutral/700": {
+      "Values": "#404040"
+    },
+    "_Primitive::Colors/neutral/800": {
+      "Values": "#292929"
+    },
+    "_Primitive::Colors/neutral/900": {
+      "Values": "#141414"
+    },
+    "_Primitive::Colors/neutral/950": {
+      "Values": "#0A0A0A"
+    },
+    "_Primitive::Colors/neutral/alpha/0": {
+      "Values": "#54545400"
+    },
+    "_Primitive::Colors/neutral/alpha/5": {
+      "Values": "#5454540D"
+    },
+    "_Primitive::Colors/neutral/alpha/10": {
+      "Values": "#5454541A"
+    },
+    "_Primitive::Colors/neutral/alpha/20": {
+      "Values": "#54545433"
+    },
+    "_Primitive::Colors/neutral/alpha/30": {
+      "Values": "#5454544D"
+    },
+    "_Primitive::Colors/neutral/alpha/40": {
+      "Values": "#54545466"
+    },
+    "_Primitive::Colors/neutral/alpha/50": {
+      "Values": "#54545480"
+    },
+    "_Primitive::Colors/neutral/alpha/60": {
+      "Values": "#54545499"
+    },
+    "_Primitive::Colors/neutral/alpha/70": {
+      "Values": "#545454B3"
+    },
+    "_Primitive::Colors/neutral/alpha/80": {
+      "Values": "#545454CC"
+    },
+    "_Primitive::Colors/neutral/alpha/90": {
+      "Values": "#545454E6"
+    },
+    "_Primitive::Colors/success/50": {
+      "Values": "#E9F7EF"
+    },
+    "_Primitive::Colors/success/100": {
+      "Values": "#C1E8D2"
+    },
+    "_Primitive::Colors/success/200": {
+      "Values": "#8DD4AE"
+    },
+    "_Primitive::Colors/success/300": {
+      "Values": "#55BE87"
+    },
+    "_Primitive::Colors/success/400": {
+      "Values": "#33A96C"
+    },
+    "_Primitive::Colors/success/500": {
+      "Values": "#2D9860"
+    },
+    "_Primitive::Colors/success/600": {
+      "Values": "#268751"
+    },
+    "_Primitive::Colors/success/700": {
+      "Values": "#1E6D41"
+    },
+    "_Primitive::Colors/success/800": {
+      "Values": "#165331"
+    },
+    "_Primitive::Colors/success/900": {
+      "Values": "#0E3921"
+    },
+    "_Primitive::Colors/success/950": {
+      "Values": "#071F12"
+    },
+    "_Primitive::Colors/success/alpha/0": {
+      "Values": "#26875100"
+    },
+    "_Primitive::Colors/success/alpha/5": {
+      "Values": "#2687510D"
+    },
+    "_Primitive::Colors/success/alpha/10": {
+      "Values": "#2687511A"
+    },
+    "_Primitive::Colors/success/alpha/20": {
+      "Values": "#26875133"
+    },
+    "_Primitive::Colors/success/alpha/30": {
+      "Values": "#2687514D"
+    },
+    "_Primitive::Colors/success/alpha/40": {
+      "Values": "#26875166"
+    },
+    "_Primitive::Colors/success/alpha/50": {
+      "Values": "#26875180"
+    },
+    "_Primitive::Colors/success/alpha/60": {
+      "Values": "#26875199"
+    },
+    "_Primitive::Colors/success/alpha/70": {
+      "Values": "#268751B3"
+    },
+    "_Primitive::Colors/success/alpha/80": {
+      "Values": "#268751CC"
+    },
+    "_Primitive::Colors/success/alpha/90": {
+      "Values": "#268751E6"
+    },
+    "_Primitive::Colors/error/50": {
+      "Values": "#FEF0EE"
+    },
+    "_Primitive::Colors/error/100": {
+      "Values": "#FECFCF"
+    },
+    "_Primitive::Colors/error/200": {
+      "Values": "#FEA3A3"
+    },
+    "_Primitive::Colors/error/300": {
+      "Values": "#FF7676"
+    },
+    "_Primitive::Colors/error/400": {
+      "Values": "#FF5050"
+    },
+    "_Primitive::Colors/error/500": {
+      "Values": "#FF3B3B"
+    },
+    "_Primitive::Colors/error/600": {
+      "Values": "#FF2B2B"
+    },
+    "_Primitive::Colors/error/700": {
+      "Values": "#D42222"
+    },
+    "_Primitive::Colors/error/800": {
+      "Values": "#A31A1A"
+    },
+    "_Primitive::Colors/error/900": {
+      "Values": "#721212"
+    },
+    "_Primitive::Colors/error/950": {
+      "Values": "#420A0A"
+    },
+    "_Primitive::Colors/error/alpha/0": {
+      "Values": "#FF2B2B00"
+    },
+    "_Primitive::Colors/error/alpha/5": {
+      "Values": "#FF2B2B0D"
+    },
+    "_Primitive::Colors/error/alpha/10": {
+      "Values": "#FF2B2B1A"
+    },
+    "_Primitive::Colors/error/alpha/20": {
+      "Values": "#FF2B2B33"
+    },
+    "_Primitive::Colors/error/alpha/30": {
+      "Values": "#FF2B2B4D"
+    },
+    "_Primitive::Colors/error/alpha/40": {
+      "Values": "#FF2B2B66"
+    },
+    "_Primitive::Colors/error/alpha/50": {
+      "Values": "#FF2B2B80"
+    },
+    "_Primitive::Colors/error/alpha/60": {
+      "Values": "#FF2B2B99"
+    },
+    "_Primitive::Colors/error/alpha/70": {
+      "Values": "#FF2B2BB3"
+    },
+    "_Primitive::Colors/error/alpha/80": {
+      "Values": "#FF2B2BCC"
+    },
+    "_Primitive::Colors/error/alpha/90": {
+      "Values": "#FF2B2BE6"
+    },
+    "_Primitive::Colors/warning/50": {
+      "Values": "#FFF3E8"
+    },
+    "_Primitive::Colors/warning/100": {
+      "Values": "#FFE0C0"
+    },
+    "_Primitive::Colors/warning/200": {
+      "Values": "#FFC88F"
+    },
+    "_Primitive::Colors/warning/300": {
+      "Values": "#FFB05E"
+    },
+    "_Primitive::Colors/warning/400": {
+      "Values": "#FF9D3E"
+    },
+    "_Primitive::Colors/warning/500": {
+      "Values": "#FF9435"
+    },
+    "_Primitive::Colors/warning/600": {
+      "Values": "#FF8C32"
+    },
+    "_Primitive::Colors/warning/700": {
+      "Values": "#D97424"
+    },
+    "_Primitive::Colors/warning/800": {
+      "Values": "#A85A1A"
+    },
+    "_Primitive::Colors/warning/900": {
+      "Values": "#773F12"
+    },
+    "_Primitive::Colors/warning/950": {
+      "Values": "#4A2609"
+    },
+    "_Primitive::Colors/warning/alpha/0": {
+      "Values": "#FF8C3200"
+    },
+    "_Primitive::Colors/warning/alpha/5": {
+      "Values": "#FF8C320D"
+    },
+    "_Primitive::Colors/warning/alpha/10": {
+      "Values": "#FF8C321A"
+    },
+    "_Primitive::Colors/warning/alpha/20": {
+      "Values": "#FF8C3233"
+    },
+    "_Primitive::Colors/warning/alpha/30": {
+      "Values": "#FF8C324D"
+    },
+    "_Primitive::Colors/warning/alpha/40": {
+      "Values": "#FF8C3266"
+    },
+    "_Primitive::Colors/warning/alpha/50": {
+      "Values": "#FF8C3280"
+    },
+    "_Primitive::Colors/warning/alpha/60": {
+      "Values": "#FF8C3299"
+    },
+    "_Primitive::Colors/warning/alpha/70": {
+      "Values": "#FF8C32B3"
+    },
+    "_Primitive::Colors/warning/alpha/80": {
+      "Values": "#FF8C32CC"
+    },
+    "_Primitive::Colors/warning/alpha/90": {
+      "Values": "#FF8C32E6"
+    },
+    "_Primitive::Colors/info/50": {
+      "Values": "#EEF4FF"
+    },
+    "_Primitive::Colors/info/100": {
+      "Values": "#CBDCFA"
+    },
+    "_Primitive::Colors/info/200": {
+      "Values": "#9CBCF2"
+    },
+    "_Primitive::Colors/info/300": {
+      "Values": "#6D9CE8"
+    },
+    "_Primitive::Colors/info/400": {
+      "Values": "#4880DE"
+    },
+    "_Primitive::Colors/info/500": {
+      "Values": "#336CD9"
+    },
+    "_Primitive::Colors/info/600": {
+      "Values": "#2559D4"
+    },
+    "_Primitive::Colors/info/700": {
+      "Values": "#1D48AD"
+    },
+    "_Primitive::Colors/info/800": {
+      "Values": "#153786"
+    },
+    "_Primitive::Colors/info/900": {
+      "Values": "#0E265F"
+    },
+    "_Primitive::Colors/info/950": {
+      "Values": "#081638"
+    },
+    "_Primitive::Colors/info/alpha/0": {
+      "Values": "#2559D400"
+    },
+    "_Primitive::Colors/info/alpha/5": {
+      "Values": "#2559D40D"
+    },
+    "_Primitive::Colors/info/alpha/10": {
+      "Values": "#2559D41A"
+    },
+    "_Primitive::Colors/info/alpha/20": {
+      "Values": "#2559D433"
+    },
+    "_Primitive::Colors/info/alpha/30": {
+      "Values": "#2559D44D"
+    },
+    "_Primitive::Colors/info/alpha/40": {
+      "Values": "#2559D466"
+    },
+    "_Primitive::Colors/info/alpha/50": {
+      "Values": "#2559D480"
+    },
+    "_Primitive::Colors/info/alpha/60": {
+      "Values": "#2559D499"
+    },
+    "_Primitive::Colors/info/alpha/70": {
+      "Values": "#2559D4B3"
+    },
+    "_Primitive::Colors/info/alpha/80": {
+      "Values": "#2559D4CC"
+    },
+    "_Primitive::Colors/info/alpha/90": {
+      "Values": "#2559D4E6"
+    },
+    "_Primitive::Colors/black": {
+      "Values": "#000000"
+    },
+    "_Primitive::Colors/white": {
+      "Values": "#FFFFFF"
+    }
+  },
+  "docs": {
+    "foundations": {
+      "2-foundations/figma-doc-kit.md": "7d3ce2ad10775ae3"
+    }
+  },
+  "componentTokens": {
+    "web": "e32395212963ca0f",
+    "tablet": "5c9bbd1e893284d6",
+    "mobile": "5c9bbd1e893284d6"
+  }
+}

@@ -1,0 +1,21 @@
+name: biowave_tablet
+description: Biowave Tablet App components (Flutter, Material 3). Built one component at a time from approved plans.
+version: 0.1.0
+publish_to: none
+
+environment:
+  sdk: ">=3.5.0 <4.0.0"
+  flutter: ">=3.24.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  biowave_foundations:
+    path: ../2-foundations/flutter
+
+dev_dependencies:
+  flutter_localizations:
+    sdk: flutter
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0

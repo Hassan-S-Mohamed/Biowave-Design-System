@@ -1,0 +1,80 @@
+# ── OS / editor ────────────────────────────────
+.DS_Store
+**/.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*~
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+
+# ── Secrets / env ──────────────────────────────
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# ── Node / web ─────────────────────────────────
+node_modules/
+.npm/
+.pnpm-store/
+.yarn/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.eslintcache
+.cache/
+.parcel-cache/
+.vite/
+.turbo/
+coverage/
+storybook-static/
+*.tsbuildinfo
+
+# ── Flutter / Dart ─────────────────────────────
+.dart_tool/
+.packages
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+build/
+**/ios/Pods/
+**/ios/.symlinks/
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/flutter_export_environment.sh
+**/android/.gradle/
+**/android/local.properties
+**/android/key.properties
+*.iml
+xcuserdata/
+
+# ── Logs / temp ────────────────────────────────
+*.log
+logs/
+.tmp/
+tmp/
+
+# ── Archives & backups (too large / reproducible) ─
+*.tar.gz
+*.tgz
+*.zip.bak
+_backup-*
+*-backup-*
+
+# ── Large design binaries (>100 MB GitHub limit) ─
+figma-assets/Design System.fig
+
+# ── Throwaway test app ─────────────────────────
+biowave-theme-test/
+
+# ── Sync tooling local state ───────────────────
+biowave-ds/_sync/watch.log
+biowave-ds/_sync/status.txt
+biowave-ds/_sync/figma-pending.json
+biowave-ds/_sync/figma-apply-*.js
+biowave-ds/_sync/.verify/

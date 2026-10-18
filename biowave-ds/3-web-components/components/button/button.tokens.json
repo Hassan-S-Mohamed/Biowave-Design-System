@@ -1,0 +1,766 @@
+{
+  "$schema": "component-tokens/v1",
+  "$description": "Button component tokens (D-13). Every value aliases a SEMANTIC token from 2-foundations \u2014 never a primitive or a raw value. Same facts as spec \u00a73 (checked by npm run component-tokens). Synced to the Web Components file as local collections whose variables alias the Foundations library.",
+  "button": {
+    "size": {
+      "$extensions": {
+        "figma": {
+          "collection": "Button / Size",
+          "modes": true
+        }
+      },
+      "sm": {
+        "height": {
+          "$value": "{size.control.height.sm}"
+        },
+        "padding-inline": {
+          "$value": "{spacing.control.padding-inline.sm}"
+        },
+        "gap": {
+          "$value": "{spacing.control.gap.sm}"
+        },
+        "icon": {
+          "$value": "{size.icon.sm}"
+        },
+        "radius": {
+          "$value": "{radius.md}"
+        },
+        "border-width": {
+          "$value": "{border.width.default}"
+        }
+      },
+      "md": {
+        "height": {
+          "$value": "{size.control.height.md}"
+        },
+        "padding-inline": {
+          "$value": "{spacing.control.padding-inline.md}"
+        },
+        "gap": {
+          "$value": "{spacing.control.gap.md}"
+        },
+        "icon": {
+          "$value": "{size.icon.md}"
+        },
+        "radius": {
+          "$value": "{radius.md}"
+        },
+        "border-width": {
+          "$value": "{border.width.default}"
+        }
+      },
+      "lg": {
+        "height": {
+          "$value": "{size.control.height.lg}"
+        },
+        "padding-inline": {
+          "$value": "{spacing.control.padding-inline.lg}"
+        },
+        "gap": {
+          "$value": "{spacing.control.gap.lg}"
+        },
+        "icon": {
+          "$value": "{size.icon.lg}"
+        },
+        "radius": {
+          "$value": "{radius.md}"
+        },
+        "border-width": {
+          "$value": "{border.width.default}"
+        }
+      }
+    },
+    "filled": {
+      "$extensions": {
+        "figma": {
+          "collection": "Button / Filled",
+          "modes": true
+        }
+      },
+      "brand": {
+        "container": {
+          "default": {
+            "$value": "{color.background.brand.default}"
+          },
+          "hover": {
+            "$value": "{color.background.brand.hover}"
+          },
+          "pressed": {
+            "$value": "{color.background.brand.pressed}"
+          },
+          "disabled": {
+            "$value": "{color.background.neutral.disabled}"
+          }
+        },
+        "label": {
+          "default": {
+            "$value": "{color.text.on.brand}"
+          },
+          "disabled": {
+            "$value": "{color.text.neutral.disabled}"
+          }
+        },
+        "icon": {
+          "default": {
+            "$value": "{color.icon.on.brand}"
+          },
+          "disabled": {
+            "$value": "{color.icon.neutral.disabled}"
+          }
+        }
+      },
+      "secondary": {
+        "container": {
+          "default": {
+            "$value": "{color.background.secondary.default}"
+          },
+          "hover": {
+            "$value": "{color.background.secondary.hover}"
+          },
+          "pressed": {
+            "$value": "{color.background.secondary.pressed}"
+          },
+          "disabled": {
+            "$value": "{color.background.neutral.disabled}"
+          }
+        },
+        "label": {
+          "default": {
+            "$value": "{color.text.on.secondary}"
+          },
+          "disabled": {
+            "$value": "{color.text.neutral.disabled}"
+          }
+        },
+        "icon": {
+          "default": {
+            "$value": "{color.icon.on.secondary}"
+          },
+          "disabled": {
+            "$value": "{color.icon.neutral.disabled}"
+          }
+        }
+      },
+      "error": {
+        "container": {
+          "default": {
+            "$value": "{color.background.error.default}"
+          },
+          "hover": {
+            "$value": "{color.background.error.hover}"
+          },
+          "pressed": {
+            "$value": "{color.background.error.pressed}"
+          },
+          "disabled": {
+            "$value": "{color.background.neutral.disabled}"
+          }
+        },
+        "label": {
+          "default": {
+            "$value": "{color.text.on.error}"
+          },
+          "disabled": {
+            "$value": "{color.text.neutral.disabled}"
+          }
+        },
+        "icon": {
+          "default": {
+            "$value": "{color.icon.on.error}"
+          },
+          "disabled": {
+            "$value": "{color.icon.neutral.disabled}"
+          }
+        }
+      },
+      "neutral": {
+        "container": {
+          "default": {
+            "$value": "{color.background.neutral.default}"
+          },
+          "hover": {
+            "$value": "{color.background.neutral.hover}"
+          },
+          "pressed": {
+            "$value": "{color.background.neutral.pressed}"
+          },
+          "disabled": {
+            "$value": "{color.background.neutral.disabled}"
+          }
+        },
+        "label": {
+          "default": {
+            "$value": "{color.text.neutral.default}"
+          },
+          "disabled": {
+            "$value": "{color.text.neutral.disabled}"
+          }
+        },
+        "icon": {
+          "default": {
+            "$value": "{color.icon.neutral.default}"
+          },
+          "disabled": {
+            "$value": "{color.icon.neutral.disabled}"
+          }
+        }
+      },
+      "inverse": {
+        "container": {
+          "default": {
+            "$value": "{color.background.inverse.default}"
+          },
+          "hover": {
+            "$value": "{color.background.inverse.hover}"
+          },
+          "pressed": {
+            "$value": "{color.background.inverse.pressed}"
+          },
+          "disabled": {
+            "$value": "{color.background.neutral.disabled}"
+          }
+        },
+        "label": {
+          "default": {
+            "$value": "{color.text.role.brand}"
+          },
+          "disabled": {
+            "$value": "{color.text.neutral.disabled}"
+          }
+        },
+        "icon": {
+          "default": {
+            "$value": "{color.icon.role.brand}"
+          },
+          "disabled": {
+            "$value": "{color.icon.neutral.disabled}"
+          }
+        }
+      }
+    },
+    "tonal": {
+      "$extensions": {
+        "figma": {
+          "collection": "Button / Tonal",
+          "modes": true
+        }
+      },
+      "brand": {
+        "container": {
+          "default": {
+            "$value": "{color.background.brand.subtle}"
+          },
+          "disabled": {
+            "$value": "{color.background.neutral.disabled}"
+          }
+        },
+        "state-layer": {
+          "hover": {
+            "$value": "{color.overlay.hover}"
+          },
+          "pressed": {
+            "$value": "{color.overlay.pressed}"
+          }
+        },
+        "label": {
+          "default": {
+            "$value": "{color.text.role.brand}"
+          },
+          "disabled": {
+            "$value": "{color.text.neutral.disabled}"
+          }
+        },
+        "icon": {
+          "default": {
+            "$value": "{color.icon.role.brand}"
+          },
+          "disabled": {
+            "$value": "{color.icon.neutral.disabled}"
+          }
+        }
+      },
+      "secondary": {
+        "container": {
+          "default": {
+            "$value": "{color.background.secondary.subtle}"
+          },
+          "disabled": {
+            "$value": "{color.background.neutral.disabled}"
+          }
+        },
+        "state-layer": {
+          "hover": {
+            "$value": "{color.overlay.hover}"
+          },
+          "pressed": {
+            "$value": "{color.overlay.pressed}"
+          }
+        },
+        "label": {
+          "default": {
+            "$value": "{color.text.role.secondary}"
+          },
+          "disabled": {
+            "$value": "{color.text.neutral.disabled}"
+          }
+        },
+        "icon": {
+          "default": {
+            "$value": "{color.icon.role.secondary}"
+          },
+          "disabled": {
+            "$value": "{color.icon.neutral.disabled}"
+          }
+        }
+      },
+      "error": {
+        "container": {
+          "default": {
+            "$value": "{color.background.error.subtle}"
+          },
+          "disabled": {
+            "$value": "{color.background.neutral.disabled}"
+          }
+        },
+        "state-layer": {
+          "hover": {
+            "$value": "{color.overlay.hover}"
+          },
+          "pressed": {
+            "$value": "{color.overlay.pressed}"
+          }
+        },
+        "label": {
+          "default": {
+            "$value": "{color.text.role.error}"
+          },
+          "disabled": {
+            "$value": "{color.text.neutral.disabled}"
+          }
+        },
+        "icon": {
+          "default": {
+            "$value": "{color.icon.role.error}"
+          },
+          "disabled": {
+            "$value": "{color.icon.neutral.disabled}"
+          }
+        }
+      }
+    },
+    "outlined": {
+      "$extensions": {
+        "figma": {
+          "collection": "Button / Outlined",
+          "modes": true
+        }
+      },
+      "brand": {
+        "container": {
+          "default": {
+            "$value": "{color.background.transparent}"
+          },
+          "disabled": {
+            "$value": "{color.background.transparent}"
+          }
+        },
+        "border": {
+          "default": {
+            "$value": "{color.border.brand}"
+          },
+          "disabled": {
+            "$value": "{color.border.disabled}"
+          }
+        },
+        "state-layer": {
+          "hover": {
+            "$value": "{color.overlay.hover}"
+          },
+          "pressed": {
+            "$value": "{color.overlay.pressed}"
+          }
+        },
+        "label": {
+          "default": {
+            "$value": "{color.text.role.brand}"
+          },
+          "disabled": {
+            "$value": "{color.text.neutral.disabled}"
+          }
+        },
+        "icon": {
+          "default": {
+            "$value": "{color.icon.role.brand}"
+          },
+          "disabled": {
+            "$value": "{color.icon.neutral.disabled}"
+          }
+        }
+      },
+      "secondary": {
+        "container": {
+          "default": {
+            "$value": "{color.background.transparent}"
+          },
+          "disabled": {
+            "$value": "{color.background.transparent}"
+          }
+        },
+        "border": {
+          "default": {
+            "$value": "{color.border.secondary}"
+          },
+          "disabled": {
+            "$value": "{color.border.disabled}"
+          }
+        },
+        "state-layer": {
+          "hover": {
+            "$value": "{color.overlay.hover}"
+          },
+          "pressed": {
+            "$value": "{color.overlay.pressed}"
+          }
+        },
+        "label": {
+          "default": {
+            "$value": "{color.text.role.secondary}"
+          },
+          "disabled": {
+            "$value": "{color.text.neutral.disabled}"
+          }
+        },
+        "icon": {
+          "default": {
+            "$value": "{color.icon.role.secondary}"
+          },
+          "disabled": {
+            "$value": "{color.icon.neutral.disabled}"
+          }
+        }
+      },
+      "error": {
+        "container": {
+          "default": {
+            "$value": "{color.background.transparent}"
+          },
+          "disabled": {
+            "$value": "{color.background.transparent}"
+          }
+        },
+        "border": {
+          "default": {
+            "$value": "{color.border.error}"
+          },
+          "disabled": {
+            "$value": "{color.border.disabled}"
+          }
+        },
+        "state-layer": {
+          "hover": {
+            "$value": "{color.overlay.hover}"
+          },
+          "pressed": {
+            "$value": "{color.overlay.pressed}"
+          }
+        },
+        "label": {
+          "default": {
+            "$value": "{color.text.role.error}"
+          },
+          "disabled": {
+            "$value": "{color.text.neutral.disabled}"
+          }
+        },
+        "icon": {
+          "default": {
+            "$value": "{color.icon.role.error}"
+          },
+          "disabled": {
+            "$value": "{color.icon.neutral.disabled}"
+          }
+        }
+      },
+      "neutral": {
+        "container": {
+          "default": {
+            "$value": "{color.background.transparent}"
+          },
+          "disabled": {
+            "$value": "{color.background.transparent}"
+          }
+        },
+        "border": {
+          "default": {
+            "$value": "{color.border.strong}"
+          },
+          "disabled": {
+            "$value": "{color.border.disabled}"
+          }
+        },
+        "state-layer": {
+          "hover": {
+            "$value": "{color.overlay.hover}"
+          },
+          "pressed": {
+            "$value": "{color.overlay.pressed}"
+          }
+        },
+        "label": {
+          "default": {
+            "$value": "{color.text.neutral.default}"
+          },
+          "disabled": {
+            "$value": "{color.text.neutral.disabled}"
+          }
+        },
+        "icon": {
+          "default": {
+            "$value": "{color.icon.neutral.default}"
+          },
+          "disabled": {
+            "$value": "{color.icon.neutral.disabled}"
+          }
+        }
+      },
+      "inverse": {
+        "container": {
+          "default": {
+            "$value": "{color.background.transparent}"
+          },
+          "disabled": {
+            "$value": "{color.background.transparent}"
+          }
+        },
+        "border": {
+          "default": {
+            "$value": "{color.border.inverse}"
+          },
+          "disabled": {
+            "$value": "{color.border.disabled}"
+          }
+        },
+        "state-layer": {
+          "hover": {
+            "$value": "{color.overlay.hover}"
+          },
+          "pressed": {
+            "$value": "{color.overlay.pressed}"
+          }
+        },
+        "label": {
+          "default": {
+            "$value": "{color.text.on.brand}"
+          },
+          "disabled": {
+            "$value": "{color.text.neutral.disabled}"
+          }
+        },
+        "icon": {
+          "default": {
+            "$value": "{color.icon.on.brand}"
+          },
+          "disabled": {
+            "$value": "{color.icon.neutral.disabled}"
+          }
+        }
+      }
+    },
+    "text": {
+      "$extensions": {
+        "figma": {
+          "collection": "Button / Text",
+          "modes": true
+        }
+      },
+      "brand": {
+        "container": {
+          "default": {
+            "$value": "{color.background.transparent}"
+          },
+          "disabled": {
+            "$value": "{color.background.transparent}"
+          }
+        },
+        "state-layer": {
+          "hover": {
+            "$value": "{color.overlay.hover}"
+          },
+          "pressed": {
+            "$value": "{color.overlay.pressed}"
+          }
+        },
+        "label": {
+          "default": {
+            "$value": "{color.text.role.brand}"
+          },
+          "disabled": {
+            "$value": "{color.text.neutral.disabled}"
+          }
+        },
+        "icon": {
+          "default": {
+            "$value": "{color.icon.role.brand}"
+          },
+          "disabled": {
+            "$value": "{color.icon.neutral.disabled}"
+          }
+        }
+      },
+      "secondary": {
+        "container": {
+          "default": {
+            "$value": "{color.background.transparent}"
+          },
+          "disabled": {
+            "$value": "{color.background.transparent}"
+          }
+        },
+        "state-layer": {
+          "hover": {
+            "$value": "{color.overlay.hover}"
+          },
+          "pressed": {
+            "$value": "{color.overlay.pressed}"
+          }
+        },
+        "label": {
+          "default": {
+            "$value": "{color.text.role.secondary}"
+          },
+          "disabled": {
+            "$value": "{color.text.neutral.disabled}"
+          }
+        },
+        "icon": {
+          "default": {
+            "$value": "{color.icon.role.secondary}"
+          },
+          "disabled": {
+            "$value": "{color.icon.neutral.disabled}"
+          }
+        }
+      },
+      "error": {
+        "container": {
+          "default": {
+            "$value": "{color.background.transparent}"
+          },
+          "disabled": {
+            "$value": "{color.background.transparent}"
+          }
+        },
+        "state-layer": {
+          "hover": {
+            "$value": "{color.overlay.hover}"
+          },
+          "pressed": {
+            "$value": "{color.overlay.pressed}"
+          }
+        },
+        "label": {
+          "default": {
+            "$value": "{color.text.role.error}"
+          },
+          "disabled": {
+            "$value": "{color.text.neutral.disabled}"
+          }
+        },
+        "icon": {
+          "default": {
+            "$value": "{color.icon.role.error}"
+          },
+          "disabled": {
+            "$value": "{color.icon.neutral.disabled}"
+          }
+        }
+      },
+      "neutral": {
+        "container": {
+          "default": {
+            "$value": "{color.background.transparent}"
+          },
+          "disabled": {
+            "$value": "{color.background.transparent}"
+          }
+        },
+        "state-layer": {
+          "hover": {
+            "$value": "{color.overlay.hover}"
+          },
+          "pressed": {
+            "$value": "{color.overlay.pressed}"
+          }
+        },
+        "label": {
+          "default": {
+            "$value": "{color.text.neutral.default}"
+          },
+          "disabled": {
+            "$value": "{color.text.neutral.disabled}"
+          }
+        },
+        "icon": {
+          "default": {
+            "$value": "{color.icon.neutral.default}"
+          },
+          "disabled": {
+            "$value": "{color.icon.neutral.disabled}"
+          }
+        }
+      },
+      "inverse": {
+        "container": {
+          "default": {
+            "$value": "{color.background.transparent}"
+          },
+          "disabled": {
+            "$value": "{color.background.transparent}"
+          }
+        },
+        "state-layer": {
+          "hover": {
+            "$value": "{color.overlay.hover}"
+          },
+          "pressed": {
+            "$value": "{color.overlay.pressed}"
+          }
+        },
+        "label": {
+          "default": {
+            "$value": "{color.text.on.brand}"
+          },
+          "disabled": {
+            "$value": "{color.text.neutral.disabled}"
+          }
+        },
+        "icon": {
+          "default": {
+            "$value": "{color.icon.on.brand}"
+          },
+          "disabled": {
+            "$value": "{color.icon.neutral.disabled}"
+          }
+        }
+      }
+    },
+    "focus-ring": {
+      "$extensions": {
+        "figma": {
+          "collection": "Button / Focus",
+          "modes": true
+        }
+      },
+      "default": {
+        "color": {
+          "$value": "{color.border.focus}"
+        }
+      },
+      "inverse": {
+        "color": {
+          "$value": "{color.border.inverse}"
+        }
+      }
+    }
+  }
+}

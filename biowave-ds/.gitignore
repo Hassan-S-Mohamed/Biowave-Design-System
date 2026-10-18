@@ -1,0 +1,15 @@
+node_modules/
+.dart_tool/
+build/
+.packages
+pubspec.lock
+.DS_Store
+*.log
+.tmp/
+
+# sync tooling (local state)
+_sync/watch.log
+_sync/status.txt
+_sync/figma-pending.json
+_sync/figma-apply-*.js
+_sync/.verify/

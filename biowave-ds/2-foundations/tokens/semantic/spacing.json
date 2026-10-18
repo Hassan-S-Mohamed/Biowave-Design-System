@@ -1,0 +1,105 @@
+{
+  "spacing": {
+    "$description": "Padding, gap and margin scale (4px base, 2px half-steps for micro adjustments).",
+    "none": {
+      "$value": "{primitive.dimension.0}",
+      "$description": "Intentional zero spacing. Collapsing gaps, removing default padding on reset elements.\n"
+    },
+    "xxs": {
+      "$value": "{primitive.dimension.2}",
+      "$description": "Micro adjustments. Notification badge offset, indicator dot position, tight icon nudges.\n"
+    },
+    "xs": {
+      "$value": "{primitive.dimension.4}",
+      "$description": "Icon-to-label gap, tag/badge internal padding, tight chip spacing, button icon gap.\n"
+    },
+    "sm": {
+      "$value": "{primitive.dimension.6}",
+      "$description": "Status pill padding, pagination item padding, vertical tab padding, small control gaps.\n"
+    },
+    "md": {
+      "$value": "{primitive.dimension.8}",
+      "$description": "Table cell padding, button group gap, modal inner gap, list row vertical padding, tooltip padding.\n"
+    },
+    "lg": {
+      "$value": "{primitive.dimension.12}",
+      "$description": "Tab button vertical padding, accordion header padding, form label gap, link group gap.\n"
+    },
+    "xl": {
+      "$value": "{primitive.dimension.16}",
+      "$description": "Tab button horizontal padding, button large padding, notification padding, table cell horizontal padding, form field label gap.\n"
+    },
+    "2xl": {
+      "$value": "{primitive.dimension.20}",
+      "$description": "Button large horizontal padding, section subgroup spacing, comfortable list gaps on tablet.\n"
+    },
+    "3xl": {
+      "$value": "{primitive.dimension.24}",
+      "$description": "Modal padding, card padding, notification horizontal padding, accordion medium gap.\n"
+    },
+    "4xl": {
+      "$value": "{primitive.dimension.32}",
+      "$description": "Section padding, section gap, card lg/md/sm padding on web. Major layout rhythm value.\n"
+    },
+    "5xl": {
+      "$value": "{primitive.dimension.40}",
+      "$description": "Page content top padding, large drawer padding, between-section vertical rhythm on web.\n"
+    },
+    "6xl": {
+      "$value": "{primitive.dimension.48}",
+      "$description": "Accordion medium header gap, large section separators, major vertical rhythm breaks.\n"
+    },
+    "7xl": {
+      "$value": "{primitive.dimension.64}",
+      "$description": "Page header bottom margin, switch description offset, large structural gaps on web.\n"
+    },
+    "8xl": {
+      "$value": "{primitive.dimension.80}",
+      "$description": "Large layout offsets, page-level container padding on wide breakpoints.\n"
+    },
+    "9xl": {
+      "$value": "{primitive.dimension.96}",
+      "$description": "Maximum semantic spacing. Wide-screen page container horizontal padding.\n"
+    },
+    "10xl": {
+      "$value": "{primitive.dimension.128}",
+      "$description": "Radio description indent, structural layout offsets in complex dashboard layouts.\n"
+    },
+    "11xl": {
+      "$value": "{primitive.dimension.160}",
+      "$description": "Maximum layout structural offset. Rare — use only for intentional large structural gaps.\n"
+    },
+    "control": {
+      "$description": "Shared control spacing by control size (P-04). Use with size.control.height.*.",
+      "padding-inline": {
+        "sm": {
+          "$value": "{primitive.dimension.8}"
+        },
+        "md": {
+          "$value": "{primitive.dimension.12}"
+        },
+        "lg": {
+          "$value": "{primitive.dimension.16}"
+        },
+        "xl": {
+          "$value": "{primitive.dimension.24}"
+        }
+      },
+      "gap": {
+        "$description": "Icon-to-label gap inside a control.",
+        "sm": {
+          "$value": "{primitive.dimension.4}"
+        },
+        "md": {
+          "$value": "{primitive.dimension.6}"
+        },
+        "lg": {
+          "$value": "{primitive.dimension.8}"
+        },
+        "xl": {
+          "$value": "{primitive.dimension.8}"
+        }
+      }
+    }
+  }
+}

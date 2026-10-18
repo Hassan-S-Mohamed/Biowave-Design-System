@@ -1,0 +1,16 @@
+{
+  "font": {
+    "family": {
+      "$description": "Font family per script. Platform files (platform/*.json) hold sizes, line heights and role weights.",
+      "en": {
+        "$value": "{primitive.font.family.en}"
+      },
+      "ar": {
+        "$value": "{primitive.font.family.ar}"
+      },
+      "mono": {
+        "$value": "{primitive.font.family.mono}"
+      }
+    }
+  }
+}

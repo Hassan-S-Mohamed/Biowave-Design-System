@@ -1,0 +1,423 @@
+{
+  "color": {
+    "surface": {
+      "$description": "Container surfaces (not interactive). Elevation order: page < default < raised.",
+      "page": {
+        "$value": "{primitive.color.neutral.50}",
+        "$description": "App canvas behind all content."
+      },
+      "default": {
+        "$value": "{primitive.color.neutral.0}",
+        "$description": "Cards, panels, tables, containers."
+      },
+      "subtle": {
+        "$value": "{primitive.color.neutral.50}",
+        "$description": "Low-emphasis blocks inside pages or cards."
+      },
+      "raised": {
+        "$value": "{primitive.color.neutral.0}",
+        "$description": "Floating layers: modals, menus, popovers, drawers. Pair with an elevation token."
+      },
+      "inverse": {
+        "$value": "{primitive.color.neutral.900}",
+        "$description": "Opposite-theme surface (e.g. tooltip, snackbar)."
+      }
+    },
+    "background": {
+      "$description": "Interactive fills with states. Pair each with the matching text.on.* / icon.on.* token.",
+      "transparent": {
+        "$value": "{primitive.color.neutral.alpha.0}",
+        "$description": "Transparent fill for ghost controls."
+      },
+      "base": {
+        "$description": "Plain control fill (outline/ghost controls, list rows).",
+        "default": {
+          "$value": "{primitive.color.neutral.0}"
+        },
+        "hover": {
+          "$value": "{primitive.color.neutral.100}"
+        },
+        "pressed": {
+          "$value": "{primitive.color.neutral.200}"
+        },
+        "disabled": {
+          "$value": "{primitive.color.neutral.100}"
+        }
+      },
+      "inverse": {
+        "$description": "Filled control placed on brand or inverse surfaces (e.g. navy side navigation, hero banner). Label: color.text.role.brand.",
+        "default": {
+          "$value": "{primitive.color.neutral.0}"
+        },
+        "hover": {
+          "$value": "{primitive.color.neutral.100}"
+        },
+        "pressed": {
+          "$value": "{primitive.color.neutral.200}"
+        }
+      },
+      "neutral": {
+        "default": {
+          "$value": "{primitive.color.neutral.100}"
+        },
+        "subtle": {
+          "$value": "{primitive.color.neutral.50}"
+        },
+        "hover": {
+          "$value": "{primitive.color.neutral.200}"
+        },
+        "pressed": {
+          "$value": "{primitive.color.neutral.300}"
+        },
+        "disabled": {
+          "$value": "{primitive.color.neutral.100}"
+        }
+      },
+      "brand": {
+        "default": {
+          "$value": "{primitive.color.primary.600}"
+        },
+        "subtle": {
+          "$value": "{primitive.color.primary.50}"
+        },
+        "hover": {
+          "$value": "{primitive.color.primary.700}"
+        },
+        "pressed": {
+          "$value": "{primitive.color.primary.800}"
+        },
+        "disabled": {
+          "$value": "{primitive.color.neutral.300}"
+        }
+      },
+      "secondary": {
+        "default": {
+          "$value": "{primitive.color.secondary.600}"
+        },
+        "subtle": {
+          "$value": "{primitive.color.secondary.50}"
+        },
+        "hover": {
+          "$value": "{primitive.color.secondary.700}"
+        },
+        "pressed": {
+          "$value": "{primitive.color.secondary.800}"
+        },
+        "disabled": {
+          "$value": "{primitive.color.neutral.300}"
+        }
+      },
+      "success": {
+        "default": {
+          "$value": "{primitive.color.success.700}"
+        },
+        "subtle": {
+          "$value": "{primitive.color.success.50}"
+        },
+        "hover": {
+          "$value": "{primitive.color.success.800}"
+        },
+        "pressed": {
+          "$value": "{primitive.color.success.900}"
+        },
+        "disabled": {
+          "$value": "{primitive.color.neutral.300}"
+        }
+      },
+      "error": {
+        "default": {
+          "$value": "{primitive.color.error.700}"
+        },
+        "subtle": {
+          "$value": "{primitive.color.error.50}"
+        },
+        "hover": {
+          "$value": "{primitive.color.error.800}"
+        },
+        "pressed": {
+          "$value": "{primitive.color.error.900}"
+        },
+        "disabled": {
+          "$value": "{primitive.color.neutral.300}"
+        }
+      },
+      "warning": {
+        "default": {
+          "$value": "{primitive.color.warning.500}"
+        },
+        "subtle": {
+          "$value": "{primitive.color.warning.50}"
+        },
+        "hover": {
+          "$value": "{primitive.color.warning.600}"
+        },
+        "pressed": {
+          "$value": "{primitive.color.warning.700}"
+        },
+        "disabled": {
+          "$value": "{primitive.color.neutral.300}"
+        }
+      },
+      "info": {
+        "default": {
+          "$value": "{primitive.color.info.600}"
+        },
+        "subtle": {
+          "$value": "{primitive.color.info.50}"
+        },
+        "hover": {
+          "$value": "{primitive.color.info.700}"
+        },
+        "pressed": {
+          "$value": "{primitive.color.info.800}"
+        },
+        "disabled": {
+          "$value": "{primitive.color.neutral.300}"
+        }
+      }
+    },
+    "text": {
+      "neutral": {
+        "default": {
+          "$value": "{primitive.color.neutral.950}",
+          "$description": "Primary text: titles, body, values."
+        },
+        "subtle": {
+          "$value": "{primitive.color.neutral.800}",
+          "$description": "Secondary text. (Renamed from text/neutral/neutral.)"
+        },
+        "muted": {
+          "$value": "{primitive.color.neutral.500}",
+          "$description": "Supporting text: helper, meta, timestamps. Meets 4.5:1 on surface.default and surface.page."
+        },
+        "placeholder": {
+          "$value": "{primitive.color.neutral.500}",
+          "$description": "Input placeholder. FIX: was neutral/200 (1.38:1)."
+        },
+        "disabled": {
+          "$value": "{primitive.color.neutral.400}",
+          "$description": "Disabled text (exempt from contrast, must look different from muted)."
+        },
+        "inverse": {
+          "$value": "{primitive.color.neutral.0}",
+          "$description": "Text on surface.inverse."
+        }
+      },
+      "role": {
+        "brand": {
+          "$value": "{primitive.color.primary.700}"
+        },
+        "secondary": {
+          "$value": "{primitive.color.secondary.700}"
+        },
+        "success": {
+          "$value": "{primitive.color.success.700}"
+        },
+        "error": {
+          "$value": "{primitive.color.error.700}"
+        },
+        "warning": {
+          "$value": "{primitive.color.warning.800}"
+        },
+        "info": {
+          "$value": "{primitive.color.info.700}"
+        },
+        "$description": "Colored text on neutral surfaces (status text, emphasis)."
+      },
+      "on": {
+        "$description": "Text placed on background.{role}.default.",
+        "brand": {
+          "$value": "{primitive.color.neutral.0}"
+        },
+        "secondary": {
+          "$value": "{primitive.color.neutral.0}"
+        },
+        "success": {
+          "$value": "{primitive.color.neutral.0}"
+        },
+        "error": {
+          "$value": "{primitive.color.neutral.0}"
+        },
+        "warning": {
+          "$value": "{primitive.color.neutral.950}"
+        },
+        "info": {
+          "$value": "{primitive.color.neutral.0}"
+        }
+      }
+    },
+    "icon": {
+      "neutral": {
+        "default": {
+          "$value": "{primitive.color.neutral.950}"
+        },
+        "subtle": {
+          "$value": "{primitive.color.neutral.800}"
+        },
+        "muted": {
+          "$value": "{primitive.color.neutral.500}",
+          "$description": "FIX: was neutral/400 (2.96:1, below 3:1 for meaningful icons)."
+        },
+        "disabled": {
+          "$value": "{primitive.color.neutral.400}"
+        },
+        "inverse": {
+          "$value": "{primitive.color.neutral.0}"
+        }
+      },
+      "role": {
+        "brand": {
+          "$value": "{primitive.color.primary.600}"
+        },
+        "secondary": {
+          "$value": "{primitive.color.secondary.600}"
+        },
+        "success": {
+          "$value": "{primitive.color.success.600}"
+        },
+        "error": {
+          "$value": "{primitive.color.error.600}"
+        },
+        "warning": {
+          "$value": "{primitive.color.warning.700}"
+        },
+        "info": {
+          "$value": "{primitive.color.info.600}"
+        }
+      },
+      "on": {
+        "brand": {
+          "$value": "{primitive.color.neutral.0}"
+        },
+        "secondary": {
+          "$value": "{primitive.color.neutral.0}"
+        },
+        "success": {
+          "$value": "{primitive.color.neutral.0}"
+        },
+        "error": {
+          "$value": "{primitive.color.neutral.0}"
+        },
+        "warning": {
+          "$value": "{primitive.color.neutral.950}"
+        },
+        "info": {
+          "$value": "{primitive.color.neutral.0}"
+        }
+      }
+    },
+    "border": {
+      "default": {
+        "$value": "{primitive.color.neutral.200}",
+        "$description": "Decorative separation: cards, tables, dividers. Not for control boundaries."
+      },
+      "subtle": {
+        "$value": "{primitive.color.neutral.100}"
+      },
+      "strong": {
+        "$value": "{primitive.color.neutral.300}"
+      },
+      "disabled": {
+        "$value": "{primitive.color.neutral.200}"
+      },
+      "brand": {
+        "$value": "{primitive.color.primary.300}"
+      },
+      "secondary": {
+        "$value": "{primitive.color.secondary.300}"
+      },
+      "success": {
+        "$value": "{primitive.color.success.300}"
+      },
+      "error": {
+        "$value": "{primitive.color.error.300}"
+      },
+      "warning": {
+        "$value": "{primitive.color.warning.300}"
+      },
+      "info": {
+        "$value": "{primitive.color.info.300}"
+      },
+      "inverse": {
+        "$value": "{primitive.color.neutral.0}",
+        "$description": "Outlines and focus ring of controls placed on brand or inverse surfaces."
+      },
+      "input": {
+        "$description": "Boundaries of controls that need 3:1 (inputs, checkboxes, outline icon buttons). Merges form/default, control-accessible, icon-button/outline.",
+        "default": {
+          "$value": "{primitive.color.neutral.500}"
+        },
+        "hover": {
+          "$value": "{primitive.color.neutral.700}"
+        },
+        "error": {
+          "$value": "{primitive.color.error.700}"
+        }
+      },
+      "focus": {
+        "$value": "{primitive.color.primary.500}",
+        "$description": "Keyboard focus ring. FIX: was primary/200 (2.58:1 on white, below 3:1)."
+      }
+    },
+    "link": {
+      "default": {
+        "$value": "{primitive.color.info.600}"
+      },
+      "hover": {
+        "$value": "{primitive.color.info.700}"
+      },
+      "pressed": {
+        "$value": "{primitive.color.info.800}"
+      },
+      "visited": {
+        "$value": "{primitive.color.info.700}"
+      }
+    },
+    "overlay": {
+      "backdrop": {
+        "$value": "{primitive.color.neutral.alpha.60}",
+        "$description": "Behind modals and blocking drawers."
+      },
+      "scrim": {
+        "$value": "{primitive.color.neutral.alpha.30}",
+        "$description": "Non-blocking dimming."
+      },
+      "subtle": {
+        "$value": "{primitive.color.neutral.alpha.10}",
+        "$description": "Quiet hover/selected layer."
+      },
+      "brand": {
+        "$value": "{primitive.color.primary.alpha.20}"
+      },
+      "secondary": {
+        "$value": "{primitive.color.secondary.alpha.20}"
+      },
+      "success": {
+        "$value": "{primitive.color.success.alpha.20}"
+      },
+      "error": {
+        "$value": "{primitive.color.error.alpha.20}"
+      },
+      "warning": {
+        "$value": "{primitive.color.warning.alpha.20}"
+      },
+      "info": {
+        "$value": "{primitive.color.info.alpha.20}"
+      },
+      "hover": {
+        "$value": "{primitive.color.neutral.alpha.10}",
+        "$description": "State layer over a non-filled control (tonal, outlined, text) on hover. Placed above the control's own fill."
+      },
+      "pressed": {
+        "$value": "{primitive.color.neutral.alpha.20}",
+        "$description": "State layer over a non-filled control on press."
+      }
+    },
+    "shadow": {
+      "$description": "Shadow colors used inside elevation tokens only.",
+      "ambient": {
+        "$value": "{primitive.color.primary.900}"
+      }
+    }
+  }
+}

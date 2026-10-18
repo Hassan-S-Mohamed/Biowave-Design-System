@@ -1,0 +1,28 @@
+{
+  "border": {
+    "width": {
+      "$description": "Stroke widths. NEW: no width tokens existed.",
+      "none": {
+        "$value": "{primitive.dimension.0}"
+      },
+      "default": {
+        "$value": "{primitive.dimension.1}",
+        "$description": "Cards, inputs, dividers."
+      },
+      "strong": {
+        "$value": "{primitive.dimension.2}",
+        "$description": "Selected/active outlines."
+      },
+      "focus": {
+        "$value": "{primitive.dimension.2}",
+        "$description": "Focus ring thickness (WCAG 2.4.13 recommends >= 2px)."
+      }
+    },
+    "focus": {
+      "offset": {
+        "$value": "{primitive.dimension.2}",
+        "$description": "Gap between control and focus ring."
+      }
+    }
+  }
+}

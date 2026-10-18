@@ -1,0 +1,48 @@
+{
+  "radius": {
+    "none": {
+      "$value": "{primitive.dimension.0}",
+      "$description": "Square: sidebars, full-bleed areas."
+    },
+    "xxs": {
+      "$value": "{primitive.dimension.2}",
+      "$description": "Micro marks, progress tracks."
+    },
+    "xs": {
+      "$value": "{primitive.dimension.4}",
+      "$description": "Checkbox, small badge."
+    },
+    "sm": {
+      "$value": "{primitive.dimension.6}",
+      "$description": "Tag, tooltip, compact button."
+    },
+    "md": {
+      "$value": "{primitive.dimension.8}",
+      "$description": "Input, select, small popover, default button."
+    },
+    "lg": {
+      "$value": "{primitive.dimension.10}",
+      "$description": "Menu, dropdown."
+    },
+    "xl": {
+      "$value": "{primitive.dimension.12}",
+      "$description": "Card list item, large button."
+    },
+    "2xl": {
+      "$value": "{primitive.dimension.16}",
+      "$description": "Card, dashboard widget."
+    },
+    "3xl": {
+      "$value": "{primitive.dimension.20}",
+      "$description": "Dialog, banner."
+    },
+    "4xl": {
+      "$value": "{primitive.dimension.24}",
+      "$description": "Sheet, hero container."
+    },
+    "full": {
+      "$value": "{primitive.dimension.9999}",
+      "$description": "Pill and circle: avatar, toggle track, count badge."
+    }
+  }
+}

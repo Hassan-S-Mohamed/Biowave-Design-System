@@ -1,0 +1,37 @@
+{
+  "name": "@biowave/web",
+  "version": "0.1.0",
+  "description": "Biowave Web App components (React + MUI). Built one component at a time from approved plans.",
+  "type": "module",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "vitest run"
+  },
+  "peerDependencies": {
+    "@biowave/foundations": "1.1.0",
+    "@mui/material": "^9.5.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@biowave/foundations": "1.1.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/icons-material": "^9.5.0",
+    "@mui/material": "^9.5.0",
+    "@testing-library/jest-dom": "^6.0.0",
+    "@testing-library/react": "^16.0.0",
+    "@testing-library/user-event": "^14.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "jsdom": "^27.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "vitest": "^3.0.0",
+    "vitest-axe": "^0.1.0"
+  }
+}

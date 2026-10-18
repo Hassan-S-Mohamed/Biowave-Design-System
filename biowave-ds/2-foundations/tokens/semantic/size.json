@@ -1,0 +1,85 @@
+{
+  "size": {
+    "container": {
+      "$description": "Max-width tiers for dialogs, panels and content columns. FIX: now alias local primitives (were remote library \"Primitives\").",
+      "xxs": {
+        "$value": "{primitive.dimension.320}"
+      },
+      "xs": {
+        "$value": "{primitive.dimension.384}"
+      },
+      "sm": {
+        "$value": "{primitive.dimension.480}"
+      },
+      "md": {
+        "$value": "{primitive.dimension.560}"
+      },
+      "lg": {
+        "$value": "{primitive.dimension.640}"
+      },
+      "xl": {
+        "$value": "{primitive.dimension.768}"
+      },
+      "2xl": {
+        "$value": "{primitive.dimension.1024}"
+      },
+      "3xl": {
+        "$value": "{primitive.dimension.1280}"
+      },
+      "4xl": {
+        "$value": "{primitive.dimension.1440}"
+      },
+      "5xl": {
+        "$value": "{primitive.dimension.1600}"
+      },
+      "6xl": {
+        "$value": "{primitive.dimension.1920}"
+      }
+    },
+    "icon": {
+      "$description": "Icon box sizes (Material Symbols optical sizes 20/24/40/48).",
+      "xs": {
+        "$value": "{primitive.dimension.12}"
+      },
+      "sm": {
+        "$value": "{primitive.dimension.16}"
+      },
+      "md": {
+        "$value": "{primitive.dimension.20}"
+      },
+      "lg": {
+        "$value": "{primitive.dimension.24}"
+      },
+      "xl": {
+        "$value": "{primitive.dimension.32}"
+      },
+      "2xl": {
+        "$value": "{primitive.dimension.40}"
+      },
+      "3xl": {
+        "$value": "{primitive.dimension.48}"
+      }
+    },
+    "control": {
+      "$description": "Shared control heights (P-04): buttons, icon buttons, split buttons, inputs, selects, segmented buttons. Touch platforms default to lg; xl is tablet/mobile only (primary full-width actions).",
+      "height": {
+        "sm": {
+          "$value": "{primitive.dimension.32}",
+          "$description": "Dense web toolbars and tables."
+        },
+        "md": {
+          "$value": "{primitive.dimension.40}",
+          "$description": "Default control on web."
+        },
+        "lg": {
+          "$value": "{primitive.dimension.48}",
+          "$description": "Default on tablet and mobile (= touch target)."
+        },
+        "xl": {
+          "$value": "{primitive.dimension.56}",
+          "$description": "Prominent mobile/tablet primary action."
+        }
+      }
+    }
+  }
+}
