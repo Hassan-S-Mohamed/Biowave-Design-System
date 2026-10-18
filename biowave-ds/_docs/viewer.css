@@ -1408,6 +1408,15 @@ a:focus-visible,
 .home-header { display: flex; align-items: center; justify-content: space-between; gap: var(--bw-spacing-lg); padding: var(--bw-spacing-xl) var(--bw-spacing-4xl); background: var(--bw-color-surface-default); }
 .home-crumb { display: inline-flex; align-items: center; gap: var(--bw-spacing-sm); color: var(--bw-color-text-neutral-subtle); text-decoration: none; font-size: var(--bw-font-size-body-lg); font-weight: var(--bw-font-weight-title); }
 .home-crumb .brand-mark { inline-size: var(--bw-size-icon-lg); block-size: var(--bw-size-icon-lg); }
+.home-brand { display: inline-flex; align-items: center; gap: var(--bw-spacing-sm); color: inherit; text-decoration: none; }
+.home-switch { position: relative; }
+.home-switch-button { display: inline-flex; align-items: center; gap: var(--bw-spacing-xs); min-block-size: var(--bw-target-min); padding-inline: var(--bw-spacing-sm); border: 0; border-radius: var(--bw-radius-md); background: transparent; color: var(--bw-color-text-neutral-default); font: inherit; cursor: pointer; }
+.home-switch-button:hover,
+.home-switch-button[aria-expanded='true'] { background: var(--bw-color-background-neutral-hover); }
+.home-switch-button svg { transition: transform var(--bw-motion-duration-sm) var(--bw-motion-easing-standard); }
+.home-switch-button[aria-expanded='true'] svg { transform: rotate(180deg); }
+.home-switch .menu-popover { inset-inline-start: 0; inset-inline-end: auto; inline-size: max-content; min-inline-size: 12rem; z-index: 1; }
+.home-switch .component-menu a { grid-template-columns: minmax(0, 1fr) auto; font-size: var(--bw-font-size-body-md); }
 .home-link { color: var(--bw-color-link-default); font-weight: var(--bw-font-weight-title); text-decoration: none; }
 .home-title { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--bw-spacing-lg); padding: var(--bw-spacing-2xl) var(--bw-spacing-4xl); background: var(--bw-color-surface-subtle); border-block-end: var(--bw-border-width-default) solid var(--bw-color-border-subtle); }
 .home-title h1 { margin: 0; font-size: var(--bw-font-size-heading-lg); line-height: var(--bw-font-line-height-heading-lg); font-weight: var(--bw-font-weight-heading); color: var(--bw-color-text-neutral-default); }

@@ -38,7 +38,7 @@ export function expectedFiles() {
     for (const name of names) {
       files[`${sec}/components/${name}/${name}.html`] = `${head(`${name} · ${plat}`, '../../../', plat)}\n<body>\n${BODY}${cfg({ page: 'component', platform: plat, component: name, root: '../../../' }, '../../../')}`;
     }
-    files[`${sec}/index.html`] = `${head(`Components List · ${plat}`, '../', plat)}\n${homeBody}${cfg({ page: 'components', platform: plat, root: '../' }, '../')}`;
+    files[`${sec}/index.html`] = `${head(`Components List · ${plat}`, '../', 'web')}\n${homeBody}${cfg({ page: 'components', platform: plat, root: '../' }, '../')}`;
   }
   files['2-foundations/index.html'] = `${head('Foundation List', '../', 'web')}\n${homeBody}${cfg({ page: 'foundations', platform: 'web', root: '../' }, '../')}`;
   files['2-foundations/foundation.html'] = `${head('Foundation', '../', 'web')}\n${homeBody}${cfg({ page: 'foundation', platform: 'web', root: '../' }, '../')}`;

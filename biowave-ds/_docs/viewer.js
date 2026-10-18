@@ -223,6 +223,7 @@
       foundationList: 'Foundation List',
       componentCrumb: 'Component',
       foundationCrumb: 'Foundation',
+      sectionSwitch: 'Switch section',
       openTokens: 'Open the token preview',
       notGenerated: 'not generated (plan not Finished)',
     tabs: { overview: 'Overview', props: 'Props & tokens', variations: 'Variations', states: 'States & motion', usage: 'Usage', content: 'Content', platform: 'Platform', rtl: 'RTL', accessibility: 'Accessibility', changelog: 'Changelog' },
@@ -268,6 +269,7 @@
       foundationList: 'قائمة الأسس',
       componentCrumb: 'المكوّنات',
       foundationCrumb: 'الأسس',
+      sectionSwitch: 'تبديل القسم',
       openTokens: 'فتح معاينة الرموز',
       notGenerated: 'لم يُنشأ بعد (الخطة غير مكتملة)',
     tabs: { overview: 'نظرة عامة', props: 'الخصائص والرموز', variations: 'التنويعات', states: 'الحالات والحركة', usage: 'الاستخدام', content: 'المحتوى', platform: 'المنصة', rtl: 'الاتجاه RTL', accessibility: 'إمكانية الوصول', changelog: 'سجل التغييرات' },
@@ -288,6 +290,7 @@
   const icons = {
     check: '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="m6.5 12.5 3.4 3.4 7.6-8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     chevron: '<svg class="demo-icon directional" viewBox="0 0 24 24" aria-hidden="true"><path d="m9 6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    chevronDown: '<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     edit: '<svg class="demo-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20h4l11-11-4-4L4 16v4Zm9.8-13.8 4 4" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     external: '<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path d="M14 5h5v5M12 12l7-7M19 13v5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     add: '<svg class="demo-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
@@ -910,16 +913,61 @@
   };
 
   const LOGO = `<svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><path d="M5.6 7.5A8 8 0 0 1 18.4 7.5"/><path d="M4.2 12a8 8 0 0 1 1.1-3.3M19.8 12a8 8 0 0 0-1.1-3.3"/><path d="M7.5 18.5A9 9 0 0 1 6.5 12a5.5 5.5 0 0 1 11 0v1"/><path d="M9.5 20a11 11 0 0 1-1-8 3.5 3.5 0 0 1 7 0v2.5a6 6 0 0 1-1 3.3"/><path d="M12 12v2.5a9 9 0 0 0 1.5 5"/><path d="M17.3 16.3a10 10 0 0 1-.8 3.2"/></svg>`;
-  function homeHeader(section) {
-    return `<header class="home-header"><a class="home-crumb" href="${ROOT}2-foundations/index.html"><span class="brand-mark">${LOGO}</span><span>Biowave DS</span><span aria-hidden="true">/</span><span>${section}</span></a><a class="home-link" href="${ROOT}2-foundations/index.html">biowave.ds</a></header>`;
+  function homeHeader(current, suffix = '') {
+    const sections = [
+      { key: 'foundations', label: t('foundationCrumb'), href: `${ROOT}2-foundations/index.html` },
+      { key: 'components', label: t('componentCrumb'), href: `${ROOT}${SECTION[platform]}/index.html` },
+    ];
+    const active = sections.find((s) => s.key === current);
+    const items = sections.map((s) => (s.key === current
+      ? `<a role="menuitem" href="${s.href}" aria-current="page"><span>${s.label}</span>${icons.check}</a>`
+      : `<a role="menuitem" href="${s.href}"><span>${s.label}</span></a>`)).join('');
+    const tail = suffix ? `<span aria-hidden="true">/</span><span>${suffix}</span>` : '';
+    const switcher = `<div class="home-switch"><button class="home-switch-button" type="button" aria-haspopup="menu" aria-expanded="false" data-home-switch>${active.label}${icons.chevronDown}</button><div class="menu-popover component-menu" role="menu" data-home-switch-menu hidden>${items}</div></div>`;
+    return `<header class="home-header"><nav class="home-crumb" aria-label="${t('sectionSwitch')}"><a class="home-brand" href="${ROOT}2-foundations/index.html"><span class="brand-mark">${LOGO}</span><span>Biowave DS</span></a><span aria-hidden="true">/</span>${switcher}${tail}</nav><a class="home-link" href="${ROOT}2-foundations/index.html">biowave.ds</a></header>`;
+  }
+
+  function cycleFocus(container, key) {
+    const links = Array.from(container.querySelectorAll('a'));
+    const change = key === 'ArrowDown' ? 1 : -1;
+    links[(links.indexOf(document.activeElement) + change + links.length) % links.length].focus();
+  }
+
+  function bindHomeSwitch() {
+    const parts = () => ({ button: document.querySelector('[data-home-switch]'), menu: document.querySelector('[data-home-switch-menu]') });
+    const setOpen = (open, focusItem) => {
+      const { button, menu } = parts();
+      if (!button) return;
+      menu.hidden = !open;
+      button.setAttribute('aria-expanded', String(open));
+      if (open && focusItem) (menu.querySelector('[aria-current]') || menu.querySelector('a')).focus();
+    };
+    document.addEventListener('click', (event) => {
+      if (event.target.closest('[data-home-switch]')) setOpen(parts().menu.hidden, true);
+      else if (!event.target.closest('.home-switch')) setOpen(false, false);
+    });
+    document.addEventListener('focusout', (event) => {
+      if (event.target.closest('.home-switch') && !event.relatedTarget?.closest('.home-switch')) setOpen(false, false);
+    });
+    document.addEventListener('keydown', (event) => {
+      const { button, menu } = parts();
+      if (!button || menu.hidden) return;
+      if (event.key === 'Escape') {
+        setOpen(false, false);
+        button.focus();
+      } else if (['ArrowDown', 'ArrowUp'].includes(event.key)) {
+        event.preventDefault();
+        cycleFocus(menu, event.key);
+      }
+    });
   }
   const homeFooter = () => `<footer class="home-footer"><span class="brand-mark">${LOGO}</span><span>Biowave DS</span></footer>`;
-  const homeCard = (preview, title, href, label) => `<article class="home-card"><div class="home-preview">${preview}</div><div class="home-card-body"><h2>${title}</h2><a href="${href}">${label} <span aria-hidden="true">↗</span></a></div></article>`;
+  const homeCard = (preview, title, href, label) => `<article class="home-card"><div class="home-preview" data-platform="${platform}">${preview}</div><div class="home-card-body"><h2>${title}</h2><a href="${href}">${label} <span aria-hidden="true">↗</span></a></div></article>`;
 
   function applyPrefs() {
     root.lang = state.lang;
     root.dir = state.lang === 'ar' ? 'rtl' : 'ltr';
-    root.dataset.platform = platform;
+    root.dataset.platform = 'web';
     if (state.theme === 'system') root.removeAttribute('data-theme');
     else root.dataset.theme = state.theme;
   }
@@ -935,11 +983,11 @@
         const preview = demos[key] ? `<div class="demo-cluster">${componentDemo(key, undefined, { size: platformData[platform].defaultSize, color: state.color })}</div>` : `<span class="home-placeholder">${item.name[state.lang]}</span>`;
         return homeCard(preview, item.name[state.lang], `components/${key}/${key}.html#overview`, t('viewComponent'));
       }).join('');
-      main.innerHTML = `${homeHeader(t('componentCrumb'))}<div class="home-title"><h1>${t('componentsList')}</h1><nav class="platform-tabs" aria-label="${t('platform')}">${platformLinks}</nav></div><div class="home-grid">${cards}</div>${homeFooter()}`;
+      main.innerHTML = `${homeHeader('components')}<div class="home-title"><h1>${t('componentsList')}</h1><nav class="platform-tabs" aria-label="${t('platform')}">${platformLinks}</nav></div><div class="home-grid">${cards}</div>${homeFooter()}`;
       document.title = `${t('componentsList')} · ${platformData[platform].label[state.lang]} · Biowave`;
     } else if (PAGE === 'foundations') {
       const cards = FOUNDATION_CARDS.map((c) => homeCard(FOUNDATION_PREVIEW[c.key], c.title[state.lang], `foundation.html#${c.key}`, t('viewTokens'))).join('');
-      main.innerHTML = `${homeHeader(t('foundationCrumb'))}<div class="home-title"><h1>${t('foundationList')}</h1><nav class="platform-tabs" aria-label="${t('components')}">${Object.entries(platformData).map(([key, item]) => `<a class="platform-tab" href="${ROOT}${SECTION[key]}/index.html">${item.label[state.lang]}</a>`).join('')}</nav></div><div class="home-grid">${cards}</div>${homeFooter()}`;
+      main.innerHTML = `${homeHeader('foundations')}<div class="home-title"><h1>${t('foundationList')}</h1></div><div class="home-grid">${cards}</div>${homeFooter()}`;
       document.title = `${t('foundationList')} · Biowave`;
     } else if (PAGE === 'foundation') {
       const key = window.location.hash.slice(1) || 'colors';
@@ -950,13 +998,14 @@
         return `<section class="doc-block"><header class="doc-head"><h3>${g}.md</h3><a class="doc-source" href="${url}">${t('guidelines')} ↗</a></header><div class="doc-prose" lang="en" dir="ltr">${markdown(text, url)}</div></section>`;
       }));
       const tokensLink = card.anchor ? `<a class="spec-link" href="preview/index.html#${card.anchor}">${t('openTokens')}${icons.external}</a>` : '';
-      main.innerHTML = `${homeHeader(`${t('foundationCrumb')} / ${card.title[state.lang]}`)}<div class="home-title"><h1>${card.title[state.lang]}</h1><a class="platform-tab" href="index.html">← ${t('foundationList')}</a></div><div class="foundation-body">${tokensLink}<div class="doc-stack">${blocks.join('')}</div></div>${homeFooter()}`;
+      main.innerHTML = `${homeHeader('foundations', card.title[state.lang])}<div class="home-title"><h1>${card.title[state.lang]}</h1><a class="platform-tab" href="index.html">← ${t('foundationList')}</a></div><div class="foundation-body">${tokensLink}<div class="doc-stack">${blocks.join('')}</div></div>${homeFooter()}`;
       document.title = `${card.title[state.lang]} · Biowave`;
       window.onhashchange = () => renderHome();
     }
   }
 
   if (PAGE !== 'component') {
+    bindHomeSwitch();
     renderHome().catch((error) => { document.querySelector('[data-home]').innerHTML = `<p class="doc-error">${t('docsError')} (${escapeHtml(String(error.message || error))})</p>`; });
     return;
   }
@@ -1014,10 +1063,7 @@
   els.componentMenu.addEventListener('keydown', (event) => {
     if (!['ArrowDown', 'ArrowUp'].includes(event.key)) return;
     event.preventDefault();
-    const links = Array.from(els.componentMenu.querySelectorAll('a'));
-    const current = links.indexOf(document.activeElement);
-    const change = event.key === 'ArrowDown' ? 1 : -1;
-    links[(current + change + links.length) % links.length].focus();
+    cycleFocus(els.componentMenu, event.key);
   });
 
   document.querySelectorAll('input[name="theme"]').forEach((input) => input.addEventListener('change', () => {
