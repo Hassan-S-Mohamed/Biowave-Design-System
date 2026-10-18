@@ -4,13 +4,8 @@
 // The parent page (viewer.js) posts { type: 'biowave:prefs', lang, theme, color } on every change; we post back our height.
 import * as React from 'react';
 import { createRoot } from 'react-dom/client';
-import AddRounded from '@mui/icons-material/AddRounded';
-import ArrowForwardRounded from '@mui/icons-material/ArrowForwardRounded';
-import EditRounded from '@mui/icons-material/EditRounded';
-import PushPinRounded from '@mui/icons-material/PushPinRounded';
-import PushPinOutlined from '@mui/icons-material/PushPinOutlined';
-import DeleteOutlineRounded from '@mui/icons-material/DeleteOutlineRounded';
-import SearchRounded from '@mui/icons-material/SearchRounded';
+import '@biowave/foundations/icons.css';
+import { MaterialSymbol } from '../3-web-components/src/test/materialSymbol';
 import {
   BiowaveProvider,
   Button,
@@ -70,8 +65,8 @@ function ButtonDemo({ t, color }: { t: (typeof copy)[Lang]; color: ButtonColor }
       </Row>
       <Row title={t.sizes}>{sizes.map((s) => <Button key={s} size={s} color={color}>{t.save}</Button>)}</Row>
       <Row title={t.icons}>
-        <Button color={color} startIcon={<AddRounded />}>{t.add}</Button>
-        <Button color={color} variant="outlined" endIcon={<ArrowForwardRounded className="bw-icon-directional" />}>{t.next}</Button>
+        <Button color={color} startIcon={<MaterialSymbol name="add" />}>{t.add}</Button>
+        <Button color={color} variant="outlined" endIcon={<MaterialSymbol name="arrow_forward" className="bw-icon-directional" />}>{t.next}</Button>
       </Row>
       <Row title={t.states}>
         <Button color={color} loading={loading} loadingLabel={t.loading} onClick={run}>{t.save}</Button>
@@ -87,16 +82,16 @@ function IconButtonDemo({ t, color }: { t: (typeof copy)[Lang]; color: ButtonCol
     <>
       <Row title={t.variants}>
         {(['filled', 'tonal', 'outlined', 'text'] as const).map((v) => (
-          <IconButton key={v} variant={noTonal.includes(color) && v === 'tonal' ? 'outlined' : v} color={color} icon={<EditRounded />} label={t.edit} />
+          <IconButton key={v} variant={noTonal.includes(color) && v === 'tonal' ? 'outlined' : v} color={color} icon={<MaterialSymbol name="edit" />} label={t.edit} />
         ))}
       </Row>
-      <Row title={t.sizes}>{sizes.map((s) => <IconButton key={s} size={s} variant="outlined" color={color} icon={<EditRounded />} label={t.edit} />)}</Row>
+      <Row title={t.sizes}>{sizes.map((s) => <IconButton key={s} size={s} variant="outlined" color={color} icon={<MaterialSymbol name="edit" />} label={t.edit} />)}</Row>
       <Row title={t.toggle}>
-        <IconButton toggle selected={pinned} onClick={() => setPinned((p) => !p)} variant="tonal" color={noTonal.includes(color) ? 'brand' : color} icon={<PushPinOutlined />} selectedIcon={<PushPinRounded />} label={t.pin} />
+        <IconButton toggle selected={pinned} onClick={() => setPinned((p) => !p)} variant="tonal" color={noTonal.includes(color) ? 'brand' : color} icon={<MaterialSymbol name="push_pin" />} selectedIcon={<MaterialSymbol name="push_pin" filled />} label={t.pin} />
       </Row>
       <Row title={t.states}>
-        <IconButton color={color} variant="filled" loading loadingLabel={t.loading} icon={<DeleteOutlineRounded />} label={t.delete} />
-        <IconButton color={color} variant="filled" disabled icon={<DeleteOutlineRounded />} label={t.delete} />
+        <IconButton color={color} variant="filled" loading loadingLabel={t.loading} icon={<MaterialSymbol name="delete" />} label={t.delete} />
+        <IconButton color={color} variant="filled" disabled icon={<MaterialSymbol name="delete" />} label={t.delete} />
       </Row>
     </>
   );
@@ -114,7 +109,7 @@ function SplitButtonDemo({ t, color }: { t: (typeof copy)[Lang]; color: string }
       </Row>
       <Row title={t.sizes}>{sizes.map((s) => <SplitButton key={s} size={s} color={c} options={options} menuLabel={t.more} onClick={() => {}}>{t.export}</SplitButton>)}</Row>
       <Row title={t.states}>
-        <SplitButton color={c} startIcon={<AddRounded />} options={options} menuLabel={t.more} onClick={() => {}}>{t.add}</SplitButton>
+        <SplitButton color={c} startIcon={<MaterialSymbol name="add" />} options={options} menuLabel={t.more} onClick={() => {}}>{t.add}</SplitButton>
         <SplitButton color={c} disabled options={options} menuLabel={t.more} onClick={() => {}}>{t.disabled}</SplitButton>
       </Row>
     </>
@@ -167,7 +162,7 @@ function TextFieldDemo({ t }: { t: (typeof copy)[Lang] }) {
         <div style={grid}>
           <TextField label={t.name} placeholder={t.name} required />
           <TextField label={t.email} type="email" value={email} onChange={(e) => setEmail(e.target.value)} error={invalid} helperText={invalid ? t.errorText : t.helper} />
-          <TextField label={t.search} hideLabel placeholder={t.search} startAdornment={<SearchRounded />} />
+          <TextField label={t.search} hideLabel placeholder={t.search} startAdornment={<MaterialSymbol name="search" />} />
           <TextField label={t.code} defaultValue="BW-10428" readOnly helperText={t.readOnly} />
           <TextField label={t.code} defaultValue="BW-10428" disabled helperText={t.disabled} />
           <TextField label={t.notes} multiline minRows={3} maxLength={120} showCounter helperText={t.notesHelper} />

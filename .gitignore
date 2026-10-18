@@ -1,11 +1,22 @@
 # ── OS / editor ────────────────────────────────
 .DS_Store
 **/.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100/
+.Trashes/
+.fseventsd/
 Thumbs.db
+ehthumbs.db
+Desktop.ini
 desktop.ini
 *.swp
+*.swo
 *~
 .idea/
+.fleet/
+.history/
 .vscode/*
 !.vscode/extensions.json
 !.vscode/settings.json
@@ -14,8 +25,14 @@ desktop.ini
 .env
 .env.*
 !.env.example
+!.env.sample
+.direnv/
 *.pem
 *.key
+*.p12
+*.pfx
+*.jks
+*.keystore
 
 # ── Node / web ─────────────────────────────────
 node_modules/
@@ -32,8 +49,16 @@ pnpm-debug.log*
 .vite/
 .turbo/
 coverage/
+.nyc_output/
+playwright-report/
+test-results/
 storybook-static/
 *.tsbuildinfo
+
+# Package build output. Foundation dist is a committed generated artifact.
+**/dist/
+!biowave-ds/2-foundations/dist/
+!biowave-ds/2-foundations/dist/**
 
 # ── Flutter / Dart ─────────────────────────────
 .dart_tool/
@@ -42,22 +67,37 @@ storybook-static/
 .flutter-plugins-dependencies
 .pub-cache/
 .pub/
+.fvm/
 build/
+**/doc/api/
 **/ios/Pods/
 **/ios/.symlinks/
 **/ios/Flutter/Generated.xcconfig
 **/ios/Flutter/flutter_export_environment.sh
+**/ios/Flutter/ephemeral/
+**/macos/Flutter/ephemeral/
+**/linux/flutter/ephemeral/
+**/windows/flutter/ephemeral/
 **/android/.gradle/
 **/android/local.properties
 **/android/key.properties
 *.iml
 xcuserdata/
+DerivedData/
+*.xcuserstate
 
 # ── Logs / temp ────────────────────────────────
 *.log
 logs/
+*.pid
+*.pid.lock
 .tmp/
 tmp/
+*.tmp
+*.temp
+*.bak
+*.orig
+*.rej
 
 # ── Archives & backups (too large / reproducible) ─
 *.tar.gz

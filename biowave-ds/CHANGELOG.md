@@ -2,6 +2,20 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Repository — local and generated files excluded from Git] — 2026-10-18
+### Changed
+- Expanded the root `.gitignore` for OS metadata, editor state, local environment and signing files, Node test/build output, Flutter ephemeral output, logs and temporary files. The committed `2-foundations/dist/` output remains explicitly included.
+
+## [Docs — Theme and Language switches on the home pages] — 2026-10-18
+### Added
+- Components List (Web / Tablet / Mobile), Foundation List and each foundation page now show the **Theme** (Light · Dark · System) and **Language** (EN · عربي) switches next to the title. The choice is saved and shared with the component pages.
+### Changed
+- `_docs/viewer.js`: one `prefsControls()` builds both switches for every page and one delegated `change` handler saves the choice and re-renders (focus returns to the chosen option). `_docs/component-body.html` keeps only a `data-prefs` slot; component shells regenerated with `npm run docs:build`.
+
+## [Docs — live preview uses Material Symbols (D-18)] — 2026-10-18
+### Fixed
+- `_docs/live.tsx` still imported the removed `@mui/icons-material`, so every Web component page showed a Vite "Failed to resolve import" overlay. It now loads `@biowave/foundations/icons.css` and renders glyphs with `MaterialSymbol` (`add`, `arrow_forward`, `edit`, `push_pin` / filled, `delete`, `search`) until the Biowave `Icon` ships.
+
 ## [Icon — planned for Web, Tablet, Mobile (1.0)] — 2026-10-18
 ### Added
 - `icon.md` for W/T/M (Plan `Finished`): Part A shared (A8 per platform); Web `Icon` on MUI `Icon` + Material Symbols Rounded font (`name: MaterialSymbol`, `size` xs…3xl or inherit, `filled`, `color` 10 roles, `directional`, `label`); Flutter `BwIcon` on `Icon` + `Symbols.*_rounded` (`BwIconSize`, `BwIconColor`, `directional` via `Transform.flip`, `semanticLabel`). Web C2 includes adopting `Icon` inside the built components and tests; Flutter Icon is the first component of each package.

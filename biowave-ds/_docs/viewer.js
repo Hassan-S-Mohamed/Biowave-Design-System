@@ -339,13 +339,24 @@
     platformBadge: document.querySelector('[data-platform-badge]'),
     tablist: document.querySelector('[data-detail-tabs]'),
     panel: document.querySelector('[data-panel]'),
-    themeLabel: document.querySelector('[data-theme-label]'),
-    langLabel: document.querySelector('[data-language-label]'),
+    prefs: document.querySelector('[data-prefs]'),
     toast: document.querySelector('[data-toast]'),
   };
 
   function t(key) {
     return copy[state.lang][key];
+  }
+
+  // Theme + Language switches, shared by component pages and the home pages. Radio name → state key.
+  const PREFS = {
+    theme: { key: 'theme', storage: 'bw-catalog-theme', options: () => ['light', 'dark', 'system'].map((value) => [value, t(value)]) },
+    language: { key: 'lang', storage: 'bw-catalog-lang', options: () => [['en', 'EN'], ['ar', 'عربي']] },
+  };
+  function prefsControls() {
+    return Object.entries(PREFS).map(([name, pref]) => {
+      const radios = pref.options().map(([value, label]) => `<label><input type="radio" name="${name}" value="${value}"${state[pref.key] === value ? ' checked' : ''}><span${name === 'language' ? ` lang="${value}"` : ''}>${label}</span></label>`).join('');
+      return `<div class="toolbar-group${name === 'theme' ? ' theme-control' : ''}"><span class="toolbar-label">${t(name)}</span><div class="segmented">${radios}</div></div>`;
+    }).join('');
   }
 
   const BUILT = ['Built', 'In review', 'Changes requested', 'Approved'];
@@ -832,15 +843,8 @@
     els.status.textContent = statusText(state.component);
     els.status.classList.toggle('built', isBuilt(state.component));
     els.platformBadge.textContent = platformData[platform].label[state.lang];
-    els.themeLabel.textContent = t('theme');
-    els.langLabel.textContent = t('language');
+    els.prefs.innerHTML = prefsControls();
     document.title = `${item.name[state.lang]} · ${platformData[platform].label[state.lang]} · Biowave`;
-
-    document.querySelectorAll('input[name="theme"]').forEach((input) => {
-      input.checked = input.value === state.theme;
-      input.nextElementSibling.textContent = t(input.value);
-    });
-    document.querySelectorAll('input[name="language"]').forEach((input) => { input.checked = input.value === state.lang; });
 
     renderPlatformTabs();
     renderMenu();
@@ -1019,6 +1023,7 @@
       }
     });
   }
+  const homeTitle = (title, lead = '') => `<div class="home-title"><h1>${title}</h1><div class="home-actions">${lead}${prefsControls()}</div></div>`;
   const homeFooter = () => `<footer class="home-footer"><span class="brand-mark">${LOGO}</span><span>Biowave DS</span></footer>`;
   const homeCard = (preview, title, href, label) => `<article class="home-card"><div class="home-preview" data-platform="${platform}">${preview}</div><div class="home-card-body"><h2>${title}</h2><a href="${href}">${label} <span aria-hidden="true">↗</span></a></div></article>`;
 
@@ -1041,11 +1046,11 @@
         const preview = demos[key] ? `<div class="demo-cluster">${componentDemo(key, undefined, { size: platformData[platform].defaultSize, color: state.color })}</div>` : `<span class="home-placeholder">${item.name[state.lang]}</span>`;
         return homeCard(preview, item.name[state.lang], `components/${key}/${key}.html#overview`, t('viewComponent'));
       }).join('');
-      main.innerHTML = `${homeHeader('components')}<div class="home-title"><h1>${t('componentsList')}</h1><nav class="platform-tabs" aria-label="${t('platform')}">${platformLinks}</nav></div><div class="home-grid">${cards}</div>${homeFooter()}`;
+      main.innerHTML = `${homeHeader('components')}${homeTitle(t('componentsList'), `<nav class="platform-tabs" aria-label="${t('platform')}">${platformLinks}</nav>`)}<div class="home-grid">${cards}</div>${homeFooter()}`;
       document.title = `${t('componentsList')} · ${platformData[platform].label[state.lang]} · Biowave`;
     } else if (PAGE === 'foundations') {
       const cards = FOUNDATION_CARDS.map((c) => homeCard(FOUNDATION_PREVIEW[c.key], c.title[state.lang], `foundation.html#${c.key}`, t('viewTokens'))).join('');
-      main.innerHTML = `${homeHeader('foundations')}<div class="home-title"><h1>${t('foundationList')}</h1></div><div class="home-grid">${cards}</div>${homeFooter()}`;
+      main.innerHTML = `${homeHeader('foundations')}${homeTitle(t('foundationList'))}<div class="home-grid">${cards}</div>${homeFooter()}`;
       document.title = `${t('foundationList')} · Biowave`;
     } else if (PAGE === 'foundation') {
       const key = window.location.hash.slice(1) || 'colors';
@@ -1056,11 +1061,21 @@
         return `<section class="doc-block"><header class="doc-head"><h3>${g}.md</h3><a class="doc-source" href="${url}">${t('guidelines')} ↗</a></header><div class="doc-prose" lang="en" dir="ltr">${markdown(text, url)}</div></section>`;
       }));
       const tokensLink = card.anchor ? `<a class="spec-link" href="preview/index.html#${card.anchor}">${t('openTokens')}${icons.external}</a>` : '';
-      main.innerHTML = `${homeHeader('foundations', card.title[state.lang])}<div class="home-title"><h1>${card.title[state.lang]}</h1><a class="platform-tab" href="index.html">← ${t('foundationList')}</a></div><div class="foundation-body">${tokensLink}<div class="doc-stack">${blocks.join('')}</div></div>${homeFooter()}`;
+      main.innerHTML = `${homeHeader('foundations', card.title[state.lang])}${homeTitle(card.title[state.lang], `<a class="platform-tab" href="index.html">← ${t('foundationList')}</a>`)}<div class="foundation-body">${tokensLink}<div class="doc-stack">${blocks.join('')}</div></div>${homeFooter()}`;
       document.title = `${card.title[state.lang]} · Biowave`;
       window.onhashchange = () => renderHome();
     }
   }
+
+  // The controls are re-rendered on every change, so focus goes back to the chosen radio for keyboard users.
+  document.addEventListener('change', async (event) => {
+    const pref = PREFS[event.target.name];
+    if (!pref || event.target.type !== 'radio') return;
+    state[pref.key] = event.target.value;
+    localStorage.setItem(pref.storage, event.target.value);
+    await (PAGE === 'component' ? renderPage() : renderHome());
+    document.querySelector(`input[name="${event.target.name}"]:checked`)?.focus();
+  });
 
   if (PAGE !== 'component') {
     bindHomeSwitch();
@@ -1123,18 +1138,6 @@
     event.preventDefault();
     cycleFocus(els.componentMenu, event.key);
   });
-
-  document.querySelectorAll('input[name="theme"]').forEach((input) => input.addEventListener('change', () => {
-    state.theme = input.value;
-    localStorage.setItem('bw-catalog-theme', state.theme);
-    renderPage();
-  }));
-
-  document.querySelectorAll('input[name="language"]').forEach((input) => input.addEventListener('change', () => {
-    state.lang = input.value;
-    localStorage.setItem('bw-catalog-lang', state.lang);
-    renderPage();
-  }));
 
   window.addEventListener('popstate', () => {
     parseHash();
