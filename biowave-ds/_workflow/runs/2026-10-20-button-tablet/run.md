@@ -14,6 +14,7 @@
 |---|---|---|---|---|---|---|
 | 01 | implement | codex | done (15 min): `BwButton`, `BwControlSize`, focus ring, `pumpBw`, 4 goldens; Code `Built` | flutter analyze ✓ · flutter test ✓ 37/37 · component-tokens ✓ · sync ✓ READY · docs:check ✓ (2 baseline errors only) | see git log | `01-implement-codex.prompt.md` |
 | 02 | review | claude (wf-reviewer subagent) | done · **Changes requested** — Round 1: 1 🔴, 5 🟡, 3 🟢; Planner owns #1, #6 → Plan `Open` | flutter analyze ✓ · flutter test ✓ 37/37 · component-tokens ✓ · sync ✓ · docs:check ✓ (2 baseline errors only) | see git log | `02-review-claude.prompt.md` |
+| 03 | plan | claude (wf-planner subagent) | done · tablet plan 1.1 (#1 focus ring via `backgroundBuilder` + `Stack(Clip.none)`, #6 real test fonts, Fix round 1 task list #1–#9, AC-8–10) + mobile plan 1.1 (same fixes, AC-8). Plan `Finished` both. First attempt stopped with nothing written: another session switched the shared checkout to `ds/icon-web`; re-run in worktree `../Biowave Design System-button-tablet` | contract tablet button ✓ · contract mobile button ✓ · docs:check ✓ (2 baseline errors only) | see git log | `03-plan-claude.prompt.md` |
 
 ## Gates
 
@@ -23,6 +24,7 @@
 
 ## Questions raised
 
+- 2026-10-20: from step 03 on, this unit runs in its own git worktree `/Users/hassansaid/Downloads/Biowave Design System-button-tablet` (node_modules and `_workflow/.local` symlinked to the main checkout), because the main checkout is used by the icon/web session.
 - Baseline: `npm run docs:check` on `main` has 2 known errors (tablet + mobile `button-group` Figma contracts stale). They are fixed on `ds/button-web` (finding #14, PR #1, not merged yet). Steps here are checked against "no errors besides those 2".
 
 ## Summary

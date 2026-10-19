@@ -2,6 +2,11 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Tablet + Mobile Button — plan 1.1 (review round 1 Planner items)] — 2026-10-20
+### Changed
+- Tablet `button.md` 1.0 → 1.1, Plan `Open` → `Finished` (closes E2 findings #1, #6): C3 focus ring rewritten — `BwFocusRing` hooks into `ButtonStyle.backgroundBuilder`, painted in a `Stack(clipBehavior: Clip.none)` at inset −(`focusOffset` + `widthFocus`) around the visible container, no `Padding`, no layout change, no fade; takes a `BorderRadiusGeometry` and a caller `ringKey`. B2/B6 state the geometry; B9/C6 add ring-rect vs container-rect per size, no-layout-change, measured sizes, dark guideline and disabled-while-loading tests. C5 adds `test/flutter_test_config.dart` and `test/fonts/` (Inter and IBM Plex Sans Arabic static TTFs with their SIL OFL licences; Material Symbols Rounded from the `material_symbols_icons` package asset) and the `pumpBw` localizations + `reduceMotion` flag. C7 AC-8–AC-10 and "Fix round 1 — Executor task list" (#1–#9); Planner response under E2. `4-tablet-components/README.md` Plan column updated. Contracts regenerated.
+- Mobile `button.md` 1.0 → 1.1 (not built yet): the same focus-ring, test-font and `pumpBw` changes in B2, B6, B9, C3, C5, C6 and C7 AC-8, so mobile is not built with the tablet bug. Contracts regenerated. No token changes; Part A unchanged.
+
 ## [Tablet Button — review round 1] — 2026-10-20
 ### Changed
 - Tablet `button.md` Part E Round 1: **Changes requested** (1 🔴 focus-ring geometry/layout, 5 🟡, 3 🟢); Plan set to `Open` for the Planner items (C3 focus ring, test font loading); Review status updated in the header and `4-tablet-components/README.md`.
