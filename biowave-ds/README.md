@@ -106,7 +106,7 @@ Component status lives in each component file header and in the Components table
 | 4 · Tablet components | 4 planned · 0 built | Contracts ready: 4 |
 | 5 · Mobile components | 4 planned · 0 built | Contracts ready: 4 |
 | Figma Doc Kit | Built — in the Annotation library file (D-17) | Unblocks Figma documentation pages and home pages once published and enabled (`2-foundations/figma-doc-kit.md`) |
-| Roadmap | v2 | [`ROADMAP.md`](ROADMAP.md): 42 components + 13 patterns, button family first, DS 1.0 ≈ 23 Nov 2026 |
+| Roadmap | v3 | [`ROADMAP.md`](ROADMAP.md): 45 components + 13 patterns, button family first, DS 1.0 ≈ 23 Nov 2026 |
 
 ## Key decisions
 

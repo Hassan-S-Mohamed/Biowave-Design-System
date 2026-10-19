@@ -2,6 +2,11 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Roadmap v3 — Figma coverage check (P-05)] — 2026-10-20
+### Changed
+- Every component set in the four Figma files (Web, Tablet, Mobile component files and the LEGACY Web + Mobile pages in Foundations) was compared with `ROADMAP.md`. Decision **P-05** (Hassan): Tag / Label / Request status become **Chip** variants; Check badge → Badge; Checkbox card → selectable Card; Day picker → Segmented button; Notification card → List item; Upload photo → File upload; **Action bar** added to Phase 2 (Day 15, Web + Tablet); **Map** added to the backlog; Slider stays post-1.0.
+- DS 1.0 target is now **45 components** + 13 patterns (Phase 1: 22, Phase 2: 23 — the old "21" counts were already out of date). `README.md` roadmap row updated.
+
 ## [Tooling — preview images after planning (agent-workflow-kit 1.1.0)] — 2026-10-19
 ### Added
 - **Previewer** step: after each plan step the orchestrator sends the plan to Codex (ChatGPT image generation); if that fails, it uses Antigravity (Gemini image-generator). It draws the component with exact token values from `2-foundations/dist/tokens.json`, in **light + English** and **dark + Arabic (RTL)**, and saves them as JPEG (about 450 KB each) to `<section>/components/<name>/previews/<name>-light-en.jpg` and `<name>-dark-ar.jpg`, with a `README.md` (token sheet, prompts, check results). The images are shown at the after-plan gate, before any code.
