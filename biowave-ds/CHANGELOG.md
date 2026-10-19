@@ -8,6 +8,13 @@ Every change to the design system is logged here **in the same task**, newest fi
 ## [Review — Web Button round 2: Changes requested] — 2026-10-19
 - Round 1 findings 1–10 all fixed; `typecheck` ✅, `sync` ✅, Button 24/24 ✅; but `test:web` ❌ 73/77 both parallel and serial (emotion `<style>` tags pile up per test file and slow axe/user-event past 5 s; Planner owns the shared fix, #11), `docs:check` ❌ (stale tablet/mobile button-group Figma contracts, #14), live region mounted with its text (#13). Full record: `3-web-components/components/button/button.md` › E3.
 
+## [Tooling — STATUS.md component checklist] — 2026-10-19
+### Added
+- `STATUS.md` (generated, never edited) and `npm run status` (`_docs/status.mjs`): one checklist per platform (Web, Tablet, Mobile) with every roadmap component. Started components show six checks — plan finished, contracts current, code built, code approved, Figma built, Figma approved — and the **Next** step with its role (Planner, Code Executor, Figma Agent, Reviewer, Fixer). Not-started components are listed in roadmap order with their day; patterns are a table by platform. Sources: component file headers, contract state, `ROADMAP.md`.
+- `docs:check` rule 8: fails when `STATUS.md` is missing or out of date.
+### Changed
+- `AGENTS.md`: read `STATUS.md` at the start of a task; run `npm run status` after any status change (Executor checklist, §5 commands). `README.md` Status section links to it and its counts were corrected (6 planned per platform, 44 components). `ROADMAP.md` points to it.
+
 ## [Tooling — preview images after planning (agent-workflow-kit 1.1.0)] — 2026-10-19
 ### Added
 - **Previewer** step: after each plan step the orchestrator sends the plan to Codex (ChatGPT image generation); if that fails, it uses Antigravity (Gemini image-generator). It draws the component with exact token values from `2-foundations/dist/tokens.json`, in **light + English** and **dark + Arabic (RTL)**, and saves them as JPEG (about 450 KB each) to `<section>/components/<name>/previews/<name>-light-en.jpg` and `<name>-dark-ar.jpg`, with a `README.md` (token sheet, prompts, check results). The images are shown at the after-plan gate, before any code.

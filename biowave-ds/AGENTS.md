@@ -66,6 +66,7 @@ npm run contract -- <plat> <name>   ──►   Code Executor: <name>-contract.m
 - **Contracts are generated, never written.** The generator refuses unless `Plan` is `Finished`, component tokens pass, C4 has no token gaps, and every variable / style / component the Figma side needs has a key in `_sync/figma-library.json`. If the source changes, the contract becomes **stale** and builders stop until it is regenerated.
 - A review that sends Planner items back sets `Plan` to `Open`; the Planner fixes A–D, sets `Finished`, regenerates.
 - The Figma Agent builds docs only from the Doc Kit (`2-foundations/figma-doc-kit.md`), imported by key from the **Annotation** library (`figma-files.json` › `docKit`). Until the Doc Kit is built, Phase 2 is reported "blocked — Doc Kit" in D11; Phase 1 still goes ahead.
+- **Where to see status:** [`STATUS.md`](STATUS.md) — a generated checklist of every component and pattern per platform, with the **Next** step and the role that owns it. Read it at the start of a task to pick work. Never edit it: after changing any status, run `npm run status` (`docs:check` fails if it is stale).
 - Status values (`<name>.md` header and the section README Components table, kept equal by `docs:check`):
   - Plan: `Draft` · `Finished` · `Open`
   - Code / Figma build: `Planned` → `In progress` → `Built` → `In review` → `Approved` (or `Changes requested` → back to `In progress`)
@@ -76,7 +77,7 @@ npm run contract -- <plat> <name>   ──►   Code Executor: <name>-contract.m
 - [ ] Create exactly the files in contract §9; export from the package entry file.
 - [ ] Use only the tokens in contract §4.
 - [ ] Write the tests in §10; run the commands in §13 — all must pass.
-- [ ] Fill C8 in `<name>.md`; set **Code** to `Built`; add a `CHANGELOG.md` line.
+- [ ] Fill C8 in `<name>.md`; set **Code** to `Built`; run `npm run status`; add a `CHANGELOG.md` line.
 
 ## 4. Naming conventions
 
@@ -99,7 +100,8 @@ npm run contract -- <plat> <name>   ──►   Code Executor: <name>-contract.m
 ```bash
 npm run tokens          # only if tokens changed — must end with "0 error(s)"
 npm run sync            # must end with "READY for component work" (or "Everything is in sync"); exit code 0
-npm run docs:check      # structure, guidelines, status, generated pages, contracts, links
+npm run status          # after any status change — regenerates STATUS.md
+npm run docs:check      # structure, guidelines, status, generated pages, contracts, links, STATUS.md
 npm run typecheck       # web
 npm run test:web        # web
 cd 4-tablet-components && flutter analyze && flutter test
@@ -123,7 +125,7 @@ Figma is split into four files (D-12). Keys live only in `_sync/figma-files.json
 | **Biowave DS — Mobile Components** | `mobile` | Mobile component sets + docs + Components List page | `5-mobile-components/components/*/figma-*-contract.md` |
 | **Google · Material Symbols** | `icons` | Icon library (D-18): one component set per glyph, Style=Rounded used. Published library | `2-foundations/guidelines/icons.md`, `_sync/figma-icons.json` |
 
-- Start of any task: `npm run sync` (or `_sync/status.txt` if the watcher runs).
+- Start of any task: `npm run sync` (or `_sync/status.txt` if the watcher runs), then read [`STATUS.md`](STATUS.md) for what to work on.
   - **✗ BLOCKED** (stale generated code, Figma variables pending, component tokens pending or invalid) → do not start component work; report it.
   - **✓ READY** with ⏳ items in the **Figma build queue** → start. The queue lists Figma contracts not yet built in Figma; it never blocks code work.
 - Component tokens: edit `<name>.tokens.json` → `npm run component-tokens` → `npm run sync:plan` → run `_sync/figma-apply-tokens-<file>.js` with `use_figma` → `_sync/figma-read-tokens.js` → `npm run sync:verify-tokens -- <file> <dump>` → `npm run sync:done:tokens:<file>`.

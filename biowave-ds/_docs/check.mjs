@@ -7,11 +7,13 @@
 //   5 contracts   a Finished plan has both contracts and they are current; nobody edited a contract
 //   6 links       every relative link in a component file resolves; no reference to removed paths
 //   7 demo CSS    every var(--bw-…) used by the docs viewer exists in tokens.css
+//   8 STATUS.md   the generated status checklist is up to date (npm run status)
 import fs from 'node:fs';
 import path from 'node:path';
 import { ROOT, SECTIONS, REQUIRED, load, listComponents, plainStatus } from './component-file.mjs';
 import { expectedFiles } from './build.mjs';
 import { contractState } from './contract.mjs';
+import { expectedStatus } from './status.mjs';
 
 const errors = [], warnings = [];
 const err = (m) => errors.push(m), warn = (m) => warnings.push(m);
@@ -117,8 +119,15 @@ const defined = new Set([...tokensCss.matchAll(/(--bw-[a-z0-9-]+)\s*:/g)].map((m
 const viewerCss = fs.readFileSync(path.join(ROOT, '_docs/viewer.css'), 'utf8');
 for (const m of new Set([...viewerCss.matchAll(/var\((--bw-[a-z0-9-]+)/g)].map((x) => x[1]))) if (!defined.has(m)) err(`_docs/viewer.css uses ${m}, which is not a token`);
 
+// 8 STATUS.md is current
+{
+  const abs = path.join(ROOT, 'STATUS.md');
+  if (!fs.existsSync(abs)) err('STATUS.md: missing — run npm run status');
+  else if (fs.readFileSync(abs, 'utf8') !== expectedStatus()) err('STATUS.md: out of date or edited — run npm run status');
+}
+
 warnings.forEach((w) => console.log('  ⚠ ' + w));
 errors.forEach((e) => console.log('  ✗ ' + e));
 const n = Object.values(all).reduce((k, v) => k + Object.keys(v).length, 0);
-console.log(errors.length ? `\n✗ docs:check — ${errors.length} error(s) in ${n} component file(s)` : `\n✓ docs:check — ${n} component file(s), structure, guidelines, status, generated pages, contracts, links and demo tokens OK${warnings.length ? ` (${warnings.length} warning(s))` : ''}`);
+console.log(errors.length ? `\n✗ docs:check — ${errors.length} error(s) in ${n} component file(s)` : `\n✓ docs:check — ${n} component file(s), structure, guidelines, status, generated pages, contracts, links, demo tokens and STATUS.md OK${warnings.length ? ` (${warnings.length} warning(s))` : ''}`);
 process.exit(errors.length ? 1 : 0);

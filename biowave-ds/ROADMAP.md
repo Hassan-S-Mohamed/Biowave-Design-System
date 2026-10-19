@@ -1,6 +1,6 @@
 # Roadmap — Biowave components and patterns
 
-> Agent summary: **build order and schedule only.** Core components → complex components → patterns, **2–3 per working day**. Status is not tracked here. It lives in each component file header and the section README Components tables (`3-/4-/5-…/README.md`) (all platforms) and in each section README, so each fact has one home. Before planning a day, read the day's row, the "Depends on" column, and §6 Open decisions.
+> Agent summary: **build order and schedule only.** Core components → complex components → patterns, **2–3 per working day**. Status is not tracked here. It lives in each component file header and the section README Components tables (`3-/4-/5-…/README.md`), so each fact has one home; [`STATUS.md`](STATUS.md) is the generated checklist view of it. Before planning a day, read the day's row, the "Depends on" column, and §6 Open decisions.
 
 | Field | Value |
 |---|---|

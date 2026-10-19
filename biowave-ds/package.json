@@ -15,6 +15,7 @@
     "preview:components": "npm start",
     "docs:build": "node _docs/build.mjs",
     "docs:check": "node _docs/check.mjs",
+    "status": "node _docs/status.mjs",
     "contract": "node _docs/contract.mjs",
     "contracts:status": "node _docs/contract.mjs --status",
     "sync:library": "node _sync/sync.mjs library",
