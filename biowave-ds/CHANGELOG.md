@@ -2,6 +2,23 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Tooling — preview images after planning (agent-workflow-kit 1.1.0)] — 2026-10-19
+### Added
+- **Previewer** step: after each plan step the orchestrator sends the plan to Codex (ChatGPT image generation); if that fails, it uses Antigravity (Gemini image-generator). It draws the component with exact token values from `2-foundations/dist/tokens.json`, in **light + English** and **dark + Arabic (RTL)**, and saves them as JPEG (about 450 KB each) to `<section>/components/<name>/previews/<name>-light-en.jpg` and `<name>-dark-ar.jpg`, with a `README.md` (token sheet, prompts, check results). The images are shown at the after-plan gate, before any code.
+- `_workflow/config.json`: `preview` settings and agents; AGENTS.md: Previewer role row.
+
+## [Tooling — agent workflow (agent-workflow-kit 1.0.0)] — 2026-10-19
+### Added
+- `_workflow/config.json`: settings for the plan → implement → review → fix workflow. Planner and Reviewer = Claude; Implementer and Fixer rotate between Codex, Cursor and Antigravity. Checks per platform come from AGENTS.md §5. Gates after plan, after review and before merge. At most 2 fix rounds. Figma steps are skipped for now.
+- AGENTS.md: **Fixer** role row (reads the latest Part E round and the contract; writes code and a "Fix round N" entry in C8) and a pointer to `_workflow/`.
+### Changed
+- `_docs/check.mjs`: the removed-path scan skips `_workflow/runs/` (run history, like `CHANGELOG.md` and `_audits/`).
+
+## [Repository — agent workflow files excluded from Git] — 2026-10-19
+### Changed
+- Root `.gitignore` now ignores personal AI-agent state: `.claude/settings.local.json`, `.gemini/` and `.worktrees/`. Shared skills and configs (`.agents/`, `.claude/skills`, `.cursor/`) stay committed.
+- `biowave-ds/.gitignore` now ignores `_workflow/.local/` (orchestrator scratch). Run records `_workflow/runs/**/run.md` and `*.prompt.md` are committed; raw agent output (`*.log`) was already ignored.
+
 ## [Docs — Text field Overview playground controls] — 2026-10-18
 ### Added
 - Text field Overview now has interactive controls for example type, size, state, required status, supporting text, help tooltip and character counter, with English and Arabic labels.

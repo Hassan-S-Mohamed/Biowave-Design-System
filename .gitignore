@@ -109,6 +109,12 @@ _backup-*
 # ── Large design binaries (>100 MB GitHub limit) ─
 figma-assets/Design System.fig
 
+# ── AI agents — personal local state ───────────
+# Shared skills and configs are committed: .agents/, .claude/skills, .cursor/, AGENTS.md
+**/.claude/settings.local.json
+.gemini/
+.worktrees/
+
 # ── Throwaway test app ─────────────────────────
 biowave-theme-test/
 

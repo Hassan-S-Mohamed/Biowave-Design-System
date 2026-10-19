@@ -81,7 +81,7 @@ for (const [name, byPlat] of Object.entries(all)) for (const plat of Object.keys
 
 // 6 links + removed paths
 const REMOVED = /(?:^|[\s(`/])(?:\d-[a-z]+-components\/specs\/|6-component-guidelines\/|component-preview\/|_templates\/(?:component-guidelines|component-readme|plan|figma|review)\.md)/;
-const scanSkip = /(^|\/)(node_modules|\.git|\.dart_tool|build|dist|generated)(\/|$)|^CHANGELOG\.md$|^_audits\/|^_sync\/(watch\.log|status\.txt|figma-pending\.json|figma-snapshot\.json)$|\.tar\.gz$/;
+const scanSkip = /(^|\/)(node_modules|\.git|\.dart_tool|build|dist|generated)(\/|$)|^CHANGELOG\.md$|^_audits\/|^_workflow\/runs\/|^_sync\/(watch\.log|status\.txt|figma-pending\.json|figma-snapshot\.json)$|\.tar\.gz$/;
 function walk(dir, out = []) {
   for (const e of fs.readdirSync(path.join(ROOT, dir), { withFileTypes: true })) {
     const rel = dir ? `${dir}/${e.name}` : e.name;

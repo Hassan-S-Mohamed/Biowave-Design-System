@@ -14,3 +14,6 @@ _sync/figma-pending.json
 _sync/figma-apply-*.js
 _sync/figma-read-icons.generated.js
 _sync/.verify/
+
+# agent workflow — run.md and *.prompt.md are committed; raw agent output (*.log) is ignored above
+_workflow/.local/

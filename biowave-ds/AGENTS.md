@@ -11,10 +11,14 @@ Read this file completely before doing anything. It is short on purpose.
 | Role | Reads | Writes |
 |---|---|---|
 | **Planner** (Claude) | Section `README.md` + `<section>/components/<name>/<name>.md` (all Parts) + `_templates/README.md` | Parts A–D and F of `<name>.md`, `<name>.tokens.json`; runs `npm run contract` |
+| **Previewer** (ChatGPT / Gemini) | A2 · A4 · A5 · A6 · B2 · B3 · B5 of `<name>.md`, `<name>.tokens.json`, `2-foundations/dist/tokens.json` | `<section>/components/<name>/previews/` — `<name>-light-en.jpg`, `<name>-dark-ar.jpg` + `README.md` (token sheet, prompts, checks). A sketch to check the plan; `<name>.md` stays the source of truth |
 | **Code Executor** | `<section>/components/<name>/<name>-contract.md` **only** | Code + tests; **C8** Execution log in `<name>.md` |
 | **Figma Agent** | `<section>/components/<name>/figma-<name>-contract.md` **only** | The Figma set + docs; **D11** Execution log in `<name>.md` |
 | **Reviewer** (Claude) | B · C7 · D10 · C8 · D11 of `<name>.md`, the code, the Figma file | **Part E** (one round per review) |
+| **Fixer** | The latest Part E round + `<name>-contract.md` | Code + tests; a **Fix round N** entry in **C8** (never edits Part E) |
 | Designer / PM | The docs: `npm run docs` → Foundation List → Components List → component page | — |
+
+**Agent workflow:** `_workflow/config.json` tells the orchestrator ([agent-workflow-kit](https://github.com/hassanSmohamed/agent-workflow-kit)) which agent does each role, which checks run per platform, and where the human gates are. One branch per component (`ds/<name>-<platform>`); run records in `_workflow/runs/`.
 
 | Section | README | What it owns |
 |---|---|---|
@@ -26,6 +30,7 @@ Read this file completely before doing anything. It is short on purpose.
 | _templates | `_templates/README.md` | The component template, writing rules, ASCII legend, section → docs maps |
 | _docs | `_docs/` (scripts) | Docs viewer, `docs:build`, `docs:check`, contract generator |
 | _sync | `_sync/README.md` | Keeping generated code and Figma in step; Figma library index |
+| _workflow | `_workflow/config.json` | Agent workflow settings (roles, checks, gates) and run records |
 
 ## 2. Golden rules
 

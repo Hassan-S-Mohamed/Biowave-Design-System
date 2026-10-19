@@ -1,0 +1,67 @@
+{
+  "version": 1,
+  "project": "Biowave Design System",
+  "rules": "AGENTS.md",
+  "changelog": "CHANGELOG.md",
+  "runs": "_workflow/runs",
+  "unit": {
+    "file": "{section}/components/{name}/{name}.md",
+    "statusTable": "{section}/README.md",
+    "platforms": {
+      "web": "3-web-components",
+      "tablet": "4-tablet-components",
+      "mobile": "5-mobile-components"
+    }
+  },
+  "status": {
+    "plan": { "draft": "Draft", "ready": "Finished", "reopened": "Open" },
+    "code": { "planned": "Planned", "inProgress": "In progress", "built": "Built", "approved": "Approved", "changesRequested": "Changes requested" },
+    "priority": ["Changes requested", "In progress", "Built", "Planned"]
+  },
+  "inputs": {
+    "plan": "{section}/README.md, every Part of {section}/components/{name}/{name}.md, and _templates/README.md",
+    "preview": "A2, A4, A5, A6, B2, B3 and B5 of {section}/components/{name}/{name}.md; {section}/components/{name}/{name}.tokens.json; resolved values in 2-foundations/dist/tokens.json (theme.light, theme.dark, platform.{platform}, base)",
+    "implement": "{section}/components/{name}/{name}-contract.md only",
+    "review": "B, C7, C8 and E of {section}/components/{name}/{name}.md, and the code changed on this branch",
+    "fix": "The latest round in Part E of {section}/components/{name}/{name}.md, and {section}/components/{name}/{name}-contract.md"
+  },
+  "outputs": {
+    "plan": "Parts A–D and F of {section}/components/{name}/{name}.md and {section}/components/{name}/{name}.tokens.json. Part A is identical in the web, tablet and mobile files (AGENTS.md rule 10)",
+    "preview": "Preview images and README.md (token sheet, prompts, check results) in {section}/components/{name}/previews/",
+    "implement": "The files in contract §9, plus C8 Execution log in {section}/components/{name}/{name}.md",
+    "review": "A new 'Round N — date' block in Part E of {section}/components/{name}/{name}.md, plus the Review column of {section}/README.md",
+    "fix": "The files in contract §9, plus a 'Fix round N' entry in C8 of {section}/components/{name}/{name}.md"
+  },
+  "commands": {
+    "preflight": ["npm run sync"],
+    "afterPlan": ["npm run contract -- {platform} {name}", "npm run docs:check"],
+    "checks": {
+      "web": ["npm run docs:check", "npm run typecheck", "npm run test:web"],
+      "tablet": ["npm run docs:check", "cd 4-tablet-components && flutter analyze && flutter test"],
+      "mobile": ["npm run docs:check", "cd 5-mobile-components && flutter analyze && flutter test"]
+    }
+  },
+  "agents": {
+    "plan": ["claude"],
+    "preview": ["codex", "antigravity"],
+    "review": ["claude"],
+    "implement": ["codex", "cursor", "antigravity"],
+    "fix": ["codex", "cursor", "antigravity"],
+    "pick": { "implement": "rotate", "fix": "rotate", "preview": "first" }
+  },
+  "preview": {
+    "folder": "{section}/components/{name}/previews",
+    "file": "{name}-{theme}-{lang}.jpg",
+    "images": [
+      { "theme": "light", "lang": "en" },
+      { "theme": "dark", "lang": "ar" }
+    ],
+    "maxSize": 1600,
+    "quality": 85
+  },
+  "agentArgs": {},
+  "limits": { "maxFixRounds": 2, "timeoutMinutes": 45 },
+  "gates": ["after-plan", "after-review", "before-merge"],
+  "git": { "base": "main", "branch": "ds/{name}-{platform}" },
+  "skip": ["figma"]
+}
