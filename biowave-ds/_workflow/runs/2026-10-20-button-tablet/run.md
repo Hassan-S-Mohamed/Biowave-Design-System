@@ -16,6 +16,7 @@
 | 02 | review | claude (wf-reviewer subagent) | done · **Changes requested** — Round 1: 1 🔴, 5 🟡, 3 🟢; Planner owns #1, #6 → Plan `Open` | flutter analyze ✓ · flutter test ✓ 37/37 · component-tokens ✓ · sync ✓ · docs:check ✓ (2 baseline errors only) | see git log | `02-review-claude.prompt.md` |
 | 03 | plan | claude (wf-planner subagent) | done · tablet plan 1.1 (#1 focus ring via `backgroundBuilder` + `Stack(Clip.none)`, #6 real test fonts, Fix round 1 task list #1–#9, AC-8–10) + mobile plan 1.1 (same fixes, AC-8). Plan `Finished` both. First attempt stopped with nothing written: another session switched the shared checkout to `ds/icon-web`; re-run in worktree `../Biowave Design System-button-tablet` | contract tablet button ✓ · contract mobile button ✓ · docs:check ✓ (2 baseline errors only) | see git log | `03-plan-claude.prompt.md` |
 | 04 | preview | codex | done (12 min): `button-light-en.jpg` 1600×800, `button-dark-ar.jpg` 1600×1066, README token sheet; ⚠ raster can't prove exact hex/metrics | previews ✓ · sync ✓ | see git log | `04-preview-codex.prompt.md` |
+| 05 | fix | cursor | failed (1.6 min): Cursor usage limit ("ActionRequiredError"). Left only `test/fonts/` (6 valid TTFs + 2 OFL licences), kept for the retry. Retried with codex as 06 (antigravity is manual) | — | — | `05-fix-cursor.prompt.md` |
 
 ## Gates
 
