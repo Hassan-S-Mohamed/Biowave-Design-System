@@ -5,7 +5,7 @@
 | Unit | `icon` on `web` |
 | Unit file | `3-web-components/components/icon/icon.md` |
 | Branch | `ds/icon-web` (from `main`) |
-| Pull request | — |
+| Pull request | https://github.com/hassanSmohamed/Biowave-Design-System/pull/2 |
 | Skipped steps | figma (config › skip) |
 
 User request: "make sure all icons we use in the design system are Google symbols." Plan is already Finished (D-18, Material Symbols Rounded); contract §9 / AC-7 move every built component onto `Icon` and the guard test bans `@mui/icons-material`. Plan and preview not re-run (user chose implement).
