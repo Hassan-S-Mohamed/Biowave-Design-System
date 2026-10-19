@@ -19,7 +19,7 @@
 
 | Gate | Decision | Notes |
 |---|---|---|
-| after-review | pending (2026-10-20) | Planner first (#1 focus-ring geometry, #6 real fonts in goldens), then fix #2–#5, #7–#9 |
+| after-review | **Approve** (2026-10-20) | Planner first for #1 (focus-ring geometry) and #6 (real fonts in goldens), and the same fix in the **mobile** Button plan in the same pass; then preview, then tablet fix #2–#5, #7–#9; build mobile after that |
 
 ## Questions raised
 
