@@ -2,6 +2,11 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Docs — Text field Overview playground controls] — 2026-10-18
+### Added
+- Text field Overview now has interactive controls for example type, size, state, required status, supporting text, help tooltip and character counter, with English and Arabic labels.
+- The controls update both the lightweight overview sample and a configured real `@biowave/web` `TextField`; presets cover leading/trailing icons, clearable, password, prefix/suffix, attached end button and multiline fields.
+
 ## [Repository — local and generated files excluded from Git] — 2026-10-18
 ### Changed
 - Expanded the root `.gitignore` for OS metadata, editor state, local environment and signing files, Node test/build output, Flutter ephemeral output, logs and temporary files. The committed `2-foundations/dist/` output remains explicitly included.

@@ -207,6 +207,9 @@
   Object.assign(copy.en, {
     fieldLabel: 'Email', fieldPlaceholder: 'name@company.com', fieldHelper: 'We send the sign-in link here.', fieldErrorText: 'Enter a valid email address.',
     notesLabel: 'Notes', searchLabel: 'Search devices', fieldError: 'Error', readOnly: 'Read-only',
+    fieldExample: 'Example', fieldSize: 'Size', fieldState: 'State', requiredField: 'Required', supportingText: 'Supporting text', copyValue: 'Copy',
+    helpTooltip: 'Help tooltip', characterCounter: 'Character counter',
+    fieldExamples: { standard: 'Standard', leading: 'Leading icon', trailing: 'Trailing icon', clearable: 'Clearable', password: 'Password', addons: 'Prefix + suffix', endButton: 'End button', multiline: 'Multiline' },
     liveReact: 'Live React component', liveReactNote: 'The real @biowave/web component from 3-web-components/src — click, type and tab through it.',
     color: 'Color',
     leadingIcon: 'Leading icon',
@@ -256,6 +259,9 @@
   Object.assign(copy.ar, {
     fieldLabel: 'البريد الإلكتروني', fieldPlaceholder: 'name@company.com', fieldHelper: 'نرسل رابط تسجيل الدخول إلى هنا.', fieldErrorText: 'أدخل بريداً إلكترونياً صحيحاً.',
     notesLabel: 'ملاحظات', searchLabel: 'البحث في الأجهزة', fieldError: 'خطأ', readOnly: 'للقراءة فقط',
+    fieldExample: 'المثال', fieldSize: 'الحجم', fieldState: 'الحالة', requiredField: 'مطلوب', supportingText: 'نص مساند', copyValue: 'نسخ',
+    helpTooltip: 'تلميح مساعدة', characterCounter: 'عداد الأحرف',
+    fieldExamples: { standard: 'أساسي', leading: 'أيقونة البداية', trailing: 'أيقونة النهاية', clearable: 'قابل للمسح', password: 'كلمة المرور', addons: 'بادئة + لاحقة', endButton: 'زر نهاية', multiline: 'متعدد الأسطر' },
     liveReact: 'مكوّن React مباشر', liveReactNote: 'مكوّن @biowave/web الحقيقي من 3-web-components/src — انقر واكتب وتنقّل بينه.',
     color: 'اللون',
     leadingIcon: 'أيقونة البداية',
@@ -323,6 +329,13 @@
     leading: false,
     trailing: false,
     iconNote: false,
+    fieldExample: 'standard',
+    fieldSize: 'md',
+    fieldState: 'default',
+    fieldRequired: false,
+    fieldHelper: true,
+    fieldHelp: false,
+    fieldCounter: false,
   };
 
   const els = {
@@ -471,25 +484,42 @@
     return `<div class="button-group-demo${fillClass}"${style}>${demoButton('outlined', t('cancel'), { ...plain, color: 'neutral' })}${demoButton('filled', t('save'), plain)}</div>`;
   }
 
-  function demoTextField(variant = 'single-line', opts = {}) {
-    const st = opts.state || 'default';
+  function demoTextField(variant, opts = {}) {
+    const configurable = platform === 'web';
+    const selected = variant || (configurable ? state.fieldExample : 'single-line');
+    const multiline = selected === 'multiline';
+    const st = opts.state || (configurable ? state.fieldState : 'default');
     const cls = `demo-field-box${st === 'hover' ? ' is-hover' : ''}${st === 'focus' ? ' is-focus' : ''}${st === 'fieldError' ? ' is-error' : ''}${st === 'readOnly' ? ' is-readonly' : ''}`;
     const dis = st === 'disabled' ? ' disabled' : '';
     const ro = st === 'readOnly' ? ' readonly' : '';
-    const value = st === 'fieldError' ? 'hassan@biowave' : (st === 'readOnly' || st === 'disabled' ? 'hassan@biowave.io' : '');
+    const hasValue = ['clearable', 'password', 'addons', 'endButton'].includes(selected) || st === 'readOnly' || st === 'disabled' || st === 'fieldError';
+    const value = selected === 'password' ? '••••••••' : (hasValue ? (st === 'fieldError' ? 'hassan@biowave' : 'hassan@biowave.io') : '');
     const helper = st === 'fieldError' ? t('fieldErrorText') : t('fieldHelper');
     const helperCls = st === 'fieldError' ? ' is-error' : '';
-    const size = opts.size ? ` data-s="${opts.size}"` : '';
-    if (variant === 'multiline') {
-      return `<label class="demo-field${st === 'disabled' ? ' is-disabled' : ''}"${size}><span class="demo-field-label">${t('notesLabel')}</span><span class="${cls} is-multiline"><textarea rows="3"${dis}${ro} placeholder="${t('notesLabel')}"></textarea></span><span class="demo-field-helper"><span></span><span>0 / 120</span></span></label>`;
+    const fieldSize = opts.size || (configurable ? state.fieldSize : '');
+    const size = fieldSize ? ` data-s="${fieldSize}"` : '';
+    const required = configurable && state.fieldRequired ? '<span class="demo-field-required" aria-hidden="true">*</span>' : '';
+    const help = configurable && state.fieldHelp ? '<span class="demo-field-help" aria-hidden="true">?</span>' : '';
+    const supporting = !configurable || state.fieldHelper || st === 'fieldError' ? helper : '';
+    const counter = configurable && state.fieldCounter ? `${value.length} / 120` : '';
+    const labelText = multiline ? t('notesLabel') : (['adornment', 'leading', 'clearable'].includes(selected) ? t('searchLabel') : t('fieldLabel'));
+    const label = `<span class="demo-field-label-row"><span class="demo-field-label">${labelText}${required}</span>${help}</span>`;
+    const supportingRow = supporting || counter ? `<span class="demo-field-helper${helperCls}"><span>${supporting}</span><span>${counter}</span></span>` : '';
+    if (multiline) {
+      return `<label class="demo-field${st === 'disabled' ? ' is-disabled' : ''}"${size}>${label}<span class="${cls} is-multiline"><textarea rows="3"${dis}${ro} placeholder="${t('notesLabel')}">${value}</textarea></span>${supportingRow}</label>`;
     }
-    const lead = variant === 'adornment' ? icons.search || '' : '';
-    const label = variant === 'adornment' ? t('searchLabel') : t('fieldLabel');
-    return `<label class="demo-field${st === 'disabled' ? ' is-disabled' : ''}"${size}><span class="demo-field-label">${label}</span><span class="${cls}">${lead}<input type="${variant === 'adornment' ? 'search' : 'email'}" value="${value}" placeholder="${variant === 'adornment' ? t('searchLabel') : t('fieldPlaceholder')}"${dis}${ro}${st === 'fieldError' ? ' aria-invalid="true"' : ''}></span><span class="demo-field-helper${helperCls}"><span>${helper}</span></span></label>`;
+    const lead = selected === 'adornment' || selected === 'leading' || selected === 'clearable' ? icons.search : '';
+    const trail = selected === 'trailing' ? icons.check : selected === 'clearable' ? '<span class="demo-field-action" aria-hidden="true">×</span>' : selected === 'password' ? '<span class="demo-field-action" aria-hidden="true">◉</span>' : '';
+    const prefix = selected === 'addons' ? '<span class="demo-field-addon">https://</span>' : '';
+    const suffix = selected === 'addons' ? '<span class="demo-field-addon">.io</span>' : '';
+    const endButton = selected === 'endButton' ? `<span class="demo-field-end-button">${t('copyValue')}</span>` : '';
+    const inputType = selected === 'password' ? 'password' : ['adornment', 'leading', 'clearable'].includes(selected) ? 'search' : 'email';
+    const placeholder = ['adornment', 'leading', 'clearable'].includes(selected) ? t('searchLabel') : t('fieldPlaceholder');
+    return `<label class="demo-field${st === 'disabled' ? ' is-disabled' : ''}"${size}>${label}<span class="demo-field-row"><span class="${cls}">${prefix}${lead}<input type="${inputType}" value="${value}" placeholder="${placeholder}"${dis}${ro}${st === 'fieldError' ? ' aria-invalid="true"' : ''}>${trail}${suffix}</span>${endButton}</span>${supportingRow}</label>`;
   }
 
   function componentDemo(component = state.component, variant, opts = {}) {
-    if (component === 'text-field') return demoTextField(variant || 'single-line', opts);
+    if (component === 'text-field') return demoTextField(variant, opts);
     if (component === 'button') return demoButton(variant || 'filled', opts.label || t('save'), opts);
     if (component === 'icon-button') return demoIconButton(variant || 'text', variant === 'tonal', opts);
     if (component === 'split-button') return demoSplitButton(variant || 'filled', opts);
@@ -515,6 +545,12 @@
 
   function renderControls() {
     const opt = options();
+    if (state.component === 'text-field' && platform === 'web') {
+      const select = (key, label, values, labels = {}) => `<label class="control-field"><span class="control-label">${label}</span><select class="control-select" data-control="${key}">${values.map((value) => `<option value="${value}"${value === state[key] ? ' selected' : ''}>${labels[value] || t(value)}</option>`).join('')}</select></label>`;
+      const toggle = (key, label) => `<label class="control-switch"><input type="checkbox" role="switch" data-control="${key}"${state[key] ? ' checked' : ''}><span class="switch-track" aria-hidden="true"></span><span class="control-label">${label}</span></label>`;
+      const examples = ['standard', 'leading', 'trailing', 'clearable', 'password', 'addons', 'endButton', 'multiline'];
+      return `<div class="playground-controls" role="group" aria-label="${t('controls')}">${select('fieldExample', t('fieldExample'), examples, t('fieldExamples'))}${select('fieldSize', t('fieldSize'), ['sm', 'md', 'lg'], { sm: 'sm', md: 'md', lg: 'lg' })}${select('fieldState', t('fieldState'), ['default', 'fieldError', 'readOnly', 'disabled'])}${toggle('fieldRequired', t('requiredField'))}${toggle('fieldHelper', t('supportingText'))}${toggle('fieldHelp', t('helpTooltip'))}${toggle('fieldCounter', t('characterCounter'))}</div>`;
+    }
     if (!opt.colors.length && !opt.icons.length) return '';
     const colorField = opt.colors.length
       ? `<label class="control-field"><span class="control-label">${t('color')}</span><select class="control-select" data-control="color">${opt.colors.map((c) => `<option value="${c}"${c === state.color ? ' selected' : ''}>${t('colorNames')[c]}</option>`).join('')}</select></label>`
@@ -529,6 +565,8 @@
       state.iconNote = false;
       if (key === 'color') {
         state.color = input.value;
+      } else if (key.startsWith('field')) {
+        state[key] = input.type === 'checkbox' ? input.checked : input.value;
       } else {
         state[key] = input.checked;
         const other = key === 'leading' ? 'trailing' : 'leading';
@@ -704,7 +742,19 @@
 
   // ---------- Live React (npm start serves _docs/live.html through Vite) ----------
   function livePrefs() {
-    return { lang: state.lang, theme: state.theme, color: options().colors.length ? state.color : 'brand' };
+    const prefs = { lang: state.lang, theme: state.theme, color: options().colors.length ? state.color : 'brand' };
+    if (state.component === 'text-field') {
+      Object.assign(prefs, {
+        fieldExample: state.fieldExample,
+        fieldSize: state.fieldSize,
+        fieldState: state.fieldState,
+        fieldRequired: String(state.fieldRequired),
+        fieldHelper: String(state.fieldHelper),
+        fieldHelp: String(state.fieldHelp),
+        fieldCounter: String(state.fieldCounter),
+      });
+    }
+    return prefs;
   }
   function liveReactCard() {
     if (platform !== 'web' || !LIVE_REACT.includes(state.component)) return '';

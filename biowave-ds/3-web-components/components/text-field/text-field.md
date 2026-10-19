@@ -872,3 +872,4 @@ Planner items from E2 closed in spec 1.1: **#2** read-only border `color-border-
 | 1.0 | 2026-10-18 | Review round 1: Changes requested (E2) | No | — |
 | 1.1 | 2026-10-18 | Legacy properties added (help icon, error icon, prefix/suffix, end button, resize); managed trailing action API replaces interactive `endAdornment` (fixes AD-1 … AD-6); read-only border; `aria-*` to the input | **Yes** — interactive `endAdornment` content is no longer allowed | Move clear / show-password / custom buttons to `clearable`, `passwordToggle`, `action` |
 | 1.1 | 2026-10-18 | Round 2 Web implementation built with all E2 and AD-1 … AD-6 fixes, private field parts and 19 contract tests | No further break | — |
+| 1.1 | 2026-10-18 | Overview playground controls added for example, size, state, required, supporting text, help tooltip and counter; controls drive the live React preview | No | — |

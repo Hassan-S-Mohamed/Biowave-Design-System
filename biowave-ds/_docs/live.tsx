@@ -18,23 +18,38 @@ import {
 } from '../3-web-components/src';
 
 type Lang = 'en' | 'ar';
-interface Prefs { component: string; lang: Lang; theme: ThemePreference; color: string }
+type FieldExample = 'standard' | 'leading' | 'trailing' | 'clearable' | 'password' | 'addons' | 'endButton' | 'multiline';
+type FieldState = 'default' | 'fieldError' | 'readOnly' | 'disabled';
+type FieldSize = 'sm' | 'md' | 'lg';
+interface Prefs {
+  component: string;
+  lang: Lang;
+  theme: ThemePreference;
+  color: string;
+  fieldExample: FieldExample;
+  fieldSize: FieldSize;
+  fieldState: FieldState;
+  fieldRequired: boolean;
+  fieldHelper: boolean;
+  fieldHelp: boolean;
+  fieldCounter: boolean;
+}
 
 const copy = {
   en: {
     save: 'Save changes', cancel: 'Cancel', next: 'Next', add: 'Add user', delete: 'Delete',
-    edit: 'Edit device', pin: 'Pin', export: 'Export report', excel: 'Export as Excel', csv: 'Export as CSV', pdf: 'Export as PDF',
+    edit: 'Edit device', copy: 'Copy', pin: 'Pin', export: 'Export report', excel: 'Export as Excel', csv: 'Export as CSV', pdf: 'Export as PDF',
     more: 'More actions', loading: 'Saving…',
-    variants: 'Variants', sizes: 'Sizes', states: 'States', icons: 'Icons', toggle: 'Toggle', layouts: 'Layouts',
+    variants: 'Variants', sizes: 'Sizes', states: 'States', icons: 'Icons', toggle: 'Toggle', layouts: 'Layouts', preview: 'Configured preview',
     email: 'Email', name: 'Full name', notes: 'Notes', search: 'Search devices', code: 'Employee ID',
     helper: 'We send the sign-in link here.', errorText: 'Enter a valid email address.', notesHelper: 'Visible to admins only.',
     disabled: 'Disabled', readOnly: 'Read-only', unknown: 'No live React component for this page yet.',
   },
   ar: {
     save: 'حفظ التغييرات', cancel: 'إلغاء', next: 'التالي', add: 'إضافة مستخدم', delete: 'حذف',
-    edit: 'تعديل الجهاز', pin: 'تثبيت', export: 'تصدير التقرير', excel: 'تصدير Excel', csv: 'تصدير CSV', pdf: 'تصدير PDF',
+    edit: 'تعديل الجهاز', copy: 'نسخ', pin: 'تثبيت', export: 'تصدير التقرير', excel: 'تصدير Excel', csv: 'تصدير CSV', pdf: 'تصدير PDF',
     more: 'إجراءات أخرى', loading: 'جارٍ الحفظ…',
-    variants: 'الأنماط', sizes: 'الأحجام', states: 'الحالات', icons: 'الأيقونات', toggle: 'تبديل', layouts: 'التخطيطات',
+    variants: 'الأنماط', sizes: 'الأحجام', states: 'الحالات', icons: 'الأيقونات', toggle: 'تبديل', layouts: 'التخطيطات', preview: 'المعاينة المضبوطة',
     email: 'البريد الإلكتروني', name: 'الاسم الكامل', notes: 'ملاحظات', search: 'البحث في الأجهزة', code: 'الرقم الوظيفي',
     helper: 'نرسل رابط تسجيل الدخول إلى هنا.', errorText: 'أدخل بريداً إلكترونياً صحيحاً.', notesHelper: 'يظهر للمسؤولين فقط.',
     disabled: 'معطّل', readOnly: 'للقراءة فقط', unknown: 'لا يوجد مكوّن React مباشر لهذه الصفحة بعد.',
@@ -152,12 +167,35 @@ function ButtonGroupDemo({ t }: { t: (typeof copy)[Lang] }) {
   );
 }
 
-function TextFieldDemo({ t }: { t: (typeof copy)[Lang] }) {
+function TextFieldDemo({ t, prefs }: { t: (typeof copy)[Lang]; prefs: Prefs }) {
   const [email, setEmail] = React.useState('hassan@biowave');
   const invalid = email.length > 0 && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
   const grid: React.CSSProperties = { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 'var(--bw-spacing-lg)', inlineSize: '100%' };
+  const configuredKey = [prefs.fieldExample, prefs.fieldSize, prefs.fieldState, prefs.fieldRequired, prefs.fieldHelper, prefs.fieldHelp, prefs.fieldCounter].join('-');
+  const common: React.ComponentProps<typeof TextField> = {
+    label: prefs.fieldExample === 'multiline' ? t.notes : prefs.fieldExample === 'leading' || prefs.fieldExample === 'clearable' ? t.search : t.email,
+    size: prefs.fieldSize,
+    required: prefs.fieldRequired,
+    disabled: prefs.fieldState === 'disabled',
+    readOnly: prefs.fieldState === 'readOnly',
+    error: prefs.fieldState === 'fieldError',
+    helperText: prefs.fieldState === 'fieldError' ? t.errorText : prefs.fieldHelper ? (prefs.fieldExample === 'multiline' ? t.notesHelper : t.helper) : undefined,
+    helpText: prefs.fieldHelp ? t.helper : undefined,
+    showCounter: prefs.fieldCounter,
+    maxLength: prefs.fieldCounter ? 120 : undefined,
+    placeholder: prefs.fieldExample === 'leading' || prefs.fieldExample === 'clearable' ? t.search : undefined,
+  };
+  let configured = <TextField {...common} />;
+  if (prefs.fieldExample === 'leading') configured = <TextField {...common} startAdornment={<MaterialSymbol name="search" />} />;
+  if (prefs.fieldExample === 'trailing') configured = <TextField {...common} endAdornment={<MaterialSymbol name="verified" />} />;
+  if (prefs.fieldExample === 'clearable') configured = <TextField {...common} defaultValue={t.search} clearable startAdornment={<MaterialSymbol name="search" />} />;
+  if (prefs.fieldExample === 'password') configured = <TextField {...common} type="password" defaultValue="biowave123" />;
+  if (prefs.fieldExample === 'addons') configured = <TextField {...common} defaultValue="biowave" prefix="https://" suffix=".io" />;
+  if (prefs.fieldExample === 'endButton') configured = <TextField {...common} defaultValue="BW-10428" endButton={{ label: t.copy, icon: <MaterialSymbol name="content_copy" />, onClick: () => {} }} />;
+  if (prefs.fieldExample === 'multiline') configured = <TextField {...common} multiline minRows={3} />;
   return (
     <>
+      <Row title={t.preview} column><div key={configuredKey} style={{ inlineSize: 'min(100%, 32rem)' }}>{configured}</div></Row>
       <Row title={t.states}>
         <div style={grid}>
           <TextField label={t.name} placeholder={t.name} required />
@@ -184,7 +222,7 @@ function Showcase({ prefs }: { prefs: Prefs }) {
     'icon-button': <IconButtonDemo t={t} color={color} />,
     'split-button': <SplitButtonDemo t={t} color={color} />,
     'button-group': <ButtonGroupDemo t={t} />,
-    'text-field': <TextFieldDemo t={t} />,
+    'text-field': <TextFieldDemo t={t} prefs={prefs} />,
   };
   return (
     <main style={{
@@ -200,7 +238,24 @@ function readPrefs(): Prefs {
   const q = new URLSearchParams(window.location.search);
   const lang = q.get('lang') === 'ar' ? 'ar' : 'en';
   const theme = (['light', 'dark', 'system'].includes(q.get('theme') || '') ? q.get('theme') : 'light') as ThemePreference;
-  return { component: q.get('component') || 'button', lang, theme, color: q.get('color') || 'brand' };
+  const oneOf = <T extends string>(name: string, values: readonly T[], fallback: T): T => {
+    const value = q.get(name) as T | null;
+    return value && values.includes(value) ? value : fallback;
+  };
+  const flag = (name: string, fallback: boolean) => q.has(name) ? q.get(name) === 'true' : fallback;
+  return {
+    component: q.get('component') || 'button',
+    lang,
+    theme,
+    color: q.get('color') || 'brand',
+    fieldExample: oneOf('fieldExample', ['standard', 'leading', 'trailing', 'clearable', 'password', 'addons', 'endButton', 'multiline'] as const, 'standard'),
+    fieldSize: oneOf('fieldSize', sizes, 'md'),
+    fieldState: oneOf('fieldState', ['default', 'fieldError', 'readOnly', 'disabled'] as const, 'default'),
+    fieldRequired: flag('fieldRequired', false),
+    fieldHelper: flag('fieldHelper', true),
+    fieldHelp: flag('fieldHelp', false),
+    fieldCounter: flag('fieldCounter', false),
+  };
 }
 
 function App() {
