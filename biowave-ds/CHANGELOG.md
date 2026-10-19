@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Tablet Button — review round 1] — 2026-10-20
+### Changed
+- Tablet `button.md` Part E Round 1: **Changes requested** (1 🔴 focus-ring geometry/layout, 5 🟡, 3 🟢); Plan set to `Open` for the Planner items (C3 focus ring, test font loading); Review status updated in the header and `4-tablet-components/README.md`.
+
 ## [Tablet Button — built (1.0)] — 2026-10-20
 ### Added
 - `BwButton` for Flutter tablet with token-resolved variants, colors and sizes; loading/focus/RTL/accessibility behavior; shared control-size and focus helpers; 37 tests; and light/dark English/Arabic goldens.

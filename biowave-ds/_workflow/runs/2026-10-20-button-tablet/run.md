@@ -13,11 +13,13 @@
 | # | Step | Agent | Result | Checks | Commit | Prompt |
 |---|---|---|---|---|---|---|
 | 01 | implement | codex | done (15 min): `BwButton`, `BwControlSize`, focus ring, `pumpBw`, 4 goldens; Code `Built` | flutter analyze ✓ · flutter test ✓ 37/37 · component-tokens ✓ · sync ✓ READY · docs:check ✓ (2 baseline errors only) | see git log | `01-implement-codex.prompt.md` |
+| 02 | review | claude (wf-reviewer subagent) | done · **Changes requested** — Round 1: 1 🔴, 5 🟡, 3 🟢; Planner owns #1, #6 → Plan `Open` | flutter analyze ✓ · flutter test ✓ 37/37 · component-tokens ✓ · sync ✓ · docs:check ✓ (2 baseline errors only) | see git log | `02-review-claude.prompt.md` |
 
 ## Gates
 
 | Gate | Decision | Notes |
 |---|---|---|
+| after-review | pending (2026-10-20) | Planner first (#1 focus-ring geometry, #6 real fonts in goldens), then fix #2–#5, #7–#9 |
 
 ## Questions raised
 
