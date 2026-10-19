@@ -12,6 +12,8 @@
 
 | # | Step | Agent | Result | Checks | Commit | Prompt |
 |---|---|---|---|---|---|---|
+| after-review | pending | — |
+| 01 | review | claude | done · **Changes requested** (7 findings: 1 🔴, 3 🟡, 3 🟢) | typecheck ✓ · test:web ✗ 73/77 (not Button: 24/24 ✓) · docs:check ✗ (button-group T/M Figma contracts stale) · sync ✓ | see git log | `01-review-claude.prompt.md` |
 
 ## Gates
 
@@ -20,7 +22,7 @@
 
 ## Questions raised
 
-- none
+- Reviewer: findings #11 and #14 are Planner-owned. Should Button's Plan go to `Open` (status.plan.reopened)? #14 belongs to the button-group unit, not Button.
 
 ## Summary
 
