@@ -15,10 +15,10 @@
 | Figma | **Biowave DS — Web Components** › `↳ Icon` · build: [Part D](#d--figma-build) |
 | Version | 1.0 · 2026-10-18 |
 | Plan | Finished |
-| Code | Planned |
+| Code | Built |
 | Figma build | Planned |
 | Review | — |
-| Source code | `src/components/icon/` — not built yet (the Executor creates it) |
+| Source code | [`src/components/icon/`](../../src/components/icon/) |
 | Tokens | [`icon.tokens.json`](icon.tokens.json) — `Icon / Size` · `Icon / Color` (D-13) |
 | Contracts | [`icon-contract.md`](icon-contract.md) · [`figma-icon-contract.md`](figma-icon-contract.md) — generated, never edited |
 | Docs page | [`icon.html`](icon.html) |
@@ -361,15 +361,17 @@ Implement every item in B9, plus:
 
 | Field | Value |
 |---|---|
-| Agent | |
-| Date | |
-| Files changed | |
+| Agent | Cursor (Composer) |
+| Date | 2026-10-20 |
+| Files changed | `3-web-components/src/components/icon/` (Icon.tsx, icon.tokens.ts, Icon.test.tsx, index.ts); `3-web-components/src/index.ts`; `2-foundations/web/src/index.ts` (`MaterialSymbol` type export); adopt Icon in `SplitButton.tsx`, `ButtonGroup.tsx`, `TextField.tsx`, `FieldLabel.tsx`, `FieldSupportingText.tsx`, `FieldAction.tsx`; replace `MaterialSymbol` test helper with `Icon` in Button / IconButton / ButtonGroup / SplitButton / TextField tests; delete `src/test/materialSymbol.tsx`; `3-web-components/README.md`; `CHANGELOG.md`; this C8 |
 
 **Deviations from the plan or spec**
-- none
+- `IconName` includes `push_pin` and `expand_more` in addition to `MaterialSymbol` from `@material-symbols/font-400`, because those typings omit names the Biowave specs and Figma icon index still use.
+- IconButton / TextField axe tests: raised timeout to 20s (same as Button) — suite load made them flake at the default 5s after Icon adoption.
 
 **Questions for the Planner**
-- none
+- `npm run docs:check` fails on stale **tablet** and **mobile** `button-group` Figma contracts (outside this unit). Should those be regenerated on `main` / their branches?
+- Button / IconButton `prepareIcon` still only lift `className="bw-icon-directional"` (and `mirrorInRtl`), not the Icon `directional` prop. Documented `<Icon directional />` inside Button self-mirrors once via Icon CSS (still one flip). Should Button/IconButton also strip `directional` like `mirrorInRtl` so the marker moves to the wrapper?
 
 ---
 

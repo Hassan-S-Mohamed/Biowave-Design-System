@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Web — Icon] — 2026-10-20
+### Added
+- Web `Icon` (`@biowave/web`): Material Symbols Rounded glyph with size/color tokens, fill, directional RTL, and labelled/decorative semantics. Re-exports `MaterialSymbol` from `@biowave/foundations`. Split button, button group, and text field now render glyphs through `Icon` (AC-7); tests use `Icon` instead of the temporary `MaterialSymbol` helper.
+
 ## [Roadmap v3 — Figma coverage check (P-05)] — 2026-10-20
 ### Changed
 - Every component set in the four Figma files (Web, Tablet, Mobile component files and the LEGACY Web + Mobile pages in Foundations) was compared with `ROADMAP.md`. Decision **P-05** (Hassan): Tag / Label / Request status become **Chip** variants; Check badge → Badge; Checkbox card → selectable Card; Day picker → Segmented button; Notification card → List item; Upload photo → File upload; **Action bar** added to Phase 2 (Day 15, Web + Tablet); **Map** added to the backlog; Slider stays post-1.0.

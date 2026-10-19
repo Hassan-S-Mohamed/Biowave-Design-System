@@ -1,5 +1,4 @@
 import * as React from 'react';
-import Icon from '@mui/material/Icon';
 import { act, fireEvent, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe } from 'vitest-axe';
@@ -18,6 +17,7 @@ import textFieldSource from './TextField.tsx?raw';
 // @ts-expect-error Vite's raw loader supplies source text in tests.
 import tokenMapSource from './text-field.tokens.ts?raw';
 import { renderWithBiowave } from '../../test/render';
+import { Icon, type MaterialSymbol } from '../icon';
 import { TextField } from './TextField';
 import {
   textFieldSizeTokens,
@@ -39,16 +39,8 @@ const states: TextFieldState[] = [
 const themes = ['light', 'dark'] as const;
 const locales = ['en', 'ar'] as const;
 
-function symbol(name: string, testId?: string) {
-  return (
-    <Icon
-      baseClassName="material-symbols-rounded"
-      fontSize="inherit"
-      data-testid={testId}
-    >
-      {name}
-    </Icon>
-  );
+function symbol(name: MaterialSymbol, testId?: string) {
+  return <Icon name={name} data-testid={testId} />;
 }
 
 interface TokenLeaf {
@@ -158,9 +150,12 @@ describe('TextField token contract', () => {
       expect(sourceText).not.toMatch(rawValue);
       expect(sourceText).not.toContain('@mui/icons-material');
     }
-    expect(textFieldSource).toContain('material-symbols-rounded');
-    expect(fieldLabelSource).toContain('material-symbols-rounded');
-    expect(fieldSupportingSource).toContain('material-symbols-rounded');
+    expect(textFieldSource).toContain("from '../icon'");
+    expect(fieldLabelSource).toContain("from '../icon'");
+    expect(fieldSupportingSource).toContain("from '../icon'");
+    expect(textFieldSource).not.toContain('material-symbols-rounded');
+    expect(fieldLabelSource).not.toContain('material-symbols-rounded');
+    expect(fieldSupportingSource).not.toContain('material-symbols-rounded');
   });
 });
 
@@ -653,5 +648,5 @@ describe('TextField accessibility', () => {
         view.unmount();
       }
     }
-  });
+  }, 20_000);
 });

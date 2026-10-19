@@ -20,6 +20,14 @@ export {
   type ButtonGroupSize,
 } from './components/button-group';
 export {
+  Icon,
+  type IconProps,
+  type IconName,
+  type IconColor,
+  type IconSize,
+  type MaterialSymbol,
+} from './components/icon';
+export {
   IconButton,
   type IconButtonProps,
   type IconButtonVariant,

@@ -1,10 +1,10 @@
 import * as React from 'react';
 import Fade from '@mui/material/Fade';
-import Icon from '@mui/material/Icon';
 import MuiTooltip from '@mui/material/Tooltip';
 import { styled } from '@mui/material/styles';
 import { base, biowaveVariants, cssVars } from '@biowave/foundations';
 import { visuallyHidden } from '../../internal/visuallyHidden';
+import { Icon } from '../icon';
 import { IconButton } from '../icon-button';
 import { iconButtonTooltipTokens } from '../icon-button/iconButton.tokens';
 import {
@@ -86,7 +86,7 @@ const HelpButton = styled(IconButton)({
     blockSize: cssVars.size.icon.sm,
     fontSize: cssVars.size.icon.sm,
   },
-  '& .material-symbols-rounded': {
+  '& .bw-icon': {
     fontOpticalSizing: 'auto',
   },
 });
@@ -179,11 +179,7 @@ export function FieldLabel({
           >
             <HelpButton
               className="bw-text-field__help-icon"
-              icon={
-                <Icon baseClassName="material-symbols-rounded" fontSize="inherit">
-                  help
-                </Icon>
-              }
+              icon={<Icon name="help" />}
               label={helpLabel}
               variant="text"
               color="neutral"
