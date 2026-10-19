@@ -21,7 +21,7 @@
 
 | Gate | Decision | Notes |
 |---|---|---|
-| after-plan | pending (2026-10-20) | Previews shown at the gate |
+| after-plan | **Approve** (2026-10-20) | Previews shown; fix #1–#9 with Cursor in the worktree, then review |
 | after-review | **Approve** (2026-10-20) | Planner first for #1 (focus-ring geometry) and #6 (real fonts in goldens), and the same fix in the **mobile** Button plan in the same pass; then preview, then tablet fix #2–#5, #7–#9; build mobile after that |
 
 ## Questions raised
