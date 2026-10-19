@@ -12,7 +12,7 @@
 
 | # | Step | Agent | Result | Checks | Commit | Prompt |
 |---|---|---|---|---|---|---|
-| after-review | pending | — |
+| after-review | **Approve** (2026-10-19) | Run the Planner first for #11 (shared test tooling) and #14 (stale button-group contracts), then fix
 | 01 | review | claude | done · **Changes requested** (7 findings: 1 🔴, 3 🟡, 3 🟢) | typecheck ✓ · test:web ✗ 73/77 (not Button: 24/24 ✓) · docs:check ✗ (button-group T/M Figma contracts stale) · sync ✓ | see git log | `01-review-claude.prompt.md` |
 
 ## Gates
