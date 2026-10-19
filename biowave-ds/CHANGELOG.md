@@ -2,6 +2,9 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Fixed — Web Button review round 2] — 2026-10-20
+- Added fresh speedy Emotion caches per test with post-cleanup flushing; removed Button's raised timeouts; kept the loading live region mounted; stripped both true and false `mirrorInRtl` markers; and verified transition restoration after re-enable. The configured web suite passes 79/79.
+
 ## [Plan — Web Button 1.2: shared test tooling fix] — 2026-10-19
 - Review round 2 Planner items: decided the `test:web` fix (#11) — a fresh **speedy** emotion cache per test, flushed after `cleanup()` (MUI `createRenderer` pattern + `@emotion/cache` `speedy`); Foundations gets `createBiowaveEmotionCaches()` and an optional `BiowaveProvider` `emotionCaches` prop (default unchanged). Planner probe, not committed: 73/77 in 2 m 32 s → 77/77 in 35 s with default timeouts. Folded #12, #13, #15–#17 into C3/C6/C7 (Fix round 1 task list). Regenerated stale `tablet` / `mobile` `button-group` Figma contracts with the generator (#14; hash only, body unchanged). Detail: `3-web-components/components/button/button.md` › E3 Planner response, F2.
 

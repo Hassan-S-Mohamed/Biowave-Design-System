@@ -133,6 +133,14 @@ function cssRulesFor(element: Element, cssText = allCssRules()): string {
     .join('\n');
 }
 
+function rootCssRuleFor(element: Element, cssText = allCssRules()): string {
+  const className = Array.from(element.classList).find((name) => name.startsWith('bw-'));
+  if (!className) return '';
+  return cssText
+    .split('\n')
+    .find((rule) => rule.startsWith(`.${className} {`)) ?? '';
+}
+
 describe('Button token contract', () => {
   it('matches every component token alias in tokens.json', () => {
     for (const size of sizes) {
@@ -199,7 +207,7 @@ describe('Button rendering', () => {
         view.unmount();
       }
     }
-  }, 30_000);
+  });
 
   it('emits the expected part rules for every allowed variant and color', () => {
     const view = renderWithBiowave(
@@ -341,7 +349,7 @@ describe('Button rendering', () => {
       expect(rules).toContain(buttonMotionTokens.linearEasing);
       expect(rules).toContain('opacity: 0');
     });
-  }, 20_000);
+  });
 
   it('supports full width while retaining the fixed tokenized height', () => {
     renderWithBiowave(<Button fullWidth>Action</Button>);
@@ -367,6 +375,8 @@ describe('Button loading and disabled behavior', () => {
     const onClick = vi.fn();
     const view = renderWithBiowave(<Button onClick={onClick}>Save changes</Button>);
     const button = screen.getByRole('button', { name: 'Save changes' });
+    const idleStatus = screen.getByRole('status');
+    expect(idleStatus).toBeEmptyDOMElement();
     act(() => button.focus());
 
     view.rerender(
@@ -383,6 +393,7 @@ describe('Button loading and disabled behavior', () => {
     expect(computeAccessibleName(button)).toBe('Save changes');
     expect(screen.getAllByRole('status')).toHaveLength(1);
     const status = screen.getByRole('status');
+    expect(status).toBe(idleStatus);
     expect(status).toHaveTextContent('Saving…');
     expect(button).not.toContainElement(status);
     const spinner = button.querySelector('.MuiCircularProgress-root');
@@ -400,6 +411,10 @@ describe('Button loading and disabled behavior', () => {
       </Button>,
     );
     expect(screen.getAllByText('Saving…')).toHaveLength(1);
+
+    view.rerender(<Button onClick={onClick}>Save changes</Button>);
+    expect(screen.getByRole('status')).toBe(idleStatus);
+    expect(idleStatus).toBeEmptyDOMElement();
   });
 
   it('keeps progress rotation non-zero under reduced motion', () => {
@@ -460,18 +475,27 @@ describe('Button loading and disabled behavior', () => {
     expect(window.location.hash).not.toBe('#report');
   });
 
-  it('uses instant color changes when disabling and on the re-enabled frame', () => {
+  it('uses instant color changes when disabling and restores transitions after re-enabling', async () => {
     const view = renderWithBiowave(<Button>Action</Button>);
 
     view.rerender(<Button disabled>Action</Button>);
-    expect(cssRulesFor(screen.getByRole('button', { name: 'Action' }))).toContain(
+    expect(rootCssRuleFor(screen.getByRole('button', { name: 'Action' }))).toContain(
       `transition-duration: ${buttonMotionTokens.instantDuration}`,
     );
 
     view.rerender(<Button>Action</Button>);
-    expect(cssRulesFor(screen.getByRole('button', { name: 'Action' }))).toContain(
+    expect(rootCssRuleFor(screen.getByRole('button', { name: 'Action' }))).toContain(
       `transition-duration: ${buttonMotionTokens.instantDuration}`,
     );
+
+    await act(
+      () => new Promise<void>((resolve) => window.requestAnimationFrame(() => resolve())),
+    );
+    const restoredRules = rootCssRuleFor(screen.getByRole('button', { name: 'Action' }));
+    expect(restoredRules).not.toContain(
+      `transition-duration: ${buttonMotionTokens.instantDuration}`,
+    );
+    expect(restoredRules).toContain(buttonMotionTokens.defaultDuration);
   });
 });
 
@@ -561,7 +585,7 @@ describe('Button RTL', () => {
     expect(document.querySelector('.bw-button__icon')).not.toHaveClass('bw-icon-directional');
   });
 
-  it('strips mirrorInRtl before a custom icon renders and flips only its wrapper', () => {
+  it('strips mirrorInRtl whenever present and flips only a true marker', () => {
     const reactError = vi.spyOn(console, 'error').mockImplementation(() => undefined);
 
     function DirectionalIcon(
@@ -570,7 +594,7 @@ describe('Button RTL', () => {
       return <svg data-testid="directional-icon" {...props} />;
     }
 
-    renderWithBiowave(
+    const directional = renderWithBiowave(
       <Button startIcon={<DirectionalIcon mirrorInRtl />}>
         التالي
       </Button>,
@@ -582,6 +606,21 @@ describe('Button RTL', () => {
     expect(button.querySelector('.bw-button__icon')).toHaveClass('bw-icon-directional');
     expect(icon).not.toHaveAttribute('mirrorInRtl');
     expect(icon).not.toHaveAttribute('mirrorinrtl');
+    directional.unmount();
+
+    renderWithBiowave(
+      <Button startIcon={<DirectionalIcon mirrorInRtl={false} />}>
+        إضافة
+      </Button>,
+      { locale: 'ar' },
+    );
+    const nonDirectionalButton = screen.getByRole('button', { name: 'إضافة' });
+    const nonDirectionalIcon = screen.getByTestId('directional-icon');
+    expect(nonDirectionalButton.querySelector('.bw-button__icon')).not.toHaveClass(
+      'bw-icon-directional',
+    );
+    expect(nonDirectionalIcon).not.toHaveAttribute('mirrorInRtl');
+    expect(nonDirectionalIcon).not.toHaveAttribute('mirrorinrtl');
     expect(reactError).not.toHaveBeenCalled();
     reactError.mockRestore();
   });
@@ -607,7 +646,7 @@ describe('Button accessibility and keyboard', () => {
           })
         ).violations,
       ).toEqual([]);
-    }, 20_000);
+    });
   }
 
   it('activates a button with Enter and Space and participates in tab order', async () => {

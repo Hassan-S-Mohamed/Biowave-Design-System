@@ -10,7 +10,7 @@
 | Theme | `createBiowaveTheme()` (in foundations). Component-level MUI overrides go in the component folder and are registered through the theme, not in apps |
 | RTL | Automatic (provider). Use logical CSS properties only |
 | Icons | Google Material Symbols Rounded — `material-symbols` font via the Biowave `Icon` (D-18). Not `@mui/icons-material` |
-| Tests | Vitest + Testing Library + axe · run from the repo root with `npm run test:web` |
+| Tests | Vitest + Testing Library + axe · per-test speedy Emotion caches flushed after cleanup · run from the repo root with `npm run test:web` |
 
 ## 2. Structure
 ```

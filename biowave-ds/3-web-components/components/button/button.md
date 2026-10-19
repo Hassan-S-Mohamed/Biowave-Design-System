@@ -573,6 +573,40 @@ Files the Executor may touch in this fix round: exactly the files named in 1–6
 | Could not do | Loading width stability is intentionally a manual check because jsdom has no layout; the implementation keeps content in flow with opacity and absolutely centers the spinner. No automated layout claim was added. |
 | Questions | none |
 
+#### Fix round 1 — 2026-10-20
+
+| Field | Value |
+|---|---|
+| Agent | OpenAI Codex |
+| Files changed | `2-foundations/web/src/BiowaveProvider.tsx`; `2-foundations/web/src/index.ts`; `3-web-components/src/test/render.tsx`; `3-web-components/src/test/setup.ts`; `3-web-components/src/test/render.test.tsx`; `3-web-components/src/components/button/Button.tsx`; `3-web-components/src/components/button/Button.test.tsx`; `3-web-components/README.md`; `3-web-components/components/button/button.md`; `CHANGELOG.md` |
+| Deviations | none |
+
+| Finding | What changed (`file:line`) | Test that proves it |
+|---|---|---|
+| #11 | Added `createBiowaveEmotionCaches()` and provider injection (`2-foundations/web/src/BiowaveProvider.tsx:18`, `:44`, `:64`); exported the API (`2-foundations/web/src/index.ts:4`); added one lazy speedy cache pair per test and flushing after cleanup (`3-web-components/src/test/render.tsx:14`, `src/test/setup.ts:26`) | `src/test/render.test.tsx:21` proves prior tags are removed and rules are re-inserted; full `npm run test:web` passed 79/79 with the configured default timeout |
+| #12 | Removed all three per-test timeout arguments (`3-web-components/src/components/button/Button.test.tsx:179`, `:275`, `:631`) | Button passed 24/24 under the default timeout; slowest Button test was 1.001 s |
+| #13 | Kept the sibling status region mounted and empty while idle (`3-web-components/src/components/button/Button.tsx:327`) | `Button.test.tsx:374` proves idle → loading label → idle on the same live-region element |
+| #15 | Omitted `mirrorInRtl` whenever the prop key is present, including `false` (`Button.tsx:190`) | `Button.test.tsx:588` covers true and false markers, no DOM attribute, no React warning, and one wrapper flip only for true |
+| #16 | Asserted the re-enabled frame is instant and the normal transition returns after the next animation frame (`Button.test.tsx:478`) | `uses instant color changes when disabling and restores transitions after re-enabling` |
+| #17 | Documented the shared cache lifecycle (`3-web-components/README.md:13`), recorded commands and timings here, and added the root changelog entry | `npm run docs:check` passed |
+
+| Command | Result |
+|---|---|
+| `npm run docs:check` | ✓ 18 component files; structure, guidelines, status, generated pages, contracts, links and demo tokens OK |
+| `npm run typecheck` | ✓ Foundations and Web TypeScript projects |
+| `npm run test:web` | ✓ 79/79 tests in 7/7 files; 5.78 s Vitest duration, 6.32 s wall |
+| `npm run component-tokens` | ✓ Web 299, Tablet 305 and Mobile 305 mode values |
+| `npm run sync` | ✓ READY for component work; 18 non-blocking Figma queue items |
+
+Slowest Button tests in the full suite: render matrix 1.001 s; axe light 625 ms; axe dark 604 ms.
+
+**Manual checks:**
+- Loading width: not run in a real browser in this terminal step; no jsdom layout claim was added. The implementation continues to keep content in flow with `opacity` and place the spinner absolutely.
+- Screen-reader announcement: not run because VoiceOver/NVDA output is unavailable in this environment. The automated live-region lifecycle and EN/AR default-label tests pass; human announcement verification remains.
+
+**Questions:**
+- Human QA: confirm loading width stability and one loading-label announcement with VoiceOver or NVDA in English and Arabic.
+
 ---
 
 ## D · Figma build
