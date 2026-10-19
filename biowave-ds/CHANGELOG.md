@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Tablet Button — fix round 1 (1.1)] — 2026-10-20
+### Fixed
+- Review findings #1–#9: the keyboard focus ring now paints outside the visible container without affecting layout or fading; loading preserves disabled state; shared localization/reduced-motion test setup and measured light/dark accessibility coverage were added; Inter, IBM Plex Sans Arabic and Material Symbols Rounded are loaded for tests; and all four real-font goldens were regenerated and visually checked.
+
 ## [Tablet + Mobile Button — plan 1.1 (review round 1 Planner items)] — 2026-10-20
 ### Changed
 - Added light/English and dark/Arabic RTL tablet Button preview sheets for plan 1.1, with all valid variants and colors, four sizes, six states, token callouts, and corrected outside-container focus-ring geometry.

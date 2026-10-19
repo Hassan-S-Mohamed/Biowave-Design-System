@@ -69,7 +69,7 @@ class BwButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final effectiveVariant = _effectiveVariant;
     final dimensions = BwButtonStyle.metrics(size);
-    final style = BwButtonStyle.resolve(
+    final baseStyle = BwButtonStyle.resolve(
       context,
       effectiveVariant,
       color,
@@ -82,7 +82,25 @@ class BwButton extends StatelessWidget {
         (Localizations.localeOf(context).languageCode == 'ar'
             ? 'جارٍ التحميل'
             : 'Loading');
-    final action = loading ? () {} : onPressed;
+    final action = loading && onPressed != null ? () {} : onPressed;
+    final ringColor = color == BwButtonColor.inverse
+        ? context.bw.colors.borderInverse
+        : context.bw.colors.borderFocus;
+    final ringBorderRadius = BorderRadiusDirectional.all(
+      Radius.circular(dimensions.radius),
+    ).resolve(Directionality.of(context));
+    final style = baseStyle.copyWith(
+      backgroundBuilder: (context, states, child) {
+        assert(child != null);
+        return BwFocusRing(
+          focused: states.contains(WidgetState.focused),
+          borderRadius: ringBorderRadius,
+          color: ringColor,
+          ringKey: const ValueKey<String>('BwButton.focus-ring'),
+          child: child!,
+        );
+      },
+    );
 
     final labelWidget = Text(
       label,
@@ -142,7 +160,7 @@ class BwButton extends StatelessWidget {
       ],
     );
 
-    Widget buildButton(FocusNode resolvedFocusNode) {
+    Widget buildButton(FocusNode? resolvedFocusNode) {
       return switch (effectiveVariant) {
         BwButtonVariant.filled => FilledButton(
             key: const ValueKey<String>('BwButton.container'),
@@ -150,6 +168,7 @@ class BwButton extends StatelessWidget {
             focusNode: resolvedFocusNode,
             autofocus: autofocus,
             style: style,
+            clipBehavior: Clip.none,
             child: content,
           ),
         BwButtonVariant.tonal => FilledButton.tonal(
@@ -158,6 +177,7 @@ class BwButton extends StatelessWidget {
             focusNode: resolvedFocusNode,
             autofocus: autofocus,
             style: style,
+            clipBehavior: Clip.none,
             child: content,
           ),
         BwButtonVariant.outlined => OutlinedButton(
@@ -166,6 +186,7 @@ class BwButton extends StatelessWidget {
             focusNode: resolvedFocusNode,
             autofocus: autofocus,
             style: style,
+            clipBehavior: Clip.none,
             child: content,
           ),
         BwButtonVariant.text => TextButton(
@@ -174,22 +195,13 @@ class BwButton extends StatelessWidget {
             focusNode: resolvedFocusNode,
             autofocus: autofocus,
             style: style,
+            clipBehavior: Clip.none,
             child: content,
           ),
       };
     }
 
-    final ringColor = color == BwButtonColor.inverse
-        ? context.bw.colors.borderInverse
-        : context.bw.colors.borderFocus;
-    Widget result = BwFocusRing(
-      color: ringColor,
-      radius: dimensions.radius,
-      duration: animationDuration,
-      focusNode: focusNode,
-      childBuilder: (context, resolvedFocusNode) =>
-          buildButton(resolvedFocusNode),
-    );
+    Widget result = buildButton(focusNode);
 
     if (loading) {
       result = Semantics(
@@ -197,7 +209,7 @@ class BwButton extends StatelessWidget {
         label: label,
         value: announcement,
         button: true,
-        enabled: true,
+        enabled: onPressed != null,
         excludeSemantics: true,
         child: result,
       );

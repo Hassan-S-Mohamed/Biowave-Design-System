@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'dart:math' as math;
+import 'dart:ui' show Tristate;
 
 import 'package:biowave_tablet/biowave_tablet.dart';
 import 'package:biowave_tablet/src/components/button/bw_button_style.dart';
@@ -27,6 +29,13 @@ const _allowedVariantColors = <(BwButtonVariant, BwButtonColor)>[
   (BwButtonVariant.text, BwButtonColor.error),
   (BwButtonVariant.text, BwButtonColor.inverse),
 ];
+
+Finder _buttonContainerMaterial() => find
+    .descendant(
+      of: find.byKey(const ValueKey<String>('BwButton.container')),
+      matching: find.byType(Material),
+    )
+    .first;
 
 void main() {
   group('BwButton API', () {
@@ -287,16 +296,6 @@ void main() {
     testWidgets('uses exact size tokens and grows at 200% text scale', (
       tester,
     ) async {
-      late BuildContext context;
-      await tester.pumpBw(
-        Builder(
-          builder: (buildContext) {
-            context = buildContext;
-            return const SizedBox.shrink();
-          },
-        ),
-      );
-
       final expectedHeights = {
         BwControlSize.sm: BwSize.controlHeightSm,
         BwControlSize.md: BwSize.controlHeightMd,
@@ -304,16 +303,14 @@ void main() {
         BwControlSize.xl: BwSize.controlHeightXl,
       };
       for (final entry in expectedHeights.entries) {
-        final style = BwButtonStyle.resolve(
-          context,
-          BwButtonVariant.filled,
-          BwButtonColor.brand,
-          entry.key,
+        await tester.pumpBw(
+          BwButton(
+            label: entry.key.name,
+            size: entry.key,
+            onPressed: () {},
+          ),
         );
-        expect(
-          style.minimumSize!.resolve(const <WidgetState>{})!.height,
-          entry.value,
-        );
+        expect(tester.getSize(_buttonContainerMaterial()).height, entry.value);
       }
 
       await tester.pumpBw(
@@ -325,28 +322,24 @@ void main() {
         textScaleFactor: 2,
       );
       expect(tester.takeException(), isNull);
-      final label = tester.widget<Text>(
+      final containerSize = tester.getSize(_buttonContainerMaterial());
+      final labelSize = tester.getSize(
         find.byKey(const ValueKey<String>('BwButton.label')),
       );
-      expect(label.maxLines, 1);
-      expect(label.overflow, TextOverflow.ellipsis);
+      expect(containerSize.height, greaterThan(BwSize.controlHeightSm));
+      expect(containerSize.height, greaterThanOrEqualTo(labelSize.height));
     });
 
     testWidgets('honours reduced motion', (tester) async {
       late BuildContext context;
-      await tester.pumpWidget(
-        MaterialApp(
-          theme: BwTabletTheme.light(const Locale('en')),
-          home: MediaQuery(
-            data: const MediaQueryData(disableAnimations: true),
-            child: Builder(
-              builder: (buildContext) {
-                context = buildContext;
-                return const SizedBox.shrink();
-              },
-            ),
-          ),
+      await tester.pumpBw(
+        Builder(
+          builder: (buildContext) {
+            context = buildContext;
+            return const SizedBox.shrink();
+          },
         ),
+        reduceMotion: true,
       );
       final style = BwButtonStyle.resolve(
         context,
@@ -410,12 +403,16 @@ void main() {
       );
     });
 
-    testWidgets('disabled is not focusable and does not activate',
-        (tester) async {
+    testWidgets('disabled loading is not focusable or enabled', (tester) async {
       final focusNode = FocusNode();
       addTearDown(focusNode.dispose);
       await tester.pumpBw(
-        BwButton(label: 'Unavailable', focusNode: focusNode, onPressed: null),
+        BwButton(
+          label: 'Unavailable',
+          loading: true,
+          focusNode: focusNode,
+          onPressed: null,
+        ),
       );
 
       focusNode.requestFocus();
@@ -423,6 +420,10 @@ void main() {
       expect(focusNode.hasFocus, isFalse);
       final button = tester.widget<FilledButton>(find.byType(FilledButton));
       expect(button.onPressed, isNull);
+      final semantics = tester.getSemantics(
+        find.byKey(const ValueKey<String>('BwButton.loading-semantics')),
+      );
+      expect(semantics.flagsCollection.isEnabled, Tristate.isFalse);
     });
 
     testWidgets('uses the localized default loading label', (tester) async {
@@ -437,7 +438,74 @@ void main() {
       expect(semantics.value, 'جارٍ التحميل');
     });
 
-    testWidgets('focus ring appears only in keyboard highlight mode', (
+    for (final locale in const [Locale('en'), Locale('ar')]) {
+      for (final size in BwControlSize.values) {
+        testWidgets(
+          'focus ring matches ${size.name} container in ${locale.languageCode}',
+          (tester) async {
+            final oldStrategy = FocusManager.instance.highlightStrategy;
+            addTearDown(() {
+              FocusManager.instance.highlightStrategy = oldStrategy;
+            });
+            final focusNode = FocusNode();
+            addTearDown(focusNode.dispose);
+            FocusManager.instance.highlightStrategy =
+                FocusHighlightStrategy.alwaysTraditional;
+
+            await tester.pumpBw(
+              BwButton(
+                label: 'Focused',
+                size: size,
+                focusNode: focusNode,
+                onPressed: () {},
+              ),
+              locale: locale,
+            );
+            final buttonRectBefore = tester.getRect(find.byType(BwButton));
+            final containerRect = tester.getRect(_buttonContainerMaterial());
+            expect(
+              find.byKey(const ValueKey<String>('BwButton.focus-ring')),
+              findsNothing,
+            );
+
+            focusNode.requestFocus();
+            FocusManager.instance.applyFocusChangesIfNeeded();
+            await tester.pump();
+
+            final ringFinder =
+                find.byKey(const ValueKey<String>('BwButton.focus-ring'));
+            expect(ringFinder, findsOneWidget);
+            final inset = BwBorder.focusOffset + BwBorder.widthFocus;
+            expect(tester.getRect(ringFinder), containerRect.inflate(inset));
+            expect(tester.getRect(find.byType(BwButton)), buttonRectBefore);
+            expect(buttonRectBefore.width, containerRect.width);
+            expect(
+              buttonRectBefore.height,
+              math.max(containerRect.height, BwLayout.tablet.minTarget),
+            );
+
+            final decoration = tester
+                .widget<DecoratedBox>(ringFinder)
+                .decoration as BoxDecoration;
+            final border = decoration.border! as Border;
+            expect(border.top.width, BwBorder.widthFocus);
+            late BuildContext context;
+            context = tester.element(find.byType(BwButton));
+            expect(border.top.color, context.bw.colors.borderFocus);
+            expect(
+              decoration.borderRadius!.resolve(Directionality.of(context)),
+              BorderRadius.all(
+                Radius.circular(
+                  BwButtonStyle.metrics(size).radius + inset,
+                ),
+              ),
+            );
+          },
+        );
+      }
+    }
+
+    testWidgets('focus ring is instant, keyboard-only, and inverse-aware', (
       tester,
     ) async {
       final oldStrategy = FocusManager.instance.highlightStrategy;
@@ -446,30 +514,33 @@ void main() {
       });
       final focusNode = FocusNode();
       addTearDown(focusNode.dispose);
-
       FocusManager.instance.highlightStrategy =
-          FocusHighlightStrategy.alwaysTraditional;
+          FocusHighlightStrategy.alwaysTouch;
       await tester.pumpBw(
         BwButton(
           label: 'Focused',
+          color: BwButtonColor.inverse,
           focusNode: focusNode,
           onPressed: () {},
         ),
       );
       focusNode.requestFocus();
-      await tester.pumpAndSettle();
-      var ring = tester.widget<AnimatedContainer>(
-        find.byKey(const ValueKey<String>('BwButton.focus-ring')),
-      );
-      expect((ring.decoration! as BoxDecoration).border, isNotNull);
+      FocusManager.instance.applyFocusChangesIfNeeded();
+      await tester.pump();
+      final ringFinder =
+          find.byKey(const ValueKey<String>('BwButton.focus-ring'));
+      expect(ringFinder, findsNothing);
 
       FocusManager.instance.highlightStrategy =
-          FocusHighlightStrategy.alwaysTouch;
-      await tester.pumpAndSettle();
-      ring = tester.widget<AnimatedContainer>(
-        find.byKey(const ValueKey<String>('BwButton.focus-ring')),
-      );
-      expect((ring.decoration! as BoxDecoration).border, isNull);
+          FocusHighlightStrategy.alwaysTraditional;
+      await tester.pump();
+      expect(ringFinder, findsOneWidget);
+      final decoration =
+          tester.widget<DecoratedBox>(ringFinder).decoration as BoxDecoration;
+      final border = decoration.border! as Border;
+      final context = tester.element(find.byType(BwButton));
+      expect(border.top.color, context.bw.colors.borderInverse);
+      expect(find.byType(AnimatedContainer), findsNothing);
     });
 
     testWidgets('directional icons opt into RTL mirroring but add does not', (
@@ -512,32 +583,109 @@ void main() {
           ),
         ),
       );
-      expect(tester.getSize(find.byType(BwButton)).width, 480);
+      expect(tester.getSize(_buttonContainerMaterial()).width, 480);
     });
 
-    for (final (variant, color) in _allowedVariantColors) {
-      testWidgets('${variant.name}/${color.name} meets a11y guidelines', (
-        tester,
-      ) async {
+    for (final brightness in Brightness.values) {
+      for (final (variant, color) in _allowedVariantColors) {
+        testWidgets(
+          '${brightness.name} ${variant.name}/${color.name} meets a11y guidelines',
+          (tester) async {
+            await tester.pumpBw(
+              Builder(
+                builder: (context) => ColoredBox(
+                  color: color == BwButtonColor.inverse
+                      ? context.bw.colors.backgroundBrandDefault
+                      : context.bw.colors.backgroundTransparent,
+                  child: BwButton(
+                    label: 'Clock in',
+                    variant: variant,
+                    color: color,
+                    onPressed: () {},
+                  ),
+                ),
+              ),
+              brightness: brightness,
+            );
+            await expectLater(
+              tester,
+              meetsGuideline(androidTapTargetGuideline),
+            );
+            await expectLater(tester, meetsGuideline(textContrastGuideline));
+          },
+        );
+      }
+    }
+  });
+
+  testWidgets('pumpBw provides locales, directions, and reduced motion', (
+    tester,
+  ) async {
+    for (final brightness in Brightness.values) {
+      for (final locale in const [Locale('en'), Locale('ar')]) {
+        late BuildContext context;
         await tester.pumpBw(
           Builder(
-            builder: (context) => ColoredBox(
-              color: color == BwButtonColor.inverse
-                  ? context.bw.colors.backgroundBrandDefault
-                  : context.bw.colors.backgroundTransparent,
-              child: BwButton(
-                label: 'Clock in',
-                variant: variant,
-                color: color,
-                onPressed: () {},
-              ),
-            ),
+            builder: (buildContext) {
+              context = buildContext;
+              return const TextField();
+            },
           ),
+          brightness: brightness,
+          locale: locale,
+          reduceMotion: true,
         );
-        await expectLater(tester, meetsGuideline(androidTapTargetGuideline));
-        await expectLater(tester, meetsGuideline(textContrastGuideline));
-      });
+        expect(MaterialLocalizations.of(context), isNotNull);
+        expect(Localizations.localeOf(context), locale);
+        expect(
+          Directionality.of(context),
+          locale.languageCode == 'ar' ? TextDirection.rtl : TextDirection.ltr,
+        );
+        expect(context.bw.reduceMotion, isTrue);
+      }
     }
+  });
+
+  testWidgets('real Latin and Arabic test fonts replace Ahem', (tester) async {
+    await tester.pumpBw(
+      const Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            'Biowave',
+            key: ValueKey<String>('real-latin'),
+            style: TextStyle(fontFamily: BwFontFamily.en),
+          ),
+          Text(
+            'Biowave',
+            key: ValueKey<String>('ahem-latin'),
+            style: TextStyle(fontFamily: 'Ahem'),
+          ),
+          Text(
+            'موجة حيوية',
+            key: ValueKey<String>('real-arabic'),
+            style: TextStyle(fontFamily: BwFontFamily.ar),
+          ),
+          Text(
+            'موجة حيوية',
+            key: ValueKey<String>('ahem-arabic'),
+            style: TextStyle(fontFamily: 'Ahem'),
+          ),
+        ],
+      ),
+    );
+    expect(
+      tester.getSize(find.byKey(const ValueKey<String>('real-latin'))).width,
+      isNot(
+        tester.getSize(find.byKey(const ValueKey<String>('ahem-latin'))).width,
+      ),
+    );
+    expect(
+      tester.getSize(find.byKey(const ValueKey<String>('real-arabic'))).width,
+      isNot(
+        tester.getSize(find.byKey(const ValueKey<String>('ahem-arabic'))).width,
+      ),
+    );
   });
 
   group('BwButton visual regression', () {
@@ -588,6 +736,27 @@ class _ButtonGoldenMatrix extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isArabic = Localizations.localeOf(context).languageCode == 'ar';
+    final variantLabels = <BwButtonVariant, String>{
+      BwButtonVariant.filled: 'ممتلئ',
+      BwButtonVariant.tonal: 'هادئ',
+      BwButtonVariant.outlined: 'محدد',
+      BwButtonVariant.text: 'نصي',
+    };
+    final colorLabels = <BwButtonColor, String>{
+      BwButtonColor.brand: 'العلامة',
+      BwButtonColor.secondary: 'ثانوي',
+      BwButtonColor.neutral: 'محايد',
+      BwButtonColor.error: 'خطأ',
+      BwButtonColor.inverse: 'معكوس',
+    };
+    final sizeLabels = <BwControlSize, String>{
+      BwControlSize.sm: 'صغير',
+      BwControlSize.md: 'متوسط',
+      BwControlSize.lg: 'كبير',
+      BwControlSize.xl: 'كبير جدًا',
+    };
+
     return ColoredBox(
       color: context.bw.colors.backgroundNeutralDefault,
       child: Padding(
@@ -604,7 +773,9 @@ class _ButtonGoldenMatrix extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(8),
                   child: BwButton(
-                    label: '${variant.name} ${color.name}',
+                    label: isArabic
+                        ? '${variantLabels[variant]} ${colorLabels[color]}'
+                        : '${variant.name} ${color.name}',
                     variant: variant,
                     color: color,
                     leadingIcon: Symbols.add_rounded,
@@ -616,7 +787,9 @@ class _ButtonGoldenMatrix extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(8),
                 child: BwButton(
-                  label: 'Size ${size.name}',
+                  label: isArabic
+                      ? 'حجم ${sizeLabels[size]}'
+                      : 'Size ${size.name}',
                   size: size,
                   trailingIcon: Symbols.arrow_forward_rounded,
                   onPressed: _emptyCallback,

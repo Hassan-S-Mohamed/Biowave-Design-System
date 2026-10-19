@@ -6,82 +6,76 @@ import 'package:flutter/material.dart';
 /// The class is intentionally not exported from `biowave_tablet.dart`.
 class BwFocusRing extends StatefulWidget {
   const BwFocusRing({
-    required this.childBuilder,
+    required this.focused,
+    required this.borderRadius,
     required this.color,
-    required this.radius,
-    required this.duration,
-    this.focusNode,
+    required this.child,
+    this.ringKey,
     super.key,
   });
 
-  final Widget Function(BuildContext context, FocusNode focusNode) childBuilder;
+  final bool focused;
+  final BorderRadiusGeometry borderRadius;
   final Color color;
-  final double radius;
-  final Duration duration;
-  final FocusNode? focusNode;
+  final Key? ringKey;
+  final Widget child;
 
   @override
   State<BwFocusRing> createState() => _BwFocusRingState();
 }
 
 class _BwFocusRingState extends State<BwFocusRing> {
-  late FocusNode _focusNode;
-
   bool get _showRing =>
-      _focusNode.hasFocus &&
+      widget.focused &&
       FocusManager.instance.highlightMode == FocusHighlightMode.traditional;
 
   @override
   void initState() {
     super.initState();
-    _focusNode = widget.focusNode ?? FocusNode();
-    _focusNode.addListener(_handleFocusChange);
     FocusManager.instance.addHighlightModeListener(_handleHighlightModeChange);
-  }
-
-  @override
-  void didUpdateWidget(BwFocusRing oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.focusNode == widget.focusNode) return;
-    _focusNode.removeListener(_handleFocusChange);
-    if (oldWidget.focusNode == null) _focusNode.dispose();
-    _focusNode = widget.focusNode ?? FocusNode();
-    _focusNode.addListener(_handleFocusChange);
   }
 
   @override
   void dispose() {
     FocusManager.instance
         .removeHighlightModeListener(_handleHighlightModeChange);
-    _focusNode.removeListener(_handleFocusChange);
-    if (widget.focusNode == null) _focusNode.dispose();
     super.dispose();
   }
-
-  void _handleFocusChange() => setState(() {});
 
   void _handleHighlightModeChange(FocusHighlightMode _) => setState(() {});
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(
-      key: const ValueKey<String>('BwButton.focus-ring'),
-      duration: widget.duration,
-      decoration: _showRing
-          ? BoxDecoration(
-              border: Border.all(
-                color: widget.color,
-                width: BwBorder.widthFocus,
+    final inset = BwBorder.focusOffset + BwBorder.widthFocus;
+    final outerRadius = widget.borderRadius
+        .add(BorderRadius.all(Radius.circular(inset)))
+        .resolve(Directionality.of(context));
+
+    return Stack(
+      clipBehavior: Clip.none,
+      fit: StackFit.passthrough,
+      children: [
+        widget.child,
+        if (_showRing)
+          PositionedDirectional(
+            start: -inset,
+            end: -inset,
+            top: -inset,
+            bottom: -inset,
+            child: IgnorePointer(
+              child: DecoratedBox(
+                key: widget.ringKey,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: widget.color,
+                    width: BwBorder.widthFocus,
+                  ),
+                  borderRadius: outerRadius,
+                ),
               ),
-              borderRadius: BorderRadiusDirectional.all(
-                Radius.circular(widget.radius + BwBorder.focusOffset),
-              ),
-            )
-          : const BoxDecoration(),
-      child: Padding(
-        padding: const EdgeInsetsDirectional.all(BwBorder.focusOffset),
-        child: widget.childBuilder(context, _focusNode),
-      ),
+            ),
+          ),
+      ],
     );
   }
 }

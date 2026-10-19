@@ -18,7 +18,7 @@
 | Code | Built |
 | Figma build | Planned |
 | Review | Round 1 · 2026-10-20 · Changes requested |
-| Source code | `lib/src/components/button/` — not built yet (the Executor creates it) |
+| Source code | [`lib/src/components/button/`](../../lib/src/components/button/) |
 | Tokens | — (no component tokens yet) |
 | Contracts | [`button-contract.md`](button-contract.md) · [`figma-button-contract.md`](figma-button-contract.md) — generated, never edited |
 | Docs page | [`button.html`](button.html) |
@@ -496,6 +496,28 @@ Implement every item in B9, plus:
 **Deviations from the plan or spec** (with reason — the Planner updates the spec if accepted):
 - The execution sandbox denies Flutter's normal localhost test-harness socket. The same Flutter toolchain ran the suite in its no-socket `--experimental-faster-testing` mode against a disposable copy with absolute package roots; goldens were generated there and copied back, then all 37 tests passed again without `--update-goldens`. No production or test behavior changed for this runner workaround.
 - Dart privacy is library-scoped, so the reusable focus-ring class is public inside its source library but remains package-private in practice because `bw_focus_ring.dart` is not exported.
+
+**Questions for the Planner:**
+- none
+
+#### Fix round 1 — 2026-10-20
+
+| Finding | What changed (`file:line`) | Test that proves it |
+|---|---|---|
+| #1 Focus ring geometry and layout | `lib/src/common/bw_focus_ring.dart:48`; `lib/src/components/button/bw_button.dart:92` — moved the token-sized negative-inset ring into `ButtonStyle.backgroundBuilder` with `Stack(clipBehavior: Clip.none)`, no padding or layout growth | `test/button_test.dart:441` — ring/container rect, radius and unchanged-layout assertions for every size in LTR and RTL |
+| #2 Loading enabled a disabled button | `lib/src/components/button/bw_button.dart:85` — loading installs a no-op only when `onPressed` was non-null; loading semantics now preserve disabled state | `test/button_test.dart:406` — disabled loading stays unfocusable, has null `onPressed` and disabled semantics |
+| #3 Ring faded in | `lib/src/common/bw_focus_ring.dart:54` — ring is conditionally painted with no animated widget | `test/button_test.dart:441`, `test/button_test.dart:508` — ring exists after the first focus frame and no `AnimatedContainer` is present |
+| #4 Tests did not measure | `test/button_test.dart:296`, `test/button_test.dart:441`, `test/button_test.dart:575` — measured visible container heights, 200% growth/label fit, ring stroke/color/offset/radius, no-layout geometry and full width | The same tests use `tester.getSize` / `tester.getRect` against the button's `Material` and caller-keyed ring |
+| #5 `pumpBw` lacked localization and reduced motion | `test/helpers/bw_test_app.dart:7` — added `locale`, en/ar supported locales, Material delegates and `reduceMotion` media data | `test/button_test.dart:333`, `test/button_test.dart:621` — reduced duration, all theme/locale combinations and Arabic `TextField` localizations |
+| #6 Ahem goldens | `test/flutter_test_config.dart:8`; `test/fonts/`; `test/goldens/button/` — loaded pinned Inter, IBM Plex Sans Arabic and Material Symbols Rounded, retained OFL licences, and regenerated four goldens with localized Arabic fixtures | `test/button_test.dart:649`, `test/button_test.dart:691` — real-font probes plus inspected light/dark en/ar goldens with shaped Arabic and icon glyphs |
+| #7 Hard-coded shared ring key | `lib/src/common/bw_focus_ring.dart:8`; `lib/src/components/button/bw_button.dart:99` — shared helper accepts `ringKey`; Button supplies its own key | `test/button_test.dart:475` — caller key locates and measures the rendered ring |
+| #8 Guideline tests were light-only | `test/button_test.dart:589` — every allowed variant/color runs tap-target and contrast guidelines in light and dark | `test/button_test.dart:589` — 36 light/dark accessibility cases pass |
+| #9 Header source link | `components/button/button.md:21` — linked the built source directory | `npm run docs:check` — header/link structure checked; only the two noted unrelated stale button-group Figma contracts remain |
+
+**Checks:** Flutter SDK `dart analyze` — pass, no issues; `flutter test --update-goldens --experimental-faster-testing` — pass, 65 tests; `flutter test --experimental-faster-testing` — pass, 65 tests; `npm run component-tokens` — pass; `npm run sync` — pass, READY; `npm run docs:check` — expected baseline only (2 unrelated stale tablet/mobile button-group Figma contracts).
+
+**Deviations from the plan or spec:**
+- The execution sandbox still denies Flutter's SDK-cache writes and localhost test-harness socket. The same Flutter 3.47.7 toolchain ran the suite in its no-socket `--experimental-faster-testing` mode against a disposable copy with absolute package roots; all repository sources and goldens came from this worktree.
 
 **Questions for the Planner:**
 - none
