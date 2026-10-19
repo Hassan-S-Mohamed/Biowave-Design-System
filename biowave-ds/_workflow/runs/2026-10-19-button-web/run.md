@@ -5,7 +5,7 @@
 | Unit | `button` on `web` |
 | Unit file | `3-web-components/components/button/button.md` |
 | Branch | `ds/button-web` (from `main`) |
-| Pull request | — |
+| Pull request | https://github.com/hassanSmohamed/Biowave-Design-System/pull/1 |
 | Skipped steps | figma (config › skip) |
 
 ## Steps
@@ -25,7 +25,7 @@
 |---|---|---|
 | after-review | **Approve** (2026-10-19) | Run the Planner first for #11 (shared test tooling) and #14 (stale button-group contracts), then fix
 | after-plan | **Approve** (2026-10-19) | Fix step runs from Claude Code on the Mac (Codex): `04-fix-codex.prompt.md` |
-| before-merge | pending (2026-10-20) | Manual QA open: loading width + VoiceOver/NVDA announcement (EN/AR). Code still `Built` (reviewer did not change it) |
+| before-merge | **Approve PR** (2026-10-20) — pushed and PR #1 opened; merge not yet approved | Manual QA open: loading width + VoiceOver/NVDA announcement (EN/AR). Code still `Built` (reviewer did not change it) |
 
 ## Questions raised
 
