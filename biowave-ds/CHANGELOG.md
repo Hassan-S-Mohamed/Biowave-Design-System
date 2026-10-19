@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Web — Icon plan 1.1] — 2026-10-20
+### Changed
+- Icon (web) plan 1.1 — review round 1 Planner items. Finding 1: Button / Icon button `prepareIcon` strips Icon's `directional` prop like `mirrorInRtl` and marks the wrapper once (B5, C3; `Button.tsx` · `IconButton.tsx` added to C5). Finding 2: `name` is typed `IconName` = `MaterialSymbol` + `push_pin` · `expand_more` — kept because the Figma Material Symbols library and `icons.md` use them and the 0.48.0 Rounded font still renders both ligatures (`push_pin` = `keep`), recorded in B1. Finding 5: `noLegacyIcons.test.ts` must fail on `material-symbols-rounded` / `@mui/material/Icon` outside `src/components/icon/` (B9, C5). Plan → `Finished`; contract regenerated.
+
 ## [Web — Icon review round 1] — 2026-10-20
 ### Changed
 - Icon (web) review round 1: **Changes requested** — Part E2 of `3-web-components/components/icon/icon.md`. 3 🟡 (Button / Icon button must strip `directional`; `IconName` extras `push_pin` / `expand_more` vs B1; directional-prop tests), 2 🟢. D-18 sweep clean: no web component renders an icon from any source but Icon. Plan → `Open`, Code → `Changes requested`.

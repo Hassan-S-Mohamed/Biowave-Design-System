@@ -19,6 +19,7 @@ User request: "make sure all icons we use in the design system are Google symbol
 | 01 | implement | cursor | done | typecheck ✓ · test:web ✓ (86) · docs:check ✗ (pre-existing: tablet/mobile button-group figma contracts stale, also fails on main) | see git log | [01-implement-cursor.prompt.md](01-implement-cursor.prompt.md) |
 | 02 | review | claude (dispatcher) | failed: nested Claude Code session not allowed | — | — | [02-review-claude.prompt.md](02-review-claude.prompt.md) |
 | 03 | review | claude (wf-reviewer subagent) | done · Changes requested (3 🟡, 2 🟢; Planner #1 #2 #5, Executor #3 #4) | typecheck ✓ · test:web ✓ (86) · docs:check ✗ (pre-existing) | see git log | [03-review-claude.prompt.md](03-review-claude.prompt.md) |
+| 04 | plan | claude (wf-planner subagent) | done · Plan 1.1 Finished; #1 directional in prepareIcon + Button/IconButton in C5, #2 keep push_pin/expand_more as recorded extras (font draws them), #5 repo-wide D-18 guard | contract ✓ · docs:check ✗ (pre-existing) | see git log | [04-plan-claude.prompt.md](04-plan-claude.prompt.md) |
 
 ## Gates
 
