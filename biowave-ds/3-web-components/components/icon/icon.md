@@ -15,9 +15,9 @@
 | Figma | **Biowave DS — Web Components** › `↳ Icon` · build: [Part D](#d--figma-build) |
 | Version | 1.1 · 2026-10-20 |
 | Plan | Finished |
-| Code | Built |
+| Code | Approved |
 | Figma build | Planned |
-| Review | Round 1 · 2026-10-20 · Changes requested |
+| Review | Round 2 · 2026-10-20 · Approved |
 | Source code | [`src/components/icon/`](../../src/components/icon/) |
 | Tokens | [`icon.tokens.json`](icon.tokens.json) — `Icon / Size` · `Icon / Color` (D-13) |
 | Contracts | [`icon-contract.md`](icon-contract.md) · [`figma-icon-contract.md`](figma-icon-contract.md) — generated, never edited |
@@ -506,6 +506,7 @@ Component description: “Material Symbols Rounded glyph with Biowave sizes and 
 | Round | Date | Code verdict | Figma verdict |
 |---|---|---|---|
 | 1 | 2026-10-20 | Changes requested | not reviewed |
+| 2 | 2026-10-20 | Approved | not reviewed |
 
 ### E2 Round 1 — 2026-10-20
 
@@ -565,6 +566,72 @@ Component description: “Material Symbols Rounded glyph with Biowave sizes and 
 
 1. Planner: findings 1, 2, 5 → Plan `Finished` → `npm run contract -- web icon`.
 2. Executor: finding 3 (with finding 1's code), 4 and the outcome of 2 → C8 Fix round 1 → Code `Built`.
+
+### E3 Round 2 — 2026-10-20
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 1.1 |
+| Spec version reviewed | 1.1 |
+| Reviewer | Claude |
+| Date | 2026-10-20 |
+| Code reviewed | `git diff main...ds/icon-web`; fix = `187f24f fix(icon/web): round 1` |
+| Verdict | **Approved** — all 5 Round 1 findings fixed; no 🔴 / 🟡 open; 1 new 🟢 nit (test timeout headroom) |
+| Evidence | Run by the Reviewer on `ds/icon-web`: `npm run typecheck` ✅ · `npm run test:web` ✅ 7 files, 87/87 (41.99 s) · `npm run docs:check` ❌ 2 errors, both stale **tablet / mobile button-group** Figma contracts (pre-existing on `main`, out of scope — not counted; Icon's own contracts are fresh) |
+
+#### Round 1 findings
+
+| # | Status | Evidence |
+|---|---|---|
+| 1 | ✅ Fixed | Plan 1.1 B5 / C3 / C5 updated. `prepareIcon` reads `icon.props.directional === true` with `mirrorInRtl` and the class, strips all three and marks the wrapper once (`button/Button.tsx:188-220`, `icon-button/IconButton.tsx:186-218`); React 19 keeps `ref` in props, so the `createElement` path loses nothing. `Icon.tsx:29-35` and `:71-76` JSDoc now state this |
+| 2 | ✅ Fixed | B1 records the closed extra list with the browser ligature check; `IconName = MaterialSymbol \| 'push_pin' \| 'expand_more' \| ''` and `name: IconName` (`icon/Icon.tsx:22`, `:25`); test "accepts push_pin and expand_more and rejects an unknown name at the type level" (`Icon.test.tsx:275`), type-checked by `npm run typecheck` |
+| 3 | ✅ Fixed | `Icon.test.tsx:165` "mirrors directional icons in RTL only; one flip inside Button and IconButton": prop / class / both × Button and IconButton — exactly one `.bw-icon-directional`, on the wrapper, none on the icon; every `scaleX(-1)` rule selector (standalone and wrapper) must match `[dir=rtl]` |
+| 4 | ✅ Fixed | `Icon.test.tsx:124`: wrapper `font-size` / `inline-size` / `block-size` = `buttonSizeTokens[size].icon` = `iconSizeTokens[size]`, and `base.size.icon` = 16/20/24; icon `font-size: inherit`, `overflow: hidden` |
+| 5 | ✅ Fixed | B9 / C5 updated; `src/test/noLegacyIcons.test.ts:16`, `:36` "never uses material-symbols-rounded or @mui/material/Icon outside src/components/icon/" scans every `src/**/*.ts(x)` (scan test also asserts the icon folder is in the glob). `\b` keeps `@mui/material/IconButton` from matching. Orchestrator probe: a planted `material-symbols-rounded` use fails it. The TextField-only literal checks it replaces were removed (`TextField.test.tsx:153`) |
+
+#### Acceptance criteria
+
+| AC | Result | Evidence (file:line / test name) |
+|---|---|---|
+| AC-1 API matches B1 | ✅ | Props and defaults = B1; `name: IconName` exactly B1 (`Icon.tsx:22-35`); warnings once — test "warns once for invalid combinations" (`Icon.test.tsx:255`) |
+| AC-2 Tokens only | ✅ | `icon.tokens.ts` uses `cssVars.size.icon.*` / `cssVars.color.icon.*`; tests "matches every component-token alias", "contains no raw colors, dimensions, durations, or font names" (`Icon.test.tsx:77`, `:86`) |
+| AC-3 RTL per B5 | ✅ | Standalone rule `Icon.tsx:66` under `[dir='rtl']`; single wrapper flip for prop / class / both in Button and IconButton (Round 1 #1, #3 above) |
+| AC-4 Semantics; axe | ✅ | `role="img"` + `aria-label` when labelled, `aria-hidden` otherwise (`Icon.tsx:123-125`); test "is decorative without label and labelled with role=img; axe clean" (`Icon.test.tsx:237`) |
+| AC-5 typecheck + test:web | ✅ | Both pass (run above) |
+| AC-6 Exported; README `Built` | ✅ | `src/index.ts:23-27` exports `Icon`, `IconProps`, `IconName`, `IconColor`, `IconSize`; README row was `Built` at review start |
+| AC-7 Built components use Icon | ✅ | `grep` for `material-symbols-rounded` / `@mui/material/Icon` under `3-web-components/src` outside `components/icon/`: only the guard's own regex. Enforced by the Round 1 #5 test |
+
+**D-18 (run goal)** — every glyph in the web components goes through `Icon` (Material Symbols Rounded); no `@mui/icons-material`, no other icon font or package, and the guard now fails on any direct Material Symbols markup outside `components/icon/`.
+
+#### Rule checks (AGENTS.md §2)
+
+| Rule | Result | Notes |
+|---|---|---|
+| No generated files edited | ✅ | Contracts changed only by `npm run contract` (plan 1.1 step); `docs:check` reports Icon contracts fresh |
+| No raw values / no primitives | ✅ | Semantic `cssVars` only; `16/20/24` appear only as test expectations |
+| Logical properties, RTL icons | ✅ | `inlineSize` / `blockSize`; one flip, RTL-scoped |
+| Light + dark, en + ar tested | ✅ | Test "renders every size as a token-sized box in both themes and languages" (`Icon.test.tsx:96`) |
+| Accessibility | ✅ | B6; never focusable |
+| Stayed inside the plan | ✅ | Fix touches only C5 files (`Button.tsx`, `IconButton.tsx`, `Icon.tsx`, `Icon.test.tsx`, `TextField.test.tsx`, `noLegacyIcons.test.ts`) |
+| Code matches spec | ✅ | B1, B5, B9 |
+| Changelog | ✅ | `CHANGELOG.md` "[Web — Icon fix round 1] — 2026-10-20"; C8 Fix round 1 filled |
+
+#### Findings
+
+| # | Severity | File / section | Issue | Required change | Owner |
+|---|---|---|---|---|---|
+| 1 | 🟢 Nit | `button/Button.test.tsx:592-610` | "has no axe violations … in light" ran 16.3 s in the full suite (13.2 s with the file alone) against its 20 s timeout and timed out once for the orchestrator. Not caused by the fix: the test renders Buttons **without icons** (`prepareIcon` returns early), the test and `Button.tsx` render path are unchanged, and 187f24f only touches `prepareIcon` for icons with a marker. The extra time is axe on 30+ buttons plus CPU contention from the new `Icon.test.tsx` running in parallel. Little headroom → flaky CI | Next time `Button.test.tsx` is touched: raise this axe test's timeout (e.g. 30 s) or split the variant × color matrix per variant. No change needed to approve this unit | Executor |
+
+#### Notes
+
+- `docs:check` fails only on the stale tablet / mobile `button-group` Figma contracts — pre-existing on `main`, outside this unit, not counted.
+- Not a finding (B9 is met as written): the guard matches the text `@mui/material/Icon`, so a barrel import `import { Icon } from '@mui/material'` would not be caught. None exists today. A later plan may add it to B9.
+- Figma build (Part D) not reviewed: `Figma build = Planned`.
+- Code → `Approved` (header and section README).
+
+#### Next step
+
+Orchestrator: after-review gate → before-merge gate for `ds/icon-web`.
 
 ---
 
