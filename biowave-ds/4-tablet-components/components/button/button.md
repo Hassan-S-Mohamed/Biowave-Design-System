@@ -15,7 +15,7 @@
 | Figma | **Biowave DS — Tablet Components** › `↳ Button` (page Typography mode `Tablet`) · build: [Part D](#d--figma-build) |
 | Version | 1.0 · 2026-10-16 |
 | Plan | Finished |
-| Code | Planned |
+| Code | Built |
 | Figma build | Planned |
 | Review | — |
 | Source code | `lib/src/components/button/` — not built yet (the Executor creates it) |
@@ -444,12 +444,15 @@ Implement every item in B9, plus:
 
 | Field | Value |
 |---|---|
-| Agent | |
-| Date | |
-| Files changed | |
+| Agent | Codex |
+| Date | 2026-10-20 |
+| Built | `BwButton` with all allowed variants, colors, sizes, icons, full-width, loading, keyboard focus ring, localized loading semantics and token-only M3 styles; shared `BwControlSize`, package-private focus-ring helper and `pumpBw`; 4 light/dark × en/ar goldens and behavior/token/a11y tests. |
+| Files changed | `lib/src/common/bw_control_size.dart`; `lib/src/common/bw_focus_ring.dart`; `lib/src/components/button/bw_button.dart`; `lib/src/components/button/bw_button_style.dart`; `lib/biowave_tablet.dart`; `test/helpers/bw_test_app.dart`; `test/button_test.dart`; `test/goldens/button/`; `4-tablet-components/README.md`; this C8 log; `CHANGELOG.md` |
+| Checks | `flutter analyze` — pass, no issues; `flutter test --update-goldens --experimental-faster-testing` — pass, 37 tests; `flutter test --experimental-faster-testing` — pass, 37 tests; `npm run component-tokens` — pass; `npm run sync` — pass, READY; `npm run docs:check` — pass under the run note (only the 2 known stale tablet/mobile button-group Figma contracts). |
 
 **Deviations from the plan or spec** (with reason — the Planner updates the spec if accepted):
-- none
+- The execution sandbox denies Flutter's normal localhost test-harness socket. The same Flutter toolchain ran the suite in its no-socket `--experimental-faster-testing` mode against a disposable copy with absolute package roots; goldens were generated there and copied back, then all 37 tests passed again without `--update-goldens`. No production or test behavior changed for this runner workaround.
+- Dart privacy is library-scoped, so the reusable focus-ring class is public inside its source library but remains package-private in practice because `bw_focus_ring.dart` is not exported.
 
 **Questions for the Planner:**
 - none

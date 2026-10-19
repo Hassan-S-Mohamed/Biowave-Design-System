@@ -12,6 +12,7 @@
 
 | # | Step | Agent | Result | Checks | Commit | Prompt |
 |---|---|---|---|---|---|---|
+| 01 | implement | codex | done (15 min): `BwButton`, `BwControlSize`, focus ring, `pumpBw`, 4 goldens; Code `Built` | flutter analyze ✓ · flutter test ✓ 37/37 · component-tokens ✓ · sync ✓ READY · docs:check ✓ (2 baseline errors only) | see git log | `01-implement-codex.prompt.md` |
 
 ## Gates
 
