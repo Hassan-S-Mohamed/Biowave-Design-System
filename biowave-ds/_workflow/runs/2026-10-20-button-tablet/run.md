@@ -18,16 +18,19 @@
 | 04 | preview | codex | done (12 min): `button-light-en.jpg` 1600×800, `button-dark-ar.jpg` 1600×1066, README token sheet; ⚠ raster can't prove exact hex/metrics | previews ✓ · sync ✓ | see git log | `04-preview-codex.prompt.md` |
 | 05 | fix | cursor | failed (1.6 min): Cursor usage limit ("ActionRequiredError"). Left only `test/fonts/` (6 valid TTFs + 2 OFL licences), kept for the retry. Retried with codex as 06 (antigravity is manual) | — | — | `05-fix-cursor.prompt.md` |
 | 06 | fix | codex | done (13 min): Fix round 1 #1–#9; focus ring via backgroundBuilder (no Padding); real fonts in goldens (Arabic shaped, icons as glyphs) | flutter analyze ✓ · flutter test ✓ 65/65 · component-tokens ✓ · sync ✓ · docs:check ✓ (2 baseline errors only) | see git log | `06-fix-codex.prompt.md` |
+| 07 | review | claude (wf-reviewer subagent) | done · **Approved** — Round 2: #1–#9 fixed; 1 new 🟢 nit (#10 golden page bg = filled-neutral token) | flutter analyze ✓ · flutter test ✓ 65/65 · component-tokens ✓ · sync ✓ · docs:check ✓ (2 baseline errors only) | see git log | `07-review-claude.prompt.md` |
 
 ## Gates
 
 | Gate | Decision | Notes |
 |---|---|---|
+| before-merge | pending (2026-10-20) | Code still `Built` (reviewer only writes Review fields). Mobile Button plan 1.1 lives on this branch → merge before branching `ds/button-mobile` |
 | after-plan | **Approve** (2026-10-20) | Previews shown; fix #1–#9 with Cursor in the worktree, then review |
 | after-review | **Approve** (2026-10-20) | Planner first for #1 (focus-ring geometry) and #6 (real fonts in goldens), and the same fix in the **mobile** Button plan in the same pass; then preview, then tablet fix #2–#5, #7–#9; build mobile after that |
 
 ## Questions raised
 
+- Reviewer round 2 notes (not findings): the focus ring takes no layout space, so a neighbour closer than 4 dp paints over it — add a line to the Button group / Split button plans; dark `surface-subtle` / `surface-raised` = `background-neutral-default` (#292929), so filled neutral has no visible container on dark cards — Foundations question.
 - 2026-10-20: from step 03 on, this unit runs in its own git worktree `/Users/hassansaid/Downloads/Biowave Design System-button-tablet` (node_modules and `_workflow/.local` symlinked to the main checkout), because the main checkout is used by the icon/web session.
 - Baseline: `npm run docs:check` on `main` has 2 known errors (tablet + mobile `button-group` Figma contracts stale). They are fixed on `ds/button-web` (finding #14, PR #1, not merged yet). Steps here are checked against "no errors besides those 2".
 

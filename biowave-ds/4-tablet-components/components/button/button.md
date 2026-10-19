@@ -17,7 +17,7 @@
 | Plan | Finished |
 | Code | Built |
 | Figma build | Planned |
-| Review | Round 1 · 2026-10-20 · Changes requested |
+| Review | Round 2 · 2026-10-20 · Approved |
 | Source code | [`lib/src/components/button/`](../../lib/src/components/button/) |
 | Tokens | — (no component tokens yet) |
 | Contracts | [`button-contract.md`](button-contract.md) · [`figma-button-contract.md`](figma-button-contract.md) — generated, never edited |
@@ -618,7 +618,95 @@ Component description: one line from A1 + "Spec: 4-tablet-components/components/
 
 | Round | Date | Code verdict | Figma verdict |
 |---|---|---|---|
+| 2 | 2026-10-20 | Approved | not reviewed |
 | 1 | 2026-10-20 | Changes requested | not reviewed |
+
+### E3 Round 2 — 2026-10-20
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 1.1 |
+| Spec version reviewed | 1.1 |
+| Reviewer | Claude |
+| Date | 2026-10-20 |
+| Commit reviewed | `998e775` (branch `ds/button-tablet`, `git diff 593e7d4..HEAD -- 4-tablet-components/lib 4-tablet-components/test`; working tree clean) |
+| Verdict | **Approved** (0 🔴, 0 🟡, 1 🟢 new; Round 1 #1–#9 all fixed) |
+
+Checks run by the Reviewer (not copied from C8):
+
+| Command | Result |
+|---|---|
+| `cd 4-tablet-components && flutter analyze` | ✓ No issues found |
+| `cd 4-tablet-components && flutter test` | ✓ 65 tests, all passed (normal runner; goldens compared, not updated) |
+| `npm run component-tokens` | ✓ web / tablet / mobile pass |
+| `npm run sync` | ✓ READY for component work (18 docs in the Figma build queue, not blocking) |
+| `npm run docs:check` | ✗ 2 errors — baseline only: `tablet` and `mobile` `button-group` Figma contracts stale (fixed on `ds/button-web`, PR #1, not merged). Not this unit; not a finding |
+
+Extra evidence: a throw-away probe (scratch copy of the package outside the repo, nothing in the repo changed) rendered a keyboard-focused `BwButton` next to a second button for every size in `en` and `ar` on `surfacePage` and sampled pixels on all four sides of the visible container: at 1 dp outside the container = page color (the `focusOffset` gap), at 3 dp = `borderFocus` (#254471, the `widthFocus` stroke), at 5 dp = page color again. `BwButton` rect = container rect for `lg`/`xl` and container + tap-target padding (height 48) for `sm`/`md`, focused or not.
+
+#### Previous round (Round 1) findings
+
+| # | Was | Status | Evidence |
+|---|---|---|---|
+| 1 | 🔴 Focus ring geometry and layout | **Fixed** | `bw_button.dart:92-103` hooks `BwFocusRing` into `ButtonStyle.backgroundBuilder` (child = shaped container inside the M3 `Material`, inside the 48 dp tap-target padding); `clipBehavior: Clip.none` on all four M3 buttons `:171,180,189,198`; `bw_focus_ring.dart:49-79` `Stack(clipBehavior: Clip.none, fit: StackFit.passthrough)` + `PositionedDirectional(-inset…)` with `inset = focusOffset + widthFocus`, `IgnorePointer` → `DecoratedBox` border `widthFocus`, outer radius = container radius + inset; no `Padding`. Tests `focus ring matches {sm,md,lg,xl} container in {en,ar}` (`button_test.dart:440-506`): ring rect = container rect inflated by inset, `BwButton` rect unchanged by focus, width = container width, height = `max(container, minTarget)`, stroke, color and radius asserted. Pixel probe above confirms the 2 dp gap and 2 dp stroke on every side, LTR and RTL |
+| 2 | 🟡 `loading` enabled a disabled button | **Fixed** | `bw_button.dart:85` `loading && onPressed != null ? () {} : onPressed`; loading semantics `enabled: onPressed != null` `:212`. Test `disabled loading is not focusable or enabled` (`button_test.dart:406-427`): focus refused, `FilledButton.onPressed` null, semantics `isEnabled` false |
+| 3 | 🟡 Ring faded in | **Fixed** | `bw_focus_ring.dart:59` plain `if (_showRing)` — no `Animated*`, no duration. Ring found after one `pump()` in the geometry tests; `focus ring is instant, keyboard-only, and inverse-aware` asserts no `AnimatedContainer` |
+| 4 | 🟡 Tests did not measure | **Fixed** | `uses exact size tokens and grows at 200% text scale` (`:296-331`) measures the container `Material` per size = `BwSize.controlHeight*`, and at 2.0 asserts `sm` container > token and ≥ label height; ring rect/stroke/color/radius measured (#1); `full width uses the parent width` (`:575-588`) measures the container = 480 |
+| 5 | 🟡 `pumpBw` | **Fixed** | `test/helpers/bw_test_app.dart:15-30` `locale`, `supportedLocales [en, ar]`, `GlobalMaterialLocalizations.delegates`, `reduceMotion` → `disableAnimations`. Test `pumpBw provides locales, directions, and reduced motion` builds a `TextField` in all 4 theme × locale combos; `honours reduced motion` (`:333-352`) now uses `pumpBw(reduceMotion: true)` |
+| 6 | 🟡 Ahem goldens | **Fixed** | `test/flutter_test_config.dart:8-44` loads `BwFontFamily.en` / `.ar` from `test/fonts/*.ttf` (OFL licences committed) and `MaterialSymbolsRounded` from the package asset; no `pubspec.yaml` change. Opened all 4 PNGs in `test/goldens/button/`: Inter Latin labels, IBM Plex Sans Arabic labels shaped and joined, `add` and `arrow_forward` drawn as real Material Symbols glyphs; in `ar` the arrow points left (mirrored), `add` unchanged, order mirrored. Probe test `real Latin and Arabic test fonts replace Ahem` |
+| 7 | 🟢 Hard-coded ring key | **Fixed** | `bw_focus_ring.dart:13,67` `ringKey` parameter; caller passes `ValueKey('BwButton.focus-ring')` `bw_button.dart:99` |
+| 8 | 🟢 Guideline tests light only | **Fixed** | `button_test.dart:590-618` loops `Brightness.values` × 18 allowed variant/color — 36 cases pass |
+| 9 | 🟢 Header "Source code" | **Fixed** | Header row links `lib/src/components/button/` |
+
+#### Acceptance criteria
+
+| AC | Result | Evidence (file:line / test name) |
+|---|---|---|
+| AC-1 API matches B1 | ✅ | `bw_button.dart:15-55` names, types, defaults; asserts `:29-42`; fallbacks `:57-66`; `loading` + `onPressed: null` stays disabled `:85,212`. Tests `uses the documented defaults and M3 variant`, `asserts every invalid combination`, `disabled loading is not focusable or enabled` |
+| AC-2 Values from tokens | ✅ | Ring: `BwBorder.focusOffset`, `BwBorder.widthFocus`, `borderFocus` / `borderInverse` (`bw_button.dart:86-91`, `bw_focus_ring.dart:49-73`); style file unchanged since Round 1 (✅ there). `component source contains no prohibited raw values` passes; no `BwPalette` in `lib/` |
+| AC-3 B4 transitions, reduced motion | ✅ | `animationDuration` and `AnimatedSwitcher` use `BwDuration.instant` under `reduceMotion` (`bw_button_style.dart:69-70`, `bw_button.dart:79-80`); ring instant (Round 1 #3). `honours reduced motion` via `pumpBw` |
+| AC-4 RTL as B5; a11y as B6 | ✅ | Ring around the visible container, gap `focusOffset`, stroke `widthFocus`, concentric radius, LTR + RTL (tests and probe above); keyboard-only via highlight-mode listener `bw_focus_ring.dart:28-45` (test `focus ring is instant, keyboard-only, and inverse-aware`); loading keeps focus and announces once (`loading blocks presses, keeps size and focus, and announces once`); `ar` goldens mirror layout and directional icon |
+| AC-5 Tests pass; sync passes | ✅ | Checks table above |
+| AC-6 Exported; README `Built` | ✅ | `lib/biowave_tablet.dart` unchanged (exports `bw_control_size.dart`, `button/bw_button.dart`; ring and style not exported); README row Code = `Built` |
+| AC-7 No splash; elevation 0; exact heights | ✅ | Style unchanged (`NoSplash`, elevation 0); heights 32 / 40 / 48 / 56 measured with `tester.getSize` on the container `Material` (`uses exact size tokens…`) and in the probe |
+| AC-8 Ring outside container, no layout change; shared test setup | ✅ | Round 1 #1 and #5 evidence; `flutter_test_config.dart` loads real fonts; `pumpBw` has Material localizations and `reduceMotion` |
+| AC-9 Round 1 #1–#9 fixed per task list | ✅ | Previous-round table above — all 9 Fixed |
+| AC-10 C8 "Fix round 1"; goldens regenerated; status | ✅ | C8 › "Fix round 1 — 2026-10-20" with file:line + test per finding; 4 goldens regenerated with real fonts (opened and checked); header `Code` = `Built`; `4-tablet-components/README.md` row matches |
+
+#### Goldens — dark theme and filled neutral
+
+- **Filled neutral is not visible in any golden, light or dark.** Its container uses `color-background-neutral-default` (B3 → Web B3 3.1, `bw_button_style.dart:139`), and the golden harness paints the page with the **same** token (`test/button_test.dart:761` `backgroundNeutralDefault`: light #EDEDED, dark #292929). So the button shows as label + icon only. This **matches the B3 tokens** — it is the harness background, not the button, that is wrong (finding 10).
+- On the real page background (`color-surface-page`: dark #0A0A0A, light #F7F7F7) the dark filled-neutral container (#292929) is clearly visible; in light it is a subtle #EDEDED on #F7F7F7, as designed.
+- The rest of the dark goldens match B3: filled brand / secondary / error use their dark default backgrounds, tonal uses the dark subtle backgrounds, outlined borders and text colors switch, `inverse` sits on the brand fill.
+
+#### Notes for later units (not findings)
+
+- The ring takes no layout space by design (B2). A sibling painted after the button covers the part of the ring that overlaps it: in the probe, two buttons placed with 0 gap hide the ring on the shared edge (right in LTR, left in RTL). Any layout that puts controls closer than `focusOffset + widthFocus` (4 dp) will clip the ring — worth a line in the Button group / Split button plans (spacing ≥ 4 dp, or the focused item painted last). Ancestors that clip (`ClipRRect`, scroll views with no padding) also cut it for `lg`/`xl`, which have no tap-target padding around them.
+- Dark `color-surface-subtle` and `color-surface-raised` are both #292929, the same value as `color-background-neutral-default`: a filled-neutral button on a dark card has no visible container. A Foundations question for the Planner, not this unit.
+
+#### Rule checks (AGENTS.md §2)
+
+| Rule | Result | Notes |
+|---|---|---|
+| No generated files edited | ✅ | Fix commit touches no `generated/`, `dist/`, `_sync/*.json` or contract |
+| No raw values / no primitives | ✅ | `lib/` clean; numeric paddings only in the test golden harness |
+| Logical properties, RTL icons | ✅ | `PositionedDirectional`, `BorderRadiusDirectional` resolved with `Directionality`; `ar` goldens mirror the arrow only |
+| Light + dark, en + ar tested | ✅ | 4 real-font goldens; guideline tests in light and dark; focus geometry in en and ar |
+| Accessibility (keyboard, focus, labels, target) | ✅ | Ring 2 dp outside the container, 2 dp stroke, keyboard only, instant; targets ≥ 48 dp; disabled stays disabled while loading |
+| Stayed inside the plan | ✅ | Fix files = C5 list; deviation in C8 (sandboxed runner `--experimental-faster-testing`) is a tooling workaround only — the Reviewer ran the normal runner and all 65 tests pass |
+| Code matches spec (API names, tokens, states, RTL, a11y) | ✅ | See AC table |
+| Accepted deviations reflected back into the spec | ✅ | None need a spec change |
+| Changelog | ✅ | `CHANGELOG.md` "Tablet Button — fix round 1 (1.1)" |
+
+#### Findings
+
+| # | Severity | File | Issue | Required change | Owner |
+|---|---|---|---|---|---|
+| 10 | 🟢 Nit | `test/button_test.dart:761` | The golden harness page uses `backgroundNeutralDefault`, the same token as the filled-neutral container, so filled neutral has no visible container in all four goldens and a regression in its background would not show | Paint the golden page with `context.bw.colors.surfacePage` and regenerate the 4 goldens | Executor |
+
+#### Next step
+
+- Approved. Finding 10 is a nit: fix it with the next change to this unit (or before merge if the orchestrator wants a clean golden). No Planner items; Plan stays `Finished`.
 
 ### E2 Round 1 — 2026-10-20
 

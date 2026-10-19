@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Tablet Button — review round 2] — 2026-10-20
+### Changed
+- Tablet `button.md` Part E Round 2: **Approved** — Round 1 findings #1–#9 all fixed (focus ring 2 dp outside the container with no layout change, measured per size in LTR/RTL; real-font goldens; disabled stays disabled while loading); 1 new 🟢 nit (#10 golden page background equals the filled-neutral token). Review status updated in the header and `4-tablet-components/README.md`.
+
 ## [Tablet Button — fix round 1 (1.1)] — 2026-10-20
 ### Fixed
 - Review findings #1–#9: the keyboard focus ring now paints outside the visible container without affecting layout or fading; loading preserves disabled state; shared localization/reduced-motion test setup and measured light/dark accessibility coverage were added; Inter, IBM Plex Sans Arabic and Material Symbols Rounded are loaded for tests; and all four real-font goldens were regenerated and visually checked.
