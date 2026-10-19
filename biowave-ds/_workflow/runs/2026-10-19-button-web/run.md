@@ -13,6 +13,7 @@
 | # | Step | Agent | Result | Checks | Commit | Prompt |
 |---|---|---|---|---|---|---|
 | after-review | **Approve** (2026-10-19) | Run the Planner first for #11 (shared test tooling) and #14 (stale button-group contracts), then fix
+| after-plan | **Approve** (2026-10-19) | Fix step runs from Claude Code on the Mac (Codex): `04-fix-codex.prompt.md` |
 | 01 | review | claude | done · **Changes requested** (7 findings: 1 🔴, 3 🟡, 3 🟢) | typecheck ✓ · test:web ✗ 73/77 (not Button: 24/24 ✓) · docs:check ✗ (button-group T/M Figma contracts stale) · sync ✓ | see git log | `01-review-claude.prompt.md` |
 | 02 | plan | claude | done · plan v1.2 (spec unchanged), Plan stays Finished | contract web button ✓ · contract tablet/mobile button-group ✓ · docs:check ✓ 0 errors · sync ✓ · probe test:web 77/77 in 35 s | 668185a | `02-plan-claude.prompt.md` |
 | 03 | preview | — | not run: Codex and Antigravity are not reachable from this session (cloud + Linux VM). Not blocking | — | — | — |
