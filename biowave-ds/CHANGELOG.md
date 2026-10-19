@@ -2,6 +2,9 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Review — Web Button round 2: Changes requested] — 2026-10-19
+- Round 1 findings 1–10 all fixed; `typecheck` ✅, `sync` ✅, Button 24/24 ✅; but `test:web` ❌ 73/77 both parallel and serial (emotion `<style>` tags pile up per test file and slow axe/user-event past 5 s; Planner owns the shared fix, #11), `docs:check` ❌ (stale tablet/mobile button-group Figma contracts, #14), live region mounted with its text (#13). Full record: `3-web-components/components/button/button.md` › E3.
+
 ## [Tooling — preview images after planning (agent-workflow-kit 1.1.0)] — 2026-10-19
 ### Added
 - **Previewer** step: after each plan step the orchestrator sends the plan to Codex (ChatGPT image generation); if that fails, it uses Antigravity (Gemini image-generator). It draws the component with exact token values from `2-foundations/dist/tokens.json`, in **light + English** and **dark + Arabic (RTL)**, and saves them as JPEG (about 450 KB each) to `<section>/components/<name>/previews/<name>-light-en.jpg` and `<name>-dark-ar.jpg`, with a `README.md` (token sheet, prompts, check results). The images are shown at the after-plan gate, before any code.

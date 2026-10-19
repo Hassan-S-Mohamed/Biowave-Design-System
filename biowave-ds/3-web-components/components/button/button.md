@@ -17,7 +17,7 @@
 | Plan | Finished |
 | Code | Built |
 | Figma build | Planned |
-| Review | Round 1 · 2026-10-16 · Changes requested |
+| Review | Round 2 · 2026-10-19 · Changes requested |
 | Source code | [`src/components/button/`](../../src/components/button/) |
 | Tokens | — (no component tokens yet) |
 | Contracts | [`button-contract.md`](button-contract.md) · [`figma-button-contract.md`](figma-button-contract.md) — generated, never edited |
@@ -720,6 +720,113 @@ Component description: "Starts an action the user chose. One filled button per a
 | Round | Date | Code verdict | Figma verdict |
 |---|---|---|---|
 | 1 | 2026-10-16 | **Changes requested** | not reviewed |
+| 2 | 2026-10-19 | **Changes requested** | not reviewed (Figma skipped in workflow config) |
+
+### E3 Round 2 — 2026-10-19
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 1.1 · 2026-10-18 |
+| Spec version reviewed | 1.1 |
+| Reviewer | Claude |
+| Date | 2026-10-19 |
+| Verdict | **Changes requested** |
+
+Inputs: B, C7, C8 (incl. "Round 2 — 2026-10-18") and E of this file, and the files listed in C8 Round 2. Commands run by the Reviewer on a clean Linux copy after a fresh `npm ci` (Node 22.22.0, 2 CPUs):
+
+| Command | Result | Time |
+|---|---|---|
+| `npm run docs:check` | ❌ 2 errors: `tablet button-group` and `mobile button-group` Figma contracts stale (finding 14). No Button errors | 0.4 s |
+| `npm run typecheck` | ✅ | 8.2 s |
+| `npm run test:web` (as configured, file-parallel) | ❌ 73/77. Button 24/24 ✅. Failing: Icon button *axe light* (timeout 5 s) + *axe dark* ("Axe is already running" — knock-on from the timed-out run), Text field *axe* (timeout 5 s), Split button *Arrow/Home/End/Escape keyboard* (timeout 5 s) | 155.9 s (wall 2 m 37 s) |
+| `vitest run --no-file-parallelism` | ❌ the same 4 tests fail; Button 24/24 ✅ | 155.5 s (wall 2 m 37 s) |
+| `vitest run --testTimeout=60000` (diagnostic only) | ✅ 77/77 | 155.3 s |
+| `npm run sync` (AC-5) | ✅ READY, exit 0; `web button` code + Figma contracts current | — |
+
+Flutter checks are not part of the web unit.
+
+#### `test:web` timeout — reproduced, cause found
+
+The C8 Round 2 log of Text field says the parallel run times out in Button / Icon button / Split button. Reproduced, but **file parallelism is not the cause**: serial and parallel runs fail the same 4 tests in the same time. Button does not fail here only because its slow tests carry raised timeouts (`Button.test.tsx:202` 30 s, `:344` 20 s, `:610` 20 s).
+
+Cause: **emotion `<style>` elements pile up inside each test file, and every DOM-wide operation slows down with them.** `BiowaveProvider` creates its two emotion caches once per module (`2-foundations/web/src/BiowaveProvider.tsx:44-45`), not speedy in tests, so each CSS rule becomes its own `<style>` tag in `<head>` and `cleanup()` never removes them. The render-matrix tests at the top of each file insert ~5,000–6,000 tags; the axe and keyboard tests that run later in the same file walk a document with thousands of extra nodes.
+
+| Evidence (Reviewer probe, not committed) | Result |
+|---|---|
+| axe on 1 Button + 1 Icon button, fresh file (124 tags) | 98–282 ms |
+| Same axe after one Button render matrix (6,122 tags) | 6,267 ms (≈ 60×) |
+| Same 5,052 tags merged into **one** `<style>` with the same CSS | 6,220 ms → **427 ms** — tag count, not CSS volume, is the cost |
+| axe with `preload: false` / `css-orientation-lock` off | still 5.2–5.4 s — not axe's CSSOM preload |
+| Button axe tests, in file vs alone (`-t axe`) | 15.6 s / 15.5 s vs 1.9 s / 1.1 s |
+| Icon button axe light, in file vs alone | 6.4 s vs 0.48 s |
+| Text field axe, in file vs alone | 6.0–7.6 s vs 1.7 s |
+| Split button keyboard test, in file vs alone | 5.6–6.1 s vs 1.0 s |
+
+So Button's own axe tests use 78 % of their raised 20 s budget; on a slower or busier machine (the macOS parallel run in the Text field log) they cross it. Raising timeouts hides the problem; it grows with every component that reuses this tooling (AC-8).
+
+#### Round 1 findings — status
+
+| # | Status | Evidence |
+|---|---|---|
+| 1 | ✅ Fixed | `Button.tsx:143-148` content hidden with `opacity` only; status region is a sibling outside the root (`Button.tsx:289-331`). Test *keeps its accessible name and focus while loading…* (`Button.test.tsx:366-403`): `computeAccessibleName` = "Save changes", status not inside the button, no `visibility: hidden` rule. Announcement timing: see finding 13 |
+| 2 | ✅ Fixed | Rule scoped to the wrapper: `Button.tsx:172-174` `[dir='rtl'] & .bw-button__icon.bw-icon-directional`; class removed from the icon (`Button.tsx:190-195`). Test `Button.test.tsx:537-562`: exactly one `.bw-icon-directional` element, the icon child does not carry it |
+| 3 | ✅ Fixed | `mirrorInRtl` read and stripped (`Button.tsx:191-203`); `ButtonDirectionalIconProps` exported (`Button.tsx:23-26`, `index.ts`, `src/index.ts:10`). Test `Button.test.tsx:564-587`: no DOM attribute, no React error. Edge case `mirrorInRtl={false}`: finding 15 |
+| 4 | ✅ Fixed (Planner) | `--bw-motion-duration-progress: 1000ms` (`tokens.css:80`) is not in the reduced-motion block (`tokens.css:843-845`); `button.tokens.ts:251` → `ButtonSpinner.tsx:22`. Test `Button.test.tsx:405-416` |
+| 5 | ✅ Fixed | Content and spinner fade with `opacity` + `motion-duration-sm` / `easing-linear` (`Button.tsx:143-148`, `ButtonSpinner.tsx:20-21, 26`); no `visibility` |
+| 6 | ✅ Fixed | (a) no jsdom width claim left; C8 Round 2 keeps it as a manual check. (b) RTL result asserted (#2). (c) part rules per variant × color (`Button.test.tsx:204-231`) and per size (`:233-254`). (d) states (`:267-344`) and axe (`:590-611`) for every allowed color |
+| 7 | ✅ Fixed | Instant while disabled (`Button.tsx:128-135`) and on the re-enabled frame (`Button.tsx:242-262, 297`). Test `Button.test.tsx:463-475`; it cannot catch "never reverts" (finding 16) |
+| 8 | ✅ Fixed | `src/internal/visuallyHidden.ts` (clip, 1 px, overflow hidden, absolute) used at `Button.tsx:327` |
+| 9 | ✅ Fixed (Planner) | C6 regex with word boundaries; `Button.test.tsx:163` |
+| 10 | ✅ Closed | Planner decision R-01: header status fields are the single source; header `Plan Finished`, `Code Built` (`button.md:17-18`) |
+
+#### Acceptance criteria
+
+| AC | Result | Evidence (file:line / test name) |
+|---|---|---|
+| AC-1 Public API = B1 | ✅ | `Button.tsx:28-44` props, `:220-233` defaults, `:245-278` all three fallbacks with `warnOnce`; tests *warns once…* (`Button.test.tsx:479-533`). Nit: finding 15 |
+| AC-2 Tokens only | ✅ | `button.tokens.ts` = `button.tokens.json` (test *matches every component token alias*, `Button.test.tsx:137-160`); raw-value test `:162-167`; no primitives |
+| AC-3 B4 transitions; reduced motion | ✅ | hover/press/release `Button.tsx:100-120`; focus ring has no transition (`:124-127`); loading fade `:143-148` + `ButtonSpinner.tsx:20-26`; disabled ↔ enabled instant `:106-108, 128-135, 242-262`; spinner `motion-duration-progress`, kept under reduced motion |
+| AC-4 RTL B5; a11y B6 | ⚠️ | RTL ✅ (#2, #3). Loading keeps focus and name ✅. "Announced once": the live region is created together with its text (finding 13) |
+| AC-5 Tests exist and pass; typecheck, test:web, sync pass | ❌ | Button tests exist and pass (24/24). `typecheck` ✅, `sync` ✅, **`test:web` ❌** 73/77 (finding 11); Button's axe tests pass only on raised timeouts (finding 12) |
+| AC-6 Exported; README Built | ✅ | `src/index.ts:7-14`; `3-web-components/README.md:46` Code = Built |
+| AC-7 No ripple / elevation / uppercase / min-width | ✅ | `Button.tsx:83, 97-98, 301-302`; test `Button.test.tsx:353-362` |
+| AC-8 Generic tooling, documented | ⚠️ | `vitest.config.ts`, `src/test/render.tsx`, `src/test/setup.ts`; README › Stack › Tests (`3-web-components/README.md:13`). Generic, but does not scale — the accumulated-style cost is what breaks `test:web` (finding 11) |
+| AC-9 Round 1 fixes #1, #2, #3, #5, #6, #7, #8 | ✅ | Table above |
+| AC-10 C8 Round 2; Code Built; README matches | ✅ | `button.md:534-542`; header `Code` Built (`button.md:18`); README row `:46` matches. C8 Round 2 lists no command results (finding 17) |
+
+#### Rule checks (AGENTS.md §2)
+
+| Rule | Result | Notes |
+|---|---|---|
+| No generated files edited | ✅ | Round 2 files (C8) are source, docs and changelog only |
+| No raw values / no primitives | ✅ | Raw-value test passes; `visuallyHidden.ts` uses the standard 1-unit pattern the plan asks for (C3) |
+| Logical properties, RTL icons | ✅ | `paddingInline`, `inlineSize`, `insetInline`, logical radii; single wrapper flip |
+| Light + dark, en + ar tested | ✅ | Render matrix in all 4 combinations (`Button.test.tsx:171-202`); axe in light + dark (`:590-611`) |
+| Accessibility (keyboard, focus, labels, target) | ⚠️ | Keyboard ✅ (`:613-653`), focus ring ✅, name ✅, targets ✅. Live-region timing (finding 13) |
+| Stayed inside the plan | ✅ | C5 files plus `visuallyHidden.ts` (C3) |
+| Code matches spec (API, tokens, states, RTL, a11y) | ⚠️ | Findings 13, 15 |
+| Accepted deviations reflected back into the spec | ✅ | Round 1 Planner response applied in plan 1.1 / spec 1.1 (F2) |
+
+#### Figma build (Part D)
+
+Skipped — `_workflow/config.json` › `skip: ["figma"]`; Figma build is `Planned`.
+
+#### Findings
+
+| # | Severity | File | Issue | Required change | Owner |
+|---|---|---|---|---|---|
+| 11 | 🔴 Blocker | `2-foundations/web/src/BiowaveProvider.tsx:44-45` · `3-web-components/src/test/render.tsx:10-22` · `src/test/setup.ts:26-32` | `npm run test:web` fails (73/77) in parallel **and** serially. Cause: emotion writes one `<style>` tag per rule (non-speedy in tests) into module-level caches, so tags pile up per test file (≈ 6,000 after one render matrix). axe and user-event then run 6–15× slower than alone and cross the 5 s default (evidence above). Not a parallelism problem; Button passes only through raised timeouts | Decide one shared fix in the test tooling instead of raising timeouts — e.g. a test-only speedy emotion cache (BiowaveProvider option or test cache; merging the same CSS into one tag took axe 6.2 s → 0.43 s), or removing emotion tags and resetting the caches between tests. It touches Foundations code and every web unit, so record it in C3/C5 (tooling owner = this plan) and in the affected units' plans; then the Executor applies it | Planner |
+| 12 | 🟡 Should fix | `Button.test.tsx:202, 344, 610` | Raised per-test timeouts (30 s, 20 s, 20 s) hide the slowdown: axe tests take 15.6 s / 15.5 s of 20 s here (1.9 s / 1.1 s alone) | After #11, remove the raised timeouts and confirm every Button test finishes well under the 5 s default; record timings in C8 | Executor |
+| 13 | 🟡 Should fix | `Button.tsx:326-330` | The `role="status"` region is mounted together with its text when `loading` turns on. Screen readers often do not announce a live region that appears with its content already inside (B6: "announces `loadingLabel` once"). Not verifiable in jsdom | Keep the visually hidden `role="status"` sibling mounted while the Button is mounted (empty when idle) and put `loadingLabel` into it when loading starts; test that the region exists before loading and gets the text after. Note a manual screen-reader check in C8 | Executor |
+| 14 | 🟡 Should fix | `4-tablet-components/components/button-group/` · `5-mobile-components/components/button-group/` | `npm run docs:check` fails: tablet and mobile `button-group` Figma contracts stale. Not caused by Button, but it is a required check of this step | Regenerate: `npm run contract -- tablet button-group` and `npm run contract -- mobile button-group` (after checking why the source changed) | Planner |
+| 15 | 🟢 Nit | `Button.tsx:196-203` | `mirrorInRtl={false}` is not stripped: `cloneElement` keeps the prop, so it reaches the DOM on a custom icon that spreads its props (B5: "never reaches the DOM") | Strip whenever the prop is present (`'mirrorInRtl' in icon.props`), not only when it is truthy; add the `false` case to the test | Executor |
+| 16 | 🟢 Nit | `Button.test.tsx:327-333, 463-475` | The re-enable test passes even if the instant duration never reverts | After the next animation frame, assert the instant rule is gone and the `motion-duration-sm` transition is back | Executor |
+| 17 | 🟢 Nit | `button.md:534-542` (C8 Round 2) | No command results recorded; `test:web` was red at the time (see Text field C8) | List each command with ✓/✗ in the next C8 entry | Executor |
+
+#### Next step
+
+- Changes requested. Planner first: decide #11 (shared tooling fix, record in C3/C5 and the affected units) and regenerate the stale button-group contracts (#14).
+- Then the Executor (Fix round): apply #11 in the Button tooling, then #12, #13, and the nits 15–17; add a "Fix round" entry in C8 with check results; `test:web` must pass as configured, without raised timeouts.
 
 ### E2 Round 1 — 2026-10-16
 

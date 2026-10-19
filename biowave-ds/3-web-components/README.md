@@ -43,7 +43,7 @@ Status is written in each file header and here; `npm run docs:check` fails if th
 
 | Component | Plan | Code | Figma | Review | Docs | File |
 |---|---|---|---|---|---|---|
-| Button | Finished | Built | Planned | Round 1 · 2026-10-16 · Changes requested | [page](components/button/button.html) | [button.md](components/button/button.md) |
+| Button | Finished | Built | Planned | Round 2 · 2026-10-19 · Changes requested | [page](components/button/button.html) | [button.md](components/button/button.md) |
 | Icon | Finished | Planned | Planned | — | [page](components/icon/icon.html) | [icon.md](components/icon/icon.md) |
 | Button group | Finished | Built | Planned | — | [page](components/button-group/button-group.html) | [button-group.md](components/button-group/button-group.md) |
 | Icon button | Finished | Built | Planned | — | [page](components/icon-button/icon-button.html) | [icon-button.md](components/icon-button/icon-button.md) |
