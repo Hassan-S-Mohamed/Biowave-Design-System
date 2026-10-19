@@ -16,6 +16,8 @@
 | 02 | plan | claude | done · plan v1.2 (spec unchanged), Plan stays Finished | contract web button ✓ · contract tablet/mobile button-group ✓ · docs:check ✓ 0 errors · sync ✓ · probe test:web 77/77 in 35 s | 668185a | `02-plan-claude.prompt.md` |
 | 03 | preview | — | not run: Codex and Antigravity are not reachable from this session (cloud + Linux VM). Not blocking | — | — | — |
 | 04 | fix | codex | partial → accepted as done (2026-10-20): #11, #12, #13, #15, #16, #17 fixed; open item is manual QA only | docs:check ✓ · typecheck ✓ · test:web ✓ 79/79 in 5.5 s (default timeouts) · sync ✓ (preflight) | see git log | `04-fix-codex.prompt.md` |
+| 05 | review | claude | failed: `claude` CLI refuses to start inside a Claude Code session (nested-session guard). Retried as 06 | — | — | `05-review-claude.prompt.md` |
+| 06 | review | claude (wf-reviewer subagent) | done · **Approved** — Round 3: #11–#13, #15–#17 fixed, no new findings | docs:check ✓ · typecheck ✓ · test:web ✓ 79/79 ≈ 6 s · sync ✓ | see git log | `06-review-claude.prompt.md` |
 
 ## Gates
 
@@ -23,6 +25,7 @@
 |---|---|---|
 | after-review | **Approve** (2026-10-19) | Run the Planner first for #11 (shared test tooling) and #14 (stale button-group contracts), then fix
 | after-plan | **Approve** (2026-10-19) | Fix step runs from Claude Code on the Mac (Codex): `04-fix-codex.prompt.md` |
+| before-merge | pending (2026-10-20) | Manual QA open: loading width + VoiceOver/NVDA announcement (EN/AR). Code still `Built` (reviewer did not change it) |
 
 ## Questions raised
 

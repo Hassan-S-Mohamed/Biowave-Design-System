@@ -17,7 +17,7 @@
 | Plan | Finished |
 | Code | Built |
 | Figma build | Planned |
-| Review | Round 2 · 2026-10-19 · Changes requested |
+| Review | Round 3 · 2026-10-20 · Approved |
 | Source code | [`src/components/button/`](../../src/components/button/) |
 | Tokens | — (no component tokens yet) |
 | Contracts | [`button-contract.md`](button-contract.md) · [`figma-button-contract.md`](figma-button-contract.md) — generated, never edited |
@@ -787,6 +787,99 @@ Component description: "Starts an action the user chose. One filled button per a
 |---|---|---|---|
 | 1 | 2026-10-16 | **Changes requested** | not reviewed |
 | 2 | 2026-10-19 | **Changes requested** | not reviewed (Figma skipped in workflow config) |
+| 3 | 2026-10-20 | **Approved** | not reviewed (Figma skipped in workflow config) |
+
+### E4 Round 3 — 2026-10-20
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 1.2 · 2026-10-19 |
+| Spec version reviewed | 1.1 |
+| Reviewer | Claude |
+| Date | 2026-10-20 |
+| Verdict | **Approved** |
+
+Inputs: B, C7, C8 (incl. "Fix round 1 — 2026-10-20") and E of this file, and the code changed in commit `e8dc43b` (`git diff e8dc43b~1 e8dc43b`); no uncommitted changes to unit files. Commands run by the Reviewer on this Mac with the repo's installed `node_modules` (Node 24.14.0):
+
+| Command | Result | Time |
+|---|---|---|
+| `npm run docs:check` | ✅ 18 component files; structure, guidelines, status, generated pages, contracts, links, demo tokens OK | — |
+| `npm run typecheck` | ✅ Foundations + Web | — |
+| `npm run test:web` (as configured: default 5 s timeout, file-parallel, `vitest.config.ts` unchanged since `4e0d9b8`) | ✅ **79/79** in 7/7 files (2 run: 5.82 s and 6.58 s Vitest duration, 6.4 s wall). Button 24/24 in 3.28 s | 6.4 s |
+| `npm run sync` (AC-5) | ✅ READY, exit 0; `web button` code + Figma contracts current; 18 non-blocking Figma queue items | — |
+
+Slowest Button tests (Vitest report): render matrix 979 ms · axe light 647 ms · axe dark 571 ms — all well under 5 s. Round 2 baseline for the same suite: 73/77 in 155.9 s.
+
+Flutter checks are not part of the web unit.
+
+#### Round 2 findings — status
+
+| # | Status | Evidence |
+|---|---|---|
+| 11 | ✅ Fixed | `createBiowaveEmotionCaches({ speedy })` + `BiowaveEmotionCaches` (`2-foundations/web/src/BiowaveProvider.tsx:18-35`), optional `emotionCaches` prop (`:45`, default `:76`), used at `:94`; exported (`2-foundations/web/src/index.ts:4-11`). Per-test lazy speedy pair + `resetTestEmotionCaches()` flushing both sheets (`3-web-components/src/test/render.tsx:15-27`, passed to the provider `:33-36`); called right after `cleanup()` (`src/test/setup.ts:26-28`). Tooling test `src/test/render.test.tsx:21-36` (second test asserts 0 `bw` style tags after cleanup, then re-insertion). `test:web` 79/79 as configured in ≈ 6 s |
+| 12 | ✅ Fixed | No timeout argument left in `Button.test.tsx` (grep for `_000)` / `timeout` = none); render matrix `:179-210`, states `:275-352`, axe `:631-650` use the default 5 s. Slowest 979 ms |
+| 13 | ✅ Fixed | `role="status"` sibling always rendered, text only while loading (`Button.tsx:327-329`). Test `Button.test.tsx:374-418`: region exists and is empty before loading, is the same element with "Saving…" while loading, back to empty after (`toBe(idleStatus)`) |
+| 15 | ✅ Fixed | `'mirrorInRtl' in icon.props` decides the strip (`Button.tsx:196-204`); directional only when `=== true` (`:191-192`). Test `Button.test.tsx:588-626`: `true` → one wrapper flip, `false` → no `bw-icon-directional`, neither reaches the DOM, no React error. `ref` survives the `createElement` path (React 19.3.1: `ref` is a prop) |
+| 16 | ✅ Fixed | Test `Button.test.tsx:478-499` scopes to the root rule (`rootCssRuleFor`, `:136-142`), waits one `requestAnimationFrame`, then asserts the instant duration is gone and `motion-duration-sm` is back |
+| 17 | ✅ Fixed | C8 "Fix round 1 — 2026-10-20" lists `docs:check`, `typecheck`, `test:web` (79/79, 5.78 s), `component-tokens`, `sync` with ✓, slowest Button timings and both manual checks. Reviewer re-ran all four required commands with the same results (table above) |
+| 14 | ✅ Closed (Planner, Round 2 response) | `docs:check` ✅ — no stale contracts |
+
+#### Default behaviour of `BiowaveProvider` — verified
+
+| Point | Before (`e8dc43b~1`) | After | Same? |
+|---|---|---|---|
+| LTR cache | `createCache({ key: 'bw', prepend: true })` | `createCache({ key: 'bw', prepend: true, speedy: undefined })` (`BiowaveProvider.tsx:27`) | ✅ `@emotion/sheet` treats `speedy === undefined` as "not set" (`isSpeedy = options.speedy === undefined ? !isDevelopment : options.speedy`); cache passes `speedy: options.speedy` through unchanged |
+| RTL cache | key `bw-rtl`, `prepend`, `[prefixer, rtlPlugin]` | same + `speedy: undefined` (`:28-33`) | ✅ |
+| Lifetime | one module-level pair | one module-level `defaultEmotionCaches` (`:64`) used when the prop is omitted (`:76`) | ✅ |
+| Selection | `caches[direction]` | `emotionCaches[direction]` (`:94`) | ✅ |
+
+The prop is optional and documented as advanced; no consumer outside `src/test/render.tsx` passes it.
+
+#### Acceptance criteria
+
+| AC | Result | Evidence (file:line / test name) |
+|---|---|---|
+| AC-1 … AC-10 | ✅ | Approved in Round 2 (E3); the Fix round changed only `Button.tsx:196-204, 327-329` (strip condition, live region) — B1 API, tokens, transitions, RTL flip and MUI overrides untouched (diff `e8dc43b`). AC-5 now fully ✅: tests pass, `typecheck` ✅, `test:web` ✅ 79/79, `sync` ✅ |
+| AC-11 Shared speedy per-test caches; `test:web` as configured, default timeout | ✅ | See #11. `vitest.config.ts` has no `testTimeout` / `fileParallelism`; 79/79 (77 + 2 tooling tests) |
+| AC-12 Raised Button timeouts removed; every Button test well under 5 s | ✅ | See #12; slowest 979 ms |
+| AC-13 Live region always mounted, empty when idle | ✅ | See #13 |
+| AC-14 `mirrorInRtl` stripped whenever present; re-enable test asserts transition returns | ✅ | See #15, #16 |
+| AC-15 C8 Fix round entry with every command and real numbers + manual checks | ✅ | See #17 |
+
+#### Rule checks (AGENTS.md §2)
+
+| Rule | Result | Notes |
+|---|---|---|
+| No generated files edited | ✅ | Fix round touched source, tests, README, `button.md` C8, `CHANGELOG.md`, run record only |
+| No raw values / no primitives | ✅ | Raw-value test `Button.test.tsx:170-177` passes; `render.test.tsx` uses `cssVars` |
+| Logical properties, RTL icons | ✅ | Unchanged; single wrapper flip (`:561-586`, `:588-626`) |
+| Light + dark, en + ar tested | ✅ | Render matrix `:179-210`; axe light + dark `:631-650`; `false` marker tested in `ar` |
+| Accessibility (keyboard, focus, labels, target) | ✅ | Live region now pre-mounted (B6 "announced once"); keyboard tests `:652-700` |
+| Stayed inside the plan | ✅ | Files = C7 Fix round 1 list exactly; Icon button / Split button / Text field / Button group files not edited |
+| Code matches spec (API, tokens, states, RTL, a11y) | ✅ | — |
+| Changelog in the same task | ✅ | `CHANGELOG.md` "[Fixed — Web Button review round 2] — 2026-10-20" |
+
+#### Manual checks (human QA — not a finding)
+
+| Check | Status |
+|---|---|
+| Loading width stays the same in a real browser (EN + AR) | ⏳ open — jsdom has no layout; the code keeps content in flow with `opacity` and centers the spinner absolutely (B2) |
+| One `loadingLabel` announcement with VoiceOver / NVDA (EN "Loading"/custom, AR "جارٍ التحميل") | ⏳ open — automated live-region lifecycle test passes (`Button.test.tsx:374-418`, `:433-440`) |
+
+#### Figma build (Part D)
+
+Skipped — `_workflow/config.json` › `skip: ["figma"]`; Figma build is `Planned`.
+
+#### Findings
+
+| # | Severity | File | Issue | Required change | Owner |
+|---|---|---|---|---|---|
+| — | — | — | No findings this round | — | — |
+
+#### Next step
+
+- Approved (code). Human QA: run the two manual checks above before merge.
+- Shared tooling is in place: the raised timeouts in Icon button, Split button and Button group tests are removed in their own fix steps (C7 task list item 1).
 
 ### E3 Round 2 — 2026-10-19
 
