@@ -15,7 +15,7 @@
 | Figma | **Biowave DS — Web Components** › `↳ Icon` · build: [Part D](#d--figma-build) |
 | Version | 1.1 · 2026-10-20 |
 | Plan | Finished |
-| Code | Changes requested |
+| Code | Built |
 | Figma build | Planned |
 | Review | Round 1 · 2026-10-20 · Changes requested |
 | Source code | [`src/components/icon/`](../../src/components/icon/) |
@@ -390,6 +390,16 @@ Implement every item in B9, plus:
 **Questions for the Planner**
 - `npm run docs:check` fails on stale **tablet** and **mobile** `button-group` Figma contracts (outside this unit). Should those be regenerated on `main` / their branches?
 - Button / IconButton `prepareIcon` still only lift `className="bw-icon-directional"` (and `mirrorInRtl`), not the Icon `directional` prop. Documented `<Icon directional />` inside Button self-mirrors once via Icon CSS (still one flip). Should Button/IconButton also strip `directional` like `mirrorInRtl` so the marker moves to the wrapper?
+
+#### Fix round 1 — 2026-10-20 · Antigravity (Gemini 4 Argon)
+
+| Finding | What changed (`file:line`) | Test that proves it |
+|---|---|---|
+| #1 | `prepareIcon` strips `directional` (like `mirrorInRtl` and `bw-icon-directional`) from the cloned icon and adds `bw-icon-directional` to the wrapper once (`3-web-components/src/components/button/Button.tsx:183-228`, `3-web-components/src/components/icon-button/IconButton.tsx:180-221`); updated `directional` and component JSDoc (`3-web-components/src/components/icon/Icon.tsx:29-35`, `:71-76`) | `3-web-components/src/components/icon/Icon.test.tsx:165-235` (`mirrors directional icons in RTL only; one flip inside Button and IconButton`) |
+| #2 | Aligned `IconName = MaterialSymbol \| 'push_pin' \| 'expand_more' \| ''` and `IconProps.name: IconName` with B1 (`3-web-components/src/components/icon/Icon.tsx:17-25`) | `3-web-components/src/components/icon/Icon.test.tsx:275-290` (`accepts push_pin and expand_more and rejects an unknown name at the type level`) |
+| #3 | Added single-flip assertions for `<Icon directional />`, `<Icon className="bw-icon-directional" />`, and `<Icon directional className="bw-icon-directional" />` inside `Button` and `IconButton`, and asserted `[dir='rtl']` rule selector scoping (`3-web-components/src/components/icon/Icon.test.tsx:165-235`) | `3-web-components/src/components/icon/Icon.test.tsx:165-235` (`mirrors directional icons in RTL only; one flip inside Button and IconButton`) |
+| #4 | Asserted `Button` `sm`/`md`/`lg` icon wrapper `fontSize`/`inlineSize`/`blockSize` match `buttonSizeTokens[size].icon` (`iconSizeTokens[size]`, resolved 16/20/24 px in `base.size.icon`) and icon has `fontSize: inherit` and `overflow: hidden` (`3-web-components/src/components/icon/Icon.test.tsx:124-147`) | `3-web-components/src/components/icon/Icon.test.tsx:124-147` (`without size follows the parent font-size inside Button sm/md/lg (16/20/24, nothing clipped)`) |
+| #5 | Extended D-18 guard to fail on `material-symbols-rounded` or `@mui/material/Icon` anywhere under `3-web-components/src/` outside `src/components/icon/` (`3-web-components/src/test/noLegacyIcons.test.ts:13-41`); folded literal `material-symbols-rounded` source checks out of `3-web-components/src/components/text-field/TextField.test.tsx:153-157` | `3-web-components/src/test/noLegacyIcons.test.ts:36-41` (`never uses material-symbols-rounded or @mui/material/Icon outside src/components/icon/`) |
 
 ---
 

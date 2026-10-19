@@ -7,10 +7,12 @@ import componentTokenSource from '../../../components/icon/icon.tokens.json';
 import iconSource from './Icon.tsx?raw';
 // @ts-expect-error Vite's raw loader supplies source text in tests.
 import tokenMapSource from './icon.tokens.ts?raw';
+import { base } from '@biowave/foundations';
 import { renderWithBiowave } from '../../test/render';
 import { Button } from '../button';
+import { buttonSizeTokens } from '../button/button.tokens';
 import { IconButton } from '../icon-button';
-import { Icon } from './Icon';
+import { Icon, type IconName } from './Icon';
 import {
   iconColorTokens,
   iconSizeTokens,
@@ -34,6 +36,7 @@ const colors: IconColor[] = [
 const themes = ['light', 'dark'] as const;
 const locales = ['en', 'ar'] as const;
 const buttonSizes = ['sm', 'md', 'lg'] as const;
+const buttonExpectedIconPx = { sm: 16, md: 20, lg: 24 } as const;
 
 interface TokenLeaf {
   $value: string;
@@ -118,7 +121,7 @@ describe('Icon rendering', () => {
     }
   });
 
-  it('without size follows the parent font-size inside Button sm/md/lg', () => {
+  it('without size follows the parent font-size inside Button sm/md/lg (16/20/24, nothing clipped)', () => {
     const view = renderWithBiowave(
       <>
         {buttonSizes.map((size) => (
@@ -131,10 +134,14 @@ describe('Icon rendering', () => {
 
     for (const size of buttonSizes) {
       const icon = screen.getByTestId(`in-${size}`);
-      const wrapper = icon.parentElement;
+      const wrapper = icon.parentElement!;
       expect(wrapper).toHaveClass('bw-button__icon');
-      expect(getComputedStyle(wrapper!).fontSize).toBeTruthy();
-      expect(icon).toHaveStyle({ fontSize: 'inherit' });
+      expect(base.size.icon[size]).toBe(buttonExpectedIconPx[size]);
+      expect(buttonSizeTokens[size].icon).toBe(iconSizeTokens[size]);
+      expect(getComputedStyle(wrapper).fontSize).toBe(buttonSizeTokens[size].icon);
+      expect(getComputedStyle(wrapper).inlineSize).toBe(buttonSizeTokens[size].icon);
+      expect(getComputedStyle(wrapper).blockSize).toBe(buttonSizeTokens[size].icon);
+      expect(icon).toHaveStyle({ fontSize: 'inherit', overflow: 'hidden' });
     }
     view.unmount();
   });
@@ -162,7 +169,13 @@ describe('Icon rendering', () => {
     );
     const ltrIcon = screen.getByTestId('dir-ltr');
     expect(ltrIcon).toHaveClass('bw-icon-directional');
-    expect(cssRulesFor(ltrIcon)).toContain('scaleX(-1)');
+    const standaloneFlipRules = cssRulesFor(ltrIcon)
+      .split('\n')
+      .filter((rule) => rule.includes('scaleX(-1)'));
+    expect(standaloneFlipRules.length).toBeGreaterThan(0);
+    for (const rule of standaloneFlipRules) {
+      expect(rule.split('{')[0]).toMatch(/\[dir=['"]?rtl['"]?\]/);
+    }
     expect(document.documentElement.dir).toBe('ltr');
     ltr.unmount();
 
@@ -174,31 +187,51 @@ describe('Icon rendering', () => {
     expect(document.documentElement.dir).toBe('rtl');
     rtl.unmount();
 
-    const inButton = renderWithBiowave(
-      <Button startIcon={<Icon name="arrow_forward" className="bw-icon-directional" />}>
-        Next
-      </Button>,
-      { locale: 'ar' },
-    );
-    const button = screen.getByRole('button', { name: 'Next' });
-    const wrapper = button.querySelector('.bw-button__icon');
-    expect(wrapper).toHaveClass('bw-icon-directional');
-    expect(button.querySelectorAll('.bw-icon-directional')).toHaveLength(1);
-    expect(wrapper?.firstElementChild).not.toHaveClass('bw-icon-directional');
-    expect(cssRulesFor(wrapper!)).toContain('scaleX(-1)');
-    inButton.unmount();
+    const directionalCases = [
+      { label: 'prop', node: <Icon name="arrow_forward" directional /> },
+      { label: 'class', node: <Icon name="arrow_forward" className="bw-icon-directional" /> },
+      {
+        label: 'both',
+        node: <Icon name="arrow_forward" directional className="bw-icon-directional" />,
+      },
+    ] as const;
 
-    const inIconButton = renderWithBiowave(
-      <IconButton
-        icon={<Icon name="arrow_forward" className="bw-icon-directional" />}
-        label="Next"
-        tooltip={false}
-      />,
-      { locale: 'ar' },
-    );
-    const iconButton = screen.getByRole('button', { name: 'Next' });
-    expect(iconButton.querySelectorAll('.bw-icon-directional')).toHaveLength(1);
-    inIconButton.unmount();
+    for (const { label, node } of directionalCases) {
+      const inButton = renderWithBiowave(<Button startIcon={node}>{`Next ${label}`}</Button>, {
+        locale: 'ar',
+      });
+      const button = screen.getByRole('button', { name: `Next ${label}` });
+      const wrapper = button.querySelector('.bw-button__icon')!;
+      expect(wrapper).toHaveClass('bw-icon-directional');
+      expect(button.querySelectorAll('.bw-icon-directional')).toHaveLength(1);
+      expect(wrapper.firstElementChild).not.toHaveClass('bw-icon-directional');
+      const buttonFlipRules = cssRulesFor(wrapper)
+        .split('\n')
+        .filter((rule) => rule.includes('scaleX(-1)'));
+      expect(buttonFlipRules.length).toBeGreaterThan(0);
+      for (const rule of buttonFlipRules) {
+        expect(rule.split('{')[0]).toMatch(/\[dir=['"]?rtl['"]?\]/);
+      }
+      inButton.unmount();
+
+      const inIconButton = renderWithBiowave(
+        <IconButton icon={node} label={`Next ${label}`} tooltip={false} />,
+        { locale: 'ar' },
+      );
+      const iconButton = screen.getByRole('button', { name: `Next ${label}` });
+      const iconButtonWrapper = iconButton.querySelector('.bw-icon-button__icon')!;
+      expect(iconButtonWrapper).toHaveClass('bw-icon-directional');
+      expect(iconButton.querySelectorAll('.bw-icon-directional')).toHaveLength(1);
+      expect(iconButtonWrapper.firstElementChild).not.toHaveClass('bw-icon-directional');
+      const iconButtonFlipRules = cssRulesFor(iconButtonWrapper)
+        .split('\n')
+        .filter((rule) => rule.includes('scaleX(-1)'));
+      expect(iconButtonFlipRules.length).toBeGreaterThan(0);
+      for (const rule of iconButtonFlipRules) {
+        expect(rule.split('{')[0]).toMatch(/\[dir=['"]?rtl['"]?\]/);
+      }
+      inIconButton.unmount();
+    }
   });
 
   it('is decorative without label and labelled with role=img; axe clean', async () => {
@@ -239,9 +272,20 @@ describe('Icon rendering', () => {
     warn.mockRestore();
   });
 
-  it('rejects an unknown name at the type level', () => {
+  it('accepts push_pin and expand_more and rejects an unknown name at the type level', () => {
+    const pushPin: IconName = 'push_pin';
+    const expandMore: IconName = 'expand_more';
+    const validNodes: React.ReactElement[] = [
+      <Icon key="pin" name={pushPin} />,
+      <Icon key="more" name={expandMore} />,
+    ];
+    expect(validNodes).toHaveLength(2);
+
+    // @ts-expect-error — unknown Material Symbol names must be a TypeScript error
+    const _invalidName: IconName = 'not_a_real_symbol_xyz';
     // @ts-expect-error — unknown Material Symbol names must be a TypeScript error
     const _invalid: React.ReactElement = <Icon name="not_a_real_symbol_xyz" />;
+    void _invalidName;
     void _invalid;
   });
 });

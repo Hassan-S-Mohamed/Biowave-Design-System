@@ -153,9 +153,6 @@ describe('TextField token contract', () => {
     expect(textFieldSource).toContain("from '../icon'");
     expect(fieldLabelSource).toContain("from '../icon'");
     expect(fieldSupportingSource).toContain("from '../icon'");
-    expect(textFieldSource).not.toContain('material-symbols-rounded');
-    expect(fieldLabelSource).not.toContain('material-symbols-rounded');
-    expect(fieldSupportingSource).not.toContain('material-symbols-rounded');
   });
 });
 

@@ -22,6 +22,7 @@ User request: "make sure all icons we use in the design system are Google symbol
 | 03 | review | claude (wf-reviewer subagent) | done · Changes requested (3 🟡, 2 🟢; Planner #1 #2 #5, Executor #3 #4) | typecheck ✓ · test:web ✓ (86) · docs:check ✗ (pre-existing) | see git log | [03-review-claude.prompt.md](03-review-claude.prompt.md) |
 | 04 | plan | claude (wf-planner subagent) | done · Plan 1.1 Finished; #1 directional in prepareIcon + Button/IconButton in C5, #2 keep push_pin/expand_more as recorded extras (font draws them), #5 repo-wide D-18 guard | contract ✓ · docs:check ✗ (pre-existing) | see git log | [04-plan-claude.prompt.md](04-plan-claude.prompt.md) |
 | 05 | preview | codex | done · icon-light-en.jpg, icon-dark-ar.jpg | previews ✓ | see git log | [05-preview-codex.prompt.md](05-preview-codex.prompt.md) |
+| 06 | fix (round 1) | antigravity | done · #1–#5 | typecheck ✓ · test:web ✓ 87/87 on rerun (first run: Button axe light timed out at 20 s, 18 s on rerun) · docs:check ✗ (pre-existing) · D-18 guard probe caught a planted violation ✓ | see git log | [06-fix-antigravity.prompt.md](06-fix-antigravity.prompt.md) |
 
 ## Gates
 

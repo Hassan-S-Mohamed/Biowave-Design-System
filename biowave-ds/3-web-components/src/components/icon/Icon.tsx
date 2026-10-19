@@ -15,18 +15,23 @@ export type { IconColor, IconSize };
 export type { MaterialSymbol };
 
 /**
- * Spec / Figma glyph names Biowave uses that `@material-symbols/font-400`
- * typings currently omit (still Material Symbols ligatures; see C8).
+ * Closed list of spec / Figma glyph names Biowave uses that
+ * `@material-symbols/font-400` typings omit, plus `''` for the empty-name
+ * fallback (B1).
  */
-type BiowaveMaterialSymbolExtra = 'push_pin' | 'expand_more';
-
-export type IconName = MaterialSymbol | BiowaveMaterialSymbolExtra;
+export type IconName = MaterialSymbol | 'push_pin' | 'expand_more' | '';
 
 export interface IconProps extends React.AriaAttributes {
-  name: IconName | '';
+  name: IconName;
   size?: IconSize;
   filled?: boolean;
   color?: IconColor;
+  /**
+   * Adds `bw-icon-directional` so the icon mirrors in RTL. Inside `Button` and
+   * `IconButton`, `prepareIcon` strips `directional`, `mirrorInRtl` and the
+   * `bw-icon-directional` class from the cloned icon and puts
+   * `bw-icon-directional` on its wrapper once (B5).
+   */
   directional?: boolean;
   label?: string;
   className?: string;
@@ -65,8 +70,9 @@ const IconRoot = styled(MuiIcon, {
 
 /**
  * Biowave Material Symbols Rounded glyph (D-18). Pass `directional` so the
- * icon mirrors in RTL; Button / Icon button strip that class and mirror their
- * wrapper once instead.
+ * icon mirrors in RTL; inside `Button` and `IconButton`, `prepareIcon` strips
+ * the `directional` prop, `mirrorInRtl` and the `bw-icon-directional` class
+ * from the cloned icon and puts `bw-icon-directional` on the wrapper once.
  */
 export const Icon = React.forwardRef<HTMLSpanElement, IconProps>(function Icon(
   {
