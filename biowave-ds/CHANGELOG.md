@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Web — Icon review round 1] — 2026-10-20
+### Changed
+- Icon (web) review round 1: **Changes requested** — Part E2 of `3-web-components/components/icon/icon.md`. 3 🟡 (Button / Icon button must strip `directional`; `IconName` extras `push_pin` / `expand_more` vs B1; directional-prop tests), 2 🟢. D-18 sweep clean: no web component renders an icon from any source but Icon. Plan → `Open`, Code → `Changes requested`.
+
 ## [Web — Icon] — 2026-10-20
 ### Added
 - Web `Icon` (`@biowave/web`): Material Symbols Rounded glyph with size/color tokens, fill, directional RTL, and labelled/decorative semantics. Re-exports `MaterialSymbol` from `@biowave/foundations`. Split button, button group, and text field now render glyphs through `Icon` (AC-7); tests use `Icon` instead of the temporary `MaterialSymbol` helper.
