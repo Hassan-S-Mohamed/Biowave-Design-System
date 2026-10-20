@@ -24,6 +24,7 @@ User request: every icon in the design system must be a Google Material Symbol (
 | Gate | Decision | Notes |
 |---|---|---|
 | implement stuck (Codex partial, Cursor out of usage) | Antigravity (manual) | User chose Antigravity for the retry |
+| before-merge | Approve | Squash-merge PR #6, delete branch; 3 🟢 nits stay as follow-ups |
 
 ## Questions raised
 
