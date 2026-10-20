@@ -24,7 +24,7 @@
 
 | Gate | Decision | Notes |
 |---|---|---|
-| before-merge | pending (2026-10-20) | Code still `Built` (reviewer only writes Review fields). Mobile Button plan 1.1 lives on this branch → merge before branching `ds/button-mobile` |
+| before-merge | **Approve** (2026-10-20) — push, PR, squash-merge | Code still `Built` (reviewer only writes Review fields). Mobile Button plan 1.1 lives on this branch → merge before branching `ds/button-mobile` |
 | after-plan | **Approve** (2026-10-20) | Previews shown; fix #1–#9 with Cursor in the worktree, then review |
 | after-review | **Approve** (2026-10-20) | Planner first for #1 (focus-ring geometry) and #6 (real fonts in goldens), and the same fix in the **mobile** Button plan in the same pass; then preview, then tablet fix #2–#5, #7–#9; build mobile after that |
 
