@@ -17,6 +17,7 @@ User request: "make sure all icons we use in the design system are Google symbol
 | docs:check failure (not a config gate) | Approve — commit and review | User: pre-existing failure outside this unit; noted, not fixed here |
 | after-review (round 1) | Approve | Run plan → preview → fix for round 1 |
 | after-plan (plan 1.1) | Approve | Previews accepted; run fix round 1 |
+| before-merge | Approve | Squash-merge PR #2, delete branch |
 | 01 | implement | cursor | done | typecheck ✓ · test:web ✓ (86) · docs:check ✗ (pre-existing: tablet/mobile button-group figma contracts stale, also fails on main) | see git log | [01-implement-cursor.prompt.md](01-implement-cursor.prompt.md) |
 | 02 | review | claude (dispatcher) | failed: nested Claude Code session not allowed | — | — | [02-review-claude.prompt.md](02-review-claude.prompt.md) |
 | 03 | review | claude (wf-reviewer subagent) | done · Changes requested (3 🟡, 2 🟢; Planner #1 #2 #5, Executor #3 #4) | typecheck ✓ · test:web ✓ (86) · docs:check ✗ (pre-existing) | see git log | [03-review-claude.prompt.md](03-review-claude.prompt.md) |
