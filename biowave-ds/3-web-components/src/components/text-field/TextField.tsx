@@ -1,11 +1,11 @@
 import * as React from 'react';
 import FormControl from '@mui/material/FormControl';
-import Icon from '@mui/material/Icon';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import { styled } from '@mui/material/styles';
 import { cssVars, useBiowave } from '@biowave/foundations';
 import { warnOnce } from '../../internal/warnOnce';
 import { Button } from '../button';
+import { Icon } from '../icon';
 import { FieldAction } from './FieldAction';
 import { FieldAddon } from './FieldAddon';
 import { FieldLabel } from './FieldLabel';
@@ -543,20 +543,12 @@ export const TextField = React.forwardRef<HTMLDivElement, TextFieldProps>(functi
   const trailingAction = passwordAction ? (
     <FieldAction
       disabled={disabled}
-      icon={
-        <Icon baseClassName="material-symbols-rounded" fontSize="inherit">
-          {passwordVisible ? 'visibility_off' : 'visibility'}
-        </Icon>
-      }
+      icon={<Icon name={passwordVisible ? 'visibility_off' : 'visibility'} />}
       label={passwordLabel}
       multiline={multiline}
       onClick={handlePasswordToggle}
       selected={passwordVisible}
-      selectedIcon={
-        <Icon baseClassName="material-symbols-rounded" fontSize="inherit">
-          {passwordVisible ? 'visibility_off' : 'visibility'}
-        </Icon>
-      }
+      selectedIcon={<Icon name={passwordVisible ? 'visibility_off' : 'visibility'} />}
       size={size}
       toggle
     />
@@ -572,11 +564,7 @@ export const TextField = React.forwardRef<HTMLDivElement, TextFieldProps>(functi
   ) : clearVisible ? (
     <FieldAction
       disabled={disabled}
-      icon={
-        <Icon baseClassName="material-symbols-rounded" fontSize="inherit">
-          close
-        </Icon>
-      }
+      icon={<Icon name="close" />}
       label={effectiveClearLabel}
       multiline={multiline}
       onClick={handleClear}

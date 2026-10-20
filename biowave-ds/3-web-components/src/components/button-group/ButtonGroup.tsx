@@ -1,10 +1,10 @@
 import * as React from 'react';
-import Icon from '@mui/material/Icon';
 import { styled } from '@mui/material/styles';
 import { cssVars, useBiowave } from '@biowave/foundations';
 import { warnOnce } from '../../internal/warnOnce';
 import { Button, type ButtonProps } from '../button/Button';
 import type { ButtonSize } from '../button/button.tokens';
+import { Icon } from '../icon';
 import { IconButton, InternalIconButton } from '../icon-button/IconButton';
 import { SplitButton } from '../split-button/SplitButton';
 import {
@@ -199,7 +199,7 @@ export const ButtonGroup = React.forwardRef<HTMLDivElement, ButtonGroupProps>(
           {overflowOptions.length > 0 ? (
             <InternalIconButton
               ref={triggerRef}
-              icon={<Icon baseClassName="material-symbols-rounded" fontSize="inherit">more_horiz</Icon>}
+              icon={<Icon name="more_horiz" />}
               label={effectiveOverflowLabel}
               variant="text"
               color="neutral"

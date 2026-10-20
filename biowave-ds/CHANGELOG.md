@@ -24,6 +24,30 @@ Every change to the design system is logged here **in the same task**, newest fi
 ### Added
 - `BwButton` for Flutter tablet with token-resolved variants, colors and sizes; loading/focus/RTL/accessibility behavior; shared control-size and focus helpers; 37 tests; and light/dark English/Arabic goldens.
 
+## [Web — Icon review round 2] — 2026-10-20
+### Changed
+- Icon (web) review round 2: **Approved** — Part E3 of `3-web-components/components/icon/icon.md`. Round 1 findings #1–#5 all fixed (directional prop stripped in Button / Icon button, `IconName` = B1, prop/class/both single-flip and `[dir='rtl']` tests, Button 16/20/24 size test, repo-wide D-18 guard). 1 new 🟢 nit: Button light axe test has little timeout headroom (not caused by this branch). Code → `Approved`.
+
+## [Web — Icon fix round 1] — 2026-10-20
+### Fixed
+- Icon (web) review round 1 findings #1–#5: `Button` and `IconButton` `prepareIcon` strip `directional` (like `mirrorInRtl` and `bw-icon-directional`) and mark the wrapper once; `Icon.tsx` `directional` JSDoc and `IconName` type (`MaterialSymbol | 'push_pin' | 'expand_more' | ''`) match B1; `Icon.test.tsx` tests all three directional marker forms inside `Button` and `IconButton`, `[dir='rtl']` rule scoping, `Button` `sm`/`md`/`lg` 16/20/24 icon sizes, and `push_pin` / `expand_more` typing; `noLegacyIcons.test.ts` guards against `material-symbols-rounded` and `@mui/material/Icon` outside `src/components/icon/`. Code → `Built`.
+
+## [Web — Icon preview plan 1.1] — 2026-10-20
+### Added
+- Planning previews for Icon (web): light English and dark Arabic RTL spec sheets cover every `size-icon-*` token, all B3 color roles, FILL 0 / FILL 1, exact status content, and directional `arrow_forward` beside non-mirrored `search` and `check`; `previews/README.md` records resolved token values, prompts and visual checks.
+
+## [Web — Icon plan 1.1] — 2026-10-20
+### Changed
+- Icon (web) plan 1.1 — review round 1 Planner items. Finding 1: Button / Icon button `prepareIcon` strips Icon's `directional` prop like `mirrorInRtl` and marks the wrapper once (B5, C3; `Button.tsx` · `IconButton.tsx` added to C5). Finding 2: `name` is typed `IconName` = `MaterialSymbol` + `push_pin` · `expand_more` — kept because the Figma Material Symbols library and `icons.md` use them and the 0.48.0 Rounded font still renders both ligatures (`push_pin` = `keep`), recorded in B1. Finding 5: `noLegacyIcons.test.ts` must fail on `material-symbols-rounded` / `@mui/material/Icon` outside `src/components/icon/` (B9, C5). Plan → `Finished`; contract regenerated.
+
+## [Web — Icon review round 1] — 2026-10-20
+### Changed
+- Icon (web) review round 1: **Changes requested** — Part E2 of `3-web-components/components/icon/icon.md`. 3 🟡 (Button / Icon button must strip `directional`; `IconName` extras `push_pin` / `expand_more` vs B1; directional-prop tests), 2 🟢. D-18 sweep clean: no web component renders an icon from any source but Icon. Plan → `Open`, Code → `Changes requested`.
+
+## [Web — Icon] — 2026-10-20
+### Added
+- Web `Icon` (`@biowave/web`): Material Symbols Rounded glyph with size/color tokens, fill, directional RTL, and labelled/decorative semantics. Re-exports `MaterialSymbol` from `@biowave/foundations`. Split button, button group, and text field now render glyphs through `Icon` (AC-7); tests use `Icon` instead of the temporary `MaterialSymbol` helper.
+
 ## [Roadmap v3 — Figma coverage check (P-05)] — 2026-10-20
 ### Changed
 - Every component set in the four Figma files (Web, Tablet, Mobile component files and the LEGACY Web + Mobile pages in Foundations) was compared with `ROADMAP.md`. Decision **P-05** (Hassan): Tag / Label / Request status become **Chip** variants; Check badge → Badge; Checkbox card → selectable Card; Day picker → Segmented button; Notification card → List item; Upload photo → File upload; **Action bar** added to Phase 2 (Day 15, Web + Tablet); **Map** added to the backlog; Slider stays post-1.0.
@@ -269,8 +293,6 @@ Implements `PLAN.md` v4 (approved by Hassan 2026-10-18; the plan file is removed
 ### Fixed
 - `npm run sync` treated "component docs not yet built in Figma" as a red status, so code Executors refused to start (deadlock: code waited for Figma, but they are planned in parallel). Status now separates **BLOCKING** (code stale, Figma variables pending, component tokens pending/invalid → exit 1) from the **Figma build queue** (⏳, exit 0, "READY for component work"). `npm run sync:strict` keeps the full check for releases. AGENTS.md §5 and §7 updated.
 
-
-
 ## [Component tokens — D-13] — 2026-10-16
 ### Added
 - Rule D-13: semantic variables only in Foundations; component files hold only component-token collections (`<Component> / <Group>`) aliasing Foundations semantic variables.
@@ -281,7 +303,6 @@ Implements `PLAN.md` v4 (approved by Hassan 2026-10-18; the plan file is removed
 ### Changed
 - AGENTS.md rule 3a + §7, `_sync/README.md`, templates (`figma.md` rule 0, spec §3, plan §5), Button `figma.md` binds component tokens with explicit modes; Definition of done adds `tokens.json`.
 
-
 ## [Figma workspace verified] — 2026-10-16
 ### Verified
 - All four files in the team project (`_sync/figma-files.json` › `$project`); Foundations renamed **Biowave DS — Foundations** and published; library enabled in Web / Tablet / Mobile Components.
@@ -290,7 +311,6 @@ Implements `PLAN.md` v4 (approved by Hassan 2026-10-18; the plan file is removed
 - `size/container/*` (11) were hidden from publishing in Foundations → made publishable (needed by Dialog, Side sheet). **Republish the library** to deliver them.
 ### Added
 - Sync guard: `figma-read.js` marks hidden variables; `sync:verify` fails on any semantic variable hidden from publishing; `figma-apply` un-hides semantic variables it updates.
-
 
 ## [Figma files split — D-12] — 2026-10-16
 ### Added
@@ -301,7 +321,6 @@ Implements `PLAN.md` v4 (approved by Hassan 2026-10-18; the plan file is removed
 - All 12 button-family `figma.md` files: each platform builds its own set in its own file (Create new; legacy sets are read-only references). Variant counts: Web Button 648 · Tablet/Mobile 720. Supersedes "one shared set for all platforms" from the earlier entry today.
 - `_templates/figma.md`, `AGENTS.md` §7, `_sync/README.md`, `figma-doc-kit.md`, guidelines and spec headers point to the new files.
 
-
 ## [Components — button family planned] — 2026-10-16
 ### Added
 - Guidelines: `button.md`, `icon-button.md`, `split-button.md`, `button-group.md`.
@@ -309,7 +328,6 @@ Implements `PLAN.md` v4 (approved by Hassan 2026-10-18; the plan file is removed
 ### Decided (Planner, pending design-lead confirmation)
 - Icon button sizes aligned to the control scale (`sm`–`xl`); Material 3 Expressive sizes, `Width` and `Shape` removed.
 - Split button: `filled · tonal · outlined`, colors `brand · secondary · neutral`; built from Button + Icon button instances with a small gap.
-
 
 ## [Foundations 1.1.0] — 2026-10-16
 ### Added
@@ -321,7 +339,6 @@ Implements `PLAN.md` v4 (approved by Hassan 2026-10-18; the plan file is removed
 ### Synced
 - Figma: 18 variables created with Web + Flutter code syntax; verified 189 variables in the changed collections; snapshot updated (459).
 
-
 ## [Roadmap v2 + Button family audit] — 2026-10-15
 ### Decided
 - P-01 build our own web date/time pickers · P-02 MUI X DataGrid (MIT) · P-03 `7-patterns/` section · P-04 component values go into shared semantic **control** tokens first.
@@ -330,11 +347,9 @@ Implements `PLAN.md` v4 (approved by Hassan 2026-10-18; the plan file is removed
 ### Added
 - `6-component-guidelines/audits/button-family.md`: Figma gap audit of Button, Split button, Icon button, Button group; decisions B-01 … B-05.
 
-
 ## [Roadmap] — 2026-10-15
 ### Added
 - `ROADMAP.md`: Phase 0 prep → 19 core components → 21 complex components → 13 patterns, 2–3 items per working day, buffer/release days 8, 18, 25; open decisions P-01 … P-04.
-
 
 ## [Sync tooling] — 2026-10-15
 ### Added
@@ -346,12 +361,10 @@ Implements `PLAN.md` v4 (approved by Hassan 2026-10-18; the plan file is removed
 ### Verified
 - 441 Figma variables match the token source in every mode (themes, primitives, radius, spacing, size, typography EN/AR, grid & layout, border). Baseline saved in `_sync/figma-snapshot.json`.
 
-
 ## [Docs structure — Figma documentation pages] — 2026-10-15
 ### Added
 - `figma.md` §8: 12 standard Figma documentation pages per component (component sheet, introduction, props and tokens, variations, states and motion, usage, content, platform, RTL, accessibility, changes, changelog) with ASCII layouts and sources.
 - `6-component-guidelines/figma-doc-kit.md`: one-time spec for the `Doc/*` components every documentation page is built from.
-
 
 ## [Docs structure — Figma build] — 2026-10-15
 ### Added
@@ -359,7 +372,6 @@ Implements `PLAN.md` v4 (approved by Hassan 2026-10-18; the plan file is removed
 - ASCII wireframe conventions (`6-component-guidelines/README.md`) and wireframes in the guidelines, spec and figma templates.
 ### Changed
 - Spec §8 now links to `figma.md` (the Figma ↔ code mapping has one home). `review.md` has a Figma section. Platform status tables track code and Figma separately.
-
 
 ## [Docs structure] — 2026-10-15
 ### Added
@@ -370,12 +382,10 @@ Implements `PLAN.md` v4 (approved by Hassan 2026-10-18; the plan file is removed
 - `_templates/plan.md` no longer repeats API / tokens / a11y; it references the spec and keeps approach, token gaps, files, tests and acceptance criteria.
 - `_templates/review.md` checks code against the spec as well as the plan. AGENTS.md and README.md updated.
 
-
 ## [Foundations 1.0.1] — 2026-10-15
 ### Added
 - Figma Design System file synced with the token source (see AUDIT.md §6).
 - Theme check app moved outside the repo: `../biowave-theme-test` (consumes `biowave_mobile` by path).
-
 
 ## [Foundations 1.0.0] — 2026-10-15
 ### Added

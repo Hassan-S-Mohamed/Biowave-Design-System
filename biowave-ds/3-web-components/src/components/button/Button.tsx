@@ -180,7 +180,10 @@ interface PreparedIcon {
   className: string;
 }
 
-type MarkableIconProps = ButtonDirectionalIconProps & { className?: string };
+type MarkableIconProps = ButtonDirectionalIconProps & {
+  className?: string;
+  directional?: boolean;
+};
 
 function prepareIcon(icon: React.ReactNode): PreparedIcon {
   if (!React.isValidElement<MarkableIconProps>(icon)) {
@@ -189,18 +192,25 @@ function prepareIcon(icon: React.ReactNode): PreparedIcon {
 
   const classNames = icon.props.className?.split(/\s+/).filter(Boolean) ?? [];
   const directional =
-    icon.props.mirrorInRtl === true || classNames.includes('bw-icon-directional');
+    icon.props.directional === true ||
+    icon.props.mirrorInRtl === true ||
+    classNames.includes('bw-icon-directional');
   const cleanClassName = classNames
     .filter((className) => className !== 'bw-icon-directional')
     .join(' ');
-  const { mirrorInRtl: _mirrorInRtl, ...cleanProps } = icon.props;
-  const cleanIcon = _mirrorInRtl
-    ? React.createElement(icon.type, {
-        ...cleanProps,
-        key: icon.key,
-        className: cleanClassName || undefined,
-      })
-    : React.cloneElement(icon, { className: cleanClassName || undefined });
+  const {
+    directional: _directional,
+    mirrorInRtl: _mirrorInRtl,
+    ...cleanProps
+  } = icon.props;
+  const cleanIcon =
+    _directional !== undefined || _mirrorInRtl !== undefined
+      ? React.createElement(icon.type, {
+          ...cleanProps,
+          key: icon.key,
+          className: cleanClassName || undefined,
+        })
+      : React.cloneElement(icon, { className: cleanClassName || undefined });
 
   return {
     icon: cleanIcon,
@@ -211,9 +221,10 @@ function prepareIcon(icon: React.ReactNode): PreparedIcon {
 }
 
 /**
- * Biowave action button. Mark directional icons with the `bw-icon-directional`
- * class, or use `ButtonDirectionalIconProps` and `mirrorInRtl` on a custom
- * icon. Button removes either marker from the icon and mirrors its wrapper once.
+ * Biowave action button. Mark directional icons with `<Icon directional />`,
+ * the `bw-icon-directional` class, or `ButtonDirectionalIconProps` (`mirrorInRtl`)
+ * on a custom icon. Button removes the marker from the icon and mirrors its
+ * wrapper once.
  */
 const ButtonInternal = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, ButtonInternalProps>(
   function Button(

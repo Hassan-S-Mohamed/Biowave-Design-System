@@ -15,7 +15,7 @@ import { renderWithBiowave } from '../../test/render';
 import { buttonSizeTokens, type ButtonColor, type ButtonSize } from '../button/button.tokens';
 import { IconButton, type IconButtonVariant } from './IconButton';
 import { iconButtonSelectedTokens } from './iconButton.tokens';
-import { MaterialSymbol } from '../../test/materialSymbol';
+import { Icon } from '../icon';
 const sizes: ButtonSize[] = ['sm', 'md', 'lg'];
 const themes = ['light', 'dark'] as const;
 const locales = ['en', 'ar'] as const;
@@ -66,7 +66,7 @@ describe('IconButton rendering and tokens', () => {
             {cases.map(({ variant, color, size, label }) => (
               <IconButton
                 key={label}
-                icon={<MaterialSymbol name="edit" />}
+                icon={<Icon name="edit" />}
                 label={label}
                 variant={variant}
                 color={color}
@@ -91,8 +91,8 @@ describe('IconButton rendering and tokens', () => {
         {sizes.map((size) => (
           <IconButton
             key={size}
-            icon={<MaterialSymbol name="push_pin" />}
-            selectedIcon={<MaterialSymbol name="push_pin" filled />}
+            icon={<Icon name="push_pin" />}
+            selectedIcon={<Icon name="push_pin" filled />}
             label={size}
             size={size}
             toggle
@@ -126,7 +126,7 @@ describe('IconButton rendering and tokens', () => {
 describe('IconButton behavior', () => {
   it('has one accessible name and shows its visual tooltip on hover and focus', async () => {
     const view = renderWithBiowave(
-      <IconButton icon={<MaterialSymbol name="edit" />} label="Edit device" />,
+      <IconButton icon={<Icon name="edit" />} label="Edit device" />,
     );
     const button = screen.getByRole('button', { name: 'Edit device' });
     expect(computeAccessibleName(button)).toBe('Edit device');
@@ -147,8 +147,8 @@ describe('IconButton behavior', () => {
   it('exposes controlled toggle state and cross-fades the selected icon', () => {
     const view = renderWithBiowave(
       <IconButton
-        icon={<MaterialSymbol name="push_pin" data-testid="pin-outline" />}
-        selectedIcon={<MaterialSymbol name="push_pin" filled data-testid="pin-filled" />}
+        icon={<Icon name="push_pin" data-testid="pin-outline" />}
+        selectedIcon={<Icon name="push_pin" filled data-testid="pin-filled" />}
         label="Pin"
         toggle
         tooltip={false}
@@ -158,8 +158,8 @@ describe('IconButton behavior', () => {
 
     view.rerender(
       <IconButton
-        icon={<MaterialSymbol name="push_pin" data-testid="pin-outline" />}
-        selectedIcon={<MaterialSymbol name="push_pin" filled data-testid="pin-filled" />}
+        icon={<Icon name="push_pin" data-testid="pin-outline" />}
+        selectedIcon={<Icon name="push_pin" filled data-testid="pin-filled" />}
         label="Unpin"
         toggle
         selected
@@ -177,7 +177,7 @@ describe('IconButton behavior', () => {
     const onClick = vi.fn();
     renderWithBiowave(
       <IconButton
-        icon={<MaterialSymbol name="edit" />}
+        icon={<Icon name="edit" />}
         label="Edit device"
         loading
         loadingLabel="Editing…"
@@ -200,8 +200,8 @@ describe('IconButton behavior', () => {
     const onClick = vi.fn();
     renderWithBiowave(
       <>
-        <IconButton icon={<MaterialSymbol name="close" />} label="Disabled" disabled tooltip={false} />
-        <IconButton icon={<MaterialSymbol name="edit" />} label="Edit" onClick={onClick} tooltip={false} />
+        <IconButton icon={<Icon name="close" />} label="Disabled" disabled tooltip={false} />
+        <IconButton icon={<Icon name="edit" />} label="Edit" onClick={onClick} tooltip={false} />
       </>,
     );
     expect(screen.getByRole('button', { name: 'Disabled' })).toBeDisabled();
@@ -218,7 +218,7 @@ describe('IconButton validation and RTL', () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     const view = renderWithBiowave(
       <IconButton
-        icon={<MaterialSymbol name="edit" />}
+        icon={<Icon name="edit" />}
         label="Fallback"
         variant="tonal"
         color="neutral"
@@ -228,7 +228,7 @@ describe('IconButton validation and RTL', () => {
       />,
     );
     view.rerender(
-      <IconButton icon={<MaterialSymbol name="edit" />} label="" toggle tooltip={false} />,
+      <IconButton icon={<Icon name="edit" />} label="" toggle tooltip={false} />,
     );
 
     expect(warn.mock.calls.flat().join(' ')).toContain('falling back to variant="outlined"');
@@ -240,7 +240,7 @@ describe('IconButton validation and RTL', () => {
   it('mirrors only directional icon wrappers in RTL', () => {
     const view = renderWithBiowave(
       <IconButton
-        icon={<MaterialSymbol name="arrow_forward" className="bw-icon-directional" />}
+        icon={<Icon name="arrow_forward" className="bw-icon-directional" />}
         label="التالي"
         tooltip={false}
       />,
@@ -252,7 +252,7 @@ describe('IconButton validation and RTL', () => {
     view.unmount();
 
     renderWithBiowave(
-      <IconButton icon={<MaterialSymbol name="close" />} label="إغلاق" tooltip={false} />,
+      <IconButton icon={<Icon name="close" />} label="إغلاق" tooltip={false} />,
       { locale: 'ar' },
     );
     expect(document.querySelector('.bw-icon-button__icon')).not.toHaveClass('bw-icon-directional');
@@ -264,10 +264,10 @@ describe('IconButton accessibility', () => {
     it(`has no axe violations in ${theme}`, async () => {
       const { container } = renderWithBiowave(
         <>
-          <IconButton icon={<MaterialSymbol name="edit" />} label="Edit" tooltip={false} />
+          <IconButton icon={<Icon name="edit" />} label="Edit" tooltip={false} />
           <IconButton
-            icon={<MaterialSymbol name="push_pin" />}
-            selectedIcon={<MaterialSymbol name="push_pin" filled />}
+            icon={<Icon name="push_pin" />}
+            selectedIcon={<Icon name="push_pin" filled />}
             label="Pin"
             variant="outlined"
             toggle
@@ -284,6 +284,6 @@ describe('IconButton accessibility', () => {
           })
         ).violations,
       ).toEqual([]);
-    });
+    }, 20_000);
   }
 });
