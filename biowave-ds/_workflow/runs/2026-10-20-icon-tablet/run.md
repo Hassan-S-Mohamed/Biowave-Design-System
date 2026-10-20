@@ -5,7 +5,7 @@
 | Unit | `icon` on `tablet` |
 | Unit file | `4-tablet-components/components/icon/icon.md` |
 | Branch | `ds/icon-tablet` (from `main`, worktree `Biowave Design System-icon-tablet`) |
-| Pull request | — |
+| Pull request | https://github.com/hassanSmohamed/Biowave-Design-System/pull/6 |
 | Skipped steps | figma (config › skip) |
 
 User request: every icon in the design system must be a Google Material Symbol (D-18). Plan already Finished, Code Planned → implement. No tablet component is built on `main` yet (Button tablet is in progress on `ds/button-tablet`), so `BwIcon` is the package's first component; adoption by later components is their job.
