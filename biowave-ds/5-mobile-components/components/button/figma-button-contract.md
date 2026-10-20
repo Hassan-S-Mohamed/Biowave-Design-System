@@ -1,4 +1,4 @@
-<!-- GENERATED from button.md @ b7a680af990eb254 — do not edit; change the source and run: npm run contract -- mobile button -->
+<!-- GENERATED from button.md @ 7bcab6ccf9ce7537 — do not edit; change the source and run: npm run contract -- mobile button -->
 # Button · زر — Mobile — Figma contract
 
 > **Everything the Figma Agent needs to build Button in the Mobile Components file, with our variables and styles.** Read this file only. Generated from [`button.md`](button.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-18). Questions go to [D11 Execution log](button.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
@@ -11,8 +11,8 @@
 | Page | `↳ Button` (one page per component) |
 | Component | Button · زر |
 | Platform | Mobile · Flutter + Material 3 |
-| Version | 1.0 · 2026-10-16 |
-| Source | [`button.md`](button.md) @ `b7a680af990eb254` |
+| Version | 1.1 · 2026-10-20 |
+| Source | [`button.md`](button.md) @ `7bcab6ccf9ce7537` |
 
 ## 1. Library connections in this file
 
@@ -151,7 +151,7 @@ Already in this file, created by the sync tooling from [`button.tokens.json`](bu
 | `spacing-control-padding-inline-xl` | 3. Spacing › `spacing/control/padding-inline/xl` | `ed8f5014d16f8f8fc9a858fdcfed85c7ef2ecd2f` | FLOAT | WIDTH_HEIGHT, GAP | component token |
 | `target-min` | 7. Grid & Layout › `target/min` | `db23ec2826d3bfa3e600e5a82801e0c7d37ba298` | FLOAT | WIDTH_HEIGHT | spec |
 
-Code-only tokens (no Figma variable by design — motion, layers): `motion-duration-sm` · `motion-duration-xs`. Use them only as written values in prototype settings and docs.
+Code-only tokens (no Figma variable by design — motion, layers): `motion-duration-instant` · `motion-duration-sm` · `motion-duration-xs`. Use them only as written values in prototype settings and docs.
 
 ## 4. Text styles used (keys)
 
@@ -238,7 +238,7 @@ Library file **Google · Material Symbols** · key `RXlnhYgUKBBE6HveEr7e9C` — 
 
 Flutter access: `size-control-height-lg` → `BwSize.controlHeightLg` · `spacing-control-gap-lg` → `BwSpacing.controlGapLg` · `radius-md` → `BwRadius.md` · `action-lg` → `context.bw.text.actionLg` · colors → `context.bw.colors.<camelCase>` (e.g. `backgroundBrandDefault`).
 
-Layout rules: width hugs content (`MainAxisSize.min`); `fullWidth` → `minimumSize` width `double.infinity` in the parent constraints. Height fixed by the size token (`fixedSize` height, `minimumSize` height). Outlined border drawn inside the height. `label` one line, `TextOverflow.ellipsis`, `softWrap: false`. Loading keeps the content's size (`Visibility(maintainSize: true, …)`) with the spinner centered on top. `MaterialTapTargetSize.padded` keeps the 48dp hit area for `sm`/`md`. Elevation 0 in every state.
+Layout rules: width hugs content (`MainAxisSize.min`); `fullWidth` → `minimumSize` width `double.infinity` in the parent constraints. Height fixed by the size token (`fixedSize` height, `minimumSize` height). Outlined border drawn inside the height. `label` one line, `TextOverflow.ellipsis`, `softWrap: false`. Loading keeps the content's size (`Visibility(maintainSize: true, …)`) with the spinner centered on top. `MaterialTapTargetSize.padded` keeps the 48dp hit area for `sm`/`md`. Elevation 0 in every state. The `focus-ring` is painted outside the visible container and takes no layout space: focused or not, the button's size is the container size (height at least `BwLayout.mobile.minTarget`), never container + ring.
 
 ### B3 Tokens by part and state
 
@@ -282,7 +282,7 @@ RTL  │          إضافة جهاز  [◆]  │      │  [◂]  التالي 
 | Accessible name | `label` |
 | Loading | `Semantics(label: '$label', value: loadingLabel, button: true, enabled: true)`; `SemanticsService.announce(loadingLabel, Directionality.of(context))` once when `loading` turns on; presses ignored, focus kept |
 | Disabled | `onPressed: null` → not focusable, `enabled: false` |
-| Focus | Keyboard focus only (`FocusManager.instance.highlightMode == traditional`): ring `border-width-focus` in `color-border-focus` (`inverse`: `color-border-inverse`) drawn `border-focus-offset` outside the container, radius = container radius + offset |
+| Focus | Keyboard focus only (`FocusManager.instance.highlightMode == traditional`): ring `border-width-focus` in `color-border-focus` (`inverse`: `color-border-inverse`) painted around the **visible container** (the shaped `Material`), never around the padded 48dp tap-target box: gap between container edge and ring = `border-focus-offset`, stroke = `border-width-focus`, ring inner-edge radius = container radius + offset (outer edge + `border-width-focus`, concentric). The ring takes no layout space (C3) and appears and disappears instantly (B4 Any → Focus `motion-duration-instant`) |
 | Target size | ≥ `BwLayout.mobile.minTarget` via `MaterialTapTargetSize.padded` |
 | Text scale | Label scales with the system text scale; height grows rather than clipping (use `minimumSize`, not a hard max) |
 | Screen reader output | "Clock in, button" / "تسجيل الحضور، زر" · loading: "Saving…" announced |
