@@ -15,10 +15,10 @@
 | Figma | **Biowave DS — Mobile Components** › `↳ Button` (page Typography mode `Mobile`) · build: [Part D](#d--figma-build) |
 | Version | 1.1 · 2026-10-20 |
 | Plan | Finished |
-| Code | Planned |
+| Code | Built |
 | Figma build | Planned |
 | Review | — |
-| Source code | `lib/src/components/button/` — not built yet (the Executor creates it) |
+| Source code | [`lib/src/components/button/bw_button.dart`](../../lib/src/components/button/bw_button.dart) |
 | Tokens | — (no component tokens yet) |
 | Contracts | [`button-contract.md`](button-contract.md) · [`figma-button-contract.md`](figma-button-contract.md) — generated, never edited |
 | Docs page | [`button.html`](button.html) |
@@ -471,15 +471,14 @@ Implement every item in B9, plus:
 
 | Field | Value |
 |---|---|
-| Agent | |
-| Date | |
-| Files changed | |
+| Agent | Codex |
+| Date | 2026-10-20 |
+| Files changed | `lib/src/common/bw_control_size.dart`; `lib/src/common/bw_focus_ring.dart`; `lib/src/components/button/bw_button.dart`; `lib/src/components/button/bw_button_style.dart`; `lib/biowave_mobile.dart`; `test/helpers/bw_test_app.dart`; `test/flutter_test_config.dart`; `test/fonts/*`; `test/button_test.dart`; `test/goldens/button/*`; `README.md`; `components/button/button.md`; `CHANGELOG.md` |
+| Checks | `flutter analyze` ✓; `flutter test --experimental-faster-testing --update-goldens` ✓ (69 tests); `flutter test --experimental-faster-testing` ✓ (69 tests); four real-font goldens visually checked ✓; `npm run component-tokens` ✓; `npm run sync` ✓ READY; `npm run docs:check` ✓ per task instruction — only the 2 known unrelated stale tablet/mobile button-group Figma contracts were reported |
 
-**Deviations from the plan or spec** (with reason — the Planner updates the spec if accepted):
-- none
+**Deviations from the plan or spec** (with reason — the Planner updates the spec if accepted): none
 
-**Questions for the Planner:**
-- none
+**Questions for the Planner:** none
 
 ---
 
