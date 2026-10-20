@@ -4,7 +4,7 @@ Every change to the design system is logged here **in the same task**, newest fi
 
 ## [Tablet — Icon] — 2026-10-20
 ### Added
-- Tablet `BwIcon`, `BwIconSize` and `BwIconColor`: Google Material Symbols Rounded glyphs with semantic size/colour tokens, fill, single-flip RTL handling, decorative/labelled semantics, package export, full widget/golden coverage, and a package-wide guard against Flutter `Icons.*`. Code → `Built`.
+- Tablet `BwIcon`, `BwIconSize` and `BwIconColor`: Google Material Symbols Rounded glyphs with semantic size/colour tokens, fill, single-flip RTL handling, decorative/labelled semantics, package export, full widget/golden coverage (with `MaterialSymbolsRounded` variable font loaded in tests and EN/AR localization delegates), and a package-wide guard against Flutter `Icons.*` (`flutter analyze` and all 64 `flutter test` cases passing). Code → `Built`.
 
 ## [Web — Icon review round 2] — 2026-10-20
 ### Changed

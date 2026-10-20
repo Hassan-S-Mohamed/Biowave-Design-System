@@ -1,11 +1,48 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:biowave_tablet/biowave_tablet.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/semantics.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 const _locales = <Locale>[Locale('en'), Locale('ar')];
 const _goldenKey = ValueKey<String>('bw-icon-golden');
 
+Future<void> _loadMaterialSymbolsRoundedFont() async {
+  final packageConfigFile = File('.dart_tool/package_config.json');
+  final config = jsonDecode(await packageConfigFile.readAsString())
+      as Map<String, dynamic>;
+  final packages = (config['packages'] as List<dynamic>)
+      .cast<Map<String, dynamic>>();
+  final symbolsPackage = packages.firstWhere(
+    (package) => package['name'] == 'material_symbols_icons',
+  );
+  final rawRootUri = symbolsPackage['rootUri'] as String;
+  final rootUri = packageConfigFile.uri.resolve(
+    rawRootUri.endsWith('/') ? rawRootUri : '$rawRootUri/',
+  );
+  final fontUri = rootUri.resolve('lib/fonts/MaterialSymbolsRounded.ttf');
+  final bytes = await File.fromUri(fontUri).readAsBytes();
+  final fontData = Future<ByteData>.value(ByteData.sublistView(bytes));
+
+  for (final family in const <String>[
+    'MaterialSymbolsRounded',
+    'packages/material_symbols_icons/MaterialSymbolsRounded',
+  ]) {
+    final loader = FontLoader(family)..addFont(fontData);
+    await loader.load();
+  }
+}
+
 void main() {
+  setUpAll(() async {
+    TestWidgetsFlutterBinding.ensureInitialized();
+    await _loadMaterialSymbolsRoundedFont();
+  });
+
   group('BwIcon', () {
     final sizes = <BwIconSize, double>{
       BwIconSize.xs: BwSize.iconXs,
@@ -69,11 +106,19 @@ void main() {
     testWidgets('filled uses the selected fill axis', (tester) async {
       await _pump(
         tester,
+        child: const BwIcon(icon: Symbols.push_pin_rounded),
+      );
+      expect(tester.widget<Icon>(find.byType(Icon)).fill, isNull);
+
+      await _pump(
+        tester,
         child: const BwIcon(icon: Symbols.push_pin_rounded, filled: true),
       );
 
       expect(
-          tester.widget<Icon>(find.byType(Icon)).fill, BwIconAxes.fillSelected);
+        tester.widget<Icon>(find.byType(Icon)).fill,
+        BwIconAxes.fillSelected,
+      );
     });
 
     for (final brightness in Brightness.values) {
@@ -172,12 +217,22 @@ void main() {
         child: const BwIcon(icon: Symbols.search_rounded),
       );
 
-      expect(
+      final outerExclude = tester.firstWidget<ExcludeSemantics>(
         find.descendant(
           of: find.byType(BwIcon),
           matching: find.byType(ExcludeSemantics),
         ),
-        findsOneWidget,
+      );
+      expect(outerExclude.excluding, isTrue);
+      expect(
+        find.descendant(
+          of: find.byType(BwIcon),
+          matching: find.byWidgetPredicate(
+            (widget) =>
+                widget is Semantics && widget.properties.label != null,
+          ),
+        ),
+        findsNothing,
       );
       semantics.dispose();
     });
@@ -193,16 +248,68 @@ void main() {
         ),
       );
 
-      final widget = tester.widget<Semantics>(
-        find.descendant(
-          of: find.byType(BwIcon),
-          matching: find.byType(Semantics),
+      final semanticsFinder = find.descendant(
+        of: find.byType(BwIcon),
+        matching: find.byWidgetPredicate(
+          (widget) =>
+              widget is Semantics && widget.properties.label == 'Search',
         ),
       );
+      expect(semanticsFinder, findsOneWidget);
+
+      final widget = tester.widget<Semantics>(semanticsFinder);
       expect(widget.properties.label, 'Search');
       expect(widget.properties.image, isTrue);
       expect(find.bySemanticsLabel('Search'), findsOneWidget);
+
+      final node = tester.getSemantics(find.byType(BwIcon));
+      expect(node.label, 'Search');
+      // ignore: deprecated_member_use
+      expect(node.hasFlag(SemanticsFlag.isImage), isTrue);
+      // ignore: deprecated_member_use
+      expect(node.hasFlag(SemanticsFlag.isFocusable), isFalse);
       semantics.dispose();
+    });
+
+    test('component token enums match icon.tokens.json', () {
+      final tabletTokens = jsonDecode(
+        File('components/icon/icon.tokens.json').readAsStringSync(),
+      ) as Map<String, dynamic>;
+      expect(
+        tabletTokens[r'$extends'],
+        '../../../3-web-components/components/icon/icon.tokens.json',
+      );
+      final webTokens = jsonDecode(
+        File('../3-web-components/components/icon/icon.tokens.json')
+            .readAsStringSync(),
+      ) as Map<String, dynamic>;
+      final iconTokens = webTokens['icon'] as Map<String, dynamic>;
+      final sizeModes = (iconTokens['size'] as Map<String, dynamic>)
+          .keys
+          .where((key) => !key.startsWith(r'$'))
+          .toSet();
+      final colorModes = (iconTokens['color'] as Map<String, dynamic>)
+          .keys
+          .where((key) => !key.startsWith(r'$'))
+          .toSet();
+
+      expect(
+        BwIconSize.values
+            .map((size) => switch (size) {
+                  BwIconSize.xl2 => '2xl',
+                  BwIconSize.xl3 => '3xl',
+                  _ => size.name,
+                })
+            .toSet(),
+        sizeModes,
+      );
+      expect(
+        BwIconColor.values
+            .map((color) =>
+                color == BwIconColor.defaultColor ? 'default' : color.name)
+            .toSet(),
+        colorModes,
+      );
     });
 
     test('standalone status icons require text or a label', () {
@@ -345,6 +452,11 @@ Future<void> _pump(
     MaterialApp(
       locale: locale,
       supportedLocales: _locales,
+      localizationsDelegates: const <LocalizationsDelegate<dynamic>>[
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
       theme: BwTabletTheme.light(locale),
       darkTheme: BwTabletTheme.dark(locale),
       themeMode:

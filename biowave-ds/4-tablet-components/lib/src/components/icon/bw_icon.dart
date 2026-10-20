@@ -83,8 +83,7 @@ class BwIcon extends StatelessWidget {
     return Semantics(
       label: semanticLabel,
       image: true,
-      excludeSemantics: true,
-      child: result,
+      child: ExcludeSemantics(child: result),
     );
   }
 }
