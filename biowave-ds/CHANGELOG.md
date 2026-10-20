@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Mobile Button — review round 1] — 2026-10-20
+### Changed
+- Mobile `button.md` Part E Round 1: **Changes requested** — focus ring measured 2 dp outside the container with no layout change for every size in LTR and RTL, real-font goldens on `surfacePage`; 1 🟡 (#1 `BwFocusRing` swaps `child` ↔ `Stack` on focus and remounts the button content) and 1 🟢 (#2 icon size mapped twice). Review status updated in the header and `5-mobile-components/README.md`.
+
 ## [Mobile Button — implementation (1.1)] — 2026-10-20
 ### Added
 - Added the Flutter mobile `BwButton` implementation with token-resolved filled, tonal, outlined and text variants; all colors and sizes; loading, RTL, reduced-motion and keyboard-focus behavior; shared `BwControlSize` and outside-container `BwFocusRing`; localized real-font test infrastructure; comprehensive widget tests; and visually verified light/dark English/Arabic goldens. Flutter analysis passes and all 69 tests pass with the sandbox-compatible faster-test runner.

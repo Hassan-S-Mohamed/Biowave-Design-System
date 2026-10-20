@@ -14,11 +14,13 @@
 |---|---|---|---|---|---|---|
 | 01 | implement | codex | partial (18 min): all §9 files written; `flutter test` blocked by Codex sandbox (socket). Orchestrator run: analyze ✓, test 67 ✓ / 2 ✗ (`sm ring geometry in ar` 42.57 vs 48; SemanticsHandle not disposed). Retried as 02 with codex (cursor usage limit, antigravity manual) | flutter analyze ✓ · flutter test ✗ 67/69 · component-tokens ✓ · sync ✓ · docs:check ✓ (2 baseline errors only) | — (not committed) | `01-implement-codex.prompt.md` |
 | 02 | implement | codex | done (9 min, retry): both failures fixed — RTL `sm` test measured the 48dp touch target instead of the 42.57dp container (test bug, ring code unchanged); SemanticsHandle disposed. Goldens regenerated (real fonts). Code `Built` | flutter analyze ✓ · flutter test ✓ 69/69 · component-tokens ✓ · sync ✓ · docs:check ✓ (2 baseline errors only) | see git log | `02-implement-codex.prompt.md` |
+| 03 | review | claude (wf-reviewer subagent) | done · **Changes requested** — Round 1: 1 🟡 (#1 `BwFocusRing` swaps child ↔ Stack, so content State is rebuilt on focus), 1 🟢 (#2 icon-size table duplicated). Two earlier attempts ended on API errors (timeout, Mac sleep) with nothing written | flutter analyze ✓ · flutter test ✓ 69/69 · component-tokens ✓ · sync ✓ · docs:check ✓ (2 baseline errors only) | see git log | `03-review-claude.prompt.md` |
 
 ## Gates
 
 | Gate | Decision | Notes |
 |---|---|---|
+| after-review | pending (2026-10-20) | Executor-only findings #1, #2 → fix |
 
 ## Questions raised
 
