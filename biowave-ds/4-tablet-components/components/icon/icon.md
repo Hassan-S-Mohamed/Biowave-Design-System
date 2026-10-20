@@ -15,7 +15,7 @@
 | Figma | **Biowave DS — Tablet Components** › `↳ Icon` (page Typography mode `Tablet`) · build: [Part D](#d--figma-build) |
 | Version | 1.0 · 2026-10-18 |
 | Plan | Finished |
-| Code | Planned |
+| Code | Built |
 | Figma build | Planned |
 | Review | — |
 | Source code | `lib/src/components/icon/` — not built yet (the Executor creates it) |
@@ -325,15 +325,18 @@ Implement every item in B9.
 
 | Field | Value |
 |---|---|
-| Agent | |
-| Date | |
-| Files changed | |
+| Agent | Codex (workflow implementer) |
+| Date | 2026-10-20 |
+| Files changed | `lib/src/components/icon/bw_icon.dart`; `lib/biowave_tablet.dart`; `test/icon_test.dart`; `test/no_legacy_icons_test.dart`; `test/goldens/icon/{size_scale,colors,fill,rtl}.png`; `README.md`; `components/icon/icon.md`; root `CHANGELOG.md` |
+| Checks | `npm run component-tokens` ✓; `npm run sync` ✓ READY; `flutter analyze` ✓; direct Flutter engine golden render ✓; source guards ✓; `npm run docs:check` ✗ two known stale button-group Figma contracts; `flutter test` ✗ sandbox denied the runner's required loopback socket before any test loaded |
 
 **Deviations from the plan or spec**
-- none
+- No implementation deviations. Golden baselines were rendered with the installed `flutter_tester` directly because the sandbox blocks the socket-based `flutter test` coordinator.
 
 **Questions for the Planner**
-- none
+- `npm run docs:check` reports only the known pre-existing stale tablet/mobile button-group Figma contracts; they are outside this unit and were not changed.
+- `flutter test` must be rerun outside this sandbox: all suites, including the pre-existing theme test, fail before loading because binding `127.0.0.1:0` is not permitted. `flutter analyze` passes, and the same Flutter engine compiled and rendered all four icon goldens successfully.
+- No non-Material icon usage was found in the tablet package `lib/`; the source guard finds no `Icons.` reference.
 
 ---
 

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 export 'package:biowave_foundations/biowave_foundations.dart';
 
 // Components (keep alphabetical):
+export 'src/components/icon/bw_icon.dart';
 // export 'src/components/button/bw_button.dart';
 
 /// Ready-made themes for the Tablet app.
