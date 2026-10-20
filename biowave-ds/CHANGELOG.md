@@ -2,6 +2,30 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Web — Icon review round 2] — 2026-10-20
+### Changed
+- Icon (web) review round 2: **Approved** — Part E3 of `3-web-components/components/icon/icon.md`. Round 1 findings #1–#5 all fixed (directional prop stripped in Button / Icon button, `IconName` = B1, prop/class/both single-flip and `[dir='rtl']` tests, Button 16/20/24 size test, repo-wide D-18 guard). 1 new 🟢 nit: Button light axe test has little timeout headroom (not caused by this branch). Code → `Approved`.
+
+## [Web — Icon fix round 1] — 2026-10-20
+### Fixed
+- Icon (web) review round 1 findings #1–#5: `Button` and `IconButton` `prepareIcon` strip `directional` (like `mirrorInRtl` and `bw-icon-directional`) and mark the wrapper once; `Icon.tsx` `directional` JSDoc and `IconName` type (`MaterialSymbol | 'push_pin' | 'expand_more' | ''`) match B1; `Icon.test.tsx` tests all three directional marker forms inside `Button` and `IconButton`, `[dir='rtl']` rule scoping, `Button` `sm`/`md`/`lg` 16/20/24 icon sizes, and `push_pin` / `expand_more` typing; `noLegacyIcons.test.ts` guards against `material-symbols-rounded` and `@mui/material/Icon` outside `src/components/icon/`. Code → `Built`.
+
+## [Web — Icon preview plan 1.1] — 2026-10-20
+### Added
+- Planning previews for Icon (web): light English and dark Arabic RTL spec sheets cover every `size-icon-*` token, all B3 color roles, FILL 0 / FILL 1, exact status content, and directional `arrow_forward` beside non-mirrored `search` and `check`; `previews/README.md` records resolved token values, prompts and visual checks.
+
+## [Web — Icon plan 1.1] — 2026-10-20
+### Changed
+- Icon (web) plan 1.1 — review round 1 Planner items. Finding 1: Button / Icon button `prepareIcon` strips Icon's `directional` prop like `mirrorInRtl` and marks the wrapper once (B5, C3; `Button.tsx` · `IconButton.tsx` added to C5). Finding 2: `name` is typed `IconName` = `MaterialSymbol` + `push_pin` · `expand_more` — kept because the Figma Material Symbols library and `icons.md` use them and the 0.48.0 Rounded font still renders both ligatures (`push_pin` = `keep`), recorded in B1. Finding 5: `noLegacyIcons.test.ts` must fail on `material-symbols-rounded` / `@mui/material/Icon` outside `src/components/icon/` (B9, C5). Plan → `Finished`; contract regenerated.
+
+## [Web — Icon review round 1] — 2026-10-20
+### Changed
+- Icon (web) review round 1: **Changes requested** — Part E2 of `3-web-components/components/icon/icon.md`. 3 🟡 (Button / Icon button must strip `directional`; `IconName` extras `push_pin` / `expand_more` vs B1; directional-prop tests), 2 🟢. D-18 sweep clean: no web component renders an icon from any source but Icon. Plan → `Open`, Code → `Changes requested`.
+
+## [Web — Icon] — 2026-10-20
+### Added
+- Web `Icon` (`@biowave/web`): Material Symbols Rounded glyph with size/color tokens, fill, directional RTL, and labelled/decorative semantics. Re-exports `MaterialSymbol` from `@biowave/foundations`. Split button, button group, and text field now render glyphs through `Icon` (AC-7); tests use `Icon` instead of the temporary `MaterialSymbol` helper.
+
 ## [Roadmap v3 — Figma coverage check (P-05)] — 2026-10-20
 ### Changed
 - Every component set in the four Figma files (Web, Tablet, Mobile component files and the LEGACY Web + Mobile pages in Foundations) was compared with `ROADMAP.md`. Decision **P-05** (Hassan): Tag / Label / Request status become **Chip** variants; Check badge → Badge; Checkbox card → selectable Card; Day picker → Segmented button; Notification card → List item; Upload photo → File upload; **Action bar** added to Phase 2 (Day 15, Web + Tablet); **Map** added to the backlog; Slider stays post-1.0.

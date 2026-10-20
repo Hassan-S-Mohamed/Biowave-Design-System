@@ -1,11 +1,11 @@
 import * as React from 'react';
-import Icon from '@mui/material/Icon';
 import { styled } from '@mui/material/styles';
 import { cssVars, useBiowave } from '@biowave/foundations';
 import { warnOnce } from '../../internal/warnOnce';
 import { useButtonGroupSize } from '../button-group/ButtonGroupContext';
 import { InternalButton } from '../button/Button';
 import type { ButtonSize } from '../button/button.tokens';
+import { Icon } from '../icon';
 import { InternalIconButton } from '../icon-button/IconButton';
 import {
   SplitButtonMenu,
@@ -150,7 +150,7 @@ export const SplitButton = React.forwardRef<HTMLDivElement, SplitButtonProps>(
         </InternalButton>
         <InternalIconButton
           ref={triggerRef}
-          icon={<Icon baseClassName="material-symbols-rounded" fontSize="inherit" className="bw-split-button__chevron">expand_more</Icon>}
+          icon={<Icon name="expand_more" className="bw-split-button__chevron" />}
           label={effectiveMenuLabel}
           variant={effectiveVariant}
           color={color}

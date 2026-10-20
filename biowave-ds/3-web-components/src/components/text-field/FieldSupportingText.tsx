@@ -1,6 +1,6 @@
 import * as React from 'react';
-import Icon from '@mui/material/Icon';
 import { styled } from '@mui/material/styles';
+import { Icon } from '../icon';
 import {
   textFieldErrorGap,
   textFieldErrorIconSize,
@@ -120,9 +120,7 @@ export function FieldSupportingText({
               aria-hidden="true"
               $disabled={disabled}
             >
-              <Icon baseClassName="material-symbols-rounded" fontSize="inherit">
-                error
-              </Icon>
+              <Icon name="error" />
             </ErrorIcon>
           ) : null}
           <Helper id={helperId} className="bw-text-field__supporting-text">

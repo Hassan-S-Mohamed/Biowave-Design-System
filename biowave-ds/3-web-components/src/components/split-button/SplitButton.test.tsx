@@ -16,7 +16,7 @@ import {
   type SplitButtonSize,
   type SplitButtonVariant,
 } from './SplitButton';
-import { MaterialSymbol } from '../../test/materialSymbol';
+import { Icon } from '../icon';
 const variants: SplitButtonVariant[] = ['filled', 'tonal', 'outlined'];
 const colors: SplitButtonColor[] = ['brand', 'secondary', 'neutral'];
 const sizes: SplitButtonSize[] = ['sm', 'md', 'lg'];
@@ -25,7 +25,7 @@ const locales = ['en', 'ar'] as const;
 
 function makeOptions(onSelect = vi.fn()): SplitButtonOption[] {
   return [
-    { label: 'Export as Excel', onSelect, icon: <MaterialSymbol name="table_chart" /> },
+    { label: 'Export as Excel', onSelect, icon: <Icon name="table_chart" /> },
     { label: 'Export as CSV', onSelect: vi.fn() },
     { label: 'Export as JSON', onSelect: vi.fn() },
   ];
@@ -96,7 +96,7 @@ describe('SplitButton rendering', () => {
     for (const locale of locales) {
       const view = renderWithBiowave(
         <SplitButton
-          startIcon={<MaterialSymbol name="download" />}
+          startIcon={<Icon name="download" />}
           onClick={vi.fn()}
           options={makeOptions()}
         >
