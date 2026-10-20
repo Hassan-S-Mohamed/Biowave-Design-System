@@ -15,9 +15,9 @@
 | Figma | **Biowave DS — Tablet Components** › `↳ Icon` (page Typography mode `Tablet`) · build: [Part D](#d--figma-build) |
 | Version | 1.0 · 2026-10-18 |
 | Plan | Finished |
-| Code | Built |
+| Code | Approved |
 | Figma build | Planned |
-| Review | — |
+| Review | Round 1 · 2026-10-20 · Approved |
 | Source code | `lib/src/components/icon/` — not built yet (the Executor creates it) |
 | Tokens | [`icon.tokens.json`](icon.tokens.json) — extends the Web file (D-13) |
 | Contracts | [`icon-contract.md`](icon-contract.md) · [`figma-icon-contract.md`](figma-icon-contract.md) — generated, never edited |
@@ -419,7 +419,62 @@ As Web D8; 07 Platform uses `Doc/Device frame` Tablet.
 
 | Round | Date | Code verdict | Figma verdict |
 |---|---|---|---|
-| — | — | not reviewed | not reviewed |
+| 1 | 2026-10-20 | Approved | not reviewed |
+
+### E2 Round 1 — 2026-10-20
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 1 |
+| Spec version reviewed | 1.0 |
+| Reviewer | Claude |
+| Date | 2026-10-20 |
+| Code reviewed | `git diff main...ds/icon-tablet` + working tree (clean for this unit) |
+| Verdict | **Approved** — every AC met, D-18 holds in `lib/`; no 🔴 / 🟡; 3 🟢 nits |
+| Evidence | Run by the Reviewer in the `ds/icon-tablet` worktree: `flutter analyze` ✅ no issues · `flutter test` ✅ 64/64 · `npm run docs:check` ❌ 2 errors, both stale **tablet / mobile button-group** Figma contracts (pre-existing on `main`, accepted by the user, not counted; Icon's contracts are fresh) |
+
+#### Acceptance criteria
+
+| AC | Result | Evidence (file:line / test name) |
+|---|---|---|
+| AC-1 API per B1 | ✅ | `bw_icon.dart:5` `BwIconSize` (xs…xl3), `:8-19` `BwIconColor` (10 roles, `defaultColor`), `:23-46` params/types/defaults = B1; assert `:31-39` fires only for status colour + explicit `size` + no label, message “status icons need text or a label” — test "standalone status icons require text or a label" |
+| AC-2 Tokens only | ✅ | Sizes `BwSize.icon*` (`:91-101`), colours `context.bw.colors.icon*` (`:103-116`) = B2 / B3; axes `BwIconAxes.*` (`:64-66`). Tests "<size> uses its token size in <theme> <lang>" (7 × 2 × 2), "<colour> resolves from <theme> theme tokens", "component token enums match icon.tokens.json", "BwIcon source has no raw sizes or colours" |
+| AC-3 RTL per B5; a11y per B6 | ✅ | `Transform.flip(flipX: rtl)` only when `directional` (`:72-77`); inner `Directionality(ltr)` (`:58-59`) neutralises `matchTextDirection`, so never a second flip. Decorative `ExcludeSemantics` (`:79-81`), labelled `Semantics(label:, image: true)` (`:83-87`); never focusable. Tests "directional icons flip exactly once in RTL only", "non-directional icons never add a flip", "decorative icons are excluded from semantics", "labelled icons expose an image semantics node" |
+| AC-4 analyze + test | ✅ | Both pass (run above) |
+| AC-5 Exported; README `Built`; no `Icons.` | ✅ | `lib/biowave_tablet.dart:10` exports `bw_icon.dart`; README row and header were `Built` at review start; `no_legacy_icons_test.dart:6` "library code never uses Flutter Material Icons" |
+
+**D-18 (run goal)** — `lib/` holds no `Icons.`, `CupertinoIcons`, raw `IconData(` or non-`_rounded` `Symbols.*` (grep). `Symbols` comes from `material_symbols_icons` re-exported by `biowave_foundations` (`2-foundations/flutter/lib/biowave_foundations.dart:9`). **Guard probe:** a planted `lib/src/zz_probe.dart` with `Icons.add` made "library code never uses Flutter Material Icons" fail (`no_legacy_icons_test.dart:13`); probe removed, test green again, tree clean. **Goldens** (`test/goldens/icon/size_scale.png`, `colors.png`, `fill.png`, `rtl.png`) show real Rounded glyphs — heart scale 12→48, ten coloured circles, outlined vs filled push pin, → and mirrored arrow — because the test loads `MaterialSymbolsRounded.ttf` (`icon_test.dart:14-38`), not Ahem boxes.
+
+#### Rule checks (AGENTS.md §2)
+
+| Rule | Result | Notes |
+|---|---|---|
+| No generated files edited | ✅ | No `generated/`, `dist/`, contract or HTML shell in the diff |
+| No raw values / no primitives | ✅ | Semantic tokens only; guard test above |
+| Logical properties, RTL icons | ✅ | Directional icons flip once; tests use `EdgeInsetsDirectional` |
+| Light + dark, en + ar tested | ✅ | Size and colour tests loop both themes; sizes both languages. Goldens are light / en only, which B9 allows |
+| Accessibility | ✅ | B6 |
+| Stayed inside the plan | ✅ | Files = C5 |
+| Code matches spec | ✅ | B1–B6; see nit 1 on `filled: false` |
+| Changelog | ✅ | `CHANGELOG.md` "[Tablet — Icon] — 2026-10-20"; C8 filled |
+
+#### Findings
+
+| # | Severity | File / section | Issue | Required change | Owner |
+|---|---|---|---|---|---|
+| 1 | 🟢 Nit | B1 `filled` — `bw_icon.dart:64` | `filled: false` passes `fill: null`, so the icon takes `IconTheme.fill` (theme default `BwIconAxes.fill` = 0). Under a parent `IconTheme(fill: 1)` a `BwIcon(filled: false)` renders filled. B1 does not say whether `false` means "outlined" or "inherit" | State in B1 which one is meant; if "outlined", Executor passes `BwIconAxes.fill` when `filled` is false and the test "filled uses the selected fill axis" expects it | Planner |
+| 2 | 🟢 Nit | `test/no_legacy_icons_test.dart:15` | `\bIcons\.` does not match `CupertinoIcons.` (no word boundary) or a raw `IconData(0x…)`, both of which also break D-18 | Extend the guard to fail on `CupertinoIcons` and `IconData(` in `lib/` | Executor |
+| 3 | 🟢 Nit | Header row "Source code" | Still says "not built yet (the Executor creates it)" | Point it at `lib/src/components/icon/bw_icon.dart` | Planner |
+
+#### Notes
+
+- No other tablet component is built on `main`, so nothing has to adopt `BwIcon` yet. **Button tablet** (in progress on another branch) must render its icons through `BwIcon` (C2) — check it in that unit's review; the `no double flip inside BwButton / BwIconButton` item of B9 is tested there.
+- C8 question (stale button-group contracts) goes to the orchestrator / Planner of those units.
+- Figma build (Part D) not reviewed: `Figma build = Planned`.
+
+#### Next step
+
+Approved → after-review gate. Nits 1–3 can go with the next plan / fix touch of this unit.
 
 ---
 

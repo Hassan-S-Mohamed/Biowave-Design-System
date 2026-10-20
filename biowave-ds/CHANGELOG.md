@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Tablet — Icon review round 1] — 2026-10-20
+### Changed
+- Icon (tablet) review round 1: **Approved** — Part E2 of `4-tablet-components/components/icon/icon.md`. AC-1…AC-5 met; `flutter analyze` clean, `flutter test` 64/64; D-18 guard proven by a planted `Icons.add` probe (reverted); goldens show real Material Symbols Rounded glyphs. 3 🟢 nits (`filled: false` vs `IconTheme.fill`, guard misses `CupertinoIcons` / `IconData(`, stale "Source code" header row). `docs:check` fails only on the pre-existing stale button-group contracts (accepted). Code → `Approved`.
+
 ## [Tablet — Icon] — 2026-10-20
 ### Added
 - Tablet `BwIcon`, `BwIconSize` and `BwIconColor`: Google Material Symbols Rounded glyphs with semantic size/colour tokens, fill, single-flip RTL handling, decorative/labelled semantics, package export, full widget/golden coverage (with `MaterialSymbolsRounded` variable font loaded in tests and EN/AR localization delegates), and a package-wide guard against Flutter `Icons.*` (`flutter analyze` and all 64 `flutter test` cases passing). Code → `Built`.
