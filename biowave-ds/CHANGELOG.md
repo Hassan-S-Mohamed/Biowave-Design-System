@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Plan — Web Split button 1.1] — 2026-10-21
+### Changed
+- Web `split-button.md` 1.0 → 1.1 (plan 1 → 1.1) answering Review round 1 Planner findings: #6 B5/C3 — MUI flips only its default menu origins in RTL, so the side is chosen from the text direction (`bottom-end` logical, physical right in LTR, left in RTL); #7 B6 — `aria-controls` only while the menu is open (the code's behaviour). C3 records that the shared per-test speedy Emotion cache from `ds/button-web` (PR #1) is on `main` and merged into this branch, so the fix round uses it and drops raised timeouts. C6 tests and C7 AC-7/AC-8 + Fix round 1 task list for Executor findings #1–#5, #8. Plan → Finished (header + README); Split button web contracts regenerated.
+
 ## [Review — Web Split button round 1: Changes requested] — 2026-10-21
 ### Changed
 - Split button (web) review round 1: **Changes requested** — Part E2 of `3-web-components/components/split-button/split-button.md`. AC-1, AC-2, AC-6 met; 🔴 menu anchored with physical `right` (wrong side in Arabic, B5) and `test:web` fails 81/87 in the full suite (tests still raise timeouts; the shared speedy Emotion cache is only on `ds/button-web`); 🟡 B4 close transition, test gaps (B9/B6, `ar`), raised timeouts; 🟢 Planner C3/B6 notes. Plan set to `Open`; Review status updated in the header and `3-web-components/README.md`. `docs:check` fails only on the pre-existing stale tablet/mobile button-group Figma contracts.
