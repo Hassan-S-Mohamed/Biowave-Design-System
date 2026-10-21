@@ -1,4 +1,4 @@
-<!-- GENERATED from split-button.md @ e62483d2e8268884 — do not edit; change the source and run: npm run contract -- web split-button -->
+<!-- GENERATED from split-button.md @ 3a18b6ad3805381c — do not edit; change the source and run: npm run contract -- web split-button -->
 # Split button · زر مقسّم — Web — Figma contract
 
 > **Everything the Figma Agent needs to build Split button in the Web Components file, with our variables and styles.** Read this file only. Generated from [`split-button.md`](split-button.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-18). Questions go to [D11 Execution log](split-button.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
@@ -11,8 +11,8 @@
 | Page | `↳ Split button` (one page per component) |
 | Component | Split button · زر مقسّم |
 | Platform | Web · React + MUI |
-| Version | 1.0 · 2026-10-16 |
-| Source | [`split-button.md`](split-button.md) @ `e62483d2e8268884` |
+| Version | 1.1 · 2026-10-21 |
+| Source | [`split-button.md`](split-button.md) @ `3a18b6ad3805381c` |
 
 ## 1. Library connections in this file
 
@@ -72,11 +72,7 @@ Nested Biowave components (e.g. Button inside Split button) are instances of the
 
 ### Icons (keys) — Google · Material Symbols library (D-18)
 
-Library file **Google · Material Symbols** · key `RXlnhYgUKBBE6HveEr7e9C` — must be enabled in this file. Import the set, then use the **Style=Rounded** variant (`Fill=Filled` only for selected states). Colour the glyph by binding its vector fills to the icon colour token of the part.
-
-| Icon | Set key | Rounded (unfilled) | Rounded (filled) |
-|---|---|---|---|
-| `expand_more` | `267ced323de796ae4f53245aaa13fb0ed7d0f310` | `7614dc418009adcc275d35ff07afcb7b4f62b1fd` | `c18d6c2b6b894f64a7fd0981b1168b638f45c91f` |
+No icon named in this spec. Icons come only from the Google · Material Symbols library (Style=Rounded).
 
 ## 7. Phase 1 — values (from Part B)
 
@@ -151,14 +147,14 @@ RTL  │ [⌄] │ │ تصدير التقرير [◆] │
 |---|---|
 | layout, corner radii | Mirror (logical `border-start-start-radius` … ) |
 | `expand_more` chevron | Does not mirror (points down) |
-| `menu` | Anchored `bottom-end` (logical), so it opens toward the inline start |
+| `menu` | Anchored `bottom-end` (logical), so it opens toward the inline start. The physical side is chosen from the text direction: the menu's end edge lines up with the container's end edge (right in LTR, left in RTL) and it scales in from its top-end corner |
 
 ### B6 Accessibility (implementation)
 
 | Requirement | Implementation |
 |---|---|
 | Structure | `<div role="group" aria-label={children}>` containing two buttons |
-| Trigger | `aria-label={menuLabel}`, `aria-haspopup="menu"`, `aria-expanded`, `aria-controls={menuId}` |
+| Trigger | `aria-label={menuLabel}`, `aria-haspopup="menu"`, `aria-expanded`; `aria-controls={menuId}` **only while the menu is open** (the menu is not in the DOM when closed, so the attribute is left off then) |
 | Menu | `role="menu"`, items `role="menuitem"`; focus moves into the menu on open, returns to the trigger on close |
 | Loading | Primary as Button B6; trigger `disabled` while loading |
 | Focus ring | Per part, as Button B6 |

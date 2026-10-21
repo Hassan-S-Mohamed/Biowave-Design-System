@@ -288,7 +288,7 @@ const IconButtonInternal = React.forwardRef<HTMLButtonElement, IconButtonInterna
         'IconButton: toggle needs selectedIcon; using icon for both states.',
       );
     }
-    if (label.length === 0) {
+    if (label.trim().length === 0) {
       warnOnce('icon-button-label', 'IconButton needs a label');
     }
 
