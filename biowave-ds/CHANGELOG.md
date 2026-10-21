@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Review — Web Split button round 3: Approved] — 2026-10-21
+### Changed
+- Split button (web) review round 3: **Approved** — Part E4 of `3-web-components/components/split-button/split-button.md`. Round 2 #9 fixed (headless Chrome computed Paper `transition`: open `opacity`/`transform` 0.2s `standard-decelerate`, close 0.1s `standard-accelerate`, no delay) and #10 fixed (`prefers-reduced-motion: reduce` → 0 s, menu instant); Round 1 #1 still holds (menu end edge right in English, left in Arabic). 🟢 #11 nit: MUI Grow's `auto` timeout keeps the invisible backdrop ~240 ms after close — carried to the Menu component. Code → Approved (header + README). `docs:check` ✓, `typecheck` ✓, `test:web` 100/100 ✓, `sync` READY.
+
 ## [Fixed — Web Split button review round 2] — 2026-10-21
 ### Fixed
 - Fixed menu fade and scale so each uses the complete B4 open and close duration/easing pair, bypassing MUI Grow's shortened scale timing and exit delay; menu durations now remain CSS variables so the reduced-motion token rule makes them instant. Added independent opacity/transform enter/exit coverage and a reduced-motion variable regression test; the full web suite passes 100/100 in three consecutive runs.

@@ -15,9 +15,9 @@
 | Figma | **Biowave DS — Web Components** › `↳ Split Button` (legacy reference: Foundations `4298:3591`) · build: [Part D](#d--figma-build) |
 | Version | 1.1 · 2026-10-21 |
 | Plan | Finished |
-| Code | Built |
+| Code | Approved |
 | Figma build | Planned |
-| Review | Round 2 · 2026-10-21 · Changes requested |
+| Review | Round 3 · 2026-10-21 · Approved |
 | Source code | `src/components/split-button/` — not built yet (the Executor creates it) |
 | Tokens | — (no component tokens yet) |
 | Contracts | [`split-button-contract.md`](split-button-contract.md) · [`figma-split-button-contract.md`](figma-split-button-contract.md) — generated, never edited |
@@ -522,8 +522,91 @@ Component description: "Main action plus a menu of related alternatives. Spec: 3
 
 | Round | Date | Code verdict | Figma verdict |
 |---|---|---|---|
+| 3 | 2026-10-21 | **Approved** | not reviewed |
 | 2 | 2026-10-21 | **Changes requested** | not reviewed |
 | 1 | 2026-10-21 | **Changes requested** | not reviewed |
+
+### E4 Round 3 — 2026-10-21
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 1.1 |
+| Spec version reviewed | 1.1 |
+| Reviewer | Claude |
+| Date | 2026-10-21 |
+| Verdict | **Approved** |
+
+Commands run by the Reviewer on branch `ds/split-button-web` at `2a16894` (fix round 2 = latest commit; it changes only `SplitButtonMenu.tsx` and `SplitButton.test.tsx` in `3-web-components/src`):
+`npm run docs:check` ✅ 18 component files · `npm run typecheck` ✅ · `npm run test:web` ✅ **100/100**, 8 files, 7.90 s, default timeouts, first run (Split button 22/22 in 4.37 s; slowest: render matrix 1.25 s, logical-corner matrix 309 ms) · `npm run sync` ✅ READY (exit 0).
+Real browser: my own headless Chrome (`--headless=new`, driven over CDP, not the shared pane), the real `SplitButton` from `3-web-components/src` with the generated `tokens.css`, served by a scratch Vite config outside the repo. `getComputedStyle(paper).transition`, `opacity` and `transform` sampled every animation frame during open and close (Esc), with `prefers-reduced-motion` emulated as `no-preference` and as `reduce`.
+
+Both Round 2 findings are fixed: the menu's fade and scale now run on the same B4 duration and easing tokens in both directions, and reduced motion makes the menu instant again. The menu still opens at the inline end in English and Arabic. One new nit: removing `transitionDuration` left MUI's height-based `auto` timeout in charge of unmounting, so the invisible backdrop stays about 240 ms after close.
+
+#### Round 2 findings
+
+| # | Status | Evidence |
+|---|---|---|
+| 9 | ✅ Fixed | `SplitButtonMenu.tsx:91-98, 131` builds one `opacity` + `transform` transition from `cssVars.motion.duration.md` + `standard-decelerate` (open) / `.sm` + `standard-accelerate` (closed), applied with `!important` over Grow's inline style. Browser computed `transition`, en/light and ar/dark the same: **open** `opacity 0.2s cubic-bezier(0, 0, 0, 1), transform 0.2s cubic-bezier(0, 0, 0, 1)`; **close** `opacity 0.1s cubic-bezier(0.3, 0, 1, 1), transform 0.1s cubic-bezier(0.3, 0, 1, 1)` — no delay on either property. Measured: ar open reaches opacity 1 / scale 1 at ~214 ms after the first frame; ar close fades and scales together to opacity 0 / `scale(0.75, 0.5625)` at ~109 ms. Grow's inline `transform 147ms … 73ms` delay is still written but loses to the rule (computed value above). Tests *gives menu opacity / transform the specified open and close duration and easing* (`SplitButton.test.tsx:288-317`) check each property separately |
+| 10 | ✅ Fixed | No `base.motion.duration` left in `SplitButtonMenu.tsx`; durations are `var(--bw-motion-duration-*)`. Browser with `prefers-reduced-motion: reduce`: `--bw-motion-duration-md` / `-sm` = `0ms`, computed `transition` `opacity cubic-bezier(0, 0, 0, 1), transform cubic-bezier(0, 0, 0, 1)` (0 s) on open and `… cubic-bezier(0.3, 0, 1, 1)` on close; first sampled frame after open is already opacity 1 / scale 1, first frame after Esc already opacity 0 — instant, en and ar. Test *keeps menu durations in CSS variables so reduced motion can make them instant* (`SplitButton.test.tsx:319-341`) |
+
+Round 1 #1 still holds (browser, menu settled): en/light container `16 → 169.83`, paper `16 → 169.83` (end edges equal, right), `transform-origin: 153.828px 0px` (top-right = top-end); ar/dark container `870.69 → 1008`, paper `871 → 1008.31` (Popover rounds to whole px), `transform-origin: 0px 0px` (top-left = top-end), trigger on the left, `direction: rtl`. Focus moves to the first item on open and back to the trigger after Esc, `aria-expanded="false"`, in both languages. Test *uses the localized label and physical inline-end origin in en/ar* passes.
+
+#### Acceptance criteria
+
+| AC | Result | Evidence (file:line / test name) |
+|---|---|---|
+| AC-1 API = B1 | ✅ | `SplitButton.tsx` unchanged since Round 2; *warns for invalid variant, option count, and repeated primary action* |
+| AC-2 Real `Button`/`IconButton`, only radii differ | ✅ | No Button/IconButton change; *assigns every logical segment corner for each variant in LTR and RTL* |
+| AC-3 Transitions B4 | ✅ | Chevron unchanged (Round 2 measured); menu fade + scale on B4 tokens open and close (finding 9 above) |
+| AC-4 RTL B5; a11y B6 | ✅ | Menu side en/ar measured above; keyboard tests pass; reduced motion instant (finding 10 above) |
+| AC-5 typecheck, tests, sync pass | ✅ | typecheck ✅, `test:web` 100/100 ✅, sync READY ✅ |
+| AC-6 Exported; README status | ✅ | `src/index.ts:38-43`; README row = header (set by this review) |
+| AC-7 Round 1 findings fixed; full suite at default timeout | ✅ | #3 now fully fixed through #9; no timeout arguments; no `testTimeout` / `fileParallelism` change |
+| AC-8 C8 fix-round entries with real numbers | ✅ | C8 › Fix round 2: per-finding `file:line` + test, every command with numbers; my run matches (100/100) |
+
+#### Rule checks (AGENTS.md §2)
+
+| Rule | Result | Notes |
+|---|---|---|
+| No generated files edited | ✅ | Fix commit touches `SplitButtonMenu.tsx`, `SplitButton.test.tsx`, C8, README row, CHANGELOG, run record |
+| No raw values / no primitives | ✅ | `cssVars.motion.*` only; `base` import removed; test *contains no raw colors, dimensions, durations, or font names* passes |
+| RTL first (logical properties) | ✅ | Physical side still derived from the direction (C3) |
+| Both themes, both languages, tested | ✅ | Browser checked en/light + ar/dark; render and axe matrices cover all four |
+| Accessibility WCAG 2.2 AA | ✅ | Reduced motion restored; keyboard, labels, focus return unchanged. See nit 11 |
+| Stayed inside the contract / no other components | ✅ | Only the files the fix round allows |
+| Changelog | ✅ | `CHANGELOG.md` › *Fixed — Web Split button review round 2* |
+
+#### Figma build (Part D)
+
+Skipped — Figma build is `Planned`.
+
+#### Probe evidence
+
+```
+Headless Chrome, getComputedStyle(.MuiPopover-paper)
+  no-preference  --bw-motion-duration-md 200ms  -sm 100ms
+    open   opacity 0.2s cubic-bezier(0, 0, 0, 1), transform 0.2s cubic-bezier(0, 0, 0, 1)
+    close  opacity 0.1s cubic-bezier(0.3, 0, 1, 1), transform 0.1s cubic-bezier(0.3, 0, 1, 1)
+    (inline, overridden) open  opacity 222ms cubic-bezier(0.2,0,0,1), transform 148ms …
+                         close … transform 148ms … 74ms
+  reduce         --bw-motion-duration-md 0ms  -sm 0ms
+    open   opacity cubic-bezier(0, 0, 0, 1), transform cubic-bezier(0, 0, 0, 1)      first frame: opacity 1, scale 1
+    close  opacity cubic-bezier(0.3, 0, 1, 1), transform cubic-bezier(0.3, 0, 1, 1)  first frame: opacity 0
+Hit test over the primary action after Esc (elementFromPoint each frame)
+  reduce        0 ms MuiBackdrop-invisible → 230 ms Popover root → 246 ms primary
+  no-preference 0 ms MuiBackdrop-invisible → 232 ms Popover root → 248 ms primary
+  Grow timeout is now 'auto' (MUI getAutoHeightDuration for the menu height ≈ 220 ms)
+```
+
+#### Findings
+
+| # | Severity | File | Issue | Required change | Owner |
+|---|---|---|---|---|---|
+| 11 | 🟢 Nit | `SplitButtonMenu.tsx:114-142` | With `transitionDuration` removed, MUI Grow falls back to its height-based `auto` timeout (~220 ms) for `onEntered` and for unmounting. The visual motion is right (the CSS rule wins), but after close the invisible backdrop keeps catching clicks for ~240 ms — 2.4× `motion-duration-sm`, and not instant under reduced motion. A click on the primary action right after closing the menu is swallowed | When the private menu is replaced by the shared Menu component (`TODO(menu)`), or in a later touch of this file, give Grow a timeout that matches B4 (`md` enter, `sm` exit, 0 under `prefers-reduced-motion: reduce`) so unmount follows the CSS transition. Not required for this unit | Executor |
+
+#### Next step
+
+- Approved → Code `Approved` (header + README). No Planner findings; Plan stays `Finished`. Nit 11 is carried to the Menu component work. Figma build is still `Planned` and not reviewed.
 
 ### E3 Round 2 — 2026-10-21
 
