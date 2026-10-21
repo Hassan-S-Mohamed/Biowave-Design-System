@@ -4,8 +4,8 @@
 |---|---|
 | Unit | `icon-button` on `web` |
 | Unit file | `3-web-components/components/icon-button/icon-button.md` |
-| Branch | `ds/icon-button-web` (from `main`, worktree `.claude/worktrees/icon-button-web`) |
-| Pull request | — |
+| Branch | `ds/icon-button-web` (from `main`; Cowork worktree, then the main checkout) |
+| Pull request | https://github.com/hassanSmohamed/Biowave-Design-System/pull/9 |
 | Skipped steps | figma (config › skip) |
 
 Orchestrated from a Cowork session (Phase 1 run; gates pre-approved by the user except merge). Plan Finished, Code Built, no review round → **review**.
@@ -29,6 +29,7 @@ Orchestrated from a Cowork session (Phase 1 run; gates pre-approved by the user 
 | all gates except merge | Pre-approved by the user (2026-10-21, Cowork session) | Merge to `main` stays with the user. 2026-10-21 Code-tab session: `main` merged in after PR #1 + #8 (161782b); gates asked again here |
 | after-plan | **Approve** (2026-10-21) | Fix round 1 with codex, then review round 2. Preview ⚠ (unmirrored arrow in dark/ar) is a drawing fault, not a plan change |
 | after-review | **Approve** (2026-10-21) | Fix round 2 (last allowed) with codex for #10, #11, then review round 3 |
+| before-merge | Pushed `main` first (c2f277c, Updater tooling + merge) at the user's choice, then the branch; PR #9 opened (2026-10-21) — merge decision pending | No CI checks configured on the repo |
 
 ## Questions raised
 
