@@ -14,10 +14,10 @@
 | Import | `import { SplitButton } from '@biowave/web'` |
 | Figma | **Biowave DS — Web Components** › `↳ Split Button` (legacy reference: Foundations `4298:3591`) · build: [Part D](#d--figma-build) |
 | Version | 1.0 · 2026-10-16 |
-| Plan | Finished |
+| Plan | Open |
 | Code | Built |
 | Figma build | Planned |
-| Review | — |
+| Review | Round 1 · 2026-10-21 · Changes requested |
 | Source code | `src/components/split-button/` — not built yet (the Executor creates it) |
 | Tokens | — (no component tokens yet) |
 | Contracts | [`split-button-contract.md`](split-button-contract.md) · [`figma-split-button-contract.md`](figma-split-button-contract.md) — generated, never edited |
@@ -470,9 +470,88 @@ Component description: "Main action plus a menu of related alternatives. Spec: 3
 
 | Round | Date | Code verdict | Figma verdict |
 |---|---|---|---|
-| — | — | not reviewed | not reviewed |
+| 1 | 2026-10-21 | **Changes requested** | not reviewed |
+
+### E2 Round 1 — 2026-10-21
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 1 |
+| Spec version reviewed | 1.0 |
+| Reviewer | Claude |
+| Date | 2026-10-21 |
+| Verdict | **Changes requested** |
+
+Commands run by the Reviewer on branch `ds/split-button-web` (= `main` at `daf7ac9`; `git diff main...HEAD` is empty, so the unit was reviewed as it is on `main`):
+`npm run typecheck` ✅ · `npm run sync` ✅ READY (exit 0) · `npm run test:web` ❌ **81/87** (6 failed: 4 Split button, 2 Button axe) · `npx vitest run src/components/split-button` alone ✅ 11/11 in 39 s · `npm run docs:check` ❌ 2 errors, both pre-existing and outside this unit (tablet + mobile `button-group` Figma contracts stale — same state accepted in the tablet Icon round 2).
+
+The code composes the real Button and IconButton correctly and the keyboard model is complete, but the menu is anchored with physical sides (wrong in Arabic), the B4 close transition is not implemented, and the tests fail in the full suite because they still rely on raised timeouts.
+
+#### Acceptance criteria
+
+| AC | Result | Evidence (file:line / test name) |
+|---|---|---|
+| AC-1 API = B1 | ✅ | `SplitButton.tsx:20-35` (props, `SplitButtonOption` = `SplitButtonMenu.tsx:7-12`), defaults `:59-65`, localized `menuLabel` `:84-86`, all three fallbacks + `warnOnce` `:111-128`; test *warns for invalid variant, option count, and repeated primary action* |
+| AC-2 Real `Button`/`IconButton`, only radii differ | ✅ | `SplitButton.tsx:138-173` render `InternalButton` / `InternalIconButton` with the same `variant`/`color`/`size`; `Button.tsx:46-49, 86-90` and `IconButton.tsx:46-48, 84-88` add only logical corner radii; internal aliases `Button.tsx:352-353` not exported from `src/index.ts` |
+| AC-3 Transitions B4 | ❌ | Expanded → Collapsed uses `motion-duration-md` + decelerate for the chevron and `md` for the menu; easing tokens not applied to the menu (finding 3) |
+| AC-4 RTL B5; a11y B6 | ❌ | Corners mirror ✅ (logical props), chevron not mirrored ✅. Menu anchored with physical `right` → wrong side in `ar` (finding 1). Keyboard B6 ✅: tests *opens from the trigger…*, *implements Arrow, Home, End, Escape, and ArrowUp-open…*, *closes on Tab…*; `role="group"` + `aria-label` `:135-136`; `aria-haspopup`/`aria-expanded` `:160-161` |
+| AC-5 typecheck, tests, sync pass | ❌ | typecheck ✅, sync ✅; `test:web` 81/87 — split-button keyboard tests time out at 5 s, axe tests at their raised 20 s (finding 2) |
+| AC-6 Exported; README status | ✅ | `src/index.ts:38-44`; `3-web-components/README.md:50` Code = Built |
+
+#### Rule checks (AGENTS.md §2)
+
+| Rule | Result | Notes |
+|---|---|---|
+| No generated files edited | ✅ | `git status` clean apart from the run folder |
+| No raw values / no primitives | ✅ | Only `cssVars.*`, `base.motion.duration.*`, `biowaveVariants.bodyMd`; test *contains no raw colors, dimensions, durations, or font names* |
+| RTL first (logical properties) | ❌ | Radii, `marginBlockStart`, `paddingInline`, `minInlineSize` ✅. Menu `anchorOrigin`/`transformOrigin` use physical `right` (finding 1) |
+| Both themes, both languages, tested | ⚠️ | Render test covers all combos; axe, keyboard and menu tests run only in `en`; no `ar` test of the menu or the default `menuLabel` (finding 4) |
+| Accessibility WCAG 2.2 AA | ✅ | Keyboard, labels, focus return, trigger disabled while loading, inner focus ring on items (`SplitButtonMenu.tsx:57-61`). Reduced motion: CSS durations are zeroed by `tokens.css:843-845` |
+| Biowave `Icon` (D-18), no `@mui/icons-material` | ✅ | `SplitButton.tsx:153` `<Icon name="expand_more" />`; guard `src/test/noLegacyIcons.test.ts` passes |
+| Stayed inside the contract | ✅ | Files match C5. `TODO(menu)` present (`SplitButtonMenu.tsx:80`) |
+| Changelog | ✅ | `CHANGELOG.md` › *Web Button family — Icon button, Split button, Button group built* (2026-10-18) |
+| Tests use default timeouts (shared speedy Emotion cache) | ❌ | `SplitButton.test.tsx:93` `30_000`, `:272` `20_000`. The shared per-test speedy cache (Button fix `e8dc43b`) is only on `ds/button-web`, not on `main` (finding 2) |
+
+#### Figma build (Part D)
+
+Skipped — Figma build is `Planned`.
+
+#### Probe evidence
+
+```
+SplitButtonMenu.tsx:110-111  anchorOrigin/transformOrigin { horizontal: 'right' }
+node_modules/@mui/material/Menu/Menu.js:156-160  only the DEFAULT origins flip with isRtl; explicit props are passed to Popover unchanged
+node_modules/@mui/material/Popover/Popover.js:45-55  getOffsetLeft('right') = physical right edge
+→ in ar the menu's right edge sits under the primary action (inline start) and scales from the top-right (inline start), not bottom-end.
+
+test:web (full suite)   × SplitButton menu > implements Arrow, Home, End…   Test timed out in 5000ms
+                        × SplitButton menu > closes on Tab…                  Test timed out in 5000ms
+                        × SplitButton accessibility > … light                Test timed out in 20000ms
+                        × SplitButton accessibility > … dark                 Axe is already running
+                        × Button accessibility … light / dark                (same cause, Button on main)
+vitest split-button only ✓ 11/11 — keyboard test 4.7 s (limit 5 s), axe 9.0 s each
+```
+
+#### Findings
+
+| # | Severity | File | Issue | Required change | Owner |
+|---|---|---|---|---|---|
+| 1 | 🔴 Blocker | `SplitButtonMenu.tsx:110-111` | `anchorOrigin` and `transformOrigin` use physical `horizontal: 'right'`. MUI flips only its default origins in RTL (`Menu.js:156-160`), so in Arabic the menu aligns to the inline **start** and scales from the inline start. B5 requires `bottom-end` (logical) | Pick the side from the direction (`useRtl()` / `theme.direction`): `horizontal: isRtl ? 'left' : 'right'` for both origins. Add an `ar` test that asserts the origins (or the Paper `transform-origin`) are inline-end | Executor |
+| 2 | 🔴 Blocker | `SplitButton.test.tsx` (whole file) | `npm run test:web` fails 81/87 in the full suite: 4 Split button tests time out (keyboard at the 5 s default, axe at its raised 20 s, then "Axe is already running"). Same root cause as Button R2: non-speedy Emotion cache per test. The fix (`e8dc43b`, shared per-test speedy cache) exists only on `ds/button-web` | After `ds/button-web` is merged to `main`, update this branch and use the shared cache in these tests. `test:web` must pass in the full suite | Executor |
+| 3 | 🟡 Should fix | `SplitButton.tsx:47-50` · `SplitButtonMenu.tsx:34, 110-115` | B4 not met for Expanded → Collapsed: the chevron uses `motion-duration-md` + `standard-decelerate` both ways (should close with `sm` + `standard-accelerate`); the Paper rule `transitionDuration: md !important` overrides the `exit: sm` timeout, so the menu also closes at `md`; the menu never uses the `motion-easing-standard-*` tokens (MUI Grow default easing) | Use open/closed-specific duration + easing on the chevron; set the Paper transition per enter/exit with the B4 duration and easing tokens (drop the blanket `!important` duration). Add a test asserting the emitted rules | Executor |
+| 4 | 🟡 Should fix | `SplitButton.test.tsx:95-116, 126-211, 253-274` | B9/B6 gaps: no test for trigger Enter / Space / ArrowDown opening; no Space to choose an item; no test that loading keeps focus on the primary action; no `ar` test of the default `menuLabel` or of menu placement (missed finding 1); the radii test only checks that `radius-md`/`radius-xs` appear somewhere, not which corner gets which, for one variant only; axe only in `en` | Add these tests; assert per-corner radii for `start`/`end` segments for every variant; run axe open + closed in `en` and `ar` | Executor |
+| 5 | 🟡 Should fix | `SplitButton.test.tsx:93, 272` | Tests still raise their own timeouts (`30_000`, `20_000`). Button removed these in R2 #11 | Remove the raised timeouts once finding 2 is done; default timeouts only | Executor |
+| 6 | 🟢 Nit | C3 | C3 says MUI flips `anchorOrigin`/`transformOrigin` under RTL. It does not for explicitly passed origins — this led to finding 1 | Correct C3: compute the horizontal origin from the direction | Planner |
+| 7 | 🟢 Nit | `SplitButton.tsx:162` · B6 | `aria-controls` is set only while open; B6 says always `aria-controls={menuId}`. The code is the better choice (the menu is not in the DOM when closed), but it is an unlogged deviation | Planner records "`aria-controls` only while open" in B6; Executor lists it under C8 Deviations | Planner |
+| 8 | 🟢 Nit | C8 | C8 question about `docs:check` is outdated (Doc Kit 1.2 contracts are now current; only the tablet/mobile `button-group` Figma contracts are stale) | Update C8 in the fix round | Executor |
+
+#### Next step
+
+- Changes requested → Planner fixes C3 (#6) and B6 (#7), sets Plan `Finished`, regenerates the contract.
+- Executor fixes 🔴 1–2 and 🟡 3–5, nits 7–8 (C8), adds a **Fix round 1** entry in C8, sets Code `Built`. Finding 2 depends on `ds/button-web` being merged to `main` first.
 
 ---
+
 
 ## F · Changelog
 
