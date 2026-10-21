@@ -1,0 +1,36 @@
+# Run — button / mobile — 2026-10-20
+
+| Field | Value |
+|---|---|
+| Unit | `button` on `mobile` |
+| Unit file | `5-mobile-components/components/button/button.md` |
+| Branch | `ds/button-mobile` (from `main` @ 8ee3c0d), in worktree `/Users/hassansaid/Downloads/Biowave Design System-button-mobile` |
+| Pull request | — |
+| Skipped steps | figma (config › skip) |
+
+## Steps
+
+| # | Step | Agent | Result | Checks | Commit | Prompt |
+|---|---|---|---|---|---|---|
+| 01 | implement | codex | partial (18 min): all §9 files written; `flutter test` blocked by Codex sandbox (socket). Orchestrator run: analyze ✓, test 67 ✓ / 2 ✗ (`sm ring geometry in ar` 42.57 vs 48; SemanticsHandle not disposed). Retried as 02 with codex (cursor usage limit, antigravity manual) | flutter analyze ✓ · flutter test ✗ 67/69 · component-tokens ✓ · sync ✓ · docs:check ✓ (2 baseline errors only) | — (not committed) | `01-implement-codex.prompt.md` |
+| 02 | implement | codex | done (9 min, retry): both failures fixed — RTL `sm` test measured the 48dp touch target instead of the 42.57dp container (test bug, ring code unchanged); SemanticsHandle disposed. Goldens regenerated (real fonts). Code `Built` | flutter analyze ✓ · flutter test ✓ 69/69 · component-tokens ✓ · sync ✓ · docs:check ✓ (2 baseline errors only) | see git log | `02-implement-codex.prompt.md` |
+| 03 | review | claude (wf-reviewer subagent) | done · **Changes requested** — Round 1: 1 🟡 (#1 `BwFocusRing` swaps child ↔ Stack, so content State is rebuilt on focus), 1 🟢 (#2 icon-size table duplicated). Two earlier attempts ended on API errors (timeout, Mac sleep) with nothing written | flutter analyze ✓ · flutter test ✓ 69/69 · component-tokens ✓ · sync ✓ · docs:check ✓ (2 baseline errors only) | see git log | `03-review-claude.prompt.md` |
+| 04 | fix | codex | done (155 min — past the 45-min limit, dispatcher did not stop it): #1 `BwFocusRing` always returns the Stack, State-identity test added; #2 one size → dimensions table. Goldens unchanged | flutter analyze ✓ · flutter test ✓ 70/70 · component-tokens ✓ · sync ✓ · docs:check ✓ (2 baseline errors only) | see git log | `04-fix-codex.prompt.md` |
+| 05 | review | claude (wf-reviewer subagent) | done · **Approved** — Round 2: #1, #2 fixed (old ring makes the new State test fail), no new findings | flutter analyze ✓ · flutter test ✓ 70/70 · component-tokens ✓ · sync ✓ · docs:check ✓ (2 baseline errors only) | see git log | `05-review-claude.prompt.md` |
+
+## Gates
+
+| Gate | Decision | Notes |
+|---|---|---|
+| before-merge | **Approve** (2026-10-21) — push, PR, squash-merge | Code still `Built` (reviewer only writes Review fields) |
+| after-review | **Approve** (2026-10-21) | Fix #1 and #2 with codex in the worktree, then review round 2 |
+
+## Questions raised
+
+- Baseline: `npm run docs:check` on `main` has 2 known errors (tablet + mobile `button-group` Figma contracts stale), fixed on `ds/button-web` (PR #1, held for manual QA). Steps here are checked against "no errors besides those 2".
+- Agent: rotation picked antigravity (manual run); cursor hit its usage limit on button/tablet. Implement goes to codex, which also built button/tablet, so the shared helpers stay alike.
+- Worktree: the main checkout is shared with other sessions, so this unit runs in its own worktree (node_modules and `_workflow/.local` symlinked to the main checkout).
+
+## Summary
+
+Preflight `npm run sync` ✓ READY (mobile button: plan Finished · code contract current). User asked to build Button on every platform; button/tablet merged (#3), mobile next. Button mobile: Plan 1.1 Finished (focus-ring and test-font fixes from tablet review round 1 already in) · Code Planned · no review → next step **implement**. WIP rule: only Text field web is in Changes requested → new item allowed.

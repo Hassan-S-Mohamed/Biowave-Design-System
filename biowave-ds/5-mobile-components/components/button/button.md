@@ -15,10 +15,10 @@
 | Figma | **Biowave DS — Mobile Components** › `↳ Button` (page Typography mode `Mobile`) · build: [Part D](#d--figma-build) |
 | Version | 1.1 · 2026-10-20 |
 | Plan | Finished |
-| Code | Planned |
+| Code | Built |
 | Figma build | Planned |
-| Review | — |
-| Source code | `lib/src/components/button/` — not built yet (the Executor creates it) |
+| Review | Round 2 · 2026-10-21 · Approved |
+| Source code | [`lib/src/components/button/bw_button.dart`](../../lib/src/components/button/bw_button.dart) |
 | Tokens | — (no component tokens yet) |
 | Contracts | [`button-contract.md`](button-contract.md) · [`figma-button-contract.md`](figma-button-contract.md) — generated, never edited |
 | Docs page | [`button.html`](button.html) |
@@ -471,15 +471,29 @@ Implement every item in B9, plus:
 
 | Field | Value |
 |---|---|
-| Agent | |
-| Date | |
-| Files changed | |
+| Agent | Codex |
+| Date | 2026-10-20 |
+| Files changed | `lib/src/common/bw_control_size.dart`; `lib/src/common/bw_focus_ring.dart`; `lib/src/components/button/bw_button.dart`; `lib/src/components/button/bw_button_style.dart`; `lib/biowave_mobile.dart`; `test/helpers/bw_test_app.dart`; `test/flutter_test_config.dart`; `test/fonts/*`; `test/button_test.dart`; `test/goldens/button/*`; `README.md`; `components/button/button.md`; `CHANGELOG.md` |
+| Checks | `flutter analyze` ✓; `flutter test --experimental-faster-testing --update-goldens` ✓ (69 tests); `flutter test --experimental-faster-testing` ✓ (69 tests); four real-font goldens visually checked ✓; `npm run component-tokens` ✓; `npm run sync` ✓ READY; `npm run docs:check` ✓ per task instruction — only the 2 known unrelated stale tablet/mobile button-group Figma contracts were reported |
 
-**Deviations from the plan or spec** (with reason — the Planner updates the spec if accepted):
-- none
+**Deviations from the plan or spec** (with reason — the Planner updates the spec if accepted): none
 
-**Questions for the Planner:**
-- none
+**Questions for the Planner:** none
+
+#### Fix round 1 — 2026-10-21
+
+| Finding | What changed (`file:line`) | Test that proves it |
+|---|---|---|
+| #1 🟡 | `lib/src/common/bw_focus_ring.dart:57` now always returns `Stack(clipBehavior: Clip.none, fit: StackFit.passthrough)` with the child first and adds the ring only as a conditional second child, preserving the content element and State across focus changes | `test/button_test.dart:429` — `keyboard focus preserves loading content State` compares the same `AnimatedSwitcher` State object before and after keyboard focus ✓ |
+| #2 🟢 | `lib/src/components/button/bw_button_style.dart:140` replaces the separate gap/icon mappings with one `BwControlSize` → `BwButtonMetrics` table containing height, padding, gap, icon size, radius and text style; `bw_button.dart` consumes those metrics | Existing exact-size, token-style and four golden tests pass; all 70 tests ✓ |
+
+**Checks:** `flutter analyze` ✓ (no issues); `flutter test --experimental-faster-testing` ✓ (70 tests, run from an identical disposable no-space copy because the sandbox blocks sockets and the faster runner misresolves relative package roots from the space-containing worktree path); `npm run component-tokens` ✓; `npm run sync` ✓ READY; `npm run docs:check` ✓ per fix-step baseline — only the 2 known unrelated stale tablet/mobile `button-group` Figma contracts were reported.
+
+**Goldens:** unchanged — neither fix changes pixels; all four existing golden comparisons pass.
+
+**Deviations from the plan or spec:** none
+
+**Questions for the Planner:** none
 
 ---
 
@@ -577,7 +591,149 @@ Component description: one line from A1 + "Spec: 5-mobile-components/components/
 
 | Round | Date | Code verdict | Figma verdict |
 |---|---|---|---|
-| — | — | not reviewed | not reviewed |
+| 2 | 2026-10-21 | Approved | not reviewed |
+| 1 | 2026-10-20 | Changes requested | not reviewed |
+
+### E3 Round 2 — 2026-10-21
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 1.1 |
+| Spec version reviewed | 1.1 |
+| Reviewer | Claude |
+| Date | 2026-10-21 |
+| Commit reviewed | `c9c1628` (branch `ds/button-mobile`, `git diff af0fe5f..HEAD -- 5-mobile-components`; no uncommitted changes under `5-mobile-components`) |
+| Verdict | **Approved** (0 🔴, 0 🟡, 0 🟢) |
+
+Checks run by the Reviewer (not copied from C8):
+
+| Command | Result |
+|---|---|
+| `cd 5-mobile-components && flutter analyze` | ✓ No issues found |
+| `cd 5-mobile-components && flutter test` | ✓ 70 tests, all passed (normal runner, run in the worktree; goldens compared, not updated) |
+| `npm run component-tokens` | ✓ web / tablet / mobile pass |
+| `npm run sync` | ✓ READY for component work (18 docs in the Figma build queue, not blocking) |
+| `npm run docs:check` | ✗ 2 errors, both known baseline: `tablet` and `mobile` `button-group` Figma contracts stale (fixed on `ds/button-web`, PR #1, not merged). Not this unit; not a finding |
+
+Regression proof: in a throw-away copy outside the repo (package plus `2-foundations/flutter`), `lib/src/common/bw_focus_ring.dart` was put back to the Round 1 version (`af0fe5f`) and only `keyboard focus preserves loading content State` was run. It **fails** at `test/button_test.dart:457` (`expect(tester.state(switcherFinder), same(stateBeforeFocus))`). With the current ring it passes. So the test catches a return to swapping child ↔ `Stack`. The copy was deleted afterwards.
+
+#### Round 1 findings
+
+| # | Status | Evidence |
+|---|---|---|
+| 1 🟡 | **Fixed** | `bw_focus_ring.dart:57-82` always returns `Stack(clipBehavior: Clip.none, fit: StackFit.passthrough)` with `widget.child` at index 0 (`:61`) and the ring only as `if (showRing)` second child (`:62`). The early `return widget.child` is gone. Flutter matches the child by slot 0 in the same `Stack`, so its element and State stay when the ring is added or removed. This is the same structure as tablet and C3. Test `keyboard focus preserves loading content State` (`button_test.dart:429-462`) checks the `AnimatedSwitcher` State is the same object after keyboard focus and that the ring is shown. It fails on the old ring (see above) |
+| 2 🟢 | **Fixed** | One table `BwButtonStyle.metrics` (`bw_button_style.dart:140-177`) → `BwButtonMetrics` (`:262-278`) holds height, padding, gap, icon size, radius and text style. `BwButtonStyle.gap` / `BwButtonStyle.iconSize` are removed (no other use in `lib/` or `test/`). `ButtonStyle.iconSize` (`:110`), the leading/trailing `Icon` size, the gap and the spinner size (`bw_button.dart:63,81,84,95,98,120`) all read `metrics`. Token values per size are unchanged (sm `iconSm`, md `iconMd`, lg/xl `iconLg`). `BwButtonMetrics` is public in `lib/src` but not exported from `lib/biowave_mobile.dart`, so the B1 API is unchanged |
+
+#### Ring geometry (unchanged since Round 1)
+
+The diff of `bw_focus_ring.dart` only removes the early return and indents the ring under `if (showRing)`. `inset` = `focusOffset` + `widthFocus` (`:50`), `PositionedDirectional` −inset on all sides (`:63-67`), `IgnorePointer`, `DecoratedBox` with `ringKey`, `widthFocus` stroke and radius + inset (`:53-55,68-78`) are the same as the code measured in Round 1. The geometry tests (`{sm,md,lg,xl} ring …`, `sm ring geometry in ar`) and the four goldens pass unchanged.
+
+#### Acceptance criteria (only where the diff touches them)
+
+| AC | Result | Evidence (file:line / test name) |
+|---|---|---|
+| AC-1 API matches B1 | ✅ | No change to the `BwButton` constructor; barrel export unchanged; `BwButtonMetrics` not exported |
+| AC-2 Values from tokens | ✅ | New `gap` field uses `BwSpacing.controlGap*` (`bw_button_style.dart:148,156,164,172`); `component source contains no raw visual values` passes |
+| AC-4 a11y as B6 (focus ring keyboard only) | ✅ | Ring still gated by `widget.focused` + `FocusHighlightMode.traditional` (`bw_focus_ring.dart:47-48`); `ring is immediate in keyboard mode and absent in touch mode` passes |
+| AC-5 Tests pass; sync passes | ✅ | Checks table above |
+| AC-7 Exact heights | ✅ | `{sm,md,lg,xl} has its exact visible height` passes; height comes from `metrics.height` |
+| AC-8 Ring outside container, no layout change; C3 structure | ✅ | Finding 1 fixed; geometry unchanged (above) |
+| AC-3, AC-6 | ✅ | Not touched by the diff; Round 1 result stands |
+
+#### Rule checks (AGENTS.md §2)
+
+| Rule | Result | Notes |
+|---|---|---|
+| No generated files edited | ✅ | Diff touches only `bw_focus_ring.dart`, `bw_button.dart`, `bw_button_style.dart`, `button_test.dart`, `button.md` C8 |
+| No raw values / no primitives | ✅ | Only tokens added |
+| Logical properties, RTL | ✅ | `PositionedDirectional`, `EdgeInsetsDirectional`, `BorderRadiusDirectional` kept |
+| Light + dark, en + ar tested | ✅ | Goldens unchanged and passing |
+| Stayed inside the plan | ✅ | `BwFocusRing` now matches C3; C8 "Fix round 1" logs the changes, no deviations |
+| Changelog | ✅ | `CHANGELOG.md` "Mobile Button — fix round 1 (1.1)" |
+
+#### Findings
+
+| # | Severity | File | Issue | Required change | Owner |
+|---|---|---|---|---|---|
+| — | — | — | No new findings | — | — |
+
+#### Next step
+
+- Code **Approved**. No Planner items; Plan stays `Finished`. Next: after-review gate, then the Figma build (Part D) when scheduled.
+
+### E2 Round 1 — 2026-10-20
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 1.1 |
+| Spec version reviewed | 1.1 |
+| Reviewer | Claude |
+| Date | 2026-10-20 |
+| Commit reviewed | `ad2c3fc` (branch `ds/button-mobile`, `git diff origin/main...HEAD -- 5-mobile-components`; working tree clean) |
+| Verdict | **Changes requested** (0 🔴, 1 🟡, 1 🟢) |
+
+Checks run by the Reviewer (not copied from C8):
+
+| Command | Result |
+|---|---|
+| `cd 5-mobile-components && flutter analyze` | ✓ No issues found |
+| `cd 5-mobile-components && flutter test` | ✓ 69 tests, all passed (normal runner; goldens compared, not updated) |
+| `npm run component-tokens` | ✓ web / tablet / mobile pass |
+| `npm run sync` | ✓ READY for component work (18 docs in the Figma build queue, not blocking) |
+| `npm run docs:check` | ✗ 2 errors — baseline only: `tablet` and `mobile` `button-group` Figma contracts stale (fixed on `ds/button-web`, PR #1, not merged). Not this unit; not a finding |
+
+Extra evidence: a throw-away probe (scratch copy of the package outside the repo; nothing in the repo changed) keyboard-focused a `BwButton` with a leading icon for every size in `en` and `ar` and measured with `tester.getRect`. In all 8 cases the ring rect = the container `Material` rect inflated by exactly 4 dp on each side (`focusOffset` 2 + `widthFocus` 2; gaps L/R/T/B all 4.0), and the `BwButton` rect was identical before and after focus: `sm` 32 dp container in a 48 dp box (e.g. `ar`: container 368.7–431.3 × 284–316, ring 364.7–435.3 × 280–320, button 276–324 high), `md` 40 in 48, `lg` 48, `xl` 56. The same probe found finding 1: the `AnimatedSwitcher` `State` inside the button is a new object after focus.
+
+**RTL `sm` geometry test.** `sm ring geometry in ar` (`test/button_test.dart:286-349`) measures `_visibleMaterial()` (`:753-758`, the `Material` with `MaterialType.button` = the 32 dp container), not the 48 dp tap-target box, and asserts `ringRect == containerRect.inflate(focusOffset + widthFocus)` (`:316-319`). If the ring were drawn around the padded box, the ring would be 56 dp high instead of 40 and the test fails; if it took layout, `BwButton` rect before ≠ after (`:321`). The width/height assertions (`:322-331`) use `max(container, minTarget)` per B9. The test, not just the code, would catch a regression.
+
+#### Acceptance criteria
+
+| AC | Result | Evidence (file:line / test name) |
+|---|---|---|
+| AC-1 API matches B1 | ✅ | `bw_button.dart:14-54` names, types, defaults; asserts `:28-41`; fallbacks tonal neutral/inverse → outlined `:58-61`, both icons → leading only `:62`; `loading` + `onPressed: null` stays disabled `:131,170`. Tests `defaults and invalid combinations assert`, `loading with null callback remains disabled` |
+| AC-2 Values from tokens | ✅ | `bw_button_style.dart` colors only from `context.bw.colors` (`:180-282`), sizes `BwSize`/`BwSpacing`/`BwRadius` (`:140-178`), border `BwBorder` (`:82`), ring `bw_focus_ring.dart:53-77`. `component source contains no raw visual values` passes; no `BwPalette`; per-state color test in `BwButtonStyle` group (`button_test.dart:84-191`) |
+| AC-3 B4 transitions, reduced motion | ✅ | `animationDuration` and `AnimatedSwitcher` use `BwDuration.instant` under `reduceMotion` (`bw_button_style.dart:119-120`, `bw_button.dart:116-117`); ring has no animation. Test `reduced motion uses the instant token` via `pumpBw(reduceMotion: true)` |
+| AC-4 RTL as B5; a11y as B6 | ✅ | Ring geometry LTR + RTL (tests + probe); keyboard-only via highlight-mode listener `bw_focus_ring.dart:26-48` (test `ring is immediate in keyboard mode and absent in touch mode`); `inverse` → `borderInverse` (`inverse focus uses inverse border token`); loading semantics + single announcement `bw_button.dart:166-231` (`loading keeps size and focus, blocks presses, announces once`); `directional icon mirrors in RTL and add does not`; Enter/Space test |
+| AC-5 Tests pass; sync passes | ✅ | Checks table above |
+| AC-6 Exported; README `Built` | ✅ | `lib/biowave_mobile.dart:9,12`; ring and style not exported; README row Code = `Built` |
+| AC-7 No splash; elevation 0; exact heights | ✅ | `NoSplash.splashFactory`, elevation `BwSpacing.none` (`bw_button_style.dart:96,122`); `{sm,md,lg,xl} has its exact visible height` measures the container `Material` with `tester.getSize`; goldens |
+| AC-8 Ring outside container, no layout change; shared test setup | ⚠️ | Geometry ✅ (above). But `BwFocusRing` does not keep the C3 structure: it returns the bare child when unfocused and a `Stack` when focused, which remounts the control's content on every focus change — finding 1. Test setup ✅: `flutter_test_config.dart` loads Inter, IBM Plex Sans Arabic (from `test/fonts`, OFL committed) and Material Symbols Rounded; `pumpBw` (`test/helpers/bw_test_app.dart`) has en/ar, `GlobalMaterialLocalizations.delegates`, `reduceMotion`, `textScale` |
+
+#### Goldens
+
+- Opened all 4 PNGs in `test/goldens/button/`: Latin labels in Inter, Arabic labels in IBM Plex Sans Arabic shaped and joined (إضافة جهاز), `add` and `arrow_forward` drawn as real Material Symbols glyphs — no Ahem boxes. In `ar` the layout and the arrow mirror (arrow points left), `add` does not.
+- Page background is `context.bw.colors.surfacePage` (`button_test.dart:682`; light #F7F7F7, dark #0A0A0A), not `backgroundNeutralDefault` (#EDEDED / #292929): filled neutral shows its container in both themes. Tablet nit #10 is not repeated.
+
+#### Comparison with the merged tablet implementation (shared pieces)
+
+- `bw_control_size.dart`, `flutter_test_config.dart`, the font set and the `BwButtonStyle` token mapping are equivalent.
+- `bw_focus_ring.dart` differs where it matters: tablet always builds `Stack([child, if (_showRing) ring])`; mobile returns `widget.child` when the ring is hidden (`bw_focus_ring.dart:47-51`) — finding 1.
+- `pumpBw` is a top-level function `pumpBw(tester, child, {textScale})` here and a `WidgetTester` extension `tester.pumpBw(child, {textScaleFactor})` on tablet. Mobile follows its own C5 signature, so not a finding; worth aligning when a shared test helper is planned.
+
+#### Rule checks (AGENTS.md §2)
+
+| Rule | Result | Notes |
+|---|---|---|
+| No generated files edited | ✅ | Diff touches no `generated/`, `dist/`, `_sync/*.json` or contract |
+| No raw values / no primitives | ✅ | `lib/` clean; numeric paddings only in the test golden harness |
+| Logical properties, RTL icons | ✅ | `EdgeInsetsDirectional`, `BorderRadiusDirectional`, `PositionedDirectional`, `AlignmentDirectional`; icons not wrapped in `Transform` |
+| Light + dark, en + ar tested | ✅ | 4 real-font goldens; guideline tests 2 themes × 18 pairs; focus geometry en + ar |
+| Accessibility (keyboard, focus, labels, target) | ✅ | Ring 2 dp outside container, 2 dp stroke, keyboard only, instant; targets ≥ 48 dp (`androidTapTargetGuideline`); contrast guideline both themes |
+| Stayed inside the plan | ⚠️ | Files = C5 list; `BwFocusRing` deviates from C3 "Paint" structure (finding 1), not logged as a deviation in C8 |
+| Code matches spec | ✅ | See AC table |
+| Accepted deviations reflected back into the spec | ✅ | None |
+| Changelog | ✅ | `CHANGELOG.md` "Mobile Button — implementation (1.1)" |
+
+#### Findings
+
+| # | Severity | File | Issue | Required change | Owner |
+|---|---|---|---|---|---|
+| 1 | 🟡 Should fix | `lib/src/common/bw_focus_ring.dart:47-51` | When the ring is hidden `build` returns `widget.child`; when shown it returns `Stack([child, ring])`. The child moves to a different tree position, so Flutter unmounts and re-creates the whole content subtree on every focus in/out (probe: `AnimatedSwitcher` `State` is a new object after focus; a loading spinner restarts, an in-flight cross-fade jumps). C3 specifies `Stack(... children: [child, ring])`, and the tablet version keeps the `Stack` always. Because `BwFocusRing` is the shared ring for Icon button, Chip and Text field, a text field would lose its editing state on focus | Always return the `Stack(clipBehavior: Clip.none, fit: StackFit.passthrough)` with `widget.child` first and the ring only as a conditional second child (as tablet does). Add a test: focus a `loading: true` button in keyboard mode and assert the `AnimatedSwitcher` (or `CircularProgressIndicator`) `State` is the same object before and after focus | Executor |
+| 2 | 🟢 Nit | `lib/src/components/button/bw_button_style.dart:139-184` | Icon size per size is mapped twice (`_ButtonDimensions.iconSize` and `BwButtonStyle.iconSize`); two tables can drift | Derive one from the other (single size → dimensions table, as tablet's `BwButtonMetrics`) | Executor |
+
+#### Next step
+
+- Changes requested for finding 1 (fix round 1). Fix finding 2 in the same round if convenient. No Planner items; Plan stays `Finished`.
 
 ---
 
