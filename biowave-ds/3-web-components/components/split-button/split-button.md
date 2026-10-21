@@ -15,9 +15,9 @@
 | Figma | **Biowave DS — Web Components** › `↳ Split Button` (legacy reference: Foundations `4298:3591`) · build: [Part D](#d--figma-build) |
 | Version | 1.1 · 2026-10-21 |
 | Plan | Finished |
-| Code | Built |
+| Code | Changes requested |
 | Figma build | Planned |
-| Review | Round 1 · 2026-10-21 · Changes requested |
+| Review | Round 2 · 2026-10-21 · Changes requested |
 | Source code | `src/components/split-button/` — not built yet (the Executor creates it) |
 | Tokens | — (no component tokens yet) |
 | Contracts | [`split-button-contract.md`](split-button-contract.md) · [`figma-split-button-contract.md`](figma-split-button-contract.md) — generated, never edited |
@@ -510,7 +510,98 @@ Component description: "Main action plus a menu of related alternatives. Spec: 3
 
 | Round | Date | Code verdict | Figma verdict |
 |---|---|---|---|
+| 2 | 2026-10-21 | **Changes requested** | not reviewed |
 | 1 | 2026-10-21 | **Changes requested** | not reviewed |
+
+### E3 Round 2 — 2026-10-21
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 1.1 |
+| Spec version reviewed | 1.1 |
+| Reviewer | Claude |
+| Date | 2026-10-21 |
+| Verdict | **Changes requested** |
+
+Commands run by the Reviewer on branch `ds/split-button-web` at `be630c1` (fix round 1 = latest commit; `git diff main...HEAD -- 3-web-components/src` touches only `SplitButton.tsx`, `SplitButtonMenu.tsx`, `SplitButton.test.tsx`):
+`npm run docs:check` ✅ 18 component files · `npm run typecheck` ✅ · `npm run test:web` ✅ **97/97**, 8 files, 8.25 s, default timeouts (Split button 19/19 in 5.1 s; slowest: render matrix 1.32 s, logical-corner matrix 340 ms) · `npm run sync` ✅ READY (exit 0).
+Real browser: Chromium (desktop app browser pane), the real `SplitButton` from `3-web-components/src` in `_docs/live.html?component=split-button`, served by a scratch Vite config outside the repo (the repo's `npm start` page currently fails to load, see Probe evidence). Positions and `transform-origin` measured after the menu settled; the pane was hidden, so only static values were used, not animation timing.
+
+All Round 1 blockers are fixed: the menu now opens on the correct side in both languages and the full suite is green at default timeouts. One part of #3 is still open — the menu's fade does not use the B4 easing and its scale does not use the B4 duration — and the fix removed the only thing that made the menu honour reduced motion.
+
+#### Round 1 findings
+
+| # | Status | Evidence |
+|---|---|---|
+| 1 | ✅ Fixed | `SplitButtonMenu.tsx:90, 111-112` `end = theme.direction === 'rtl' ? 'left' : 'right'` for both origins. Browser, en/light: container `16 → 169.82`, paper `16 → 169.82` (end edges equal, right), `transform-origin: 153.82px 0px` (top-right = top-end). ar/dark, all 7 enabled instances: paper left = container left (e.g. `870.70` / `871`, `891.79` / `892` — Popover rounds to whole px), `transform-origin: 0px 0px` (top-left = top-end), trigger left of primary, paper `direction: rtl`. Test *uses the localized label and physical inline-end origin in en / ar* (`SplitButton.test.tsx:245-286`) |
+| 2 | ✅ Fixed | Full `npm run test:web` 97/97 in 8.25 s while other checkouts were also running tests. Tests render only through `renderWithBiowave` (`SplitButton.test.tsx:11`); no `src/test/*` or `vitest.config.ts` change on the branch |
+| 3 | ⚠️ Partly open | Chevron ✅ `SplitButton.tsx:47-55` (browser: open `transform 0.2s cubic-bezier(0, 0, 0, 1)`, closed `transform 0.1s cubic-bezier(0.3, 0, 1, 1)`); blanket `!important` duration removed ✅. Menu ❌: browser inline style on open `opacity 200ms cubic-bezier(0.2,0,0,1) 0ms, transform 133ms var(--bw-motion-easing-standard-decelerate) 0ms`, on close `opacity 100ms cubic-bezier(0.2,0,0,1) 0ms, transform 67ms var(--bw-motion-easing-standard-accelerate) 33ms`. MUI `Grow` applies the `easing` slot prop only to `transform` and runs `transform` at ⅔ of the timeout, so the fade eases with `motion-easing-standard` and the scale runs at 133 / 67 ms (no token). See new finding 9 |
+| 4 | ✅ Fixed | Trigger Enter / Space / ArrowDown open + focus first item (`SplitButton.test.tsx:160-179`); Space chooses once and closes (`:153`); loading keeps focus on primary, trigger disabled (`:321-341`); `ar` default `menuLabel` + menu side (`:245-286`); per-corner radii, every variant, LTR + RTL (`:95-124`); axe closed + open in light/dark × en/ar (`:363-389`) |
+| 5 | ✅ Fixed | No timeout arguments left in `SplitButton.test.tsx` (`grep _000` empty); suite passes at the 5 s default |
+| 6 | ✅ Closed | Plan 1.1 C3 › Menu side |
+| 7 | ✅ Closed | Plan 1.1 B6; C8 Fix round 1 › Deviations lists "`aria-controls` only while open". Browser: open `aria-controls="_r_1_-menu"` = menu `id`; after Esc `aria-controls` absent, `aria-expanded="false"`, menu removed, focus on trigger |
+| 8 | ✅ Fixed | C8 question replaced with the current result; Fix round 1 entry has every command with numbers, slowest Split button tests, Deviations |
+
+#### Acceptance criteria
+
+| AC | Result | Evidence (file:line / test name) |
+|---|---|---|
+| AC-1 API = B1 | ✅ | Unchanged since Round 1 (`SplitButton.tsx:20-35, 59-92, 117-134`); *warns for invalid variant, option count, and repeated primary action* |
+| AC-2 Real `Button`/`IconButton`, only radii differ | ✅ | `SplitButton.tsx:144-179`; no Button/IconButton change on this branch; *assigns every logical segment corner for each variant in LTR and RTL* |
+| AC-3 Transitions B4 | ❌ | Chevron ✅. Menu fade uses `motion-easing-standard` both ways; scale runs at ⅔ of `motion-duration-md` / `-sm` (finding 9) |
+| AC-4 RTL B5; a11y B6 | ⚠️ | RTL B5 ✅ (measured above); B6 keyboard + `aria-controls` ✅. Reduced motion for the menu regressed (finding 10) |
+| AC-5 typecheck, tests, sync pass | ✅ | typecheck ✅, `test:web` 97/97 ✅, sync READY ✅ |
+| AC-6 Exported; README status | ✅ | `src/index.ts` unchanged; README row matches the header (now set by this review) |
+| AC-7 Round 1 #1–#5, #8 fixed; full suite at default timeout | ⚠️ | #1, #2, #4, #5, #8 ✅; #3 partly open (finding 9). No `testTimeout` / `fileParallelism` change |
+| AC-8 C8 Fix round 1 with real numbers, #7 under Deviations | ✅ | C8 › Fix round 1: typecheck, `test:web` 97/97 × 3 with durations, docs:check, sync, slowest tests; #7 in Deviations. My run matches (97/97) |
+
+#### Rule checks (AGENTS.md §2)
+
+| Rule | Result | Notes |
+|---|---|---|
+| No generated files edited | ✅ | Fix commit touches only the three Split button source files, C8, CHANGELOG and the run record |
+| No raw values / no primitives | ✅ | `cssVars.*`, `base.motion.duration.*`; test *contains no raw colors, dimensions, durations, or font names* (`:126-130`) |
+| RTL first (logical properties) | ✅ | Physical menu side is derived from the direction, as C3 requires; radii logical |
+| Both themes, both languages, tested | ✅ | axe and render matrices cover light/dark × en/ar; `ar` label and menu side tested |
+| Accessibility WCAG 2.2 AA | ⚠️ | Keyboard, labels, focus return, focus ring ✅. Reduced motion (rule 6, B4) regressed for the menu (finding 10) |
+| Stayed inside the contract / no other components | ✅ | Only files allowed by the Fix round 1 list; no `src/test/*`, `vitest.config.ts`, Button or IconButton change |
+| Changelog | ✅ | `CHANGELOG.md` › *Fixed — Web Split button review round 1* |
+
+#### Figma build (Part D)
+
+Skipped — Figma build is `Planned`.
+
+#### Probe evidence
+
+```
+Chromium, en/light, menu settled
+  container  left 16      right 169.82  bottom 84
+  paper      left 16      right 169.82  top 88      transform-origin 153.82px 0px
+Chromium, ar/dark, instance 0 (md filled) / 3 (sm)
+  container  left 870.70  right 1008      | left 891.79  right 1008
+  paper      left 871     right 1008.30   | left 892     (width = container after settle)
+  transform-origin 0px 0px (both)
+Paper inline transition (MUI Grow)
+  open   opacity 200ms cubic-bezier(0.2,0,0,1) 0ms, transform 133ms var(--bw-motion-easing-standard-decelerate) 0ms
+  close  opacity 100ms cubic-bezier(0.2,0,0,1) 0ms, transform 67ms var(--bw-motion-easing-standard-accelerate) 33ms
+  cubic-bezier(0.2,0,0,1) = --bw-motion-easing-standard (theme easeInOut), not decelerate/accelerate
+tokens.css:843-845  @media (prefers-reduced-motion: reduce) zeroes only --bw-motion-duration-*;
+                    the Paper's "200ms"/"100ms" come from base.motion.duration.* numbers (SplitButtonMenu.tsx:113-116), so they are not zeroed
+```
+
+Out of scope (not this unit): `_docs/live.tsx:8` imports `../3-web-components/src/test/materialSymbol`, which does not exist on this branch or on `main`, so the repo's own live preview (`npm start` › `_docs/live.html`) fails with a Vite import error. Reported for the orchestrator; the Executor must not fix it in this unit.
+
+#### Findings
+
+| # | Severity | File | Issue | Required change | Owner |
+|---|---|---|---|---|---|
+| 9 | 🟡 Should fix | `SplitButtonMenu.tsx:113-116, 131-135` | Round 1 #3, menu part, still open. MUI `Grow` uses the `easing` prop for `transform` only and runs `transform` at ⅔ of the timeout: the fade eases with `motion-easing-standard` (open and close), the scale lasts 133 ms / 67 ms (+33 ms delay on close) — neither matches B4 (`motion-duration-md` + `standard-decelerate` in, `motion-duration-sm` + `standard-accelerate` out). The test (`SplitButton.test.tsx:288-317`) passes because the string contains `200ms` (from opacity) and the easing var (from transform) | Make opacity **and** scale both use the B4 duration and easing tokens for enter and exit (for example a private transition for `SplitButtonMenu`, or a Paper rule using `cssVars.motion.duration.*` / `cssVars.motion.easing.*` for both properties). Test per property: `opacity` and `transform` each have the B4 duration and easing, open and close | Executor |
+| 10 | 🟡 Should fix | `SplitButtonMenu.tsx:113-116` | Reduced motion regression (AGENTS rule 6, B4 "Reduced motion: instant"). The menu durations are now JS numbers (`base.motion.duration.md` / `.sm`) written inline as `200ms` / `100ms`, so `tokens.css:843-845` cannot zero them; in Round 1 the Paper rule used the CSS variable and was zeroed. The chevron is fine (CSS vars) | Drive the menu transition from the `--bw-motion-duration-*` CSS variables (fixes this with #9), or pass a zero timeout when `prefers-reduced-motion: reduce` matches. Add a test that the menu transition uses the CSS duration variables (or 0 under reduced motion) | Executor |
+
+#### Next step
+
+- Changes requested → Executor fixes 🟡 9–10 in `SplitButtonMenu.tsx` (+ tests in `SplitButton.test.tsx`), adds a **Fix round 2** entry in C8, sets Code `Built`. No Planner findings; Plan stays `Finished`. This is the last fix round allowed by `limits.maxFixRounds` (2).
+
 
 ### E2 Round 1 — 2026-10-21
 

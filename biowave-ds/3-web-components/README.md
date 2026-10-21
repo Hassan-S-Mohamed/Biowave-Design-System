@@ -47,7 +47,7 @@ Status is written in each file header and here; `npm run docs:check` fails if th
 | Icon | Finished | Approved | Planned | Round 2 · 2026-10-20 · Approved | [page](components/icon/icon.html) | [icon.md](components/icon/icon.md) |
 | Button group | Finished | Built | Planned | — | [page](components/button-group/button-group.html) | [button-group.md](components/button-group/button-group.md) |
 | Icon button | Finished | Built | Planned | — | [page](components/icon-button/icon-button.html) | [icon-button.md](components/icon-button/icon-button.md) |
-| Split button | Finished | Built | Planned | Round 1 · 2026-10-21 · Changes requested | [page](components/split-button/split-button.html) | [split-button.md](components/split-button/split-button.md) |
+| Split button | Finished | Changes requested | Planned | Round 2 · 2026-10-21 · Changes requested | [page](components/split-button/split-button.html) | [split-button.md](components/split-button/split-button.md) |
 | Text field | Finished | Approved | Planned | Round 3 · 2026-10-21 · Approved | [page](components/text-field/text-field.html) | [text-field.md](components/text-field/text-field.md) |
 
 ## 5. Backlog (from the Figma "Web Components" pages, suggested order)
