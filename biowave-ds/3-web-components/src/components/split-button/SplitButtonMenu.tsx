@@ -1,8 +1,8 @@
 import * as React from 'react';
 import MuiMenu from '@mui/material/Menu';
 import MuiMenuItem from '@mui/material/MenuItem';
-import { styled } from '@mui/material/styles';
-import { base, biowaveVariants, cssVars } from '@biowave/foundations';
+import { styled, useTheme } from '@mui/material/styles';
+import { biowaveVariants, cssVars } from '@biowave/foundations';
 
 export interface SplitButtonMenuOption {
   label: string;
@@ -31,7 +31,6 @@ const StyledMenu = styled(MuiMenu)(() => ({
     backgroundColor: cssVars.color.surface.raised,
     borderRadius: cssVars.radius.lg,
     boxShadow: cssVars.elevation['3'],
-    transitionDuration: `${cssVars.motion.duration.md} !important`,
   },
   '& .MuiList-root': {
     paddingBlock: cssVars.spacing.none,
@@ -87,6 +86,16 @@ export function SplitButtonMenu({
   open,
   options,
 }: SplitButtonMenuProps) {
+  const theme = useTheme();
+  const end = theme.direction === 'rtl' ? 'left' : 'right';
+  const motionDuration = open ? cssVars.motion.duration.md : cssVars.motion.duration.sm;
+  const motionEasing = open
+    ? cssVars.motion.easing['standard-decelerate']
+    : cssVars.motion.easing['standard-accelerate'];
+  const menuTransition = [
+    `opacity ${motionDuration} ${motionEasing}`,
+    `transform ${motionDuration} ${motionEasing}`,
+  ].join(', ');
   const itemRefs = React.useRef<Array<HTMLLIElement | null>>([]);
 
   const focusInitialItem = React.useCallback(() => {
@@ -107,12 +116,8 @@ export function SplitButtonMenu({
       anchorEl={anchorEl}
       open={open}
       onClose={(_event, reason) => onRequestClose(reason === 'escapeKeyDown')}
-      anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
-      transitionDuration={{
-        enter: base.motion.duration.md,
-        exit: base.motion.duration.sm,
-      }}
+      anchorOrigin={{ vertical: 'bottom', horizontal: end }}
+      transformOrigin={{ vertical: 'top', horizontal: end }}
       autoFocus={false}
       disableAutoFocusItem
       variant="menu"
@@ -121,6 +126,9 @@ export function SplitButtonMenu({
         paper: {
           sx: {
             minInlineSize: anchorEl?.getBoundingClientRect().width,
+            // MUI Grow gives transform a 2/3 duration and a delayed exit. This
+            // tokenized rule keeps opacity and scale on the same B4 curve.
+            transition: `${menuTransition} !important`,
           },
         },
         list: {

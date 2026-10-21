@@ -2,6 +2,34 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Review — Web Split button round 3: Approved] — 2026-10-21
+### Changed
+- Split button (web) review round 3: **Approved** — Part E4 of `3-web-components/components/split-button/split-button.md`. Round 2 #9 fixed (headless Chrome computed Paper `transition`: open `opacity`/`transform` 0.2s `standard-decelerate`, close 0.1s `standard-accelerate`, no delay) and #10 fixed (`prefers-reduced-motion: reduce` → 0 s, menu instant); Round 1 #1 still holds (menu end edge right in English, left in Arabic). 🟢 #11 nit: MUI Grow's `auto` timeout keeps the invisible backdrop ~240 ms after close — carried to the Menu component. Code → Approved (header + README). `docs:check` ✓, `typecheck` ✓, `test:web` 100/100 ✓, `sync` READY.
+
+## [Fixed — Web Split button review round 2] — 2026-10-21
+### Fixed
+- Fixed menu fade and scale so each uses the complete B4 open and close duration/easing pair, bypassing MUI Grow's shortened scale timing and exit delay; menu durations now remain CSS variables so the reduced-motion token rule makes them instant. Added independent opacity/transform enter/exit coverage and a reduced-motion variable regression test; the full web suite passes 100/100 in three consecutive runs.
+
+## [Review — Web Split button round 2: Changes requested] — 2026-10-21
+### Changed
+- Split button (web) review round 2: **Changes requested** — Part E3 of `3-web-components/components/split-button/split-button.md`. Round 1 #1 fixed (measured in Chromium: menu end edge on the right in English, left in Arabic, `transform-origin` top-end), #2/#5 fixed (`test:web` 97/97 at default timeouts), #4/#8 fixed, #6/#7 closed by plan 1.1. 🟡 #9: #3 partly open — the menu fade uses `motion-easing-standard` and the scale runs at ⅔ of the B4 duration (MUI Grow); 🟡 #10: menu durations are now JS numbers, so reduced motion no longer zeroes them. Code → Changes requested (header + README). `docs:check` ✓, `typecheck` ✓, `sync` READY.
+
+## [Fixed — Web Split button review round 1] — 2026-10-21
+### Fixed
+- Fixed logical end menu placement in English and Arabic, tokenized enter/exit motion, and the missing keyboard, loading-focus, radii, localization, `aria-controls`, and bilingual axe coverage; removed raised test timeouts. The configured web suite passes 97/97 in three consecutive runs.
+
+## [Preview — Web Split button 1.1] — 2026-10-21
+### Added
+- Added light/English and dark/Arabic RTL Split button planning sheets covering all allowed md variant/color combinations, independent half states, sm/md/lg sizes, loading, focus, disabled, and logical end-aligned open menus, with resolved token sheets and generation check notes.
+
+## [Plan — Web Split button 1.1] — 2026-10-21
+### Changed
+- Web `split-button.md` 1.0 → 1.1 (plan 1 → 1.1) answering Review round 1 Planner findings: #6 B5/C3 — MUI flips only its default menu origins in RTL, so the side is chosen from the text direction (`bottom-end` logical, physical right in LTR, left in RTL); #7 B6 — `aria-controls` only while the menu is open (the code's behaviour). C3 records that the shared per-test speedy Emotion cache from `ds/button-web` (PR #1) is on `main` and merged into this branch, so the fix round uses it and drops raised timeouts. C6 tests and C7 AC-7/AC-8 + Fix round 1 task list for Executor findings #1–#5, #8. Plan → Finished (header + README); Split button web contracts regenerated.
+
+## [Review — Web Split button round 1: Changes requested] — 2026-10-21
+### Changed
+- Split button (web) review round 1: **Changes requested** — Part E2 of `3-web-components/components/split-button/split-button.md`. AC-1, AC-2, AC-6 met; 🔴 menu anchored with physical `right` (wrong side in Arabic, B5) and `test:web` fails 81/87 in the full suite (tests still raise timeouts; the shared speedy Emotion cache is only on `ds/button-web`); 🟡 B4 close transition, test gaps (B9/B6, `ar`), raised timeouts; 🟢 Planner C3/B6 notes. Plan set to `Open`; Review status updated in the header and `3-web-components/README.md`. `docs:check` fails only on the pre-existing stale tablet/mobile button-group Figma contracts.
+
 ## [Review — Web Icon button round 3: Approved] — 2026-10-21
 ### Changed
 - Icon button (web) review round 3: **Approved** — Part E4 of `3-web-components/components/icon-button/icon-button.md`. Round 2 findings fixed: #10 render matrix split per theme × locale with CSS rules read once per render (slowest Icon button test 883 ms, was 3.7–4.4 s); #11 open-tooltip axe runs on `baseElement`. AC-1–AC-11 met; no new findings. `docs:check` ✅, `typecheck` ✅, `test:web` 3/3 full runs 96/96 at the default 5 s timeout. Code → `Approved` (header + `3-web-components/README.md`); Plan stays `Finished`.
