@@ -15,9 +15,9 @@
 | Figma | **Biowave DS — Web Components** › `↳ Text field` |
 | Version | 1.2 · 2026-10-21 |
 | Plan | Finished |
-| Code | Built |
+| Code | Approved |
 | Figma build | Planned |
-| Review | Round 2 · 2026-10-21 · Changes requested |
+| Review | Round 3 · 2026-10-21 · Approved |
 | Source code | [`src/components/text-field/`](../../src/components/text-field/) |
 | Tokens | [`text-field.tokens.json`](text-field.tokens.json) — machine copy of B3 (D-13) |
 | Contracts | [`text-field-contract.md`](text-field-contract.md) · [`figma-text-field-contract.md`](figma-text-field-contract.md) — generated, never edited |
@@ -804,6 +804,97 @@ Component description: “Enters or edits short and multiline text with persiste
 |---|---|---|---|
 | 1 | 2026-10-18 | Changes requested | not reviewed (Figma build not started) |
 | 2 | 2026-10-21 | Changes requested | not reviewed (Figma build not started) |
+| 3 | 2026-10-21 | Approved | not reviewed (Figma build not started) |
+
+### E5 Round 3 — 2026-10-21
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 1.2 |
+| Spec version reviewed | 1.2 (C8 "Fix round 2 · spec 1.2") |
+| Reviewer | Claude |
+| Date | 2026-10-21 |
+| Verdict | **Approved** — #9 fixed (multiline action box 4 px = `spacing-xs` inside the top edge at sm/md/lg, 980 + 1280 px, EN + AR, measured in Chromium); #10 closed by plan 1.2; RTL attachments match B5. No new 🔴/🟡 finding |
+| Scope | `git diff 30d4253..HEAD -- 3-web-components/src` = `FieldAction.tsx` (1 line) and `TextField.test.tsx` only |
+| Evidence | `npm run typecheck` ✅ · `npm run docs:check` ❌ 2 errors = known baseline (tablet + mobile `button-group` Figma contracts stale), none for Text field · `npm run test:web` ❌ **Text field 19/19 in every run**; 4–5 failures in Button / Icon button / Split button (timeouts 20 s / 5 s and the follow-on "Axe is already running"), files with **no diff** on this branch (`git diff main..HEAD -- 3-web-components/src 2-foundations` = the two Text field files). Host load average 6–7 during the review; serial run 85/87 (only the 2 Button axe tests, 20 s timeout); `Button.test.tsx` alone ✅ 24/24 (light axe test 17.3 s). Same code passed 87/87 in Round 2. Real Chromium: throw-away Vite page outside the repo rendering `3-web-components/src` with `tokens.css`, light theme, `locale` en / ar, viewports 980 px (`--bw-target-min` 48px) and 1280 px (24px) |
+
+#### Measurements (real browser; offsets from the field's outer edge, border 1 px)
+
+| Field | Action box | Top · inline-end inset | `margin-block-start` | Box centre vs first-line centre | Result |
+|---|---|---|---|---|---|
+| Multiline `sm` clear / custom action, EN | 24 × 24 | **4** · 4 | 0px (padding 4) | 16 vs 14 (+2) | ✅ |
+| Multiline `md`, EN | 32 × 32 | **4** · 4 | −2px (padding 6) | 20 vs 17 (+3) | ✅ |
+| Multiline `lg`, EN | 40 × 40 | **4** · 4 | −4px (padding 8) | 24 vs 20 (+4) | ✅ |
+| Multiline `sm` / `md` / `lg`, AR (`dir=rtl`, action on the left = inline end) | 24 / 32 / 40 | **4** · 4 | 0 / −2 / −4px | 16/20/24 vs 15/18/21 (+1/+2/+3) | ✅ |
+| Same 12 fields at 1280 px (EN + AR) | same | **4** · 4 | same | same | ✅ identical to 980 px; only the invisible `::before` target changes (48 → 24) |
+
+Offsets equal the B2 table (top = `spacing-xs` at every size, EN and AR; centre below first-line centre by 2/3/4 EN and 1/2/3 AR). Round 2 values were 2 / 1 / 0.
+
+#### Round 2 findings
+
+| # | Status | Evidence |
+|---|---|---|
+| 9 | ✅ Fixed | `FieldAction.tsx:42-45` — `max(calc(actionInset − gap), calc((lineHeight − actionBox) / 2))` from `textFieldSizeTokens` (no raw values); single-line unchanged (`alignSelf: center`, no margin). Measured above. **Test:** the multiline case was added as an inner `multiline` loop of the existing viewport test, so the count stays 87 — `TextField.test.tsx:364` "sizes and insets single-line and multiline actions at both review viewports" now renders 2 viewports × 3 sizes × {single-line, multiline} and asserts box = `actionBox`, `padding-inline-end` = `actionInset`, multiline `padding-block` = `gap` and `margin-block-start` = the exact `max(…)` expression (`:398-403`); single-line asserts `align-self: center` and no margin (`:404-406`). AR case `TextField.test.tsx:564` asserts the same expression. A revert to first-line centring produces `calc((… − …) / 2)` and fails both `toBe` assertions. Note: jsdom checks the CSS expression, not geometry — the geometry is confirmed by this review's browser measurement |
+| 10 | ✅ Fixed | Planner, plan 1.2: B7 uses `import { TextField, Icon } from '@biowave/web'` / `<Icon name="…" />`; C8 Fix round 2 records the Biowave `Icon` correction |
+
+#### RTL attachments (asked by the user, B5)
+
+| Part | EN (ltr) | AR (rtl), measured at 980 + 1280 px | B5 | Result |
+|---|---|---|---|---|
+| `prefix` `http://` | left of input (inline start) | **right** of input (inline start), text stays `http://` (`dir="ltr"`) | inline start | ✅ |
+| `suffix` `SAR` | right of input | **left** of input (inline end) | inline end | ✅ |
+| `end-button` `Copy` | right of input | **left** of input (inline end) | inline end | ✅ |
+
+Code: prefix in `startAdornment` `TextField.tsx:621-634`, suffix in `endAdornment` `TextField.tsx:644-667`, end button after the input with logical end-corner radii `TextField.tsx:132-133, 146-147` — no physical sides. The dark/AR preview (`previews/text-field-dark-ar.jpg`, section 3) also draws `http://` on the **right** (inline start), `ر.س` and `نسخ` on the left; it agrees with B5 and the real component. Nothing to fix.
+
+#### Acceptance criteria
+
+| AC | Result | Evidence |
+|---|---|---|
+| AC-1 API = B1 | ✅ | Unchanged since Round 2 (no API diff) |
+| AC-2 Values from B2–B3 tokens only | ✅ | New expression uses `size.actionInset`, `size.gap`, `size.actionBox` and the typography line height `FieldAction.tsx:44`; raw-value scan test passes |
+| AC-3 B4 transitions | ✅ | Unchanged |
+| AC-4 RTL (B5), B6 | ✅ | RTL attachments table above; multiline action at inline end in AR; tab-order test passes |
+| AC-5 B9 + C6 tests pass | ✅ for this unit | Text field 19/19 in all four runs; B9 "multiline … top edge ≥ `spacing-xs`" and C6 multiline viewport case present (`TextField.test.tsx:364, 564`). Full-suite red is outside this unit (see Evidence) |
+| AC-6 Exported; status | ✅ | Exported; Code was `Built` (Fix round 2), this review sets `Approved` |
+| AC-7 No floating label / notch | ✅ | Unchanged |
+| AC-8 One public component | ✅ | Unchanged |
+| AC-9 `component-tokens`, `sync`, `docs:check` | ✅ (for this unit) | `docs:check` errors are only the 2 baseline `button-group` contracts |
+| AC-10 Action inside the border at every size and viewport, single-line and multiline | ✅ | Single-line unchanged (Round 2: inset 4 at every size). Multiline: top 4 / end 4 at sm/md/lg, 980 + 1280 px, EN + AR (table above) |
+| AC-11 Reuse Icon button / Button | ✅ | Unchanged |
+| AC-12 Biowave `Icon` only | ✅ | Unchanged; spec now agrees (#10) |
+
+#### Rule checks (AGENTS.md §2)
+
+| Rule | Result | Notes |
+|---|---|---|
+| No generated files edited | ✅ | Diff = two source files |
+| No raw values / no primitives | ✅ | `FieldAction.tsx:44` token-only |
+| Logical properties, RTL | ✅ | `margin-block-start`; attachments by inline start/end |
+| Light + dark, en + ar tested | ✅ | AR multiline test `:564`; existing theme/lang coverage |
+| Accessibility | ✅ | Action keeps `target-min` via `::before` (48 / 24 measured), no layout change |
+| Stayed inside the plan | ✅ | Exactly the C7 "Fix round 2" tasks 1–3 |
+| Changelog | ✅ | CHANGELOG "Web Text field — fix round 2 (1.2)" + C8 entry |
+
+#### Findings
+
+| # | Severity | File | Issue | Required change | Owner |
+|---|---|---|---|---|---|
+| — | — | — | No new findings | — | — |
+
+#### Outside this unit (for the orchestrator)
+
+- `npm run test:web` was red in this review only from host-load timeouts in Button / Icon button / Split button (untouched files; Round 2 ran the same code 87/87; `Button.test.tsx` passes alone, its light axe test takes 17.3 s against a 20 s limit). Re-run `npm run test:web` on an idle machine at the before-merge gate. If it stays red, the Button axe test timeout belongs to button/web.
+- Observation, not reviewed against a criterion: in Arabic, an **empty** multiline field at `minRows=3` measured 60 / 72 px textarea height (sm / lg) = 3 × the English line height, while the same field with a value measured 66 / 78 px (3 × the Arabic line height), so the field may grow by one line-height step on the first keystroke. Likely MUI `TextareaAutosize` measuring before the Arabic web font / line height applies. Worth checking when the Text field docs page or tablet/mobile plans are done; not part of this round's diff.
+
+#### Not reviewed
+
+- Figma build (Part D): `Figma build = Planned`. D3 "centre on first line" left on purpose until Text field tablet/mobile are planned (user note).
+- Dark theme not re-measured in the browser (the change is geometry only; jsdom suite covers both themes).
+
+#### Next step
+
+1. Orchestrator: before-merge gate — re-run `npm run test:web` on an idle machine, then merge `ds/text-field-web`.
 
 ### E4 Round 2 — 2026-10-21
 

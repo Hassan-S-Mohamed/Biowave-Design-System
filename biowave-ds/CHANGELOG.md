@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Web Text field — review round 3] — 2026-10-21
+### Changed
+- Web `text-field.md` Part E Round 3 (E5): **Approved** — #9 fixed (Chromium at 980 and 1280 px, EN and AR: multiline action box 24/32/40 sits 4 px = `spacing-xs` inside the top edge and inline end at sm/md/lg; test asserts the `max(…)` rule for single-line and multiline), #10 fixed by plan 1.2; RTL prefix at inline start (right), suffix and end button at inline end (left), as B5 and the dark/AR preview. No new findings. `typecheck` ✓, `docs:check` only the 2 baseline `button-group` errors, `test:web` Text field 19/19 but red from host-load timeouts in untouched Button/Icon button/Split button tests (re-run at the before-merge gate). Code → Approved (header + README).
+
 ## [Web Text field — fix round 2 (1.2)] — 2026-10-21
 ### Fixed
 - Fixed finding #9 by keeping multiline trailing actions at least `spacing-xs` inside the top border with the token-only `max(action-inset − padding-block, (line-height − action-box) / 2)` rule, adding sm/md/lg coverage at 980 and 1280 px, and correcting C8 to identify the Biowave `Icon`; Text field tests pass 19/19 and the serial full Web suite passes 87/87.
