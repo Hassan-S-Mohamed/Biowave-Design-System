@@ -25,7 +25,7 @@
 |---|---|---|
 | after-review | **Approve** (2026-10-19) | Run the Planner first for #11 (shared test tooling) and #14 (stale button-group contracts), then fix
 | after-plan | **Approve** (2026-10-19) | Fix step runs from Claude Code on the Mac (Codex): `04-fix-codex.prompt.md` |
-| before-merge | **Approve PR** (2026-10-20) — pushed and PR #1 opened; merge not yet approved | Manual QA open: loading width + VoiceOver/NVDA announcement (EN/AR). Code still `Built` (reviewer did not change it) |
+| before-merge | **Approve PR** (2026-10-20) — pushed and PR #1 opened · PR #1 closed unmerged 2026-10-20, reopened 2026-10-21 after merging `main` (596ec70: 4 conflicts resolved, docs:check ✓ 0 errors, typecheck ✓, test:web ✓ 89/89) · **Merge approved** (2026-10-21): user's manual QA passed (loading width + VoiceOver/NVDA EN/AR) | Manual QA open: loading width + VoiceOver/NVDA announcement (EN/AR). Code still `Built` (reviewer did not change it) |
 
 ## Questions raised
 
