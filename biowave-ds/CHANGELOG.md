@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Review — Web Button group round 3: Approved] — 2026-10-22
+### Changed
+- Button group (web) review round 3: **Approved** — Part E4 of `3-web-components/components/button-group/button-group.md`. Round 2 findings #12–#14 fixed: vertical groups ignore every `align` (headless Chrome: buttons 400 × 40 px for all six `align` cases, en + ar), the four B1 Overflow counting examples render exactly as the table (visible children, menu items, dev warnings), and `fill` is asserted from rendered flex longhands. Round 2's `align` placement and RTL mirroring unchanged. Checks: `docs:check` ✓, `typecheck` ✓, `test:web` 111/111 ×2. Code → `Approved` in the header and `3-web-components/README.md`; Plan stays `Finished`.
+
 ## [Web Button group — fix round 2 (1.2)] — 2026-10-21
 ### Fixed
 - Fixed review findings #12–#14: vertical groups now ignore every `align` value without applying horizontal fill flex; overflow counting reserves visible slots for the filled primary, links, submit actions and non-Button/IconButton children before keeping the last optional actions; the overflow warning appears only when always-visible children alone exceed the limit; and layout tests assert rendered flex styles and non-zero vertical action heights. `docs:check` and `typecheck` pass; three full Web runs pass 93/93 in 6.51 s, 6.16 s and 6.03 s.

@@ -15,9 +15,9 @@
 | Figma | **Biowave DS — Web Components** › `↳ Button Group` (legacy reference: Foundations `4833:35916`) · build: [Part D](#d--figma-build) |
 | Version | 1.2 · 2026-10-21 |
 | Plan | Finished |
-| Code | Built |
+| Code | Approved |
 | Figma build | Planned |
-| Review | Round 2 · 2026-10-21 · Changes requested |
+| Review | Round 3 · 2026-10-22 · Approved |
 | Source code | [`src/components/button-group/`](../../src/components/button-group/) |
 | Tokens | — (no component tokens yet) |
 | Contracts | [`button-group-contract.md`](button-group-contract.md) · [`figma-button-group-contract.md`](figma-button-group-contract.md) — generated, never edited |
@@ -534,8 +534,103 @@ Component description: "Lays out 2–4 related actions with the right order and 
 
 | Round | Date | Code verdict | Figma verdict |
 |---|---|---|---|
+| 3 | 2026-10-22 | **Approved** | not reviewed |
 | 2 | 2026-10-21 | **Changes requested** | not reviewed |
 | 1 | 2026-10-21 | **Changes requested** | not reviewed |
+
+### E4 Round 3 — 2026-10-22
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 1.2 |
+| Spec version reviewed | 1.2 |
+| Reviewer | Claude |
+| Date | 2026-10-22 |
+| Verdict | **Approved** |
+
+Commands run by the Reviewer (branch `ds/button-group-web` at `a3c2090`: fix round 2 = `8e3d7be`, `main` with Icon button #9 and Split button #10 merged in = `53bf993`; `git diff origin/main...HEAD -- 3-web-components/src` = `ButtonGroup.tsx` and `ButtonGroup.test.tsx` only):
+`npm run docs:check` ✅ (18 component files, exit 0) · `npm run typecheck` ✅ (exit 0) · `npm run test:web` ✅ 111/111, 6.00 s · re-run ✅ 111/111, 5.12 s · `vitest run src/components/button-group` 14/14, 3.64 s, no `act(...)` warning, no timeout argument in the file.
+Load note: the first two `test:web` runs (load average 18–29) failed only by 5000 ms timeouts in files this branch does not touch (first run: `TextField.test.tsx` › *renders every size and type in both themes and languages*, 110/111). After the load dropped (load average 6) both runs above passed with every file green. Not a finding.
+
+**Real-browser measurement** (headless Chrome via DevTools protocol; scratch page outside the repo, served by Vite with the worktree as root, imports the worktree's `3-web-components/src/index.ts` inside `BiowaveProvider`; horizontal groups in an 800 px parent, vertical in a 400 px parent; Cancel + Save changes). Offsets are px from the parent edge.
+
+| Case | en (LTR, light) | ar (RTL, dark) |
+|---|---|---|
+| `start` | Cancel left 0, Save left 79 | إلغاء right 0, حفظ التغييرات right 58 |
+| `center` | Cancel left 303, Save right 303 (centred) | إلغاء right 319, حفظ left 319 (centred) |
+| `end` (default) | Save right 0, Cancel right 123 | Save left 0, Cancel left 112 |
+| `space-between` | Cancel left 0, Save right 0 | إلغاء right 0, حفظ left 0 |
+| horizontal `fill` | 397 + 8 + 395 px, each `flex: 1 1 0px` | 397 + 8 + 395 px, mirrored |
+| vertical, no `align` / `start` / `center` / `end` / `space-between` / `fill` | all six: group 400 × 88, Save top 0, Cancel top 48, both 400 × 40, `flex: 0 1 auto` | same, all six |
+
+Gap is 8 px (`spacing-md`) in every case. The `align` numbers are identical to Round 2's verified table, in LTR and RTL.
+
+**B1 Overflow counting examples** (same page, `align="end"`, measured in both locales; menu read after clicking the trigger):
+
+| `maxVisible` | Children | Visible (DOM order) | Menu | Warning (console) |
+|---|---|---|---|---|
+| `3` | Delete · Archive · Cancel · Save (`filled`) | ⋯ · Archive · Cancel · Save | Delete | none ✅ |
+| `3` | Docs (`href`) · Delete · Cancel · Save (`filled`) | ⋯ · Docs (`<a>`) · Cancel · Save | Delete | none ✅ |
+| `1` | Docs (`href`) · Cancel · Save (`filled`) | ⋯ · Docs · Save | Cancel | "2 always-visible children exceed maxVisible=1" ✅ |
+| `1` | Docs (`href`) · Help (`href`) · Save (`type="submit"`, `filled`) | Docs · Help · Save, no trigger | — | "3 always-visible children exceed maxVisible=1" ✅ |
+
+Every row matches the B1 table exactly. The only other console warning on the page is "align is ignored when orientation="vertical"" (once, `warnOnce`).
+
+#### Round 2 findings
+
+| # | Status | Evidence |
+|---|---|---|
+| 12 | Fixed | `ButtonGroup.tsx:58-63` — the `flex: 1 1 0` child rule needs `$orientation === 'horizontal'`; vertical warns at `:190-195`. Browser: vertical + each `align` (incl. `fill`) → buttons 400 × 40, group 88 px tall (Round 2: 0–2 px). Test *renders each orientation and alignment in English and Arabic* (`ButtonGroup.test.tsx:56-120`) now passes every `align` to vertical and asserts no `flex: 1 1 0` in the child rule, `flex-grow` ≠ 1, a non-zero height, and the warning |
+| 13 | Fixed | Plan 1.2 B1 *Overflow counting* implemented at `ButtonGroup.tsx:86-94` (always-visible = not Button/IconButton, `filled`, `href`, `type="submit"`) and `:142-174` (slots left = `n` − always-visible; first optional children go to the menu; warning only when always-visible > `n`, `:152-157`); trigger only when the menu has items (`:232`). All four B1 rows measured above. Tests `ButtonGroup.test.tsx:286` (`maxVisible={1}` Docs/Cancel/Save), `:309` (`maxVisible={3}` Docs/Delete/Cancel/Save, no warning), `:332` (all always-visible, no trigger, warning) |
+| 14 | Fixed | `ButtonGroup.test.tsx:102-109` — horizontal `fill` reads each rendered child's computed `flex-grow` 1, `flex-shrink` 1, `flex-basis` 0 (longhands emitted by the same rule, `ButtonGroup.tsx:61`); no source-text check left for `fill` |
+
+#### Acceptance criteria
+
+| AC | Result | Evidence (file:line / test name) |
+|---|---|---|
+| AC-1 API = B1 | ✅ | Props and defaults unchanged; Overflow counting per plan 1.2; every B1 invalid-combination warning present (`ButtonGroup.tsx:132-136, 152-157, 178-207`); vertical ignores `align` |
+| AC-2 Layout = B2, no raw values | ✅ | `ButtonGroup.tsx:43-65` — `cssVars.spacing.md`, `100%`, `0`/`1` flex only; test *contains no raw colors, dimensions, durations, or font names*; browser tables above |
+| AC-3 Focus order = DOM order | ✅ | Test *keeps DOM and focus order while reversing only vertical visual order*; browser: vertical Save on top, Cancel second in DOM |
+| AC-4 Overflow per B9 | ✅ | Tests at `ButtonGroup.test.tsx:195, 239, 255, 286, 309, 332`; menu items call `onClick` (`:219-225`); B1 table measured |
+| AC-5 typecheck, tests, sync pass | ✅ | typecheck ✅, `test:web` 111/111 ×2, `docs:check` ✅ |
+| AC-6 Exported, README updated | ✅ | Unchanged since round 1 |
+| AC-7 Container flex + 100%; `align` moves actions and mirrors | ✅ | Browser table above (5 `align` × en/ar) — same numbers as Round 2 |
+| AC-8 B9 layout test asserts B2 rule set, en + ar | ✅ | `ButtonGroup.test.tsx:56-120` — display, inline size, direction, `justify-content`, vertical stretch + child `inline-size: 100%`, rendered `fill` flex, gap, `dir`; 20 cases |
+| AC-9 No raised timeout; no `act(...)` warning | ✅ | No timeout argument in `ButtonGroup.test.tsx`; focused run clean |
+| AC-10 `maxVisible` clamped; `href`/submit never overflow | ✅ | `ButtonGroup.tsx:131-136, 86-94`; tests `:255`, `:286`, `:332` |
+| AC-11 C8 Fix round 1 entry | ✅ | Unchanged (accepted in Round 2) |
+| AC-12 Overflow counting per B1; tests per C6 (1.2) | ✅ | See finding 13 above; four B1 rows measured in the browser, three B9 cases tested |
+| AC-13 Vertical ignores `align`; `fill` from the rendered style | ✅ | See findings 12 and 14; browser vertical heights 40 px for every `align` |
+| AC-14 C8 "Fix round 2" entry with real numbers | ✅ | C8 Fix round 2: sync, focused 14/14 in 3.38 s, docs:check, typecheck, three `test:web` runs 93/93 (6.51 / 6.16 / 6.03 s). Recorded before `main` was merged; after the merge the suite is 111 tests and the Reviewer's runs agree (111/111, 5.1–6.0 s) |
+
+#### Rule checks (AGENTS.md §2)
+
+| Rule | Result | Notes |
+|---|---|---|
+| No generated files edited | ✅ | `8e3d7be` touches `ButtonGroup.tsx`, `ButtonGroup.test.tsx`, C8 + header Code, README Code cell, `CHANGELOG.md`, run record |
+| No raw values / no primitives | ✅ | `cssVars.spacing.md` only; no hex/px/ms; no `primitive.*` |
+| RTL first (logical properties) | ✅ | `inlineSize`, flex-start/end; every `align` mirrors in `ar` (browser) |
+| Both themes, both languages, tested | ✅ | Layout loop en + ar; axe light/dark × en/ar; browser light/en and dark/ar |
+| WCAG 2.2 AA | ✅ | axe clean; vertical buttons now 40 px tall in every `align` (targets ≥ 24 px) |
+| Biowave `Icon` (D-18) | ✅ | `<Icon name="more_horiz" />` (`ButtonGroup.tsx:235`) |
+| Default test timeouts | ✅ | No timeout argument in `ButtonGroup.test.tsx` |
+| No edits to `src/test/*` or other components | ✅ | Branch code diff vs `origin/main` = the 2 ButtonGroup files |
+| Stayed inside the contract | ✅ | Fix round 2 files = the allowed list in C7 |
+| Changelog | ✅ | `CHANGELOG.md` fix-round-2 entry + C8 |
+
+#### Figma build (Part D)
+
+Skipped — Figma build is `Planned` and `figma` is in `_workflow/config.json › skip`.
+
+#### Findings
+
+None. No 🔴, 🟡 or 🟢 finding is open.
+
+Note for a later plan version (not a finding; outside the 1.2 spec, so not blocking): a `Button` or `IconButton` whose label is not a plain string (for example JSX children) cannot become a menu item (`toMenuOption` returns `undefined`, `ButtonGroup.tsx:101-103`). It then stays visible without using a slot, so the next optional child overflows instead and the group can show more than `maxVisible` children without a warning. B1 rule 1 does not list this case; the Planner may add "a child without a text label" to the always-visible list.
+
+#### Next step
+
+- Code **Approved**. Orchestrator: `before-merge` gate. Figma build stays `Planned` (skipped in this workflow).
 
 ### E3 Round 2 — 2026-10-21
 
