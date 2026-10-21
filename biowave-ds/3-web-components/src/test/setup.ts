@@ -5,6 +5,7 @@ import 'vitest-axe/extend-expect';
 import * as axeMatchers from 'vitest-axe/matchers';
 import { cleanup } from '@testing-library/react';
 import { afterEach, expect } from 'vitest';
+import { resetTestEmotionCaches } from './render';
 
 expect.extend(axeMatchers);
 
@@ -24,6 +25,7 @@ Object.defineProperty(window, 'matchMedia', {
 
 afterEach(() => {
   cleanup();
+  resetTestEmotionCaches();
   document.documentElement.lang = '';
   document.documentElement.dir = '';
   document.documentElement.removeAttribute('data-theme');
