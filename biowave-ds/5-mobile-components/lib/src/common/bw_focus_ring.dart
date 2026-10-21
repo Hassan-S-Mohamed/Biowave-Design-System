@@ -46,9 +46,6 @@ class _BwFocusRingState extends State<BwFocusRing> {
   Widget build(BuildContext context) {
     final showRing = widget.focused &&
         FocusManager.instance.highlightMode == FocusHighlightMode.traditional;
-    if (!showRing) {
-      return widget.child;
-    }
 
     const inset = BwBorder.focusOffset + BwBorder.widthFocus;
     final resolvedRadius =
@@ -62,24 +59,25 @@ class _BwFocusRingState extends State<BwFocusRing> {
       fit: StackFit.passthrough,
       children: <Widget>[
         widget.child,
-        PositionedDirectional(
-          start: -inset,
-          end: -inset,
-          top: -inset,
-          bottom: -inset,
-          child: IgnorePointer(
-            child: DecoratedBox(
-              key: widget.ringKey,
-              decoration: BoxDecoration(
-                border: Border.all(
-                  width: BwBorder.widthFocus,
-                  color: widget.color,
+        if (showRing)
+          PositionedDirectional(
+            start: -inset,
+            end: -inset,
+            top: -inset,
+            bottom: -inset,
+            child: IgnorePointer(
+              child: DecoratedBox(
+                key: widget.ringKey,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    width: BwBorder.widthFocus,
+                    color: widget.color,
+                  ),
+                  borderRadius: ringRadius,
                 ),
-                borderRadius: ringRadius,
               ),
             ),
           ),
-        ),
       ],
     );
   }

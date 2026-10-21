@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Mobile Button — fix round 1 (1.1)] — 2026-10-21
+### Fixed
+- Mobile Button review findings #1–#2: `BwFocusRing` now keeps a stable `Stack` so loading content State survives keyboard-focus changes, button dimensions use one size-to-metrics table, and a State-identity regression test was added; all 70 Flutter tests pass with existing goldens unchanged.
+
 ## [Mobile Button — review round 1] — 2026-10-20
 ### Changed
 - Mobile `button.md` Part E Round 1: **Changes requested** — focus ring measured 2 dp outside the container with no layout change for every size in LTR and RTL, real-font goldens on `surfacePage`; 1 🟡 (#1 `BwFocusRing` swaps `child` ↔ `Stack` on focus and remounts the button content) and 1 🟢 (#2 icon size mapped twice). Review status updated in the header and `5-mobile-components/README.md`.

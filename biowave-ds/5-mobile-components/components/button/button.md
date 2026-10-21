@@ -480,6 +480,21 @@ Implement every item in B9, plus:
 
 **Questions for the Planner:** none
 
+#### Fix round 1 — 2026-10-21
+
+| Finding | What changed (`file:line`) | Test that proves it |
+|---|---|---|
+| #1 🟡 | `lib/src/common/bw_focus_ring.dart:57` now always returns `Stack(clipBehavior: Clip.none, fit: StackFit.passthrough)` with the child first and adds the ring only as a conditional second child, preserving the content element and State across focus changes | `test/button_test.dart:429` — `keyboard focus preserves loading content State` compares the same `AnimatedSwitcher` State object before and after keyboard focus ✓ |
+| #2 🟢 | `lib/src/components/button/bw_button_style.dart:140` replaces the separate gap/icon mappings with one `BwControlSize` → `BwButtonMetrics` table containing height, padding, gap, icon size, radius and text style; `bw_button.dart` consumes those metrics | Existing exact-size, token-style and four golden tests pass; all 70 tests ✓ |
+
+**Checks:** `flutter analyze` ✓ (no issues); `flutter test --experimental-faster-testing` ✓ (70 tests, run from an identical disposable no-space copy because the sandbox blocks sockets and the faster runner misresolves relative package roots from the space-containing worktree path); `npm run component-tokens` ✓; `npm run sync` ✓ READY; `npm run docs:check` ✓ per fix-step baseline — only the 2 known unrelated stale tablet/mobile `button-group` Figma contracts were reported.
+
+**Goldens:** unchanged — neither fix changes pixels; all four existing golden comparisons pass.
+
+**Deviations from the plan or spec:** none
+
+**Questions for the Planner:** none
+
 ---
 
 ## D · Figma build

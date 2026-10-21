@@ -426,6 +426,41 @@ void main() {
   });
 
   group('loading and semantics', () {
+    testWidgets('keyboard focus preserves loading content State', (
+      tester,
+    ) async {
+      final oldStrategy = FocusManager.instance.highlightStrategy;
+      FocusManager.instance.highlightStrategy =
+          FocusHighlightStrategy.alwaysTraditional;
+      addTearDown(() {
+        FocusManager.instance.highlightStrategy = oldStrategy;
+      });
+      final focusNode = FocusNode();
+      addTearDown(focusNode.dispose);
+
+      await pumpBw(
+        tester,
+        BwButton(
+          label: 'Save',
+          loading: true,
+          focusNode: focusNode,
+          onPressed: () {},
+        ),
+      );
+      final switcherFinder = find.byType(AnimatedSwitcher);
+      final stateBeforeFocus = tester.state(switcherFinder);
+
+      focusNode.requestFocus();
+      FocusManager.instance.applyFocusChangesIfNeeded();
+      await tester.pump();
+
+      expect(tester.state(switcherFinder), same(stateBeforeFocus));
+      expect(
+        find.byKey(const ValueKey<String>('BwButton.focus-ring')),
+        findsOneWidget,
+      );
+    });
+
     testWidgets('loading keeps size and focus, blocks presses, announces once',
         (
       tester,

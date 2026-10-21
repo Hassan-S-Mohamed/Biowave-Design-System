@@ -60,6 +60,7 @@ class BwButton extends StatelessWidget {
         ? BwButtonVariant.outlined
         : variant;
     final effectiveTrailingIcon = leadingIcon == null ? trailingIcon : null;
+    final metrics = BwButtonStyle.metrics(context, size);
     final style = BwButtonStyle.resolve(
       context,
       effectiveVariant,
@@ -68,8 +69,6 @@ class BwButton extends StatelessWidget {
       focusRingKey: const ValueKey<String>('BwButton.focus-ring'),
       fullWidth: fullWidth,
     );
-    final gap = BwButtonStyle.gap(size);
-    final iconSize = BwButtonStyle.iconSize(size);
     final foreground = style.foregroundColor!.resolve(<WidgetState>{
       if (onPressed == null) WidgetState.disabled,
     })!;
@@ -79,10 +78,10 @@ class BwButton extends StatelessWidget {
         if (leadingIcon != null) ...<Widget>[
           Icon(
             leadingIcon,
-            size: iconSize,
+            size: metrics.iconSize,
             semanticLabel: null,
           ),
-          SizedBox(width: gap),
+          SizedBox(width: metrics.gap),
         ],
         Flexible(
           child: Text(
@@ -93,10 +92,10 @@ class BwButton extends StatelessWidget {
           ),
         ),
         if (effectiveTrailingIcon != null) ...<Widget>[
-          SizedBox(width: gap),
+          SizedBox(width: metrics.gap),
           Icon(
             effectiveTrailingIcon,
-            size: iconSize,
+            size: metrics.iconSize,
             semanticLabel: null,
           ),
         ],
@@ -118,7 +117,7 @@ class BwButton extends StatelessWidget {
           child: loading
               ? SizedBox.square(
                   key: const ValueKey<String>('BwButton.spinner'),
-                  dimension: iconSize,
+                  dimension: metrics.iconSize,
                   child: CircularProgressIndicator(color: foreground),
                 )
               : const SizedBox.shrink(

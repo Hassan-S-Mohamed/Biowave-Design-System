@@ -16,7 +16,7 @@ abstract final class BwButtonStyle {
     bool fullWidth = false,
   }) {
     final colors = context.bw.colors;
-    final dimensions = _dimensions(context, size);
+    final metrics = BwButtonStyle.metrics(context, size);
     final transparent = colors.backgroundTransparent;
 
     Color background(Set<WidgetState> states) {
@@ -83,11 +83,11 @@ abstract final class BwButtonStyle {
     }
 
     final radius = BorderRadiusDirectional.all(
-      Radius.circular(dimensions.radius),
+      Radius.circular(metrics.radius),
     );
 
     return ButtonStyle(
-      textStyle: WidgetStatePropertyAll<TextStyle>(dimensions.textStyle),
+      textStyle: WidgetStatePropertyAll<TextStyle>(metrics.textStyle),
       backgroundColor: WidgetStateProperty.resolveWith(background),
       foregroundColor: WidgetStateProperty.resolveWith(foreground),
       overlayColor: WidgetStateProperty.resolveWith(overlay),
@@ -96,18 +96,18 @@ abstract final class BwButtonStyle {
       elevation: const WidgetStatePropertyAll<double>(BwSpacing.none),
       padding: WidgetStatePropertyAll<EdgeInsetsGeometry>(
         EdgeInsetsDirectional.only(
-          start: dimensions.paddingInline,
-          end: dimensions.paddingInline,
+          start: metrics.paddingInline,
+          end: metrics.paddingInline,
         ),
       ),
       minimumSize: WidgetStatePropertyAll<Size>(
         Size(
           fullWidth ? double.infinity : BwSpacing.none,
-          dimensions.height,
+          metrics.height,
         ),
       ),
       iconColor: WidgetStateProperty.resolveWith(icon),
-      iconSize: WidgetStatePropertyAll<double>(dimensions.iconSize),
+      iconSize: WidgetStatePropertyAll<double>(metrics.iconSize),
       side: variant == BwButtonVariant.outlined
           ? WidgetStateProperty.resolveWith(side)
           : null,
@@ -137,52 +137,43 @@ abstract final class BwButtonStyle {
     );
   }
 
-  static _ButtonDimensions _dimensions(
+  static BwButtonMetrics metrics(
     BuildContext context,
     BwControlSize size,
   ) =>
       switch (size) {
-        BwControlSize.sm => _ButtonDimensions(
+        BwControlSize.sm => BwButtonMetrics(
             height: BwSize.controlHeightSm,
             paddingInline: BwSpacing.controlPaddingInlineSm,
+            gap: BwSpacing.controlGapSm,
             iconSize: BwSize.iconSm,
             radius: BwRadius.md,
             textStyle: context.bw.text.actionSm,
           ),
-        BwControlSize.md => _ButtonDimensions(
+        BwControlSize.md => BwButtonMetrics(
             height: BwSize.controlHeightMd,
             paddingInline: BwSpacing.controlPaddingInlineMd,
+            gap: BwSpacing.controlGapMd,
             iconSize: BwSize.iconMd,
             radius: BwRadius.md,
             textStyle: context.bw.text.actionMd,
           ),
-        BwControlSize.lg => _ButtonDimensions(
+        BwControlSize.lg => BwButtonMetrics(
             height: BwSize.controlHeightLg,
             paddingInline: BwSpacing.controlPaddingInlineLg,
+            gap: BwSpacing.controlGapLg,
             iconSize: BwSize.iconLg,
             radius: BwRadius.md,
             textStyle: context.bw.text.actionLg,
           ),
-        BwControlSize.xl => _ButtonDimensions(
+        BwControlSize.xl => BwButtonMetrics(
             height: BwSize.controlHeightXl,
             paddingInline: BwSpacing.controlPaddingInlineXl,
+            gap: BwSpacing.controlGapXl,
             iconSize: BwSize.iconLg,
             radius: BwRadius.xl,
             textStyle: context.bw.text.actionLg,
           ),
-      };
-
-  static double gap(BwControlSize size) => switch (size) {
-        BwControlSize.sm => BwSpacing.controlGapSm,
-        BwControlSize.md => BwSpacing.controlGapMd,
-        BwControlSize.lg => BwSpacing.controlGapLg,
-        BwControlSize.xl => BwSpacing.controlGapXl,
-      };
-
-  static double iconSize(BwControlSize size) => switch (size) {
-        BwControlSize.sm => BwSize.iconSm,
-        BwControlSize.md => BwSize.iconMd,
-        BwControlSize.lg || BwControlSize.xl => BwSize.iconLg,
       };
 
   static Color _filledBackground(BwColors colors, BwButtonColor color) =>
@@ -268,10 +259,11 @@ abstract final class BwButtonStyle {
       };
 }
 
-class _ButtonDimensions {
-  const _ButtonDimensions({
+class BwButtonMetrics {
+  const BwButtonMetrics({
     required this.height,
     required this.paddingInline,
+    required this.gap,
     required this.iconSize,
     required this.radius,
     required this.textStyle,
@@ -279,6 +271,7 @@ class _ButtonDimensions {
 
   final double height;
   final double paddingInline;
+  final double gap;
   final double iconSize;
   final double radius;
   final TextStyle textStyle;
