@@ -20,7 +20,7 @@
 
 | Gate | Decision | Notes |
 |---|---|---|
-| after-plan | pending (2026-10-21) | Previews shown; D3 wording question from the Planner |
+| after-plan | **Approve** (2026-10-21) | D3 left until Text field tablet/mobile are planned (regenerate all three Figma contracts then). Fix with codex, then review round 3 — also check the RTL prefix side in the real component (dark/ar preview drew `http://` on the end side) |
 | after-review | **Approve** (2026-10-21) | Planner for #9 (reviewer's recommended multiline rule) and #10 → preview → fix with codex → review round 3. Live-preview break handed to its own session |
 
 ## Questions raised
