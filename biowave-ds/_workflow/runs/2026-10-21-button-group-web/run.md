@@ -19,6 +19,7 @@ Orchestrated from a Cowork session (Phase 1 run; gates pre-approved by the user 
 | 03 | preview | codex | partial → accepted (not blocking, 12 min): `button-group-light-en.jpg`, `button-group-dark-ar.jpg`, README token sheet; ⚠ `fill` children slightly unequal after two retries; orchestrator: narrow frames make end/start/center hard to tell apart, overflow sketch shows 4 visible actions (limit 3, `href`/submit stay visible) — the fix-round tests are the proof | previews ✓ | see git log | `03-preview-codex.prompt.md` |
 | 04 | fix | codex | done (5.7 min): Fix round 1 — #1 container `display: flex` + `inlineSize: 100%`, #2–#4, #7, #9, #10, Executor half of #8, raised timeout removed; C8 entry; Codex: test:web ×3 91/91 | docs:check ✓ · typecheck ✓ · test:web ✓ 91/91 in 8.6 s (orchestrator) | see git log | `04-fix-codex.prompt.md` |
 | 05 | review | claude (wf-reviewer subagent) | done · **Changes requested** — Round 2: R1 #1–#11 fixed (Chromium, 800 px parent: all five `align` values correct in light/en and mirrored in dark/ar; `fill` 397 + 8 + 395 px; vertical full width). New: #12 🟡 vertical + `align="fill"` collapses children (`flex: 1 1 0`, group 10 px tall) — Executor; #13 🟢 always-visible `href`/submit children don't count toward `maxVisible`, primary can land in the menu — Planner; #14 🟢 `fill` test reads source text — Executor. Plan → Open, Code → Changes requested | docs:check ✓ · typecheck ✓ · test:web ✓ 91/91 ×2 | see git log | `05-review-claude.prompt.md` |
+| 06 | plan | claude (wf-planner subagent) | done · plan 1.2: #13 B1 "Overflow counting" — primary (`filled`), `href`/submit and non-Button children always visible and use slots first; the rest fill what's left, least important into the menu first; limit exceeded only when always-visible alone exceed it (dev warning); trigger takes no slot. A4.4 rule in all three Part A files (guidelines 1.1). #12 vertical ignores `align` (B2/C3). C7 AC-12…AC-14 + Fix round 2 task list (#12, #13, #14). Plan Finished. Planner choice to confirm: non-Button children count as always-visible | contract web/tablet/mobile ✓ · docs:check ✓ | see git log | `06-plan-claude.prompt.md` |
 
 ## Gates
 
@@ -26,6 +27,7 @@ Orchestrated from a Cowork session (Phase 1 run; gates pre-approved by the user 
 |---|---|---|
 | all gates except merge | Pre-approved by the user (2026-10-21, Cowork session) | Merge to `main` stays with the user. 2026-10-21 Code-tab session: `main` merged in after PR #1 + #8 (4900ed8); gates asked again here |
 | after-plan | **Approve** (2026-10-21) | Fix round 1 with codex (`04-fix-codex.prompt.md`; `03-fix-AGENT.prompt.md` from the Cowork session was never sent), then review round 2 |
+| after-review | **Approve** (2026-10-21) | Planner for #13 with the user's rule: always-visible actions (`href` / submit) and the primary (filled) action use up visible slots first; the rest fill what's left, least important first into the menu; the limit is exceeded only if the always-visible actions alone exceed it. Then preview → fix round 2 (#12, #14, #13 per plan) → review round 3 |
 
 ## Questions raised
 

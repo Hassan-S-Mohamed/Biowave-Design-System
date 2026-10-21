@@ -2,6 +2,12 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Plan — Web Button group 1.2: review round 2 Planner item #13] — 2026-10-21
+### Changed
+- Button group (web) re-plan, version **1.2** (plan 1.2) in `3-web-components/components/button-group/button-group.md`: #13 B1 **Overflow counting** — always-visible children (`filled` primary, `href`, `type="submit"`, not Button/IconButton) use up the `maxVisible` slots first, the other children fill the slots left with the least important going into the menu first, and the limit is exceeded (dev warning) only when the always-visible children alone exceed it; examples table, B9/C6 tests (`maxVisible={1}` with `[Docs href, Cancel, Save (filled)]` → Docs and Save visible, Cancel in the menu; always-visible children alone over the limit), C3. B2/C3 vertical ignores `align`. C7 AC-12–14 + Fix round 2 task list: #12 (vertical + `align="fill"` test with non-zero heights), #13, #14 (`fill` asserted from the rendered style). Part F0/F1/F2 updated.
+- Guidelines 1.1: A4.4 Overflow rule added in the Web, Tablet and Mobile `button-group.md` (Part A kept identical).
+- Contracts regenerated: `npm run contract -- web button-group`, `-- tablet button-group`, `-- mobile button-group`. Plan → `Finished` in the header and `3-web-components/README.md`.
+
 ## [Review — Web Button group round 2: Changes requested] — 2026-10-21
 ### Changed
 - Button group (web) review round 2: **Changes requested** — Part E3 of `3-web-components/components/button-group/button-group.md`. Round 1 findings #1–#11 all fixed (Chromium, 800 px parent: `start` / `center` / `end` / `space-between` / `fill` place the actions and mirror in Arabic; vertical 100% wide, primary on top). New: 1 🟡 (#12 vertical + `align="fill"` collapses the buttons to 0–2 px tall), 2 🟢 (#13 a kept-visible `href`/submit child pushes the primary into the overflow menu — spec gap, Planner; #14 `fill` flex test reads source text). `docs:check` ✅, `typecheck` ✅, `test:web` 91/91 twice (8.30 s, 6.52 s). Plan → `Open`, Code → `Changes requested`; header and `3-web-components/README.md` updated.
