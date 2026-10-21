@@ -5,6 +5,7 @@ Every change to the design system is logged here **in the same task**, newest fi
 ## [Web Icon button — review round 1 Planner items, plan 1.1] — 2026-10-21
 ### Changed
 - Icon button (web) re-plan, version 1.1: #8 B7 examples use the Biowave `Icon` (`<Icon name="…" />`, `filled`), D4 code values, a D4 **Icons used** line and the header Source code row updated; #6 Part C records the dependency on `ds/button-web` (PR #1, shared per-test speedy Emotion cache) — fix round 1 starts after the rebase and drops the raised timeouts. Executor findings #1–#5, #7, #9 folded into C3/C5/C6, C7 AC-7–AC-11 and a Fix round 1 task list. B1–B6 unchanged, no API change. Plan → `Finished` (header + `3-web-components/README.md`); contracts regenerated with the generator: `npm run contract -- web icon-button`, plus `tablet` / `mobile` `icon-button` (their Figma contracts inherit web D4 — hash and the two D4 code-value rows only). Detail: `3-web-components/components/icon-button/icon-button.md` › F0, F2.
+- Added the Icon button plan 1.1 web preview sheets for light/English and dark/Arabic RTL, covering the allowed variant/color matrix, six states, sm/md/lg sizes, toggles, tooltip, resolved token callouts, and RTL icon direction; the preview README records the remaining dark Text/Error arrow-direction warning after the retry limit.
 
 ## [Review — Web Icon button round 1: Changes requested] — 2026-10-21
 ### Changed
