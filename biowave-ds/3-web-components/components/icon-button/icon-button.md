@@ -13,12 +13,12 @@
 | Built on | MUI `IconButton` (native `<button>`), styled only from Biowave tokens (no ripple, no MUI colors). Tooltip: MUI `Tooltip` with the tokens in B3.4, until the Tooltip component (Day 4) replaces it |
 | Import | `import { IconButton } from '@biowave/web'` |
 | Figma | **Biowave DS — Web Components** › `↳ Icon Button` (legacy reference: Foundations `4310:3146`) · build: [Part D](#d--figma-build) |
-| Version | 1.0 · 2026-10-16 |
-| Plan | Open |
+| Version | 1.1 · 2026-10-21 |
+| Plan | Finished |
 | Code | Built |
 | Figma build | Planned |
 | Review | Round 1 · 2026-10-21 · Changes requested |
-| Source code | `src/components/icon-button/` — not built yet (the Executor creates it) |
+| Source code | [`src/components/icon-button/`](../../src/components/icon-button/) |
 | Tokens | — (no component tokens yet) |
 | Contracts | [`icon-button-contract.md`](icon-button-contract.md) · [`figma-icon-button-contract.md`](figma-icon-button-contract.md) — generated, never edited |
 | Docs page | [`icon-button.html`](icon-button.html) |
@@ -281,15 +281,17 @@ Reduced motion: instant; tooltip appears without fade.
 ### B7 Examples
 
 ```tsx
-import { IconButton } from '@biowave/web';
-import Icon from '@mui/material/Icon';   // until the Biowave Icon ships (D-18)
+import { IconButton, Icon } from '@biowave/web';   // Biowave Icon (D-18)
 
-<IconButton icon={<Icon baseClassName="material-symbols-rounded">edit</Icon>} label="Edit device" onClick={edit} />
-<IconButton toggle selected={pinned} icon={<Icon baseClassName="material-symbols-rounded">push_pin</Icon>} selectedIcon={<Icon baseClassName="material-symbols-rounded" sx={{ fontVariationSettings: "'FILL' 1" }}>push_pin</Icon>}
+<IconButton icon={<Icon name="edit" />} label="Edit device" onClick={edit} />
+<IconButton toggle selected={pinned} icon={<Icon name="push_pin" />} selectedIcon={<Icon name="push_pin" filled />}
             label={pinned ? 'Unpin' : 'Pin'} onClick={() => setPinned(!pinned)} />
+<IconButton icon={<Icon name="arrow_back" className="bw-icon-directional" />} label="Back" onClick={back} />
 // Arabic: same props, Arabic label
-<IconButton icon={<Icon baseClassName="material-symbols-rounded">edit</Icon>} label="تعديل الجهاز" onClick={edit} />
+<IconButton icon={<Icon name="edit" />} label="تعديل الجهاز" onClick={edit} />
 ```
+
+No `size` on the `Icon`: the Icon button sizes it (B2).
 
 ### B8 Figma
 
@@ -317,8 +319,8 @@ Structure, properties, the Figma ↔ code mapping and Code Connect: [Part D](#d-
 |---|---|
 | Component | Icon button |
 | Platform | Web (React + MUI) |
-| Depends on | **Button (web) Built** — reuses `button.tokens.ts`, `ButtonSpinner`, `warnOnce`, test setup |
-| Plan version | 1 · 2026-10-16 |
+| Depends on | **Button (web) Built** — reuses `button.tokens.ts`, `ButtonSpinner`, `warnOnce`, test setup · **(1.1) Button plan 1.2 test tooling** on `ds/button-web` (PR #1): shared per-test speedy Emotion cache in `src/test/render.tsx` + `setup.ts` (review finding 6). Fix round 1 starts only after `ds/icon-button-web` is rebased on it |
+| Plan version | 1.1 · 2026-10-21 |
 
 ### C1 Goal
 
@@ -326,7 +328,7 @@ Structure, properties, the Figma ↔ code mapping and Code Connect: [Part D](#d-
 
 ### C2 Scope
 
-In: B1–B6, B9. Out: Badge on icon button (composition later), the real Tooltip component (Day 4).
+In: B1–B6, B9; (1.1) review round 1 fixes — the Fix round 1 task list under C7. Out: Badge on icon button (composition later), the real Tooltip component (Day 4); any change to the shared test tooling, Button, Split button or Button group files.
 
 ### C3 Approach
 
@@ -335,6 +337,11 @@ In: B1–B6, B9. Out: Badge on icon button (composition later), the real Tooltip
 - Tooltip: MUI `Tooltip` with `title={label}`, `describeChild={false}`, `enterDelay={base.motion.duration['2xl']}` (numeric token from `@biowave/foundations` `base`; never a literal number), styled per B3.4 in `IconButtonTooltip.tsx` (private). Disable with `tooltip={false}`.
 - Spinner: reuse `../button/ButtonSpinner`.
 - Mirroring: same `bw-icon-directional` mechanism as Button.
+- **Tooltip motion (1.1, finding 2):** B4 easing on the transition slot — enter `cssVars.motion.easing['standard-decelerate']`, exit `cssVars.motion.easing['standard-accelerate']` (the theme's `transitions.easing.easeOut` / `easeIn` resolve to the same tokens). `timeout` and `enterDelay` are JS numbers, so CSS `prefers-reduced-motion` never reaches them: read `useMediaQuery('(prefers-reduced-motion: reduce)')` and, when it matches, use `base.motion.duration.instant` for the enter / exit timeouts (the tooltip appears without a fade). Hover delay and keyboard-focus behaviour are otherwise unchanged.
+- **Tooltip name (1.1, finding 3):** with `describeChild={false}` MUI puts `aria-label={title}` on the cloned child. When `disabled`, that child is the private `<span class="bw-icon-button__tooltip-anchor">`; give the span `aria-label={undefined}` (the child's own props win over MUI's) so only the `<button>` is named (B6).
+- **Tooltip offset (1.1, finding 7):** one source for B3.4's offset — the popper `offset` modifier reads a numeric `offset` entry in `iconButtonTooltipTokens` (from `base.spacing.xs`); no second read of `base.spacing.xs` in `IconButtonTooltip.tsx`, no unused entry.
+- **Label check (1.1, finding 9):** warn "IconButton needs a label" when `label.trim().length === 0` (whitespace-only labels too).
+- **Test tooling (1.1, finding 6):** render only through `renderWithBiowave` from `src/test/render.tsx`, which after the rebase gives each test a fresh speedy Emotion cache, reset in `setup.ts` after `cleanup()` (Button plan 1.2, C3 › Test tooling). Do not create an Emotion cache or `BiowaveProvider` in the test file; do not pass per-test timeouts; do not change `vitest.config.ts`. Tooltip tests use fake timers advanced by the token durations (`base.motion.duration.*`) inside `act`, never real-time waits.
 
 ### C4 Token gaps
 
@@ -350,11 +357,23 @@ None.
 3-web-components/src/components/icon-button/index.ts               new
 3-web-components/src/index.ts                                      change: export IconButton
 3-web-components/README.md                                         change: status row
+— (1.1) Fix round 1, review round 1 —
+3-web-components/src/components/icon-button/IconButton.tsx         change: trimmed-label warning (#9)
+3-web-components/src/components/icon-button/IconButtonTooltip.tsx  change: easing + reduced motion (#2), anchor aria-label (#3), offset source (#7)
+3-web-components/src/components/icon-button/iconButton.tokens.ts   change: numeric tooltip offset, no unused entry (#7)
+3-web-components/src/components/icon-button/IconButton.test.tsx    change: deterministic Esc test (#1), no raised timeouts (#4), B9 coverage (#5)
 ```
 
 ### C6 Tests
 
-B9.
+B9, plus (1.1):
+- [ ] Esc hides the tooltip deterministically: fake timers, `act(() => vi.advanceTimersByTime(base.motion.duration.sm))`, then assert the tooltip is gone (or the controlled `open` is false); tooltip-opening interactions wrapped in `act` (no `act()` warnings) (#1)
+- [ ] No timeout arguments in `IconButton.test.tsx`; every test passes under the 5 s default (#4)
+- [ ] Table-driven token assertions from the rendered CSS rules for every allowed `variant` × `color`, unselected (Button's table) and selected (B3.2: `text` and `outlined` × 5 colors, plus disabled-selected) (#5a, #5b)
+- [ ] Fallbacks assert the result, not only the warning: `tonal` + `neutral` / `inverse` renders `outlined` tokens; `toggle` with `filled` / `tonal` has no `aria-pressed`; whitespace-only `label` warns (#5c, #9)
+- [ ] axe in `en` and `ar`, light and dark, for enabled, disabled, loading and tooltip-on states — including `disabled` + tooltip on (no `aria-label` on the anchor span) (#3, #5d)
+- [ ] Tooltip easing: enter uses `motion-easing-standard-decelerate`, exit `motion-easing-standard-accelerate`; with `matchMedia('(prefers-reduced-motion: reduce)')` mocked to match, the timeouts are `motion-duration-instant` (#2, #5e)
+- [ ] Tooltip offset comes from `iconButtonTooltipTokens` (#7)
 
 ### C7 Acceptance criteria
 
@@ -364,6 +383,24 @@ B9.
 - [ ] AC-4 RTL B5; a11y B6 (single accessible name, `aria-pressed`)
 - [ ] AC-5 `npm run typecheck`, `npm run test:web`, `npm run sync` pass
 - [ ] AC-6 Exported; README status updated
+- [ ] AC-7 (1.1, findings 4, 6) Branch rebased on `ds/button-web` (PR #1) shared test tooling; `IconButton.test.tsx` has no raised timeouts; `npm run test:web` **as configured** passes with the default 5 s timeout, **3 full runs green**
+- [ ] AC-8 (1.1, findings 2, 3) Tooltip easing and reduced motion per C3 › Tooltip motion; disabled anchor span carries no `aria-label` (C3 › Tooltip name)
+- [ ] AC-9 (1.1, findings 1, 5) C6 (1.1) tests exist and pass
+- [ ] AC-10 (1.1, findings 7, 9) One source for the tooltip offset; whitespace-only label warns
+- [ ] AC-11 (1.1) C8 gets a "Fix round 1" entry listing every command with ✓/✗ and real numbers: `npm run typecheck`, `npm run test:web` ×3 (passed/total, duration), `npm run docs:check`, `npm run sync`; plus the slowest Icon button test time
+
+**Fix round 1 — Executor task list** (one list; nothing else is in scope):
+0. Precondition (#6): `ds/icon-button-web` is rebased on `ds/button-web` (PR #1) — or on `main` once PR #1 is merged — by the orchestrator before the round starts; the Executor does not switch branches. Check that `src/test/render.tsx` exports `resetTestEmotionCaches` and `src/test/setup.ts` calls it after `cleanup()`; if not, stop and report in C8 › Questions
+1. #1 Deterministic Esc tooltip test; tooltip interactions in `act` — `IconButton.test.tsx`
+2. #2 Tooltip easing + reduced-motion timeouts — `IconButtonTooltip.tsx` + test (C3 › Tooltip motion)
+3. #3 `aria-label={undefined}` on the disabled tooltip anchor — `IconButtonTooltip.tsx` + axe test with `disabled` + tooltip on, light/dark
+4. #4 Remove the raised timeouts (`IconButton.test.tsx:86` `30_000`, `:287` `20_000`); render only through `renderWithBiowave`
+5. #5 B9 gaps (a)–(e) — `IconButton.test.tsx` (C6 1.1)
+6. #7 One tooltip offset source — `iconButton.tokens.ts`, `IconButtonTooltip.tsx`
+7. #9 Warn on `label.trim().length === 0` — `IconButton.tsx` + test
+8. C8 "Fix round 1" entry (AC-11); one `CHANGELOG.md` entry
+
+Files the Executor may touch in this fix round: exactly the four (1.1) files in C5, C8 of this file and `CHANGELOG.md`. Not the shared test tooling, Button, Split button or Button group files.
 
 ---
 
@@ -428,9 +465,11 @@ Icon Button              ↔ centered · width = height {B2} · padding 0
 | `Size` | VARIANT | `SM` · `MD` · `LG` | `MD` | `size` | |
 | `Toggle` | VARIANT | `Off` · `On` | `Off` | `toggle` | |
 | `Selected` | VARIANT | `False` · `True` | `False` | `selected` | only with `Toggle=On` |
-| `Icon` | INSTANCE_SWAP | Google · Material Symbols (Rounded) | `edit` | `icon` | `<Icon baseClassName="material-symbols-rounded">{glyph}</Icon>` |
-| `Selected icon` | INSTANCE_SWAP | Google · Material Symbols (Rounded, Fill=Filled) | `edit` | `selectedIcon` | same glyph with class `bw-icon-fill` |
+| `Icon` | INSTANCE_SWAP | Google · Material Symbols (Rounded) | `edit` | `icon` | `<Icon name="{glyph}" />` |
+| `Selected icon` | INSTANCE_SWAP | Google · Material Symbols (Rounded, Fill=Filled) | `edit` | `selectedIcon` | `<Icon name="{glyph}" filled />` |
 | `Tooltip label` | TEXT | | `Edit device` | `label` | |
+
+**Icons used:** `edit` (default `Icon` / `Selected icon`) · `push_pin` (toggle example, B7)
 
 ### D5 Variants to generate
 
@@ -575,6 +614,8 @@ Skipped — Figma build is `Planned` and `figma` is skipped in `_workflow/config
 
 ### F0 Changes from previous version
 
+1.1 — review round 1 Planner items: B7 uses the Biowave `Icon` (`<Icon name="…" />`); fix round 1 depends on the shared per-test speedy Emotion cache from `ds/button-web` (PR #1); C3/C5/C6/C7 carry the Fix round 1 task list (tooltip easing and reduced motion, disabled-anchor name, offset source, trimmed-label warning, deterministic and complete tests, no raised timeouts). No API change.
+
 1.0 — initial Web implementation: MUI IconButton composition, shared Button visual tokens, selected-toggle tokens, tokenized tooltip, loading state, RTL icon handling, public exports and contract tests. No API change from the initial spec.
 
 ### F1 Guidelines changelog
@@ -588,3 +629,4 @@ Skipped — Figma build is `Planned` and `figma` is skipped in `_workflow/config
 | Version | Date | Change | Breaking | Migration |
 |---|---|---|---|---|
 | 1.0 | 2026-10-16 | Initial | No | — |
+| 1.1 | 2026-10-21 | Review round 1 Planner items: #8 B7 examples use the Biowave `Icon` (`<Icon name>`, `filled`), D4 code values, a D4 **Icons used** line and the header Source code updated; #6 C dependency on `ds/button-web` (PR #1) shared speedy Emotion cache, raised timeouts dropped. Executor findings #1–#5, #7, #9 folded into C3/C5/C6, C7 AC-7–AC-11 and the Fix round 1 task list. B1–B6 unchanged | No | — |

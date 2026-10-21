@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Web Icon button — review round 1 Planner items, plan 1.1] — 2026-10-21
+### Changed
+- Icon button (web) re-plan, version 1.1: #8 B7 examples use the Biowave `Icon` (`<Icon name="…" />`, `filled`), D4 code values, a D4 **Icons used** line and the header Source code row updated; #6 Part C records the dependency on `ds/button-web` (PR #1, shared per-test speedy Emotion cache) — fix round 1 starts after the rebase and drops the raised timeouts. Executor findings #1–#5, #7, #9 folded into C3/C5/C6, C7 AC-7–AC-11 and a Fix round 1 task list. B1–B6 unchanged, no API change. Plan → `Finished` (header + `3-web-components/README.md`); contracts regenerated with the generator: `npm run contract -- web icon-button`, plus `tablet` / `mobile` `icon-button` (their Figma contracts inherit web D4 — hash and the two D4 code-value rows only). Detail: `3-web-components/components/icon-button/icon-button.md` › F0, F2.
+
 ## [Review — Web Icon button round 1: Changes requested] — 2026-10-21
 ### Changed
 - Icon button (web) review round 1: **Changes requested** — Part E2 of `3-web-components/components/icon-button/icon-button.md`. AC-1, AC-2, AC-6 met; AC-3 (tooltip easing / reduced motion), AC-4 (stray `aria-label` on the disabled tooltip anchor) and AC-5 (`test:web` red: flaky Esc tooltip test, raised timeouts, Button/SplitButton timeouts awaiting the `ds/button-web` speedy-cache merge) not met. 6 🟡, 3 🟢; typecheck ✅, sync ✅, icon-button tests 11/11 alone; `docs:check` fails only on the pre-existing stale button-group contracts. Plan → `Open` (Planner items #6, #8); review status updated in the header and `3-web-components/README.md`.
