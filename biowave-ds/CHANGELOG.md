@@ -2,6 +2,8 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+- **2026-10-21 — Preview · Web Button group 1.1:** Added light/English and dark/Arabic RTL plan-check sheets with resolved token callouts for alignment, group-owned sm/md/lg sizing, vertical stacking, and overflow behavior; README records the remaining generated-image `fill` width discrepancy.
+
 ## [Plan — Web Button group 1.1: review round 1 Planner items] — 2026-10-21
 ### Changed
 - Button group (web) re-plan, version **1.1** (plan 1.1) in `3-web-components/components/button-group/button-group.md`: #1 B2/C3 — container is `display: flex` with `inline-size: 100%` of its parent in both orientations, so `align` places the actions (vertical stays full width, `align-items: stretch`); #8 C3 size precedence aligned with B1 (group wins); #11 header Source code links `src/components/button-group/`. B1 invalid combinations add `maxVisible` clamping and overflowing `href` / `type="submit"` children kept visible; B9/C6 tests and C7 AC-7–11 + a Fix round 1 Executor task list (#2, #3, #4, #7, #9, #10, #8 C8 note). #5 (shared speedy Emotion test cache) not re-planned: the fix rebases on `ds/button-web` (PR #1). Part F0/F2 updated; Part A unchanged.
