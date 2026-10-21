@@ -22,7 +22,7 @@
 
 | Gate | Decision | Notes |
 |---|---|---|
-| before-merge | pending (2026-10-21) | Code still `Built` (reviewer only writes Review fields) |
+| before-merge | **Approve** (2026-10-21) — push, PR, squash-merge | Code still `Built` (reviewer only writes Review fields) |
 | after-review | **Approve** (2026-10-21) | Fix #1 and #2 with codex in the worktree, then review round 2 |
 
 ## Questions raised
