@@ -28,6 +28,7 @@ User request: every icon in the design system must be a Google Material Symbol (
 | implement stuck (Codex partial, Cursor out of usage) | Antigravity (manual) | User chose Antigravity for the retry |
 | before-merge | Approve | Squash-merge PR #6, delete branch; 3 🟢 nits stay as follow-ups |
 | before-merge (merge attempt) | Blocked | PR #6 conflicted: Button tablet (#3) landed on main. Merged main into the branch (export list, README row, CHANGELOG). BwButton renders raw `Icon(` → adoption step 05, then re-review and gate again |
+| before-merge (after round 2) | Approve | Main (button/mobile #7) merged in, CHANGELOG only; 131/131 ✓. Squash-merge PR #6; 5 🟢 nits stay as follow-ups |
 
 ## Questions raised
 
