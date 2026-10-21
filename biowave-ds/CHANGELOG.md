@@ -4,6 +4,7 @@ Every change to the design system is logged here **in the same task**, newest fi
 
 ## [Web Text field — plan 1.2] — 2026-10-21
 ### Changed
+- Added the plan 1.2 web Text field preview sheets for light/English and dark/Arabic RTL, covering sm/md/lg anatomy, six states, attachments, multiline examples, resolved token callouts, and the 4 px trailing-action top inset rule.
 - Web `text-field.md` plan 1.1 → 1.2 answering Round 2 Planner findings: #9 one multiline trailing-action rule in B2/C3 — `margin-block-start = max(action-inset − padding-block, (line-height − action-box) / 2)`, action box never closer than `spacing-xs` to the top border (resolved top offset `spacing-xs` at sm/md/lg, EN and AR); B9/C6 add a multiline case to the viewport test; C7 adds "Fix round 2 — Executor task list" (Web D3 not touched — Tablet/Mobile Figma contracts inherit it). #10 B7 examples and C3 Icons now use the Biowave `Icon` (`<Icon name="…" />`). Planner response added under E4. Plan → Finished (header + README); both Text field contracts regenerated.
 
 ## [Web Text field — review round 2] — 2026-10-21

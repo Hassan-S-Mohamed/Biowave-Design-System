@@ -14,11 +14,13 @@
 |---|---|---|---|---|---|---|
 | 01 | review | claude (wf-reviewer subagent) | done · **Changes requested** — Round 2: R1 #1–#8 and AD-1 … AD-6 fixed (measured in Chromium at 980 / 1280 px); new 🟡 #9 multiline action covers the border (two B2 rules conflict, Planner → Executor), 🟢 #10 spec still names MUI `Icon` (Planner). Plan → `Open`, Code → `Changes requested` | docs:check ✓ (2 baseline errors only) · typecheck ✓ · test:web ✓ 87/87 | see git log | `01-review-claude.prompt.md` |
 | 02 | plan | claude (wf-planner subagent) | done · plan 1.2: #9 multiline action `margin-block-start = max(action-inset − padding-block, (line-height − action-box)/2)` → box `spacing-xs` from the top edge at sm/md/lg; multiline viewport test; Fix round 2 task list. #10 B7/C3 use Biowave `Icon`. Plan `Finished`. D3 left unchanged (editing it stales tablet/mobile text-field Figma contracts) | contract web text-field ✓ · docs:check ✓ (2 baseline errors only) | see git log | `02-plan-claude.prompt.md` |
+| 03 | preview | codex | done (12 min): `text-field-light-en.jpg`, `text-field-dark-ar.jpg`, README token sheet; ⚠ end-button colours approximated (Button tokens not in preview inputs), multiline specimen height derived, raster not pixel-exact | previews ✓ | see git log | `03-preview-codex.prompt.md` |
 
 ## Gates
 
 | Gate | Decision | Notes |
 |---|---|---|
+| after-plan | pending (2026-10-21) | Previews shown; D3 wording question from the Planner |
 | after-review | **Approve** (2026-10-21) | Planner for #9 (reviewer's recommended multiline rule) and #10 → preview → fix with codex → review round 3. Live-preview break handed to its own session |
 
 ## Questions raised
