@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Tablet — Icon review round 2] — 2026-10-21
+### Changed
+- Icon (tablet) review round 2: **Approved** — Part E3 of `4-tablet-components/components/icon/icon.md`. AC-1…AC-5 met after the `main` merge and `BwIcon` adoption in `BwButton`: `flutter analyze` clean, `flutter test` 131/131; each guard pattern (`Icons.`, `CupertinoIcons.`, `IconData(`, raw `Icon(` outside `icon/`) proven by a planted probe (reverted); Button icons keep size, colour, keys and decorative semantics with a single RTL flip; Button golden diffs confined to sm/md icon glyphs (Symbols axes). Round 1 #2 fixed, #1 and #3 still open; 5 🟢 nits total (incl. guard misses non-`_rounded` `Symbols.*`). `docs:check` fails only on the pre-existing stale button-group contracts (accepted). Review status updated in the header and `4-tablet-components/README.md`.
+
 ## [Tablet — Icon adoption in Button] — 2026-10-21
 ### Changed
 - Adopted `BwIcon` in tablet `BwButton` for leading and trailing icons, extended `no_legacy_icons_test.dart` to prohibit Flutter `Icons.*`, `CupertinoIcons.*`, `IconData(` constructors and raw `Icon(` widgets outside `icon/` (proven via planted probes), added BwIcon RTL/semantics button tests, and regenerated Button goldens with `BwIconAxes` variable font metrics.
