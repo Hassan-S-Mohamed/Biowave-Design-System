@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Preview — Web Button group 1.2] — 2026-10-21
+### Changed
+- Redrew the light/English and dark/Arabic RTL plan-check sheets with the four B1 overflow-counting examples, normal-height vertical `align="fill"`, equal-share horizontal `fill` intent, visibly distinct alignment frames, and resolved token callouts; the preview README records the remaining generated-image differences after two retries per image.
+
 ## [Plan — Web Button group 1.2: review round 2 Planner item #13] — 2026-10-21
 ### Changed
 - Button group (web) re-plan, version **1.2** (plan 1.2) in `3-web-components/components/button-group/button-group.md`: #13 B1 **Overflow counting** — always-visible children (`filled` primary, `href`, `type="submit"`, not Button/IconButton) use up the `maxVisible` slots first, the other children fill the slots left with the least important going into the menu first, and the limit is exceeded (dev warning) only when the always-visible children alone exceed it; examples table, B9/C6 tests (`maxVisible={1}` with `[Docs href, Cancel, Save (filled)]` → Docs and Save visible, Cancel in the menu; always-visible children alone over the limit), C3. B2/C3 vertical ignores `align`. C7 AC-12–14 + Fix round 2 task list: #12 (vertical + `align="fill"` test with non-zero heights), #13, #14 (`fill` asserted from the rendered style). Part F0/F1/F2 updated.
