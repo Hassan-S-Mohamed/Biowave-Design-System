@@ -18,6 +18,32 @@ Every change to the design system is logged here **in the same task**, newest fi
 ## [Web Text field — review round 2] — 2026-10-21
 ### Changed
 - Web `text-field.md` Part E Round 2 (E4): **Changes requested** — Round 1 #1–#8 and AD-1 … AD-6 fixed (measured in Chromium at 980 and 1280 px: single-line action box 24/32/40 inset 4 px at sm/md/lg, disabled action and end button not focusable or clickable, `aria-*` on the input); `test:web` 87/87, `typecheck` ✓, `docs:check` only the 2 baseline `button-group` errors. New: #9 🟡 multiline action reaches the top border at md/lg (B2 inset vs first-line rule conflict, Planner → Executor), #10 🟢 C3/B7 still name MUI `Icon` (Planner). Plan → Open, Code → Changes requested (README + header).
+## [Review — Web Button round 3: Approved] — 2026-10-20
+- Round 2 findings #11–#13, #15–#17 fixed (#14 closed by the Planner); AC-11 … AC-15 met; `docs:check` ✅, `typecheck` ✅, `test:web` ✅ 79/79 in ≈ 6 s with the default timeout (slowest Button test 979 ms), `sync` ✅; `BiowaveProvider` default caches unchanged. Manual QA open: loading width and screen-reader announcement (EN/AR). `3-web-components/components/button/button.md` Part E4, header and `3-web-components/README.md` Review column updated.
+
+## [Fixed — Web Button review round 2] — 2026-10-20
+- Added fresh speedy Emotion caches per test with post-cleanup flushing; removed Button's raised timeouts; kept the loading live region mounted; stripped both true and false `mirrorInRtl` markers; and verified transition restoration after re-enable. The configured web suite passes 79/79.
+
+## [Plan — Web Button 1.2: shared test tooling fix] — 2026-10-19
+- Review round 2 Planner items: decided the `test:web` fix (#11) — a fresh **speedy** emotion cache per test, flushed after `cleanup()` (MUI `createRenderer` pattern + `@emotion/cache` `speedy`); Foundations gets `createBiowaveEmotionCaches()` and an optional `BiowaveProvider` `emotionCaches` prop (default unchanged). Planner probe, not committed: 73/77 in 2 m 32 s → 77/77 in 35 s with default timeouts. Folded #12, #13, #15–#17 into C3/C6/C7 (Fix round 1 task list). Regenerated stale `tablet` / `mobile` `button-group` Figma contracts with the generator (#14; hash only, body unchanged). Detail: `3-web-components/components/button/button.md` › E3 Planner response, F2.
+
+## [Review — Web Button round 2: Changes requested] — 2026-10-19
+- Round 1 findings 1–10 all fixed; `typecheck` ✅, `sync` ✅, Button 24/24 ✅; but `test:web` ❌ 73/77 both parallel and serial (emotion `<style>` tags pile up per test file and slow axe/user-event past 5 s; Planner owns the shared fix, #11), `docs:check` ❌ (stale tablet/mobile button-group Figma contracts, #14), live region mounted with its text (#13). Full record: `3-web-components/components/button/button.md` › E3.
+## [Tablet — Icon review round 2] — 2026-10-21
+### Changed
+- Icon (tablet) review round 2: **Approved** — Part E3 of `4-tablet-components/components/icon/icon.md`. AC-1…AC-5 met after the `main` merge and `BwIcon` adoption in `BwButton`: `flutter analyze` clean, `flutter test` 131/131; each guard pattern (`Icons.`, `CupertinoIcons.`, `IconData(`, raw `Icon(` outside `icon/`) proven by a planted probe (reverted); Button icons keep size, colour, keys and decorative semantics with a single RTL flip; Button golden diffs confined to sm/md icon glyphs (Symbols axes). Round 1 #2 fixed, #1 and #3 still open; 5 🟢 nits total (incl. guard misses non-`_rounded` `Symbols.*`). `docs:check` fails only on the pre-existing stale button-group contracts (accepted). Review status updated in the header and `4-tablet-components/README.md`.
+
+## [Tablet — Icon adoption in Button] — 2026-10-21
+### Changed
+- Adopted `BwIcon` in tablet `BwButton` for leading and trailing icons, extended `no_legacy_icons_test.dart` to prohibit Flutter `Icons.*`, `CupertinoIcons.*`, `IconData(` constructors and raw `Icon(` widgets outside `icon/` (proven via planted probes), added BwIcon RTL/semantics button tests, and regenerated Button goldens with `BwIconAxes` variable font metrics.
+
+## [Tablet — Icon review round 1] — 2026-10-20
+### Changed
+- Icon (tablet) review round 1: **Approved** — Part E2 of `4-tablet-components/components/icon/icon.md`. AC-1…AC-5 met; `flutter analyze` clean, `flutter test` 64/64; D-18 guard proven by a planted `Icons.add` probe (reverted); goldens show real Material Symbols Rounded glyphs. 3 🟢 nits (`filled: false` vs `IconTheme.fill`, guard misses `CupertinoIcons` / `IconData(`, stale "Source code" header row). `docs:check` fails only on the pre-existing stale button-group contracts (accepted). Code → `Approved`.
+
+## [Tablet — Icon] — 2026-10-20
+### Added
+- Tablet `BwIcon`, `BwIconSize` and `BwIconColor`: Google Material Symbols Rounded glyphs with semantic size/colour tokens, fill, single-flip RTL handling, decorative/labelled semantics, package export, full widget/golden coverage (with `MaterialSymbolsRounded` variable font loaded in tests and EN/AR localization delegates), and a package-wide guard against Flutter `Icons.*` (`flutter analyze` and all 64 `flutter test` cases passing). Code → `Built`.
 
 ## [Mobile Button — review round 2] — 2026-10-21
 ### Changed
