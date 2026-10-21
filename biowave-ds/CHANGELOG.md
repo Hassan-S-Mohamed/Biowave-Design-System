@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Preview — Web Split button 1.1] — 2026-10-21
+### Added
+- Added light/English and dark/Arabic RTL Split button planning sheets covering all allowed md variant/color combinations, independent half states, sm/md/lg sizes, loading, focus, disabled, and logical end-aligned open menus, with resolved token sheets and generation check notes.
+
 ## [Plan — Web Split button 1.1] — 2026-10-21
 ### Changed
 - Web `split-button.md` 1.0 → 1.1 (plan 1 → 1.1) answering Review round 1 Planner findings: #6 B5/C3 — MUI flips only its default menu origins in RTL, so the side is chosen from the text direction (`bottom-end` logical, physical right in LTR, left in RTL); #7 B6 — `aria-controls` only while the menu is open (the code's behaviour). C3 records that the shared per-test speedy Emotion cache from `ds/button-web` (PR #1) is on `main` and merged into this branch, so the fix round uses it and drops raised timeouts. C6 tests and C7 AC-7/AC-8 + Fix round 1 task list for Executor findings #1–#5, #8. Plan → Finished (header + README); Split button web contracts regenerated.
