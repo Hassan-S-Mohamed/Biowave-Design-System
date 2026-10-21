@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { act, fireEvent, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { base } from '@biowave/foundations';
 // @ts-expect-error The installed package's exports map omits its bundled declaration file.
 import { computeAccessibleName } from 'dom-accessibility-api';
 import { axe } from 'vitest-axe';
@@ -12,9 +13,15 @@ import tooltipSource from './IconButtonTooltip.tsx?raw';
 // @ts-expect-error Vite's raw loader supplies source text in tests.
 import tokenSource from './iconButton.tokens.ts?raw';
 import { renderWithBiowave } from '../../test/render';
-import { buttonSizeTokens, type ButtonColor, type ButtonSize } from '../button/button.tokens';
+import {
+  buttonSizeTokens,
+  resolveButtonTokens,
+  type ButtonColor,
+  type ButtonSize,
+  type ButtonVisualTokens,
+} from '../button/button.tokens';
 import { IconButton, type IconButtonVariant } from './IconButton';
-import { iconButtonSelectedTokens } from './iconButton.tokens';
+import { iconButtonSelectedTokens, iconButtonTooltipTokens } from './iconButton.tokens';
 import { Icon } from '../icon';
 const sizes: ButtonSize[] = ['sm', 'md', 'lg'];
 const themes = ['light', 'dark'] as const;
@@ -28,6 +35,7 @@ const allowedColors: Record<IconButtonVariant, ButtonColor[]> = {
 
 afterEach(() => {
   vi.useRealTimers();
+  vi.unstubAllGlobals();
 });
 
 function allCssRules(): string {
@@ -52,10 +60,53 @@ function cssRulesFor(element: Element, cssText = allCssRules()): string {
     .join('\n');
 }
 
+function expectVisualTokens(rules: string, visual: ButtonVisualTokens): void {
+  const tokens = new Set(
+    [
+      visual.bg,
+      visual.bgHover,
+      visual.bgPressed,
+      visual.bgDisabled,
+      visual.stateLayer?.hover,
+      visual.stateLayer?.pressed,
+      visual.border?.default,
+      visual.border?.disabled,
+      visual.icon.default,
+      visual.icon.disabled,
+    ].filter((token): token is string => Boolean(token)),
+  );
+
+  for (const token of tokens) expect(rules).toContain(token);
+}
+
+function mockReducedMotion(matches: boolean): void {
+  vi.stubGlobal(
+    'matchMedia',
+    vi.fn().mockImplementation((query: string) => ({
+      matches: query === '(prefers-reduced-motion: reduce)' && matches,
+      media: query,
+      onchange: null,
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      dispatchEvent: vi.fn(),
+    })),
+  );
+}
+
+function tooltipTransitionStyle(): string {
+  const tooltip = screen.getByRole('tooltip');
+  const scope = tooltip.parentElement ?? tooltip;
+  return [scope, ...Array.from(scope.querySelectorAll<HTMLElement>('[style]'))]
+    .map((element) => element.getAttribute('style') ?? '')
+    .join(' ');
+}
+
 describe('IconButton rendering and tokens', () => {
-  it('renders every supported variant, color, and size in both themes and languages', () => {
-    for (const theme of themes) {
-      for (const locale of locales) {
+  for (const theme of themes) {
+    for (const locale of locales) {
+      it(`renders every supported variant, color, and size with its unselected tokens in ${theme}/${locale}`, () => {
         const cases = (Object.keys(allowedColors) as IconButtonVariant[]).flatMap((variant) =>
           allowedColors[variant].flatMap((color) =>
             sizes.map((size) => ({ variant, color, size, label: `${variant}-${color}-${size}` })),
@@ -78,27 +129,41 @@ describe('IconButton rendering and tokens', () => {
           { theme, locale },
         );
 
-        expect(view.container.querySelectorAll('button')).toHaveLength(cases.length);
+        const buttons = Array.from(view.container.querySelectorAll('button'));
+        const rules = allCssRules();
+        expect(buttons).toHaveLength(cases.length);
+        buttons.forEach((button, index) => {
+          const current = cases[index];
+          const buttonRules = cssRulesFor(button, rules);
+          expect(buttonRules).toContain(buttonSizeTokens[current.size].height);
+          expect(buttonRules).toContain(buttonSizeTokens[current.size].icon);
+          expectVisualTokens(buttonRules, resolveButtonTokens(current.variant, current.color));
+        });
         expect(document.documentElement.dir).toBe(locale === 'ar' ? 'rtl' : 'ltr');
         view.unmount();
-      }
+      });
     }
-  }, 30_000);
+  }
 
-  it('uses square size tokens and the selected toggle token map', () => {
+  it('uses every selected toggle token map, including disabled-selected states', () => {
+    const cases = (['text', 'outlined'] as const).flatMap((variant) =>
+      allowedColors[variant].flatMap((color) =>
+        [false, true].map((disabled) => ({ variant, color, disabled })),
+      ),
+    );
     const view = renderWithBiowave(
       <>
-        {sizes.map((size) => (
+        {cases.map(({ variant, color, disabled }) => (
           <IconButton
-            key={size}
+            key={`${variant}-${color}-${disabled}`}
             icon={<Icon name="push_pin" />}
             selectedIcon={<Icon name="push_pin" filled />}
-            label={size}
-            size={size}
+            label={`${variant}-${color}-${disabled}`}
+            variant={variant}
+            color={color}
             toggle
             selected
-            variant="outlined"
-            color="brand"
+            disabled={disabled}
             tooltip={false}
           />
         ))}
@@ -106,12 +171,12 @@ describe('IconButton rendering and tokens', () => {
     );
 
     Array.from(view.container.querySelectorAll('button')).forEach((button, index) => {
+      const current = cases[index];
       const rules = cssRulesFor(button);
-      expect(rules).toContain(buttonSizeTokens[sizes[index]].height);
-      expect(rules).toContain(buttonSizeTokens[sizes[index]].icon);
-      expect(rules).toContain(iconButtonSelectedTokens.outlined.brand.bg);
-      expect(rules).toContain(iconButtonSelectedTokens.outlined.brand.icon.default);
-      expect(rules).toContain(iconButtonSelectedTokens.outlined.brand.border?.default);
+      const visual = iconButtonSelectedTokens[current.variant][current.color];
+      expectVisualTokens(rules, visual);
+      expect(button).toHaveAttribute('aria-pressed', 'true');
+      if (current.disabled) expect(button).toBeDisabled();
     });
   });
 
@@ -124,7 +189,8 @@ describe('IconButton rendering and tokens', () => {
 });
 
 describe('IconButton behavior', () => {
-  it('has one accessible name and shows its visual tooltip on hover and focus', async () => {
+  it('has one accessible name and shows and hides its visual tooltip deterministically', () => {
+    vi.useFakeTimers();
     const view = renderWithBiowave(
       <IconButton icon={<Icon name="edit" />} label="Edit device" />,
     );
@@ -133,15 +199,50 @@ describe('IconButton behavior', () => {
 
     act(() => button.focus());
     expect(button).toHaveFocus();
-    expect(await screen.findByRole('tooltip')).toHaveTextContent('Edit device');
+    expect(screen.getByRole('tooltip')).toHaveTextContent('Edit device');
 
-    fireEvent.keyDown(document, { key: 'Escape' });
-    await waitFor(() => expect(screen.queryByRole('tooltip')).not.toBeInTheDocument());
+    act(() => fireEvent.keyDown(document, { key: 'Escape' }));
+    act(() => vi.advanceTimersByTime(base.motion.duration.sm));
+    expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
 
     act(() => button.blur());
-    fireEvent.mouseOver(button);
-    expect(await screen.findByRole('tooltip')).toHaveTextContent('Edit device');
+    act(() => fireEvent.mouseOver(button));
+    act(() => vi.advanceTimersByTime(base.motion.duration['2xl']));
+    expect(screen.getByRole('tooltip')).toHaveTextContent('Edit device');
     view.unmount();
+  });
+
+  it('uses the specified tooltip easing and token-owned offset', () => {
+    mockReducedMotion(false);
+    vi.useFakeTimers();
+    renderWithBiowave(<IconButton icon={<Icon name="edit" />} label="Edit device" />);
+    const button = screen.getByRole('button', { name: 'Edit device' });
+
+    act(() => button.focus());
+    expect(tooltipTransitionStyle()).toContain(iconButtonTooltipTokens.enterEasing);
+
+    act(() => fireEvent.keyDown(document, { key: 'Escape' }));
+    expect(tooltipTransitionStyle()).toContain(iconButtonTooltipTokens.exitEasing);
+    act(() => vi.advanceTimersByTime(base.motion.duration.sm));
+    expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
+
+    expect(iconButtonTooltipTokens.offset).toBe(base.spacing.xs);
+    expect(tooltipSource).toContain('iconButtonTooltipTokens.offset');
+    expect(tooltipSource).not.toContain('base.spacing.xs');
+  });
+
+  it('uses instant tooltip timeouts when reduced motion is requested', () => {
+    mockReducedMotion(true);
+    vi.useFakeTimers();
+    renderWithBiowave(<IconButton icon={<Icon name="edit" />} label="Edit device" />);
+    const button = screen.getByRole('button', { name: 'Edit device' });
+
+    act(() => button.focus());
+    expect(tooltipTransitionStyle()).toContain(`${base.motion.duration.instant}ms`);
+
+    act(() => fireEvent.keyDown(document, { key: 'Escape' }));
+    act(() => vi.advanceTimersByTime(base.motion.duration.instant));
+    expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
   });
 
   it('exposes controlled toggle state and cross-fades the selected icon', () => {
@@ -217,22 +318,46 @@ describe('IconButton validation and RTL', () => {
   it('warns and applies the specified fallbacks', () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     const view = renderWithBiowave(
-      <IconButton
-        icon={<Icon name="edit" />}
-        label="Fallback"
-        variant="tonal"
-        color="neutral"
-        toggle
-        selected
-        tooltip={false}
-      />,
-    );
-    view.rerender(
-      <IconButton icon={<Icon name="edit" />} label="" toggle tooltip={false} />,
+      <>
+        {(['neutral', 'inverse'] as const).map((color) => (
+          <IconButton
+            key={color}
+            icon={<Icon name="edit" />}
+            label={`Tonal ${color}`}
+            variant="tonal"
+            color={color}
+            tooltip={false}
+          />
+        ))}
+        {(['filled', 'tonal'] as const).map((variant) => (
+          <IconButton
+            key={variant}
+            icon={<Icon name="push_pin" />}
+            selectedIcon={<Icon name="push_pin" filled />}
+            label={`Toggle ${variant}`}
+            variant={variant}
+            color="brand"
+            toggle
+            selected
+            tooltip={false}
+          />
+        ))}
+        <IconButton icon={<Icon name="edit" />} label="   " tooltip={false} />
+      </>,
     );
 
+    const fallbackButtons = Array.from(view.container.querySelectorAll('button')).slice(0, 2);
+    (['neutral', 'inverse'] as const).forEach((color, index) => {
+      expectVisualTokens(
+        cssRulesFor(fallbackButtons[index]),
+        resolveButtonTokens('outlined', color),
+      );
+    });
+    expect(screen.getByRole('button', { name: 'Toggle filled' })).not.toHaveAttribute('aria-pressed');
+    expect(screen.getByRole('button', { name: 'Toggle tonal' })).not.toHaveAttribute('aria-pressed');
+
     expect(warn.mock.calls.flat().join(' ')).toContain('falling back to variant="outlined"');
-    expect(warn.mock.calls.flat().join(' ')).toContain('selectedIcon');
+    expect(warn.mock.calls.flat().join(' ')).toContain('ignoring toggle state');
     expect(warn.mock.calls.flat().join(' ')).toContain('IconButton needs a label');
     warn.mockRestore();
   });
@@ -261,29 +386,42 @@ describe('IconButton validation and RTL', () => {
 
 describe('IconButton accessibility', () => {
   for (const theme of themes) {
-    it(`has no axe violations in ${theme}`, async () => {
-      const { container } = renderWithBiowave(
-        <>
-          <IconButton icon={<Icon name="edit" />} label="Edit" tooltip={false} />
-          <IconButton
-            icon={<Icon name="push_pin" />}
-            selectedIcon={<Icon name="push_pin" filled />}
-            label="Pin"
-            variant="outlined"
-            toggle
-            selected
-            tooltip={false}
-          />
-        </>,
-        { theme },
-      );
-      expect(
-        (
-          await axe(container, {
-            rules: { 'color-contrast': { enabled: false } },
-          })
-        ).violations,
-      ).toEqual([]);
-    }, 20_000);
+    for (const locale of locales) {
+      it(`has no axe violations in ${theme}/${locale} across enabled, disabled, loading, and open-tooltip states`, async () => {
+        vi.useFakeTimers();
+        const labels = locale === 'ar'
+          ? { enabled: 'تعديل', disabled: 'معطّل', loading: 'تحميل' }
+          : { enabled: 'Edit', disabled: 'Disabled', loading: 'Loading' };
+        const { baseElement } = renderWithBiowave(
+          <>
+            <IconButton icon={<Icon name="edit" />} label={labels.enabled} tooltip={false} />
+            <IconButton icon={<Icon name="close" />} label={labels.disabled} disabled />
+            <IconButton icon={<Icon name="edit" />} label={labels.loading} loading tooltip={false} />
+          </>,
+          { theme, locale },
+        );
+        const disabledButton = screen.getByRole('button', { name: labels.disabled });
+        const anchor = disabledButton.closest('.bw-icon-button__tooltip-anchor');
+        expect(anchor).not.toHaveAttribute('aria-label');
+        expect(computeAccessibleName(disabledButton)).toBe(labels.disabled);
+
+        act(() => fireEvent.mouseOver(anchor as HTMLElement));
+        act(() => vi.advanceTimersByTime(base.motion.duration['2xl']));
+        act(() => vi.advanceTimersByTime(base.motion.duration.md));
+        expect(screen.getByRole('tooltip')).toHaveTextContent(labels.disabled);
+        vi.useRealTimers();
+
+        expect(
+          (
+            await axe(baseElement, {
+              rules: {
+                'color-contrast': { enabled: false },
+                region: { enabled: false },
+              },
+            })
+          ).violations,
+        ).toEqual([]);
+      });
+    }
   }
 });

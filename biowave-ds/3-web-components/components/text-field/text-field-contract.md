@@ -1,4 +1,4 @@
-<!-- GENERATED from text-field.md @ 816a066fb9712baa — do not edit; change the source and run: npm run contract -- web text-field -->
+<!-- GENERATED from text-field.md @ 8f04ce82274c6b35 — do not edit; change the source and run: npm run contract -- web text-field -->
 # Text field · حقل نص — Web — code contract
 
 > **Everything you need to build Text field on Web, and nothing else.** Read this file only. Generated from [`text-field.md`](text-field.md) (Parts B and C). If something is unclear or impossible, stop and write it in [C8 Execution log → Questions](text-field.md#c8-execution-log-filled-by-the-executor) — never invent behaviour.
@@ -9,10 +9,10 @@
 | Platform | Web · React + MUI |
 | Built on | MUI `FormControl` + `OutlinedInput`; static native label above a notchless outlined field |
 | Import | `import { TextField } from '@biowave/web'` |
-| Version | 1.1 · 2026-10-18 |
+| Version | 1.2 · 2026-10-21 |
 | Source code | [`src/components/text-field/`](../../src/components/text-field/) |
 | Tokens | [`text-field.tokens.json`](text-field.tokens.json) |
-| Source | [`text-field.md`](text-field.md) @ `816a066fb9712baa` |
+| Source | [`text-field.md`](text-field.md) @ `8f04ce82274c6b35` |
 
 ## 1. What it is
 
@@ -126,6 +126,8 @@ A text field lets a user enter or edit text. It uses a static label above an out
 | `leading-icon` · `trailing-icon` | glyph | `size-icon-sm` | `size-icon-md` | `size-icon-lg` |
 | `trailing-action` | box (inline + block) | `size-icon-lg` (24) | `size-control-height-sm` (32) | `size-control-height-md` (40) |
 | `trailing-action` | glyph | `size-icon-sm` | `size-icon-md` | `size-icon-lg` |
+| `trailing-action` | multiline margin-block-start | `max(action-inset − spacing-control-gap-sm, (body-sm line-height − action-box) / 2)` | `max(action-inset − spacing-control-gap-md, (body-md line-height − action-box) / 2)` | `max(action-inset − spacing-control-gap-lg, (body-lg line-height − action-box) / 2)` |
+| `trailing-action` | multiline offset from the field's top edge (resolved, EN and AR) | `spacing-xs` (margin 0) | `spacing-xs` (margin `spacing-xs` − `spacing-control-gap-md`) | `spacing-xs` (margin `spacing-xs` − `spacing-control-gap-lg`) |
 | `trailing-action` | pointer target | ≥ `target-min`, extended invisibly around the box; never changes layout | same | same |
 | `prefix` · `suffix` | padding-inline | = field padding-inline | same | same |
 | `prefix` · `suffix` | divider | `border-width-default` | same | same |
@@ -142,7 +144,7 @@ Layout rules:
 - Root fills the available inline size by default; `fullWidth=false` hugs the MUI intrinsic width
 - The single-line height includes the border. Input, icons and add-ons center on the block axis
 - The trailing action is inset by `spacing-xs` from the border on the top, bottom and inline end, so it never covers the border at any size. A decorative trailing icon sits at the normal padding, mirroring the leading icon
-- Multiline: icons top-align; the trailing action's centre aligns with the centre of the first text line
+- Multiline: icons top-align. **One rule for the trailing action:** `margin-block-start = max(action-inset − padding-block, (line-height − action-box) / 2)`, where `padding-block` = `spacing-control-gap-*` and `line-height` = the input text style's line height for the current size and language. The action box is centred on the first text line when that leaves at least `spacing-xs` above it; otherwise it starts `spacing-xs` below the field's top edge, the same inset as single-line. It is never closer than `spacing-xs` to the top border at any size. With today's tokens the second term is always smaller, so at `sm`, `md` and `lg` (EN and AR) the action box starts exactly `spacing-xs` from the top edge and its centre sits slightly below the first-line centre (by 2 / 3 / 4 in EN, 1 / 2 / 3 in AR for sm / md / lg). This replaces the v1.1 rule "centre aligns with the first text line", which put the box 2 / 1 / 0 from the top edge
 - `prefix`/`suffix` are part of the field (one outer border, one focus indicator). With `end-button`, the field's inline-end corners are square and the Button's inline-start corners are square; they share one border
 - Label, helper text and counter can wrap. The helper grows first; the counter stays at inline end and does not overlap it
 
@@ -320,21 +322,20 @@ No physical left/right properties are permitted.
 ## 8. Examples
 
 ```tsx
-import { TextField } from '@biowave/web';
-import Icon from '@mui/material/Icon';   // Material Symbols Rounded font (D-18) until the Biowave Icon ships
+import { TextField, Icon } from '@biowave/web';   // Icon = Material Symbols Rounded (D-18)
 
 <TextField label="Work email" name="email" type="email" autoComplete="email"
-  placeholder="name@company.com" required startAdornment={<Icon baseClassName="material-symbols-rounded">mail</Icon>}
+  placeholder="name@company.com" required startAdornment={<Icon name="mail" />}
   helpText="We send shift reminders to this address" />
 
 <TextField label="Password" type="password" autoComplete="current-password" />  {/* show/hide built in */}
 
-<TextField label="Search employees" clearable startAdornment={<Icon baseClassName="material-symbols-rounded">search</Icon>} />
+<TextField label="Search employees" clearable startAdornment={<Icon name="search" />} />
 
 <TextField label="Hourly rate" inputMode="decimal" suffix="SAR" />
 
 <TextField label="Invite link" readOnly value={link}
-  endButton={{ label: 'Copy', icon: <Icon baseClassName="material-symbols-rounded">content_copy</Icon>, onClick: copy }} />
+  endButton={{ label: 'Copy', icon: <Icon name="content_copy" />, onClick: copy }} />
 
 <TextField label="Request reason" multiline minRows={3} maxRows={8}
   maxLength={400} showCounter helperText="Explain why you need remote work" />
@@ -354,6 +355,7 @@ import Icon from '@mui/material/Icon';   // Material Symbols Rounded font (D-18)
 **In scope**
 - [ ] All B1 props, B2 dimensions, B3 tokens, B4 states, B5 RTL, B6 accessibility and B9 tests
 - [ ] Round 2 fixes: E2 findings 3, 4, 6, 7, 8 and E3 bugs AD-1 … AD-6
+- [ ] Fix round 2: E4 finding 9 (multiline trailing action rule, C7 task list)
 - [ ] Private shared pieces `FieldLabel` (with help icon), `FieldSupportingText` (with error icon), `FieldAddon` and `FieldAction` in the text-field folder for later field-family components
 
 **Out of scope (do not build)**
@@ -375,11 +377,11 @@ import Icon from '@mui/material/Icon';   // Material Symbols Rounded font (D-18)
 - **Add-ons:** `FieldAddon` is a non-interactive segment inside the outlined border (`startAdornment`/`endAdornment` of `OutlinedInput` with negative inline margin equal to the padding so it reaches the border), divider on the inner edge, `aria-hidden` visual + id text in `aria-describedby`
 - **End button:** the Biowave `Button` (`outlined`, `neutral`, field size) placed after the `OutlinedInput` in an inline flex row; square the touching corners with logical radius properties and collapse the shared border with a negative `margin-inline-start` of `border-width-default`
 - **Click to focus (AD-6):** decorative wrappers get `pointer-events: none`; a root `onMouseDown` on non-interactive targets focuses the input
-- **Icons (D-18):** built-in glyphs come from the Material Symbols Rounded font — clear `close`, password `visibility` / `visibility_off`, help `help`, error `error` — rendered with MUI `Icon` `baseClassName="material-symbols-rounded"` at the B2 sizes (opsz = size). Never import `@mui/icons-material`
+- **Icons (D-18):** built-in glyphs use the Biowave `Icon` (Material Symbols Rounded) — clear `close`, password `visibility` / `visibility_off`, help `help`, error `error` — as `<Icon name="…" />` at the B2 glyph sizes. Inside the package import it from `'../icon'`; apps and examples use `import { Icon } from '@biowave/web'`. Never use MUI `Icon` or import `@mui/icons-material`
 - **Error colour (AD-4):** only border, supporting text and error icon change colour in error
 - **State priority:** native MUI classes plus transient props implement Disabled → Error → Focus → Hover → Default. Read-only has its background and border tokens and still receives focus styling
 - **Focus exception:** style only `.MuiOutlinedInput-notchedOutline`; never add an exterior outline or shadow to the field. Controls inside keep their own focus ring
-- **Multiline:** pass `multiline`, row props and textarea semantics to MUI; `resize` maps to CSS `resize: vertical | none`. Top-align icons; align the action's centre with the first line using the input line height
+- **Multiline:** pass `multiline`, row props and textarea semantics to MUI; `resize` maps to CSS `resize: vertical | none`. Top-align icons. Trailing action (E4 finding 9): `align-self: flex-start` and `margin-block-start: max(calc(action-inset − gap), calc((input line-height − action-box) / 2))` from the size token map and the input typography line height (locale-aware), so the box is never closer than `spacing-xs` to the top edge. Resolved offset from the top edge = `spacing-xs` at `sm` · `md` · `lg` (B2). Single-line is unchanged
 - **Counter:** unchanged; additionally reset the uncontrolled mirror on the owning form's `reset` event (E2 finding 8)
 - **Ids and aria:** `useId()` id; route every `aria-*` prop to `inputProps` and merge `aria-describedby` (finding 3)
 - **Warnings:** existing `warnOnce` helper for every B1 invalid combination; never throw
@@ -410,13 +412,13 @@ CHANGELOG.md
 - [ ] Associates visible and visually hidden labels with the native control; caller `aria-*` lands on the input
 - [ ] Required, error, helper, counter, prefix and suffix ids/semantics match B6; error icon is shown with error text and is `aria-hidden`
 - [ ] Default, hover, focus, error, disabled and read-only use the B3 token map; leading icon keeps its neutral colour in error; read-only border differs from default
-- [ ] Trailing action box equals the B3 action-box per size, is inset `spacing-xs` and stays inside the field border at viewport widths below and above the web breakpoint
+- [ ] Trailing action box equals the B3 action-box per size, is inset `spacing-xs` and stays inside the field border at viewport widths below and above the web breakpoint, for single-line **and multiline** fields
 - [ ] Disabled field: trailing action and end button are disabled and skipped by Tab; help icon is still reachable
 - [ ] Clear: hidden when empty, read-only or disabled; clears, keeps focus, fires `onChange` and `onClear`
 - [ ] Password toggle switches `type`, `aria-pressed` and label; keeps caret position
 - [ ] Help icon opens on hover and focus, closes on Esc, content linked by `aria-describedby`
 - [ ] Clicking the leading icon, prefix or suffix focuses the input
-- [ ] Multiline: trailing action centre aligns with the first line
+- [ ] Multiline: trailing action follows the B2 rule — top edge ≥ `spacing-xs` from the field's top edge at `sm` · `md` · `lg`, centred on the first line only when that leaves `spacing-xs`
 - [ ] Controlled and uncontrolled values update the counter without mutating or truncating the supplied value
 - [ ] Every invalid combination warns once and uses the B1 fallback
 - [ ] RTL mirrors layout without mirroring icons; counter and prefix text remain LTR
@@ -431,6 +433,7 @@ Implement every item in B9, plus:
 - [ ] Error focus uses error colour plus focus width; normal focus uses focus colour plus focus width
 - [ ] Hover and disabled-required colours asserted on their selectors, not only present in CSS
 - [ ] Layout test in a real layout engine (or computed styles) for AD-1 / AD-2 at 980 px and 1280 px viewports
+- [ ] Multiline case in the same viewport test (`TextField.test.tsx` near :364): for `sm` · `md` · `lg` at 980 and 1280 px, a `multiline` field with a trailing action has the action box inside the border — `margin-block-start` equals the B2 `max(…)` expression and the box's top offset is ≥ `action-inset` (`spacing-xs`), inline-end inset = `action-inset`
 - [ ] Token-map test covers every size/state entry and matches component-token aliases
 - [ ] “No raw values” source check covers every file in the component folder
 
@@ -445,9 +448,19 @@ Implement every item in B9, plus:
 - [ ] AC-7 MUI floating label/notch styling and palette defaults do not appear
 - [ ] AC-8 Single-line and multiline use one public component, with private reusable field parts
 - [ ] AC-9 `npm run component-tokens`, `npm run sync` and `npm run docs:check` pass
-- [ ] AC-10 AD-1 … AD-6 fixed: action inside the border at every size and viewport, disabled with the field, neutral icons in error, first-line alignment, click-to-focus
-- [ ] AC-12 Icons from Material Symbols Rounded only (D-18); no `@mui/icons-material` import in the component folder
+- [ ] AC-10 AD-1 … AD-6 fixed: action inside the border at every size and viewport (single-line and multiline, B2 multiline rule), disabled with the field, neutral icons in error, first-line alignment, click-to-focus
+- [ ] AC-12 Icons from the Biowave `Icon` (Material Symbols Rounded, D-18) only; no MUI `Icon` and no `@mui/icons-material` import in the component folder
 - [ ] AC-11 Trailing action, help icon and end button reuse the Biowave Icon button and Button (no restyled MUI copies)
+
+#### Fix round 2 — Executor task list
+
+From E4 Round 2 (plan 1.2). Only these; nothing else changes.
+
+| # | Finding | File | Task |
+|---|---|---|---|
+| 1 | 9 🟡 | `FieldAction.tsx` (multiline `marginBlockStart`, ~:41-45) | Replace `calc((lineHeight − actionBox) / 2)` with `max(calc(actionInset − gap), calc((lineHeight − actionBox) / 2))` using `textFieldSizeTokens[size].actionInset`, `.gap` and the input line height (C3 Multiline). Single-line keeps `alignSelf: 'center'` and no margin |
+| 2 | 9 🟡 | `TextField.test.tsx` (viewport test ~:364) | Add the multiline case from C6 for `sm` · `md` · `lg` at 980 and 1280 px; update the AD-5 multiline alignment test (~:539) to the B2 rule (top offset ≥ `spacing-xs`, not exact first-line centring) |
+| 3 | — | `text-field.md` C8, `CHANGELOG.md` | Add a "Fix round 2" entry in C8 (note there that built-in glyphs use the Biowave `Icon` since icon/web — E4 #10); set Code to `Built` in the header and `3-web-components/README.md`; changelog line |
 
 ## 12. Rules
 

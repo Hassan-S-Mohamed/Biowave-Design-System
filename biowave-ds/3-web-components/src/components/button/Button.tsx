@@ -198,19 +198,19 @@ function prepareIcon(icon: React.ReactNode): PreparedIcon {
   const cleanClassName = classNames
     .filter((className) => className !== 'bw-icon-directional')
     .join(' ');
+  const hasMarker = 'mirrorInRtl' in icon.props || 'directional' in icon.props;
   const {
     directional: _directional,
     mirrorInRtl: _mirrorInRtl,
     ...cleanProps
   } = icon.props;
-  const cleanIcon =
-    _directional !== undefined || _mirrorInRtl !== undefined
-      ? React.createElement(icon.type, {
-          ...cleanProps,
-          key: icon.key,
-          className: cleanClassName || undefined,
-        })
-      : React.cloneElement(icon, { className: cleanClassName || undefined });
+  const cleanIcon = hasMarker
+    ? React.createElement(icon.type, {
+        ...cleanProps,
+        key: icon.key,
+        className: cleanClassName || undefined,
+      })
+    : React.cloneElement(icon, { className: cleanClassName || undefined });
 
   return {
     icon: cleanIcon,
@@ -334,11 +334,9 @@ const ButtonInternal = React.forwardRef<HTMLButtonElement | HTMLAnchorElement, B
           </span>
           <ButtonSpinner size={size} visible={loading} />
         </ButtonRoot>
-        {loading ? (
-          <span style={visuallyHidden} role="status">
-            {effectiveLoadingLabel}
-          </span>
-        ) : null}
+        <span style={visuallyHidden} role="status">
+          {loading ? effectiveLoadingLabel : null}
+        </span>
       </>
     );
   },
