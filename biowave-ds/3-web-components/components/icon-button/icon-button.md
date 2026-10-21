@@ -415,6 +415,31 @@ Files the Executor may touch in this fix round: exactly the four (1.1) files in 
 **Deviations:** none
 **Questions for the Planner:** `npm run docs:check` remains blocked by the repository-wide Doc Kit 1.2 change: 12 Figma contracts are stale, including this component's Figma contract. The code contract is current; no generated contract was edited by the Executor.
 
+#### Fix round 1 — 2026-10-21
+
+| Finding | What changed (`file:line`) | Test that proves it |
+|---|---|---|
+| #1 | `IconButton.test.tsx:191` uses fake timers and token durations for focus, Escape, exit, and hover interactions, all inside `act` | `has one accessible name and shows and hides its visual tooltip deterministically` |
+| #2 | `IconButtonTooltip.tsx:18,67` applies the specified enter/exit easing and instant reduced-motion timeouts; `iconButton.tokens.ts:87` owns the easing tokens | `uses the specified tooltip easing and token-owned offset`; `uses instant tooltip timeouts when reduced motion is requested` |
+| #3 | `IconButtonTooltip.tsx:22` explicitly removes `aria-label` from the disabled tooltip anchor | Four light/dark × en/ar axe cases at `IconButton.test.tsx:386`, each with a disabled open tooltip, pass with one button name |
+| #4 | `IconButton.test.tsx:105` uses only `renderWithBiowave`; both raised timeout arguments were removed | Icon button 15/15 under default timeouts; three full Web runs pass 93/93 |
+| #5 | `IconButton.test.tsx:105,147,317,386` adds rendered-rule assertions for every unselected and selected token combination, disabled-selected states, fallback results, whitespace validation, and the full theme/locale/state axe matrix | `renders every supported variant…`; `uses every selected…`; `warns and applies…`; four `has no axe violations…` cases |
+| #7 | `iconButton.tokens.ts:80` owns the numeric tooltip offset; `IconButtonTooltip.tsx:49` consumes that entry without a second `base.spacing.xs` read | `uses the specified tooltip easing and token-owned offset` |
+| #9 | `IconButton.tsx:291` validates `label.trim().length` | `warns and applies the specified fallbacks` passes with a whitespace-only label |
+
+**Checks:**
+- `npm run typecheck` ✓
+- `npm run test:web` run 1 ✓ — 93/93, Vitest 8.96 s (wall 9.67 s)
+- `npm run test:web` run 2 ✓ — 93/93, Vitest 6.27 s (wall 6.86 s)
+- `npm run test:web` run 3 ✓ — 93/93, Vitest 5.94 s (wall 6.46 s)
+- Slowest Icon button test ✓ — 4.372 s, `renders every supported variant, color, and size with its unselected tokens in both themes and languages`
+- `npm run docs:check` ✓ — 18 component files OK
+- `npm run component-tokens` ✓ — web/tablet/mobile in sync
+- `npm run sync` ✓ — READY
+
+**Deviations:** none
+**Questions for the Planner:** none
+
 ---
 
 ## D · Figma build

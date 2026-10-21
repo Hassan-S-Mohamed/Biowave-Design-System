@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Fixed — Web Icon button review round 1] — 2026-10-21
+### Fixed
+- Fixed Icon button findings #1–#5, #7 and #9: deterministic token-timed tooltip tests, specified enter/exit easing and reduced-motion timeouts, a single accessible name for disabled tooltip anchors, complete rendered-token/fallback/theme/locale/state coverage under default timeouts, one numeric tooltip-offset source, and whitespace-only label validation. Typecheck, docs, sync and component-token checks pass; three full Web runs pass 93/93.
+
 ## [Web Icon button — review round 1 Planner items, plan 1.1] — 2026-10-21
 ### Changed
 - Icon button (web) re-plan, version 1.1: #8 B7 examples use the Biowave `Icon` (`<Icon name="…" />`, `filled`), D4 code values, a D4 **Icons used** line and the header Source code row updated; #6 Part C records the dependency on `ds/button-web` (PR #1, shared per-test speedy Emotion cache) — fix round 1 starts after the rebase and drops the raised timeouts. Executor findings #1–#5, #7, #9 folded into C3/C5/C6, C7 AC-7–AC-11 and a Fix round 1 task list. B1–B6 unchanged, no API change. Plan → `Finished` (header + `3-web-components/README.md`); contracts regenerated with the generator: `npm run contract -- web icon-button`, plus `tablet` / `mobile` `icon-button` (their Figma contracts inherit web D4 — hash and the two D4 code-value rows only). Detail: `3-web-components/components/icon-button/icon-button.md` › F0, F2.

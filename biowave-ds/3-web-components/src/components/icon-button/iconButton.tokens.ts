@@ -1,4 +1,4 @@
-import { cssVars } from '@biowave/foundations';
+import { base, cssVars } from '@biowave/foundations';
 import type { ButtonColor, ButtonVariant, ButtonVisualTokens } from '../button/button.tokens';
 
 type ToggleVariant = Extract<ButtonVariant, 'outlined' | 'text'>;
@@ -83,5 +83,7 @@ export const iconButtonTooltipTokens = {
   radius: cssVars.radius.sm,
   paddingBlock: cssVars.spacing.xs,
   paddingInline: cssVars.spacing.md,
-  offset: cssVars.spacing.xs,
+  offset: base.spacing.xs,
+  enterEasing: cssVars.motion.easing['standard-decelerate'],
+  exitEasing: cssVars.motion.easing['standard-accelerate'],
 } as const;
