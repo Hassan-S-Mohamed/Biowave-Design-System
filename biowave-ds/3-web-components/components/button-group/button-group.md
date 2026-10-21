@@ -15,7 +15,7 @@
 | Figma | **Biowave DS — Web Components** › `↳ Button Group` (legacy reference: Foundations `4833:35916`) · build: [Part D](#d--figma-build) |
 | Version | 1.2 · 2026-10-21 |
 | Plan | Finished |
-| Code | Changes requested |
+| Code | Built |
 | Figma build | Planned |
 | Review | Round 2 · 2026-10-21 · Changes requested |
 | Source code | [`src/components/button-group/`](../../src/components/button-group/) |
@@ -408,6 +408,19 @@ Files the Executor may touch in this fix round: `ButtonGroup.tsx`, `ButtonGroup.
 **Checks:** `npm run sync` ✓ READY · `npm run component-tokens` ✓ (web 3 files / 10 collections / 299 mode values; tablet and mobile 3 / 10 / 305 each) · `npm run docs:check` ✓ (18 component files) · `npm run typecheck` ✓ · `npm run test:web` ✓ run 1: 91/91 in 7.79 s · run 2: 91/91 in 6.64 s · run 3: 91/91 in 6.66 s. Focused ButtonGroup: 12/12 in 2.81 s, default timeout.
 
 **Deviations/notes:** Group size wins over a conflicting child size, per B1/C3. The focused ButtonGroup run emits no `act(...)` warning. Each full run still emits the pre-existing warning from `SplitButton.test.tsx` › *implements Arrow, Home, End, Escape, and ArrowUp-open keyboard behavior*; SplitButton is outside this fix's allowed files.
+**Questions:** none.
+
+#### Fix round 2 — 2026-10-21
+
+| Finding | What changed (`file:line`) | Test that proves it |
+|---|---|---|
+| #12 | `ButtonGroup.tsx:60-62` — applies the `fill` child flex rule only in horizontal groups, so every vertical `align` value keeps full-width, non-collapsing actions | `ButtonGroup.test.tsx:56-119` — every vertical `align` in English and Arabic asserts the vertical rule set, no fill flex, non-zero rendered heights, and the ignored-align warning |
+| #13 | `ButtonGroup.tsx:77-94, 142-174` — always-visible children consume slots first; the remaining last actions stay visible, the least-important actions enter the menu in reading order, and only an always-visible overage warns | `ButtonGroup.test.tsx:286-350` — covers the three B1/C6 cases, including a single menu item, no-warning within the limit, and no trigger when all children are always visible |
+| #14 | `ButtonGroup.test.tsx:102-108` — horizontal `fill` is asserted through each rendered child's computed flex longhands instead of source text | `ButtonGroup.test.tsx:56-119` — rendered children report `flex-grow: 1`, `flex-shrink: 1`, and a zero flex basis |
+
+**Checks:** `npm run sync` ✓ READY · focused ButtonGroup ✓ 14/14 in 3.38 s, default timeout · `npm run docs:check` ✓ (18 component files) · `npm run typecheck` ✓ · `npm run test:web` ✓ run 1: 93/93 in 6.51 s · run 2: 93/93 in 6.16 s · run 3: 93/93 in 6.03 s.
+
+**Deviations/notes:** none. The focused ButtonGroup run emits no `act(...)` warning. Each full run still emits the pre-existing warning from `SplitButton.test.tsx` › *implements Arrow, Home, End, Escape, and ArrowUp-open keyboard behavior*; SplitButton is outside this fix's allowed files.
 **Questions:** none.
 
 ---

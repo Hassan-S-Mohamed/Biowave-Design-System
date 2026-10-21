@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Web Button group — fix round 2 (1.2)] — 2026-10-21
+### Fixed
+- Fixed review findings #12–#14: vertical groups now ignore every `align` value without applying horizontal fill flex; overflow counting reserves visible slots for the filled primary, links, submit actions and non-Button/IconButton children before keeping the last optional actions; the overflow warning appears only when always-visible children alone exceed the limit; and layout tests assert rendered flex styles and non-zero vertical action heights. `docs:check` and `typecheck` pass; three full Web runs pass 93/93 in 6.51 s, 6.16 s and 6.03 s.
+
 ## [Preview — Web Button group 1.2] — 2026-10-21
 ### Changed
 - Redrew the light/English and dark/Arabic RTL plan-check sheets with the four B1 overflow-counting examples, normal-height vertical `align="fill"`, equal-share horizontal `fill` intent, visibly distinct alignment frames, and resolved token callouts; the preview README records the remaining generated-image differences after two retries per image.
