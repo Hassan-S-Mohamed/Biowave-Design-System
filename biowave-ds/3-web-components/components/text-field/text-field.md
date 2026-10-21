@@ -15,7 +15,7 @@
 | Figma | **Biowave DS — Web Components** › `↳ Text field` |
 | Version | 1.2 · 2026-10-21 |
 | Plan | Finished |
-| Code | Changes requested |
+| Code | Built |
 | Figma build | Planned |
 | Review | Round 2 · 2026-10-21 · Changes requested |
 | Source code | [`src/components/text-field/`](../../src/components/text-field/) |
@@ -605,7 +605,7 @@ From E4 Round 2 (plan 1.2). Only these; nothing else changes.
 **Round 2 · spec 1.1**
 - Implemented every v1.1 API and fallback: managed custom / clear / password actions, help tooltip, error icon, prefix and suffix add-ons, attached end button, multiline resize and `inputMode`.
 - Closed E2 findings 3, 4, 6, 7 and 8, plus AD-1 … AD-6: native-input ARIA routing, disabled required colour, selector-specific state tests, label hit area, form-reset counter, in-border action sizing, disabled action semantics, neutral error adornments, first-line alignment and click-to-focus.
-- Added private `FieldAddon` and `FieldAction`; built-in glyphs use Material Symbols Rounded via MUI `Icon` per D-18.
+- Added private `FieldAddon` and `FieldAction`; built-in glyphs use the Biowave `Icon` (Material Symbols Rounded) per D-18.
 - Expanded Text field coverage from 11 to 19 tests, including both review viewports, light/dark, EN/AR, axe, native form behavior and every component-token alias.
 - Verification: Text field 19/19; full Web suite 77/77 with file parallelism disabled; `typecheck`, `component-tokens`, `sync` and `docs:check` pass. The exact parallel `npm run test:web` command still times out in pre-existing Button / Icon button / Split button tests while Text field passes; Code remains `In progress` until that shared runner gate is resolved.
 
@@ -614,6 +614,18 @@ From E4 Round 2 (plan 1.2). Only these; nothing else changes.
 
 **Round 2 questions**
 - none
+
+**Fix round 2 · spec 1.2 — 2026-10-21**
+
+| Finding | What changed (`file:line`) | Test that proves it |
+|---|---|---|
+| 9 🟡 | `FieldAction.tsx:42` — multiline `margin-block-start` now uses `max(action-inset − gap, (line-height − action-box) / 2)` from the size and typography token maps; single-line remains centred with no margin | `TextField.test.tsx:364` covers single-line and multiline at `sm`/`md`/`lg` for 980 and 1280 px, including action size, inline-end inset, block padding and the exact token expression; `TextField.test.tsx:564` verifies the new top-inset rule in Arabic RTL |
+
+- C8 correction: the Round 2 implementation uses the Biowave `Icon` (Material Symbols Rounded), not MUI `Icon`.
+- Files: `3-web-components/src/components/text-field/FieldAction.tsx`; `3-web-components/src/components/text-field/TextField.test.tsx`; `3-web-components/components/text-field/text-field.md`; `3-web-components/README.md`; `CHANGELOG.md`.
+- Verification: `npm run sync` ✓ READY; `npm run typecheck` ✓; focused Text field suite with the supported Vite runner loader ✓ 19/19; `npm run docs:check` reports only the accepted baseline stale Tablet/Mobile `button-group` Figma contracts (2 errors, none for Text field); exact `npm run test:web` cannot create `.vite-temp` through this worktree's intentional read-only `3-web-components/node_modules` symlink (EPERM before discovery); the runner-loader parallel equivalent reaches the suite but reproduces unrelated Button/Split button timeouts (Text field 19/19, full suite 84/87); runner-loader with file parallelism disabled ✓ 87/87.
+- Deviations: none in component behavior or scope; the loader/serial flags are verification-only workarounds for the sandboxed dependency link and unrelated parallel timeouts.
+- Questions: none.
 
 ---
 

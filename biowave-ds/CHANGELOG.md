@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Web Text field — fix round 2 (1.2)] — 2026-10-21
+### Fixed
+- Fixed finding #9 by keeping multiline trailing actions at least `spacing-xs` inside the top border with the token-only `max(action-inset − padding-block, (line-height − action-box) / 2)` rule, adding sm/md/lg coverage at 980 and 1280 px, and correcting C8 to identify the Biowave `Icon`; Text field tests pass 19/19 and the serial full Web suite passes 87/87.
+
 ## [Web Text field — plan 1.2] — 2026-10-21
 ### Changed
 - Added the plan 1.2 web Text field preview sheets for light/English and dark/Arabic RTL, covering sm/md/lg anatomy, six states, attachments, multiline examples, resolved token callouts, and the 4 px trailing-action top inset rule.
