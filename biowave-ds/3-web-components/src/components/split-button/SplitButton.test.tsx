@@ -3,7 +3,7 @@ import { fireEvent, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe } from 'vitest-axe';
 import { describe, expect, it, vi } from 'vitest';
-import { base, cssVars } from '@biowave/foundations';
+import { cssVars } from '@biowave/foundations';
 // @ts-expect-error Vite's raw loader supplies source text in tests.
 import componentSource from './SplitButton.tsx?raw';
 // @ts-expect-error Vite's raw loader supplies source text in tests.
@@ -285,7 +285,62 @@ describe('SplitButton menu', () => {
     },
   );
 
-  it('emits the specified open and close motion for the chevron and menu', async () => {
+  it.each(['opacity', 'transform'] as const)(
+    'gives menu %s the specified open and close duration and easing',
+    async (property) => {
+      const user = userEvent.setup();
+      renderWithBiowave(
+        <SplitButton onClick={vi.fn()} options={makeOptions()}>
+          Export report
+        </SplitButton>,
+      );
+      const trigger = screen.getByRole('button', { name: 'More options for Export report' });
+
+      await user.click(trigger);
+
+      const menu = screen.getByRole('menu');
+      const paper = menu.closest('.MuiPaper-root') as HTMLElement;
+      await waitFor(() =>
+        expect(cssRulesFor(paper)).toContain(
+          `${property} ${cssVars.motion.duration.md} ${cssVars.motion.easing['standard-decelerate']}`,
+        ),
+      );
+
+      fireEvent.click(trigger);
+
+      await waitFor(() =>
+        expect(cssRulesFor(paper)).toContain(
+          `${property} ${cssVars.motion.duration.sm} ${cssVars.motion.easing['standard-accelerate']}`,
+        ),
+      );
+    },
+  );
+
+  it('keeps menu durations in CSS variables so reduced motion can make them instant', async () => {
+    const user = userEvent.setup();
+    renderWithBiowave(
+      <SplitButton onClick={vi.fn()} options={makeOptions()}>
+        Export report
+      </SplitButton>,
+    );
+    const trigger = screen.getByRole('button', { name: 'More options for Export report' });
+
+    await user.click(trigger);
+
+    const menu = screen.getByRole('menu');
+    const paper = menu.closest('.MuiPaper-root') as HTMLElement;
+    const openRules = cssRulesFor(paper);
+    expect(openRules).toContain(cssVars.motion.duration.md);
+    expect(openRules).not.toMatch(/opacity \d+ms|transform \d+ms/);
+
+    fireEvent.click(trigger);
+
+    await waitFor(() => expect(cssRulesFor(paper)).toContain(cssVars.motion.duration.sm));
+    expect(cssRulesFor(paper)).not.toMatch(/opacity \d+ms|transform \d+ms/);
+    expect(menuSource).not.toContain('base.motion.duration');
+  });
+
+  it('emits the specified open and close motion for the chevron', async () => {
     const user = userEvent.setup();
     renderWithBiowave(
       <SplitButton onClick={vi.fn()} options={makeOptions()}>
@@ -301,19 +356,11 @@ describe('SplitButton menu', () => {
 
     expect(cssRulesFor(group)).toContain(cssVars.motion.duration.md);
     expect(cssRulesFor(group)).toContain(cssVars.motion.easing['standard-decelerate']);
-    const menu = screen.getByRole('menu');
-    const paper = menu.closest('.MuiPaper-root') as HTMLElement;
-    await waitFor(() =>
-      expect(paper.style.transition).toContain(`${base.motion.duration.md}ms`),
-    );
-    expect(paper.style.transition).toContain(cssVars.motion.easing['standard-decelerate']);
 
     fireEvent.click(trigger);
 
     expect(cssRulesFor(group)).toContain(cssVars.motion.duration.sm);
     expect(cssRulesFor(group)).toContain(cssVars.motion.easing['standard-accelerate']);
-    expect(paper.style.transition).toContain(`${base.motion.duration.sm}ms`);
-    expect(paper.style.transition).toContain(cssVars.motion.easing['standard-accelerate']);
   });
 });
 

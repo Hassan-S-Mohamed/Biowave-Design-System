@@ -15,7 +15,7 @@
 | Figma | **Biowave DS — Web Components** › `↳ Split Button` (legacy reference: Foundations `4298:3591`) · build: [Part D](#d--figma-build) |
 | Version | 1.1 · 2026-10-21 |
 | Plan | Finished |
-| Code | Changes requested |
+| Code | Built |
 | Figma build | Planned |
 | Review | Round 2 · 2026-10-21 · Changes requested |
 | Source code | `src/components/split-button/` — not built yet (the Executor creates it) |
@@ -392,6 +392,18 @@ Files the Executor may touch in this fix round: `3-web-components/src/components
 **Checks:** `npm run sync` ✓ READY; `npm run component-tokens` ✓ web/tablet/mobile; `npm run docs:check` ✓ 18 component files; `npm run typecheck` ✓; `npm run test:web` ✓ 97/97 in 6.18 s, ✓ 97/97 in 6.21 s, ✓ 97/97 in 5.79 s. Slowest Split button tests: render matrix 1.015 s / 1.136 s / 1.111 s; logical-corner matrix 337 ms / 301 ms / 311 ms.
 
 **Deviations:** `aria-controls` is present only while the menu is open, matching plan 1.1 and avoiding a reference to an unmounted menu.
+**Questions for the Planner:** none.
+
+#### Fix round 2 — 2026-10-21
+
+| Finding | What changed (`file:line`) | Test that proves it |
+|---|---|---|
+| #9 | `SplitButtonMenu.tsx:91-98,126-131` gives opacity and transform the same open `motion-duration-md` / `motion-easing-standard-decelerate` transition and the same close `motion-duration-sm` / `motion-easing-standard-accelerate` transition, overriding MUI Grow's shortened scale timing and exit delay. | `SplitButton.test.tsx:288-317` independently checks the open and close duration/easing pair for `opacity` and `transform`. |
+| #10 | `SplitButtonMenu.tsx:91-98,131` removes numeric JS motion values and emits the `--bw-motion-duration-*` CSS variables consumed by the reduced-motion token rule. | `SplitButton.test.tsx:319-341` verifies open and close rules use CSS duration variables, contain no numeric millisecond transition for either property, and no longer reference `base.motion.duration`. |
+
+**Checks:** `npm run sync` ✓ READY; `npm run docs:check` ✓ 18 component files; `npm run typecheck` ✓; `npm run test:web` ✓ 100/100 in 8.51 s, ✓ 100/100 in 8.86 s, ✓ 100/100 in 8.00 s. Split button suite: 22/22 in every full-suite run.
+
+**Deviations:** none.
 **Questions for the Planner:** none.
 
 ---

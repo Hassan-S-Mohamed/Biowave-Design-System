@@ -2,7 +2,7 @@ import * as React from 'react';
 import MuiMenu from '@mui/material/Menu';
 import MuiMenuItem from '@mui/material/MenuItem';
 import { styled, useTheme } from '@mui/material/styles';
-import { base, biowaveVariants, cssVars } from '@biowave/foundations';
+import { biowaveVariants, cssVars } from '@biowave/foundations';
 
 export interface SplitButtonMenuOption {
   label: string;
@@ -88,6 +88,14 @@ export function SplitButtonMenu({
 }: SplitButtonMenuProps) {
   const theme = useTheme();
   const end = theme.direction === 'rtl' ? 'left' : 'right';
+  const motionDuration = open ? cssVars.motion.duration.md : cssVars.motion.duration.sm;
+  const motionEasing = open
+    ? cssVars.motion.easing['standard-decelerate']
+    : cssVars.motion.easing['standard-accelerate'];
+  const menuTransition = [
+    `opacity ${motionDuration} ${motionEasing}`,
+    `transform ${motionDuration} ${motionEasing}`,
+  ].join(', ');
   const itemRefs = React.useRef<Array<HTMLLIElement | null>>([]);
 
   const focusInitialItem = React.useCallback(() => {
@@ -110,10 +118,6 @@ export function SplitButtonMenu({
       onClose={(_event, reason) => onRequestClose(reason === 'escapeKeyDown')}
       anchorOrigin={{ vertical: 'bottom', horizontal: end }}
       transformOrigin={{ vertical: 'top', horizontal: end }}
-      transitionDuration={{
-        enter: base.motion.duration.md,
-        exit: base.motion.duration.sm,
-      }}
       autoFocus={false}
       disableAutoFocusItem
       variant="menu"
@@ -122,6 +126,9 @@ export function SplitButtonMenu({
         paper: {
           sx: {
             minInlineSize: anchorEl?.getBoundingClientRect().width,
+            // MUI Grow gives transform a 2/3 duration and a delayed exit. This
+            // tokenized rule keeps opacity and scale on the same B4 curve.
+            transition: `${menuTransition} !important`,
           },
         },
         list: {
@@ -129,10 +136,6 @@ export function SplitButtonMenu({
           'aria-label': label,
         },
         transition: {
-          easing: {
-            enter: cssVars.motion.easing['standard-decelerate'],
-            exit: cssVars.motion.easing['standard-accelerate'],
-          },
           onEnter: focusInitialItem,
           onEntered: focusInitialItem,
         },

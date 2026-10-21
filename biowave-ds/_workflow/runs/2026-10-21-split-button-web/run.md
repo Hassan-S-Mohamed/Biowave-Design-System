@@ -19,6 +19,7 @@ Orchestrated from a Cowork session (Phase 1 run; gates pre-approved by the user 
 | 03 | preview | codex | done (12.5 min): `split-button-light-en.jpg`, `split-button-dark-ar.jpg`, README token sheet; RTL menu aligned to the left (inline end) as plan 1.1 #6. ⚠ light menu panel ≈ 8 px past the control's end edge; a JPEG cannot show the scale origin; orchestrator: dark/ar focus columns draw the ring round the whole control (primary) and none on the trigger | previews ✓ | see git log | `03-preview-codex.prompt.md` |
 | 04 | fix | codex | done (7 min): Fix round 1 — #1 menu origins `horizontal: end` from the direction, #2 suite green, #3 close motion, #4 tests, #5 raised timeouts removed, #8 C8; #7 under Deviations; Codex: test:web 97/97 ×2 (6.2 s) | docs:check ✓ · typecheck ✓ · test:web ✓ 97/97 in 6.6 s (orchestrator) | see git log | `04-fix-codex.prompt.md` |
 | 05 | review | claude (wf-reviewer subagent) | done · **Changes requested** — Round 2: #1 fixed (Chromium: menu end edge = container end in EN, left edges match in AR on 7/7 instances, transform-origin top-end), #2, #4, #5, #8 fixed, #6/#7 closed by plan 1.1; #3 partial. New: #9 🟡 menu `Grow` — fade uses `standard` easing both ways, scale runs 133/67 ms (not tokens); #10 🟡 menu durations inlined as JS numbers, so reduced motion no longer zeroes them — both Executor. Plan stays Finished | docs:check ✓ · typecheck ✓ · test:web ✓ 97/97 8.3 s | see git log | `05-review-claude.prompt.md` |
+| 06 | fix | codex | done (5.2 min): Fix round 2 — #9 menu fade + scale each on B4 duration/easing tokens open and close, #10 transition from `--bw-motion-*` CSS variables (reduced motion zeroes it); tests per property + reduced motion; C8 entry; Code Built. Codex: test:web ×3 100/100 | docs:check ✓ · typecheck ✓ · test:web ✓ 100/100 in 10.6 s (orchestrator) | see git log | `06-fix-codex.prompt.md` |
 
 ## Gates
 
@@ -26,6 +27,7 @@ Orchestrated from a Cowork session (Phase 1 run; gates pre-approved by the user 
 |---|---|---|
 | all gates except merge | Pre-approved by the user (2026-10-21, Cowork session) | Merge to `main` stays with the user. 2026-10-21 Code-tab session: `main` merged in after PR #1 + #8 (371d7f7); gates asked again here |
 | after-plan | **Approve** (2026-10-21) | Fix round 1 with codex, then review round 2. Preview ⚠ items are drawing faults, not plan changes |
+| after-review | **Approve** (2026-10-21) | Fix round 2 (last allowed) with codex for #9, #10 (menu transition from the `--bw-motion-*` CSS variables), then review round 3 |
 
 ## Questions raised
 
