@@ -22,7 +22,7 @@
 
 | Gate | Decision | Notes |
 |---|---|---|
-| before-merge | pending (2026-10-21) | test:web: 87/87 twice on this branch earlier; 84/87 under load avg ≈ 5 (Button axe + Split button keyboard timeouts). Same pre-existing Button test-tooling issue fixed on `ds/button-web` (#11, PR #1 closed unmerged) |
+| before-merge | **Approve** (2026-10-21) — after button/web #1 merged; `main` merged in (98baab0), re-run: docs:check ✓ 0 errors · typecheck ✓ · test:web ✓ 89/89 · push, PR, squash-merge · earlier note: | test:web: 87/87 twice on this branch earlier; 84/87 under load avg ≈ 5 (Button axe + Split button keyboard timeouts). Same pre-existing Button test-tooling issue fixed on `ds/button-web` (#11, PR #1 closed unmerged) |
 | after-plan | **Approve** (2026-10-21) | D3 left until Text field tablet/mobile are planned (regenerate all three Figma contracts then). Fix with codex, then review round 3 — also check the RTL prefix side in the real component (dark/ar preview drew `http://` on the end side) |
 | after-review | **Approve** (2026-10-21) | Planner for #9 (reviewer's recommended multiline rule) and #10 → preview → fix with codex → review round 3. Live-preview break handed to its own session |
 
