@@ -15,7 +15,7 @@
 | Figma | **Biowave DS — Web Components** › `↳ Icon Button` (legacy reference: Foundations `4310:3146`) · build: [Part D](#d--figma-build) |
 | Version | 1.1 · 2026-10-21 |
 | Plan | Finished |
-| Code | Changes requested |
+| Code | Built |
 | Figma build | Planned |
 | Review | Round 2 · 2026-10-21 · Changes requested |
 | Source code | [`src/components/icon-button/`](../../src/components/icon-button/) |
@@ -436,6 +436,25 @@ Files the Executor may touch in this fix round: exactly the four (1.1) files in 
 - `npm run docs:check` ✓ — 18 component files OK
 - `npm run component-tokens` ✓ — web/tablet/mobile in sync
 - `npm run sync` ✓ — READY
+
+**Deviations:** none
+**Questions for the Planner:** none
+
+#### Fix round 2 — 2026-10-21
+
+| Finding | What changed (`file:line`) | Test that proves it |
+|---|---|---|
+| #10 | `IconButton.test.tsx:107-146` splits the render matrix into one test per theme × locale, reads `allCssRules()` once per render, and passes the cached rules to every `cssRulesFor` call | Four `renders every supported variant…` cases pass in 210–798 ms across the three final full-suite runs |
+| #11 | `IconButton.test.tsx:395-423` runs the open-tooltip axe check on `baseElement`, including the portalled tooltip; the page-level `region` rule is disabled for the isolated component harness | Four light/dark × en/ar `has no axe violations…` cases pass with the disabled tooltip open in the portal |
+
+**Checks:**
+- `npm run docs:check` ✓ — 18 component files OK
+- `npm run typecheck` ✓
+- Initial diagnostic `npm run test:web` ✗ — 92/96, Vitest 7.33 s; changing the axe scope exposed only the page-level `region` rule on the isolated portalled tooltip, then the harness rule was disabled
+- `npm run test:web` final run 1 ✓ — 96/96, Vitest 9.95 s; slowest Icon button test 680 ms (`light/en` render matrix)
+- `npm run test:web` final run 2 ✓ — 96/96, Vitest 10.99 s; slowest Icon button test 761 ms (`light/en` render matrix)
+- `npm run test:web` final run 3 ✓ — 96/96, Vitest 8.93 s; slowest Icon button test 798 ms (`light/en` render matrix)
+- `npm run sync` ✓ — READY (preflight)
 
 **Deviations:** none
 **Questions for the Planner:** none

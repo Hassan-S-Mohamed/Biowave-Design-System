@@ -104,9 +104,9 @@ function tooltipTransitionStyle(): string {
 }
 
 describe('IconButton rendering and tokens', () => {
-  it('renders every supported variant, color, and size with its unselected tokens in both themes and languages', () => {
-    for (const theme of themes) {
-      for (const locale of locales) {
+  for (const theme of themes) {
+    for (const locale of locales) {
+      it(`renders every supported variant, color, and size with its unselected tokens in ${theme}/${locale}`, () => {
         const cases = (Object.keys(allowedColors) as IconButtonVariant[]).flatMap((variant) =>
           allowedColors[variant].flatMap((color) =>
             sizes.map((size) => ({ variant, color, size, label: `${variant}-${color}-${size}` })),
@@ -130,19 +130,20 @@ describe('IconButton rendering and tokens', () => {
         );
 
         const buttons = Array.from(view.container.querySelectorAll('button'));
+        const rules = allCssRules();
         expect(buttons).toHaveLength(cases.length);
         buttons.forEach((button, index) => {
           const current = cases[index];
-          const rules = cssRulesFor(button);
-          expect(rules).toContain(buttonSizeTokens[current.size].height);
-          expect(rules).toContain(buttonSizeTokens[current.size].icon);
-          expectVisualTokens(rules, resolveButtonTokens(current.variant, current.color));
+          const buttonRules = cssRulesFor(button, rules);
+          expect(buttonRules).toContain(buttonSizeTokens[current.size].height);
+          expect(buttonRules).toContain(buttonSizeTokens[current.size].icon);
+          expectVisualTokens(buttonRules, resolveButtonTokens(current.variant, current.color));
         });
         expect(document.documentElement.dir).toBe(locale === 'ar' ? 'rtl' : 'ltr');
         view.unmount();
-      }
+      });
     }
-  });
+  }
 
   it('uses every selected toggle token map, including disabled-selected states', () => {
     const cases = (['text', 'outlined'] as const).flatMap((variant) =>
@@ -391,7 +392,7 @@ describe('IconButton accessibility', () => {
         const labels = locale === 'ar'
           ? { enabled: 'تعديل', disabled: 'معطّل', loading: 'تحميل' }
           : { enabled: 'Edit', disabled: 'Disabled', loading: 'Loading' };
-        const { container } = renderWithBiowave(
+        const { baseElement } = renderWithBiowave(
           <>
             <IconButton icon={<Icon name="edit" />} label={labels.enabled} tooltip={false} />
             <IconButton icon={<Icon name="close" />} label={labels.disabled} disabled />
@@ -412,8 +413,11 @@ describe('IconButton accessibility', () => {
 
         expect(
           (
-            await axe(container, {
-              rules: { 'color-contrast': { enabled: false } },
+            await axe(baseElement, {
+              rules: {
+                'color-contrast': { enabled: false },
+                region: { enabled: false },
+              },
             })
           ).violations,
         ).toEqual([]);

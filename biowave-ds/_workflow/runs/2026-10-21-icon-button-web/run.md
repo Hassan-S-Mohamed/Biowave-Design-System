@@ -19,6 +19,7 @@ Orchestrated from a Cowork session (Phase 1 run; gates pre-approved by the user 
 | 03 | preview | codex | partial → accepted (not blocking, 12 min): `icon-button-light-en.jpg`, `icon-button-dark-ar.jpg`, README token sheet; ⚠ dark/ar `Text / Error` row draws `arrow_forward` unmirrored (→) after two retries — B5 says it mirrors | previews ✓ | see git log | `03-preview-codex.prompt.md` |
 | 04 | fix | codex | done (6.5 min): Fix round 1 — #1–#5, #7, #9 per AC-7…AC-11 in `IconButton.tsx`, `IconButtonTooltip.tsx`, `iconButton.tokens.ts`, `IconButton.test.tsx`; C8 entry; Codex: test:web ×3 93/93 | docs:check ✓ · typecheck ✓ · test:web ✓ 93/93 in 6.4 s (orchestrator) | see git log | `04-fix-codex.prompt.md` |
 | 05 | review | claude (wf-reviewer subagent) | done · **Changes requested** — Round 2: R1 #1–#9 fixed (headless Chrome: focus tooltip ≈ 20 ms, hover 510–518 ms vs `motion-duration-2xl`, enter 200 ms decelerate / exit 100 ms accelerate, 0 ms reduced motion, RTL mirrors `arrow_forward` not `close`). New: #10 🟡 render-matrix test 3.7–4.4 s, timed out 1 of 5 full runs (`cssRulesFor` rescans all stylesheets 216×) — Executor; #11 🟢 open-tooltip axe runs on `container`, tooltip is portalled — Executor. Plan stays Finished | docs:check ✓ · typecheck ✓ · test:web ✗ 4×93/93, 1×92/93 (timeout, #10) | see git log | `05-review-claude.prompt.md` |
+| 06 | fix | codex | done (3.9 min): Fix round 2 — #10 CSS rules read once per render, render matrix split per theme × locale (slowest Icon button test 680–798 ms, was 3.7–4.4 s); #11 tooltip axe on `baseElement`; C8 entry; Code Built. Codex: test:web ×3 96/96 | docs:check ✓ · typecheck ✓ · test:web ✓ 96/96 in 7.1 s (orchestrator) | see git log | `06-fix-codex.prompt.md` |
 
 ## Gates
 
@@ -26,6 +27,7 @@ Orchestrated from a Cowork session (Phase 1 run; gates pre-approved by the user 
 |---|---|---|
 | all gates except merge | Pre-approved by the user (2026-10-21, Cowork session) | Merge to `main` stays with the user. 2026-10-21 Code-tab session: `main` merged in after PR #1 + #8 (161782b); gates asked again here |
 | after-plan | **Approve** (2026-10-21) | Fix round 1 with codex, then review round 2. Preview ⚠ (unmirrored arrow in dark/ar) is a drawing fault, not a plan change |
+| after-review | **Approve** (2026-10-21) | Fix round 2 (last allowed) with codex for #10, #11, then review round 3 |
 
 ## Questions raised
 
