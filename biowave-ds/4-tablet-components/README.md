@@ -49,6 +49,7 @@ Status is written in each file header and here; `npm run docs:check` fails if th
 | Button group | Finished | Planned | Planned | — | [page](components/button-group/button-group.html) | [button-group.md](components/button-group/button-group.md) |
 | Icon button | Finished | Planned | Planned | — | [page](components/icon-button/icon-button.html) | [icon-button.md](components/icon-button/icon-button.md) |
 | Split button | Finished | Planned | Planned | — | [page](components/split-button/split-button.html) | [split-button.md](components/split-button/split-button.md) |
+| Link | Finished | Planned | Planned | — | [page](components/link/link.html) | [link.md](components/link/link.md) |
 | Text field | Finished | Planned | Planned | — | [page](components/text-field/text-field.html) | [text-field.md](components/text-field/text-field.md) |
 
 ## 5. Backlog (suggested order)

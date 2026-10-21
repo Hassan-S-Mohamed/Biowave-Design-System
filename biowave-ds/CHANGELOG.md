@@ -2,6 +2,12 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Plan — Link (web, tablet, mobile) 1.0] — 2026-10-21
+### Added
+- Link plan for Web, Tablet and Mobile (`<section>/components/link/link.md`, Parts A–D and F; Part A identical on all three except A8): inline and standalone links, `color` brand · neutral · inverse, `size` inherit · sm · md · lg, `underline` always · hover, optional leading icon, `external` (`open_in_new`, screen-reader suffix / hint), `show-visited` on web only. Web on MUI `Link`; Flutter `BwLink` (custom `InkWell` + text) and `BwLink.span` for inline links. Semantic tokens only — no `link.tokens.json` (P-04). Plan `Finished`.
+- Generated contracts `link-contract.md` · `figma-link-contract.md` and docs pages `link.html` for the three platforms; Link rows in the three section README Components tables.
+- Open: glyph `open_in_new` is not in `_sync/figma-icons.json` yet (`npm run sync:icons:plan` → read in Figma → `npm run sync:icons`, then regenerate the Figma contracts).
+
 ## [Tooling — update components from photos (agent-workflow-kit: Updater)] — 2026-10-20
 ### Added
 - **Updater** role (`update-component` agent, `workflow-update` skill): send photos of a UI screen or a single component plus a prompt; it finds the existing component, compares the photos with its plan, snaps what it sees to existing semantic tokens, shows a diff and asks which rows and platforms (web, tablet, mobile) to apply. On a yes it saves the photos and a change request to `<section>/components/<name>/references/`, updates Parts A–D and F (Part A on all three platforms), sets Plan `Finished` and Code `Planned`, and regenerates the contracts. The orchestrator then runs preview → implement → review as usual; review rounds before the update no longer count.
