@@ -25,7 +25,7 @@ import {
   type ButtonVariant,
   type ButtonVisualTokens,
 } from './button.tokens';
-import { MaterialSymbol } from '../../test/materialSymbol';
+import { Icon } from '../icon';
 const sizes: ButtonSize[] = ['sm', 'md', 'lg'];
 const themes = ['light', 'dark'] as const;
 const locales = ['en', 'ar'] as const;
@@ -217,7 +217,7 @@ describe('Button rendering', () => {
             key={`${variant}-${color}`}
             variant={variant}
             color={color}
-            startIcon={<MaterialSymbol name="add" />}
+            startIcon={<Icon name="add" />}
           >
             {`${variant}-${color}`}
           </Button>
@@ -242,7 +242,7 @@ describe('Button rendering', () => {
     const view = renderWithBiowave(
       <>
         {sizes.map((size) => (
-          <Button key={size} size={size} startIcon={<MaterialSymbol name="add" />}>
+          <Button key={size} size={size} startIcon={<Icon name="add" />}>
             {size}
           </Button>
         ))}
@@ -280,7 +280,7 @@ describe('Button rendering', () => {
             key={`${variant}-${color}`}
             variant={variant}
             color={color}
-            startIcon={<MaterialSymbol name="add" />}
+            startIcon={<Icon name="add" />}
             disabled={state === 'disabled'}
             loading={state === 'loading'}
           >
@@ -530,12 +530,12 @@ describe('Button validation', () => {
   it('warns once and keeps only startIcon when both icons are supplied', () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     const view = renderWithBiowave(
-      <Button startIcon={<MaterialSymbol name="add" />} endIcon={<MaterialSymbol name="arrow_forward" />}>
+      <Button startIcon={<Icon name="add" />} endIcon={<Icon name="arrow_forward" />}>
         Action
       </Button>,
     );
     view.rerender(
-      <Button startIcon={<MaterialSymbol name="add" />} endIcon={<MaterialSymbol name="arrow_forward" />}>
+      <Button startIcon={<Icon name="add" />} endIcon={<Icon name="arrow_forward" />}>
         Action
       </Button>,
     );
@@ -560,7 +560,7 @@ describe('Button validation', () => {
 describe('Button RTL', () => {
   it('moves the directional class to one wrapper and leaves other icons unchanged', () => {
     const directional = renderWithBiowave(
-      <Button startIcon={<MaterialSymbol name="arrow_forward" className="bw-icon-directional" />}>
+      <Button startIcon={<Icon name="arrow_forward" className="bw-icon-directional" />}>
         التالي
       </Button>,
       { locale: 'ar' },
@@ -577,7 +577,7 @@ describe('Button RTL', () => {
     directional.unmount();
 
     renderWithBiowave(
-      <Button startIcon={<MaterialSymbol name="add" />}>
+      <Button startIcon={<Icon name="add" />}>
         إضافة
       </Button>,
       { locale: 'ar' },

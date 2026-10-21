@@ -58,7 +58,7 @@ const ActionRoot = styled(IconButton, {
       blockSize: size.icon,
       fontSize: size.icon,
     },
-    '& .material-symbols-rounded': {
+    '& .bw-icon': {
       fontOpticalSizing: 'auto',
     },
   };

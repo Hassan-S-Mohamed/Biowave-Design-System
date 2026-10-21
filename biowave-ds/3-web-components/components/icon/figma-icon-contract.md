@@ -1,4 +1,4 @@
-<!-- GENERATED from icon.md @ 512bc9a420529507 — do not edit; change the source and run: npm run contract -- web icon -->
+<!-- GENERATED from icon.md @ af7755e49bf65e6c — do not edit; change the source and run: npm run contract -- web icon -->
 # Icon · أيقونة — Web — Figma contract
 
 > **Everything the Figma Agent needs to build Icon in the Web Components file, with our variables and styles.** Read this file only. Generated from [`icon.md`](icon.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-18). Questions go to [D11 Execution log](icon.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
@@ -11,8 +11,8 @@
 | Page | `↳ Icon` (one page per component) |
 | Component | Icon · أيقونة |
 | Platform | Web · React + MUI |
-| Version | 1.0 · 2026-10-18 |
-| Source | [`icon.md`](icon.md) @ `512bc9a420529507` |
+| Version | 1.1 · 2026-10-20 |
+| Source | [`icon.md`](icon.md) @ `af7755e49bf65e6c` |
 
 ## 1. Library connections in this file
 
@@ -83,7 +83,6 @@ Library file **Google · Material Symbols** · key `RXlnhYgUKBBE6HveEr7e9C` — 
 |---|---|---|---|
 | `add` | `7d426edec81a6ef6e44ffdcc37eab6863c7943a7` | `d20bdb7a3a61cd1a31b9e9dddf5c46330cc9bbff` | `cbadf0df7af23f20cf573e9b3856c059d146c57d` |
 | `arrow_forward` | `90a6ad2ece86bb88d2f44286bd9efd3a60a5c815` | `48427bac81c0253cee4049d8ad243a4fb4da643d` | `1df1f77448d6e530948cc17302f5ae41c6fa453c` |
-| `push_pin` | `f1e809edda8007dffbdd448fff9cb97cb4e20dd1` | `4437341389767b81fdaf68b5442cefa86d97f1ae` | `c41709f31358d03a6bdb4bba1201c75f5f8227a6` |
 
 ## 7. Phase 1 — values (from Part B)
 
@@ -93,7 +92,7 @@ Library file **Google · Material Symbols** · key `RXlnhYgUKBBE6HveEr7e9C` — 
 
 | Prop | Type | Values | Default | Required | Description |
 |---|---|---|---|---|---|
-| `name` | `MaterialSymbol` | Material Symbols names (type from `@material-symbols/font-400`, re-exported by `@biowave/foundations`) | | ✓ | A4.1 — the glyph |
+| `name` | `IconName` | `MaterialSymbol` (type from `@material-symbols/font-400`, re-exported by `@biowave/foundations`) plus the two extra names below; `''` is typed only for the empty-name fallback | | ✓ | A4.1 — the glyph |
 | `size` | enum | `xs` · `sm` · `md` · `lg` · `xl` · `2xl` · `3xl` | — (inherit) | | A4.2 — without `size` the icon follows the container's `font-size` (Biowave components set it) |
 | `filled` | boolean | | `false` | | A4.3 — FILL 1 (class `bw-icon-fill`) |
 | `color` | enum | `default` · `subtle` · `muted` · `inverse` · `brand` · `secondary` · `success` · `warning` · `error` · `info` | — (`currentColor`) | | A4.4 |
@@ -102,6 +101,15 @@ Library file **Google · Material Symbols** · key `RXlnhYgUKBBE6HveEr7e9C` — 
 | `className` · `data-*` · `ref` | | | | | Forwarded to the root `span` |
 
 Usage inside components: `<Button startIcon={<Icon name="add" />}>` — no `size`, the Button sizes it.
+
+**`IconName`** = `MaterialSymbol | 'push_pin' | 'expand_more' | ''`, exported from `@biowave/web`. The two extra names are a closed list — any other name needs a new row here first.
+
+| Extra name | Why it is kept | Checked |
+|---|---|---|
+| `push_pin` | The `@material-symbols/font-400` 0.48.0 typings list only the newer name `keep`. `push_pin` is the name in the Google · Material Symbols Figma library (`_sync/figma-icons.json`) and `icons.md`, which use one name across Figma, web and Flutter | The Rounded woff2 of 0.48.0 still has the `push_pin` ligature; it renders the same glyph as `keep`, pixel for pixel (headless Chrome, 2026-10-20) |
+| `expand_more` | Missing from the 0.48.0 typings; it is the Split button menu chevron and is in the Figma library index under this name. The closest listed name, `keyboard_arrow_down`, is a different glyph | The Rounded woff2 of 0.48.0 has the `expand_more` ligature (renders one 1em glyph, not text); it differs from `keyboard_arrow_down` (headless Chrome, 2026-10-20) |
+
+If a later font package drops either ligature, the Planner moves specs, `icons.md` and the Figma index to the listed name in one task.
 
 **Invalid combinations** (`console.warn` once in development; fallback still renders):
 
@@ -165,7 +173,7 @@ LTR  [✓] Saved         RTL  تم الحفظ [✓]     ← not directional: nev
 |---|---|
 | `directional` on | `[dir='rtl'] .bw-icon.bw-icon-directional { transform: scaleX(-1) }` |
 | `directional` off | Not mirrored |
-| Inside Button / Icon button | The component removes the class from the icon and mirrors its own wrapper once (no double flip) |
+| Inside Button / Icon button | `prepareIcon` treats `directional` exactly like `mirrorInRtl`: when the icon has `directional` (the prop), `mirrorInRtl` or the class `bw-icon-directional` — alone or together — it removes them from the icon and marks its own wrapper with `bw-icon-directional` once. Exactly one element is flipped (no double flip, no flip by the icon) |
 
 ### B6 Accessibility (implementation)
 

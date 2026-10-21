@@ -4,18 +4,18 @@
 
 | Field | Value |
 |---|---|
-| Version | 2 · 2026-10-15 (button family first; decisions P-01 … P-04 closed) |
+| Version | 3 · 2026-10-20 (Figma coverage check P-05: Action bar added; Tag, Label and Status fold into Chip; variants named) |
 | Working week | Sunday–Thursday (Cairo). Dates move with the plan; the day number is what counts. |
 | Pace | 2–3 items per day (1 for very large items) |
 | Platforms | **W** Web (React + MUI) · **T** Tablet (Flutter + M3) · **M** Mobile (Flutter + M3) |
-| Target | Design System 1.0 = 44 components + 13 patterns · Day 26 (≈ 23 Nov 2026) |
+| Target | Design System 1.0 = 45 components + 13 patterns · Day 26 (≈ 23 Nov 2026) |
 
 ## 1. Phases
 
 ```
  Phase 0        Phase 1               Phase 2                  Phase 3              
  Prep      ──►  Core components  ──►  Complex components  ──►  Patterns       ──►  DS 1.0
- Day 0          Day 1–8 (21)          Day 10–18 (21)           Day 20–25 (13)
+ Day 0          Day 1–8 (22)          Day 10–18 (23)           Day 20–25 (13)
                 Day 9 ▸ Core 0.5      Day 19 ▸ Complex 0.9     Day 26 ▸ 1.0 release
 ```
 
@@ -71,21 +71,21 @@ The **button family** goes first and already exists in Figma, so it is *audit �
 | 2 | | Button group (action layout, not a connected control) | ● | ● | ● | `Stack` / `OverflowBar` (wraps to vertical) | Button, Icon button, Link |
 | 3 | Wed 21 Oct | Link | ● | ● | ● | `Link` / custom `InkWell` + text | Icon |
 | 3 | | Divider | ● | ● | ● | `Divider` / `Divider` | — |
-| 3 | | Badge | ● | ● | ● | `Badge` / `Badge` | — |
+| 3 | | Badge (incl. Check badge variant, P-05) | ● | ● | ● | `Badge` / `Badge` | — |
 | 4 | Thu 22 Oct | Avatar | ● | ● | ● | `Avatar` / `CircleAvatar` (custom) | Icon, Badge |
-| 4 | | Chip | ● | ● | ● | `Chip` / `InputChip` · `FilterChip` · `AssistChip` | Icon, Avatar |
+| 4 | | Chip — interactive (input · filter · assist) **plus static Tag / Label and Status variants** (request status: 7 states with status icons, P-05) | ● | ● | ● | `Chip` / `InputChip` · `FilterChip` · `AssistChip` | Icon, Avatar |
 | 4 | | Tooltip | ● | ● | ● | `Tooltip` / `Tooltip` (long-press on touch) | — |
 | 5 | Sun 25 Oct | Progress (circular + linear) | ● | ● | ● | `CircularProgress` · `LinearProgress` / `CircularProgressIndicator` · `LinearProgressIndicator` | — |
 | 5 | | Skeleton | ● | ● | ● | `Skeleton` / custom (shimmer respects reduced motion) | — |
-| 5 | | Card | ● | ● | ● | `Card` / `Card` (filled · outlined · elevated) | — |
+| 5 | | Card (incl. selectable card variant — Checkbox card, P-05) | ● | ● | ● | `Card` / `Card` (filled · outlined · elevated) | — |
 | 6 | Mon 26 Oct | Checkbox | ● | ● | ● | `Checkbox` / `Checkbox` + `CheckboxListTile` | — |
 | 6 | | Radio | ● | ● | ● | `Radio` / `Radio` + `RadioListTile` | — |
 | 6 | | Switch | ● | ● | ● | `Switch` / `Switch` | Icon |
 | 7 | Tue 27 Oct | Text field (single line, multiline, label, helper, error, counter) | ● | ● | ● | `TextField` / `TextField` + `InputDecorationTheme` | Icon, Icon button, control tokens |
 | 7 | | Select | ● | ● | ● | `Select` / `DropdownMenu` | Text field, Icon |
 | 8 | Wed 28 Oct | Verification code (OTP, 4 or 6 digits; digits always LTR, I-08) | ● | ● | ● | custom on `InputBase` × n / custom `TextField` × n | Text field (shared field parts) |
-| 8 | | List (list + list item) | ● | ● | ● | `List` · `ListItem` / `ListTile` | Avatar, Icon, Checkbox, Switch, Divider |
-| 8 | | Segmented button (connected single/multi select) | ● | ● | ● | `ToggleButtonGroup` / `SegmentedButton` | Icon |
+| 8 | | List (list + list item; incl. notification item variant, P-05) | ● | ● | ● | `List` · `ListItem` / `ListTile` | Avatar, Icon, Checkbox, Switch, Divider |
+| 8 | | Segmented button (connected single/multi select; incl. day picker — 7 weekdays, multi-select, P-05) | ● | ● | ● | `ToggleButtonGroup` / `SegmentedButton` | Icon |
 | **9** | **Thu 29 Oct** | **Buffer + Core release** | | | | Clear carry-overs, cross-component consistency pass, packages **0.5.0** | All of Phase 1 |
 
 ## 5. Phase 2 — Complex components (Day 10–18)
@@ -107,7 +107,8 @@ The **button family** goes first and already exists in Figma, so it is *audit �
 | 14 | Thu 5 Nov | **Date picker** (field + calendar) — whole day: web is our own build (P-01) | ● | ● | ● | custom on `Popover` + `TextField` / `showDatePicker` | Text field, Icon button, Dialog, D-10 |
 | 15 | Sun 8 Nov | Time picker | ● | ● | ● | custom / `showTimePicker` | Text field, Dialog, D-10 |
 | 15 | | Date range picker | ● | ● | ● | custom (two calendars) / `showDateRangePicker` | Date picker |
-| 16 | Mon 9 Nov | File upload | ● | ● | ● | custom dropzone / `file_picker` + list | Button, Progress, List, Alert |
+| 15 | | Action bar (bulk / contextual actions bar, directional; P-05) | ● | ● | — | `Toolbar` + Button group / custom `Row` + `BwButton` | Button group, Icon button, Menu, Divider |
+| 16 | Mon 9 Nov | File upload (incl. photo / avatar upload variant, P-05) | ● | ● | ● | custom dropzone / `file_picker` + list | Button, Progress, List, Alert |
 | 16 | | Pagination | ● | ● | — | `Pagination` · `TablePagination` / custom | Icon button, Select |
 | 16 | | Stepper | ● | ● | ● | `Stepper` / custom (M3 has none) | Icon, Button |
 | 17 | Tue 10 Nov | Empty state | ● | ● | ● | custom | Icon / illustration, Button group |
@@ -149,10 +150,11 @@ A pattern is a documented composition of components that solves one recurring Bi
 | D-18 | Icon set | **Google Material Symbols Rounded** (wght 400, GRAD 0, FILL 0 / 1 selected; opsz = size on Flutter, font default on web). Web: self-hosted `@material-symbols/font-400` variable font (FILL axis) (MUI `Icon` `baseClassName="material-symbols-rounded"`, wrapped by the Biowave `Icon`). Flutter: `material_symbols_icons` (`Symbols.*_rounded`). `@mui/icons-material` and Flutter `Icons.*` not allowed | [`icons.md`](2-foundations/guidelines/icons.md) | ✅ 2026-10-18 |
 | I-01 … I-10 | Input family: static label above the field · outlined only · field focus = border in `color-border-focus` (no offset ring) · `sm·md·lg` · Text area inside Text field · shared field parts · Verification code (Day 8) and Phone field (Day 13) added | [`_audits/input-family.md`](_audits/input-family.md) §4 | ✅ 2026-10-18 |
 | B-01 … B-05 | Button family: emphasis `filled·tonal·outlined·text` · colors `brand·secondary·neutral·error·inverse` · sizes `sm·md·lg·xl` · one EN/AR set · deprecate duplicates | [`audits/button-family.md`](_audits/button-family.md) §4 | ✅ 2026-10-16 |
+| P-05 | Figma components missing from the roadmap (all 4 Figma files checked, incl. LEGACY Web + Mobile pages) | **Tag / Label / Request status** → Chip variants (no new component) · **Check badge** → Badge · **Checkbox card / Card check** → Card (selectable) · **Day picker** → Segmented button · **Notification card** → List item · **Upload photo** → File upload · **Actions bar** → new Phase 2 item **Action bar** (Day 15, W + T) · **Map** → backlog · **Slider** stays post-1.0 · System status bar = device chrome, not a component | ✅ 2026-10-20 |
 
 ## 8. Backlog (after 1.0, not scheduled)
 
-Slider · Rating · Carousel · Tree view · Timeline · Charts (data visualization component set; needed for full Dashboard) · Rich text editor · Calendar/scheduler view (shifts) · Biometric enrollment pattern · Kiosk / terminal mode for tablet.
+Slider (designed in Figma, 30 variants) · Map (designed in Figma: Web `↳ Maps`, P-05) · Rating · Carousel · Tree view · Timeline · Charts (data visualization component set; needed for full Dashboard) · Rich text editor · Calendar/scheduler view (shifts) · Biometric enrollment pattern · Kiosk / terminal mode for tablet.
 
 ## 9. Risks
 

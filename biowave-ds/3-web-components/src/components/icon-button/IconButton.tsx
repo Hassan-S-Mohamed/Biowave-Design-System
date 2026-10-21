@@ -177,7 +177,11 @@ interface PreparedIcon {
   icon: React.ReactNode;
 }
 
-type MarkableIconProps = { className?: string; mirrorInRtl?: boolean };
+type MarkableIconProps = {
+  className?: string;
+  directional?: boolean;
+  mirrorInRtl?: boolean;
+};
 
 function prepareIcon(icon: React.ReactNode, modifier: string): PreparedIcon {
   if (!React.isValidElement<MarkableIconProps>(icon)) {
@@ -186,18 +190,25 @@ function prepareIcon(icon: React.ReactNode, modifier: string): PreparedIcon {
 
   const classNames = icon.props.className?.split(/\s+/).filter(Boolean) ?? [];
   const directional =
-    icon.props.mirrorInRtl === true || classNames.includes('bw-icon-directional');
+    icon.props.directional === true ||
+    icon.props.mirrorInRtl === true ||
+    classNames.includes('bw-icon-directional');
   const cleanClassName = classNames
     .filter((className) => className !== 'bw-icon-directional')
     .join(' ');
-  const { mirrorInRtl: _mirrorInRtl, ...cleanProps } = icon.props;
-  const cleanIcon = _mirrorInRtl
-    ? React.createElement(icon.type, {
-        ...cleanProps,
-        key: icon.key,
-        className: cleanClassName || undefined,
-      })
-    : React.cloneElement(icon, { className: cleanClassName || undefined });
+  const {
+    directional: _directional,
+    mirrorInRtl: _mirrorInRtl,
+    ...cleanProps
+  } = icon.props;
+  const cleanIcon =
+    _directional !== undefined || _mirrorInRtl !== undefined
+      ? React.createElement(icon.type, {
+          ...cleanProps,
+          key: icon.key,
+          className: cleanClassName || undefined,
+        })
+      : React.cloneElement(icon, { className: cleanClassName || undefined });
 
   return {
     icon: cleanIcon,

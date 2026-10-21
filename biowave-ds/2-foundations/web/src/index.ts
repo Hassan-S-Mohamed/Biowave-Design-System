@@ -9,3 +9,4 @@ export {
   type BiowaveProviderProps,
   type ThemePreference,
 } from './BiowaveProvider';
+export type { MaterialSymbol } from '@material-symbols/font-400';

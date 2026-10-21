@@ -13,12 +13,12 @@
 | Built on | MUI `Icon` (font ligature) with `baseClassName="material-symbols-rounded"`; font `@material-symbols/font-400` (D-18) |
 | Import | `import { Icon } from '@biowave/web'` |
 | Figma | **Biowave DS — Web Components** › `↳ Icon` · build: [Part D](#d--figma-build) |
-| Version | 1.0 · 2026-10-18 |
+| Version | 1.1 · 2026-10-20 |
 | Plan | Finished |
-| Code | Planned |
+| Code | Approved |
 | Figma build | Planned |
-| Review | — |
-| Source code | `src/components/icon/` — not built yet (the Executor creates it) |
+| Review | Round 2 · 2026-10-20 · Approved |
+| Source code | [`src/components/icon/`](../../src/components/icon/) |
 | Tokens | [`icon.tokens.json`](icon.tokens.json) — `Icon / Size` · `Icon / Color` (D-13) |
 | Contracts | [`icon-contract.md`](icon-contract.md) · [`figma-icon-contract.md`](figma-icon-contract.md) — generated, never edited |
 | Docs page | [`icon.html`](icon.html) |
@@ -182,7 +182,7 @@ An icon has no interactive states of its own. It follows its parent: colour and 
 
 | Prop | Type | Values | Default | Required | Description |
 |---|---|---|---|---|---|
-| `name` | `MaterialSymbol` | Material Symbols names (type from `@material-symbols/font-400`, re-exported by `@biowave/foundations`) | | ✓ | A4.1 — the glyph |
+| `name` | `IconName` | `MaterialSymbol` (type from `@material-symbols/font-400`, re-exported by `@biowave/foundations`) plus the two extra names below; `''` is typed only for the empty-name fallback | | ✓ | A4.1 — the glyph |
 | `size` | enum | `xs` · `sm` · `md` · `lg` · `xl` · `2xl` · `3xl` | — (inherit) | | A4.2 — without `size` the icon follows the container's `font-size` (Biowave components set it) |
 | `filled` | boolean | | `false` | | A4.3 — FILL 1 (class `bw-icon-fill`) |
 | `color` | enum | `default` · `subtle` · `muted` · `inverse` · `brand` · `secondary` · `success` · `warning` · `error` · `info` | — (`currentColor`) | | A4.4 |
@@ -191,6 +191,15 @@ An icon has no interactive states of its own. It follows its parent: colour and 
 | `className` · `data-*` · `ref` | | | | | Forwarded to the root `span` |
 
 Usage inside components: `<Button startIcon={<Icon name="add" />}>` — no `size`, the Button sizes it.
+
+**`IconName`** = `MaterialSymbol | 'push_pin' | 'expand_more' | ''`, exported from `@biowave/web`. The two extra names are a closed list — any other name needs a new row here first.
+
+| Extra name | Why it is kept | Checked |
+|---|---|---|
+| `push_pin` | The `@material-symbols/font-400` 0.48.0 typings list only the newer name `keep`. `push_pin` is the name in the Google · Material Symbols Figma library (`_sync/figma-icons.json`) and `icons.md`, which use one name across Figma, web and Flutter | The Rounded woff2 of 0.48.0 still has the `push_pin` ligature; it renders the same glyph as `keep`, pixel for pixel (headless Chrome, 2026-10-20) |
+| `expand_more` | Missing from the 0.48.0 typings; it is the Split button menu chevron and is in the Figma library index under this name. The closest listed name, `keyboard_arrow_down`, is a different glyph | The Rounded woff2 of 0.48.0 has the `expand_more` ligature (renders one 1em glyph, not text); it differs from `keyboard_arrow_down` (headless Chrome, 2026-10-20) |
+
+If a later font package drops either ligature, the Planner moves specs, `icons.md` and the Figma index to the listed name in one task.
 
 **Invalid combinations** (`console.warn` once in development; fallback still renders):
 
@@ -254,7 +263,7 @@ LTR  [✓] Saved         RTL  تم الحفظ [✓]     ← not directional: nev
 |---|---|
 | `directional` on | `[dir='rtl'] .bw-icon.bw-icon-directional { transform: scaleX(-1) }` |
 | `directional` off | Not mirrored |
-| Inside Button / Icon button | The component removes the class from the icon and mirrors its own wrapper once (no double flip) |
+| Inside Button / Icon button | `prepareIcon` treats `directional` exactly like `mirrorInRtl`: when the icon has `directional` (the prop), `mirrorInRtl` or the class `bw-icon-directional` — alone or together — it removes them from the icon and marks its own wrapper with `bw-icon-directional` once. Exactly one element is flipped (no double flip, no flip by the icon) |
 
 ### B6 Accessibility (implementation)
 
@@ -286,10 +295,13 @@ Structure, properties, the Figma ↔ code mapping and Code Connect: [Part D](#d-
 - [ ] Every `size` renders a box of the token size in light + dark × en + ar
 - [ ] Without `size` the box follows the parent's `font-size` (inside Button `sm`/`md`/`lg`: 16/20/24, nothing clipped)
 - [ ] `filled` adds `bw-icon-fill`; `color` maps to the B3 tokens; no `color` = `currentColor`
-- [ ] `directional` mirrors in RTL only; inside Button / Icon button exactly one flip
+- [ ] `directional` mirrors in RTL only (the rule selector is scoped to `[dir='rtl']`)
+- [ ] Inside Button and Icon button, for `<Icon directional />`, `<Icon className="bw-icon-directional" />` and `<Icon directional className="bw-icon-directional" />`: exactly one `.bw-icon-directional` in the tree, on the wrapper, none on the icon; in RTL the glyph is mirrored once
 - [ ] Decorative: `aria-hidden`; labelled: `role="img"` + name; axe has no violations
 - [ ] Invalid combinations warn once
 - [ ] No raw values; no `@mui/icons-material` import (guard test)
+- [ ] D-18 guard (`src/test/noLegacyIcons.test.ts`): fails when the text `material-symbols-rounded` or `@mui/material/Icon` appears in any file under `3-web-components/src/` outside `src/components/icon/` (the guard file itself excepted). Every web component then renders glyphs only through Icon
+- [ ] Types: `push_pin` and `expand_more` compile as `name`; an unknown name does not
 
 ---
 
@@ -301,7 +313,7 @@ Structure, properties, the Figma ↔ code mapping and Code Connect: [Part D](#d-
 |---|---|
 | Component | Icon |
 | Platform | Web (React + MUI) |
-| Plan version | 1 · 2026-10-18 |
+| Plan version | 1.1 · 2026-10-20 |
 
 ### C1 Goal
 
@@ -311,14 +323,17 @@ Structure, properties, the Figma ↔ code mapping and Code Connect: [Part D](#d-
 
 **In scope:** B1–B9; `icon.tokens.ts` map; re-export the `MaterialSymbol` type from `@biowave/foundations`; then **adopt Icon** inside the built components — replace their direct MUI `Icon baseClassName="material-symbols-rounded"` usage with `<Icon name="…" />` in `SplitButton.tsx`, `ButtonGroup.tsx`, `TextField.tsx`, `FieldLabel.tsx`, `FieldSupportingText.tsx`, `FieldAction.tsx`, and replace the test helper `src/test/materialSymbol.tsx` with `Icon` in all tests (delete the helper's uses; keep the file only if still referenced).
 
-**Out of scope:** new icons or custom SVG icons; animated icons; Icon button changes beyond accepting `Icon`.
+Also in scope: `prepareIcon` in `Button.tsx` and `IconButton.tsx` per B5 (review round 1, finding 1), and the D-18 guard in `src/test/noLegacyIcons.test.ts` per B9 (finding 5).
+
+**Out of scope:** new icons or custom SVG icons; animated icons; any other Button or Icon button change.
 
 ### C3 Approach
 
 - Base: MUI `Icon` with `baseClassName="material-symbols-rounded"` and `fontSize="inherit"`, wrapped in a styled root that applies the B2 size and B3 colour from `icon.tokens.ts` (`cssVars.size.icon.*`, `cssVars.color.icon.*`).
 - `filled` → class `bw-icon-fill`; `directional` → class `bw-icon-directional` + the RTL rule in the root styles.
+- Button / Icon button `prepareIcon`: read `directional === true` the same way as `mirrorInRtl` — strip the `directional` prop, `mirrorInRtl` and the `bw-icon-directional` class from the cloned icon, and put `bw-icon-directional` on the wrapper once (B5). The `Icon.tsx` JSDoc for `directional` must say exactly this.
 - Semantics per B6; the children text is the ligature `name`.
-- Type: `name: MaterialSymbol` (`export type { MaterialSymbol } from '@material-symbols/font-400'` in `2-foundations/web/src/index.ts`).
+- Type: `name: IconName` per B1 — `MaterialSymbol | 'push_pin' | 'expand_more' | ''` (`export type { MaterialSymbol } from '@material-symbols/font-400'` in `2-foundations/web/src/index.ts`); no other extra names.
 - Gotchas: the font package's own `font-size: 24px` is reset by `icons.css` (`font-size: inherit`) — keep it; MUI `Icon` adds `aria-hidden` — override when `label` is set.
 
 ### C4 Token gaps
@@ -335,6 +350,9 @@ None (`size.icon.*`, `color.icon.*` exist). Component tokens in `icon.tokens.jso
 3-web-components/src/index.ts                             change: export Icon
 2-foundations/web/src/index.ts                            change: export type MaterialSymbol
 3-web-components/src/components/{split-button,button-group,text-field}/*.tsx   change: use Icon
+3-web-components/src/components/button/Button.tsx          change: prepareIcon strips `directional` (B5)
+3-web-components/src/components/icon-button/IconButton.tsx change: prepareIcon strips `directional` (B5)
+3-web-components/src/test/noLegacyIcons.test.ts           change: D-18 guard (B9)
 3-web-components/src/components/**/*.test.tsx              change: use Icon instead of MaterialSymbol
 3-web-components/README.md · CHANGELOG.md                  change
 ```
@@ -349,11 +367,11 @@ Implement every item in B9, plus:
 
 - [ ] AC-1 API matches B1 (names, types, defaults, warnings)
 - [ ] AC-2 Sizes and colours only from B2–B3 tokens; no raw values
-- [ ] AC-3 RTL per B5 (single flip inside Button / Icon button)
+- [ ] AC-3 RTL per B5 (single flip inside Button / Icon button, on the wrapper, also for the `directional` prop)
 - [ ] AC-4 Semantics per B6; axe clean
 - [ ] AC-5 `npm run typecheck` and `npm run test:web` pass
 - [ ] AC-6 Exported from `src/index.ts`; README row `Built`
-- [ ] AC-7 Built components use `Icon` (no direct `material-symbols-rounded` markup outside `components/icon/`)
+- [ ] AC-7 Built components use `Icon` (no direct `material-symbols-rounded` markup outside `components/icon/`), enforced by `noLegacyIcons.test.ts`
 
 ---
 
@@ -361,15 +379,27 @@ Implement every item in B9, plus:
 
 | Field | Value |
 |---|---|
-| Agent | |
-| Date | |
-| Files changed | |
+| Agent | Cursor (Composer) |
+| Date | 2026-10-20 |
+| Files changed | `3-web-components/src/components/icon/` (Icon.tsx, icon.tokens.ts, Icon.test.tsx, index.ts); `3-web-components/src/index.ts`; `2-foundations/web/src/index.ts` (`MaterialSymbol` type export); adopt Icon in `SplitButton.tsx`, `ButtonGroup.tsx`, `TextField.tsx`, `FieldLabel.tsx`, `FieldSupportingText.tsx`, `FieldAction.tsx`; replace `MaterialSymbol` test helper with `Icon` in Button / IconButton / ButtonGroup / SplitButton / TextField tests; delete `src/test/materialSymbol.tsx`; `3-web-components/README.md`; `CHANGELOG.md`; this C8 |
 
 **Deviations from the plan or spec**
-- none
+- `IconName` includes `push_pin` and `expand_more` in addition to `MaterialSymbol` from `@material-symbols/font-400`, because those typings omit names the Biowave specs and Figma icon index still use.
+- IconButton / TextField axe tests: raised timeout to 20s (same as Button) — suite load made them flake at the default 5s after Icon adoption.
 
 **Questions for the Planner**
-- none
+- `npm run docs:check` fails on stale **tablet** and **mobile** `button-group` Figma contracts (outside this unit). Should those be regenerated on `main` / their branches?
+- Button / IconButton `prepareIcon` still only lift `className="bw-icon-directional"` (and `mirrorInRtl`), not the Icon `directional` prop. Documented `<Icon directional />` inside Button self-mirrors once via Icon CSS (still one flip). Should Button/IconButton also strip `directional` like `mirrorInRtl` so the marker moves to the wrapper?
+
+#### Fix round 1 — 2026-10-20 · Antigravity (Gemini 4 Argon)
+
+| Finding | What changed (`file:line`) | Test that proves it |
+|---|---|---|
+| #1 | `prepareIcon` strips `directional` (like `mirrorInRtl` and `bw-icon-directional`) from the cloned icon and adds `bw-icon-directional` to the wrapper once (`3-web-components/src/components/button/Button.tsx:183-228`, `3-web-components/src/components/icon-button/IconButton.tsx:180-221`); updated `directional` and component JSDoc (`3-web-components/src/components/icon/Icon.tsx:29-35`, `:71-76`) | `3-web-components/src/components/icon/Icon.test.tsx:165-235` (`mirrors directional icons in RTL only; one flip inside Button and IconButton`) |
+| #2 | Aligned `IconName = MaterialSymbol \| 'push_pin' \| 'expand_more' \| ''` and `IconProps.name: IconName` with B1 (`3-web-components/src/components/icon/Icon.tsx:17-25`) | `3-web-components/src/components/icon/Icon.test.tsx:275-290` (`accepts push_pin and expand_more and rejects an unknown name at the type level`) |
+| #3 | Added single-flip assertions for `<Icon directional />`, `<Icon className="bw-icon-directional" />`, and `<Icon directional className="bw-icon-directional" />` inside `Button` and `IconButton`, and asserted `[dir='rtl']` rule selector scoping (`3-web-components/src/components/icon/Icon.test.tsx:165-235`) | `3-web-components/src/components/icon/Icon.test.tsx:165-235` (`mirrors directional icons in RTL only; one flip inside Button and IconButton`) |
+| #4 | Asserted `Button` `sm`/`md`/`lg` icon wrapper `fontSize`/`inlineSize`/`blockSize` match `buttonSizeTokens[size].icon` (`iconSizeTokens[size]`, resolved 16/20/24 px in `base.size.icon`) and icon has `fontSize: inherit` and `overflow: hidden` (`3-web-components/src/components/icon/Icon.test.tsx:124-147`) | `3-web-components/src/components/icon/Icon.test.tsx:124-147` (`without size follows the parent font-size inside Button sm/md/lg (16/20/24, nothing clipped)`) |
+| #5 | Extended D-18 guard to fail on `material-symbols-rounded` or `@mui/material/Icon` anywhere under `3-web-components/src/` outside `src/components/icon/` (`3-web-components/src/test/noLegacyIcons.test.ts:13-41`); folded literal `material-symbols-rounded` source checks out of `3-web-components/src/components/text-field/TextField.test.tsx:153-157` | `3-web-components/src/test/noLegacyIcons.test.ts:36-41` (`never uses material-symbols-rounded or @mui/material/Icon outside src/components/icon/`) |
 
 ---
 
@@ -475,7 +505,133 @@ Component description: “Material Symbols Rounded glyph with Biowave sizes and 
 
 | Round | Date | Code verdict | Figma verdict |
 |---|---|---|---|
-| — | — | not reviewed | not reviewed |
+| 1 | 2026-10-20 | Changes requested | not reviewed |
+| 2 | 2026-10-20 | Approved | not reviewed |
+
+### E2 Round 1 — 2026-10-20
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 1 |
+| Spec version reviewed | 1.0 |
+| Reviewer | Claude |
+| Date | 2026-10-20 |
+| Verdict | **Changes requested** — Icon itself is solid and D-18 holds across the web sources; 3 🟡 items (2 Planner, 1 Executor) and 2 🟢 nits |
+| Evidence | Run by the Reviewer on `ds/icon-web`: `npm run typecheck` ✅ · `npm run test:web` ✅ 7 files, 86/86 · `npm run docs:check` ❌ 2 errors, both stale **tablet / mobile button-group** Figma contracts (pre-existing, also on `main`, out of scope — not counted) |
+
+#### Acceptance criteria
+
+| AC | Result | Evidence (file:line / test name) |
+|---|---|---|
+| AC-1 API matches B1 | ⚠️ | Props, defaults, `className` / `data-*` / `ref` forwarding = B1 (`Icon.tsx:25-34`, `:71-83`). Warnings: empty `name` and status-without-label (skipped when `size` unset) warn once (`Icon.tsx:87-96`; test "warns once for invalid combinations"). `name` is `IconName` = `MaterialSymbol` + `push_pin` · `expand_more`, not `MaterialSymbol` as B1 says — finding 2 |
+| AC-2 Tokens only | ✅ | `icon.tokens.ts:17-39` uses `cssVars.size.icon.*` / `cssVars.color.icon.*` only; equal to `icon.tokens.json` (test "matches every component-token alias"); raw-value guard (test "contains no raw colors, dimensions, durations, or font names"). `1em` is the B2 fallback |
+| AC-3 RTL per B5 | ⚠️ | Standalone: `[dir='rtl'] &.bw-icon-directional { scaleX(-1) }` (`Icon.tsx:60-62`). Inside Button / Icon button only the `className="bw-icon-directional"` path is handled; the documented `<Icon directional />` (B7) keeps its class on the icon and the wrapper is not marked, and `directional` + the class gives a double flip — finding 1 |
+| AC-4 Semantics per B6; axe | ✅ | Decorative `aria-hidden="true"`, no role; labelled `role="img"` + `aria-label`, MUI's `aria-hidden` removed (`Icon.tsx:107-119`); test "is decorative without label and labelled with role=img; axe clean" |
+| AC-5 typecheck + test:web | ✅ | Both pass (run above); the `@ts-expect-error` unknown-name test is type-checked (`tsconfig` includes `src`) |
+| AC-6 Exported; README `Built` | ✅ | `src/index.ts` exports `Icon` + types; `components/icon/index.ts`; README row and header were `Built` at review start |
+| AC-7 Built components use Icon | ✅ | `SplitButton.tsx:153`, `ButtonGroup.tsx:202`, `TextField.tsx:546-567`, `FieldLabel.tsx:182`, `FieldSupportingText.tsx:123`; `FieldAction.tsx` / `FieldLabel.tsx` style `.bw-icon`; `src/test/materialSymbol.tsx` deleted. Repo sweep below |
+
+**D-18 sweep (user request)** — `grep` over `3-web-components/src` for `@mui/icons-material`, `SvgIcon`, `<svg` / `<path`, other icon fonts or packages (`material-icons`, Font Awesome, Lucide, Heroicons, `react-icons`) and `material-symbols-rounded` / `@mui/material/Icon` outside `src/components/icon/`: **no component source renders an icon from another source.** `@mui/material/Icon` is imported only in `icon/Icon.tsx`; no icon package is in `package.json`. Only hits: the existing `@mui/icons-material` guard (`src/test/noLegacyIcons.test.ts`), the TextField source guards, and one `<svg>` stub in `Button.test.tsx:570` that tests the `mirrorInRtl` API for custom icons (test fixture, not rendered by any component). MUI parts used (`CircularProgress`, `Menu`, `Tooltip`, `OutlinedInput`, …) render no built-in icons in Biowave's usage.
+
+#### Rule checks (AGENTS.md §2)
+
+| Rule | Result | Notes |
+|---|---|---|
+| No generated files edited | ✅ | No `generated/`, `dist/`, contract or HTML shell in the diff |
+| No raw values / no primitives | ✅ | Semantic `cssVars` only |
+| Logical properties, RTL icons | ⚠️ | `inlineSize` / `blockSize`; finding 1 |
+| Light + dark, en + ar tested | ✅ | Every size × theme × locale (test "renders every size as a token-sized box in both themes and languages") |
+| Accessibility (keyboard, focus, labels, target) | ✅ | Never focusable; label semantics per B6 |
+| Stayed inside the plan | ✅ | Files = C5; test-timeout raise to 20 s logged in C8 |
+| Code matches spec | ⚠️ | Findings 1 and 2; `Icon.tsx:67-69` JSDoc says Button strips the class, which is not true for the `directional` prop |
+| Accepted deviations reflected back into the spec | ❌ | The `IconName` widening is only in C8, not in B1 — finding 2 |
+| Changelog | ✅ | `CHANGELOG.md` "[Web — Icon] — 2026-10-20" |
+
+#### Findings
+
+| # | Severity | File / section | Issue | Required change | Owner |
+|---|---|---|---|---|---|
+| 1 | 🟡 Should fix | B5 · C2 · C5 — `button/Button.tsx:185-210`, `icon-button/IconButton.tsx:182-207`, `icon/Icon.tsx:101` | B5 says Button / Icon button take the directional marker off the icon and mirror their wrapper once. `prepareIcon` only reads `className` and `mirrorInRtl`, so the documented `<Icon directional />` (B7) keeps `bw-icon-directional` on the icon and the wrapper is not marked (one flip today, but by the wrong element); `<Icon directional className="bw-icon-directional" />` is flipped twice (wrapper + icon = not mirrored). Button / IconButton are not in C5 and C2 puts Icon button changes out of scope, so the Executor could not fix it. **Answer to the C8 question: yes** — strip `directional` like `mirrorInRtl` | Add `button/Button.tsx` and `icon-button/IconButton.tsx` to C5; in B5 / C3 state that `prepareIcon` treats `directional === true` like `mirrorInRtl` (remove the prop, mark the wrapper); fix the `Icon.tsx` JSDoc; add the B9 case below. Regenerate the contract | Planner |
+| 2 | 🟡 Should fix | B1 `name` — `icon/Icon.tsx:21-26` | `name` accepts `MaterialSymbol \| 'push_pin' \| 'expand_more' \| ''`. `@material-symbols/font-400` 0.48.0 typings no longer list `push_pin` / `expand_more` (the list has `keep`), yet `icons.md`, `_sync/figma-icons.json` and `SplitButton.tsx:153` use them. The API now differs from B1, and nobody has checked that the Rounded woff2 still has those ligatures | Planner decides: either move specs, the Figma icon index and Split button to the names the package lists, or record the extra names in B1 (and C3) and confirm the ligatures render in a browser. Executor then aligns `IconName` | Planner |
+| 3 | 🟡 Should fix | `icon/Icon.test.tsx:158-202` | B9 "inside Button / Icon button exactly one flip" is only tested with `className="bw-icon-directional"`, not with the documented `directional` prop; "mirrors in RTL only" asserts that the rule text exists, not that it is scoped to `[dir='rtl']` | Add Button and IconButton cases with `<Icon directional />` (and `directional` + class): exactly one `.bw-icon-directional`, on the wrapper; assert the rule selector contains `[dir='rtl']` | Executor |
+| 4 | 🟢 Nit | `icon/Icon.test.tsx:121-140` | B9 "inside Button sm/md/lg: 16/20/24" only checks `fontSize: inherit` and a truthy wrapper `font-size` | Assert the wrapper `font-size` equals the Button size token for each size | Executor |
+| 5 | 🟢 Nit | B9 · `src/test/noLegacyIcons.test.ts` | AC-7 / D-18 is guarded only for 3 TextField files; nothing fails if a future component renders `material-symbols-rounded` or `@mui/material/Icon` directly | Add to B9 / C5: extend `noLegacyIcons.test.ts` to fail on `material-symbols-rounded` and `@mui/material/Icon` outside `src/components/icon/` | Planner |
+
+#### Notes
+
+- `docs:check` fails only on the stale tablet and mobile `button-group` Figma contracts — pre-existing on `main`, outside this unit, not counted. The C8 question about regenerating them goes to the orchestrator / Planner of those units.
+- Figma build (Part D) not reviewed: `Figma build = Planned`.
+
+#### Next step
+
+1. Planner: findings 1, 2, 5 → Plan `Finished` → `npm run contract -- web icon`.
+2. Executor: finding 3 (with finding 1's code), 4 and the outcome of 2 → C8 Fix round 1 → Code `Built`.
+
+### E3 Round 2 — 2026-10-20
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 1.1 |
+| Spec version reviewed | 1.1 |
+| Reviewer | Claude |
+| Date | 2026-10-20 |
+| Code reviewed | `git diff main...ds/icon-web`; fix = `187f24f fix(icon/web): round 1` |
+| Verdict | **Approved** — all 5 Round 1 findings fixed; no 🔴 / 🟡 open; 1 new 🟢 nit (test timeout headroom) |
+| Evidence | Run by the Reviewer on `ds/icon-web`: `npm run typecheck` ✅ · `npm run test:web` ✅ 7 files, 87/87 (41.99 s) · `npm run docs:check` ❌ 2 errors, both stale **tablet / mobile button-group** Figma contracts (pre-existing on `main`, out of scope — not counted; Icon's own contracts are fresh) |
+
+#### Round 1 findings
+
+| # | Status | Evidence |
+|---|---|---|
+| 1 | ✅ Fixed | Plan 1.1 B5 / C3 / C5 updated. `prepareIcon` reads `icon.props.directional === true` with `mirrorInRtl` and the class, strips all three and marks the wrapper once (`button/Button.tsx:188-220`, `icon-button/IconButton.tsx:186-218`); React 19 keeps `ref` in props, so the `createElement` path loses nothing. `Icon.tsx:29-35` and `:71-76` JSDoc now state this |
+| 2 | ✅ Fixed | B1 records the closed extra list with the browser ligature check; `IconName = MaterialSymbol \| 'push_pin' \| 'expand_more' \| ''` and `name: IconName` (`icon/Icon.tsx:22`, `:25`); test "accepts push_pin and expand_more and rejects an unknown name at the type level" (`Icon.test.tsx:275`), type-checked by `npm run typecheck` |
+| 3 | ✅ Fixed | `Icon.test.tsx:165` "mirrors directional icons in RTL only; one flip inside Button and IconButton": prop / class / both × Button and IconButton — exactly one `.bw-icon-directional`, on the wrapper, none on the icon; every `scaleX(-1)` rule selector (standalone and wrapper) must match `[dir=rtl]` |
+| 4 | ✅ Fixed | `Icon.test.tsx:124`: wrapper `font-size` / `inline-size` / `block-size` = `buttonSizeTokens[size].icon` = `iconSizeTokens[size]`, and `base.size.icon` = 16/20/24; icon `font-size: inherit`, `overflow: hidden` |
+| 5 | ✅ Fixed | B9 / C5 updated; `src/test/noLegacyIcons.test.ts:16`, `:36` "never uses material-symbols-rounded or @mui/material/Icon outside src/components/icon/" scans every `src/**/*.ts(x)` (scan test also asserts the icon folder is in the glob). `\b` keeps `@mui/material/IconButton` from matching. Orchestrator probe: a planted `material-symbols-rounded` use fails it. The TextField-only literal checks it replaces were removed (`TextField.test.tsx:153`) |
+
+#### Acceptance criteria
+
+| AC | Result | Evidence (file:line / test name) |
+|---|---|---|
+| AC-1 API matches B1 | ✅ | Props and defaults = B1; `name: IconName` exactly B1 (`Icon.tsx:22-35`); warnings once — test "warns once for invalid combinations" (`Icon.test.tsx:255`) |
+| AC-2 Tokens only | ✅ | `icon.tokens.ts` uses `cssVars.size.icon.*` / `cssVars.color.icon.*`; tests "matches every component-token alias", "contains no raw colors, dimensions, durations, or font names" (`Icon.test.tsx:77`, `:86`) |
+| AC-3 RTL per B5 | ✅ | Standalone rule `Icon.tsx:66` under `[dir='rtl']`; single wrapper flip for prop / class / both in Button and IconButton (Round 1 #1, #3 above) |
+| AC-4 Semantics; axe | ✅ | `role="img"` + `aria-label` when labelled, `aria-hidden` otherwise (`Icon.tsx:123-125`); test "is decorative without label and labelled with role=img; axe clean" (`Icon.test.tsx:237`) |
+| AC-5 typecheck + test:web | ✅ | Both pass (run above) |
+| AC-6 Exported; README `Built` | ✅ | `src/index.ts:23-27` exports `Icon`, `IconProps`, `IconName`, `IconColor`, `IconSize`; README row was `Built` at review start |
+| AC-7 Built components use Icon | ✅ | `grep` for `material-symbols-rounded` / `@mui/material/Icon` under `3-web-components/src` outside `components/icon/`: only the guard's own regex. Enforced by the Round 1 #5 test |
+
+**D-18 (run goal)** — every glyph in the web components goes through `Icon` (Material Symbols Rounded); no `@mui/icons-material`, no other icon font or package, and the guard now fails on any direct Material Symbols markup outside `components/icon/`.
+
+#### Rule checks (AGENTS.md §2)
+
+| Rule | Result | Notes |
+|---|---|---|
+| No generated files edited | ✅ | Contracts changed only by `npm run contract` (plan 1.1 step); `docs:check` reports Icon contracts fresh |
+| No raw values / no primitives | ✅ | Semantic `cssVars` only; `16/20/24` appear only as test expectations |
+| Logical properties, RTL icons | ✅ | `inlineSize` / `blockSize`; one flip, RTL-scoped |
+| Light + dark, en + ar tested | ✅ | Test "renders every size as a token-sized box in both themes and languages" (`Icon.test.tsx:96`) |
+| Accessibility | ✅ | B6; never focusable |
+| Stayed inside the plan | ✅ | Fix touches only C5 files (`Button.tsx`, `IconButton.tsx`, `Icon.tsx`, `Icon.test.tsx`, `TextField.test.tsx`, `noLegacyIcons.test.ts`) |
+| Code matches spec | ✅ | B1, B5, B9 |
+| Changelog | ✅ | `CHANGELOG.md` "[Web — Icon fix round 1] — 2026-10-20"; C8 Fix round 1 filled |
+
+#### Findings
+
+| # | Severity | File / section | Issue | Required change | Owner |
+|---|---|---|---|---|---|
+| 1 | 🟢 Nit | `button/Button.test.tsx:592-610` | "has no axe violations … in light" ran 16.3 s in the full suite (13.2 s with the file alone) against its 20 s timeout and timed out once for the orchestrator. Not caused by the fix: the test renders Buttons **without icons** (`prepareIcon` returns early), the test and `Button.tsx` render path are unchanged, and 187f24f only touches `prepareIcon` for icons with a marker. The extra time is axe on 30+ buttons plus CPU contention from the new `Icon.test.tsx` running in parallel. Little headroom → flaky CI | Next time `Button.test.tsx` is touched: raise this axe test's timeout (e.g. 30 s) or split the variant × color matrix per variant. No change needed to approve this unit | Executor |
+
+#### Notes
+
+- `docs:check` fails only on the stale tablet / mobile `button-group` Figma contracts — pre-existing on `main`, outside this unit, not counted.
+- Not a finding (B9 is met as written): the guard matches the text `@mui/material/Icon`, so a barrel import `import { Icon } from '@mui/material'` would not be caught. None exists today. A later plan may add it to B9.
+- Figma build (Part D) not reviewed: `Figma build = Planned`.
+- Code → `Approved` (header and section README).
+
+#### Next step
+
+Orchestrator: after-review gate → before-merge gate for `ds/icon-web`.
 
 ---
 
@@ -483,7 +639,7 @@ Component description: “Material Symbols Rounded glyph with Biowave sizes and 
 
 ### F0 Changes from previous version
 
-First version (1.0).
+1.1 — `name` is typed `IconName`: Material Symbols names plus `push_pin` and `expand_more`, which the font still renders but its typings no longer list; inside Button and Icon button the `directional` prop now moves the mirroring to the button's wrapper; a guard test keeps every web component on Icon. No breaking change.
 
 ### F1 Guidelines changelog
 
@@ -496,3 +652,4 @@ First version (1.0).
 | Version | Date | Change | Breaking | Migration |
 |---|---|---|---|---|
 | 1.0 | 2026-10-18 | Initial | No | — |
+| 1.1 | 2026-10-20 | Review round 1 Planner items: B1 `IconName` with the extra names `push_pin` · `expand_more` and the reason (finding 2); B5 / C3 `prepareIcon` strips `directional` like `mirrorInRtl`, `Button.tsx` · `IconButton.tsx` in C5 (finding 1); B9 / C5 D-18 guard in `noLegacyIcons.test.ts` (finding 5); B9 directional-prop and type cases | No | — |

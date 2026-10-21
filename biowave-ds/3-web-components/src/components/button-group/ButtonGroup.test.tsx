@@ -18,7 +18,7 @@ import {
   type ButtonGroupAlign,
   type ButtonGroupOrientation,
 } from './ButtonGroup';
-import { MaterialSymbol } from '../../test/materialSymbol';
+import { Icon } from '../icon';
 const orientations: ButtonGroupOrientation[] = ['horizontal', 'vertical'];
 const aligns: ButtonGroupAlign[] = ['start', 'center', 'end', 'space-between', 'fill'];
 const locales = ['en', 'ar'] as const;
@@ -97,7 +97,7 @@ describe('ButtonGroup layout', () => {
     renderWithBiowave(
       <ButtonGroup size="lg" aria-label="Actions">
         <Button size="sm" variant="outlined">Cancel</Button>
-        <IconButton size="sm" icon={<MaterialSymbol name="edit" />} label="Edit" tooltip={false} />
+        <IconButton size="sm" icon={<Icon name="edit" />} label="Edit" tooltip={false} />
         <SplitButton
           size="sm"
           variant="outlined"
@@ -153,7 +153,7 @@ describe('ButtonGroup overflow', () => {
     const cancel = vi.fn();
     renderWithBiowave(
       <ButtonGroup maxVisible={2} aria-label="Actions">
-        <IconButton icon={<MaterialSymbol name="edit" />} label="Edit" onClick={edit} tooltip={false} />
+        <IconButton icon={<Icon name="edit" />} label="Edit" onClick={edit} tooltip={false} />
         <Button variant="outlined" onClick={cancel}>Cancel</Button>
         <Button variant="outlined">Preview</Button>
         <Button>Save</Button>
