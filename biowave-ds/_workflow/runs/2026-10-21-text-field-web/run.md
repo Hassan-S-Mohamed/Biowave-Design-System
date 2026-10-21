@@ -18,7 +18,7 @@
 
 | Gate | Decision | Notes |
 |---|---|---|
-| after-review | pending (2026-10-21) | Planner first (#9 multiline rule, #10 Icon wording) → preview → fix (#9 code + test) |
+| after-review | **Approve** (2026-10-21) | Planner for #9 (reviewer's recommended multiline rule) and #10 → preview → fix with codex → review round 3. Live-preview break handed to its own session |
 
 ## Questions raised
 
