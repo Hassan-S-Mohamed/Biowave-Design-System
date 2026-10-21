@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Plan — Divider 1.0 (web, tablet, mobile)] — 2026-10-22
+### Added
+- New component **Divider** (Day 3) planned on all three platforms: `3-web-components/components/divider/divider.md`, `4-tablet-components/components/divider/divider.md`, `5-mobile-components/components/divider/divider.md` (Parts A–D and F; Part A identical except A8). Options `orientation` (horizontal · vertical), `emphasis` (subtle · default · strong → `color-border-subtle` · `color-border-default` · `color-border-strong`), `inset` (none · start · both, `spacing-xl`; start is horizontal only), web-only `decorative`; line `border-width-default`. Base MUI `Divider` (`<hr>`, logical borders and margins) / M3 `Divider` + `VerticalDivider` as `BwDivider`. No component tokens (P-04: semantic tokens fit), no icons, no text on the divider in 1.0. Web C6 tests render only through the shared `renderWithBiowave` at default timeouts. Figma: 18 variants (Orientation × Emphasis × Inset, `Direction=RTL` only for Horizontal · Start), bound directly to Foundations variables. Plan → Finished, Code / Figma build → Planned (headers + the three section READMEs); contracts and docs pages generated.
+
 ## [Review — Web Split button round 3: Approved] — 2026-10-21
 ### Changed
 - Split button (web) review round 3: **Approved** — Part E4 of `3-web-components/components/split-button/split-button.md`. Round 2 #9 fixed (headless Chrome computed Paper `transition`: open `opacity`/`transform` 0.2s `standard-decelerate`, close 0.1s `standard-accelerate`, no delay) and #10 fixed (`prefers-reduced-motion: reduce` → 0 s, menu instant); Round 1 #1 still holds (menu end edge right in English, left in Arabic). 🟢 #11 nit: MUI Grow's `auto` timeout keeps the invisible backdrop ~240 ms after close — carried to the Menu component. Code → Approved (header + README). `docs:check` ✓, `typecheck` ✓, `test:web` 100/100 ✓, `sync` READY.

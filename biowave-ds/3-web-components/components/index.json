@@ -3,6 +3,7 @@
   "components": [
     "button",
     "button-group",
+    "divider",
     "icon",
     "icon-button",
     "split-button",
