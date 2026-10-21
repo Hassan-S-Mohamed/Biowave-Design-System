@@ -14,10 +14,10 @@
 | Import | `import { IconButton } from '@biowave/web'` |
 | Figma | **Biowave DS — Web Components** › `↳ Icon Button` (legacy reference: Foundations `4310:3146`) · build: [Part D](#d--figma-build) |
 | Version | 1.0 · 2026-10-16 |
-| Plan | Finished |
+| Plan | Open |
 | Code | Built |
 | Figma build | Planned |
-| Review | — |
+| Review | Round 1 · 2026-10-21 · Changes requested |
 | Source code | `src/components/icon-button/` — not built yet (the Executor creates it) |
 | Tokens | — (no component tokens yet) |
 | Contracts | [`icon-button-contract.md`](icon-button-contract.md) · [`figma-icon-button-contract.md`](figma-icon-button-contract.md) — generated, never edited |
@@ -503,7 +503,69 @@ Component description: "Starts an action shown as an icon. Always has a label. S
 
 | Round | Date | Code verdict | Figma verdict |
 |---|---|---|---|
-| — | — | not reviewed | not reviewed |
+| 1 | 2026-10-21 | **Changes requested** | not reviewed |
+
+### E2 Round 1 — 2026-10-21
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 1 |
+| Spec version reviewed | 1.0 |
+| Reviewer | Claude |
+| Date | 2026-10-21 |
+| Verdict | **Changes requested** |
+
+Code reviewed as it is on `main` (branch `ds/icon-button-web` has no diff against `main`): `3-web-components/src/components/icon-button/` (`IconButton.tsx`, `IconButtonTooltip.tsx`, `iconButton.tokens.ts`, `IconButton.test.tsx`, `index.ts`) and `src/index.ts:31-35`.
+
+Commands run by the Reviewer (2026-10-21, on the user's machine):
+`npm run typecheck` ✅ · `npm run sync` ✅ READY (exit 0) · `npm run test:web -- src/components/icon-button` ✅ 11/11 (alone) · `npm run test:web` ❌ three full runs: 85/87, 81/87, 84/87 — Button and SplitButton axe/keyboard tests time out in every run (outside this unit); `IconButton › has one accessible name and shows its visual tooltip…` failed in 1 of 3 full runs (finding 1) · `npm run docs:check` ❌ 2 errors, both the pre-existing stale tablet/mobile **button-group** Figma contracts (not this unit; accepted in earlier rounds).
+
+#### Acceptance criteria
+
+| AC | Result | Evidence (file:line / test name) |
+|---|---|---|
+| AC-1 API = B1 (names, defaults, fallbacks) | ✅ | `IconButton.tsx:27-44` props; defaults `:239-250` (`text`, `neutral`, `md`, `tooltip` true, `type` button); fallbacks + `warnOnce` `:259-293`; test *warns and applies the specified fallbacks* (warnings only — finding 5) |
+| AC-2 Unselected from Button's table; selected from B3.2 | ✅ | `IconButton.tsx:9-19, 231` imports `resolveButtonTokens` / `buttonSizeTokens` (no copied values); `iconButton.tokens.ts:33-79` = B3.2 row for row (inverse icon `color-icon-role-brand`, neutral border `color-border-strong`, disabled row); test *uses square size tokens and the selected toggle token map* |
+| AC-3 Transitions B4; reduced motion | ❌ | Toggle background + icon cross-fade use `motion-duration-sm` / `standard` (`IconButton.tsx:97-102, 157`) ✅. Tooltip fade uses the wrong easing and does not honour reduced motion (finding 2) |
+| AC-4 RTL B5; a11y B6 | ⚠️ | Mirroring scoped to the wrapper `IconButton.tsx:169-171`, test *mirrors only directional icon wrappers in RTL* ✅; single name `aria-label` + icons `aria-hidden` `:317, 323` ✅; `aria-pressed` `:318` ✅; status region outside the button `:338-342` ✅. Disabled tooltip anchor gets a stray `aria-label` (finding 3) |
+| AC-5 typecheck, test:web, sync pass | ❌ | typecheck ✅, sync ✅; `test:web` red (findings 1, 6); unit tests still raise timeouts (finding 4) |
+| AC-6 Exported; README status updated | ✅ | `src/index.ts:31-35`; `3-web-components/README.md:49` Code = Built |
+
+#### Rule checks (AGENTS.md §2 + step prompt)
+
+| Rule | Result | Notes |
+|---|---|---|
+| No generated files edited | ✅ | No diff against `main`; `git status` clean apart from the run folder |
+| Tokens only — no raw values, no primitives | ✅ | `cssVars.*` / `base.*` only; lint test *contains no raw colors, dimensions, durations, or font names* passes. Unused `offset` token (finding 7) |
+| RTL logical properties | ✅ | `inlineSize`, `blockSize`, `borderStartStartRadius…`, `paddingInline`/`paddingBlock` (tooltip) |
+| Both themes, both languages, tested | ⚠️ | Rendered in light/dark × en/ar, but only the button count is asserted; axe runs only in `en` (finding 5) |
+| WCAG 2.2 AA | ⚠️ | Keyboard ✅ (*uses a native disabled button and activates with keyboard input*), focus ring = Button focus tokens `:122-125` ✅, target `sm` 32 ≥ 24 ✅. Finding 3 |
+| Biowave `Icon` per D-18, no `@mui/icons-material` | ✅ | No `@mui/icons-material` import in the unit; tests use `Icon` from `../icon`; `noLegacyIcons.test.ts` passes. Spec B7 still shows `@mui/material/Icon` (finding 8) |
+| Default test timeouts (Button round-2 pattern) | ❌ | `IconButton.test.tsx:86` `30_000`, `:287` `20_000` (finding 4) |
+| Stayed inside the contract (C5 files) | ✅ | Exactly the C5 files; `segment` / `InternalIconButton` is an internal SplitButton hook, not public (`index.ts` exports only `IconButton` + types) |
+
+#### Figma build (Part D)
+
+Skipped — Figma build is `Planned` and `figma` is skipped in `_workflow/config.json`.
+
+#### Findings
+
+| # | Severity | File | Issue | Required change | Owner |
+|---|---|---|---|---|---|
+| 1 | 🟡 Should fix | `IconButton.test.tsx:138-139` | Flaky: *has one accessible name and shows its visual tooltip on hover and focus* failed in 1 of 3 full `test:web` runs — after `Escape` the tooltip popper was still in the DOM when `waitFor`'s default 1 s ran out (real timers, exit `Fade` under suite load). The same tooltip state also triggers `act()` warnings from `IconButtonTooltip` in SplitButton / ButtonGroup tests | Make the Esc assertion deterministic (fake timers + `act(() => vi.advanceTimersByTime(...))` with the token duration, or assert the controlled `open` state / `aria-hidden`); wrap tooltip-opening interactions in `act`. Run `test:web` 3× green |
+| 2 | 🟡 Should fix | `IconButtonTooltip.tsx:42-68` | B4: tooltip enter must use `motion-easing-standard-decelerate`, exit `motion-easing-standard-accelerate`; MUI `Fade` defaults to `easeInOut` = `standard` (rendered `transition: opacity 200ms cubic-bezier(0.2,0,0,1)`). B4 reduced motion "tooltip appears without fade": `timeout` and `enterDelay` are JS numbers from `base`, so `prefers-reduced-motion` (which only zeroes the CSS variables) never applies | Pass `easing: { enter: theme.transitions.easing.easeOut, exit: theme.transitions.easing.easeIn }` on the transition slot; when `useMediaQuery('(prefers-reduced-motion: reduce)')` is true use `base.motion.duration.instant` for the timeouts. Test both (mock `matchMedia`) |
+| 3 | 🟡 Should fix | `IconButtonTooltip.tsx:19-21` · MUI `Tooltip.js:488-490` | With `describeChild={false}` MUI spreads `aria-label={title}` onto the cloned child. When `disabled`, that child is the private `<span class="bw-icon-button__tooltip-anchor">`, so a generic `span` carries `aria-label` (ARIA 1.2 prohibited on `generic`; axe `aria-prohibited-attr`). Not caught because every axe test sets `tooltip={false}` | Give the anchor span an explicit `aria-label={undefined}` (the child's own props override MUI's) so only the button is named; add an axe test with `disabled` + tooltip on, light/dark |
+| 4 | 🟡 Should fix | `IconButton.test.tsx:86, 287` | Tests still raise their own timeouts (`30_000`, `20_000`); axe tests take ~5.5 s each alone. Button fixed this in round 2 with a shared per-test speedy Emotion cache and default timeouts — but that fix (`e8dc43b`, `src/test/render.tsx`) is on `ds/button-web`, not on `main`, so this branch can't use it yet | After finding 6 lands, use the shared speedy cache from `src/test/render.tsx` and remove both timeout arguments; keep per-test runtime under the 5 s default |
+| 5 | 🟡 Should fix | `IconButton.test.tsx:56-123, 217-238, 262-289` | B9 gaps: (a) the variant × color × size × theme × locale test only counts buttons — no per-part token assertion, and unselected tokens are never checked; (b) selected tokens checked only for `outlined`/`brand` (not `text`, other colors, disabled-selected); (c) fallbacks: warnings asserted, but not the result (tonal+neutral renders outlined tokens; `toggle` with `filled` has no `aria-pressed`); (d) axe only `en`, only enabled, only tooltip off; (e) no reduced-motion test | Add table-driven assertions for every allowed variant × color (selected and unselected, incl. disabled) from the rendered CSS rules; assert fallback rendering; run axe in `ar` and with disabled / loading / tooltip-on states; add the reduced-motion test from #2 |
+| 6 | 🟡 Should fix | `Button.test.tsx:592` · `SplitButton.test.tsx:149, 255` (outside this unit) | AC-5 needs `npm run test:web` green, but on `main` (and this branch) Button and SplitButton tests time out in every full run (3/87, 6/87, 2/87 failures). The fix exists only on the unmerged `ds/button-web` branch | Sequence: merge `ds/button-web` (shared speedy cache) to `main`, rebase `ds/icon-button-web`, then the Executor applies #4. Record the dependency in C (Depends on) |
+| 7 | 🟢 Nit | `iconButton.tokens.ts:86` · `IconButtonTooltip.tsx:49` | `iconButtonTooltipTokens.offset` is defined but unused; the popper offset reads `base.spacing.xs` directly, so B3.4's offset lives in two places | Use one source (e.g. a numeric `offset` in the tooltip token map) or remove the unused entry |
+| 8 | 🟢 Nit | `icon-button.md` B7 · header | B7 imports `@mui/material/Icon` "until the Biowave Icon ships (D-18)" — it has shipped; examples should use `<Icon name="edit" />` from `@biowave/web`. Header "Source code — not built yet (the Executor creates it)" is stale | Update B7 and the Source code header row |
+| 9 | 🟢 Nit | `IconButton.tsx:291` | Only `label.length === 0` warns; a whitespace-only label gives an empty accessible name silently | Warn on `label.trim().length === 0` |
+
+#### Next step
+
+- Changes requested → Planner: #6 (dependency on `ds/button-web` merge), #8; set Plan `Finished` and regenerate the contract if A–D change.
+- Executor (fix round 1, after the rebase): 🟡 #1–#5, 🟢 #7, #9; append a Fix round entry to C8.
 
 ---
 
