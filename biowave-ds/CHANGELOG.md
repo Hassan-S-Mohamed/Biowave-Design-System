@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Review — Web Button group round 2: Changes requested] — 2026-10-21
+### Changed
+- Button group (web) review round 2: **Changes requested** — Part E3 of `3-web-components/components/button-group/button-group.md`. Round 1 findings #1–#11 all fixed (Chromium, 800 px parent: `start` / `center` / `end` / `space-between` / `fill` place the actions and mirror in Arabic; vertical 100% wide, primary on top). New: 1 🟡 (#12 vertical + `align="fill"` collapses the buttons to 0–2 px tall), 2 🟢 (#13 a kept-visible `href`/submit child pushes the primary into the overflow menu — spec gap, Planner; #14 `fill` flex test reads source text). `docs:check` ✅, `typecheck` ✅, `test:web` 91/91 twice (8.30 s, 6.52 s). Plan → `Open`, Code → `Changes requested`; header and `3-web-components/README.md` updated.
+
 ## [Web Button group — fix round 1 (1.1)] — 2026-10-21
 ### Changed
 - Fixed review findings #2, #3, #4, #7, #9, #10 and the Executor half of #8: the group now fills its parent's inline size with working logical alignment; the English/Arabic layout matrix covers the full B2 rules; `maxVisible` clamps to 1–4; overflowing links and submit actions remain visible; the ButtonGroup suite uses the shared Biowave renderer and default timeout without its former focus warning. Group-owned size precedence is recorded in C8. `docs:check`, `typecheck` and `component-tokens` pass; three full Web runs pass 91/91 in 7.79 s, 6.64 s and 6.66 s.
