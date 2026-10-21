@@ -2,6 +2,12 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Docs — live previews on the Biowave Icon] — 2026-10-21
+### Fixed
+- `_docs/live.tsx` still imported the `MaterialSymbol` test helper that icon/web deleted, so every live React preview (`npm start`) failed with a Vite import error. The demos now use the Biowave `Icon` from `3-web-components/src` (the directional arrow uses `directional` instead of the `bw-icon-directional` class).
+### Added
+- `_docs/tsconfig.json` and `tsc -p _docs` in `npm run typecheck`, so a broken import in `live.tsx` now fails the typecheck.
+
 ## [Mobile Button — review round 2] — 2026-10-21
 ### Changed
 - Mobile `button.md` Part E Round 2: **Approved** — Round 1 #1 fixed (`BwFocusRing` always returns the same `Stack`, child State survives focus; the new test fails when the old ring is restored) and #2 fixed (one `BwButtonMetrics` size table); ring geometry unchanged; 70/70 Flutter tests; no new findings. Review status updated in the header and `5-mobile-components/README.md`.
