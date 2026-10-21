@@ -2,6 +2,31 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Review — Web Icon button round 3: Approved] — 2026-10-21
+### Changed
+- Icon button (web) review round 3: **Approved** — Part E4 of `3-web-components/components/icon-button/icon-button.md`. Round 2 findings fixed: #10 render matrix split per theme × locale with CSS rules read once per render (slowest Icon button test 883 ms, was 3.7–4.4 s); #11 open-tooltip axe runs on `baseElement`. AC-1–AC-11 met; no new findings. `docs:check` ✅, `typecheck` ✅, `test:web` 3/3 full runs 96/96 at the default 5 s timeout. Code → `Approved` (header + `3-web-components/README.md`); Plan stays `Finished`.
+
+## [Fixed — Web Icon button review round 2] — 2026-10-21
+### Fixed
+- Fixed Icon button findings #10 and #11: the variant matrix now caches CSS rules once per render and runs as four theme/locale tests (slowest 798 ms), while the open-tooltip axe cases scan `baseElement` so the portalled tooltip is covered. `docs:check` and `typecheck` pass; three final full Web runs pass 96/96 at the default timeout.
+
+## [Review — Web Icon button round 2: Changes requested] — 2026-10-21
+### Changed
+- Icon button (web) review round 2: **Changes requested** — Part E3 of `3-web-components/components/icon-button/icon-button.md`. Round 1 findings #1–#9 all fixed (tooltip easing, 500 ms hover delay and instant reduced-motion timeouts, single accessible name, RTL mirroring measured in headless Chrome for light/en and dark/ar). AC-1–AC-4, AC-6, AC-8–AC-11 met; AC-5/AC-7 not: `test:web` 4 of 5 full runs green — the Icon button variant-matrix test takes 3.7–4.4 s and timed out once at the 5 s default (🟡 #10, re-scans every stylesheet per button). 🟢 #11: open-tooltip axe case skips the portalled tooltip. `docs:check` ✅, `typecheck` ✅. Code → `Changes requested` (header + `3-web-components/README.md`); Plan stays `Finished`.
+
+## [Fixed — Web Icon button review round 1] — 2026-10-21
+### Fixed
+- Fixed Icon button findings #1–#5, #7 and #9: deterministic token-timed tooltip tests, specified enter/exit easing and reduced-motion timeouts, a single accessible name for disabled tooltip anchors, complete rendered-token/fallback/theme/locale/state coverage under default timeouts, one numeric tooltip-offset source, and whitespace-only label validation. Typecheck, docs, sync and component-token checks pass; three full Web runs pass 93/93.
+
+## [Web Icon button — review round 1 Planner items, plan 1.1] — 2026-10-21
+### Changed
+- Icon button (web) re-plan, version 1.1: #8 B7 examples use the Biowave `Icon` (`<Icon name="…" />`, `filled`), D4 code values, a D4 **Icons used** line and the header Source code row updated; #6 Part C records the dependency on `ds/button-web` (PR #1, shared per-test speedy Emotion cache) — fix round 1 starts after the rebase and drops the raised timeouts. Executor findings #1–#5, #7, #9 folded into C3/C5/C6, C7 AC-7–AC-11 and a Fix round 1 task list. B1–B6 unchanged, no API change. Plan → `Finished` (header + `3-web-components/README.md`); contracts regenerated with the generator: `npm run contract -- web icon-button`, plus `tablet` / `mobile` `icon-button` (their Figma contracts inherit web D4 — hash and the two D4 code-value rows only). Detail: `3-web-components/components/icon-button/icon-button.md` › F0, F2.
+- Added the Icon button plan 1.1 web preview sheets for light/English and dark/Arabic RTL, covering the allowed variant/color matrix, six states, sm/md/lg sizes, toggles, tooltip, resolved token callouts, and RTL icon direction; the preview README records the remaining dark Text/Error arrow-direction warning after the retry limit.
+
+## [Review — Web Icon button round 1: Changes requested] — 2026-10-21
+### Changed
+- Icon button (web) review round 1: **Changes requested** — Part E2 of `3-web-components/components/icon-button/icon-button.md`. AC-1, AC-2, AC-6 met; AC-3 (tooltip easing / reduced motion), AC-4 (stray `aria-label` on the disabled tooltip anchor) and AC-5 (`test:web` red: flaky Esc tooltip test, raised timeouts, Button/SplitButton timeouts awaiting the `ds/button-web` speedy-cache merge) not met. 6 🟡, 3 🟢; typecheck ✅, sync ✅, icon-button tests 11/11 alone; `docs:check` fails only on the pre-existing stale button-group contracts. Plan → `Open` (Planner items #6, #8); review status updated in the header and `3-web-components/README.md`.
+
 ## [Web Text field — review round 3] — 2026-10-21
 ### Changed
 - Web `text-field.md` Part E Round 3 (E5): **Approved** — #9 fixed (Chromium at 980 and 1280 px, EN and AR: multiline action box 24/32/40 sits 4 px = `spacing-xs` inside the top edge and inline end at sm/md/lg; test asserts the `max(…)` rule for single-line and multiline), #10 fixed by plan 1.2; RTL prefix at inline start (right), suffix and end button at inline end (left), as B5 and the dark/AR preview. No new findings. `typecheck` ✓, `docs:check` only the 2 baseline `button-group` errors, `test:web` Text field 19/19 but red from host-load timeouts in untouched Button/Icon button/Split button tests (re-run at the before-merge gate). Code → Approved (header + README).
