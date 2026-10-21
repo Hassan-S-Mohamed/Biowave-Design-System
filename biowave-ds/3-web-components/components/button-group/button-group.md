@@ -14,10 +14,10 @@
 | Import | `import { ButtonGroup } from '@biowave/web'` |
 | Figma | **Biowave DS — Web Components** › `↳ Button Group` (legacy reference: Foundations `4833:35916`) · build: [Part D](#d--figma-build) |
 | Version | 1.0 · 2026-10-16 |
-| Plan | Finished |
+| Plan | Open |
 | Code | Built |
 | Figma build | Planned |
-| Review | — |
+| Review | Round 1 · 2026-10-21 · Changes requested |
 | Source code | `src/components/button-group/` — not built yet (the Executor creates it) |
 | Tokens | — (no component tokens yet) |
 | Contracts | [`button-group-contract.md`](button-group-contract.md) · [`figma-button-group-contract.md`](figma-button-group-contract.md) — generated, never edited |
@@ -457,7 +457,70 @@ Component description: "Lays out 2–4 related actions with the right order and 
 
 | Round | Date | Code verdict | Figma verdict |
 |---|---|---|---|
-| — | — | not reviewed | not reviewed |
+| 1 | 2026-10-21 | **Changes requested** | not reviewed |
+
+### E2 Round 1 — 2026-10-21
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 1 |
+| Spec version reviewed | 1.0 |
+| Reviewer | Claude |
+| Date | 2026-10-21 |
+| Verdict | **Changes requested** |
+
+Commands run by the Reviewer (branch `ds/button-group-web`, no diff against `main`; the unit's code is already on `main`):
+`npm run typecheck` ✅ (exit 0) · `npm run test:web` ❌ run 1: 86/87 (fail: *IconButton behavior › has one accessible name and shows its visual tooltip…*) · run 2: 85/87 (fail: *SplitButton menu › implements Arrow, Home, End, Escape…* and *Button accessibility › no axe violations … in dark*, 21.9 s > 20 s timeout) · IconButton suite alone: 11/11 ✅ → load-dependent flakes in other components. **`ButtonGroup.test.tsx` 10/10 ✅ in every run (3.4–7.8 s for the whole file)** · `npm run docs:check` ❌ 2 errors: tablet and mobile `button-group` Figma contracts stale (pre-existing; web contracts current).
+
+#### Acceptance criteria
+
+| AC | Result | Evidence (file:line / test name) |
+|---|---|---|
+| AC-1 API = B1 | ⚠️ | `ButtonGroup.tsx:20-29, 95-104` — all 7 props, defaults `horizontal` / `end` / `md` / `3`, localized `overflowLabel` (`:110-111`), `role="group"` only with a label (`:197`). All 4 invalid-combination warnings (`:145-176`). `maxVisible` range 1–4 not enforced (finding 7) |
+| AC-2 Layout = B2, no raw values | ❌ | Tokens only: `gap: cssVars.spacing.md` (`:56`); test *contains no raw colors…* ✅. But the horizontal container is `inline-flex` + `inline-size: fit-content` (`:49, 57`), so it has no free space and `align` = `start`/`center`/`end`/`space-between` has **no visible effect** — `end` (the default, dialog footers) renders at inline start. Root cause is B2 itself (findings 1, 2) |
+| AC-3 Focus order = DOM order, both orientations | ✅ | `column-reverse` only for vertical (`:50`); test *keeps DOM and focus order while reversing only vertical visual order*. Overflow trigger is first in DOM (start) per B2 |
+| AC-4 Overflow per B9 | ✅ | `ButtonGroup.tsx:112-136`; tests *moves the least-important Button and IconButton actions into the menu* (first children overflow, menu items call `onClick`, focus returns to trigger), *opens the overflow at the last item with ArrowUp*, *uses the localized default overflow label*; non-overflowable child kept visible + warning |
+| AC-5 typecheck, tests, sync pass | ❌ | typecheck ✅; `test:web` ❌ (flakes outside this unit, finding 5); `docs:check` ❌ (finding 6); ButtonGroup suite raises its own timeout (finding 4) |
+| AC-6 Exported, README updated | ✅ | `src/components/button-group/index.ts`; `src/index.ts:15-21`; `3-web-components/README.md:48` Code = Built |
+
+#### Rule checks (AGENTS.md §2)
+
+| Rule | Result | Notes |
+|---|---|---|
+| No generated files edited | ✅ | No diff on branch; contracts untouched |
+| No raw values / no primitives | ✅ | Only `cssVars.spacing.md`; no hex/px/ms; no `primitive.*` |
+| RTL first (logical properties) | ✅ | `inlineSize` only, no left/right; `more_horiz` not mirrored (B5). Layout mirroring cannot be seen while `align` is a no-op (finding 1) |
+| Both themes, both languages, tested | ⚠️ | Layout test loops en + ar; axe loops light/dark × en/ar. Layout test asserts only `gap` + `flex-direction` (finding 3) |
+| WCAG 2.2 AA | ✅ | Group label optional per B6; overflow trigger has name, `aria-haspopup`, `aria-expanded`, `aria-controls`; Arrow keys open menu; focus restored; axe clean (contrast rule off, as in every web suite) |
+| Biowave `Icon` (D-18), no `@mui/icons-material` | ✅ | `<Icon name="more_horiz" />` (`:202`); no `@mui/icons-material` import in the unit |
+| Stayed inside the contract | ⚠️ | Size precedence `groupSize ?? sizeProp` (`Button.tsx:252`, `IconButton.tsx:258`, `SplitButton.tsx:75`) follows B1 ("group wins") but not C3 (`props.size ?? groupSize`); C8 says "Deviations: none" (finding 8) |
+| Tests use default timeouts | ❌ | `ButtonGroup.test.tsx:254` `20_000` (finding 4). Note: the shared per-test speedy Emotion cache is **not** on `main` — `src/test/render.tsx` has no cache and Button tests still raise timeouts (`Button.test.tsx:202, 344, 610`) |
+| Changelog | ✅ | Part F0 + `CHANGELOG.md` entries present |
+
+#### Figma build (Part D)
+
+Skipped — Figma build is `Planned` and `figma` is in `_workflow/config.json › skip`.
+
+#### Findings
+
+| # | Severity | File | Issue | Required change | Owner |
+|---|---|---|---|---|---|
+| 1 | 🔴 Blocker | `button-group.md` B2 (container width row) | B2 says the horizontal container hugs its content, while the B2/B5 diagrams and A4.2 (`end` default for dialog/form footers, `space-between` for Back … Next) need free space inside the group. With a hugging box `justify-content` never applies, so `align` does nothing | Decide and write in B2 + C3: horizontal container is `display: flex`, `inline-size: 100%` of its parent (or "fills the footer slot"), so `align` places children; keep vertical/`fill` at 100%. Regenerate the contract | Planner |
+| 2 | 🟡 Should fix | `ButtonGroup.tsx:49, 57` | `display: 'inline-flex'` (B2 says `flex`) and `inlineSize: 'fit-content'` for horizontal non-fill → `align="end"` renders actions at inline start in a wide parent; RTL mirroring of `end` cannot be seen | After #1: `display: flex`, horizontal inline size per the new B2, so each `align` value moves the children (and mirrors in `ar`) | Executor |
+| 3 | 🟡 Should fix | `ButtonGroup.test.tsx:49-75` | B9 "Each orientation × align renders B2 layout (computed styles)" — the loop asserts only `gap` and `flex-direction`; `justify-content` per `align`, `fill` → children `flex: 1 1 0`, vertical full width and container width are never checked, which is why #2 passed | Assert the B2 rule set per orientation × align (justify-content mapping, `flex: 1 1 0` on children for `fill`, `align-items: stretch` + 100% for vertical, container display/width), en + ar | Executor |
+| 4 | 🟡 Should fix | `ButtonGroup.test.tsx:254` | The axe test raises its own timeout (`20_000`). The whole ButtonGroup file runs in 3.4–7.8 s here, so the override hides slowness instead of fixing it | Remove the override and use the default timeout; if it is still slow, render once per theme/locale combination with a light fixture rather than raising the limit | Executor |
+| 5 | 🟡 Should fix | `src/test/render.tsx`, `Button.test.tsx:202, 344, 610`, `IconButton.test.tsx:86, 287`, `SplitButton.test.tsx:93, 272` | `npm run test:web` is not green: different tests fail in each run under load (IconButton tooltip Escape, SplitButton keyboard, Button axe dark at 21.9 s). The shared speedy Emotion cache that should let suites use default timeouts is not on `main` | Plan a separate shared-test-tooling task (speedy Emotion cache per test in `render.tsx`, drop raised timeouts in all web suites); outside this one-component unit (AGENTS rule 8) | Planner |
+| 6 | 🟡 Should fix | `4-tablet-components/…/figma-button-group-contract.md`, `5-mobile-components/…/figma-button-group-contract.md` | `npm run docs:check` fails: both Figma contracts for this component are stale | `npm run contract -- tablet button-group` and `npm run contract -- mobile button-group` | Planner |
+| 7 | 🟢 Nit | `ButtonGroup.tsx:100, 112` | `maxVisible` is documented as 1–4 but not checked; `maxVisible={0}` moves every overflowable child (including the primary) into the menu | Clamp to 1–4 and `warnOnce` when out of range; add a test | Executor |
+| 8 | 🟢 Nit | C3 · C8 | C3 says `props.size ?? groupSize ?? default`; B1 and the code say the group wins (`groupSize ?? sizeProp`). C8 records "Deviations: none" | Planner: align C3 with B1. Executor: log the precedence in C8 | Planner |
+| 9 | 🟢 Nit | `ButtonGroup.tsx:87` | Overflow `onSelect` calls the child's `onClick()` with no event; handlers that use the event (`event.preventDefault()`), `type="submit"` or `href` break when the child overflows | Warn (dev) when an overflowing child has `href` / `type="submit"`, or pass a synthetic-safe call; document in B1 | Executor |
+| 10 | 🟢 Nit | `ButtonGroup.test.tsx:194-207` | *opens the overflow at the last item with ArrowUp* logs "An update to IconButtonTooltip inside a test was not wrapped in act(...)" | Wrap the focus in `act()` or use `user.keyboard` after `user.tab()` | Executor |
+| 11 | 🟢 Nit | `button-group.md` header | "Source code" still says "not built yet (the Executor creates it)" | Set to `src/components/button-group/` | Planner |
+
+#### Next step
+
+- Planner (Plan → `Open`): #1, #5, #6, #8, #11; set `Finished` and regenerate the contracts.
+- Executor (Fix round 1): #2, #3, #4 after the new contract; nits #7, #9, #10 recommended.
 
 ---
 

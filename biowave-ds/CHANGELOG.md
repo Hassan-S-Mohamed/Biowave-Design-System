@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Review — Web Button group round 1: Changes requested] — 2026-10-21
+### Changed
+- Button group (web) review round 1: **Changes requested** — Part E2 of `3-web-components/components/button-group/button-group.md`. 1 🔴 (B2 hug width makes `align` a no-op), 5 🟡 (inline-flex/fit-content layout, B9 layout test too weak, raised 20 s test timeout, flaky `test:web` / missing shared speedy Emotion cache, stale tablet/mobile Figma contracts), 5 🟢. typecheck ✅; ButtonGroup suite 10/10 but `test:web` fails on flakes in other suites; `docs:check` fails on the stale contracts. Plan → `Open`; review status updated in the header and `3-web-components/README.md`.
+
 ## [Tooling — update components from photos (agent-workflow-kit: Updater)] — 2026-10-20
 ### Added
 - **Updater** role (`update-component` agent, `workflow-update` skill): send photos of a UI screen or a single component plus a prompt; it finds the existing component, compares the photos with its plan, snaps what it sees to existing semantic tokens, shows a diff and asks which rows and platforms (web, tablet, mobile) to apply. On a yes it saves the photos and a change request to `<section>/components/<name>/references/`, updates Parts A–D and F (Part A on all three platforms), sets Plan `Finished` and Code `Planned`, and regenerates the contracts. The orchestrator then runs preview → implement → review as usual; review rounds before the update no longer count.
