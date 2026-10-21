@@ -15,9 +15,9 @@
 | Figma | **Biowave DS — Web Components** › `↳ Icon Button` (legacy reference: Foundations `4310:3146`) · build: [Part D](#d--figma-build) |
 | Version | 1.1 · 2026-10-21 |
 | Plan | Finished |
-| Code | Built |
+| Code | Approved |
 | Figma build | Planned |
-| Review | Round 2 · 2026-10-21 · Changes requested |
+| Review | Round 3 · 2026-10-21 · Approved |
 | Source code | [`src/components/icon-button/`](../../src/components/icon-button/) |
 | Tokens | — (no component tokens yet) |
 | Contracts | [`icon-button-contract.md`](icon-button-contract.md) · [`figma-icon-button-contract.md`](figma-icon-button-contract.md) — generated, never edited |
@@ -586,8 +586,71 @@ Component description: "Starts an action shown as an icon. Always has a label. S
 
 | Round | Date | Code verdict | Figma verdict |
 |---|---|---|---|
+| 3 | 2026-10-21 | **Approved** | not reviewed |
 | 2 | 2026-10-21 | **Changes requested** | not reviewed |
 | 1 | 2026-10-21 | **Changes requested** | not reviewed |
+
+### E4 Round 3 — 2026-10-21
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 1.1 |
+| Spec version reviewed | 1.1 |
+| Reviewer | Claude |
+| Date | 2026-10-21 |
+| Verdict | **Approved** |
+
+Code reviewed: `git diff main...HEAD -- 3-web-components/src` (four icon-button files); fix round 2 (`e9bfce6`) touches only `IconButton.test.tsx` (+15 / −13). No source file changed, so the Round 2 browser measurements (B4 tooltip timing and easing, reduced motion, B3.4 tooltip tokens, B5 RTL, B6 single name) still hold and were not repeated. No diff in `src/test/*`, other components, generated files or `_sync`. The uncommitted `_docs/live.tsx`, `_docs/tsconfig.json`, `package.json` and CHANGELOG "Docs — live previews on the Biowave Icon" changes belong to another session and were not reviewed or touched.
+
+Commands run by the Reviewer (2026-10-21, this machine, load average ≈ 10 with other suites running):
+`npm run docs:check` ✅ 18 component files OK · `npm run typecheck` ✅ (includes `tsc -p _docs`) · `npm run test:web` three full runs, as configured, default 5 s timeout: ✅ 96/96 (10.20 s) · ✅ 96/96 (8.49 s) · ✅ 96/96 (6.19 s). `IconButton.test.tsx` 18/18 in 3 122 / 3 231 / 2 223 ms. Render-matrix tests per run — light/en 883 / 843 / 578 ms, light/ar 405 / 625 / 313 ms, dark/en 317 / < 300 / < 300 ms, dark/ar 368 / < 300 / < 300 ms (Vitest lists only tests ≥ 300 ms); the four axe cases stay under 300 ms. Slowest Icon button test 883 ms = 18 % of the default budget (Round 2: 3.7–4.4 s). The two `IconButtonTooltip` `act()` warnings per run still come from `ButtonGroup.test.tsx` and `SplitButton.test.tsx` (outside this unit, as in Round 2).
+
+#### Round 2 findings
+
+| # | Status | Evidence |
+|---|---|---|
+| 10 | Fixed | `IconButton.test.tsx:107-146`: one `it` per theme × locale; `allCssRules()` read once per render (`:133`) and passed to `cssRulesFor(button, rules)` (`:137`). Slowest case 883 ms across three full runs (target "well under 2 s" ✅); no timeout argument in the file (`grep timeout` finds only a test title, `:234`) |
+| 11 | Fixed | `IconButton.test.tsx:394, 414-420`: `axe(baseElement, …)` after the tooltip is asserted open (`:409`), so the portalled tooltip is scanned; only `color-contrast` (jsdom) and `region` (page-level landmark rule, not meaningful for an isolated component harness) are disabled. Passes in all four light/dark × en/ar cases |
+
+#### Acceptance criteria
+
+| AC | Result | Evidence (file:line / test name) |
+|---|---|---|
+| AC-1 API = B1 | ✅ | Source unchanged since Round 2 |
+| AC-2 Unselected from Button's table; selected from B3.2 | ✅ | Source unchanged; *renders every supported variant… in {theme}/{locale}* ×4 (`:109`), *uses every selected toggle token map…* (`:148`) |
+| AC-3 Transitions B4; reduced motion | ✅ | Source unchanged; Round 2 browser table; tests `:214`, `:234` |
+| AC-4 RTL B5; a11y B6 | ✅ | Source unchanged; axe now covers the open tooltip (`:414`) |
+| AC-5 typecheck, test:web, sync pass | ✅ | typecheck ✅; `test:web` 3/3 full runs 96/96; sync READY per C8 › Fix round 2 preflight (no token or generated-file change since) |
+| AC-6 Exported; README status | ✅ | Unchanged (`src/index.ts`); README row updated by this review |
+| AC-7 Shared tooling; no raised timeouts; 3 full runs green at 5 s | ✅ | No timeout arguments; Reviewer 3/3 full runs green, slowest Icon button test 883 ms |
+| AC-8 Tooltip easing + reduced motion; no anchor `aria-label` | ✅ | Source unchanged; `:404` asserts the anchor has no `aria-label` |
+| AC-9 C6 (1.1) tests exist and pass | ✅ | 18/18 in `IconButton.test.tsx` in every run |
+| AC-10 One offset source; whitespace label warns | ✅ | Source unchanged |
+| AC-11 C8 Fix round entry with real numbers | ✅ | C8 › Fix round 2: docs:check, typecheck, the failed diagnostic run, three final runs 96/96 with durations, slowest test, sync |
+
+#### Rule checks (AGENTS.md §2 + step prompt)
+
+| Rule | Result | Notes |
+|---|---|---|
+| No generated files edited | ✅ | Fix round 2 changed only `IconButton.test.tsx` (+ C8, README, CHANGELOG, run record) |
+| Tokens only — no raw values, no primitives | ✅ | No source change; lint test passes |
+| RTL logical properties | ✅ | No source change |
+| Both themes, both languages, tested | ✅ | Render matrix and axe each run per light/dark × en/ar |
+| WCAG 2.2 AA | ✅ | axe green on `baseElement` with the tooltip open, disabled and loading states |
+| Default test timeouts | ✅ | No timeout arguments; slowest test 18 % of the 5 s default |
+| No edits to `src/test/*` or other components | ✅ | `git diff main...HEAD --stat -- 3-web-components/src` = icon-button files only |
+
+#### Figma build (Part D)
+
+Skipped — Figma build is `Planned`.
+
+#### Findings
+
+None. No new 🔴, 🟡 or 🟢 finding.
+
+#### Next step
+
+- Approved → Code `Approved` (header + `3-web-components/README.md`); Plan stays `Finished`. Orchestrator: merge gate for `ds/icon-button-web`; Figma build remains `Planned`.
 
 ### E3 Round 2 — 2026-10-21
 

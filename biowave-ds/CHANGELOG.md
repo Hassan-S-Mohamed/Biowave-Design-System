@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Review — Web Icon button round 3: Approved] — 2026-10-21
+### Changed
+- Icon button (web) review round 3: **Approved** — Part E4 of `3-web-components/components/icon-button/icon-button.md`. Round 2 findings fixed: #10 render matrix split per theme × locale with CSS rules read once per render (slowest Icon button test 883 ms, was 3.7–4.4 s); #11 open-tooltip axe runs on `baseElement`. AC-1–AC-11 met; no new findings. `docs:check` ✅, `typecheck` ✅, `test:web` 3/3 full runs 96/96 at the default 5 s timeout. Code → `Approved` (header + `3-web-components/README.md`); Plan stays `Finished`.
+
 ## [Fixed — Web Icon button review round 2] — 2026-10-21
 ### Fixed
 - Fixed Icon button findings #10 and #11: the variant matrix now caches CSS rules once per render and runs as four theme/locale tests (slowest 798 ms), while the open-tooltip axe cases scan `baseElement` so the portalled tooltip is covered. `docs:check` and `typecheck` pass; three final full Web runs pass 96/96 at the default timeout.
