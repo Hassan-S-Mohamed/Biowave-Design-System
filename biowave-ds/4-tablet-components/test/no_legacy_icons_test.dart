@@ -3,17 +3,51 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-  test('library code never uses Flutter Material Icons', () {
-    final dartFiles = Directory('lib')
-        .listSync(recursive: true)
-        .whereType<File>()
-        .where((file) => file.path.endsWith('.dart'));
+  Iterable<File> getLibDartFiles() => Directory('lib')
+      .listSync(recursive: true)
+      .whereType<File>()
+      .where((file) => file.path.endsWith('.dart'));
 
-    for (final file in dartFiles) {
+  test('library code never uses Flutter Material Icons', () {
+    for (final file in getLibDartFiles()) {
       expect(
         file.readAsStringSync(),
         isNot(contains(RegExp(r'\bIcons\.'))),
         reason: '${file.path} must use Symbols.*_rounded through BwIcon',
+      );
+    }
+  });
+
+  test('library code never uses CupertinoIcons', () {
+    for (final file in getLibDartFiles()) {
+      expect(
+        file.readAsStringSync(),
+        isNot(contains(RegExp(r'\bCupertinoIcons\.'))),
+        reason: '${file.path} must not use CupertinoIcons; use Symbols.*_rounded through BwIcon',
+      );
+    }
+  });
+
+  test('library code never constructs raw IconData', () {
+    for (final file in getLibDartFiles()) {
+      expect(
+        file.readAsStringSync(),
+        isNot(contains(RegExp(r'\bIconData\('))),
+        reason: '${file.path} must not construct raw IconData; use Symbols.*_rounded',
+      );
+    }
+  });
+
+  test('raw Icon widget is never used outside lib/src/components/icon/', () {
+    for (final file in getLibDartFiles()) {
+      final normalizedPath = file.path.replaceAll(r'\', '/');
+      if (normalizedPath.contains('lib/src/components/icon/')) {
+        continue;
+      }
+      expect(
+        file.readAsStringSync(),
+        isNot(contains(RegExp(r'\bIcon\('))),
+        reason: '${file.path} must render icons through BwIcon, not raw Icon(...)',
       );
     }
   });

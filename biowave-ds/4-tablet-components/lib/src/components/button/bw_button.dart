@@ -4,6 +4,7 @@ import 'package:flutter/semantics.dart';
 
 import '../../common/bw_control_size.dart';
 import '../../common/bw_focus_ring.dart';
+import '../icon/bw_icon.dart';
 import 'bw_button_style.dart';
 
 enum BwButtonVariant { filled, tonal, outlined, text }
@@ -121,24 +122,20 @@ class BwButton extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               if (leadingIcon != null) ...[
-                ExcludeSemantics(
-                  child: Icon(
-                    leadingIcon,
-                    key: const ValueKey<String>('BwButton.leading-icon'),
-                    size: dimensions.iconSize,
-                  ),
+                BwIcon(
+                  key: const ValueKey<String>('BwButton.leading-icon'),
+                  icon: leadingIcon!,
+                  directional: leadingIcon!.matchTextDirection,
                 ),
                 SizedBox(width: dimensions.gap),
               ],
               Flexible(child: labelWidget),
               if (_effectiveTrailingIcon != null) ...[
                 SizedBox(width: dimensions.gap),
-                ExcludeSemantics(
-                  child: Icon(
-                    _effectiveTrailingIcon,
-                    key: const ValueKey<String>('BwButton.trailing-icon'),
-                    size: dimensions.iconSize,
-                  ),
+                BwIcon(
+                  key: const ValueKey<String>('BwButton.trailing-icon'),
+                  icon: _effectiveTrailingIcon!,
+                  directional: _effectiveTrailingIcon!.matchTextDirection,
                 ),
               ],
             ],

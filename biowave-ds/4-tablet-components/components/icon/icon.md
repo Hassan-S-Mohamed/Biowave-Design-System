@@ -323,6 +323,8 @@ Implement every item in B9.
 
 ### C8 Execution log
 
+#### Entry 1 — 2026-10-20
+
 | Field | Value |
 |---|---|
 | Agent | Antigravity (workflow implementer, retry 2 after Codex step 01) |
@@ -335,6 +337,34 @@ Implement every item in B9.
 
 **Questions for the Planner**
 - `npm run docs:check` reports only the 2 known pre-existing stale Figma contracts (`tablet button-group` and `mobile button-group`); they are outside this unit and were left untouched per workflow rules.
+
+#### Entry 2 — 2026-10-21 (Adoption in built components)
+
+| Field | Value |
+|---|---|
+| Agent | Antigravity (workflow implementer — adoption in built components) |
+| Date | 2026-10-21 |
+| Files changed | `lib/src/components/button/bw_button.dart`; `test/button_test.dart`; `test/goldens/button/button-{dark,light}-{ar,en}.png`; `test/no_legacy_icons_test.dart`; `components/icon/icon.md`; root `CHANGELOG.md` |
+| Checks | `cd 4-tablet-components && flutter analyze && flutter test` ✓ (0 analyzer issues; 131/131 tests passed); `npm run docs:check` ✗ (2 pre-existing errors outside this unit: `tablet button-group` and `mobile button-group` Figma contracts are stale) |
+
+**What was built**
+- Adopted `BwIcon` in `BwButton` (`lib/src/components/button/bw_button.dart`) for `leadingIcon` and `trailingIcon`:
+  - Size follows `IconTheme` via `size: null` (`dimensions.iconSize` configured by `ButtonStyle.iconSize`).
+  - Colour inherits from the button's foreground through `IconTheme`.
+  - Keys preserved (`BwButton.leading-icon` and `BwButton.trailing-icon`).
+  - Decorative semantics maintained (excluded from accessibility tree via `ExcludeSemantics` in `BwIcon`).
+  - Directional icons flip once in RTL (`directional: icon.matchTextDirection`); inner `Icon` is isolated in LTR inside `BwIcon` so it never flips a second time (B9).
+- Extended guard test `test/no_legacy_icons_test.dart`:
+  - Prohibits Flutter `Icons.`, `CupertinoIcons.`, raw `IconData(` constructor, and raw `Icon(` widget outside `lib/src/components/icon/`.
+  - Proven with planted probes for each pattern, verified failing, and reverted to clean state.
+- Enhanced `test/button_test.dart` to assert `BwIcon` usage, directional mirroring, no double flip in RTL, and decorative semantics.
+- Regenerated the 4 Button goldens (`test/goldens/button/button-{dark,light}-{ar,en}.png`): layout and dimensions are unchanged; ~0.02%-0.03% pixel diff caused by `BwIcon` activating `BwIconAxes` variable font variation axes (`weight: 400`, `grade: 0`, optical size matching icon dimensions) on `MaterialSymbolsRounded`.
+
+**Deviations from the plan or spec**
+- None.
+
+**Questions for the Planner**
+- None. `npm run docs:check` pre-existing failure (`tablet button-group` and `mobile button-group` Figma contracts stale) remains untouched per workflow rules.
 
 ---
 

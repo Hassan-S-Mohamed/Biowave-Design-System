@@ -565,11 +565,93 @@ void main() {
         locale: const Locale('ar'),
       );
 
+      final bwIcons = tester.widgetList<BwIcon>(find.byType(BwIcon)).toList();
+      expect(bwIcons, hasLength(2));
+      expect(bwIcons[0].directional, isTrue);
+      expect(bwIcons[1].directional, isFalse);
+
       final icons = tester.widgetList<Icon>(find.byType(Icon)).toList();
       expect(icons[0].icon!.matchTextDirection, isTrue);
       expect(icons[1].icon!.matchTextDirection, isFalse);
       expect(Directionality.of(tester.element(find.byType(BwButton).first)),
           TextDirection.rtl);
+
+      // Verify BwIcon flips exactly once via Transform in RTL:
+      final nextButton = find.byType(BwButton).first;
+      final nextTransform = tester.widget<Transform>(
+        find.descendant(of: nextButton, matching: find.byType(Transform)),
+      );
+      expect(nextTransform.transform.storage.first, isNegative);
+      // Inner Icon is forced to LTR by BwIcon so it never flips a second time
+      expect(
+        Directionality.of(tester.element(find.byType(Icon).first)),
+        TextDirection.ltr,
+      );
+
+      // Add icon is non-directional, so no Transform flip is added
+      final addButton = find.byType(BwButton).last;
+      expect(
+        find.descendant(of: addButton, matching: find.byType(Transform)),
+        findsNothing,
+      );
+    });
+
+    testWidgets('leading and trailing icons render as decorative BwIcon with stable keys', (
+      tester,
+    ) async {
+      await tester.pumpBw(
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            BwButton(
+              label: 'Leading',
+              leadingIcon: Symbols.add_rounded,
+              onPressed: () {},
+            ),
+            BwButton(
+              label: 'Trailing',
+              trailingIcon: Symbols.arrow_forward_rounded,
+              onPressed: () {},
+            ),
+          ],
+        ),
+      );
+
+      final leadingFinder =
+          find.byKey(const ValueKey<String>('BwButton.leading-icon'));
+      final trailingFinder =
+          find.byKey(const ValueKey<String>('BwButton.trailing-icon'));
+
+      expect(leadingFinder, findsOneWidget);
+      expect(trailingFinder, findsOneWidget);
+
+      final leadingBwIcon = tester.widget<BwIcon>(leadingFinder);
+      final trailingBwIcon = tester.widget<BwIcon>(trailingFinder);
+
+      expect(leadingBwIcon.icon, Symbols.add_rounded);
+      expect(leadingBwIcon.directional, isFalse);
+      expect(leadingBwIcon.semanticLabel, isNull);
+
+      expect(trailingBwIcon.icon, Symbols.arrow_forward_rounded);
+      expect(trailingBwIcon.directional, isTrue);
+      expect(trailingBwIcon.semanticLabel, isNull);
+
+      // Decorative semantics: both BwIcons exclude semantics
+      final leadingExclude = tester.firstWidget<ExcludeSemantics>(
+        find.descendant(
+          of: leadingFinder,
+          matching: find.byType(ExcludeSemantics),
+        ),
+      );
+      expect(leadingExclude.excluding, isTrue);
+
+      final trailingExclude = tester.firstWidget<ExcludeSemantics>(
+        find.descendant(
+          of: trailingFinder,
+          matching: find.byType(ExcludeSemantics),
+        ),
+      );
+      expect(trailingExclude.excluding, isTrue);
     });
 
     testWidgets('full width uses the parent width', (tester) async {
