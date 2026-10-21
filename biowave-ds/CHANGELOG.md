@@ -11,6 +11,35 @@ Every change to the design system is logged here **in the same task**, newest fi
 ### Changed
 - Button group (web) review round 1: **Changes requested** — Part E2 of `3-web-components/components/button-group/button-group.md`. 1 🔴 (B2 hug width makes `align` a no-op), 5 🟡 (inline-flex/fit-content layout, B9 layout test too weak, raised 20 s test timeout, flaky `test:web` / missing shared speedy Emotion cache, stale tablet/mobile Figma contracts), 5 🟢. typecheck ✅; ButtonGroup suite 10/10 but `test:web` fails on flakes in other suites; `docs:check` fails on the stale contracts. Plan → `Open`; review status updated in the header and `3-web-components/README.md`.
 
+## [Web Text field — review round 3] — 2026-10-21
+### Changed
+- Web `text-field.md` Part E Round 3 (E5): **Approved** — #9 fixed (Chromium at 980 and 1280 px, EN and AR: multiline action box 24/32/40 sits 4 px = `spacing-xs` inside the top edge and inline end at sm/md/lg; test asserts the `max(…)` rule for single-line and multiline), #10 fixed by plan 1.2; RTL prefix at inline start (right), suffix and end button at inline end (left), as B5 and the dark/AR preview. No new findings. `typecheck` ✓, `docs:check` only the 2 baseline `button-group` errors, `test:web` Text field 19/19 but red from host-load timeouts in untouched Button/Icon button/Split button tests (re-run at the before-merge gate). Code → Approved (header + README).
+
+## [Web Text field — fix round 2 (1.2)] — 2026-10-21
+### Fixed
+- Fixed finding #9 by keeping multiline trailing actions at least `spacing-xs` inside the top border with the token-only `max(action-inset − padding-block, (line-height − action-box) / 2)` rule, adding sm/md/lg coverage at 980 and 1280 px, and correcting C8 to identify the Biowave `Icon`; Text field tests pass 19/19 and the serial full Web suite passes 87/87.
+
+## [Web Text field — plan 1.2] — 2026-10-21
+### Changed
+- Added the plan 1.2 web Text field preview sheets for light/English and dark/Arabic RTL, covering sm/md/lg anatomy, six states, attachments, multiline examples, resolved token callouts, and the 4 px trailing-action top inset rule.
+- Web `text-field.md` plan 1.1 → 1.2 answering Round 2 Planner findings: #9 one multiline trailing-action rule in B2/C3 — `margin-block-start = max(action-inset − padding-block, (line-height − action-box) / 2)`, action box never closer than `spacing-xs` to the top border (resolved top offset `spacing-xs` at sm/md/lg, EN and AR); B9/C6 add a multiline case to the viewport test; C7 adds "Fix round 2 — Executor task list" (Web D3 not touched — Tablet/Mobile Figma contracts inherit it). #10 B7 examples and C3 Icons now use the Biowave `Icon` (`<Icon name="…" />`). Planner response added under E4. Plan → Finished (header + README); both Text field contracts regenerated.
+
+## [Web Text field — review round 2] — 2026-10-21
+### Changed
+- Web `text-field.md` Part E Round 2 (E4): **Changes requested** — Round 1 #1–#8 and AD-1 … AD-6 fixed (measured in Chromium at 980 and 1280 px: single-line action box 24/32/40 inset 4 px at sm/md/lg, disabled action and end button not focusable or clickable, `aria-*` on the input); `test:web` 87/87, `typecheck` ✓, `docs:check` only the 2 baseline `button-group` errors. New: #9 🟡 multiline action reaches the top border at md/lg (B2 inset vs first-line rule conflict, Planner → Executor), #10 🟢 C3/B7 still name MUI `Icon` (Planner). Plan → Open, Code → Changes requested (README + header).
+
+## [Review — Web Button round 3: Approved] — 2026-10-20
+- Round 2 findings #11–#13, #15–#17 fixed (#14 closed by the Planner); AC-11 … AC-15 met; `docs:check` ✅, `typecheck` ✅, `test:web` ✅ 79/79 in ≈ 6 s with the default timeout (slowest Button test 979 ms), `sync` ✅; `BiowaveProvider` default caches unchanged. Manual QA open: loading width and screen-reader announcement (EN/AR). `3-web-components/components/button/button.md` Part E4, header and `3-web-components/README.md` Review column updated.
+
+## [Fixed — Web Button review round 2] — 2026-10-20
+- Added fresh speedy Emotion caches per test with post-cleanup flushing; removed Button's raised timeouts; kept the loading live region mounted; stripped both true and false `mirrorInRtl` markers; and verified transition restoration after re-enable. The configured web suite passes 79/79.
+
+## [Plan — Web Button 1.2: shared test tooling fix] — 2026-10-19
+- Review round 2 Planner items: decided the `test:web` fix (#11) — a fresh **speedy** emotion cache per test, flushed after `cleanup()` (MUI `createRenderer` pattern + `@emotion/cache` `speedy`); Foundations gets `createBiowaveEmotionCaches()` and an optional `BiowaveProvider` `emotionCaches` prop (default unchanged). Planner probe, not committed: 73/77 in 2 m 32 s → 77/77 in 35 s with default timeouts. Folded #12, #13, #15–#17 into C3/C6/C7 (Fix round 1 task list). Regenerated stale `tablet` / `mobile` `button-group` Figma contracts with the generator (#14; hash only, body unchanged). Detail: `3-web-components/components/button/button.md` › E3 Planner response, F2.
+
+## [Review — Web Button round 2: Changes requested] — 2026-10-19
+- Round 1 findings 1–10 all fixed; `typecheck` ✅, `sync` ✅, Button 24/24 ✅; but `test:web` ❌ 73/77 both parallel and serial (emotion `<style>` tags pile up per test file and slow axe/user-event past 5 s; Planner owns the shared fix, #11), `docs:check` ❌ (stale tablet/mobile button-group Figma contracts, #14), live region mounted with its text (#13). Full record: `3-web-components/components/button/button.md` › E3.
+
 ## [Tooling — update components from photos (agent-workflow-kit: Updater)] — 2026-10-20
 ### Added
 - **Updater** role (`update-component` agent, `workflow-update` skill): send photos of a UI screen or a single component plus a prompt; it finds the existing component, compares the photos with its plan, snaps what it sees to existing semantic tokens, shows a diff and asks which rows and platforms (web, tablet, mobile) to apply. On a yes it saves the photos and a change request to `<section>/components/<name>/references/`, updates Parts A–D and F (Part A on all three platforms), sets Plan `Finished` and Code `Planned`, and regenerates the contracts. The orchestrator then runs preview → implement → review as usual; review rounds before the update no longer count.

@@ -10,7 +10,7 @@
 | Theme | `createBiowaveTheme()` (in foundations). Component-level MUI overrides go in the component folder and are registered through the theme, not in apps |
 | RTL | Automatic (provider). Use logical CSS properties only |
 | Icons | Google Material Symbols Rounded — `material-symbols` font via the Biowave `Icon` (D-18). Not `@mui/icons-material` |
-| Tests | Vitest + Testing Library + axe · run from the repo root with `npm run test:web` |
+| Tests | Vitest + Testing Library + axe · per-test speedy Emotion caches flushed after cleanup · run from the repo root with `npm run test:web` |
 
 ## 2. Structure
 ```
@@ -43,12 +43,12 @@ Status is written in each file header and here; `npm run docs:check` fails if th
 
 | Component | Plan | Code | Figma | Review | Docs | File |
 |---|---|---|---|---|---|---|
-| Button | Finished | Built | Planned | Round 1 · 2026-10-16 · Changes requested | [page](components/button/button.html) | [button.md](components/button/button.md) |
+| Button | Finished | Built | Planned | Round 3 · 2026-10-20 · Approved | [page](components/button/button.html) | [button.md](components/button/button.md) |
 | Icon | Finished | Approved | Planned | Round 2 · 2026-10-20 · Approved | [page](components/icon/icon.html) | [icon.md](components/icon/icon.md) |
 | Button group | Finished | Built | Planned | Round 1 · 2026-10-21 · Changes requested | [page](components/button-group/button-group.html) | [button-group.md](components/button-group/button-group.md) |
 | Icon button | Finished | Built | Planned | — | [page](components/icon-button/icon-button.html) | [icon-button.md](components/icon-button/icon-button.md) |
 | Split button | Finished | Built | Planned | — | [page](components/split-button/split-button.html) | [split-button.md](components/split-button/split-button.md) |
-| Text field | Finished | In progress | Planned | Round 1 · 2026-10-18 · Changes requested | [page](components/text-field/text-field.html) | [text-field.md](components/text-field/text-field.md) |
+| Text field | Finished | Approved | Planned | Round 3 · 2026-10-21 · Approved | [page](components/text-field/text-field.html) | [text-field.md](components/text-field/text-field.md) |
 
 ## 5. Backlog (from the Figma "Web Components" pages, suggested order)
 1. Button · Icon button · Button group · Split button
