@@ -13,6 +13,7 @@
 | # | Step | Agent | Result | Checks | Commit | Prompt |
 |---|---|---|---|---|---|---|
 | 01 | review | claude (wf-reviewer subagent) | done · **Changes requested** — Round 2: R1 #1–#8 and AD-1 … AD-6 fixed (measured in Chromium at 980 / 1280 px); new 🟡 #9 multiline action covers the border (two B2 rules conflict, Planner → Executor), 🟢 #10 spec still names MUI `Icon` (Planner). Plan → `Open`, Code → `Changes requested` | docs:check ✓ (2 baseline errors only) · typecheck ✓ · test:web ✓ 87/87 | see git log | `01-review-claude.prompt.md` |
+| 02 | plan | claude (wf-planner subagent) | done · plan 1.2: #9 multiline action `margin-block-start = max(action-inset − padding-block, (line-height − action-box)/2)` → box `spacing-xs` from the top edge at sm/md/lg; multiline viewport test; Fix round 2 task list. #10 B7/C3 use Biowave `Icon`. Plan `Finished`. D3 left unchanged (editing it stales tablet/mobile text-field Figma contracts) | contract web text-field ✓ · docs:check ✓ (2 baseline errors only) | see git log | `02-plan-claude.prompt.md` |
 
 ## Gates
 
@@ -27,6 +28,8 @@
 - Button web: approved on `ds/button-web` (round 3) but PR #1 was closed unmerged, so `main` still shows Button web as Round 1 · Changes requested. Waiting on the user's decision; not run here.
 
 - Reviewer (outside this unit): `_docs/live.tsx:8` imports `3-web-components/src/test/materialSymbol`, deleted by icon/web (6554f7b), so every live React preview from `npm start` fails. Not a Text field finding; confirmed by the orchestrator.
+
+- Planner (plan 1.2): Web D3 (Text area tree) still says the trailing action centres on the first line; changing it stales the tablet/mobile text-field Figma contracts (they copy Web D3). Fix in a later step that also regenerates those two contracts — for the user at the after-plan gate.
 
 ## Summary
 
