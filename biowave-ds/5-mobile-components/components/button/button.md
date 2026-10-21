@@ -17,7 +17,7 @@
 | Plan | Finished |
 | Code | Built |
 | Figma build | Planned |
-| Review | Round 1 · 2026-10-20 · Changes requested |
+| Review | Round 2 · 2026-10-21 · Approved |
 | Source code | [`lib/src/components/button/bw_button.dart`](../../lib/src/components/button/bw_button.dart) |
 | Tokens | — (no component tokens yet) |
 | Contracts | [`button-contract.md`](button-contract.md) · [`figma-button-contract.md`](figma-button-contract.md) — generated, never edited |
@@ -591,7 +591,75 @@ Component description: one line from A1 + "Spec: 5-mobile-components/components/
 
 | Round | Date | Code verdict | Figma verdict |
 |---|---|---|---|
+| 2 | 2026-10-21 | Approved | not reviewed |
 | 1 | 2026-10-20 | Changes requested | not reviewed |
+
+### E3 Round 2 — 2026-10-21
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 1.1 |
+| Spec version reviewed | 1.1 |
+| Reviewer | Claude |
+| Date | 2026-10-21 |
+| Commit reviewed | `c9c1628` (branch `ds/button-mobile`, `git diff af0fe5f..HEAD -- 5-mobile-components`; no uncommitted changes under `5-mobile-components`) |
+| Verdict | **Approved** (0 🔴, 0 🟡, 0 🟢) |
+
+Checks run by the Reviewer (not copied from C8):
+
+| Command | Result |
+|---|---|
+| `cd 5-mobile-components && flutter analyze` | ✓ No issues found |
+| `cd 5-mobile-components && flutter test` | ✓ 70 tests, all passed (normal runner, run in the worktree; goldens compared, not updated) |
+| `npm run component-tokens` | ✓ web / tablet / mobile pass |
+| `npm run sync` | ✓ READY for component work (18 docs in the Figma build queue, not blocking) |
+| `npm run docs:check` | ✗ 2 errors, both known baseline: `tablet` and `mobile` `button-group` Figma contracts stale (fixed on `ds/button-web`, PR #1, not merged). Not this unit; not a finding |
+
+Regression proof: in a throw-away copy outside the repo (package plus `2-foundations/flutter`), `lib/src/common/bw_focus_ring.dart` was put back to the Round 1 version (`af0fe5f`) and only `keyboard focus preserves loading content State` was run. It **fails** at `test/button_test.dart:457` (`expect(tester.state(switcherFinder), same(stateBeforeFocus))`). With the current ring it passes. So the test catches a return to swapping child ↔ `Stack`. The copy was deleted afterwards.
+
+#### Round 1 findings
+
+| # | Status | Evidence |
+|---|---|---|
+| 1 🟡 | **Fixed** | `bw_focus_ring.dart:57-82` always returns `Stack(clipBehavior: Clip.none, fit: StackFit.passthrough)` with `widget.child` at index 0 (`:61`) and the ring only as `if (showRing)` second child (`:62`). The early `return widget.child` is gone. Flutter matches the child by slot 0 in the same `Stack`, so its element and State stay when the ring is added or removed. This is the same structure as tablet and C3. Test `keyboard focus preserves loading content State` (`button_test.dart:429-462`) checks the `AnimatedSwitcher` State is the same object after keyboard focus and that the ring is shown. It fails on the old ring (see above) |
+| 2 🟢 | **Fixed** | One table `BwButtonStyle.metrics` (`bw_button_style.dart:140-177`) → `BwButtonMetrics` (`:262-278`) holds height, padding, gap, icon size, radius and text style. `BwButtonStyle.gap` / `BwButtonStyle.iconSize` are removed (no other use in `lib/` or `test/`). `ButtonStyle.iconSize` (`:110`), the leading/trailing `Icon` size, the gap and the spinner size (`bw_button.dart:63,81,84,95,98,120`) all read `metrics`. Token values per size are unchanged (sm `iconSm`, md `iconMd`, lg/xl `iconLg`). `BwButtonMetrics` is public in `lib/src` but not exported from `lib/biowave_mobile.dart`, so the B1 API is unchanged |
+
+#### Ring geometry (unchanged since Round 1)
+
+The diff of `bw_focus_ring.dart` only removes the early return and indents the ring under `if (showRing)`. `inset` = `focusOffset` + `widthFocus` (`:50`), `PositionedDirectional` −inset on all sides (`:63-67`), `IgnorePointer`, `DecoratedBox` with `ringKey`, `widthFocus` stroke and radius + inset (`:53-55,68-78`) are the same as the code measured in Round 1. The geometry tests (`{sm,md,lg,xl} ring …`, `sm ring geometry in ar`) and the four goldens pass unchanged.
+
+#### Acceptance criteria (only where the diff touches them)
+
+| AC | Result | Evidence (file:line / test name) |
+|---|---|---|
+| AC-1 API matches B1 | ✅ | No change to the `BwButton` constructor; barrel export unchanged; `BwButtonMetrics` not exported |
+| AC-2 Values from tokens | ✅ | New `gap` field uses `BwSpacing.controlGap*` (`bw_button_style.dart:148,156,164,172`); `component source contains no raw visual values` passes |
+| AC-4 a11y as B6 (focus ring keyboard only) | ✅ | Ring still gated by `widget.focused` + `FocusHighlightMode.traditional` (`bw_focus_ring.dart:47-48`); `ring is immediate in keyboard mode and absent in touch mode` passes |
+| AC-5 Tests pass; sync passes | ✅ | Checks table above |
+| AC-7 Exact heights | ✅ | `{sm,md,lg,xl} has its exact visible height` passes; height comes from `metrics.height` |
+| AC-8 Ring outside container, no layout change; C3 structure | ✅ | Finding 1 fixed; geometry unchanged (above) |
+| AC-3, AC-6 | ✅ | Not touched by the diff; Round 1 result stands |
+
+#### Rule checks (AGENTS.md §2)
+
+| Rule | Result | Notes |
+|---|---|---|
+| No generated files edited | ✅ | Diff touches only `bw_focus_ring.dart`, `bw_button.dart`, `bw_button_style.dart`, `button_test.dart`, `button.md` C8 |
+| No raw values / no primitives | ✅ | Only tokens added |
+| Logical properties, RTL | ✅ | `PositionedDirectional`, `EdgeInsetsDirectional`, `BorderRadiusDirectional` kept |
+| Light + dark, en + ar tested | ✅ | Goldens unchanged and passing |
+| Stayed inside the plan | ✅ | `BwFocusRing` now matches C3; C8 "Fix round 1" logs the changes, no deviations |
+| Changelog | ✅ | `CHANGELOG.md` "Mobile Button — fix round 1 (1.1)" |
+
+#### Findings
+
+| # | Severity | File | Issue | Required change | Owner |
+|---|---|---|---|---|---|
+| — | — | — | No new findings | — | — |
+
+#### Next step
+
+- Code **Approved**. No Planner items; Plan stays `Finished`. Next: after-review gate, then the Figma build (Part D) when scheduled.
 
 ### E2 Round 1 — 2026-10-20
 

@@ -16,11 +16,13 @@
 | 02 | implement | codex | done (9 min, retry): both failures fixed — RTL `sm` test measured the 48dp touch target instead of the 42.57dp container (test bug, ring code unchanged); SemanticsHandle disposed. Goldens regenerated (real fonts). Code `Built` | flutter analyze ✓ · flutter test ✓ 69/69 · component-tokens ✓ · sync ✓ · docs:check ✓ (2 baseline errors only) | see git log | `02-implement-codex.prompt.md` |
 | 03 | review | claude (wf-reviewer subagent) | done · **Changes requested** — Round 1: 1 🟡 (#1 `BwFocusRing` swaps child ↔ Stack, so content State is rebuilt on focus), 1 🟢 (#2 icon-size table duplicated). Two earlier attempts ended on API errors (timeout, Mac sleep) with nothing written | flutter analyze ✓ · flutter test ✓ 69/69 · component-tokens ✓ · sync ✓ · docs:check ✓ (2 baseline errors only) | see git log | `03-review-claude.prompt.md` |
 | 04 | fix | codex | done (155 min — past the 45-min limit, dispatcher did not stop it): #1 `BwFocusRing` always returns the Stack, State-identity test added; #2 one size → dimensions table. Goldens unchanged | flutter analyze ✓ · flutter test ✓ 70/70 · component-tokens ✓ · sync ✓ · docs:check ✓ (2 baseline errors only) | see git log | `04-fix-codex.prompt.md` |
+| 05 | review | claude (wf-reviewer subagent) | done · **Approved** — Round 2: #1, #2 fixed (old ring makes the new State test fail), no new findings | flutter analyze ✓ · flutter test ✓ 70/70 · component-tokens ✓ · sync ✓ · docs:check ✓ (2 baseline errors only) | see git log | `05-review-claude.prompt.md` |
 
 ## Gates
 
 | Gate | Decision | Notes |
 |---|---|---|
+| before-merge | pending (2026-10-21) | Code still `Built` (reviewer only writes Review fields) |
 | after-review | **Approve** (2026-10-21) | Fix #1 and #2 with codex in the worktree, then review round 2 |
 
 ## Questions raised
