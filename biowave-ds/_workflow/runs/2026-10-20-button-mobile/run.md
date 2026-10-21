@@ -20,7 +20,7 @@
 
 | Gate | Decision | Notes |
 |---|---|---|
-| after-review | pending (2026-10-20) | Executor-only findings #1, #2 → fix |
+| after-review | **Approve** (2026-10-21) | Fix #1 and #2 with codex in the worktree, then review round 2 |
 
 ## Questions raised
 
