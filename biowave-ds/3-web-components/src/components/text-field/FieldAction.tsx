@@ -41,7 +41,7 @@ const ActionRoot = styled(IconButton, {
     alignSelf: $multiline ? 'flex-start' : 'center',
     marginBlockStart:
       $multiline && lineHeight
-        ? `calc((${String(lineHeight)} - ${size.actionBox}) / 2)`
+        ? `max(calc(${size.actionInset} - ${size.gap}), calc((${String(lineHeight)} - ${size.actionBox}) / 2))`
         : undefined,
 
     '&::before': {

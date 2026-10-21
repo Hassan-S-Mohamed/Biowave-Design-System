@@ -5,7 +5,7 @@
 // '@biowave/foundations/icons.css' (Material Symbols Rounded, D-18) once.
 import * as React from 'react';
 import { CacheProvider } from '@emotion/react';
-import createCache from '@emotion/cache';
+import createCache, { type EmotionCache } from '@emotion/cache';
 import { prefixer } from 'stylis';
 import rtlPlugin from 'stylis-plugin-rtl';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -15,6 +15,25 @@ import type { LocaleName, PlatformName } from './generated/tokens';
 
 export type ThemePreference = 'light' | 'dark' | 'system';
 
+export interface BiowaveEmotionCaches {
+  ltr: EmotionCache;
+  rtl: EmotionCache;
+}
+
+export function createBiowaveEmotionCaches(
+  options: { speedy?: boolean } = {},
+): BiowaveEmotionCaches {
+  return {
+    ltr: createCache({ key: 'bw', prepend: true, speedy: options.speedy }),
+    rtl: createCache({
+      key: 'bw-rtl',
+      prepend: true,
+      speedy: options.speedy,
+      stylisPlugins: [prefixer, rtlPlugin],
+    }),
+  };
+}
+
 export interface BiowaveProviderProps {
   /** UI language. 'ar' switches to RTL, Arabic font and Arabic line heights. */
   locale?: LocaleName;
@@ -22,6 +41,8 @@ export interface BiowaveProviderProps {
   theme?: ThemePreference;
   /** Force a platform scale. Leave empty on the Web App: grid follows the viewport, type stays "web". */
   platform?: PlatformName;
+  /** Advanced — tests and isolated roots. Defaults to the shared Biowave caches. */
+  emotionCaches?: BiowaveEmotionCaches;
   children: React.ReactNode;
 }
 
@@ -40,10 +61,7 @@ export function useBiowave(): BiowaveContextValue {
   return ctx;
 }
 
-const caches = {
-  ltr: createCache({ key: 'bw', prepend: true }),
-  rtl: createCache({ key: 'bw-rtl', prepend: true, stylisPlugins: [prefixer, rtlPlugin] }),
-};
+const defaultEmotionCaches = createBiowaveEmotionCaches();
 
 function SyncColorScheme({ theme }: { theme: ThemePreference }) {
   const { setMode } = useColorScheme();
@@ -51,7 +69,13 @@ function SyncColorScheme({ theme }: { theme: ThemePreference }) {
   return null;
 }
 
-export function BiowaveProvider({ locale = 'en', theme = 'system', platform, children }: BiowaveProviderProps) {
+export function BiowaveProvider({
+  locale = 'en',
+  theme = 'system',
+  platform,
+  emotionCaches = defaultEmotionCaches,
+  children,
+}: BiowaveProviderProps) {
   const direction = locale === 'ar' ? 'rtl' : 'ltr';
   const muiTheme = React.useMemo(() => createBiowaveTheme({ direction }), [direction]);
 
@@ -67,7 +91,7 @@ export function BiowaveProvider({ locale = 'en', theme = 'system', platform, chi
 
   return (
     <BiowaveContext.Provider value={value}>
-      <CacheProvider value={caches[direction]}>
+      <CacheProvider value={emotionCaches[direction]}>
         <ThemeProvider theme={muiTheme} defaultMode={theme}>
           <SyncColorScheme theme={theme} />
           <CssBaseline enableColorScheme />
