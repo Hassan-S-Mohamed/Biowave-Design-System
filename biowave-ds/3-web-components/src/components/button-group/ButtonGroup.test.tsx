@@ -22,6 +22,13 @@ import { Icon } from '../icon';
 const orientations: ButtonGroupOrientation[] = ['horizontal', 'vertical'];
 const aligns: ButtonGroupAlign[] = ['start', 'center', 'end', 'space-between', 'fill'];
 const locales = ['en', 'ar'] as const;
+const horizontalJustifyContent: Record<ButtonGroupAlign, string> = {
+  start: 'flex-start',
+  center: 'center',
+  end: 'flex-end',
+  'space-between': 'space-between',
+  fill: 'flex-start',
+};
 
 function allCssRules(): string {
   const rules: string[] = [];
@@ -63,10 +70,26 @@ describe('ButtonGroup layout', () => {
           );
           const group = screen.getByRole('group', { name: 'Actions' });
           const rules = cssRulesFor(group);
+          const styles = getComputedStyle(group);
+          const directChildRule = rules
+            .split('\n')
+            .find((rule) => rule.includes('>*') || rule.includes('> *')) ?? '';
           expect(rules).toContain(cssVars.spacing.md);
-          expect(rules).toContain(
-            orientation === 'vertical' ? 'flex-direction: column-reverse' : 'flex-direction: row',
+          expect(styles.display).toBe('flex');
+          expect(styles.inlineSize).toBe('100%');
+          expect(styles.flexDirection).toBe(
+            orientation === 'vertical' ? 'column-reverse' : 'row',
           );
+          if (orientation === 'vertical') {
+            expect(styles.alignItems).toBe('stretch');
+            expect(directChildRule).toContain('inline-size: 100%');
+          } else {
+            expect(styles.justifyContent).toBe(horizontalJustifyContent[align]);
+            if (align === 'fill') {
+              // jsdom drops the valid unitless-zero flex shorthand from CSSOM.
+              expect(componentSource).toContain("flex: '1 1 0'");
+            }
+          }
           expect(document.documentElement.dir).toBe(locale === 'ar' ? 'rtl' : 'ltr');
           view.unmount();
         }
@@ -201,9 +224,59 @@ describe('ButtonGroup overflow', () => {
       </ButtonGroup>,
     );
     const trigger = screen.getByRole('button', { name: 'More options' });
-    trigger.focus();
+    await user.tab();
+    expect(trigger).toHaveFocus();
     await user.keyboard('{ArrowUp}');
     await waitFor(() => expect(screen.getByRole('menuitem', { name: 'Second' })).toHaveFocus());
+  });
+
+  it('clamps maxVisible to 1–4 and warns for each out-of-range value', () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const lower = renderWithBiowave(
+      <ButtonGroup maxVisible={0} aria-label="Lower clamp">
+        <Button variant="outlined">Cancel</Button>
+        <Button>Save</Button>
+      </ButtonGroup>,
+    );
+    expect(screen.queryByRole('button', { name: 'Cancel' })).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Save' })).toBeInTheDocument();
+    lower.unmount();
+
+    renderWithBiowave(
+      <ButtonGroup maxVisible={5} aria-label="Upper clamp">
+        <Button variant="outlined">One</Button>
+        <Button variant="outlined">Two</Button>
+        <Button variant="outlined">Three</Button>
+        <Button variant="outlined">Four</Button>
+        <Button>Five</Button>
+      </ButtonGroup>,
+    );
+    expect(screen.queryByRole('button', { name: 'One' })).not.toBeInTheDocument();
+    expect(screen.getAllByRole('button')).toHaveLength(5);
+    const warnings = warn.mock.calls.flat().join(' ');
+    expect(warnings).toContain('maxVisible=0');
+    expect(warnings).toContain('clamped to 1');
+    expect(warnings).toContain('maxVisible=5');
+    expect(warnings).toContain('clamped to 4');
+    warn.mockRestore();
+  });
+
+  it('keeps href and submit actions visible instead of moving them into overflow', () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    renderWithBiowave(
+      <ButtonGroup maxVisible={1} aria-label="Actions">
+        <Button href="/docs" variant="outlined">Docs</Button>
+        <Button type="submit">Save</Button>
+      </ButtonGroup>,
+    );
+
+    expect(screen.getByRole('link', { name: 'Docs' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Save' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'More options' })).not.toBeInTheDocument();
+    const warnings = warn.mock.calls.flat().join(' ');
+    expect(warnings).toContain('href');
+    expect(warnings).toContain('type="submit"');
+    warn.mockRestore();
   });
 });
 
@@ -251,5 +324,5 @@ describe('ButtonGroup validation and accessibility', () => {
         view.unmount();
       }
     }
-  }, 20_000);
+  });
 });

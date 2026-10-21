@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Web Button group — fix round 1 (1.1)] — 2026-10-21
+### Changed
+- Fixed review findings #2, #3, #4, #7, #9, #10 and the Executor half of #8: the group now fills its parent's inline size with working logical alignment; the English/Arabic layout matrix covers the full B2 rules; `maxVisible` clamps to 1–4; overflowing links and submit actions remain visible; the ButtonGroup suite uses the shared Biowave renderer and default timeout without its former focus warning. Group-owned size precedence is recorded in C8. `docs:check`, `typecheck` and `component-tokens` pass; three full Web runs pass 91/91 in 7.79 s, 6.64 s and 6.66 s.
+
 - **2026-10-21 — Preview · Web Button group 1.1:** Added light/English and dark/Arabic RTL plan-check sheets with resolved token callouts for alignment, group-owned sm/md/lg sizing, vertical stacking, and overflow behavior; README records the remaining generated-image `fill` width discrepancy.
 
 ## [Plan — Web Button group 1.1: review round 1 Planner items] — 2026-10-21

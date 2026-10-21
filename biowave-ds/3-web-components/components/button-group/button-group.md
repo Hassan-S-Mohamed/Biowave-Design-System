@@ -370,6 +370,23 @@ Files the Executor may touch in this fix round: `ButtonGroup.tsx`, `ButtonGroup.
 **Deviations:** none
 **Questions for the Planner:** `npm run docs:check` remains blocked by the repository-wide Doc Kit 1.2 change: 12 Figma contracts are stale, including this component's Figma contract. The code contract is current; no generated contract was edited by the Executor.
 
+#### Fix round 1 — 2026-10-21
+
+| Finding | What changed (`file:line`) | Test that proves it |
+|---|---|---|
+| #2 (and plan 1.1 #1) | `ButtonGroup.tsx:43` — the root is block-level flex at `inlineSize: '100%'`; horizontal alignment maps to the required `justify-content`, `fill` uses `flex-start` plus child flex, and vertical children stay full width | `ButtonGroup.test.tsx:55` — every orientation × alignment in English and Arabic checks display, width, direction, justify-content, vertical stretch, fill flex, gap and document direction |
+| #3 | `ButtonGroup.test.tsx:55` — expanded the layout loop from gap/direction only to the complete B2 rule set | `ButtonGroup.test.tsx:55` — 20 orientation/alignment/locale cases |
+| #4 | `ButtonGroup.test.tsx:311` — removed the `20_000` axe-test timeout | `npm run test:web` — 91/91 on the default timeout in all three runs |
+| #7 | `ButtonGroup.tsx:110` — clamps `maxVisible` to 1–4 and warns once per invalid value | `ButtonGroup.test.tsx:233` — verifies `0 → 1`, `5 → 4`, resulting visibility and both warnings |
+| #9 | `ButtonGroup.tsx:124` — `href` and `type="submit"` actions that would overflow remain visible and warn | `ButtonGroup.test.tsx:264` — both actions remain in the DOM, no overflow trigger is created, and both warnings are asserted |
+| #10 | `ButtonGroup.test.tsx:217` — the ArrowUp case reaches the trigger with `user.tab()` before keyboard input | `ButtonGroup.test.tsx:217` — focused ButtonGroup run 12/12 with no ButtonGroup `act(...)` warning |
+| #8 (Executor half) | This log records the contract's size precedence: `groupSize ?? childSize ?? default`; the group wins | `ButtonGroup.test.tsx:118` — conflicting Button, IconButton and SplitButton sizes render at the group size and warn |
+
+**Checks:** `npm run sync` ✓ READY · `npm run component-tokens` ✓ (web 3 files / 10 collections / 299 mode values; tablet and mobile 3 / 10 / 305 each) · `npm run docs:check` ✓ (18 component files) · `npm run typecheck` ✓ · `npm run test:web` ✓ run 1: 91/91 in 7.79 s · run 2: 91/91 in 6.64 s · run 3: 91/91 in 6.66 s. Focused ButtonGroup: 12/12 in 2.81 s, default timeout.
+
+**Deviations/notes:** Group size wins over a conflicting child size, per B1/C3. The focused ButtonGroup run emits no `act(...)` warning. Each full run still emits the pre-existing warning from `SplitButton.test.tsx` › *implements Arrow, Home, End, Escape, and ArrowUp-open keyboard behavior*; SplitButton is outside this fix's allowed files.
+**Questions:** none.
+
 ---
 
 ## D · Figma build

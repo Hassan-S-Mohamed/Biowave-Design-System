@@ -43,20 +43,20 @@ const justifyContent: Record<Exclude<ButtonGroupAlign, 'fill'>, string> = {
 const ButtonGroupRoot = styled('div', {
   shouldForwardProp: (prop) => prop !== '$align' && prop !== '$orientation',
 })<ButtonGroupRootProps>(({ $align, $orientation }) => {
-  const fillsAvailableSpace = $orientation === 'vertical' || $align === 'fill';
-
   return {
-    display: 'inline-flex',
+    display: 'flex',
     flexDirection: $orientation === 'vertical' ? 'column-reverse' : 'row',
     alignItems: $orientation === 'vertical' || $align === 'fill' ? 'stretch' : 'center',
     justifyContent:
-      $orientation === 'horizontal' && $align !== 'fill'
-        ? justifyContent[$align]
+      $orientation === 'horizontal'
+        ? $align === 'fill'
+          ? 'flex-start'
+          : justifyContent[$align]
         : undefined,
     gap: cssVars.spacing.md,
-    inlineSize: fillsAvailableSpace ? '100%' : 'fit-content',
+    inlineSize: '100%',
     '& > *': {
-      ...(fillsAvailableSpace ? { inlineSize: '100%' } : {}),
+      ...($orientation === 'vertical' ? { inlineSize: '100%' } : {}),
       ...($align === 'fill' ? { flex: '1 1 0' } : {}),
     },
   };
@@ -107,15 +107,31 @@ export const ButtonGroup = React.forwardRef<HTMLDivElement, ButtonGroupProps>(
     const { locale } = useBiowave();
     const align = alignProp ?? 'end';
     const actionChildren = React.Children.toArray(children);
+    const clampedMaxVisible = Math.min(Math.max(maxVisible, 1), 4);
+    if (clampedMaxVisible !== maxVisible) {
+      warnOnce(
+        `button-group-max-visible-${String(maxVisible)}`,
+        `ButtonGroup: maxVisible=${String(maxVisible)} is outside 1–4; clamped to ${String(clampedMaxVisible)}.`,
+      );
+    }
     const effectiveOverflowLabel =
       overflowLabel ?? (locale === 'ar' ? 'خيارات أخرى' : 'More options');
-    const overflowCount = Math.max(actionChildren.length - maxVisible, 0);
+    const overflowCount = Math.max(actionChildren.length - clampedMaxVisible, 0);
     const overflowOptions: SplitButtonMenuOption[] = [];
     const visibleChildren: React.ReactNode[] = [];
     let remainingOverflow = overflowCount;
 
     for (const child of actionChildren) {
       if (remainingOverflow > 0 && isActionElement(child) && isOverflowable(child)) {
+        if (child.props.href !== undefined || child.props.type === 'submit') {
+          const reason = child.props.href !== undefined ? 'href' : 'type="submit"';
+          warnOnce(
+            `button-group-non-overflowable-${reason}`,
+            `ButtonGroup: a child with ${reason} cannot move into overflow; keeping this child visible.`,
+          );
+          visibleChildren.push(child);
+          continue;
+        }
         const option = toMenuOption(child);
         if (option) {
           overflowOptions.push(option);
