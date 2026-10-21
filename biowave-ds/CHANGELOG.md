@@ -2,6 +2,22 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Web Text field — review round 3] — 2026-10-21
+### Changed
+- Web `text-field.md` Part E Round 3 (E5): **Approved** — #9 fixed (Chromium at 980 and 1280 px, EN and AR: multiline action box 24/32/40 sits 4 px = `spacing-xs` inside the top edge and inline end at sm/md/lg; test asserts the `max(…)` rule for single-line and multiline), #10 fixed by plan 1.2; RTL prefix at inline start (right), suffix and end button at inline end (left), as B5 and the dark/AR preview. No new findings. `typecheck` ✓, `docs:check` only the 2 baseline `button-group` errors, `test:web` Text field 19/19 but red from host-load timeouts in untouched Button/Icon button/Split button tests (re-run at the before-merge gate). Code → Approved (header + README).
+
+## [Web Text field — fix round 2 (1.2)] — 2026-10-21
+### Fixed
+- Fixed finding #9 by keeping multiline trailing actions at least `spacing-xs` inside the top border with the token-only `max(action-inset − padding-block, (line-height − action-box) / 2)` rule, adding sm/md/lg coverage at 980 and 1280 px, and correcting C8 to identify the Biowave `Icon`; Text field tests pass 19/19 and the serial full Web suite passes 87/87.
+
+## [Web Text field — plan 1.2] — 2026-10-21
+### Changed
+- Added the plan 1.2 web Text field preview sheets for light/English and dark/Arabic RTL, covering sm/md/lg anatomy, six states, attachments, multiline examples, resolved token callouts, and the 4 px trailing-action top inset rule.
+- Web `text-field.md` plan 1.1 → 1.2 answering Round 2 Planner findings: #9 one multiline trailing-action rule in B2/C3 — `margin-block-start = max(action-inset − padding-block, (line-height − action-box) / 2)`, action box never closer than `spacing-xs` to the top border (resolved top offset `spacing-xs` at sm/md/lg, EN and AR); B9/C6 add a multiline case to the viewport test; C7 adds "Fix round 2 — Executor task list" (Web D3 not touched — Tablet/Mobile Figma contracts inherit it). #10 B7 examples and C3 Icons now use the Biowave `Icon` (`<Icon name="…" />`). Planner response added under E4. Plan → Finished (header + README); both Text field contracts regenerated.
+
+## [Web Text field — review round 2] — 2026-10-21
+### Changed
+- Web `text-field.md` Part E Round 2 (E4): **Changes requested** — Round 1 #1–#8 and AD-1 … AD-6 fixed (measured in Chromium at 980 and 1280 px: single-line action box 24/32/40 inset 4 px at sm/md/lg, disabled action and end button not focusable or clickable, `aria-*` on the input); `test:web` 87/87, `typecheck` ✓, `docs:check` only the 2 baseline `button-group` errors. New: #9 🟡 multiline action reaches the top border at md/lg (B2 inset vs first-line rule conflict, Planner → Executor), #10 🟢 C3/B7 still name MUI `Icon` (Planner). Plan → Open, Code → Changes requested (README + header).
 ## [Review — Web Button round 3: Approved] — 2026-10-20
 - Round 2 findings #11–#13, #15–#17 fixed (#14 closed by the Planner); AC-11 … AC-15 met; `docs:check` ✅, `typecheck` ✅, `test:web` ✅ 79/79 in ≈ 6 s with the default timeout (slowest Button test 979 ms), `sync` ✅; `BiowaveProvider` default caches unchanged. Manual QA open: loading width and screen-reader announcement (EN/AR). `3-web-components/components/button/button.md` Part E4, header and `3-web-components/README.md` Review column updated.
 
