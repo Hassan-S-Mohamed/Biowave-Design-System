@@ -5,7 +5,7 @@
 | Unit | `split-button` on `web` |
 | Unit file | `3-web-components/components/split-button/split-button.md` |
 | Branch | `ds/split-button-web` (from `main`, worktree `.claude/worktrees/split-button-web`) |
-| Pull request | — |
+| Pull request | https://github.com/hassanSmohamed/Biowave-Design-System/pull/10 |
 | Skipped steps | figma (config › skip) |
 
 Orchestrated from a Cowork session (Phase 1 run; gates pre-approved by the user except merge). Plan Finished, Code Built, no review round → **review**.
@@ -29,6 +29,7 @@ Orchestrated from a Cowork session (Phase 1 run; gates pre-approved by the user 
 | all gates except merge | Pre-approved by the user (2026-10-21, Cowork session) | Merge to `main` stays with the user. 2026-10-21 Code-tab session: `main` merged in after PR #1 + #8 (371d7f7); gates asked again here |
 | after-plan | **Approve** (2026-10-21) | Fix round 1 with codex, then review round 2. Preview ⚠ items are drawing faults, not plan changes |
 | after-review | **Approve** (2026-10-21) | Fix round 2 (last allowed) with codex for #9, #10 (menu transition from the `--bw-motion-*` CSS variables), then review round 3 |
+| before-merge | `main` (with Icon button #9) merged in (15544b1): docs:check ✓ · typecheck ✓ · test:web ✓ 107/107; pushed, PR opened https://github.com/hassanSmohamed/Biowave-Design-System/pull/10 (2026-10-21) — merge decision pending | 🟢 #11 (backdrop catches clicks ≈ 240 ms after close) left for the shared Menu |
 
 ## Questions raised
 
