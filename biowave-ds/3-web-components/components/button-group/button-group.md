@@ -13,12 +13,12 @@
 | Built on | Custom layout (`div` flex). **Not** MUI `ButtonGroup` (that is a connected control). Overflow uses `IconButton` + the temporary menu from Split button |
 | Import | `import { ButtonGroup } from '@biowave/web'` |
 | Figma | **Biowave DS — Web Components** › `↳ Button Group` (legacy reference: Foundations `4833:35916`) · build: [Part D](#d--figma-build) |
-| Version | 1.0 · 2026-10-16 |
-| Plan | Open |
+| Version | 1.1 · 2026-10-21 |
+| Plan | Finished |
 | Code | Built |
 | Figma build | Planned |
 | Review | Round 1 · 2026-10-21 · Changes requested |
-| Source code | `src/components/button-group/` — not built yet (the Executor creates it) |
+| Source code | [`src/components/button-group/`](../../src/components/button-group/) |
 | Tokens | — (no component tokens yet) |
 | Contracts | [`button-group-contract.md`](button-group-contract.md) · [`figma-button-group-contract.md`](figma-button-group-contract.md) — generated, never edited |
 | Docs page | [`button-group.html`](button-group.html) |
@@ -183,7 +183,7 @@ Web / Tablet                                  Mobile
 | `orientation` | enum | `horizontal` · `vertical` | `horizontal` | | A4.1 |
 | `align` | enum | `start` · `center` · `end` · `space-between` · `fill` | `end` | | A4.2 (horizontal). Vertical is always full width |
 | `size` | enum | `sm` · `md` · `lg` | `md` | | Applied to every child through context |
-| `maxVisible` | number | 1–4 | `3` | | Actions beyond this go into the overflow menu |
+| `maxVisible` | number | 1–4 | `3` | | Actions beyond this go into the overflow menu. Out of range → clamped to 1–4 |
 | `overflowLabel` | string | | "More options" / "خيارات أخرى" | | Overflow trigger name |
 | `aria-label` | string | | — | | When set, the group is exposed as `role="group"` with this name |
 
@@ -192,6 +192,8 @@ Web / Tablet                                  Mobile
 - a child with its own `size` different from the group `size` (group wins)
 - `align="space-between"` with more than 2 children
 - `align` set with `orientation="vertical"` (ignored)
+- `maxVisible` outside 1–4 (clamped)
+- an action that would overflow but has `href` or `type="submit"` — it stays visible (an overflow menu item calls the child's `onClick()` with no event, so it cannot follow a link or submit a form)
 
 ### B2 Dimensions
 
@@ -212,10 +214,10 @@ vertical
 
 | Part | Property | Value |
 |---|---|---|
-| `container` | display · gap | flex · `spacing-md` (both orientations) |
+| `container` | display · gap | `display: flex` (block-level, never `inline-flex`) · `spacing-md` (both orientations) |
 | `container` | horizontal | `flex-direction: row`; `justify-content` from `align` (`start` · `center` · `flex-end` · `space-between`); `fill` → children `flex: 1 1 0` |
-| `container` | vertical | `flex-direction: column-reverse` (primary = last child on top), children full width |
-| `container` | width | hug (horizontal) · 100% of parent (vertical, `fill`) |
+| `container` | vertical | `flex-direction: column-reverse` (primary = last child on top), `align-items: stretch` → children full width |
+| `container` | width | `inline-size: 100%` of its parent in **both** orientations and every `align` — the group fills the footer / header slot, so `justify-content` has free space and `align` places the actions (and mirrors in RTL). Never hug |
 | `overflow-trigger` | | `IconButton` `variant="text"` `color="neutral"`, same `size`, icon `more_horiz`, placed first (start) |
 
 No colors of its own: B3 is empty by design.
@@ -269,11 +271,11 @@ Structure, properties, the Figma ↔ code mapping and Code Connect: [Part D](#d-
 
 ### B9 Tests
 
-- [ ] Each `orientation` × `align` renders B2 layout (computed styles), en + ar
+- [ ] Each `orientation` × `align` renders the full B2 rule set (computed styles), en + ar: container `display: flex` and `inline-size: 100%`; horizontal `flex-direction: row` + `justify-content` per `align` (`start` · `center` · `flex-end` · `space-between`); `fill` → every child `flex: 1 1 0`; vertical `column-reverse` + `align-items: stretch`; `gap` = `spacing-md`
 - [ ] Children receive the group `size`; conflicting child size warns
 - [ ] Focus order = DOM order in vertical layout (primary visually on top, focused last)
 - [ ] `maxVisible` moves the first (least important) children into the overflow menu; menu items call the children's `onClick`
-- [ ] Invalid combinations warn; axe passes
+- [ ] Invalid combinations warn (incl. `maxVisible` out of range → clamped, overflowing `href` / `type="submit"` child kept visible); axe passes
 
 ---
 
@@ -288,7 +290,7 @@ Structure, properties, the Figma ↔ code mapping and Code Connect: [Part D](#d-
 | Component | Button group |
 | Platform | Web (React + MUI) |
 | Depends on | Button, Icon button, Split button (web) **Built** (reuses `SplitButtonMenu`) |
-| Plan version | 1 · 2026-10-16 |
+| Plan version | 1.1 · 2026-10-21 |
 
 ### C1 Goal
 
@@ -300,9 +302,10 @@ In: B1–B6, B9. Out: Toolbar, Segmented button.
 
 ### C3 Approach
 
-- `ButtonGroupContext` provides `size`; `Button`, `IconButton`, `SplitButton` read it when they have no explicit `size` (small change to each: `const size = props.size ?? groupSize ?? default`).
-- Overflow: `React.Children.toArray(children)`; if `length > maxVisible`, the first `length - maxVisible` items become menu options built from their props (`children`/`label` → `label`, `onClick` → `onSelect`, `disabled`). Children that are not Button/IconButton cannot overflow → warn and keep visible.
-- Styles only `cssVars.spacing.md` + flex rules. No colors.
+- `ButtonGroupContext` provides `size`; inside a group **the group's size wins** (B1): `Button`, `IconButton`, `SplitButton` use `const size = groupSize ?? props.size ?? default`, and the group warns when a child's own `size` differs (plan 1.1, finding 8).
+- Overflow: `React.Children.toArray(children)`; clamp `maxVisible` to 1–4 (`warnOnce` when out of range); if `length > maxVisible`, the first `length - maxVisible` items become menu options built from their props (`children`/`label` → `label`, `onClick` → `onSelect`, `disabled`). Children that are not Button/IconButton, or that have `href` or `type="submit"`, cannot overflow → warn and keep visible (B1).
+- Styles only `cssVars.spacing.md` + flex rules. No colors. Container (plan 1.1, finding 1): `display: 'flex'` and `inlineSize: '100%'` in both orientations — no `inline-flex`, no `fit-content`; horizontal `justifyContent` from `align` (`start` · `center` · `flex-end` · `space-between`, `fill` → `flex-start` + children `flex: '1 1 0'`); vertical `flexDirection: 'column-reverse'`, `alignItems: 'stretch'`.
+- **Test tooling (finding 5, not planned here).** The shared speedy Emotion test cache (`createBiowaveEmotionCaches`, per-test caches in `src/test/render.tsx`, reset in `src/test/setup.ts`) is Button plan 1.2 on branch `ds/button-web` (PR #1, merge pending). This fix round rebases on it once merged; do not re-implement or edit those files here.
 
 ### C4 Token gaps
 
@@ -326,12 +329,33 @@ None.
 
 B9; Button/IconButton/SplitButton tests still pass.
 
+- [ ] (1.1) Layout loop asserts the full B2 rule set per orientation × align, en + ar (finding 3) — see B9 first item
+- [ ] (1.1) `maxVisible={0}` and `maxVisible={5}` clamp to 1 and 4 and warn once (finding 7)
+- [ ] (1.1) A child with `href` or `type="submit"` that would overflow stays visible and warns (finding 9)
+- [ ] (1.1) No per-test timeout argument in `ButtonGroup.test.tsx` (finding 4); no `act(...)` warning in the test run (finding 10)
+
 ### C7 Acceptance criteria
 
 - [ ] AC-1 API = B1; AC-2 layout = B2 (no raw values)
 - [ ] AC-3 Focus order = DOM order in both orientations
 - [ ] AC-4 Overflow behaves per B9
 - [ ] AC-5 typecheck, tests, sync pass; AC-6 exported, README updated
+- [ ] AC-7 (findings 1, 2) Container `display: flex`, `inline-size: 100%` in both orientations; each `align` value visibly moves the actions in a wide parent and mirrors in `ar`
+- [ ] AC-8 (finding 3) B9 layout test asserts the full B2 rule set, en + ar
+- [ ] AC-9 (finding 4, 10) No raised timeout in `ButtonGroup.test.tsx`; no `act(...)` warning
+- [ ] AC-10 (findings 7, 9) `maxVisible` clamped + warning; `href` / `type="submit"` children never overflow (warning); tests per C6
+- [ ] AC-11 C8 gets a "Fix round 1" entry: every command with ✓/✗ and real numbers (`npm run typecheck`, `npm run test:web` passed/total + duration, `npm run docs:check`, `npm run sync`), and the size precedence (group wins) recorded under Deviations/notes (finding 8)
+
+**Fix round 1 — Executor task list** (one list; nothing else is in scope). Rebase on `ds/button-web` (PR #1, shared speedy Emotion test cache, finding 5) once it is merged into `main`; do not re-implement that tooling:
+1. #2 Container per C3 / B2 — `display: flex`, `inlineSize: '100%'`, justify-content per `align` — `3-web-components/src/components/button-group/ButtonGroup.tsx`
+2. #3 Layout test asserts the full B2 rule set per orientation × align, en + ar — `ButtonGroup.test.tsx`
+3. #4 Remove the `20_000` timeout at `ButtonGroup.test.tsx:254`; if still slow, render once per theme/locale with a light fixture — never raise the limit
+4. #7 Clamp `maxVisible` to 1–4 with `warnOnce`; test — `ButtonGroup.tsx`, `ButtonGroup.test.tsx`
+5. #9 An overflowing child with `href` or `type="submit"` stays visible and warns (B1); test — `ButtonGroup.tsx`, `ButtonGroup.test.tsx`
+6. #10 Wrap the ArrowUp test's focus in `act()` or use `user.tab()` + `user.keyboard` — `ButtonGroup.test.tsx`
+7. #8 (Executor half) Log the size precedence (group wins, B1/C3) in C8; one `CHANGELOG.md` entry
+
+Files the Executor may touch in this fix round: `ButtonGroup.tsx`, `ButtonGroup.test.tsx`, C8 of this file, `CHANGELOG.md`. Nothing else.
 
 ---
 
@@ -530,6 +554,8 @@ Skipped — Figma build is `Planned` and `figma` is in `_workflow/config.json �
 
 ### F0 Changes from previous version
 
+1.1 — the group now fills the width of its parent in both orientations, so `align` places the actions (the default `end` puts them at the inline end of a dialog footer). `maxVisible` is clamped to 1–4, and actions with `href` or `type="submit"` never move into the overflow menu. Inside a group the group's `size` wins. No prop renamed or removed.
+
 1.0 — initial Web implementation: horizontal/vertical layouts, alignment and fill modes, shared child sizing, overflow menu, localized trigger, validation, public exports and contract tests. No API change from the initial spec.
 
 ### F1 Guidelines changelog
@@ -543,3 +569,4 @@ Skipped — Figma build is `Planned` and `figma` is in `_workflow/config.json �
 | Version | Date | Change | Breaking | Migration |
 |---|---|---|---|---|
 | 1.0 | 2026-10-16 | Initial | No | — |
+| 1.1 · plan 1.1 | 2026-10-21 | Review round 1 Planner items: #1 container `display: flex` + `inline-size: 100%` in both orientations so `align` works (B2, C3); #8 C3 size precedence aligned with B1 (group wins); #11 header Source code link; #6 tablet + mobile Figma contracts regenerated. B1 invalid combinations + B9/C6 tests for #3, #7, #9; C7 AC-7–11 + Fix round 1 task list (#2, #3, #4, #7, #9, #10, #8 log). #5 (shared Emotion test cache) not re-planned — rebases on `ds/button-web` PR #1. Part A unchanged | No — a group that relied on hugging its content now fills its parent; wrap it in a hugging container if needed | — |
