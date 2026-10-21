@@ -12,17 +12,21 @@
 
 | # | Step | Agent | Result | Checks | Commit | Prompt |
 |---|---|---|---|---|---|---|
+| 01 | review | claude (wf-reviewer subagent) | done · **Changes requested** — Round 2: R1 #1–#8 and AD-1 … AD-6 fixed (measured in Chromium at 980 / 1280 px); new 🟡 #9 multiline action covers the border (two B2 rules conflict, Planner → Executor), 🟢 #10 spec still names MUI `Icon` (Planner). Plan → `Open`, Code → `Changes requested` | docs:check ✓ (2 baseline errors only) · typecheck ✓ · test:web ✓ 87/87 | see git log | `01-review-claude.prompt.md` |
 
 ## Gates
 
 | Gate | Decision | Notes |
 |---|---|---|
+| after-review | pending (2026-10-21) | Planner first (#9 multiline rule, #10 Icon wording) → preview → fix (#9 code + test) |
 
 ## Questions raised
 
 - Baseline: `npm run docs:check` on `main` has 2 known errors (tablet + mobile `button-group` Figma contracts stale). Their fix was on `ds/button-web`, whose PR #1 was closed without merge on 2026-10-20. Steps here are checked against "no errors besides those 2".
 - Worktree: the main checkout is used by other sessions. `node_modules` here is a real folder whose entries link to the main checkout, except `@biowave/*`, which link to this worktree's own packages (a plain symlink made `typecheck` read the main checkout's Foundations).
 - Button web: approved on `ds/button-web` (round 3) but PR #1 was closed unmerged, so `main` still shows Button web as Round 1 · Changes requested. Waiting on the user's decision; not run here.
+
+- Reviewer (outside this unit): `_docs/live.tsx:8` imports `3-web-components/src/test/materialSymbol`, deleted by icon/web (6554f7b), so every live React preview from `npm start` fails. Not a Text field finding; confirmed by the orchestrator.
 
 ## Summary
 

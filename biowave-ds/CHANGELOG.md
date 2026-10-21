@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Web Text field — review round 2] — 2026-10-21
+### Changed
+- Web `text-field.md` Part E Round 2 (E4): **Changes requested** — Round 1 #1–#8 and AD-1 … AD-6 fixed (measured in Chromium at 980 and 1280 px: single-line action box 24/32/40 inset 4 px at sm/md/lg, disabled action and end button not focusable or clickable, `aria-*` on the input); `test:web` 87/87, `typecheck` ✓, `docs:check` only the 2 baseline `button-group` errors. New: #9 🟡 multiline action reaches the top border at md/lg (B2 inset vs first-line rule conflict, Planner → Executor), #10 🟢 C3/B7 still name MUI `Icon` (Planner). Plan → Open, Code → Changes requested (README + header).
+
 ## [Mobile Button — review round 2] — 2026-10-21
 ### Changed
 - Mobile `button.md` Part E Round 2: **Approved** — Round 1 #1 fixed (`BwFocusRing` always returns the same `Stack`, child State survives focus; the new test fails when the old ring is restored) and #2 fixed (one `BwButtonMetrics` size table); ring geometry unchanged; 70/70 Flutter tests; no new findings. Review status updated in the header and `5-mobile-components/README.md`.

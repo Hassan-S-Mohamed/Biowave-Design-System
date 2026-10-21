@@ -14,10 +14,10 @@
 | Import | `import { TextField } from '@biowave/web'` |
 | Figma | **Biowave DS — Web Components** › `↳ Text field` |
 | Version | 1.1 · 2026-10-18 |
-| Plan | Finished |
-| Code | In progress |
+| Plan | Open |
+| Code | Changes requested |
 | Figma build | Planned |
-| Review | Round 1 · 2026-10-18 · Changes requested |
+| Review | Round 2 · 2026-10-21 · Changes requested |
 | Source code | [`src/components/text-field/`](../../src/components/text-field/) |
 | Tokens | [`text-field.tokens.json`](text-field.tokens.json) — machine copy of B3 (D-13) |
 | Contracts | [`text-field-contract.md`](text-field-contract.md) · [`figma-text-field-contract.md`](figma-text-field-contract.md) — generated, never edited |
@@ -778,6 +778,102 @@ Component description: “Enters or edits short and multiline text with persiste
 | Round | Date | Code verdict | Figma verdict |
 |---|---|---|---|
 | 1 | 2026-10-18 | Changes requested | not reviewed (Figma build not started) |
+| 2 | 2026-10-21 | Changes requested | not reviewed (Figma build not started) |
+
+### E4 Round 2 — 2026-10-21
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 1.1 |
+| Spec version reviewed | 1.1 (C8 "Round 2 · spec 1.1") |
+| Reviewer | Claude |
+| Date | 2026-10-21 |
+| Verdict | **Changes requested** — all 8 Round 1 findings and AD-1 … AD-6 are fixed and every single-line measurement passes; 1 🟡 spec conflict left: multiline `md`/`lg` trailing action reaches the top border (AC-10). Planner item, then a small Executor follow-up |
+| Evidence | Worktree `ds/text-field-web` (code = `main` + run record). `npm run typecheck` ✅ · `npm run test:web` ✅ **87/87, 7 files, default parallel runner, exit 0** (Text field 19/19) · `npm run docs:check` ❌ 2 errors = known baseline (tablet + mobile `button-group` Figma contracts stale), none for Text field · Real Chromium (Vite probe of `3-web-components/src`, light, en) at **980 px** (`--bw-target-min` = 48px) and **1280 px** (= 24px): every `sm`/`md`/`lg` field with clear, password and custom action measured; disabled action / end button clicked; tab stops and `aria-*` read from the DOM |
+
+#### Measurements (real browser, both viewports identical except the invisible target)
+
+| Field | Field h | Action box | Inset top · bottom · end | `::before` target 980 / 1280 | Result |
+|---|---|---|---|---|---|
+| `sm` clear · password · action | 32 | 24 × 24 | 4 · 4 · 4 | 48 / 24 | ✅ inside the border |
+| `md` clear · password · action | 40 | 32 × 32 | 4 · 4 · 4 | 48 / 24 | ✅ |
+| `lg` clear · password · action | 48 | 40 × 40 | 4 · 4 · 4 | 48 / 24 | ✅ |
+| Decorative `endAdornment` sm/md/lg | 32/40/48 | — | trailing icon 8/12/16 from end = leading icon 8/12/16 from start | — | ✅ AD-1 mirror |
+| Multiline `sm` clear | 68 | 24 × 24 | **2** · 42 · 4; centre 14 = first-line centre 14 | 48 / 24 | ⚠️ inside, but not `spacing-xs` |
+| Multiline `md` clear | 78 | 32 × 32 | **1** · 45 · 4; centre 17 = first-line centre 17 | 48 / 24 | ❌ touches the 1px border, overlaps the 2px focus border — finding 9 |
+| Multiline `lg` clear | 88 | 40 × 40 | **0** · 48 · 4; centre 20 = first-line centre 20 | 48 / 24 | ❌ box starts on the border — finding 9 |
+| Disabled `sm`/`md`/`lg` + action + end button + help | — | — | action and end button `disabled`, `tabIndex -1`; real click on “Act” → handler not called, focus stays on `BODY`; help icon enabled, `tabIndex 0` | — | ✅ AD-3 |
+| `aria-errormessage` · `aria-labelledby` · `aria-describedby="caller"` | — | — | all on `<input>`; `aria-describedby` = `caller …-supporting`; root `div` has no `aria-*` | — | ✅ #3 |
+
+#### Round 1 findings and addendum bugs
+
+| # | Status | Evidence |
+|---|---|---|
+| 1 | ✅ Fixed | `docs:check` reports nothing for Text field; both Text field contracts current. Remaining 2 errors are `button-group` tablet/mobile (baseline, not this unit) |
+| 2 | ✅ Fixed | Read-only border `color-border-default` — `text-field.tokens.ts:135-139`; B3 |
+| 3 | ✅ Fixed | `splitForwardedProps` `TextField.tsx:265-278`; `inputProps={{...ariaProps, …}}` `TextField.tsx:672-680`; root gets only `dataProps` `TextField.tsx:583`. Browser check above; test `TextField.test.tsx:189` |
+| 4 | ✅ Fixed | `RequiredIndicator` takes `$disabled` → `disabled.required` — `FieldLabel.tsx:72-76, 128-134` |
+| 5 | ✅ Fixed | B2 row “multiline padding-block”; code `TextField.tsx:128` |
+| 6 | ✅ Fixed | Test “ties hover, focus, error-focus, read-only, and disabled-required colors to their rules” `TextField.test.tsx:337` |
+| 7 | ✅ Fixed | `alignSelf: 'flex-start'` on row and label — `FieldLabel.tsx:42, 65` |
+| 8 | ✅ Fixed | Form `reset` listener `TextField.tsx:417-434`; test `TextField.test.tsx:274` |
+| AD-1 | ✅ Fixed | Slot no longer sized by `target-min`; box = `actionBox`, target via `::before` — `FieldAction.tsx:35-55`. Measured above: inset 4 at 980 and 1280 px; decorative trailing icon at normal padding |
+| AD-2 | ✅ Fixed (single-line) | Field renders the action through `FieldAction` (B1 `action`); `padding-inline-end = action-inset` `TextField.tsx:127`. Multiline remainder → finding 9 |
+| AD-3 | ✅ Fixed | `disabled={disabled}` on every `FieldAction` `TextField.tsx:545, 557, 566` and the end button `TextField.tsx:696`; help never disabled `FieldLabel.tsx:180-189`. Real click + DOM tab stops above; test `TextField.test.tsx:392` |
+| AD-4 | ✅ Fixed | `error` state keeps `icon` neutral `text-field.tokens.ts:114-119`; no error rule on leading/trailing icons `TextField.tsx:223-245`; separate `errorIcon` |
+| AD-5 | ✅ Fixed | Centre = first-line centre at every size (14/17/20, measured); `FieldAction.tsx:41-45`; test `TextField.test.tsx:539` |
+| AD-6 | ✅ Fixed | Decorative wrappers `pointer-events: none` `TextField.tsx:232`, add-ons `FieldAddon.tsx:63`; field `onMouseDown` focuses the input `TextField.tsx:534-541`; test `TextField.test.tsx:516` |
+
+#### Acceptance criteria
+
+| AC | Result | Evidence |
+|---|---|---|
+| AC-1 API, defaults, warnings, fallbacks = B1 | ✅ | `TextFieldProps` `TextField.tsx:38-81` = B1; 9 `warnOnce` cases `TextField.tsx:452-505` = the 9 B1 invalid combinations; test “warns once for every invalid combination and applies every fallback” `TextField.test.tsx:583` |
+| AC-2 Values from B2–B3 via `cssVars`/`biowaveVariants` | ✅ | `text-field.tokens.ts` only; alias test `TextField.test.tsx:103`; raw-value scan of every folder file `TextField.test.tsx:140` |
+| AC-3 B4 transitions, reduced motion | ✅ | `motion-duration-sm` border/icon, `instant` background/disabled/read-only `TextField.tsx:136-155, 190, 195`; add-ons `FieldAddon.tsx:64-80`; durations are Foundations vars |
+| AC-4 RTL (B5), semantics + keyboard (B6) | ✅ | Logical properties only; add-on `dir="ltr"` + isolate `FieldAddon.tsx:61-62, 98`; tab order help → input → action → end button, test `TextField.test.tsx:562`; `aria-*` on the input (browser) |
+| AC-5 B9 + C6 tests pass | ✅ | 19 Text field tests; `test:web` 87/87; C6 viewport test `TextField.test.tsx:364` (computed styles — real layout confirmed by this review) |
+| AC-6 Exported; status `Built` | ⚠️ | Exported (`src/index.ts`). Header + README were still `In progress`. The C8 reason (parallel `test:web` timeouts in Button / Icon button / Split button) **no longer holds**: the exact command passes 87/87 on the default runner. Code should have been `Built`; this review now sets it to `Changes requested` (finding 9) |
+| AC-7 No floating label / notch / palette defaults | ✅ | `notched={false}`, legend hidden `TextField.tsx:157-159, 619`; label outside the outline |
+| AC-8 One public component, private parts | ✅ | `FieldLabel`, `FieldSupportingText`, `FieldAddon`, `FieldAction` not exported (`text-field/index.ts`) |
+| AC-9 `component-tokens`, `sync`, `docs:check` | ✅ (for this unit) | `docs:check` errors are only the 2 baseline `button-group` contracts |
+| AC-10 AD-1 … AD-6 fixed, action inside the border at every size and viewport | ❌ | Single-line ✅ at every size and both viewports; multiline `md`/`lg` action reaches the top border — finding 9 |
+| AC-11 Reuse Biowave Icon button / Button | ✅ | Trailing action `styled(IconButton)` `FieldAction.tsx:28`, help `styled(IconButton)` `FieldLabel.tsx:78`, end button `styled(Button)` `TextField.tsx:249`; the overrides only resize box and glyph, colours and states stay Icon button `text`·`neutral` / Button `outlined`·`neutral` |
+| AC-12 Material Symbols Rounded only, no `@mui/icons-material` | ✅ | After icon/web, built-in glyphs use the Biowave `Icon` (`close`, `visibility`/`visibility_off`, `help`, `error`) `TextField.tsx:546, 551, 567`, `FieldLabel.tsx:182`; `Icon` = Material Symbols Rounded (D-18). No `@mui/icons-material` in the folder (only the test's `not.toContain`). Spec text still says MUI `Icon` — finding 10 |
+
+#### Rule checks (AGENTS.md §2)
+
+| Rule | Result | Notes |
+|---|---|---|
+| No generated files edited | ✅ | |
+| No raw values / no primitives | ✅ | `base.*` numbers only for MUI Tooltip delay/offset props, same pattern as the approved Icon button tooltip |
+| Logical properties, RTL icons | ✅ | No physical left/right; glyphs not mirrored |
+| Light + dark, en + ar tested | ✅ | `TextField.test.tsx:160`, axe `TextField.test.tsx:620` |
+| Accessibility | ✅ | Disabled controls out of tab order, help reachable, `target-min` via `::before` without layout change, focus exception per B6 |
+| Stayed inside the plan | ⚠️ | Glyphs moved from MUI `Icon` to the Biowave `Icon` by icon/web (outside this unit, correct by D-18) — spec / C8 not updated (finding 10) |
+| Changelog | ✅ | CHANGELOG + Part F entries for Round 2 |
+
+#### Findings
+
+| # | Severity | File | Issue | Required change | Owner |
+|---|---|---|---|---|---|
+| 9 | 🟡 Should fix | B2 layout rules · `FieldAction.tsx:41-45` | B2 has two rules that conflict for multiline: “inset by `spacing-xs` … never covers the border at any size” and “centre aligns with the first text line”. With `padding-block = spacing-control-gap-*` the centring puts the action box 2 / 1 / **0** px from the top edge (`sm`/`md`/`lg`, measured at 980 and 1280 px), so at `md`/`lg` it sits on the border and its hover layer / focus ring reach the field edge. AC-10 fails for multiline | Planner: pick one rule for multiline in B2/C3 — recommend `margin-block-start = max(action-inset − padding-block, (line-height − action-box) / 2)` (centre on the first line, never closer than `spacing-xs` to the border) or a smaller multiline action box. Regenerate the contract. Executor: apply it and add the multiline case to the viewport test at `TextField.test.tsx:364` | Planner → Executor |
+| 10 | 🟢 Nit | C3 “Icons”, B7, C8 Round 2 | Spec still says built-in glyphs use MUI `Icon baseClassName="material-symbols-rounded"` “until the Biowave Icon ships”; the code (since icon/web) uses the Biowave `Icon`, which is right | Update C3 and B7 to `import { Icon } from '@biowave/web'` / `<Icon name="…" />` | Planner |
+
+#### Outside this unit (for the orchestrator)
+
+- `_docs/live.tsx:6` imports `3-web-components/src/test/materialSymbol`, which icon/web (`6554f7b`) deleted. The live React previews (`npm start`, every Web component page including the Text field playground) fail with a Vite import error. `typecheck` does not cover `_docs/`, so no check caught it. Not a Text field finding; belongs to icon/web or docs tooling.
+
+#### Not reviewed
+
+- Figma build (Part D): `Figma build = Planned`.
+- Dark theme and Arabic were not re-measured in the browser (layout uses logical properties only and the jsdom suite covers both); screen-reader output not checked by hand.
+
+#### Next step
+
+1. Planner: findings 9 (B2/C3 multiline action rule) and 10 → Plan `Finished` → `npm run contract -- web text-field`.
+2. Executor: finding 9 code + test → C8 Fix round → Code `Built`.
+3. Round 3 review (multiline measurement plus checks).
 
 ### E3 Round 1 addendum — adornment bug and plan 1.1 — 2026-10-18
 
