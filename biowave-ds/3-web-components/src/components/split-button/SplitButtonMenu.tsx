@@ -1,7 +1,7 @@
 import * as React from 'react';
 import MuiMenu from '@mui/material/Menu';
 import MuiMenuItem from '@mui/material/MenuItem';
-import { styled } from '@mui/material/styles';
+import { styled, useTheme } from '@mui/material/styles';
 import { base, biowaveVariants, cssVars } from '@biowave/foundations';
 
 export interface SplitButtonMenuOption {
@@ -31,7 +31,6 @@ const StyledMenu = styled(MuiMenu)(() => ({
     backgroundColor: cssVars.color.surface.raised,
     borderRadius: cssVars.radius.lg,
     boxShadow: cssVars.elevation['3'],
-    transitionDuration: `${cssVars.motion.duration.md} !important`,
   },
   '& .MuiList-root': {
     paddingBlock: cssVars.spacing.none,
@@ -87,6 +86,8 @@ export function SplitButtonMenu({
   open,
   options,
 }: SplitButtonMenuProps) {
+  const theme = useTheme();
+  const end = theme.direction === 'rtl' ? 'left' : 'right';
   const itemRefs = React.useRef<Array<HTMLLIElement | null>>([]);
 
   const focusInitialItem = React.useCallback(() => {
@@ -107,8 +108,8 @@ export function SplitButtonMenu({
       anchorEl={anchorEl}
       open={open}
       onClose={(_event, reason) => onRequestClose(reason === 'escapeKeyDown')}
-      anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-      transformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      anchorOrigin={{ vertical: 'bottom', horizontal: end }}
+      transformOrigin={{ vertical: 'top', horizontal: end }}
       transitionDuration={{
         enter: base.motion.duration.md,
         exit: base.motion.duration.sm,
@@ -128,6 +129,10 @@ export function SplitButtonMenu({
           'aria-label': label,
         },
         transition: {
+          easing: {
+            enter: cssVars.motion.easing['standard-decelerate'],
+            exit: cssVars.motion.easing['standard-accelerate'],
+          },
           onEnter: focusInitialItem,
           onEntered: focusInitialItem,
         },

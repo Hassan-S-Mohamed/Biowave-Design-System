@@ -375,7 +375,24 @@ Files the Executor may touch in this fix round: `3-web-components/src/components
 | Files changed | `src/components/split-button/SplitButton.tsx`, `SplitButtonMenu.tsx`, `SplitButton.test.tsx`, `index.ts`; internal segment support in Button and IconButton; package `src/index.ts`; Web components README |
 
 **Deviations:** none
-**Questions for the Planner:** `npm run docs:check` remains blocked by the repository-wide Doc Kit 1.2 change: 12 Figma contracts are stale, including this component's Figma contract. The code contract is current; no generated contract was edited by the Executor.
+**Questions for the Planner:** none — the outdated `docs:check` blocker was cleared; the current check passes.
+
+#### Fix round 1 — 2026-10-21
+
+| Finding | What changed (`file:line`) | Test that proves it |
+|---|---|---|
+| #1 | `SplitButtonMenu.tsx:89-90,111-112` derives the physical end from `theme.direction` for both menu origins. | `uses the localized label and physical inline-end origin in en/ar` verifies right in English and left in Arabic. |
+| #2 | `SplitButton.test.tsx:11` renders only through the shared `renderWithBiowave` speedy cache; no test-tooling file changed. | Three configured full-suite runs passed 97/97. |
+| #3 | `SplitButton.tsx:47-55` gives the chevron open/close-specific motion; `SplitButtonMenu.tsx:113-135` gives Grow enter/exit durations and easings without a blanket Paper override. | `emits the specified open and close motion for the chevron and menu`. |
+| #4 | `SplitButton.test.tsx:95-124,133-317,320-341,363-389` covers per-corner radii, Enter/Space/ArrowDown, Space selection, loading focus, localized labels/origins, and open/closed axe in both themes and languages. | Split button suite passed 19/19; the named cases cover every requested B9/B6 gap. |
+| #5 | Removed both raised per-test timeouts; `SplitButton.test.tsx` uses Vitest's default timeout throughout. | Split button suite passed 19/19 and all three full-suite runs passed under the configured default. |
+| #7 | Logged the planned `aria-controls` behavior under Deviations below. | `opens from the trigger, focuses the first item, chooses once, and restores focus` verifies absence while closed, the open menu id while expanded, and removal after close. |
+| #8 | Replaced the outdated C8 `docs:check` question with the current passing result and recorded this fix round. | `npm run docs:check` passed. |
+
+**Checks:** `npm run sync` ✓ READY; `npm run component-tokens` ✓ web/tablet/mobile; `npm run docs:check` ✓ 18 component files; `npm run typecheck` ✓; `npm run test:web` ✓ 97/97 in 6.18 s, ✓ 97/97 in 6.21 s, ✓ 97/97 in 5.79 s. Slowest Split button tests: render matrix 1.015 s / 1.136 s / 1.111 s; logical-corner matrix 337 ms / 301 ms / 311 ms.
+
+**Deviations:** `aria-controls` is present only while the menu is open, matching plan 1.1 and avoiding a reference to an unmounted menu.
+**Questions for the Planner:** none.
 
 ---
 

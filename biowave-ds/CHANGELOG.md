@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Fixed — Web Split button review round 1] — 2026-10-21
+### Fixed
+- Fixed logical end menu placement in English and Arabic, tokenized enter/exit motion, and the missing keyboard, loading-focus, radii, localization, `aria-controls`, and bilingual axe coverage; removed raised test timeouts. The configured web suite passes 97/97 in three consecutive runs.
+
 ## [Preview — Web Split button 1.1] — 2026-10-21
 ### Added
 - Added light/English and dark/Arabic RTL Split button planning sheets covering all allowed md variant/color combinations, independent half states, sm/md/lg sizes, loading, focus, disabled, and logical end-aligned open menus, with resolved token sheets and generation check notes.

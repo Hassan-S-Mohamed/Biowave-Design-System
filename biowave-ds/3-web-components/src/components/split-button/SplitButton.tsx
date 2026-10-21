@@ -46,7 +46,13 @@ const SplitButtonRoot = styled('div', {
   gap: cssVars.spacing.xxs,
   '& .bw-split-button__chevron': {
     transform: $open ? 'rotate(0.5turn)' : 'none',
-    transition: `transform ${cssVars.motion.duration.md} ${cssVars.motion.easing['standard-decelerate']}`,
+    transition: `transform ${
+      $open ? cssVars.motion.duration.md : cssVars.motion.duration.sm
+    } ${
+      $open
+        ? cssVars.motion.easing['standard-decelerate']
+        : cssVars.motion.easing['standard-accelerate']
+    }`,
   },
 }));
 
