@@ -6,6 +6,7 @@
     "icon",
     "icon-button",
     "split-button",
-    "text-field"
+    "text-field",
+    "tooltip"
   ]
 }
