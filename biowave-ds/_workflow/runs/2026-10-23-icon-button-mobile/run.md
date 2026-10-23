@@ -15,6 +15,7 @@
 | 01 | implement | cursor | failed — Cursor usage limit, no files changed | — | — | [prompt](01-implement-cursor.prompt.md) |
 | 02 | implement | codex | timeout (45 min), no Handoff — partial code; orchestrator run: 7 test failures, ~10 min test run | docs:check ✓ · analyze ✓ · test ✗ | — | [prompt](02-implement-codex.prompt.md) |
 | 03 | implement | antigravity | done — finished Codex's partial work, goldens added | docs:check ✓ · analyze ✓ · test ✓ 96/96 (rerun by orchestrator, 11 s) | (this commit) | [prompt](03-implement-antigravity.prompt.md) |
+| 04 | review | claude (wf-reviewer agent) | done — Round 1 Changes requested: 1 🟡 (focus state/action missing from semantics), 2 🟢; screen-reader tap verified working | docs:check ✓ · analyze ✓ · test ✓ 96/96 · sync ✓ | (this commit) | [prompt](04-review-claude.prompt.md) |
 
 ## Gates
 

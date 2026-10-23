@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Review — Mobile Icon button round 1: Changes requested] — 2026-10-23
+### Changed
+- Icon button (mobile) review round 1: **Changes requested** — Part E2 of `5-mobile-components/components/icon-button/icon-button.md`. Screen-reader activation OK (one labelled node, `SemanticsAction.tap` calls `onPressed`). 🟡 #1: the excluding `Semantics` wrapper drops the focus state and `focus` action that BwButton exposes. 🟢 #2 header `Source code` row stale; 🟢 #3 unrelated `BwMobileTheme` reformat. All Implementer; Plan stays Finished. Code → Changes requested (header + README). `docs:check` ✓, `flutter analyze` ✓, `flutter test` 96/96 ✓, `sync` READY.
+
 ## [Mobile Icon button — code implementation (1.0)] — 2026-10-23
 ### Added
 - Built `BwIconButton` for `biowave_mobile` (`lib/src/components/icon_button/bw_icon_button.dart` + `test/icon_button_test.dart` + 4 goldens in `test/goldens/icon_button/`), sharing `BwButtonStyle.resolve`, `BwControlSize`, and `BwFocusRing`, with token-only selected state (`WidgetState.selected`), long-press M3 `Tooltip` styled with B3.4 tokens, loading spinner and single announcement, and a single accessible container node carrying the tap action and toggle state.

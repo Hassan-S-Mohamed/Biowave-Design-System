@@ -15,9 +15,9 @@
 | Figma | **Biowave DS — Mobile Components** › `↳ Icon Button` (page Typography mode `Mobile`) · [Part D](#d--figma-build) |
 | Version | 1.0 · 2026-10-16 |
 | Plan | Finished |
-| Code | Built |
+| Code | Changes requested |
 | Figma build | Planned |
-| Review | — |
+| Review | Round 1 · 2026-10-23 · Changes requested |
 | Source code | `lib/src/components/icon-button/` — not built yet (the Executor creates it) |
 | Tokens | — (no component tokens yet) |
 | Contracts | [`icon-button-contract.md`](icon-button-contract.md) · [`figma-icon-button-contract.md`](figma-icon-button-contract.md) — generated, never edited |
@@ -413,7 +413,77 @@ Component description: one line from A1 + "Spec: 5-mobile-components/components/
 
 | Round | Date | Code verdict | Figma verdict |
 |---|---|---|---|
-| — | — | not reviewed | not reviewed |
+| 1 | 2026-10-23 | Changes requested | not reviewed |
+
+### E2 Round 1 — 2026-10-23
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 1 · 2026-10-16 |
+| Spec version reviewed | 1.0 |
+| Reviewer | Claude |
+| Date | 2026-10-23 |
+| Commit reviewed | `91ddb4a` (branch `ds/icon-button-mobile`, `git diff main...HEAD`; working tree clean before this review) |
+| Verdict | **Changes requested** (0 🔴, 1 🟡, 2 🟢) |
+
+Checks run by the Reviewer (not copied from C8):
+
+| Command | Result |
+|---|---|
+| `npm run docs:check` | ✓ 18 component files OK |
+| `cd 5-mobile-components && flutter analyze` | ✓ No issues found |
+| `cd 5-mobile-components && flutter test` | ✓ 96 tests, all passed (goldens compared, not updated) |
+| `npm run sync` (AC-5) | ✓ READY for component work; `mobile icon-button` code and Figma contracts current; working tree unchanged |
+
+**Screen-reader probe.** In a throw-away copy of the package (plus `2-foundations/flutter`) in the scratchpad, outside the repo, a probe test dumped the semantics tree and ran semantics actions. Nothing in the repo changed.
+- Default button: **one** node — `label: "Edit device"`, flags `isButton, hasEnabledState, isEnabled`, actions `tap`, 48 × 48. `find.bySemanticsLabel('Edit device')` finds 1 node; the tooltip and icon add nothing.
+- `tester.semantics.tap(...)` on that node calls `onPressed` (presses 0 → 1). So screen-reader activation works (the tablet Round 1 failure is not repeated).
+- `onPressed: null` → `isEnabled` false, no `tap` action. `loading: true` → `tap` (no-op), `value: "Loading"`, enabled — same as BwButton B6. Toggle off → `toggled: false`; on → `toggled: true`.
+- After Tab, **`BwButton`** reports `isFocused: true` and actions `tap | focus`; **`BwIconButton`** reports `isFocused: none` and action `tap` only, although `FocusManager.primaryFocus` is the icon button's node — finding 1.
+
+#### Acceptance criteria
+
+| AC | Result | Evidence (file:line / test name) |
+|---|---|---|
+| AC-1 API = B1 (names, defaults, asserts) | ✅ | `bw_icon_button.dart:11-54` all B1 params and defaults (`text`, `neutral`, `lg`, `tooltip: true`); asserts `:25-41` (empty label, tonal + neutral/inverse, toggle + filled/tonal, toggle without `selectedIcon`); release fallbacks tonal → outlined `:79-84`, toggle ignored `:86-90`. Test `defaults and invalid combinations assert` |
+| AC-2 Tokens only; shared helpers reused | ✅ | Unselected style from `BwButtonStyle.resolve` + `BwButtonStyle.metrics` (`:113-123`), focus ring through the same helper; selected branch = B3.2 tokens only (`:128-157`); outlined side from the base style; tooltip B3.4 tokens `:224-247`. Tests `selected tokens resolve in light/dark` (incl. selected hover/pressed overlays and outlined/disabled borders), `tooltip uses the tooltip tokens and can be disabled`, `component source contains no raw visual values`; no `BwPalette` |
+| AC-3 States/transitions; reduced motion | ✅ | Selected cross-fade `AnimatedSwitcher` `BwDuration.sm` + `BwEasing.standard` (`:115-116,170-190`), filled glyph via `BwIconAxes.fillSelected` (`:187`); reduced motion → `BwDuration.instant` for state, switcher and tooltip (`:116,244-247`). Tests `selected glyph is filled and cross-fades from the outline`, `reduced motion makes state animation instant` |
+| AC-4 RTL and a11y per B5–B6 | ⚠️ | RTL ✅: test `directional icon mirrors and close does not`; goldens `*-ar` show the arrow mirrored and the RTL order. Semantics ✅ one labelled node with `button`, `toggled`, `tap` (`:252-262`, test `label is read once and toggle state is exposed` + probe); tooltip `excludeFromSemantics` (`:226`); loading/disabled as BwButton (tests `loading keeps focus, blocks presses, and announces once`, `loading with null callback remains disabled`); target (`sm`/`md` meet the Android tap target guideline); Enter/Space test; focus ring tests. ✗ Focus semantics lost — finding 1 |
+| AC-5 analyze, test, sync pass | ✅ | Checks table above |
+| AC-6 Exported; README status | ✅ | `lib/biowave_mobile.dart:13`; README row Code was `Built` before this review |
+
+#### Goldens
+
+Opened `icon-button-light-en.png` and `icon-button-dark-ar.png`: every allowed variant × color unselected, text/outlined × every color selected (filled pin glyph, subtle containers, outlined selected borders), and the four sizes for text neutral; inverse cells sit on `surfaceInverse`. Real Material Symbols glyphs, no boxes. In `ar` the cell order is right-to-left and `arrow_forward` points left.
+
+#### Rule checks (AGENTS.md §2)
+
+| Rule | Result | Notes |
+|---|---|---|
+| 1 No generated files edited | ✅ | Diff: widget, test, goldens, barrel, README, `icon-button.md` header + C8, `CHANGELOG.md`, run records |
+| 2–3 No raw values / no primitives | ✅ | Only `BwSpacing`, `BwRadius`, `BwDuration`, `BwEasing`, `BwIconAxes`, `context.bw.*`; the Arabic/English fallback loading message is copy (as BwButton), not a visual value |
+| 4 RTL first | ✅ | `EdgeInsetsDirectional`, `BorderRadiusDirectional` (`:161-163,230-238`); mirroring through `IconData.matchTextDirection` |
+| 5 Both themes, both languages tested | ✅ | Light/dark token and contrast tests; 4 goldens (light/dark × en/ar) |
+| 6 Accessibility | ⚠️ | Finding 1 (focus state not exposed to assistive tech) |
+| 7 Stay inside the contract | ✅ | C8 Deviations: none; matches C3 |
+| 8 One component per task | 🟢 | `lib/biowave_mobile.dart:16-26` reformats `BwMobileTheme` (format only) — finding 3 |
+| 9 Changelog | ✅ | `CHANGELOG.md` "Mobile Icon button — code implementation (1.0)" |
+
+#### Findings
+
+| # | Severity | File | Issue | Required change | Owner |
+|---|---|---|---|---|---|
+| 1 | 🟡 Should fix | `5-mobile-components/lib/src/components/icon_button/bw_icon_button.dart:252-262` | The outer `Semantics(container: true, excludeSemantics: true, onTap: …)` throws away the M3 `IconButton`'s own semantics. The node keeps label, button, toggled and `tap`, but loses the focus state and the `focus` action: after Tab, `isFocused` is `none` and actions are `tap` only, while `BwButton` reports `isFocused: true` and `tap \| focus`. B6 says focus is "As BwButton B6", so TalkBack / VoiceOver with a hardware keyboard or switch access cannot tell which icon button has focus or move focus to it | Keep **one** labelled node with `button`, `toggled` (toggle only), `enabled` and `tap` (calls `onPressed`, no-op while loading), and also expose the focus state and `focus` action the way BwButton does (for example: merge the button's own semantics instead of excluding them, or set `focusable`/`focused` from the button's `FocusNode`). The label must still be read once. Extend `label is read once and toggle state is exposed` (or add a test) to check after Tab: `isFocused` true, `SemanticsAction.focus` present, still exactly one node with the label, and `tester.semantics.tap` calls `onPressed` once | Implementer |
+| 2 | 🟢 Nit | `5-mobile-components/components/icon-button/icon-button.md:21` | Header `Source code` row still says `lib/src/components/icon-button/` — not built yet. The code is built, and the folder is `icon_button` (C5) | Point the row at `lib/src/components/icon_button/bw_icon_button.dart` with a link, as `button.md` does | Implementer |
+| 3 | 🟢 Nit | `5-mobile-components/lib/biowave_mobile.dart:16-26` | `BwMobileTheme` was reformatted; not part of this unit and not listed as a deviation in C8 | Revert the formatting of `BwMobileTheme` (keep only the new export on `:13`), or list it in C8 | Implementer |
+
+#### Notes (not findings)
+
+- Tooltip fade easing: web B4 asks `standard-decelerate` in and `standard-accelerate` out. M3 `Tooltip` has no curve parameter, so the build sets only the durations (`:243-247`). To be handled by the future Tooltip component, as B3.4 already calls these tokens temporary. No change asked here.
+
+#### Next step
+
+- Code **Changes requested**. Fix round 1: finding 1 (and the nits). No Planner items; Plan stays `Finished`.
 
 ---
 
