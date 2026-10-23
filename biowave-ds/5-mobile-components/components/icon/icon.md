@@ -15,7 +15,7 @@
 | Figma | **Biowave DS — Mobile Components** › `↳ Icon` (page Typography mode `Mobile`) · build: [Part D](#d--figma-build) |
 | Version | 1.0 · 2026-10-18 |
 | Plan | Finished |
-| Code | Planned |
+| Code | Built |
 | Figma build | Planned |
 | Review | — |
 | Source code | `lib/src/components/icon/` — not built yet (the Executor creates it) |
@@ -325,9 +325,20 @@ Implement every item in B9.
 
 | Field | Value |
 |---|---|
-| Agent | |
-| Date | |
-| Files changed | |
+| Agent | Antigravity (Code Executor) |
+| Date | 2026-10-23 |
+| Files changed | `5-mobile-components/lib/src/components/icon/bw_icon.dart`, `5-mobile-components/lib/biowave_mobile.dart`, `5-mobile-components/test/icon_test.dart`, `5-mobile-components/test/no_legacy_icons_test.dart`, `5-mobile-components/test/goldens/icon/icon-light-en.png`, `5-mobile-components/test/goldens/icon/icon-light-ar.png`, `5-mobile-components/test/goldens/icon/icon-dark-en.png`, `5-mobile-components/test/goldens/icon/icon-dark-ar.png`, `5-mobile-components/components/icon/icon.md`, `5-mobile-components/README.md`, `CHANGELOG.md` |
+
+**Built**
+- Implemented `BwIcon`, `BwIconSize` (`xs` · `sm` · `md` · `lg` · `xl` · `xl2` · `xl3`), and `BwIconColor` (`defaultColor` · `subtle` · `muted` · `inverse` · `brand` · `secondary` · `success` · `warning` · `error` · `info`) in `5-mobile-components/lib/src/components/icon/bw_icon.dart`, and exported it from `5-mobile-components/lib/biowave_mobile.dart`.
+- Resolved dimensions from `BwSize.icon*` (or `IconTheme.of(context).size` when `size` is `null`), colours from `context.bw.colors.*` (or `IconTheme.of(context).color` when `color` is `null`), variable font axes from `BwIconAxes` (`fill`, `fillSelected`, `weight`, `grade`, `opticalSize`), RTL mirroring via `Transform.flip(flipX: Directionality.of(context) == TextDirection.rtl)` when `directional` is `true`, debug assertion on standalone status colours without `semanticLabel`, and semantics (`ExcludeSemantics` when decorative, `Semantics(label: semanticLabel, image: true)` when labelled).
+- Added unit, semantics, token-map, source-hygiene, and golden tests (`light`/`dark` × `en`/`ar`) in `5-mobile-components/test/icon_test.dart` and the D-18 legacy `Icons.` guard in `5-mobile-components/test/no_legacy_icons_test.dart`.
+
+**Checks**
+- `npm run docs:check` ✓
+- `npm run component-tokens` ✓
+- `npm run sync` ✓ (READY for component work)
+- `cd 5-mobile-components && flutter analyze && flutter test` ✓ (0 issues, 92/92 tests passed)
 
 **Deviations from the plan or spec**
 - none
