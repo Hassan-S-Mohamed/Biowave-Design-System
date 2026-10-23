@@ -1,0 +1,30 @@
+# Run — icon-button / mobile — 2026-10-23
+
+| Field | Value |
+|---|---|
+| Unit | `icon-button` on `mobile` |
+| Unit file | `5-mobile-components/components/icon-button/icon-button.md` |
+| Branch | `ds/icon-button-mobile` (from `main`) |
+| Pull request | — |
+| Skipped steps | figma (config › skip). Plan and preview were done in earlier runs (Plan Finished, contract current). |
+
+## Steps
+
+| # | Step | Agent | Result | Checks | Commit | Prompt |
+|---|---|---|---|---|---|---|
+| 01 | implement | cursor | failed — Cursor usage limit, no files changed | — | — | [prompt](01-implement-cursor.prompt.md) |
+| 02 | implement | codex | timeout (45 min), no Handoff — partial code; orchestrator run: 7 test failures, ~10 min test run | docs:check ✓ · analyze ✓ · test ✗ | — | [prompt](02-implement-codex.prompt.md) |
+| 03 | implement | antigravity | done — finished Codex's partial work, goldens added | docs:check ✓ · analyze ✓ · test ✓ 96/96 (rerun by orchestrator, 11 s) | (this commit) | [prompt](03-implement-antigravity.prompt.md) |
+
+## Gates
+
+| Gate | Decision | Notes |
+|---|---|---|
+
+## Questions raised
+
+- none
+
+## Summary
+
+Run in parallel with other tablet/mobile units in a separate worktree (`Biowave Design System-icon-button-mobile`). Agent assigned by the user: cursor.

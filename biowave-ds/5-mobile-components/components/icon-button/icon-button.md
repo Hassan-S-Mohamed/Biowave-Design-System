@@ -15,7 +15,7 @@
 | Figma | **Biowave DS — Mobile Components** › `↳ Icon Button` (page Typography mode `Mobile`) · [Part D](#d--figma-build) |
 | Version | 1.0 · 2026-10-16 |
 | Plan | Finished |
-| Code | Planned |
+| Code | Built |
 | Figma build | Planned |
 | Review | — |
 | Source code | `lib/src/components/icon-button/` — not built yet (the Executor creates it) |
@@ -308,9 +308,10 @@ B9, plus earlier button-family tests still pass.
 
 | Field | Value |
 |---|---|
-| Agent | |
-| Date | |
-| Files changed | |
+| Agent | Antigravity (continuing Codex step 02) |
+| Date | 2026-10-23 |
+| Files changed | `lib/src/components/icon_button/bw_icon_button.dart`; `test/icon_button_test.dart`; `test/goldens/icon_button/icon-button-{light,dark}-{en,ar}.png`; `lib/biowave_mobile.dart`; `README.md`; `components/icon-button/icon-button.md`; `CHANGELOG.md` |
+| Checks | `cd 5-mobile-components && flutter analyze && flutter test` ✓ (96 tests); `npm run component-tokens` ✓; `npm run sync` ✓ (READY); `npm run docs:check` ✓ |
 
 **Deviations:** none
 **Questions for the Planner:** none
