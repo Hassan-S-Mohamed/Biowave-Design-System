@@ -18,6 +18,7 @@
 
 | Gate | Decision | Notes |
 |---|---|---|
+| after-plan | **Approve** (2026-10-23) | Next: implement web + tablet; mobile after mobile Icon |
 
 ## Questions raised
 
