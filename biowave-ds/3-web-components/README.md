@@ -49,6 +49,7 @@ Status is written in each file header and here; `npm run docs:check` fails if th
 | Icon button | Finished | Approved | Planned | Round 3 · 2026-10-21 · Approved | [page](components/icon-button/icon-button.html) | [icon-button.md](components/icon-button/icon-button.md) |
 | Split button | Finished | Approved | Planned | Round 3 · 2026-10-21 · Approved | [page](components/split-button/split-button.html) | [split-button.md](components/split-button/split-button.md) |
 | Text field | Finished | Approved | Planned | Round 3 · 2026-10-21 · Approved | [page](components/text-field/text-field.html) | [text-field.md](components/text-field/text-field.md) |
+| Avatar | Finished | Planned | Planned | — | [page](components/avatar/avatar.html) | [avatar.md](components/avatar/avatar.md) |
 
 ## 5. Backlog (from the Figma "Web Components" pages, suggested order)
 1. Button · Icon button · Button group · Split button

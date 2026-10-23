@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Plan — Avatar 1.0 (Web, Tablet, Mobile)] — 2026-10-23
+### Added
+- New component **Avatar** planned on all three platforms (Roadmap Day 4; depends on Icon and Badge 1.0): `3-web-components/components/avatar/avatar.md`, `4-tablet-components/components/avatar/avatar.md`, `5-mobile-components/components/avatar/avatar.md` (Parts A–D and F; Part A identical except A8). Image → initials → `person` glyph fallback (fallback shown while the image loads and after an error), initials rule (two Latin initials, one letter for Arabic-script names), sizes `sm`·`md`·`lg`·`xl` on `size-control-height-*`, shapes `circle`·`square`, colours `neutral`·`brand`·`secondary` (subtle backgrounds, no status meaning), one Badge placed by shape (`overlap` `circular`/`rectangular`), `decorative` mode, never focusable. Web on MUI `Avatar` + `Icon` + `Badge`; Flutter custom `BwAvatar` + `BwIcon` + `BwBadge`. No component tokens (P-04): no `avatar.tokens.json`. Plan `Finished`, Code and Figma `Planned`; contracts and docs pages generated; rows added to the three section READMEs.
+
 ## [Review — Web Split button round 3: Approved] — 2026-10-21
 ### Changed
 - Split button (web) review round 3: **Approved** — Part E4 of `3-web-components/components/split-button/split-button.md`. Round 2 #9 fixed (headless Chrome computed Paper `transition`: open `opacity`/`transform` 0.2s `standard-decelerate`, close 0.1s `standard-accelerate`, no delay) and #10 fixed (`prefers-reduced-motion: reduce` → 0 s, menu instant); Round 1 #1 still holds (menu end edge right in English, left in Arabic). 🟢 #11 nit: MUI Grow's `auto` timeout keeps the invisible backdrop ~240 ms after close — carried to the Menu component. Code → Approved (header + README). `docs:check` ✓, `typecheck` ✓, `test:web` 100/100 ✓, `sync` READY.
