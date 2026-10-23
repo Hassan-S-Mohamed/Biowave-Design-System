@@ -15,7 +15,7 @@
 | Figma | **Biowave DS — Tablet Components** › `↳ Icon Button` (page Typography mode `Tablet`) · [Part D](#d--figma-build) |
 | Version | 1.0 · 2026-10-16 |
 | Plan | Finished |
-| Code | Planned |
+| Code | Built |
 | Figma build | Planned |
 | Review | — |
 | Source code | `lib/src/components/icon-button/` — not built yet (the Executor creates it) |
@@ -308,12 +308,15 @@ B9, plus earlier button-family tests still pass.
 
 | Field | Value |
 |---|---|
-| Agent | |
-| Date | |
-| Files changed | |
+| Agent | Codex |
+| Date | 2026-10-23 |
+| Built | `BwIconButton` with the contract API and release fallbacks, shared `BwButtonStyle` and focus ring, token-only square sizing and selected states, bilingual loading semantics, long-press tooltip theming, RTL-aware icons, loading and toggle transitions, public export, and the contract test matrix. Round 2 keeps exactly one `BwIcon` mounted during selected-state transitions and places the labelled toggle semantics outside the visual-only tooltip. |
+| Round 3 | Disposed the explicit semantics handle inside the test body so Flutter's post-test handle verification sees no active handle. |
+| Files changed | `lib/src/components/icon_button/bw_icon_button.dart`; `test/icon_button_test.dart`; `lib/biowave_tablet.dart`; `README.md`; `components/icon-button/icon-button.md`; `CHANGELOG.md` |
+| Checks | `npm run component-tokens` ✓; `npm run sync` ✓ READY; `npm run docs:check` ✓; `flutter analyze` ✓ (writable SDK overlay, `--no-pub`); `flutter test` not runnable in sandbox — orchestrator runs it (the restricted runner denied Flutter Test's required `127.0.0.1:0` harness socket before test execution). |
 
-**Deviations:** none
-**Questions for the Planner:** none
+**Deviations:** `flutter test` could not start in this sandbox because the Flutter test harness cannot bind its loopback socket; the orchestrator runs it, and the run prompt says this does not make the result partial. PNG goldens were not created because §9 does not authorize a golden directory or files; the allowed test file uses token and property assertions for the full render matrix instead.
+**Questions for the Planner:** §10 requests generated PNG goldens, but §9 authorizes no golden directory/files; the test therefore covers the full theme/locale/state render matrix with token and property assertions. Should a future plan add `test/goldens/icon_button/` to §9?
 
 ---
 
