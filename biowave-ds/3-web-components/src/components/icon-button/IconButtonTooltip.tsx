@@ -1,6 +1,7 @@
 import * as React from 'react';
 import Fade from '@mui/material/Fade';
 import MuiTooltip from '@mui/material/Tooltip';
+import useMediaQuery from '@mui/material/useMediaQuery';
 import { base, biowaveVariants } from '@biowave/foundations';
 import { iconButtonTooltipTokens } from './iconButton.tokens';
 
@@ -14,11 +15,14 @@ interface IconButtonTooltipProps {
 // TODO(tooltip): replace this private wrapper with the shared Tooltip component.
 export function IconButtonTooltip({ children, disabled, enabled, title }: IconButtonTooltipProps) {
   const [open, setOpen] = React.useState(false);
+  const prefersReducedMotion = useMediaQuery('(prefers-reduced-motion: reduce)');
 
   if (!enabled) return children;
 
   const baseAnchor = disabled ? (
-    <span className="bw-icon-button__tooltip-anchor">{children}</span>
+    <span className="bw-icon-button__tooltip-anchor" aria-label={undefined}>
+      {children}
+    </span>
   ) : children;
   const anchor = React.cloneElement(baseAnchor, {
     onFocus: (event: React.FocusEvent<HTMLElement>) => {
@@ -46,7 +50,7 @@ export function IconButtonTooltip({ children, disabled, enabled, title }: IconBu
           modifiers: [
             {
               name: 'offset',
-              options: { offset: [base.spacing.none, base.spacing.xs] },
+              options: { offset: [base.spacing.none, iconButtonTooltipTokens.offset] },
             },
           ],
         },
@@ -61,9 +65,17 @@ export function IconButtonTooltip({ children, disabled, enabled, title }: IconBu
           },
         },
         transition: {
+          easing: {
+            enter: iconButtonTooltipTokens.enterEasing,
+            exit: iconButtonTooltipTokens.exitEasing,
+          },
           timeout: {
-            enter: base.motion.duration.md,
-            exit: base.motion.duration.sm,
+            enter: prefersReducedMotion
+              ? base.motion.duration.instant
+              : base.motion.duration.md,
+            exit: prefersReducedMotion
+              ? base.motion.duration.instant
+              : base.motion.duration.sm,
           },
         },
       }}

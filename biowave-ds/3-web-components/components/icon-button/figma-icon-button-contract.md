@@ -1,4 +1,4 @@
-<!-- GENERATED from icon-button.md @ 01464f704007f012 — do not edit; change the source and run: npm run contract -- web icon-button -->
+<!-- GENERATED from icon-button.md @ 6ce4eed62b0f1f02 — do not edit; change the source and run: npm run contract -- web icon-button -->
 # Icon button · زر أيقونة — Web — Figma contract
 
 > **Everything the Figma Agent needs to build Icon button in the Web Components file, with our variables and styles.** Read this file only. Generated from [`icon-button.md`](icon-button.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-18). Questions go to [D11 Execution log](icon-button.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
@@ -11,8 +11,8 @@
 | Page | `↳ Icon button` (one page per component) |
 | Component | Icon button · زر أيقونة |
 | Platform | Web · React + MUI |
-| Version | 1.0 · 2026-10-16 |
-| Source | [`icon-button.md`](icon-button.md) @ `01464f704007f012` |
+| Version | 1.1 · 2026-10-21 |
+| Source | [`icon-button.md`](icon-button.md) @ `6ce4eed62b0f1f02` |
 
 ## 1. Library connections in this file
 
@@ -99,7 +99,6 @@ Library file **Google · Material Symbols** · key `RXlnhYgUKBBE6HveEr7e9C` — 
 | Icon | Set key | Rounded (unfilled) | Rounded (filled) |
 |---|---|---|---|
 | `edit` | `47f86c39f6fbbb469725e7588206eb14a23c69f6` | `93286c7f439c043811484dccef5cad3ac0d2bee0` | `d4b89f22fb040445e4d2bfca5ebfc1e4bde47025` |
-| `push_pin` | `f1e809edda8007dffbdd448fff9cb97cb4e20dd1` | `4437341389767b81fdaf68b5442cefa86d97f1ae` | `c41709f31358d03a6bdb4bba1201c75f5f8227a6` |
 
 ## 7. Phase 1 — values (from Part B)
 
@@ -255,9 +254,11 @@ Icon Button              ↔ centered · width = height {B2} · padding 0
 | `Size` | VARIANT | `SM` · `MD` · `LG` | `MD` | `size` | |
 | `Toggle` | VARIANT | `Off` · `On` | `Off` | `toggle` | |
 | `Selected` | VARIANT | `False` · `True` | `False` | `selected` | only with `Toggle=On` |
-| `Icon` | INSTANCE_SWAP | Google · Material Symbols (Rounded) | `edit` | `icon` | `<Icon baseClassName="material-symbols-rounded">{glyph}</Icon>` |
-| `Selected icon` | INSTANCE_SWAP | Google · Material Symbols (Rounded, Fill=Filled) | `edit` | `selectedIcon` | same glyph with class `bw-icon-fill` |
+| `Icon` | INSTANCE_SWAP | Google · Material Symbols (Rounded) | `edit` | `icon` | `<Icon name="{glyph}" />` |
+| `Selected icon` | INSTANCE_SWAP | Google · Material Symbols (Rounded, Fill=Filled) | `edit` | `selectedIcon` | `<Icon name="{glyph}" filled />` |
 | `Tooltip label` | TEXT | | `Edit device` | `label` | |
+
+**Icons used:** `edit` (default `Icon` / `Selected icon`) · `push_pin` (toggle example, B7)
 
 ### D5 Variants to generate
 

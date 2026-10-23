@@ -15,9 +15,9 @@
 | Figma | **Biowave DS — Tablet Components** › `↳ Icon` (page Typography mode `Tablet`) · build: [Part D](#d--figma-build) |
 | Version | 1.0 · 2026-10-18 |
 | Plan | Finished |
-| Code | Planned |
+| Code | Approved |
 | Figma build | Planned |
-| Review | — |
+| Review | Round 2 · 2026-10-21 · Approved |
 | Source code | `lib/src/components/icon/` — not built yet (the Executor creates it) |
 | Tokens | [`icon.tokens.json`](icon.tokens.json) — extends the Web file (D-13) |
 | Contracts | [`icon-contract.md`](icon-contract.md) · [`figma-icon-contract.md`](figma-icon-contract.md) — generated, never edited |
@@ -323,17 +323,48 @@ Implement every item in B9.
 
 ### C8 Execution log
 
+#### Entry 1 — 2026-10-20
+
 | Field | Value |
 |---|---|
-| Agent | |
-| Date | |
-| Files changed | |
+| Agent | Antigravity (workflow implementer, retry 2 after Codex step 01) |
+| Date | 2026-10-20 |
+| Files changed | `lib/src/components/icon/bw_icon.dart`; `lib/biowave_tablet.dart`; `test/icon_test.dart`; `test/no_legacy_icons_test.dart`; `test/goldens/icon/{size_scale,colors,fill,rtl}.png`; `README.md`; `components/icon/icon.md`; root `CHANGELOG.md` |
+| Checks | `cd 4-tablet-components && flutter analyze && flutter test` ✓ (0 analyzer issues; 64/64 tests passed across `icon_test.dart`, `no_legacy_icons_test.dart`, and `theme_test.dart`); `npm run component-tokens` ✓; `npm run sync` ✓ READY; `npm run docs:check` ✗ (2 pre-existing errors outside this unit: `tablet button-group` and `mobile button-group` Figma contracts are stale) |
 
 **Deviations from the plan or spec**
-- none
+- None.
 
 **Questions for the Planner**
-- none
+- `npm run docs:check` reports only the 2 known pre-existing stale Figma contracts (`tablet button-group` and `mobile button-group`); they are outside this unit and were left untouched per workflow rules.
+
+#### Entry 2 — 2026-10-21 (Adoption in built components)
+
+| Field | Value |
+|---|---|
+| Agent | Antigravity (workflow implementer — adoption in built components) |
+| Date | 2026-10-21 |
+| Files changed | `lib/src/components/button/bw_button.dart`; `test/button_test.dart`; `test/goldens/button/button-{dark,light}-{ar,en}.png`; `test/no_legacy_icons_test.dart`; `components/icon/icon.md`; root `CHANGELOG.md` |
+| Checks | `cd 4-tablet-components && flutter analyze && flutter test` ✓ (0 analyzer issues; 131/131 tests passed); `npm run docs:check` ✗ (2 pre-existing errors outside this unit: `tablet button-group` and `mobile button-group` Figma contracts are stale) |
+
+**What was built**
+- Adopted `BwIcon` in `BwButton` (`lib/src/components/button/bw_button.dart`) for `leadingIcon` and `trailingIcon`:
+  - Size follows `IconTheme` via `size: null` (`dimensions.iconSize` configured by `ButtonStyle.iconSize`).
+  - Colour inherits from the button's foreground through `IconTheme`.
+  - Keys preserved (`BwButton.leading-icon` and `BwButton.trailing-icon`).
+  - Decorative semantics maintained (excluded from accessibility tree via `ExcludeSemantics` in `BwIcon`).
+  - Directional icons flip once in RTL (`directional: icon.matchTextDirection`); inner `Icon` is isolated in LTR inside `BwIcon` so it never flips a second time (B9).
+- Extended guard test `test/no_legacy_icons_test.dart`:
+  - Prohibits Flutter `Icons.`, `CupertinoIcons.`, raw `IconData(` constructor, and raw `Icon(` widget outside `lib/src/components/icon/`.
+  - Proven with planted probes for each pattern, verified failing, and reverted to clean state.
+- Enhanced `test/button_test.dart` to assert `BwIcon` usage, directional mirroring, no double flip in RTL, and decorative semantics.
+- Regenerated the 4 Button goldens (`test/goldens/button/button-{dark,light}-{ar,en}.png`): layout and dimensions are unchanged; ~0.02%-0.03% pixel diff caused by `BwIcon` activating `BwIconAxes` variable font variation axes (`weight: 400`, `grade: 0`, optical size matching icon dimensions) on `MaterialSymbolsRounded`.
+
+**Deviations from the plan or spec**
+- None.
+
+**Questions for the Planner**
+- None. `npm run docs:check` pre-existing failure (`tablet button-group` and `mobile button-group` Figma contracts stale) remains untouched per workflow rules.
 
 ---
 
@@ -418,7 +449,142 @@ As Web D8; 07 Platform uses `Doc/Device frame` Tablet.
 
 | Round | Date | Code verdict | Figma verdict |
 |---|---|---|---|
-| — | — | not reviewed | not reviewed |
+| 1 | 2026-10-20 | Approved | not reviewed |
+| 2 | 2026-10-21 | Approved | not reviewed |
+
+### E2 Round 1 — 2026-10-20
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 1 |
+| Spec version reviewed | 1.0 |
+| Reviewer | Claude |
+| Date | 2026-10-20 |
+| Code reviewed | `git diff main...ds/icon-tablet` + working tree (clean for this unit) |
+| Verdict | **Approved** — every AC met, D-18 holds in `lib/`; no 🔴 / 🟡; 3 🟢 nits |
+| Evidence | Run by the Reviewer in the `ds/icon-tablet` worktree: `flutter analyze` ✅ no issues · `flutter test` ✅ 64/64 · `npm run docs:check` ❌ 2 errors, both stale **tablet / mobile button-group** Figma contracts (pre-existing on `main`, accepted by the user, not counted; Icon's contracts are fresh) |
+
+#### Acceptance criteria
+
+| AC | Result | Evidence (file:line / test name) |
+|---|---|---|
+| AC-1 API per B1 | ✅ | `bw_icon.dart:5` `BwIconSize` (xs…xl3), `:8-19` `BwIconColor` (10 roles, `defaultColor`), `:23-46` params/types/defaults = B1; assert `:31-39` fires only for status colour + explicit `size` + no label, message “status icons need text or a label” — test "standalone status icons require text or a label" |
+| AC-2 Tokens only | ✅ | Sizes `BwSize.icon*` (`:91-101`), colours `context.bw.colors.icon*` (`:103-116`) = B2 / B3; axes `BwIconAxes.*` (`:64-66`). Tests "<size> uses its token size in <theme> <lang>" (7 × 2 × 2), "<colour> resolves from <theme> theme tokens", "component token enums match icon.tokens.json", "BwIcon source has no raw sizes or colours" |
+| AC-3 RTL per B5; a11y per B6 | ✅ | `Transform.flip(flipX: rtl)` only when `directional` (`:72-77`); inner `Directionality(ltr)` (`:58-59`) neutralises `matchTextDirection`, so never a second flip. Decorative `ExcludeSemantics` (`:79-81`), labelled `Semantics(label:, image: true)` (`:83-87`); never focusable. Tests "directional icons flip exactly once in RTL only", "non-directional icons never add a flip", "decorative icons are excluded from semantics", "labelled icons expose an image semantics node" |
+| AC-4 analyze + test | ✅ | Both pass (run above) |
+| AC-5 Exported; README `Built`; no `Icons.` | ✅ | `lib/biowave_tablet.dart:10` exports `bw_icon.dart`; README row and header were `Built` at review start; `no_legacy_icons_test.dart:6` "library code never uses Flutter Material Icons" |
+
+**D-18 (run goal)** — `lib/` holds no `Icons.`, `CupertinoIcons`, raw `IconData(` or non-`_rounded` `Symbols.*` (grep). `Symbols` comes from `material_symbols_icons` re-exported by `biowave_foundations` (`2-foundations/flutter/lib/biowave_foundations.dart:9`). **Guard probe:** a planted `lib/src/zz_probe.dart` with `Icons.add` made "library code never uses Flutter Material Icons" fail (`no_legacy_icons_test.dart:13`); probe removed, test green again, tree clean. **Goldens** (`test/goldens/icon/size_scale.png`, `colors.png`, `fill.png`, `rtl.png`) show real Rounded glyphs — heart scale 12→48, ten coloured circles, outlined vs filled push pin, → and mirrored arrow — because the test loads `MaterialSymbolsRounded.ttf` (`icon_test.dart:14-38`), not Ahem boxes.
+
+#### Rule checks (AGENTS.md §2)
+
+| Rule | Result | Notes |
+|---|---|---|
+| No generated files edited | ✅ | No `generated/`, `dist/`, contract or HTML shell in the diff |
+| No raw values / no primitives | ✅ | Semantic tokens only; guard test above |
+| Logical properties, RTL icons | ✅ | Directional icons flip once; tests use `EdgeInsetsDirectional` |
+| Light + dark, en + ar tested | ✅ | Size and colour tests loop both themes; sizes both languages. Goldens are light / en only, which B9 allows |
+| Accessibility | ✅ | B6 |
+| Stayed inside the plan | ✅ | Files = C5 |
+| Code matches spec | ✅ | B1–B6; see nit 1 on `filled: false` |
+| Changelog | ✅ | `CHANGELOG.md` "[Tablet — Icon] — 2026-10-20"; C8 filled |
+
+#### Findings
+
+| # | Severity | File / section | Issue | Required change | Owner |
+|---|---|---|---|---|---|
+| 1 | 🟢 Nit | B1 `filled` — `bw_icon.dart:64` | `filled: false` passes `fill: null`, so the icon takes `IconTheme.fill` (theme default `BwIconAxes.fill` = 0). Under a parent `IconTheme(fill: 1)` a `BwIcon(filled: false)` renders filled. B1 does not say whether `false` means "outlined" or "inherit" | State in B1 which one is meant; if "outlined", Executor passes `BwIconAxes.fill` when `filled` is false and the test "filled uses the selected fill axis" expects it | Planner |
+| 2 | 🟢 Nit | `test/no_legacy_icons_test.dart:15` | `\bIcons\.` does not match `CupertinoIcons.` (no word boundary) or a raw `IconData(0x…)`, both of which also break D-18 | Extend the guard to fail on `CupertinoIcons` and `IconData(` in `lib/` | Executor |
+| 3 | 🟢 Nit | Header row "Source code" | Still says "not built yet (the Executor creates it)" | Point it at `lib/src/components/icon/bw_icon.dart` | Planner |
+
+#### Notes
+
+- No other tablet component is built on `main`, so nothing has to adopt `BwIcon` yet. **Button tablet** (in progress on another branch) must render its icons through `BwIcon` (C2) — check it in that unit's review; the `no double flip inside BwButton / BwIconButton` item of B9 is tested there.
+- C8 question (stale button-group contracts) goes to the orchestrator / Planner of those units.
+- Figma build (Part D) not reviewed: `Figma build = Planned`.
+
+#### Next step
+
+Approved → after-review gate. Nits 1–3 can go with the next plan / fix touch of this unit.
+
+### E3 Round 2 — 2026-10-21
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 1 |
+| Spec version reviewed | 1.0 |
+| Reviewer | Claude |
+| Date | 2026-10-21 |
+| Code reviewed | `git diff main...ds/icon-tablet` (incl. merge `ab9b653` of `main` / Button tablet #3 and step 05 `228f5ee`: `BwIcon` in `BwButton`, widened guard, regenerated Button goldens) + working tree (clean at review start) |
+| Verdict | **Approved** — AC-1…AC-5 met, D-18 holds and its guard is proven; no 🔴 / 🟡; 5 🟢 nits (2 carried from round 1) |
+| Evidence | Run by the Reviewer in the `ds/icon-tablet` worktree: `flutter analyze` ✅ no issues · `flutter test` ✅ 131/131 · `npm run docs:check` ❌ 2 errors, both stale **tablet / mobile button-group** Figma contracts (pre-existing on `main`, accepted by the user, not counted; Icon's contracts are fresh) |
+
+#### Acceptance criteria
+
+| AC | Result | Evidence (file:line / test name) |
+|---|---|---|
+| AC-1 API per B1 | ✅ | `bw_icon.dart` unchanged since round 1 (`git diff 249e848 HEAD` is empty for `lib/src/components/icon/`, `test/icon_test.dart`, `test/goldens/icon/`): `:5` sizes, `:8-19` colours, `:23-46` params/defaults, assert `:31-39` |
+| AC-2 Tokens only | ✅ | `bw_icon.dart:91-116` (`BwSize.icon*`, `context.bw.colors.icon*`), axes `:64-66`. `BwButton` adds no raw value: icon size comes from `ButtonStyle.iconSize` = `dimensions.iconSize` (`bw_button_style.dart:119`, `BwSize.iconSm/Md/Lg` `:31-52`), colour from `ButtonStyle.iconColor` (`:79-83`). Tests "BwIcon source has no raw sizes or colours", "component source contains no prohibited raw values" |
+| AC-3 RTL per B5; a11y per B6 | ✅ | `BwButton` renders both icons through `BwIcon` (`bw_button.dart:125-139`) with `directional: icon.matchTextDirection`; `BwIcon` flips once via `Transform.flip` (`bw_icon.dart:72-77`) and neutralises `matchTextDirection` with an inner LTR `Directionality` (`:58-59`) — B5 "no second flip". Keys `BwButton.leading-icon` / `BwButton.trailing-icon` kept; decorative `ExcludeSemantics` (`bw_icon.dart:79-81`). Tests "directional icons opt into RTL mirroring but add does not" (`button_test.dart:546`, asserts one negative-scale `Transform`, inner `Icon` in LTR, no `Transform` on `add`), "leading and trailing icons render as decorative BwIcon with stable keys" (`:599`) |
+| AC-4 analyze + test | ✅ | Both pass (run above) |
+| AC-5 Exported; README `Built`/`Approved`; no `Icons.` | ✅ | `lib/biowave_tablet.dart` exports `bw_icon.dart`; README row Code `Approved`; `lib/` grep: no `Icons.`, `CupertinoIcons`, `IconData(`, non-`_rounded` `Symbols.*`; the only raw `Icon(` is `bw_icon.dart:60` |
+
+**D-18 (run goal) and guard probes.** A planted `lib/src/zz_probe.dart` was run against `test/no_legacy_icons_test.dart` once per pattern, then removed:
+
+| Planted line | Result |
+|---|---|
+| `Icons.add` | ❌ fails "library code never uses Flutter Material Icons" (`:11`) |
+| `CupertinoIcons.add` | ❌ fails "library code never uses CupertinoIcons" (`:21`) |
+| `IconData(0xe145)` | ❌ fails "library code never constructs raw IconData" (`:31`) |
+| `Icon(null)` outside `icon/` | ❌ fails "raw Icon widget is never used outside lib/src/components/icon/" (`:41`) |
+| `Symbols.add` / `Symbols.add_sharp` | ✅ passes — not caught (finding 3) |
+
+After removal the guard is green (5/5) and `git status` is clean.
+
+**BwButton adoption — no size / colour change.** A temporary Reviewer probe test (deleted afterwards) pumped every `BwControlSize` × `BwButtonVariant` × enabled/disabled in `ar` (32 cases): the inner `Icon.size` and the `BwIcon` box equal the button's `IconTheme` size (sm 16, md 20, lg 24, xl 24 = `dimensions.iconSize`, as before), `Icon.color` equals the `IconTheme` colour (= `iconColor`, incl. disabled), the trailing directional icon has exactly one `Transform`, and the inner `Icon` sits in LTR. 32/32 passed.
+
+**Goldens.** Icon goldens are unchanged since round 1 (real Rounded glyphs). Button goldens: decoded old (`ab9b653`) vs new PNGs pixel by pixel — same dimensions; 121 px (0.024 %) differ in each `en` image and 117 px (0.030 %) in each `ar` image, all inside the small icon glyphs of the sm / md size row (bbox `ar` x 411-580, y 209-222), none in labels, containers or the lg / xl icons. That matches the new `opticalSize` axis (16 / 20 vs default 24) plus `weight` / `grade` from `BwIconAxes`; visually the old and new `light-ar` images match, with the arrows mirrored once.
+
+#### Rule checks (AGENTS.md §2)
+
+| Rule | Result | Notes |
+|---|---|---|
+| No generated files edited | ✅ | None in the diff |
+| No raw values / no primitives | ✅ | See AC-2 |
+| Logical properties, RTL icons | ✅ | Single flip, `add` not mirrored |
+| Light + dark, en + ar tested | ✅ | All four Button goldens regenerated; icon tests unchanged |
+| Accessibility | ✅ | Decorative icons excluded inside `BwButton` |
+| Stayed inside the plan | ✅ | `BwButton` adoption is in C2 ("Button … render their icons through `BwIcon`") and B5; guard widening closes round 1 #2 |
+| Code matches spec | ✅ | Icon B1–B6; see finding 4 for the Button plan text |
+| Changelog | ✅ | `CHANGELOG.md` "[Tablet — Icon adoption in Button] — 2026-10-21"; C8 Entry 2 filled |
+
+#### Round 1 findings
+
+| # | Status | Evidence |
+|---|---|---|
+| 1 `filled: false` vs `IconTheme.fill` | Still open (🟢) | `bw_icon.dart:64` and B1 unchanged → finding 1 |
+| 2 Guard misses `CupertinoIcons` / `IconData(` | Fixed | `no_legacy_icons_test.dart:21-39`; probes above fail as required |
+| 3 Header row "Source code" stale | Still open (🟢) | Header still says "not built yet" → finding 2 |
+
+#### Findings
+
+| # | Severity | File / section | Issue | Required change | Owner |
+|---|---|---|---|---|---|
+| 1 | 🟢 Nit | B1 `filled` — `bw_icon.dart:64` | Carried from round 1 #1: `filled: false` passes `fill: null`, so it inherits `IconTheme.fill` | State in B1 whether `false` means "outlined" or "inherit"; Executor follows | Planner |
+| 2 | 🟢 Nit | Header row "Source code" | Carried from round 1 #3: still "not built yet (the Executor creates it)" | Point it at `lib/src/components/icon/bw_icon.dart` | Planner |
+| 3 | 🟢 Nit | `test/no_legacy_icons_test.dart` | D-18 allows only `Symbols.*_rounded`, but planted `Symbols.add` (outlined) and `Symbols.add_sharp` pass the guard. `lib/` has none today | Add a guard that fails on `Symbols.<name>` not ending in `_rounded` in `lib/` (and add the item to B9) | Executor |
+| 4 | 🟢 Nit | `components/button/button.md:318` (Button B5) | Says directional icons are "mirrored by `material_symbols_icons` itself … Do not wrap in `Transform`", but `BwButton` now mirrors through `BwIcon`'s `Transform.flip`, as Icon B5 requires. Visual result is the same (one flip) | Update Button B5 to "mirrored once by `BwIcon` (`directional` from `IconData.matchTextDirection`)" in that unit's next plan touch | Planner |
+| 5 | 🟢 Nit | `test/button_test.dart` | After dropping the explicit `size: dimensions.iconSize`, no committed test checks the rendered icon size / colour inside `BwButton`; only goldens cover it (the Reviewer probe above passed 32/32) | Add a test: `tester.getSize(find.byKey('BwButton.leading-icon'))` = `dimensions.iconSize` per size, and icon colour = `iconColor` enabled / disabled | Executor |
+
+#### Notes
+
+- Plan stays `Finished`: all Planner items are 🟢 nits that can wait for the next plan touch (same handling as round 1); nothing is sent back.
+- `docs:check` stale button-group contracts: pre-existing on `main`, accepted by the user, owned by the button-group units.
+- Figma build (Part D) not reviewed: `Figma build = Planned`.
+
+#### Next step
+
+Approved → after-review gate. Nits 1–5 can go with the next plan / fix touch.
 
 ---
 

@@ -16,6 +16,7 @@ Read this file completely before doing anything. It is short on purpose.
 | **Figma Agent** | `<section>/components/<name>/figma-<name>-contract.md` **only** | The Figma set + docs; **D11** Execution log in `<name>.md` |
 | **Reviewer** (Claude) | B · C7 · D10 · C8 · D11 of `<name>.md`, the code, the Figma file | **Part E** (one round per review) |
 | **Fixer** | The latest Part E round + `<name>-contract.md` | Code + tests; a **Fix round N** entry in **C8** (never edits Part E) |
+| **Updater** (Claude, `update-component` agent) | Photos (screens or single components) + the user's prompt; header, A2 · A4 · A5 · A6 · A8 · B1–B5 · C7 · latest Part E of `<name>.md`, `<name>.tokens.json`, `2-foundations/dist/tokens.json` | After the user confirms the diff: `references/` (photos + `YYYY-MM-DD-<slug>.md` change request), Parts A–D and F of `<name>.md` (Part A in all three platforms), `<name>.tokens.json`; Plan `Finished`, Code `Planned`; runs `npm run contract`. Values seen in photos snap to existing semantic tokens — never raw values. Then the orchestrator runs preview → implement → review |
 | Designer / PM | The docs: `npm run docs` → Foundation List → Components List → component page | — |
 
 **Agent workflow:** `_workflow/config.json` tells the orchestrator ([agent-workflow-kit](https://github.com/hassanSmohamed/agent-workflow-kit)) which agent does each role, which checks run per platform, and where the human gates are. One branch per component (`ds/<name>-<platform>`); run records in `_workflow/runs/`.
