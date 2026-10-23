@@ -17,7 +17,7 @@
 | Plan | Finished |
 | Code | Built |
 | Figma build | Planned |
-| Review | — |
+| Review | Round 1 · 2026-10-23 · Approved |
 | Source code | `lib/src/components/icon/` — not built yet (the Executor creates it) |
 | Tokens | [`icon.tokens.json`](icon.tokens.json) — extends the Web file (D-13) |
 | Contracts | [`icon-contract.md`](icon-contract.md) · [`figma-icon-contract.md`](figma-icon-contract.md) — generated, never edited |
@@ -429,7 +429,66 @@ As Web D8; 07 Platform uses `Doc/Device frame` Mobile.
 
 | Round | Date | Code verdict | Figma verdict |
 |---|---|---|---|
-| — | — | not reviewed | not reviewed |
+| 1 | 2026-10-23 | Approved | not reviewed |
+
+### E2 Round 1 — 2026-10-23
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 1.0 |
+| Spec version reviewed | 1.0 |
+| Reviewer | Claude |
+| Date | 2026-10-23 |
+| Commit reviewed | `d2386d2` (branch `ds/icon-mobile`, `git diff main...HEAD`; no uncommitted changes under `5-mobile-components`) |
+| Verdict | **Approved** (0 🔴, 0 🟡, 3 🟢) |
+
+Checks run by the Reviewer (not copied from C8):
+
+| Command | Result |
+|---|---|
+| `npm run docs:check` | ✓ 18 component files, structure, guidelines, status, generated pages, contracts, links and demo tokens OK |
+| `cd 5-mobile-components && flutter analyze` | ✓ No issues found |
+| `cd 5-mobile-components && flutter test` | ✓ 92 tests, all passed (goldens compared, not updated) |
+
+Goldens looked at: `icon-light-ar.png` shows the `directional` arrow pointing left and the plain arrow pointing right; `icon-dark-en.png` shows both pointing right. Glyphs render from the Symbols font (no tofu boxes), filled and outlined pins differ, all 10 colours differ, `inverse` sits on `surfaceInverse`.
+
+#### Acceptance criteria
+
+| AC | Result | Evidence (file:line / test name) |
+|---|---|---|
+| AC-1 API per B1 (names, types, defaults, asserts) | ✅ | `bw_icon.dart:5-12` `BwIconSize` xs…xl3; `:27-37` `BwIconColor` 10 values incl. `defaultColor`; `:56-63` `icon` required, `size`/`color`/`semanticLabel` null, `filled`/`directional` false; `:64-72` assert “status icons need text or a label” when status colour + explicit size + no label. Tests `defaults match contract B1`, `standalone status colours without semanticLabel assert` |
+| AC-2 Sizes and colours only from tokens | ✅ | Sizes `BwSize.icon*` (`:15-23`), colours `context.bw.colors.icon*` per B3 (`:40-51`), axes `BwIconAxes.*` (`:99,110-111`), fallbacks are tokens (`:95,98`). Tests `every size renders a box of token size` (light/dark × en/ar), `all BwIconColor values resolve to B3 tokens in light/dark`, `code token map matches icon.tokens.json`, `bw_icon.dart contains no raw visual values or legacy Icons.` |
+| AC-3 RTL per B5; a11y per B6 | ✅ | `Transform.flip(flipX: Directionality.of(context) == TextDirection.rtl)` only when `directional` (`:116-121`); inner `Icon` gets `textDirection: ltr` so `matchTextDirection` never adds a second flip (`:113`). Decorative → `ExcludeSemantics` (`:130-131`); labelled → `Semantics(label:, image: true)` (`:134-138`); no focus node. Tests `directional flips in RTL only; non-directional never flips`, `decorative icon is excluded from semantics`, `meaningful icon exposes image semantics with label (en/ar)` |
+| AC-4 `flutter analyze && flutter test` pass | ✅ | Checks table above |
+| AC-5 Exported; README row `Built`; no `Icons.` in `lib/` | ✅ | `lib/biowave_mobile.dart:13`; `5-mobile-components/README.md` Icon row Code `Built`; `no_legacy_icons_test.dart` passes; `grep -rn "Icons\." lib/` finds no match |
+
+#### Rule checks (AGENTS.md §2)
+
+| Rule | Result | Notes |
+|---|---|---|
+| 1 No generated files edited | ✅ | Diff touches only C5 files, C8, header/README status, CHANGELOG and run records |
+| 2–3 No raw values / no primitives | ✅ | No hex, no numeric sizes, no `BwPalette` in `bw_icon.dart` |
+| 4 RTL first | ✅ | Flip from `Directionality`; non-directional icons never flip (golden + test) |
+| 5 Both themes, both languages, tested | ✅ | Size tests and goldens in light/dark × en/ar; semantics in en + ar |
+| 6 Accessibility | ✅ | Per B6; never focusable |
+| 7 Stayed inside the contract | ✅ | C8 lists no deviations. Small additions: an empty `semanticLabel` counts as no label (assert and semantics), and token fallbacks when `IconTheme` has no size/colour. Both are safe and change nothing users see |
+| 8 One component per task | ✅ | `bw_button.dart` not touched |
+| 9 Changelog | ✅ (🟢 #3) | Entry present at `CHANGELOG.md:9`, format differs |
+| 10 Part A identical | ✅ | `docs:check` passes |
+
+#### Findings
+
+| # | Severity | File | Issue | Required change | Owner |
+|---|---|---|---|---|---|
+| 1 | 🟢 Nit | `5-mobile-components/test/icon_test.dart:347-373` | Test is named `directional icon inside button / IconTheme context in RTL flips exactly once` but only wraps `BwIcon` in an `IconTheme`; no button is involved. The name over-claims the B9 item “no double flip inside `BwButton` / `BwIconButton`” | Rename the test to what it checks (e.g. `directional icon under IconTheme in RTL flips exactly once`) | Executor |
+| 2 | 🟢 Nit | `5-mobile-components/components/icon/icon.md:21` | Header row `Source code` still says “not built yet (the Executor creates it)” | Change to `lib/src/components/icon/bw_icon.dart` when the header status is next touched | Executor |
+| 3 | 🟢 Nit | `CHANGELOG.md:9` | Entry is a bare bullet above the `## [...] — date` / `### Added` blocks every other entry uses | Next time, use the `## [Added — Mobile Icon] — 2026-10-23` / `### Added` shape | Executor |
+
+Note, outside this unit (not a finding): mobile `BwButton` still renders `Icon(...)` directly (`5-mobile-components/lib/src/components/button/bw_button.dart:79,96`), not `BwIcon` as C2 expects for later components, and there is no mobile `BwIconButton` yet. So the B9 check “no double flip inside `BwButton` / `BwIconButton`” cannot be run in this unit. It belongs to a Button (mobile) re-plan and to the Icon button (mobile) plan.
+
+#### Next step
+
+- Code **Approved** (only nits, none blocking). No Planner items; Plan stays `Finished`. Next: after-review gate.
 
 ---
 

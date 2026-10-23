@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Review — Mobile Icon round 1: Approved] — 2026-10-23
+### Changed
+- Icon (mobile) review round 1: **Approved** — Part E2 of `5-mobile-components/components/icon/icon.md`. AC-1…AC-5 met; 3 🟢 nits for the Executor (test name over-claims a button double-flip check, stale header `Source code` row, changelog entry format). Note: mobile `BwButton` still renders `Icon` directly, so the B9 button double-flip check moves to Button / Icon button (mobile). Review → Round 1 · Approved (header + README). `docs:check` ✓, `flutter analyze` ✓, `flutter test` 92/92 ✓.
+
 - **2026-10-23 — Mobile Icon (`BwIcon`) built:** Implemented `BwIcon`, `BwIconSize`, and `BwIconColor` in `5-mobile-components/lib/src/components/icon/bw_icon.dart` (exported from `biowave_mobile.dart`) with token-driven sizes and colours, `BwIconAxes` fill/weight/grade/opticalSize axes, RTL `directional` mirroring, decorative/meaningful semantics, golden tests (`light`/`dark` × `en`/`ar`), and the `no_legacy_icons_test.dart` D-18 guard (`Code: Built`).
 
 ## [Review — Web Split button round 3: Approved] — 2026-10-21

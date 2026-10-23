@@ -14,6 +14,7 @@
 |---|---|---|---|---|---|---|
 | 01 | implement | antigravity | failed — network error to Google servers (retryable), no files changed | — | — | [prompt](01-implement-antigravity.prompt.md) |
 | 02 | implement | antigravity | done | docs:check ✓ · analyze ✓ · test ✓ 92/92 (rerun by orchestrator) | (this commit) | [prompt](02-implement-antigravity.prompt.md) |
+| 03 | review | claude (wf-reviewer agent; `claude` CLI cannot nest) | done — Round 1 Approved, 3 🟢 nits (Executor) | docs:check ✓ · analyze ✓ · test ✓ 92/92 | (this commit) | [prompt](03-review-claude.prompt.md) |
 
 ## Gates
 
@@ -22,7 +23,7 @@
 
 ## Questions raised
 
-- none
+- Reviewer (outside this unit): B9 "no double flip inside BwButton / BwIconButton" cannot be tested yet — mobile BwButton draws `Icon(...)` directly (bw_button.dart:79,96) and mobile BwIconButton is not built. Belongs to a Button (mobile) re-plan and the Icon button (mobile) plan.
 
 ## Summary
 
