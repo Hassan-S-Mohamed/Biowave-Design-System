@@ -2,6 +2,18 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Preview — Tablet Badge 1.0] — 2026-10-23
+### Added
+- Added light/English and dark/Arabic RTL tablet Badge planning sheets covering count `1`, `9` and `99+`, dot and Check badge variants, every allowed colour, 48dp rectangular and circular anchor placement, standalone flow, exact dimension/ring callouts, planned states and bilingual accessibility copy; the preview README records resolved token values, generation prompts, visual checks and remaining raster precision caveats.
+
+## [Preview — Mobile Badge 1.0] — 2026-10-23
+### Added
+- Added light/English and dark/Arabic RTL mobile Badge planning sheets covering count `1`, `9` and `99+`, dot and Check badge variants, every allowed colour, 48dp rectangular and circular anchor placement, exact dimension/ring callouts, planned states and bilingual content examples; the preview README records resolved values, generation prompts, visual checks and raster precision caveats.
+
+## [Preview — Web Badge 1.0] — 2026-10-22
+### Added
+- Added light/English and dark/Arabic RTL Badge planning sheets covering count `1`, `9` and `99+`, dot and Check badge variants, every allowed colour, exact size/ring callouts, rectangular and circular anchor placement, standalone flow, planned states, and bilingual content examples; the preview README records resolved values, prompts and raster QA caveats.
+
 ## [Plan — Badge (web, tablet, mobile) 1.0] — 2026-10-21
 ### Added
 - Badge plan (Plan `Finished`, Code and Figma build `Planned`) in `3-web-components/components/badge/badge.md`, `4-tablet-components/components/badge/badge.md` and `5-mobile-components/components/badge/badge.md`: Parts A–D and F, Part A identical on all three platforms except A8. Variants `count` · `dot` · `check` — the Figma **Check badge** folds into Badge as `variant="check"` (P-05); seven colours (`error` default, `success` default for `check`; `warning` count only), `max` (`99+`), `showZero`, `overlap` `rectangular` · `circular`, `invisible` / `isVisible`, required `label` / `semanticLabel`, standalone inline mode, outside `ring` when anchored. Web on MUI `Badge` (`Badge`), Flutter `BwBadge` as a `Stack` composition shaped like M3 `Badge`; check glyph through Icon (`check`, D-18); Western digits (D-10).
