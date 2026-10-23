@@ -20,6 +20,7 @@
 
 | Gate | Decision | Notes |
 |---|---|---|
+| after-plan | Approve, no 2xl (2026-10-23) | Initials rule (2 Latin, 1 Arabic script) and Flutter BwBadge composition approved; sizes stay sm–xl. Implement after Badge 1.0 is merged |
 
 ## Questions raised
 
