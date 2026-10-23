@@ -2,6 +2,18 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Preview — Mobile Avatar 1.0] — 2026-10-23
+### Added
+- Added light/English and dark/Arabic RTL mobile Avatar planning sheets covering sm/md/lg/xl sizes, circle/square shapes, neutral/brand/secondary colours, image/initials/person content and loading/failed fallbacks, 48dp touch targets, plus mirrored count/dot badge placement, resolved token values, prompts and visual check notes.
+
+## [Preview — Tablet Avatar 1.0] — 2026-10-23
+### Added
+- Added light/English and dark/Arabic RTL tablet Avatar planning sheets covering sm/md/lg/xl sizes, circle/square shapes, neutral/brand/secondary colours, image/initials/person content and fallbacks, plus mirrored count/dot badge placement, resolved token values, prompts and generation check notes.
+
+## [Preview — Web Avatar 1.0] — 2026-10-23
+### Added
+- Added light/English and dark/Arabic RTL Avatar planning sheets covering sm/md/lg/xl sizes, circle/square shapes, neutral/brand/secondary colours, image/initials/person content and fallbacks, plus mirrored count/dot badge placement, with resolved token values and generation check notes.
+
 ## [Plan — Avatar 1.0 (Web, Tablet, Mobile)] — 2026-10-23
 ### Added
 - New component **Avatar** planned on all three platforms (Roadmap Day 4; depends on Icon and Badge 1.0): `3-web-components/components/avatar/avatar.md`, `4-tablet-components/components/avatar/avatar.md`, `5-mobile-components/components/avatar/avatar.md` (Parts A–D and F; Part A identical except A8). Image → initials → `person` glyph fallback (fallback shown while the image loads and after an error), initials rule (two Latin initials, one letter for Arabic-script names), sizes `sm`·`md`·`lg`·`xl` on `size-control-height-*`, shapes `circle`·`square`, colours `neutral`·`brand`·`secondary` (subtle backgrounds, no status meaning), one Badge placed by shape (`overlap` `circular`/`rectangular`), `decorative` mode, never focusable. Web on MUI `Avatar` + `Icon` + `Badge`; Flutter custom `BwAvatar` + `BwIcon` + `BwBadge`. No component tokens (P-04): no `avatar.tokens.json`. Plan `Finished`, Code and Figma `Planned`; contracts and docs pages generated; rows added to the three section READMEs.

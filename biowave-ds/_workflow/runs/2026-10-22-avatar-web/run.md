@@ -14,6 +14,8 @@
 |---|---|---|---|---|---|---|
 | 01 | plan | claude (wf-planner subagent) | done (2026-10-23, resumed after a network error and the session limit) · Avatar 1.0 on W/T/M: sizes sm–xl on control heights 32/40/48/56 (web `md`, touch `lg`), `circle`/`square`, colour neutral/brand/secondary (≥ 6.39:1), image → initials → `person` glyph; Latin 2 initials, Arabic script 1; optional Badge 1.0; `decorative`; no component tokens. Depends on Icon + Badge 1.0 (code starts after Badge merges) | component-tokens ✓ · contract W/T/M ✓ · docs:build ✓ · docs:check ✓ · sync ✓ READY | see git log | `01-plan-claude.prompt.md` |
 
+| prev | preview ×3 | codex | web, tablet, mobile sheets complete after retries (network disconnects and time limits while another session's Codex jobs ran; retried one at a time) — see the step logs | previews W/T/M ✓ | see git log | `*-preview-codex-*.prompt.md` |
+
 ## Gates
 
 | Gate | Decision | Notes |
