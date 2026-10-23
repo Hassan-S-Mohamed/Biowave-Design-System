@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'dart:ui' show Tristate;
+import 'dart:ui' show SemanticsAction, Tristate;
 
 import 'package:biowave_tablet/biowave_tablet.dart';
 import 'package:flutter/material.dart';
@@ -147,6 +147,7 @@ void main() {
                   ),
                 );
 
+                await tester.pumpAndSettle();
                 expect(tester.takeException(), isNull);
                 final button = tester.widget<IconButton>(
                   find.byKey(_containerKey),
@@ -236,6 +237,32 @@ void main() {
         }
       }
     });
+
+    testWidgets('cross-fades between unselected and selected icons', (
+      tester,
+    ) async {
+      Widget subject({required bool selected}) => _app(
+            child: BwIconButton(
+              icon: Symbols.push_pin_rounded,
+              selectedIcon: Symbols.push_pin_rounded,
+              label: selected ? 'Unpin' : 'Pin',
+              onPressed: () {},
+              toggle: true,
+              selected: selected,
+              tooltip: false,
+            ),
+          );
+
+      await tester.pumpWidget(subject(selected: false));
+      expect(find.byType(BwIcon), findsOneWidget);
+
+      await tester.pumpWidget(subject(selected: true));
+      expect(find.byType(BwIcon), findsNWidgets(2));
+
+      await tester.pumpAndSettle();
+      expect(find.byType(BwIcon), findsOneWidget);
+      expect(tester.widget<BwIcon>(find.byType(BwIcon)).filled, isTrue);
+    });
   });
 
   group('accessibility and interaction', () {
@@ -243,13 +270,14 @@ void main() {
       tester,
     ) async {
       final semantics = tester.ensureSemantics();
+      var presses = 0;
       await tester.pumpWidget(
         _app(
           child: BwIconButton(
             icon: Symbols.push_pin_rounded,
             selectedIcon: Symbols.push_pin_rounded,
             label: 'Unpin device',
-            onPressed: () {},
+            onPressed: () => presses += 1,
             toggle: true,
             selected: true,
           ),
@@ -262,6 +290,31 @@ void main() {
       expect(data.label, 'Unpin device');
       expect(data.flagsCollection.isButton, isTrue);
       expect(data.flagsCollection.isToggled, Tristate.isTrue);
+      expect(data.hasAction(SemanticsAction.tap), isTrue);
+      expect(data.hasAction(SemanticsAction.focus), isTrue);
+
+      tester.semantics.tap(find.semantics.byLabel('Unpin device'));
+      expect(presses, 1);
+
+      await tester.pumpWidget(
+        _app(
+          child: const BwIconButton(
+            icon: Symbols.push_pin_rounded,
+            selectedIcon: Symbols.push_pin_rounded,
+            label: 'Unpin device',
+            onPressed: null,
+            toggle: true,
+            selected: true,
+          ),
+        ),
+      );
+
+      expect(find.bySemanticsLabel('Unpin device'), findsOneWidget);
+      final disabledData =
+          tester.getSemantics(find.byType(BwIconButton)).getSemanticsData();
+      expect(disabledData.flagsCollection.isToggled, Tristate.isTrue);
+      expect(disabledData.hasAction(SemanticsAction.tap), isFalse);
+      expect(disabledData.hasAction(SemanticsAction.focus), isFalse);
       semantics.dispose();
     });
 
@@ -287,6 +340,8 @@ void main() {
           rendered.height,
           greaterThanOrEqualTo(BwLayout.tablet.minTarget),
         );
+        await expectLater(tester, meetsGuideline(androidTapTargetGuideline));
+        await expectLater(tester, meetsGuideline(labeledTapTargetGuideline));
       }
     });
 
@@ -422,6 +477,37 @@ void main() {
     );
   });
 
+  group('goldens', () {
+    for (final brightness in Brightness.values) {
+      for (final locale in const [Locale('en'), Locale('ar')]) {
+        testWidgets(
+          'B9 matrix ${brightness.name}/${locale.languageCode}',
+          (tester) async {
+            await tester.pumpWidget(
+              _app(
+                brightness: brightness,
+                locale: locale,
+                child: RepaintBoundary(
+                  key: const ValueKey<String>('icon-button-golden'),
+                  child: _GoldenBoard(locale: locale),
+                ),
+              ),
+            );
+            await tester.pumpAndSettle();
+
+            await expectLater(
+              find.byKey(const ValueKey<String>('icon-button-golden')),
+              matchesGoldenFile(
+                'goldens/icon_button/'
+                '${brightness.name}-${locale.languageCode}.png',
+              ),
+            );
+          },
+        );
+      }
+    }
+  });
+
   test('component source contains no raw design values', () {
     final source = File('lib/src/components/icon_button/bw_icon_button.dart')
         .readAsStringSync();
@@ -429,6 +515,146 @@ void main() {
     expect(source, isNot(matches(RegExp(r'\b\d+(?:\.\d+)?(?:px|ms)\b'))));
     expect(source, isNot(contains('fontFamily:')));
   });
+}
+
+class _GoldenBoard extends StatelessWidget {
+  const _GoldenBoard({required this.locale});
+
+  final Locale locale;
+
+  @override
+  Widget build(BuildContext context) {
+    final isArabic = locale.languageCode == 'ar';
+    final allowedColors = <BwButtonVariant, List<BwButtonColor>>{
+      BwButtonVariant.filled: BwButtonColor.values,
+      BwButtonVariant.tonal: const [
+        BwButtonColor.brand,
+        BwButtonColor.secondary,
+        BwButtonColor.error,
+      ],
+      BwButtonVariant.outlined: BwButtonColor.values,
+      BwButtonVariant.text: BwButtonColor.values,
+    };
+
+    return Material(
+      color: Theme.of(context).scaffoldBackgroundColor,
+      child: SizedBox(
+        width: 760,
+        height: 560,
+        child: Padding(
+          padding: const EdgeInsetsDirectional.all(BwSpacing.lg),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                isArabic ? 'مصفوفة زر الأيقونة' : 'Icon button matrix',
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+              const SizedBox(height: BwSpacing.lg),
+              for (final entry in allowedColors.entries) ...[
+                _GoldenRow(
+                  label: entry.key.name,
+                  children: [
+                    for (final color in entry.value)
+                      _goldenButton(
+                        locale: locale,
+                        variant: entry.key,
+                        color: color,
+                      ),
+                    if (entry.key == BwButtonVariant.outlined ||
+                        entry.key == BwButtonVariant.text)
+                      for (final color in entry.value)
+                        _goldenButton(
+                          locale: locale,
+                          variant: entry.key,
+                          color: color,
+                          selected: true,
+                        ),
+                  ],
+                ),
+                const SizedBox(height: BwSpacing.md),
+              ],
+              _GoldenRow(
+                label: isArabic ? 'الأحجام' : 'sizes',
+                children: [
+                  for (final size in BwControlSize.values)
+                    _goldenButton(
+                      locale: locale,
+                      size: size,
+                      icon: Symbols.arrow_back_rounded,
+                    ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  static Widget _goldenButton({
+    required Locale locale,
+    BwButtonVariant variant = BwButtonVariant.text,
+    BwButtonColor color = BwButtonColor.neutral,
+    BwControlSize size = BwControlSize.lg,
+    bool selected = false,
+    IconData icon = Symbols.push_pin_rounded,
+  }) {
+    final button = BwIconButton(
+      icon: icon,
+      selectedIcon: icon,
+      label: locale.languageCode == 'ar' ? 'تثبيت' : 'Pin',
+      onPressed: () {},
+      variant: variant,
+      color: color,
+      size: size,
+      toggle:
+          variant == BwButtonVariant.outlined || variant == BwButtonVariant.text,
+      selected: selected,
+      tooltip: false,
+    );
+    if (color != BwButtonColor.inverse) return button;
+    return Builder(
+      builder: (context) => DecoratedBox(
+        decoration: BoxDecoration(
+          color: context.bw.colors.backgroundBrandDefault,
+          borderRadius: const BorderRadiusDirectional.all(
+            Radius.circular(BwRadius.md),
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsetsDirectional.all(BwSpacing.xs),
+          child: button,
+        ),
+      ),
+    );
+  }
+}
+
+class _GoldenRow extends StatelessWidget {
+  const _GoldenRow({required this.label, required this.children});
+
+  final String label;
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) => Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(
+            width: 84,
+            child: Text(label, style: Theme.of(context).textTheme.labelLarge),
+          ),
+          Expanded(
+            child: Wrap(
+              spacing: BwSpacing.sm,
+              runSpacing: BwSpacing.sm,
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: children,
+            ),
+          ),
+        ],
+      );
 }
 
 double _contrast(Color foreground, Color background) {

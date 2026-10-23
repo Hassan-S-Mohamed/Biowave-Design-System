@@ -15,7 +15,7 @@
 | Figma | **Biowave DS — Tablet Components** › `↳ Icon Button` (page Typography mode `Tablet`) · [Part D](#d--figma-build) |
 | Version | 1.0 · 2026-10-16 |
 | Plan | Finished |
-| Code | Changes requested |
+| Code | Built |
 | Figma build | Planned |
 | Review | Round 1 · 2026-10-23 · Changes requested |
 | Source code | `lib/src/components/icon_button/bw_icon_button.dart` |
@@ -318,6 +318,17 @@ B9, plus earlier button-family tests still pass.
 
 **Deviations:** `flutter test` could not start in this sandbox because the Flutter test harness cannot bind its loopback socket; the orchestrator runs it, and the run prompt says this does not make the result partial. PNG goldens were not created because §9 does not authorize a golden directory or files; the allowed test file uses token and property assertions for the full render matrix instead.
 **Questions for the Planner:** §10 requests generated PNG goldens, but §9 authorizes no golden directory/files; the test therefore covers the full theme/locale/state render matrix with token and property assertions. Should a future plan add `test/goldens/icon_button/` to §9?
+
+#### Fix round 1
+
+| Finding | What changed (`file:line`) | Test that proves it |
+|---|---|---|
+| #1 (🔴 Blocker — outer `Semantics(excludeSemantics: true)` drops tap and focus actions) | Wrapped `Semantics` in `MergeSemantics` and set `excludeSemantics: loading \|\| onPressed == null` so enabled buttons merge with the inner `IconButton` to expose one labelled button node with `SemanticsAction.tap`, `SemanticsAction.focus`, and `toggled` (`lib/src/components/icon_button/bw_icon_button.dart:237-247`). | `test/icon_button_test.dart:269-319` (`exposes one label and the selected toggle state` — asserts `SemanticsAction.tap` and `SemanticsAction.focus` present when enabled and absent when disabled, plus `tester.semantics.tap` firing `onPressed`); `test/icon_button_test.dart:321-346` (`keeps sm and md targets at the tablet minimum` — asserts `androidTapTargetGuideline` and `labeledTapTargetGuideline`). |
+| #2 (🟡 Goldens authorised by Plan 1.1) | Added the B9 PNG golden matrix (`light-en.png`, `light-ar.png`, `dark-en.png`, `dark-ar.png`) under `test/goldens/icon_button/` rendered with real test fonts (`test/icon_button_test.dart:480-658`). | `test/icon_button_test.dart:480-509` (`B9 matrix light/en`, `B9 matrix light/ar`, `B9 matrix dark/en`, `B9 matrix dark/ar`). |
+| #3 (🟢 Nit — icon swap is fade-in instead of cross-fade) | Updated `AnimatedSwitcher.layoutBuilder` to stack `...previousChildren` with `currentChild` so outgoing and incoming icons cross-fade (`lib/src/components/icon_button/bw_icon_button.dart:142-148`). | `test/icon_button_test.dart:241-265` (`cross-fades between unselected and selected icons` — asserts 2 `BwIcon` widgets in flight during the transition and 1 settled filled `BwIcon` after `pumpAndSettle`). |
+
+- **Files changed:** `4-tablet-components/lib/src/components/icon_button/bw_icon_button.dart`, `4-tablet-components/test/icon_button_test.dart`, `4-tablet-components/test/goldens/icon_button/light-en.png`, `4-tablet-components/test/goldens/icon_button/light-ar.png`, `4-tablet-components/test/goldens/icon_button/dark-en.png`, `4-tablet-components/test/goldens/icon_button/dark-ar.png`, `4-tablet-components/components/icon-button/icon-button.md`, `4-tablet-components/README.md`, `CHANGELOG.md`
+- **Checks:** `npm run docs:check` ✓ · `cd 4-tablet-components && flutter analyze && flutter test` ✓ (152/152)
 
 ---
 

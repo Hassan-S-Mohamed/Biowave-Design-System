@@ -139,8 +139,13 @@ class BwIconButton extends StatelessWidget {
             duration: animationDuration,
             switchInCurve: BwEasing.standard,
             switchOutCurve: BwEasing.standard,
-            layoutBuilder: (currentChild, previousChildren) =>
-                currentChild ?? const SizedBox.shrink(),
+            layoutBuilder: (currentChild, previousChildren) => Stack(
+              alignment: AlignmentDirectional.center,
+              children: [
+                ...previousChildren,
+                if (currentChild != null) currentChild,
+              ],
+            ),
             child: BwIcon(
               key: ValueKey<bool>(_effectiveSelected),
               icon: activeIcon,
@@ -229,14 +234,16 @@ class BwIconButton extends StatelessWidget {
     return _BwIconButtonLoadingAnnouncer(
       loading: loading,
       announcement: announcement,
-      child: Semantics(
-        button: true,
-        label: label,
-        value: loading ? announcement : null,
-        enabled: onPressed != null,
-        toggled: _effectiveToggle ? _effectiveSelected : null,
-        excludeSemantics: true,
-        child: visual,
+      child: MergeSemantics(
+        child: Semantics(
+          button: true,
+          label: label,
+          value: loading ? announcement : null,
+          enabled: onPressed != null,
+          toggled: _effectiveToggle ? _effectiveSelected : null,
+          excludeSemantics: loading || onPressed == null,
+          child: visual,
+        ),
       ),
     );
   }

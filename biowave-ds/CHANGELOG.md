@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Fixed — Tablet Icon button review round 1] — 2026-10-23
+### Fixed
+- Fixed Tablet `BwIconButton` review round 1 findings (#1 merged button semantics exposing `SemanticsAction.tap` and `SemanticsAction.focus` when enabled and none when disabled with one label and `toggled` state, plus tap-target and labeled-tap-target guidelines for `sm`/`md`; #3 cross-fading outgoing and incoming icons in `AnimatedSwitcher`; #2 added B9 PNG goldens under `4-tablet-components/test/goldens/icon_button/`). Code → Built.
+
 ## [Plan — Tablet Icon button 1.1] — 2026-10-23
 ### Changed
 - Icon button (tablet) plan 1.1 fixes the Planner findings of review round 1 (Part E2 of `4-tablet-components/components/icon-button/icon-button.md`): #2 C5 now authorises `4-tablet-components/test/goldens/icon_button/` (generated goldens) so B9's PNG goldens are allowed; #4 header "Source code" → `lib/src/components/icon_button/bw_icon_button.dart`; #5 C1 "passes C9" → "passes C6 / B9". Plan → Finished (header + README); contract regenerated. Implementer findings #1, #3 untouched.

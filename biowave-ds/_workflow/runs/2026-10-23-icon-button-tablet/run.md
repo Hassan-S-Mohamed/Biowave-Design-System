@@ -12,12 +12,16 @@
 
 | # | Step | Agent | Result | Checks | Commit | Prompt |
 |---|---|---|---|---|---|---|
+| after-plan (plan 1.1) | Approve | Preview skipped — no visual change; existing previews stand. Fix round 1 → Codex |
 | after-review (Round 1) | Approve | Planner fixes #2, #4, #5 → contract; Fixer (Codex) fixes #1, #3 + goldens; re-review |
 | 01 | implement | codex | partial — flutter test not runnable in sandbox; orchestrator run: 5 failures (2× BwIcon, empty toggle label) | docs:check ✓ · analyze ✓ · test ✗ | — | [prompt](01-implement-codex.prompt.md) |
 | 02 | implement | codex | done — 4 of 5 fixed | docs:check ✓ · analyze ✓ · test ✗ (1: SemanticsHandle not disposed) | — | [prompt](02-implement-codex.prompt.md) |
 | 03 | implement | codex | done | docs:check ✓ · analyze ✓ · test ✓ 147/147 (run by orchestrator) | (this commit) | [prompt](03-implement-codex.prompt.md) |
 | 04 | review | claude (wf-reviewer agent; `claude` CLI cannot nest) | done — Round 1 Changes requested: 1 🔴 (no screen-reader tap action), 1 🟡 Planner (goldens missing from C5), 3 🟢 | docs:check ✓ · analyze ✓ · test ✓ 147/147 | (this commit) | [prompt](04-review-claude.prompt.md) |
 | 05 | plan | claude (wf-planner agent) | done — #2 goldens in C5, #4 source path, #5 C1 ref; plan 1.1, Finished; contract regenerated | contract ✓ · docs:check ✓ | (this commit) | [prompt](05-plan-claude.prompt.md) |
+| 06 | fix | codex | failed — ChatGPT usage limit partway; partial test edits kept | — | — | [prompt](06-fix-codex.prompt.md) |
+| 07 | fix | antigravity | partial — code + goldens done, stopped before C8/Handoff | docs:check ✓ · analyze ✓ · test ✓ 152/152 | — | [prompt](07-fix-antigravity.prompt.md) |
+| 08 | fix | antigravity | done — C8 Fix round 1, Code Built, CHANGELOG | docs:check ✓ · analyze ✓ · test ✓ 152/152 (orchestrator); goldens checked by eye | (this commit) | [prompt](08-fix-antigravity.prompt.md) |
 
 ## Gates
 
