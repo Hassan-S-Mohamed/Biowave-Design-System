@@ -14,10 +14,10 @@
 | Import | `BwIconButton` from `package:biowave_tablet/biowave_tablet.dart` |
 | Figma | **Biowave DS — Tablet Components** › `↳ Icon Button` (page Typography mode `Tablet`) · [Part D](#d--figma-build) |
 | Version | 1.0 · 2026-10-16 |
-| Plan | Finished |
-| Code | Built |
+| Plan | Open |
+| Code | Changes requested |
 | Figma build | Planned |
-| Review | — |
+| Review | Round 1 · 2026-10-23 · Changes requested |
 | Source code | `lib/src/components/icon-button/` — not built yet (the Executor creates it) |
 | Tokens | — (no component tokens yet) |
 | Contracts | [`icon-button-contract.md`](icon-button-contract.md) · [`figma-icon-button-contract.md`](figma-icon-button-contract.md) — generated, never edited |
@@ -415,7 +415,63 @@ Component description: one line from A1 + "Spec: 4-tablet-components/components/
 
 | Round | Date | Code verdict | Figma verdict |
 |---|---|---|---|
-| — | — | not reviewed | not reviewed |
+| 1 | 2026-10-23 | Changes requested | not reviewed |
+
+### E2 Round 1 — 2026-10-23
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 1 |
+| Spec version reviewed | 1.0 |
+| Reviewer | Claude |
+| Date | 2026-10-23 |
+| Code reviewed | `git diff main...ds/icon-button-tablet` + working tree (clean for this unit at review start) |
+| Verdict | **Changes requested** — 1 🔴 (screen readers cannot activate the button), 1 🟡 (goldens required by B9 but not authorised by C5), 3 🟢 nits |
+| Evidence | Run by the Reviewer in the `ds/icon-button-tablet` worktree: `npm run docs:check` ✅ · `flutter analyze` ✅ no issues · `flutter test` ✅ 147/147. Semantics probe (throw-away test outside the repo, `BwIconButton(icon: Symbols.edit_rounded, label: 'Edit', onPressed: …)`): node `hasAction(SemanticsAction.tap)` = **false**, `hasAction(SemanticsAction.focus)` = false, `isEnabled` = true; `meetsGuideline(androidTapTargetGuideline)` passes only because no node has a tap action |
+
+#### Acceptance criteria
+
+| AC | Result | Evidence (file:line / test name) |
+|---|---|---|
+| AC-1 API = B1 (names, defaults, asserts) | ✅ | `bw_icon_button.dart:13-26` params and defaults = B1; asserts `:27-43` (empty label, tonal + neutral/inverse, toggle + filled/tonal, toggle without `selectedIcon`); release fallbacks `:58-72`. Tests "uses the documented defaults and activates", "asserts every invalid combination" |
+| AC-2 Tokens only; shared helpers reused | ✅ | `BwButtonStyle.resolve` / `.metrics` `:77-83`, `BwFocusRing` `:112-121`, selected branches `:244-272` = web B3.2 (outlined selected border comes from the shared outlined border, which equals the B3.2 border column); tooltip theme `:201-220` = web B3.4. Tests "state matrix is token-resolved for …" (2 themes × 2 languages), "renders every size from semantic dimensions", "selected states use the specified token branches", "component source contains no raw design values" |
+| AC-3 States/transitions; reduced motion | ⚠️ | `BwDuration.sm` / `BwEasing.standard`, `instant` under `context.bw.reduceMotion` `:84-85`, `:138-141`, `:218-219`. Icon swap is a fade-in, not a cross-fade — finding 3 |
+| AC-4 RTL and a11y per B5–B6 | ❌ | RTL ✅: `directional: activeIcon.matchTextDirection` `:148`, `AlignmentDirectional`/`EdgeInsetsDirectional`/`BorderRadiusDirectional`; test "directional symbols mirror in RTL and close does not". Label once + toggled ✅ (test "exposes one label and the selected toggle state"); focus ring ✅ ("hardware focus draws the token focus ring"); target ✅ ("keeps sm and md targets at the tablet minimum"). **But** `Semantics(excludeSemantics: true)` at `:232-239` drops the inner `IconButton`'s tap and focus actions — finding 1 |
+| AC-5 analyze + test; `npm run sync` | ✅ | analyze and test pass (above); `sync` READY per C8, not re-run (not in this platform's checks) |
+| AC-6 Exported; README status | ✅ | `lib/biowave_tablet.dart:14`; README row and header `Code` = `Built` at review start |
+
+#### Rule checks (AGENTS.md §2)
+
+| Rule | Result | Notes |
+|---|---|---|
+| No generated files edited | ✅ | No `generated/`, `dist/`, contract or HTML shell in the diff |
+| No raw values / no primitives | ✅ | Semantic tokens only (`context.bw.*`, `BwSpacing`, `BwRadius`, `BwDuration`, `BwEasing`); guard test |
+| Logical properties, RTL icons | ✅ | See AC-4 |
+| Light + dark, en + ar tested | ⚠️ | Covered by property assertions; no goldens — finding 2 |
+| Accessibility | ❌ | Finding 1 |
+| Stayed inside the plan | ✅ | Files = C5 / contract §9 |
+| Code matches spec | ❌ | Findings 1, 3 |
+| Changelog | ✅ | `CHANGELOG.md` "[Tablet Icon button — implementation] — 2026-10-23"; C8 filled |
+
+#### Findings
+
+| # | Severity | File | Issue | Required change | Owner |
+|---|---|---|---|---|---|
+| 1 | 🔴 Blocker | `lib/src/components/icon_button/bw_icon_button.dart:232-239` | The outer `Semantics(button: true, label:, …, excludeSemantics: true)` has no `onTap` and removes the inner `IconButton`'s semantics, so the node exposes **no `SemanticsAction.tap`** (and no focus action). TalkBack / VoiceOver double-tap and Switch Access cannot activate any icon button (probe above). BwButton only excludes semantics while loading (`bw_button.dart:203-210`). The tap-target guideline passes vacuously for the same reason | Keep one labelled button node **with** the activation action: e.g. pass `onTap: action` (and `onFocus` if you keep `excludeSemantics`), or merge instead of excluding the inner semantics, keeping the label read once and `toggled` exposed. Extend "exposes one label and the selected toggle state" to assert `SemanticsAction.tap` is present when enabled and absent when `onPressed` is null, and that `tester.semantics.tap(...)` fires `onPressed`; add `meetsGuideline(androidTapTargetGuideline)` + `labeledTapTargetGuideline` for `sm`/`md` (B9) | Implementer |
+| 2 | 🟡 Should fix | C5 (contract §9) vs B9 (contract §10) | **Answer to the C8 question:** yes, a Planner finding. B9 requires goldens (every allowed `variant` × `color`, selected and not, at `lg`; every size for `text neutral`; light + dark, en + ar), but C5 lists no golden files, so the Implementer was right not to create them. Button tablet's C5 listed `4-tablet-components/test/goldens/button/  new (generated goldens)` — the same line is missing here | Planner adds `4-tablet-components/test/goldens/icon_button/  new (generated goldens)` to C5 and regenerates the contract; then the Implementer adds the goldens (`flutter test --update-goldens`, real test fonts from `flutter_test_config.dart`) and checks them by eye | Planner |
+| 3 | 🟢 Nit | `bw_icon_button.dart:138-143` | `layoutBuilder` returns only `currentChild`, so the outgoing icon is dropped at once and the new one fades in; web B4 asks for a cross-fade | Either keep both children during the switch (and adapt the "one `BwIcon`" test to count after `pumpAndSettle`), or Planner states in B4 that tablet uses fade-in | Implementer |
+| 4 | 🟢 Nit | Header row "Source code" | Says `lib/src/components/icon-button/` — not built yet; the folder is `icon_button/` and it is built | Point it at `lib/src/components/icon_button/bw_icon_button.dart` | Planner |
+| 5 | 🟢 Nit | C1 | "passes C9" — there is no C9 (tests are C6 / B9) | Say "passes C6 / B9" | Planner |
+
+#### Notes
+
+- Tooltip on tablet is long-press; Flutter's `Tooltip` fade-in is fixed internally, so web B4's `motion-duration-md` show / no-fade under reduced motion cannot be set exactly. Not a finding — the Planner may note it in B4 when touching finding 2.
+- Loading keeps the button visually enabled with a no-op action, as BwButton does (B6 "As BwButton").
+- Figma build (Part D) not reviewed: `Figma build = Planned`.
+
+#### Next step
+
+Changes requested → after-review gate. Planner: findings 2, 4, 5 (Plan → `Open`, regenerate contract). Then Fixer: findings 1, 3 and the goldens from finding 2.
 
 ---
 

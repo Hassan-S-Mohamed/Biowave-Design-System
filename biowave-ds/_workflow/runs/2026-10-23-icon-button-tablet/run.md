@@ -15,6 +15,7 @@
 | 01 | implement | codex | partial — flutter test not runnable in sandbox; orchestrator run: 5 failures (2× BwIcon, empty toggle label) | docs:check ✓ · analyze ✓ · test ✗ | — | [prompt](01-implement-codex.prompt.md) |
 | 02 | implement | codex | done — 4 of 5 fixed | docs:check ✓ · analyze ✓ · test ✗ (1: SemanticsHandle not disposed) | — | [prompt](02-implement-codex.prompt.md) |
 | 03 | implement | codex | done | docs:check ✓ · analyze ✓ · test ✓ 147/147 (run by orchestrator) | (this commit) | [prompt](03-implement-codex.prompt.md) |
+| 04 | review | claude (wf-reviewer agent; `claude` CLI cannot nest) | done — Round 1 Changes requested: 1 🔴 (no screen-reader tap action), 1 🟡 Planner (goldens missing from C5), 3 🟢 | docs:check ✓ · analyze ✓ · test ✓ 147/147 | (this commit) | [prompt](04-review-claude.prompt.md) |
 
 ## Gates
 
