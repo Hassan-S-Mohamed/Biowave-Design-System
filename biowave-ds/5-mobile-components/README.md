@@ -45,7 +45,7 @@ Status is written in each file header and here; `npm run docs:check` fails if th
 | Component | Plan | Code | Figma | Review | Docs | File |
 |---|---|---|---|---|---|---|
 | Button | Finished | Built | Planned | Round 2 · 2026-10-21 · Approved | [page](components/button/button.html) | [button.md](components/button/button.md) |
-| Icon | Finished | Planned | Planned | — | [page](components/icon/icon.html) | [icon.md](components/icon/icon.md) |
+| Icon | Finished | Built | Planned | Round 1 · 2026-10-23 · Approved | [page](components/icon/icon.html) | [icon.md](components/icon/icon.md) |
 | Button group | Finished | Planned | Planned | — | [page](components/button-group/button-group.html) | [button-group.md](components/button-group/button-group.md) |
 | Icon button | Finished | Planned | Planned | — | [page](components/icon-button/icon-button.html) | [icon-button.md](components/icon-button/icon-button.md) |
 | Split button | Finished | Planned | Planned | — | [page](components/split-button/split-button.html) | [split-button.md](components/split-button/split-button.md) |
