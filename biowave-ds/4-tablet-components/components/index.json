@@ -3,6 +3,7 @@
   "components": [
     "button",
     "button-group",
+    "chip",
     "icon",
     "icon-button",
     "split-button",

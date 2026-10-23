@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Plan — Chip (web, tablet, mobile)] — 2026-10-23
+### Added
+- Chip plan 1.0 on all three platforms: `3-web-components/components/chip/chip.md`, `4-tablet-components/components/chip/chip.md`, `5-mobile-components/components/chip/chip.md` (Parts A–D and F; Part A identical except A8). Variants `assist` · `filter` · `input` · `tag` (Tag / Label) · `status` (request status, P-05); sizes `sm` · `md`; tag colours `neutral` · `brand` · `secondary` · `success` · `warning` · `error` · `info`. No component tokens — every value is an existing semantic token (P-04), so no `chip.tokens.json`. Input chips use the Biowave Avatar (24 box = `size-icon-lg` at `sm`, needs Avatar `xs`; Avatar `sm` at `md`). The 7 request-status states are not written in the design system yet, so `status` is defined but out of build scope until plan 1.1. Contracts generated (`npm run contract -- <platform> chip`), docs pages built, Components rows added (Plan Finished · Code Planned · Figma Planned). Glyph `check` is not yet in `_sync/figma-icons.json`.
+
 ## [Review — Web Split button round 3: Approved] — 2026-10-21
 ### Changed
 - Split button (web) review round 3: **Approved** — Part E4 of `3-web-components/components/split-button/split-button.md`. Round 2 #9 fixed (headless Chrome computed Paper `transition`: open `opacity`/`transform` 0.2s `standard-decelerate`, close 0.1s `standard-accelerate`, no delay) and #10 fixed (`prefers-reduced-motion: reduce` → 0 s, menu instant); Round 1 #1 still holds (menu end edge right in English, left in Arabic). 🟢 #11 nit: MUI Grow's `auto` timeout keeps the invisible backdrop ~240 ms after close — carried to the Menu component. Code → Approved (header + README). `docs:check` ✓, `typecheck` ✓, `test:web` 100/100 ✓, `sync` READY.

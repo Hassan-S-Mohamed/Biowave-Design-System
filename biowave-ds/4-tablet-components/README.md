@@ -50,6 +50,7 @@ Status is written in each file header and here; `npm run docs:check` fails if th
 | Icon button | Finished | Planned | Planned | — | [page](components/icon-button/icon-button.html) | [icon-button.md](components/icon-button/icon-button.md) |
 | Split button | Finished | Planned | Planned | — | [page](components/split-button/split-button.html) | [split-button.md](components/split-button/split-button.md) |
 | Text field | Finished | Planned | Planned | — | [page](components/text-field/text-field.html) | [text-field.md](components/text-field/text-field.md) |
+| Chip | Finished | Planned | Planned | — | [page](components/chip/chip.html) | [chip.md](components/chip/chip.md) |
 
 ## 5. Backlog (suggested order)
 Figma has no dedicated tablet components yet (only "Checkbox / Tablet" docs). Tablet components are designed from the mobile set at tablet size and density.
