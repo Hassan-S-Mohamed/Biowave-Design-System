@@ -1,4 +1,4 @@
-<!-- GENERATED from divider.md @ 45500d69077c4c9b — do not edit; change the source and run: npm run contract -- web divider -->
+<!-- GENERATED from divider.md @ 29a6d760c074ad95 — do not edit; change the source and run: npm run contract -- web divider -->
 # Divider · فاصل — Web — Figma contract
 
 > **Everything the Figma Agent needs to build Divider in the Web Components file, with our variables and styles.** Read this file only. Generated from [`divider.md`](divider.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-18). Questions go to [D11 Execution log](divider.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
@@ -11,8 +11,8 @@
 | Page | `↳ Divider` (one page per component) |
 | Component | Divider · فاصل |
 | Platform | Web · React + MUI |
-| Version | 1.0 · 2026-10-22 |
-| Source | [`divider.md`](divider.md) @ `45500d69077c4c9b` |
+| Version | 1.1 · 2026-10-23 |
+| Source | [`divider.md`](divider.md) @ `29a6d760c074ad95` |
 
 ## 1. Library connections in this file
 
@@ -44,12 +44,18 @@ None yet — this component has no component tokens. Bind to the Foundations var
 | `color-border-default` | 1. Themes › `color/border/default` | `ad520e82898707a0d3112a12f6f9439566c6d6c4` | COLOR | STROKE_COLOR | spec |
 | `color-border-strong` | 1. Themes › `color/border/strong` | `a12934eff6a447ebe30a4507b223c76e583e2701` | COLOR | STROKE_COLOR | spec |
 | `color-border-subtle` | 1. Themes › `color/border/subtle` | `07f3e9a3d1ca641c7f05d37bf2e4383e4a8e6112` | COLOR | STROKE_COLOR | spec |
+| `color-surface-default` | 1. Themes › `color/surface/default` | `2013a1c60d84d2bac2524fd0c32229e20cc341a1` | COLOR | FRAME_FILL, SHAPE_FILL | spec |
+| `color-text-neutral-muted` | 1. Themes › `color/text/neutral/muted` | `8ff5fe7707ac2ac866b453191dea9cdd680d0c8d` | COLOR | TEXT_FILL | spec |
+| `spacing-md` | 3. Spacing › `spacing/md` | `58c93e3cec1b6ba603371a027483e101adcef4f0` | FLOAT | WIDTH_HEIGHT, GAP | spec |
 | `spacing-none` | 3. Spacing › `spacing/none` | `4879183c164f25d975ac0a8664388a77a2073b80` | FLOAT | WIDTH_HEIGHT, GAP | spec |
 | `spacing-xl` | 3. Spacing › `spacing/xl` | `5fa0c2ce8ae034e9696038d2704e520fd8383e55` | FLOAT | WIDTH_HEIGHT, GAP | spec |
 
 ## 4. Text styles used (keys)
 
-None named in B/D.
+| Style | Key |
+|---|---|
+| `Web/en/caption/md` | `3db0d9d2c62c77ac003b6444643b9828150787ba` |
+| `Web/ar/caption/md` | `5f111a909c2383565c3ba96d1cf622ef5da90f23` |
 
 ## 5. Effect styles used (keys)
 
@@ -74,16 +80,28 @@ No icon named in this spec. Icons come only from the Google · Material Symbols 
 | `orientation` | enum | `horizontal` · `vertical` | `horizontal` | | A4.1 |
 | `emphasis` | enum | `subtle` · `default` · `strong` | `default` | | A4.2 — line colour (B3) |
 | `inset` | enum | `none` · `start` · `both` | `none` | | A4.3 — inset space `spacing-xl` (B2) |
-| `decorative` | boolean | | `false` | | A4.4 — `true`: hidden from assistive technology (B6) |
-| `className` · `data-*` · `ref` | | | | | Forwarded to the root `<hr>` |
+| `decorative` | boolean | | `false` | | A4.4 — `true`: hidden from assistive technology (B6). Has no effect with `component="li"` (always hidden, B6) |
+| `showLabel` | boolean | | `false` | | A4.5 — `true`: shows `label` in the middle of a horizontal divider |
+| `label` | string | | — | | A4.5 — the label text (“or” / “أو”); used only when `showLabel` is `true` |
+| `component` | enum | `hr` · `li` | `hr` | | A4.6 — `li` for a divider that sits directly inside a `<ul>` / `<ol>` (B6) |
+| `className` · `data-*` · `ref` | | | | | Forwarded to the root element |
 
-No `children`, no `component`, no MUI `variant` / `textAlign` / `flexItem` / `light` / `absolute` props on the public API (C3 maps the Biowave props to MUI).
+No `children` (the label comes only from `label`), no MUI `variant` / `textAlign` / `flexItem` / `light` / `absolute` props on the public API; `component` accepts only `hr` and `li` (C3 maps the Biowave props to MUI).
+
+**Root element**
+
+| `component` | Without label | With label (`showLabel` and a non-empty `label`, horizontal) |
+|---|---|---|
+| `hr` (default) | `<hr>` | `<div role="separator">` — an `<hr>` cannot hold text |
+| `li` | `<li role="separator">` | `<li role="separator">` |
 
 **Invalid combinations** (`console.warn` once in development; the fallback renders):
 
 | Combination | Fallback |
 |---|---|
 | `orientation="vertical"` with `inset="start"` | Renders `inset="none"`; warns “inset start is for horizontal dividers only” |
+| `orientation="vertical"` with `showLabel` | Renders the plain vertical line, no label; warns “label is for horizontal dividers only” |
+| `showLabel` with an empty or missing `label` | Renders the plain line, no label; warns “showLabel needs a label” |
 
 ### B2 Dimensions
 
@@ -102,6 +120,13 @@ Vertical, inset both
  │  ② line — border-width-default wide, fills the row's block size
  ┬ spacing-xl
  ┴
+
+Horizontal with label, inset none
+┌───────────────────────────────────────────────────────┐ ┬
+│②─────────────────────── ③ or ────────────────────────②│ │ caption-md line height
+└───────────────────────────────────────────────────────┘ ┴
+                        ├─┤    ├─┤ spacing-md each side
+ ② two equal segments (each ≥ spacing-xl), centred on the label's block axis
 ```
 
 | Part | Property | `horizontal` | `vertical` |
@@ -112,8 +137,14 @@ Vertical, inset both
 | `container` | inset `both` | `margin-inline: spacing-xl` | `margin-block: spacing-xl` |
 | `container` | inset `none` | margin `spacing-none` | margin `spacing-none` |
 | `container` | outer margin | `spacing-none` — the parent's gap or padding sets the space around it | same |
+| `container` (with label) | layout | `display: flex`, `align-items: center`; block size = the label's line height (`caption-md`, per language); the inset margins above still apply to the outer ends | — (no label, B1) |
+| `line` (with label) | segments | two segments, one before and one after the label: `flex: 1 0 spacing-xl` (equal share of the free length, never shorter than `spacing-xl`), block-end border `border-width-default` | — |
+| `label` (with label) | gap | `padding-inline: spacing-md` (the gap to each segment) | — |
+| `label` (with label) | size | `flex: 0 1 auto` — natural width; wraps when longer than the free length, `text-align: center`; never truncated | — |
 
 Layout rules: `flex-shrink: 0`; never adds its own spacing above / below (horizontal) or beside (vertical) — the parent's `gap` does. A vertical divider is meant for flex rows (toolbars, action bars); outside a flex row its height is the row's height only if the parent gives one.
+
+Inset `start` stays one fixed `spacing-xl` (A4.3). Known follow-up: the List plan (Day 8) adds its own text-aligned inset for list rows; nothing is added to Divider now.
 
 ### B3 Tokens by part and state
 
@@ -123,36 +154,45 @@ Layout rules: `flex-shrink: 0`; never adds its own spacing above / below (horizo
 |---|---|---|---|---|
 | `line` | colour | `color-border-subtle` | `color-border-default` | `color-border-strong` |
 | `line` | width | `border-width-default` | `border-width-default` | `border-width-default` |
+| `line` (with label) | minimum segment length | `spacing-xl` | same | same |
 | `container` | inset | `spacing-xl` · `spacing-none` | same | same |
+| `label` | text style | `caption-md` (`biowaveVariants.captionMd`; the family and line height follow the language) | same | same |
+| `label` | colour | `color-text-neutral-muted` | same | same |
+| `label` | gap to each segment | `spacing-md` | same | same |
 
-No interactive states. Dark theme: same tokens (values switch automatically). The line is decorative (`2-foundations/guidelines/border.md`) — no contrast requirement, no pair in `contrast-pairs.json`.
+The label does not change with `emphasis`. No interactive states. Dark theme: same tokens (values switch automatically). The line is decorative (`2-foundations/guidelines/border.md`) — no contrast requirement. The label is text: `color-text-neutral-muted` already meets 4.5:1 on `color-surface-default`, `-page`, `-subtle` and `-raised` in both themes (pairs exist in `contrast-pairs.json`; none to add).
 
 ### B4 States and transitions
 
-None. The divider has one state and never animates; colour follows the theme instantly. Reduced motion: nothing to remove.
+None. The divider has one state and never animates; colour follows the theme instantly. Showing or hiding the label is instant. Reduced motion: nothing to remove.
 
 ### B5 RTL
 
 ```
 LTR  │        ──────────────────────│   inset start: space at the inline start (left)
 RTL  │──────────────────────        │   inset start: space at the inline start (right)
+
+LTR  │─────────────── or ───────────────│   label centred
+RTL  │─────────────── أو ───────────────│   label centred — same layout
 ```
 
 | Part | In RTL |
 |---|---|
 | `container` inset | Logical margins (`margin-inline-start`, `margin-inline`) — mirrors automatically |
 | `line` (vertical) | `border-inline-end` — the side flips with the direction; a single line looks the same either way |
+| `label` | Centred; its gap is `padding-inline` (logical), so it is the same in both directions; the text follows the document direction and language (`:lang(ar)` font) |
 | Icons | None |
 
 ### B6 Accessibility (implementation)
 
 | Requirement | Implementation |
 |---|---|
-| Role / semantics | Horizontal: `<hr>` (implicit `separator`). Vertical: `<hr aria-orientation="vertical">` (set explicitly if MUI does not) |
-| Decorative | `decorative` → `aria-hidden="true"` on the `<hr>`; no `aria-orientation` |
-| Accessible name | None (a separator needs no name) |
+| Role / semantics | Horizontal: `<hr>` (implicit `separator`). Vertical: `<hr aria-orientation="vertical">` (set explicitly if MUI does not). With a label: `<div role="separator">` (horizontal, no `aria-orientation` needed) |
+| Accessible name | Without a label: none (a separator needs no name). With a label: `aria-label` = the `label` text, because a separator's children are presentational; the visible label text is inside the separator |
+| Decorative | `decorative` → `aria-hidden="true"` on the root; no `aria-orientation`, no `aria-label` |
+| Inside a list (`component="li"`) | `<li role="separator" aria-hidden="true">` — always hidden, whatever `decorative` says: the list items already show the grouping, and axe's `list` rule rejects a visible `role="separator"` child of `<ul>` / `<ol>` (checked with axe-core 4.14: passes only when hidden). Never nests an `<hr>` inside the `<li>` |
 | Focus | Never focusable; no `tabindex` |
-| Contrast | Decorative — exempt (A9) |
+| Contrast | Line decorative — exempt (A9). Label text 4.5:1 (B3) |
 | Target size | Not interactive |
 
 | Key | Action |
@@ -168,22 +208,23 @@ RTL  │──────────────────────      
 | Figma file | **Biowave DS — Web Components** (`_sync/figma-files.json` › `web`) — never the Foundations file |
 | Page / section | `↳ Divider` › sections `Divider` and `Divider — Documentation` |
 | Mode | Create new (no legacy Divider set in the Figma files) |
-| Plan version | 1 · 2026-10-22 |
+| Plan version | 1.1 · 2026-10-23 |
 
 ### D1 Rules for this build
 
 0. **No component tokens** — this component has no `Divider / *` collection. Bind directly to the Foundations library variables (keys in the contract). Never create local variables or styles; `figma-read-tokens.js` lint must report 0 before Phase 1 and after each phase.
-1. Every value is bound: line stroke colour → `color/border/{subtle|default|strong}`; stroke weight → `border/width/default`; inset padding → `spacing/xl` (or `spacing/none`). No raw numbers.
+1. Every value is bound: line stroke colour → `color/border/{subtle|default|strong}`; stroke weight → `border/width/default`; inset padding → `spacing/xl` (or `spacing/none`); label gap → `spacing/md`; label fill → `color/text/neutral/muted`; label text style → `Web/{en|ar}/caption/md` (published Foundations text styles). No raw numbers.
 2. Never bind `_Primitive/*` or `_deprecated/*`.
-3. Layer names = A2 part names (`container`, `line`).
+3. Layer names = A2 part names (`container`, `line`, `label`). With a label the line is two layers, both named `line`.
 4. Auto layout on every frame; no absolute positioning.
-5. No icons, no text layers in the set.
+5. No icons. The only text layer is `label`, in Horizontal variants only.
 
 ### D2 Component structure
 
 ```
 ❖ Divider                 ← component set (published)
   └─ variants Orientation × Emphasis × Inset (+ Direction=RTL for Horizontal · Start)
+     properties Show label (BOOLEAN) · Label (TEXT) — Horizontal variants only
 ```
 
 ### D3 Layer tree and auto layout
@@ -192,9 +233,13 @@ RTL  │──────────────────────      
 Horizontal
 container        ↔ horizontal · width FILL when placed · height HUG
 │                  padding-left / padding-right = {B2 inset} (Start: left only in LTR, right only in RTL)
-└── line         frame · width FILL · height HUG (no children)
-                   bottom stroke only: weight {B3 border-width-default}, colour {B3 per Emphasis}
-                   strokes included in layout = on (the frame is exactly one stroke thick)
+│                  counter-axis align = center · gap = {B3 label gap: spacing/md}
+├── line         frame · width FILL (min width {spacing/xl}) · height HUG (no children)
+│                  bottom stroke only: weight {B3 border-width-default}, colour {B3 per Emphasis}
+│                  strokes included in layout = on (the frame is exactly one stroke thick)
+├── label        T `Web/{en|ar}/caption/md` · fill {color/text/neutral/muted} · width HUG · align center
+│                  BOOLEAN `Show label` (visibility) · TEXT `Label` (characters) · default “or”
+└── line         second segment, same as the first · visibility bound to `Show label`
 
 Vertical
 container        ↕ vertical · height FILL when placed · width HUG
@@ -203,11 +248,14 @@ container        ↕ vertical · height FILL when placed · width HUG
                    right stroke only: weight {B3}, colour {B3}; strokes included in layout = on
 ```
 
+With `Show label` off, `label` and the second `line` are hidden, so the first `line` fills the container alone (hidden layers take no gap). Vertical variants have no `label` layer: `Show label` and `Label` do nothing there (B1 — no label on vertical dividers). The default text style is `Web/en/caption/md`; Arabic samples on doc pages use `Web/ar/caption/md` and the Arabic text “أو”.
+
 If a hug frame with no children cannot keep the stroke-only size, stop and report in D11 (do not switch to a fill rectangle with a raw height).
 
 ```
-LTR, Inset=Start   │      ──────────────────────│
-RTL, Inset=Start   │──────────────────────      │
+LTR, Inset=Start              │      ──────────────────────│
+RTL, Inset=Start              │──────────────────────      │
+Show label on (LTR and RTL)   │─────────── or ───────────│
 ```
 
 ### D4 Properties
@@ -218,14 +266,16 @@ RTL, Inset=Start   │───────────────────�
 | `Emphasis` | VARIANT | `Subtle` · `Default` · `Strong` | `Default` | `emphasis` | `'subtle'` · `'default'` · `'strong'` |
 | `Inset` | VARIANT | `None` · `Start` · `Both` | `None` | `inset` | `'none'` · `'start'` · `'both'` |
 | `Direction` | VARIANT | `LTR` · `RTL` | `LTR` | — | Figma only; code mirrors automatically |
+| `Show label` | BOOLEAN | | `false` | `showLabel` | `true` · `false` |
+| `Label` | TEXT | | `or` | `label` | the text |
 
-`decorative` is code-only (no Figma property).
+`decorative` and `component` are code-only (no Figma property).
 
 ### D5 Variants to generate
 
 - Horizontal: 3 Emphasis × 3 Inset × LTR = 9, plus Inset=Start × RTL × 3 Emphasis = 3
 - Vertical: 3 Emphasis × (None · Both) × LTR = 6 (Start is invalid, B1)
-- Total **18**. Grid: rows = Orientation × Inset × Direction, columns = Emphasis; gap `spacing/xl`
+- Total **18** — the label is a BOOLEAN + TEXT property, not a variant. Grid: rows = Orientation × Inset × Direction, columns = Emphasis; gap `spacing/xl`
 
 ### D6 States, interactions and motion
 
@@ -233,15 +283,15 @@ None.
 
 ### D7 RTL
 
-Method: `Direction=RTL` variants only where the result differs (Horizontal · Inset=Start): padding on the right instead of the left. All other variants look the same in both directions. Doc page 08 shows an inset divider in an Arabic list (sample copy from A6: الإشعارات).
+Method: `Direction=RTL` variants only where the result differs (Horizontal · Inset=Start): padding on the right instead of the left. All other variants look the same in both directions, including a shown label (centred). Doc page 08 shows an inset divider in an Arabic list (sample copy from A6: الإشعارات) and a labelled divider with “أو” in `Web/ar/caption/md`.
 
 ## 9. Phase 2 — documentation pages and Components List card
 
 ### D8 Documentation pages
 
-Standard 12 pages from the Doc Kit (Annotation library), section `Divider — Documentation`. Page notes: 01 Introduction = a card with sections separated by a default divider, Light + Dark; 03 Variations = orientation, emphasis, inset; 05 Usage = spacing first vs divider, toolbar with vertical dividers; 07 Platform = `Doc/Device frame` Desktop + Web narrow with a list and a toolbar; 08 RTL = Inset=Start in LTR and RTL; 09 Accessibility = separator vs decorative.
+Standard 12 pages from the Doc Kit (Annotation library), section `Divider — Documentation`. Page notes: 01 Introduction = a card with sections separated by a default divider, Light + Dark; 03 Variations = orientation, emphasis, inset, show label; 05 Usage = spacing first vs divider, toolbar with vertical dividers, “or” between two sign-in buttons; 06 Content = label copy from A6 (EN / AR); 07 Platform = `Doc/Device frame` Desktop + Web narrow with a list and a toolbar; 08 RTL = Inset=Start and a labelled divider in LTR and RTL; 09 Accessibility = separator vs decorative, label as the separator's name; 10 Changes from previous version = F0.
 
-Component description: “Thin line that separates groups of content. Spec: 3-web-components/components/divider/divider.md”.
+Component description: “Thin line that separates groups of content, with an optional centred label. Spec: 3-web-components/components/divider/divider.md”.
 
 ### Doc Kit components (keys)
 
@@ -442,7 +492,7 @@ Component description field (Figma "Description"): one line from A1 + link to th
 
 ## 10. Code Connect
 
-`3-web-components/src/components/divider/Divider.figma.tsx` — `Orientation` → `orientation`, `Emphasis` → `emphasis`, `Inset` → `inset`; `Direction` not mapped. Publish after code and Figma are both `Approved`.
+`3-web-components/src/components/divider/Divider.figma.tsx` — `Orientation` → `orientation`, `Emphasis` → `emphasis`, `Inset` → `inset`, `Show label` → `showLabel`, `Label` → `label`; `Direction` not mapped. Publish after code and Figma are both `Approved`.
 
 ## 11. Rules
 
@@ -453,8 +503,8 @@ All rules in **D1** (§8), plus:
 ## 12. Acceptance criteria (the Reviewer checks exactly these)
 
 - [ ] F-AC-1 Set, layers and names per D2–D3 and A2
-- [ ] F-AC-2 Properties per D4 exactly; 18 variants, no Vertical · Start
-- [ ] F-AC-3 Zero raw values: stroke colour, stroke weight and padding bound to Foundations variables; token lint 0
+- [ ] F-AC-2 Properties per D4 exactly; 18 variants, no Vertical · Start; `Show label` and `Label` bound to the Horizontal `label` layer (and the second `line`)
+- [ ] F-AC-3 Zero raw values: stroke colour, stroke weight, padding, gap, label fill and text style bound to Foundations variables / styles; token lint 0
 - [ ] F-AC-4 Light / Dark by variable mode only
 - [ ] F-AC-5 RTL variants per D7
 - [ ] F-AC-6 Docs pages per D8 from the Doc Kit with live instances (or reported blocked); Components List card

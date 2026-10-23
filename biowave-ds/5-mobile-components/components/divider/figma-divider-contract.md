@@ -1,4 +1,4 @@
-<!-- GENERATED from divider.md @ ec5fed97423291c2 — do not edit; change the source and run: npm run contract -- mobile divider -->
+<!-- GENERATED from divider.md @ a77ba78526a7a211 — do not edit; change the source and run: npm run contract -- mobile divider -->
 # Divider · فاصل — Mobile — Figma contract
 
 > **Everything the Figma Agent needs to build Divider in the Mobile Components file, with our variables and styles.** Read this file only. Generated from [`divider.md`](divider.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-18). Questions go to [D11 Execution log](divider.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
@@ -11,8 +11,8 @@
 | Page | `↳ Divider` (one page per component) |
 | Component | Divider · فاصل |
 | Platform | Mobile · Flutter + Material 3 |
-| Version | 1.0 · 2026-10-22 |
-| Source | [`divider.md`](divider.md) @ `ec5fed97423291c2` |
+| Version | 1.1 · 2026-10-23 |
+| Source | [`divider.md`](divider.md) @ `a77ba78526a7a211` |
 
 ## 1. Library connections in this file
 
@@ -44,12 +44,19 @@ None yet — this component has no component tokens. Bind to the Foundations var
 | `color-border-default` | 1. Themes › `color/border/default` | `ad520e82898707a0d3112a12f6f9439566c6d6c4` | COLOR | STROKE_COLOR | spec |
 | `color-border-strong` | 1. Themes › `color/border/strong` | `a12934eff6a447ebe30a4507b223c76e583e2701` | COLOR | STROKE_COLOR | spec |
 | `color-border-subtle` | 1. Themes › `color/border/subtle` | `07f3e9a3d1ca641c7f05d37bf2e4383e4a8e6112` | COLOR | STROKE_COLOR | spec |
+| `color-text-neutral-muted` | 1. Themes › `color/text/neutral/muted` | `8ff5fe7707ac2ac866b453191dea9cdd680d0c8d` | COLOR | TEXT_FILL | spec |
+| `spacing-md` | 3. Spacing › `spacing/md` | `58c93e3cec1b6ba603371a027483e101adcef4f0` | FLOAT | WIDTH_HEIGHT, GAP | spec |
 | `spacing-none` | 3. Spacing › `spacing/none` | `4879183c164f25d975ac0a8664388a77a2073b80` | FLOAT | WIDTH_HEIGHT, GAP | spec |
 | `spacing-xl` | 3. Spacing › `spacing/xl` | `5fa0c2ce8ae034e9696038d2704e520fd8383e55` | FLOAT | WIDTH_HEIGHT, GAP | spec |
 
 ## 4. Text styles used (keys)
 
-None named in B/D.
+| Style | Key |
+|---|---|
+| `Mobile/en/caption/md` | `5dc8735173f3501751ff9fd04780c1b72cfcfef5` |
+| `Mobile/ar/caption/md` | `d92494be0ff22229a32d765fd6ad119053a293e5` |
+| `Web/en/caption/md` | `3db0d9d2c62c77ac003b6444643b9828150787ba` |
+| `Web/ar/caption/md` | `5f111a909c2383565c3ba96d1cf622ef5da90f23` |
 
 ## 5. Effect styles used (keys)
 
@@ -74,15 +81,19 @@ No icon named in this spec. Icons come only from the Google · Material Symbols 
 | `orientation` | `BwDividerOrientation` | `horizontal` · `vertical` | `horizontal` | | A4.1 |
 | `emphasis` | `BwDividerEmphasis` | `subtle` · `defaultEmphasis` · `strong` | `defaultEmphasis` | | A4.2 — line colour (B3) |
 | `inset` | `BwDividerInset` | `none` · `start` · `both` | `none` | | A4.3 — inset space `spacing-xl` (B2) |
+| `showLabel` | `bool` | | `false` | | A4.5 — `true`: shows `label` in the middle of a horizontal divider |
+| `label` | `String?` | | `null` | | A4.5 — the label text (“or” / “أو”, from the app's localizations); used only when `showLabel` is `true` |
 | `key` | `Key?` | | | | |
 
-Platform naming: web `emphasis="default"` = `BwDividerEmphasis.defaultEmphasis` (`default` is reserved in Dart, as Icon's `defaultColor`). Web `decorative` has no Flutter param: M3 `Divider` / `VerticalDivider` add no semantics node, so `BwDivider` is never announced (A8, B6).
+Platform naming: web `emphasis="default"` = `BwDividerEmphasis.defaultEmphasis` (`default` is reserved in Dart, as Icon's `defaultColor`). Web `decorative` has no Flutter param: M3 `Divider` / `VerticalDivider` add no semantics node, so the line of `BwDivider` is never announced (A8, B6); a shown label is a normal `Text` and is read. Web `component` has no Flutter param (Flutter lists need no list element).
 
 **Invalid combinations** (`assert` in debug; release renders the fallback):
 
 | Combination | Fallback |
 |---|---|
 | `orientation: vertical` with `inset: start` | Renders `inset: none`; assert message “inset start is for horizontal dividers only” |
+| `orientation: vertical` with `showLabel: true` | Renders the plain vertical line, no label; assert message “label is for horizontal dividers only” |
+| `showLabel: true` with a `null` or empty `label` | Renders the plain line, no label; assert message “showLabel needs a label” |
 
 ### B2 Dimensions
 
@@ -96,8 +107,12 @@ Same as [Web B2](../../../3-web-components/components/divider/divider.md#b2-dime
 | `container` | inset `both` | `indent` and `endIndent: BwSpacing.xl` | `indent` (top) and `endIndent` (bottom): `BwSpacing.xl` |
 | `container` | inset `none` | `spacing-none` → `indent` / `endIndent: BwSpacing.none` | same |
 | `container` | length | width of the parent | height from the parent's constraints (in a `Row`, the parent bounds the height, e.g. `IntrinsicHeight` or a fixed-height bar) |
+| `container` (with label) | layout | `Row(crossAxisAlignment: center)` inside `Padding(EdgeInsetsDirectional.only(start:, end:))` = the inset above (`BwSpacing.xl` / `BwSpacing.none`); height = the label's line height (`caption-md`, per language) | — (no label, B1) |
+| `line` (with label) | segments | two `Expanded` segments, each a `Divider(height: BwBorder.widthDefault, thickness: BwBorder.widthDefault, indent: BwSpacing.none, endIndent: BwSpacing.none)`; never shorter than `spacing-xl` → `BwSpacing.xl` | — |
+| `label` (with label) | gap | `spacing-md` → `Padding(EdgeInsetsDirectional.symmetric(horizontal: BwSpacing.md))` | — |
+| `label` (with label) | size | natural width, at most the row width − 2 × `BwSpacing.xl` (the minimum segments); wraps (`softWrap: true`), `TextAlign.center`; never `overflow: ellipsis` | — |
 
-Layout rules: the divider adds no space around itself — the parent's gap (`spacing:` / `SizedBox` with `BwSpacing.*`) does.
+Layout rules: the divider adds no space around itself — the parent's gap (`spacing:` / `SizedBox` with `BwSpacing.*`) does. Inset `start` stays one fixed `spacing-xl`; the List plan (Day 8) adds its own text-aligned inset — nothing is added to `BwDivider` now.
 
 ### B3 Tokens by part and state
 
@@ -111,21 +126,31 @@ Identical to [Web B3](../../../3-web-components/components/divider/divider.md#b3
 
 Width `border-width-default` → `BwBorder.widthDefault`; inset `spacing-xl` → `BwSpacing.xl`, `spacing-none` → `BwSpacing.none`. Colours are passed explicitly — never read from `DividerTheme` or `ThemeData.dividerColor`. Dark theme: same tokens.
 
+| Part | Property | Token → Flutter |
+|---|---|---|
+| `label` | text style | `caption-md` → `context.bw.text.captionMd` (family and line height follow the locale) |
+| `label` | colour | `color-text-neutral-muted` → `context.bw.colors.textNeutralMuted` (4.5:1 on every surface, pairs already in `contrast-pairs.json`) |
+| `label` | gap to each segment | `spacing-md` → `BwSpacing.md` |
+| `line` (with label) | minimum segment length | `spacing-xl` → `BwSpacing.xl` |
+
+The label does not change with `emphasis`; the segments use the `emphasis` colour above.
+
 ### B4 States and transitions
 
 As [Web B4](../../../3-web-components/components/divider/divider.md#b4-states-and-transitions) — none.
 
 ### B5 RTL
 
-As [Web B5](../../../3-web-components/components/divider/divider.md#b5-rtl). Flutter: `Divider.indent` is the leading edge and follows `Directionality`, so `inset: start` leaves its space on the right in Arabic with no extra code. Never wrap the line in a physical `EdgeInsets.only(left/right)`.
+As [Web B5](../../../3-web-components/components/divider/divider.md#b5-rtl). Flutter: `Divider.indent` is the leading edge and follows `Directionality`, so `inset: start` leaves its space on the right in Arabic with no extra code. Never wrap the line in a physical `EdgeInsets.only(left/right)`. With a label, the row, its inset `Padding` and the label gap use `EdgeInsetsDirectional`; the label stays centred, so the layout looks the same in both directions.
 
 ### B6 Accessibility (implementation)
 
 | Requirement | Implementation |
 |---|---|
-| Role / semantics | None — `Divider` / `VerticalDivider` add no semantics node; the divider is never announced |
+| Role / semantics | None — `Divider` / `VerticalDivider` add no semantics node; the line is never announced |
+| Label | A plain `Text`: one semantics node whose label is the `label` text, read in reading order; no extra `Semantics` wrapper, no header or button role |
 | Focus | Never focusable |
-| Contrast | Decorative — exempt (A9) |
+| Contrast | Line decorative — exempt (A9). Label text 4.5:1 (B3) |
 | Target size | Not interactive |
 
 ## 8. Phase 1 — build the component set (from Part D)
@@ -137,11 +162,11 @@ As [Web B5](../../../3-web-components/components/divider/divider.md#b5-rtl). Flu
 | Figma file | **Biowave DS — Mobile Components** (`_sync/figma-files.json` › `mobile`) — never the Foundations file |
 | Page / section | `↳ Divider` › sections `Divider` and `Divider — Documentation` |
 | Mode | Create new |
-| Plan version | 1 · 2026-10-22 |
+| Plan version | 1.1 · 2026-10-23 |
 
 ### D1 Rules for this build
 
-Same as [Web D1](../../../3-web-components/components/divider/divider.md#d1-rules-for-this-build) (no component tokens; bind to Foundations variables). The page sets the Typography variable mode to `Mobile` (no text in the set; doc pages use it).
+Same as [Web D1](../../../3-web-components/components/divider/divider.md#d1-rules-for-this-build) (no component tokens; bind to Foundations variables), except the label text style: `Mobile/{en|ar}/caption/md` instead of the Web styles. The page sets the Typography variable mode to `Mobile`.
 
 ### D2 Component structure
 
@@ -149,15 +174,15 @@ As Web D2.
 
 ### D3 Layer tree and auto layout
 
-As Web D3.
+As Web D3, including the `label` layer and the second `line` bound to `Show label`; the `label` text style is `Mobile/{en|ar}/caption/md` (default `Mobile/en/caption/md`).
 
 ### D4 Properties
 
-As Web D4; code mapping uses the Flutter names in B1 (`Emphasis=Default` → `BwDividerEmphasis.defaultEmphasis`).
+As Web D4 (including `Show label` → `showLabel` and `Label` → `label`); code mapping uses the Flutter names in B1 (`Emphasis=Default` → `BwDividerEmphasis.defaultEmphasis`).
 
 ### D5 Variants to generate
 
-As Web D5 — **18** variants.
+As Web D5 — **18** variants (the label is a property, not a variant).
 
 ### D6 States, interactions and motion
 
@@ -174,17 +199,18 @@ The Mobile Part D refers to these Web sections; they are copied here so you read
 #### D1 Rules for this build
 
 0. **No component tokens** — this component has no `Divider / *` collection. Bind directly to the Foundations library variables (keys in the contract). Never create local variables or styles; `figma-read-tokens.js` lint must report 0 before Phase 1 and after each phase.
-1. Every value is bound: line stroke colour → `color/border/{subtle|default|strong}`; stroke weight → `border/width/default`; inset padding → `spacing/xl` (or `spacing/none`). No raw numbers.
+1. Every value is bound: line stroke colour → `color/border/{subtle|default|strong}`; stroke weight → `border/width/default`; inset padding → `spacing/xl` (or `spacing/none`); label gap → `spacing/md`; label fill → `color/text/neutral/muted`; label text style → `Web/{en|ar}/caption/md` (published Foundations text styles). No raw numbers.
 2. Never bind `_Primitive/*` or `_deprecated/*`.
-3. Layer names = A2 part names (`container`, `line`).
+3. Layer names = A2 part names (`container`, `line`, `label`). With a label the line is two layers, both named `line`.
 4. Auto layout on every frame; no absolute positioning.
-5. No icons, no text layers in the set.
+5. No icons. The only text layer is `label`, in Horizontal variants only.
 
 #### D2 Component structure
 
 ```
 ❖ Divider                 ← component set (published)
   └─ variants Orientation × Emphasis × Inset (+ Direction=RTL for Horizontal · Start)
+     properties Show label (BOOLEAN) · Label (TEXT) — Horizontal variants only
 ```
 
 #### D3 Layer tree and auto layout
@@ -193,9 +219,13 @@ The Mobile Part D refers to these Web sections; they are copied here so you read
 Horizontal
 container        ↔ horizontal · width FILL when placed · height HUG
 │                  padding-left / padding-right = {B2 inset} (Start: left only in LTR, right only in RTL)
-└── line         frame · width FILL · height HUG (no children)
-                   bottom stroke only: weight {B3 border-width-default}, colour {B3 per Emphasis}
-                   strokes included in layout = on (the frame is exactly one stroke thick)
+│                  counter-axis align = center · gap = {B3 label gap: spacing/md}
+├── line         frame · width FILL (min width {spacing/xl}) · height HUG (no children)
+│                  bottom stroke only: weight {B3 border-width-default}, colour {B3 per Emphasis}
+│                  strokes included in layout = on (the frame is exactly one stroke thick)
+├── label        T `Web/{en|ar}/caption/md` · fill {color/text/neutral/muted} · width HUG · align center
+│                  BOOLEAN `Show label` (visibility) · TEXT `Label` (characters) · default “or”
+└── line         second segment, same as the first · visibility bound to `Show label`
 
 Vertical
 container        ↕ vertical · height FILL when placed · width HUG
@@ -204,11 +234,14 @@ container        ↕ vertical · height FILL when placed · width HUG
                    right stroke only: weight {B3}, colour {B3}; strokes included in layout = on
 ```
 
+With `Show label` off, `label` and the second `line` are hidden, so the first `line` fills the container alone (hidden layers take no gap). Vertical variants have no `label` layer: `Show label` and `Label` do nothing there (B1 — no label on vertical dividers). The default text style is `Web/en/caption/md`; Arabic samples on doc pages use `Web/ar/caption/md` and the Arabic text “أو”.
+
 If a hug frame with no children cannot keep the stroke-only size, stop and report in D11 (do not switch to a fill rectangle with a raw height).
 
 ```
-LTR, Inset=Start   │      ──────────────────────│
-RTL, Inset=Start   │──────────────────────      │
+LTR, Inset=Start              │      ──────────────────────│
+RTL, Inset=Start              │──────────────────────      │
+Show label on (LTR and RTL)   │─────────── or ───────────│
 ```
 
 #### D4 Properties
@@ -219,14 +252,16 @@ RTL, Inset=Start   │───────────────────�
 | `Emphasis` | VARIANT | `Subtle` · `Default` · `Strong` | `Default` | `emphasis` | `'subtle'` · `'default'` · `'strong'` |
 | `Inset` | VARIANT | `None` · `Start` · `Both` | `None` | `inset` | `'none'` · `'start'` · `'both'` |
 | `Direction` | VARIANT | `LTR` · `RTL` | `LTR` | — | Figma only; code mirrors automatically |
+| `Show label` | BOOLEAN | | `false` | `showLabel` | `true` · `false` |
+| `Label` | TEXT | | `or` | `label` | the text |
 
-`decorative` is code-only (no Figma property).
+`decorative` and `component` are code-only (no Figma property).
 
 #### D5 Variants to generate
 
 - Horizontal: 3 Emphasis × 3 Inset × LTR = 9, plus Inset=Start × RTL × 3 Emphasis = 3
 - Vertical: 3 Emphasis × (None · Both) × LTR = 6 (Start is invalid, B1)
-- Total **18**. Grid: rows = Orientation × Inset × Direction, columns = Emphasis; gap `spacing/xl`
+- Total **18** — the label is a BOOLEAN + TEXT property, not a variant. Grid: rows = Orientation × Inset × Direction, columns = Emphasis; gap `spacing/xl`
 
 #### D6 States, interactions and motion
 
@@ -234,21 +269,21 @@ None.
 
 #### D7 RTL
 
-Method: `Direction=RTL` variants only where the result differs (Horizontal · Inset=Start): padding on the right instead of the left. All other variants look the same in both directions. Doc page 08 shows an inset divider in an Arabic list (sample copy from A6: الإشعارات).
+Method: `Direction=RTL` variants only where the result differs (Horizontal · Inset=Start): padding on the right instead of the left. All other variants look the same in both directions, including a shown label (centred). Doc page 08 shows an inset divider in an Arabic list (sample copy from A6: الإشعارات) and a labelled divider with “أو” in `Web/ar/caption/md`.
 
 #### D8 Documentation pages
 
-Standard 12 pages from the Doc Kit (Annotation library), section `Divider — Documentation`. Page notes: 01 Introduction = a card with sections separated by a default divider, Light + Dark; 03 Variations = orientation, emphasis, inset; 05 Usage = spacing first vs divider, toolbar with vertical dividers; 07 Platform = `Doc/Device frame` Desktop + Web narrow with a list and a toolbar; 08 RTL = Inset=Start in LTR and RTL; 09 Accessibility = separator vs decorative.
+Standard 12 pages from the Doc Kit (Annotation library), section `Divider — Documentation`. Page notes: 01 Introduction = a card with sections separated by a default divider, Light + Dark; 03 Variations = orientation, emphasis, inset, show label; 05 Usage = spacing first vs divider, toolbar with vertical dividers, “or” between two sign-in buttons; 06 Content = label copy from A6 (EN / AR); 07 Platform = `Doc/Device frame` Desktop + Web narrow with a list and a toolbar; 08 RTL = Inset=Start and a labelled divider in LTR and RTL; 09 Accessibility = separator vs decorative, label as the separator's name; 10 Changes from previous version = F0.
 
-Component description: “Thin line that separates groups of content. Spec: 3-web-components/components/divider/divider.md”.
+Component description: “Thin line that separates groups of content, with an optional centred label. Spec: 3-web-components/components/divider/divider.md”.
 
 ## 9. Phase 2 — documentation pages and Components List card
 
 ### D8 Documentation pages
 
-As Web D8; 07 Platform uses `Doc/Device frame` Phone with a list and a bottom sheet.
+As Web D8; 07 Platform uses `Doc/Device frame` Phone with a list and a bottom sheet. Labelled samples use `Mobile/en/caption/md` (“or”) and `Mobile/ar/caption/md` (“أو”).
 
-Component description: “Thin line that separates groups of content. Spec: 5-mobile-components/components/divider/divider.md”.
+Component description: “Thin line that separates groups of content, with an optional centred label. Spec: 5-mobile-components/components/divider/divider.md”.
 
 ### Doc Kit components (keys)
 
@@ -449,7 +484,7 @@ Component description field (Figma "Description"): one line from A1 + link to th
 
 ## 10. Code Connect
 
-`5-mobile-components/lib/src/components/divider/bw_divider.figma.dart` — `Orientation` → `orientation: BwDividerOrientation.*`, `Emphasis` → `emphasis: BwDividerEmphasis.*`, `Inset` → `inset: BwDividerInset.*`; `Direction` not mapped. Publish after code and Figma are both `Approved`.
+`5-mobile-components/lib/src/components/divider/bw_divider.figma.dart` — `Orientation` → `orientation: BwDividerOrientation.*`, `Emphasis` → `emphasis: BwDividerEmphasis.*`, `Inset` → `inset: BwDividerInset.*`, `Show label` → `showLabel`, `Label` → `label`; `Direction` not mapped. Publish after code and Figma are both `Approved`.
 
 ## 11. Rules
 
@@ -460,8 +495,8 @@ All rules in **D1** (§8 and the inherited Web D1), plus:
 ## 12. Acceptance criteria (the Reviewer checks exactly these)
 
 - [ ] F-AC-1 Set on `↳ Divider` in the Mobile file as Web D2–D3
-- [ ] F-AC-2 Properties as Web D4; 18 variants, no Vertical · Start
-- [ ] F-AC-3 Zero raw values; bound to Foundations variables; token lint 0
+- [ ] F-AC-2 Properties as Web D4 (with `Show label` and `Label`); 18 variants, no Vertical · Start
+- [ ] F-AC-3 Zero raw values; bound to Foundations variables; label uses `Mobile/{en|ar}/caption/md`; token lint 0
 - [ ] F-AC-4 Light / Dark by variable mode only; RTL per Web D7
 - [ ] F-AC-5 Docs from the Doc Kit (or reported blocked); Components List card; Code Connect after approval
 
