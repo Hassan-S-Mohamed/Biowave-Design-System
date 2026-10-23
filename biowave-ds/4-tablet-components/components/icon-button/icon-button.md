@@ -14,11 +14,11 @@
 | Import | `BwIconButton` from `package:biowave_tablet/biowave_tablet.dart` |
 | Figma | **Biowave DS — Tablet Components** › `↳ Icon Button` (page Typography mode `Tablet`) · [Part D](#d--figma-build) |
 | Version | 1.0 · 2026-10-16 |
-| Plan | Open |
+| Plan | Finished |
 | Code | Changes requested |
 | Figma build | Planned |
 | Review | Round 1 · 2026-10-23 · Changes requested |
-| Source code | `lib/src/components/icon-button/` — not built yet (the Executor creates it) |
+| Source code | `lib/src/components/icon_button/bw_icon_button.dart` |
 | Tokens | — (no component tokens yet) |
 | Contracts | [`icon-button-contract.md`](icon-button-contract.md) · [`figma-icon-button-contract.md`](figma-icon-button-contract.md) — generated, never edited |
 | Docs page | [`icon-button.html`](icon-button.html) |
@@ -262,11 +262,11 @@ Structure, properties, the Figma ↔ code mapping and Code Connect: [Part D](#d-
 | Component | Icon button |
 | Platform | Tablet (Flutter + M3) |
 | Depends on | BwButton **Built** |
-| Plan version | 1 · 2026-10-16 |
+| Plan version | 1.1 · 2026-10-23 (review round 1: goldens in C5) |
 
 ### C1 Goal
 
-`BwIconButton` meets B1–B6 and passes C9 using only tokens and the shared button helpers.
+`BwIconButton` meets B1–B6 and passes C6 / B9 using only tokens and the shared button helpers.
 
 ### C2 Scope
 
@@ -285,6 +285,7 @@ None.
 ```
 4-tablet-components/lib/src/components/icon_button/bw_icon_button.dart   new (reuses BwButtonStyle, BwControlSize, focus ring)
 4-tablet-components/test/icon_button_test.dart                           new
+4-tablet-components/test/goldens/icon_button/                            new (generated goldens)
 4-tablet-components/lib/biowave_tablet.dart                                       change: export
 4-tablet-components/README.md                                            change: status row
 ```

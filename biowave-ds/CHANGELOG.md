@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Plan — Tablet Icon button 1.1] — 2026-10-23
+### Changed
+- Icon button (tablet) plan 1.1 fixes the Planner findings of review round 1 (Part E2 of `4-tablet-components/components/icon-button/icon-button.md`): #2 C5 now authorises `4-tablet-components/test/goldens/icon_button/` (generated goldens) so B9's PNG goldens are allowed; #4 header "Source code" → `lib/src/components/icon_button/bw_icon_button.dart`; #5 C1 "passes C9" → "passes C6 / B9". Plan → Finished (header + README); contract regenerated. Implementer findings #1, #3 untouched.
+
 ## [Review — Tablet Icon button round 1: Changes requested] — 2026-10-23
 ### Changed
 - Icon button (tablet) review round 1: **Changes requested** — Part E2 of `4-tablet-components/components/icon-button/icon-button.md`. 🔴 #1 the outer `Semantics(excludeSemantics: true)` exposes no tap action, so screen readers cannot activate the button (Implementer). 🟡 #2 B9 goldens are not authorised by C5 — answers the C8 question; Planner adds `test/goldens/icon_button/` (Planner). 🟢 #3 icon swap is fade-in not cross-fade; #4 stale "Source code" header; #5 C1 cites a missing C9. Plan → Open, Code → Changes requested (header + README). `docs:check` ✓, `flutter analyze` ✓, `flutter test` 147/147 ✓.
