@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Plan — Mobile Text field 1.2] — 2026-10-24
+### Changed
+- Text field (mobile) plan 1.2 fixes the Planner findings of review round 1 (Part E2 of `5-mobile-components/components/text-field/text-field.md`): #6 end-button corners, #7 B4 motion, #8 `placeholder`. B1 adds `placeholder` (`String?`, format hint, as Web B1). B2 / C3 / C5: the end button's square start corners come from a package-private `segment` on `BwButton` (`BwButtonSegment` + `BwButtonStyle.borderRadius` in `bw_button_style.dart`, not exported; default button unchanged; same mechanism as the Split button plan); painting-context interception and clipping are not allowed. B4: Flutter `InputDecorator`'s border and helper ↔ error transition is an accepted platform limit (fixed duration, no reduced motion); Biowave-owned part transitions use `BwDuration.sm` / `BwEasing.standard` and `BwDuration.instant` under reduced motion; AC-3, AC-8 and C6 made checkable. Same decisions as the Tablet plan 1.2. Part A unchanged. Plan → Finished (header + README); contract regenerated. Implementer findings #1–#5, #9, #10 untouched.
+
 ## [Review — Mobile Text field round 1: Changes requested] — 2026-10-24
 ### Changed
 - Text field (mobile) review round 1: **Changes requested** — Part E2 of `5-mobile-components/components/text-field/text-field.md`. 1 🔴 (two text-field semantics nodes; the editable one has no name), 6 🟡 (semantics/keyboard/tooltip tests, help icon not after the label, help target grows the label row, add-ons hide the outline, end-button corners vs `BwButton` (Planner), B4 motion vs `InputDecorator` (Planner)), 3 🟢. Plan → Open; Code → Changes requested (header + README). `docs:check` ✓, `flutter analyze` ✓, `flutter test` 148/148 ✓, `sync` READY.

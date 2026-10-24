@@ -1,4 +1,4 @@
-<!-- GENERATED from text-field.md @ 9502d37def9df264 — do not edit; change the source and run: npm run contract -- mobile text-field -->
+<!-- GENERATED from text-field.md @ d9e1c84bf01138af — do not edit; change the source and run: npm run contract -- mobile text-field -->
 # Text field · حقل نص — Mobile — Figma contract
 
 > **Everything the Figma Agent needs to build Text field in the Mobile Components file, with our variables and styles.** Read this file only. Generated from [`text-field.md`](text-field.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-18). Questions go to [D11 Execution log](text-field.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
@@ -11,8 +11,8 @@
 | Page | `↳ Text field` (one page per component) |
 | Component | Text field · حقل نص |
 | Platform | Mobile · Flutter + Material 3 |
-| Version | 1.1 · 2026-10-18 (first Mobile version; same guidelines version as Web 1.1) |
-| Source | [`text-field.md`](text-field.md) @ `9502d37def9df264` |
+| Version | 1.2 · 2026-10-24 (spec and code plan 1.2; guidelines unchanged, same as Web 1.1) |
+| Source | [`text-field.md`](text-field.md) @ `d9e1c84bf01138af` |
 
 ## 1. Library connections in this file
 
@@ -140,6 +140,7 @@ Library file **Google · Material Symbols** · key `RXlnhYgUKBBE6HveEr7e9C` — 
 |---|---|---|---|---|---|
 | `label` | `String` | | | ✓ | Persistent visible and accessible name |
 | `hideLabel` | `bool` | | `false` | | Hides the visible label; the accessible name stays |
+| `placeholder` | `String?` | | | | Format hint shown while the field is empty (`InputDecoration.hintText`, B3 `placeholder`); never the accessible name (as Web B1) |
 | `size` | `BwControlSize` | `lg` (`sm` / `md` assert, fall back to `lg`) | `lg` | | A4.1 · A8 |
 | `controller` · `initialValue` | `TextEditingController?` · `String?` | | | | Controlled or uncontrolled value (`TextFormField` rules: not both) |
 | `onChanged` · `onSubmitted` · `onTap` | callbacks | | | | |
@@ -198,6 +199,7 @@ Shared for every size: radius `radius-md` · border `border-width-default` / foc
 - **Touch targets:** Only `lg` exists, so the field is always ≥ 48. `trailing-action`, `help-icon` and `end-button` keep a 48 hit area via `MaterialTapTargetSize.padded`, extended invisibly so layout does not change.
 - **Text scale:** label, value and supporting text scale with the system text scale; the field grows in height (`isDense: false`, `constraints` with a min height, never a fixed max) and never clips.
 - **Keyboard:** the field scrolls into view above the on-screen keyboard (`scrollPadding` = `EdgeInsets.all(BwSpacing.xl3)`).
+- **End button:** the field's end corners and the end button's start corners are square; the outer corners keep `radius-md`; the button overlaps the field by `border-width-default` so one border shows at the seam (as Web B2). The button's corners come from the internal `BwButton` `segment` (C3).
 
 Flutter access: `size-control-height-lg` → `BwSize.controlHeightLg` · `spacing-control-padding-inline-lg` → `BwSpacing.controlPaddingInlineLg` · `spacing-xs` → `BwSpacing.xs` · `radius-md` → `BwRadius.md` · `border-width-focus` → `BwBorder.widthFocus` · `body-lg` → `context.bw.text.bodyLg` · colours → `context.bw.colors.<camelCase>` (e.g. `borderInputDefault`) · `target-min` → `BwLayout.mobile.minTarget`.
 
@@ -218,7 +220,15 @@ Identical to [Web B3](../../../3-web-components/components/text-field/text-field
 
 ### B4 States and transitions
 
-Same as [Web B4](../../../3-web-components/components/text-field/text-field.md#b4-states-and-transitions) without pointer hover on touch. Durations `BwDuration.sm`, easing `BwEasing.standard`; reduced motion (`MediaQuery.disableAnimationsOf`) makes them instant.
+Same triggers as [Web B4](../../../3-web-components/components/text-field/text-field.md#b4-states-and-transitions); Hover only when a pointer is attached. On Flutter the transitions are split by who draws them:
+
+| Transition | Drawn by | Duration · easing | Reduced motion (`context.bw.reduceMotion`) |
+|---|---|---|---|
+| `field` border colour and width (focus, hover, error, disabled, read-only) · `supporting-text` helper ↔ error swap (with `error-icon`) | Flutter `InputDecorator` (built in) | Flutter's fixed internal duration and curve; the error line fades in with a short vertical slide. No API sets them | **Not applied** — platform limit, accepted |
+| Every transition inside the Biowave parts `BwFieldLabel`, `BwFieldAddon`, `BwFieldSupporting` (e.g. `label` colour, add-on background, text and divider colour) | Biowave | `BwDuration.sm` · `BwEasing.standard`; enabled ↔ disabled / read-only `BwDuration.instant` | `BwDuration.instant` |
+| Help tooltip · end button · trailing action | `Tooltip` · `BwButton` · `BwIconButton` | As their own B4 (the tooltip fade is Flutter's fixed one) | As their own B4 |
+
+Platform limit (accepted, as for the tooltip fade on Icon button): the `InputDecorator` transition is short and does not follow `BwDuration.sm` or reduced motion. Do not re-implement or fork `InputDecorator`, wrap it in `TickerMode`, or paint the border yourself to change it. The value, selection and focus are never reset by a visual transition.
 
 ### B5 RTL
 
