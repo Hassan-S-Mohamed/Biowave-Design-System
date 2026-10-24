@@ -21,6 +21,7 @@
 
 | Gate | Decision | Notes |
 |---|---|---|
+| after-plan (1.1) | **Approve** (2026-10-24) | `component="li"` always `aria-hidden` approved. Next: implement web → tablet → mobile |
 | (plan questions, 2026-10-23) | User answers to 1.0 questions | Inset: keep 16 px, List adds its own · text on divider: yes, show/hide prop · `decorative` default: no · web `component="li"`: yes |
 
 ## Questions raised
