@@ -27,6 +27,7 @@
 
 | Gate | Decision | Notes |
 |---|---|---|
+| after-review (R2) | **Approve** (2026-10-24) | Fix round 2 (last allowed) with codex for #1, #2, then review round 3 |
 | after-plan (1.1) | **Approve** (2026-10-24) | Fix round 1 → review round 2 → before-merge; no new previews. First a small Planner step: contrast pair `color-text-on-warning` / `color-icon-role-warning` (4.5:1) in `contrast-pairs.json` + `npm run tokens` |
 | before-merge | **Plan 1.1 first** (2026-10-24) | Planner fixes Round 1 Planner nits #1–#3 (light `count` × `warning` contrast vs B6 3:1), then a small fix if code changes, then the before-merge gate |
 | after-plan | **Approve** (2026-10-23) | Next: implement web + tablet; mobile after mobile Icon |
