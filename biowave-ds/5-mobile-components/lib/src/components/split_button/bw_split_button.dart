@@ -7,30 +7,32 @@ import '../button/bw_button.dart';
 import '../icon/bw_icon.dart';
 import '../icon_button/bw_icon_button.dart';
 
-/// A single menu option in [BwSplitButton].
-class BwSplitButtonOption {
+enum _MenuFocusTarget { none, first, last }
+
+/// One alternative exposed by [BwSplitButton]'s menu.
+@immutable
+final class BwSplitButtonOption {
   const BwSplitButtonOption({
     required this.label,
     required this.onSelected,
     this.icon,
     this.enabled = true,
-  }) : assert(label != '', 'BwSplitButtonOption needs a label');
+  }) : assert(label != '', 'BwSplitButtonOption needs a non-empty label');
 
-  /// Visible label for this menu item.
+  /// Human-readable option label.
   final String label;
 
-  /// Callback invoked when the user chooses this option.
-  final VoidCallback? onSelected;
+  /// Callback executed when this option is selected.
+  final VoidCallback onSelected;
 
-  /// Optional leading icon (`Symbols.*_rounded`).
+  /// Optional leading icon on this menu item.
   final IconData? icon;
 
   /// Whether this option can be selected.
   final bool enabled;
 }
 
-/// A split button pairing a primary [BwButton] action with a [BwIconButton]
-/// menu trigger and a temporary Material 3 [MenuAnchor] menu (until Menu on Day 10).
+/// A primary action paired with a short menu of related alternatives.
 class BwSplitButton extends StatefulWidget {
   BwSplitButton({
     required this.label,
@@ -44,48 +46,51 @@ class BwSplitButton extends StatefulWidget {
     this.loadingLabel,
     this.menuLabel,
     super.key,
-  })  : assert(
-          label.isNotEmpty,
-          'BwSplitButton needs a label',
-        ),
+  })  : assert(label.isNotEmpty, 'BwSplitButton needs a non-empty label'),
         assert(
-          variant != BwButtonVariant.text,
+          variant == BwButtonVariant.filled ||
+              variant == BwButtonVariant.tonal ||
+              variant == BwButtonVariant.outlined,
           'BwSplitButton supports filled, tonal, and outlined variants only',
         ),
         assert(
-          color != BwButtonColor.error && color != BwButtonColor.inverse,
+          color == BwButtonColor.brand ||
+              color == BwButtonColor.secondary ||
+              color == BwButtonColor.neutral,
           'BwSplitButton supports brand, secondary, and neutral colors only',
         ),
         assert(
-          !(variant == BwButtonVariant.tonal &&
-              color == BwButtonColor.neutral),
-          'BwSplitButton tonal supports brand and secondary colors only',
+          !(variant == BwButtonVariant.tonal && color == BwButtonColor.neutral),
+          'BwSplitButton tonal does not support neutral color',
         ),
         assert(
           options.length >= 2 && options.length <= 5,
-          'BwSplitButton requires between 2 and 5 options',
+          'BwSplitButton options must have between 2 and 5 items',
         ),
         assert(
-          options.every((option) => option.label != label),
-          'Do not repeat the primary action in the menu',
+          !options.any((option) => option.label == label),
+          'BwSplitButton option labels must differ from the primary action label',
         );
 
-  /// Label for the `primary-action` button.
+  /// Chevron half turn when expanded (B4).
+  static const double chevronHalfTurn = 0.5;
+
+  /// Primary action label.
   final String label;
 
-  /// Callback for the primary action; `null` disables both parts.
+  /// Primary action callback. Null disables both parts.
   final VoidCallback? onPressed;
 
-  /// Related alternative actions (2–5 items).
+  /// Alternatives shown in the menu (2–5 items).
   final List<BwSplitButtonOption> options;
 
-  /// Visual emphasis shared by both parts (`filled`, `tonal`, `outlined`).
+  /// Visual style variant for both parts.
   final BwButtonVariant variant;
 
-  /// Semantic colour shared by both parts (`brand`, `secondary`, `neutral`).
+  /// Color palette for both parts.
   final BwButtonColor color;
 
-  /// Control size shared by both parts (`sm`, `md`, `lg`, `xl`).
+  /// Control size for both parts.
   final BwControlSize size;
 
   /// Optional leading icon on the `primary-action` button.
@@ -106,21 +111,22 @@ class BwSplitButton extends StatefulWidget {
 }
 
 class _BwSplitButtonState extends State<BwSplitButton> {
-  static const double _expandedTurns =
-      BwIconAxes.fillSelected / BwBorder.widthStrong;
-
   final GlobalKey _containerKey = GlobalKey();
-  final GlobalKey _firstItemKey = GlobalKey();
+  final GlobalKey _menuSurfaceKey = GlobalKey();
   final MenuController _menuController = MenuController();
-  late final FocusNode _primaryFocusNode = FocusNode();
-  late final FocusNode _triggerFocusNode = FocusNode(
-    onKeyEvent: _handleTriggerKeyEvent,
+  late final FocusNode _primaryFocusNode = FocusNode(
+    debugLabel: 'BwSplitButton.primary-action',
   );
-  final List<FocusNode> _itemFocusNodes = <FocusNode>[];
+  late final FocusNode _triggerFocusNode = FocusNode(
+    debugLabel: 'BwSplitButton.menu-trigger',
+  );
+  final List<FocusNode> _optionFocusNodes = <FocusNode>[];
+  final WidgetStatesController _triggerStates = WidgetStatesController();
 
   bool _isOpen = false;
-  double _containerWidth = BwSpacing.none;
-  double _menuWidth = BwSpacing.none;
+  bool _restoreFocusOnClose = true;
+  double? _containerWidth;
+  double? _menuWidth;
 
   BwButtonColor get _effectiveColor =>
       widget.color == BwButtonColor.error ||
@@ -144,78 +150,65 @@ class _BwSplitButtonState extends State<BwSplitButton> {
   @override
   void initState() {
     super.initState();
-    _syncItemFocusNodes();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _measureContainer());
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _measureContainer());
+    _syncOptionFocusNodes();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final box =
+          _containerKey.currentContext?.findRenderObject() as RenderBox?;
+      if (box != null && box.hasSize) {
+        setState(() => _containerWidth = box.size.width);
+      }
+    });
   }
 
   @override
   void didUpdateWidget(BwSplitButton oldWidget) {
     super.didUpdateWidget(oldWidget);
-    _syncItemFocusNodes();
+    _syncOptionFocusNodes();
     if (!_triggerEnabled && _menuController.isOpen) {
       _menuController.close();
     }
-    WidgetsBinding.instance.addPostFrameCallback((_) => _measureContainer());
+  }
+
+  void _syncOptionFocusNodes() {
+    while (_optionFocusNodes.length < widget.options.length) {
+      final index = _optionFocusNodes.length;
+      _optionFocusNodes.add(
+        FocusNode(debugLabel: 'BwSplitButton.option.$index'),
+      );
+    }
+    while (_optionFocusNodes.length > widget.options.length) {
+      _optionFocusNodes.removeLast().dispose();
+    }
   }
 
   @override
   void dispose() {
+    for (final node in _optionFocusNodes) {
+      node.dispose();
+    }
     _primaryFocusNode.dispose();
     _triggerFocusNode.dispose();
-    for (final node in _itemFocusNodes) {
-      node
-        ..removeListener(_handleItemFocusChange)
-        ..dispose();
-    }
+    _triggerStates.dispose();
     super.dispose();
   }
 
-  void _handleItemFocusChange() {
-    if (mounted) {
-      setState(() {});
-    }
-  }
-
-  void _syncItemFocusNodes() {
-    while (_itemFocusNodes.length < widget.options.length) {
-      _itemFocusNodes.add(
-        FocusNode(onKeyEvent: _handleMenuItemKeyEvent)
-          ..addListener(_handleItemFocusChange),
-      );
-    }
-    while (_itemFocusNodes.length > widget.options.length) {
-      _itemFocusNodes.removeLast()
-        ..removeListener(_handleItemFocusChange)
-        ..dispose();
-    }
-  }
-
-  double _resolveMenuWidth(BuildContext context, TextStyle itemTextStyle) {
+  double _estimateMenuWidth(BuildContext context) {
+    final text = context.bw.text.bodyMd;
     final textScaler = MediaQuery.textScalerOf(context);
     final textDirection = Directionality.of(context);
     final locale = Localizations.maybeLocaleOf(context);
-    final effectiveStyle =
-        DefaultTextStyle.of(context).style.merge(itemTextStyle);
-    var maxWidth = _containerWidth;
-    if (_menuWidth > maxWidth) {
-      maxWidth = _menuWidth;
-    }
+    var maxWidth = _containerWidth ?? 0.0;
     for (final option in widget.options) {
       final painter = TextPainter(
-        text: TextSpan(text: option.label, style: effectiveStyle),
+        text: TextSpan(text: option.label, style: text),
         maxLines: 1,
         textDirection: textDirection,
         textScaler: textScaler,
         locale: locale,
       )..layout();
       final iconWidth = option.icon == null
-          ? BwSpacing.none
+          ? 0.0
           : BwSize.iconMd + BwSpacing.controlGapMd;
       final itemWidth = BwSpacing.controlPaddingInlineMd +
           iconWidth +
@@ -229,140 +222,18 @@ class _BwSplitButtonState extends State<BwSplitButton> {
     return maxWidth;
   }
 
-  void _measureContainer() {
-    if (!mounted) {
-      return;
-    }
-    final renderObject = _containerKey.currentContext?.findRenderObject();
-    final itemObject = _firstItemKey.currentContext?.findRenderObject();
-    final nextContainerWidth =
-        renderObject is RenderBox && renderObject.hasSize
-            ? renderObject.size.width
-            : _containerWidth;
-    final nextMenuWidth = itemObject is RenderBox && itemObject.hasSize
-        ? itemObject.size.width
-        : _menuWidth;
-    if (nextContainerWidth != _containerWidth || nextMenuWidth != _menuWidth) {
-      setState(() {
-        _containerWidth = nextContainerWidth;
-        _menuWidth = nextMenuWidth;
-      });
-    }
-  }
-
-  List<int> get _enabledOptionIndices => <int>[
-        for (var i = 0; i < widget.options.length; i++)
-          if (widget.options[i].enabled &&
-              widget.options[i].onSelected != null)
-            i,
-      ];
-
-  void _openMenu({required bool focusLast}) {
-    if (!_triggerEnabled) {
-      return;
-    }
-    final renderObject = _containerKey.currentContext?.findRenderObject();
-    if (renderObject is RenderBox && renderObject.hasSize) {
-      _containerWidth = renderObject.size.width;
-    }
-    _menuController.open();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted || !_menuController.isOpen) {
-        return;
-      }
-      _measureContainer();
-      final enabledIndices = _enabledOptionIndices;
-      if (enabledIndices.isEmpty) {
-        return;
-      }
-      final targetIndex =
-          focusLast ? enabledIndices.last : enabledIndices.first;
-      _itemFocusNodes[targetIndex].requestFocus();
-    });
-  }
-
-  void _toggleMenu() {
-    if (!_triggerEnabled) {
-      return;
-    }
-    if (_menuController.isOpen) {
-      _menuController.close();
-    } else {
-      _openMenu(focusLast: false);
-    }
-  }
-
-  void _handleMenuOpen() {
-    if (!mounted) {
-      return;
-    }
-    final renderObject = _containerKey.currentContext?.findRenderObject();
-    final measuredWidth = renderObject is RenderBox && renderObject.hasSize
-        ? renderObject.size.width
-        : _containerWidth;
-    setState(() {
-      _containerWidth = measuredWidth;
-      _isOpen = true;
-    });
-    WidgetsBinding.instance.addPostFrameCallback((_) => _measureContainer());
-  }
-
-  void _handleMenuClose() {
-    if (!mounted) {
-      return;
-    }
-    setState(() {
-      _isOpen = false;
-      _menuWidth = BwSpacing.none;
-    });
-    if (_triggerEnabled) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted && _triggerEnabled) {
-          _triggerFocusNode.requestFocus();
-        }
-      });
-    }
-  }
-
-  KeyEventResult _handleTriggerKeyEvent(FocusNode node, KeyEvent event) {
-    if (!_triggerEnabled || event is! KeyDownEvent) {
-      return KeyEventResult.ignored;
-    }
-    if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
-      _openMenu(focusLast: false);
-      return KeyEventResult.handled;
-    }
-    if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
-      _openMenu(focusLast: true);
-      return KeyEventResult.handled;
-    }
-    return KeyEventResult.ignored;
-  }
-
-  KeyEventResult _handleMenuItemKeyEvent(FocusNode node, KeyEvent event) {
-    if (event is! KeyDownEvent) {
-      return KeyEventResult.ignored;
-    }
-    final enabledIndices = _enabledOptionIndices;
-    if (enabledIndices.isEmpty) {
-      return KeyEventResult.ignored;
-    }
-    if (event.logicalKey == LogicalKeyboardKey.home) {
-      _itemFocusNodes[enabledIndices.first].requestFocus();
-      return KeyEventResult.handled;
-    }
-    if (event.logicalKey == LogicalKeyboardKey.end) {
-      _itemFocusNodes[enabledIndices.last].requestFocus();
-      return KeyEventResult.handled;
-    }
-    return KeyEventResult.ignored;
+  Offset _resolveAlignmentOffset(BuildContext context) {
+    final containerWidth = _containerWidth;
+    final menuWidth = _menuWidth ?? _estimateMenuWidth(context);
+    final extraWidth = containerWidth != null && menuWidth > containerWidth
+        ? menuWidth - containerWidth
+        : 0.0;
+    return Offset(-extraWidth, BwSpacing.xs);
   }
 
   @override
   Widget build(BuildContext context) {
     final colors = context.bw.colors;
-    final text = context.bw.text;
-    final elevation = context.bw.elevation;
     final reduceMotion = context.bw.reduceMotion;
 
     final effectiveMenuLabel = widget.menuLabel ??
@@ -370,116 +241,81 @@ class _BwSplitButtonState extends State<BwSplitButton> {
             ? 'خيارات أخرى لـ${widget.label}'
             : 'More options for ${widget.label}');
 
-    // TODO(menu): Replace temporary MenuAnchor/MenuItemButton styling with BwMenu on Day 10.
-    final menuStyle = MenuStyle(
-      backgroundColor: WidgetStatePropertyAll<Color>(colors.surfaceRaised),
-      surfaceTintColor:
-          WidgetStatePropertyAll<Color>(colors.backgroundTransparent),
-      shadowColor: WidgetStatePropertyAll<Color>(colors.shadowAmbient),
-      elevation: WidgetStatePropertyAll<double>(
-        elevation.elevation3.first.offset.dy,
-      ),
-      padding: const WidgetStatePropertyAll<EdgeInsetsGeometry>(
-        EdgeInsetsDirectional.zero,
-      ),
-      minimumSize: WidgetStatePropertyAll<Size>(
-        Size(_containerWidth, BwSpacing.none),
-      ),
-      shape: const WidgetStatePropertyAll<OutlinedBorder>(
-        RoundedRectangleBorder(
-          borderRadius: BorderRadiusDirectional.all(
-            Radius.circular(BwRadius.lg),
-          ),
-        ),
-      ),
-      alignment: AlignmentDirectional.bottomStart,
-      visualDensity: VisualDensity.standard,
+    const menuBorderRadius = BorderRadiusDirectional.all(
+      Radius.circular(BwRadius.lg),
     );
-
-    final itemStyle = ButtonStyle(
-      textStyle: WidgetStatePropertyAll<TextStyle>(text.bodyMd),
-      backgroundColor:
-          WidgetStatePropertyAll<Color>(colors.backgroundTransparent),
-      foregroundColor: WidgetStateProperty.resolveWith((states) {
-        if (states.contains(WidgetState.disabled)) {
-          return colors.textNeutralDisabled;
-        }
-        return colors.textNeutralDefault;
-      }),
-      iconColor: WidgetStateProperty.resolveWith((states) {
-        if (states.contains(WidgetState.disabled)) {
-          return colors.iconNeutralDisabled;
-        }
-        return colors.iconNeutralSubtle;
-      }),
-      iconSize: const WidgetStatePropertyAll<double>(BwSize.iconMd),
-      overlayColor: WidgetStateProperty.resolveWith((states) {
-        if (states.contains(WidgetState.disabled)) {
-          return colors.backgroundTransparent;
-        }
-        if (states.contains(WidgetState.pressed)) {
-          return colors.overlayPressed;
-        }
-        if (states.contains(WidgetState.hovered) ||
-            states.contains(WidgetState.focused)) {
-          return colors.overlayHover;
-        }
-        return colors.backgroundTransparent;
-      }),
-      side: WidgetStateProperty.resolveWith((states) {
-        if (!states.contains(WidgetState.disabled) &&
-            states.contains(WidgetState.focused)) {
-          return BorderSide(
-            width: BwBorder.widthFocus,
-            color: colors.borderFocus,
-          );
-        }
-        return BorderSide.none;
-      }),
-      padding: const WidgetStatePropertyAll<EdgeInsetsGeometry>(
-        EdgeInsetsDirectional.symmetric(
-          horizontal: BwSpacing.controlPaddingInlineMd,
-        ),
-      ),
-      minimumSize: WidgetStatePropertyAll<Size>(
-        Size(_containerWidth, BwSize.controlHeightMd),
-      ),
-      tapTargetSize: MaterialTapTargetSize.padded,
-      visualDensity: VisualDensity.standard,
-      animationDuration: reduceMotion ? BwDuration.instant : BwDuration.sm,
-      splashFactory: NoSplash.splashFactory,
-    );
-
-    final chevronDuration = reduceMotion
-        ? BwDuration.instant
-        : (_isOpen ? BwDuration.md : BwDuration.sm);
-    final chevronCurve =
-        _isOpen ? BwEasing.standardDecelerate : BwEasing.standardAccelerate;
-    final resolvedMenuWidth = _resolveMenuWidth(context, text.bodyMd);
-    final excessMenuWidth = resolvedMenuWidth > _containerWidth
-        ? resolvedMenuWidth - _containerWidth
-        : BwSpacing.none;
 
     return MenuAnchor(
       key: const ValueKey<String>('menu'),
       controller: _menuController,
       childFocusNode: _triggerFocusNode,
-      style: menuStyle,
-      alignmentOffset: Offset(-excessMenuWidth, BwSpacing.xs),
-      onOpen: _handleMenuOpen,
-      onClose: _handleMenuClose,
-      menuChildren: <Widget>[
-        for (var i = 0; i < widget.options.length; i++)
-          _buildMenuItem(context, i, itemStyle),
+      alignmentOffset: _resolveAlignmentOffset(context),
+      clipBehavior: Clip.none,
+      animated: !reduceMotion,
+      onOpen: _handleOpened,
+      onClose: _handleClosed,
+      style: MenuStyle(
+        alignment: AlignmentDirectional.bottomStart,
+        backgroundColor: WidgetStatePropertyAll<Color>(
+          colors.backgroundTransparent,
+        ),
+        shadowColor: WidgetStatePropertyAll<Color>(
+          colors.backgroundTransparent,
+        ),
+        surfaceTintColor: WidgetStatePropertyAll<Color>(
+          colors.backgroundTransparent,
+        ),
+        minimumSize: WidgetStatePropertyAll<Size>(
+          Size(_containerWidth ?? 0.0, 0.0),
+        ),
+        padding: const WidgetStatePropertyAll<EdgeInsetsGeometry>(
+          EdgeInsetsDirectional.all(BwSpacing.none),
+        ),
+        shape: const WidgetStatePropertyAll<OutlinedBorder>(
+          RoundedRectangleBorder(borderRadius: menuBorderRadius),
+        ),
+      ),
+      menuChildren: [
+        Builder(
+          builder: (context) {
+            final menuColors = context.bw.colors;
+            return Focus(
+              canRequestFocus: false,
+              skipTraversal: true,
+              onKeyEvent: _handleMenuKeyEvent,
+              child: DecoratedBox(
+                key: _menuSurfaceKey,
+                decoration: BoxDecoration(
+                  color: menuColors.surfaceRaised,
+                  borderRadius: menuBorderRadius,
+                  boxShadow: context.bw.elevation.elevation3,
+                ),
+                child: ClipRRect(
+                  borderRadius: menuBorderRadius,
+                  child: IntrinsicWidth(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        for (var i = 0; i < widget.options.length; i++)
+                          _buildMenuItem(context, i, widget.options[i]),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
       ],
-      child: Semantics(
+      builder: (context, controller, child) => Semantics(
         key: _containerKey,
         container: true,
         label: widget.label,
         child: Row(
           key: const ValueKey<String>('container'),
           mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
+          children: [
             BwButton(
               key: const ValueKey<String>('primary-action'),
               label: widget.label,
@@ -497,25 +333,30 @@ class _BwSplitButtonState extends State<BwSplitButton> {
               key: ValueKey<String>('gap'),
               width: BwSpacing.xxs,
             ),
-            BwIconButton(
-              key: const ValueKey<String>('menu-trigger'),
-              icon: Symbols.expand_more_rounded,
-              label: effectiveMenuLabel,
-              onPressed: _triggerEnabled ? _toggleMenu : null,
-              variant: _effectiveVariant,
-              color: _effectiveColor,
-              size: widget.size,
-              focusNode: _triggerFocusNode,
-              segment: BwButtonSegment.end,
-              expanded: _isOpen,
-              iconChild: AnimatedRotation(
-                key: const ValueKey<String>('BwSplitButton.chevron'),
-                turns: _isOpen ? _expandedTurns : BwSpacing.none,
-                duration: chevronDuration,
-                curve: chevronCurve,
-                child: const BwIcon(
-                  icon: Symbols.expand_more_rounded,
-                ),
+            Focus(
+              canRequestFocus: false,
+              skipTraversal: true,
+              onKeyEvent: _handleTriggerKeyEvent,
+              child: BwIconButton(
+                key: const ValueKey<String>('menu-trigger'),
+                icon: Symbols.expand_more_rounded,
+                label: effectiveMenuLabel,
+                onPressed: _triggerEnabled ? _toggleMenu : null,
+                variant: _effectiveVariant,
+                color: _effectiveColor,
+                size: widget.size,
+                tooltip: false,
+                focusNode: _triggerFocusNode,
+                statesController: _triggerStates,
+                segment: BwButtonSegment.end,
+                iconTurns: _isOpen ? BwSplitButton.chevronHalfTurn : 0.0,
+                iconRotationDuration: reduceMotion
+                    ? BwDuration.instant
+                    : (_isOpen ? BwDuration.md : BwDuration.sm),
+                iconRotationCurve: _isOpen
+                    ? BwEasing.standardDecelerate
+                    : BwEasing.standardAccelerate,
+                expanded: _isOpen,
               ),
             ),
           ],
@@ -527,18 +368,17 @@ class _BwSplitButtonState extends State<BwSplitButton> {
   Widget _buildMenuItem(
     BuildContext context,
     int index,
-    ButtonStyle itemStyle,
+    BwSplitButtonOption option,
   ) {
-    final option = widget.options[index];
-    final focusNode = _itemFocusNodes[index];
-    final enabled = option.enabled && option.onSelected != null;
+    final focusNode = _optionFocusNodes[index];
+    final enabled = option.enabled;
 
     void activate() {
       _menuController.close();
-      option.onSelected?.call();
+      option.onSelected();
     }
 
-    final item = Semantics(
+    return Semantics(
       key: ValueKey<String>('BwSplitButton.option.$index'),
       container: true,
       label: option.label,
@@ -551,27 +391,275 @@ class _BwSplitButtonState extends State<BwSplitButton> {
       excludeSemantics: true,
       child: MenuItemButton(
         focusNode: focusNode,
-        style: itemStyle,
-        onPressed: enabled ? option.onSelected : null,
-        leadingIcon: option.icon == null
-            ? null
-            : Padding(
-                padding: const EdgeInsetsDirectional.only(
-                  end: BwSpacing.controlGapMd,
-                ),
-                child: BwIcon(
-                  icon: option.icon!,
-                  size: BwIconSize.md,
-                ),
+        requestFocusOnHover: false,
+        onPressed: enabled ? activate : null,
+        semanticsLabel: option.label,
+        style: _menuItemStyle(context),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            if (option.icon != null) ...[
+              BwIcon(
+                icon: option.icon!,
+                color: enabled ? BwIconColor.subtle : null,
+                directional: option.icon!.matchTextDirection,
               ),
-        child: Text(
-          option.label,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-          softWrap: false,
+              const SizedBox(width: BwSpacing.controlGapMd),
+            ],
+            Flexible(child: Text(option.label)),
+          ],
         ),
       ),
     );
-    return index == 0 ? KeyedSubtree(key: _firstItemKey, child: item) : item;
+  }
+
+  ButtonStyle _menuItemStyle(BuildContext context) {
+    final colors = context.bw.colors;
+    final reduceMotion = context.bw.reduceMotion;
+
+    return ButtonStyle(
+      minimumSize: WidgetStatePropertyAll<Size>(
+        Size(
+          _containerWidth ?? BwLayout.mobile.minTarget,
+          BwSize.controlHeightMd,
+        ),
+      ),
+      padding: const WidgetStatePropertyAll<EdgeInsetsGeometry>(
+        EdgeInsetsDirectional.symmetric(
+          horizontal: BwSpacing.controlPaddingInlineMd,
+        ),
+      ),
+      shape: const WidgetStatePropertyAll<OutlinedBorder>(
+        RoundedRectangleBorder(),
+      ),
+      tapTargetSize: MaterialTapTargetSize.padded,
+      textStyle: WidgetStatePropertyAll<TextStyle>(context.bw.text.bodyMd),
+      foregroundColor: WidgetStateProperty.resolveWith<Color>(
+        (states) => states.contains(WidgetState.disabled)
+            ? colors.textNeutralDisabled
+            : colors.textNeutralDefault,
+      ),
+      iconColor: WidgetStateProperty.resolveWith<Color>(
+        (states) => states.contains(WidgetState.disabled)
+            ? colors.iconNeutralDisabled
+            : colors.iconNeutralSubtle,
+      ),
+      overlayColor: WidgetStateProperty.resolveWith<Color>((states) {
+        if (states.contains(WidgetState.pressed)) {
+          return colors.overlayPressed;
+        }
+        if (states.contains(WidgetState.hovered) ||
+            states.contains(WidgetState.focused)) {
+          return colors.overlayHover;
+        }
+        return colors.backgroundTransparent;
+      }),
+      side: WidgetStateProperty.resolveWith<BorderSide?>((states) {
+        if (!states.contains(WidgetState.disabled) &&
+            states.contains(WidgetState.focused)) {
+          return BorderSide(
+            width: BwBorder.widthFocus,
+            color: colors.borderFocus,
+          );
+        }
+        return BorderSide.none;
+      }),
+      backgroundBuilder: (context, states, child) {
+        assert(child != null);
+        return DecoratedBox(
+          decoration: BoxDecoration(
+            border: states.contains(WidgetState.focused)
+                ? Border.all(
+                    color: colors.borderFocus,
+                    width: BwBorder.widthFocus,
+                  )
+                : null,
+          ),
+          child: child!,
+        );
+      },
+      animationDuration: reduceMotion ? BwDuration.instant : BwDuration.sm,
+      splashFactory: NoSplash.splashFactory,
+    );
+  }
+
+  KeyEventResult _handleTriggerKeyEvent(FocusNode node, KeyEvent event) {
+    if (event is! KeyDownEvent && event is! KeyRepeatEvent) {
+      return KeyEventResult.ignored;
+    }
+    if (event.logicalKey == LogicalKeyboardKey.tab && _menuController.isOpen) {
+      _closeMenuForTab(isShift: HardwareKeyboard.instance.isShiftPressed);
+      return KeyEventResult.handled;
+    }
+    if (!_triggerEnabled) return KeyEventResult.ignored;
+
+    if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
+      if (_menuController.isOpen) {
+        _focusEdgeOption(last: false);
+      } else {
+        _openMenu(focusTarget: _MenuFocusTarget.first);
+      }
+      return KeyEventResult.handled;
+    }
+    if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
+      if (_menuController.isOpen) {
+        _focusEdgeOption(last: true);
+      } else {
+        _openMenu(focusTarget: _MenuFocusTarget.last);
+      }
+      return KeyEventResult.handled;
+    }
+    if (event.logicalKey == LogicalKeyboardKey.enter ||
+        event.logicalKey == LogicalKeyboardKey.space) {
+      if (event is KeyRepeatEvent) return KeyEventResult.handled;
+      if (_menuController.isOpen) {
+        _menuController.close();
+      } else {
+        _openMenu(focusTarget: _MenuFocusTarget.first);
+      }
+      return KeyEventResult.handled;
+    }
+    return KeyEventResult.ignored;
+  }
+
+  KeyEventResult _handleMenuKeyEvent(FocusNode node, KeyEvent event) {
+    if (event is! KeyDownEvent && event is! KeyRepeatEvent) {
+      return KeyEventResult.ignored;
+    }
+    if (event.logicalKey == LogicalKeyboardKey.tab) {
+      _closeMenuForTab(isShift: HardwareKeyboard.instance.isShiftPressed);
+      return KeyEventResult.handled;
+    }
+    if (event.logicalKey == LogicalKeyboardKey.arrowDown) {
+      _moveOptionFocus(1);
+      return KeyEventResult.handled;
+    }
+    if (event.logicalKey == LogicalKeyboardKey.arrowUp) {
+      _moveOptionFocus(-1);
+      return KeyEventResult.handled;
+    }
+    if (event.logicalKey == LogicalKeyboardKey.home) {
+      _focusEdgeOption(last: false);
+      return KeyEventResult.handled;
+    }
+    if (event.logicalKey == LogicalKeyboardKey.end) {
+      _focusEdgeOption(last: true);
+      return KeyEventResult.handled;
+    }
+    if (event.logicalKey == LogicalKeyboardKey.escape) {
+      _menuController.close();
+      return KeyEventResult.handled;
+    }
+    return KeyEventResult.ignored;
+  }
+
+  void _closeMenuForTab({required bool isShift}) {
+    _restoreFocusOnClose = false;
+    _menuController.close();
+    _triggerFocusNode.requestFocus();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      if (isShift) {
+        _triggerFocusNode.previousFocus();
+      } else {
+        _triggerFocusNode.nextFocus();
+      }
+    });
+  }
+
+  void _focusEdgeOption({required bool last}) {
+    final indices = List<int>.generate(widget.options.length, (i) => i);
+    final ordered = last ? indices.reversed : indices;
+    for (final index in ordered) {
+      if (widget.options[index].enabled) {
+        _optionFocusNodes[index].requestFocus();
+        return;
+      }
+    }
+  }
+
+  void _moveOptionFocus(int delta) {
+    final count = widget.options.length;
+    if (count == 0) return;
+
+    final currentIndex = _optionFocusNodes.indexWhere((node) => node.hasFocus);
+    if (currentIndex == -1) {
+      _focusEdgeOption(last: delta < 0);
+      return;
+    }
+
+    for (var step = 1; step <= count; step++) {
+      final candidate = (currentIndex + delta * step) % count;
+      final index = candidate < 0 ? candidate + count : candidate;
+      if (widget.options[index].enabled) {
+        _optionFocusNodes[index].requestFocus();
+        return;
+      }
+    }
+  }
+
+  void _toggleMenu() {
+    if (_menuController.isOpen) {
+      _menuController.close();
+    } else {
+      _openMenu(focusTarget: _MenuFocusTarget.first);
+    }
+  }
+
+  void _openMenu({_MenuFocusTarget focusTarget = _MenuFocusTarget.none}) {
+    if (!_triggerEnabled || _menuController.isOpen) return;
+
+    final renderBox =
+        _containerKey.currentContext?.findRenderObject() as RenderBox?;
+    if (renderBox != null && renderBox.hasSize) {
+      _containerWidth = renderBox.size.width;
+    }
+    _restoreFocusOnClose = true;
+    _menuController.open();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted || !_menuController.isOpen) return;
+      final containerBox =
+          _containerKey.currentContext?.findRenderObject() as RenderBox?;
+      final measuredContainerWidth = containerBox != null && containerBox.hasSize
+          ? containerBox.size.width
+          : null;
+      final menuBox =
+          _menuSurfaceKey.currentContext?.findRenderObject() as RenderBox?;
+      final measuredMenuWidth =
+          menuBox != null && menuBox.hasSize ? menuBox.size.width : null;
+      if ((measuredContainerWidth != null &&
+              measuredContainerWidth != _containerWidth) ||
+          (measuredMenuWidth != null && measuredMenuWidth != _menuWidth)) {
+        setState(() {
+          if (measuredContainerWidth != null) {
+            _containerWidth = measuredContainerWidth;
+          }
+          if (measuredMenuWidth != null) {
+            _menuWidth = measuredMenuWidth;
+          }
+        });
+      }
+      if (focusTarget != _MenuFocusTarget.none) {
+        _focusEdgeOption(last: focusTarget == _MenuFocusTarget.last);
+      }
+    });
+  }
+
+  void _handleOpened() {
+    _triggerStates.update(WidgetState.pressed, true);
+    if (mounted) setState(() => _isOpen = true);
+  }
+
+  void _handleClosed() {
+    _triggerStates.update(WidgetState.pressed, false);
+    final restoreFocus = _restoreFocusOnClose;
+    _restoreFocusOnClose = true;
+    if (!mounted) return;
+    setState(() => _isOpen = false);
+    if (!restoreFocus) return;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted && _triggerEnabled) _triggerFocusNode.requestFocus();
+    });
   }
 }

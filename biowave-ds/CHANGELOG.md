@@ -2,6 +2,17 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Fixed — Mobile Split button review round 1] — 2026-10-24
+### Fixed
+- Fixed Mobile `BwSplitButton` review round 1 findings and implemented Plan 2:
+  - Handled Tab and Shift+Tab key events to close open menu and advance/restore focus (#1), with tests.
+  - Marked all internal parameters on `BwButton` (`segment`), `BwIconButton` (`segment`, `focusNode`, `autofocus`, `statesController`, `iconTurns`, `iconRotationDuration`, `iconRotationCurve`, `expanded`), and `BwButtonStyle.segmentBorderRadius` as `@internal`; hid `BwButtonSegment` from package public export (#3).
+  - Defined named `BwSplitButton.chevronHalfTurn = 0.5` constant for chevron rotation (#6).
+  - Extracted shared `BwButtonStyle.segmentBorderRadius(dimensions, segment)` helper in `bw_button_style.dart` reused by both buttons without copies (#7).
+  - Applied Plan 2 C3: reworked `BwIconButton` composite parameters to match contract §3, replaced `iconChild` with `AnimatedRotation` around glyph, and removed expanded-driven pressed state hack while keeping all existing button/icon-button tests passing.
+  - Applied Plan 2 B2/B3/B4/B6: decorated menu surface with `elevation-3` shadow (`DecoratedBox` + `ClipRRect`), transparent `MenuStyle(clipBehavior: Clip.none)`, chevron open `BwDuration.md` / close `BwDuration.sm`, menu `animated: !context.bw.reduceMotion`, and cyclic arrow key navigation.
+  - Regenerated all 4 goldens under `5-mobile-components/test/goldens/split_button/` per C5.
+
 ## [Plan — Mobile Split button plan 2 (review round 1)] — 2026-10-24
 ### Changed
 - Split button (mobile) plan 2 — Planner findings #2, #4, #5, #7, #8, #9, #10 of Review Round 1, mirroring tablet plan 2.1 (user-approved). B2: menu token table and `elevation-3` on a decorated surface (transparent `MenuStyle`, `Clip.none`). B3: menu item states. B4: chevron timing (open `md`, close `sm`), `MenuAnchor` built-in fade off under reduced motion. B6: menu arrows wrap, menu keys listed. C3 / C5: internal `BwButtonSegment` / `segment` (bw_button.dart), `segment` · `focusNode` · `autofocus` · `statesController` · `iconTurns` · `iconRotationDuration` · `iconRotationCurve` · `expanded` (bw_icon_button.dart), shared `BwButtonStyle.segmentBorderRadius(dimensions, segment)` (bw_button_style.dart) — all `@internal`, hidden from `biowave_mobile.dart`; goldens folder in C5. Header Source code corrected. Plan → Finished (header + README); contract regenerated.

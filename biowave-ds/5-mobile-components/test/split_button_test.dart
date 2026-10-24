@@ -313,12 +313,16 @@ void main() {
                 BwButtonColor.inverse => colors.backgroundInversePressed,
               };
               expect(
-                triggerStyle.backgroundColor!.resolve(<WidgetState>{}),
+                triggerStyle.backgroundColor!.resolve(
+                  triggerButton.statesController!.value,
+                ),
                 expectedPressed,
               );
             } else {
               expect(
-                triggerStyle.overlayColor!.resolve(<WidgetState>{}),
+                triggerStyle.overlayColor!.resolve(
+                  triggerButton.statesController!.value,
+                ),
                 colors.overlayPressed,
               );
             }
@@ -326,20 +330,42 @@ void main() {
             final menuAnchor = tester.widget<MenuAnchor>(
               find.byKey(const ValueKey<String>('menu')),
             );
+            expect(menuAnchor.clipBehavior, Clip.none);
             final menuStyle = menuAnchor.style!;
             expect(
               menuStyle.backgroundColor!.resolve(<WidgetState>{}),
-              colors.surfaceRaised,
+              colors.backgroundTransparent,
             );
             expect(
-              menuStyle.elevation!.resolve(<WidgetState>{}),
-              context.bw.elevation.elevation3.first.offset.dy,
+              menuStyle.shadowColor!.resolve(<WidgetState>{}),
+              colors.backgroundTransparent,
+            );
+            expect(
+              menuStyle.surfaceTintColor!.resolve(<WidgetState>{}),
+              colors.backgroundTransparent,
             );
             final menuShape = menuStyle.shape!.resolve(<WidgetState>{})!
                 as RoundedRectangleBorder;
             expect(
               menuShape.borderRadius.resolve(TextDirection.ltr),
               const BorderRadius.all(Radius.circular(BwRadius.lg)),
+            );
+
+            final surfaceBox = tester.widget<DecoratedBox>(
+              find.descendant(
+                of: find.byKey(const ValueKey<String>('menu')),
+                matching: find.byType(DecoratedBox),
+              ).first,
+            );
+            final surfaceDecoration = surfaceBox.decoration as BoxDecoration;
+            expect(surfaceDecoration.color, colors.surfaceRaised);
+            expect(
+              surfaceDecoration.boxShadow,
+              equals(context.bw.elevation.elevation3),
+            );
+            expect(
+              surfaceDecoration.borderRadius,
+              const BorderRadiusDirectional.all(Radius.circular(BwRadius.lg)),
             );
 
             final firstItem = tester.widget<MenuItemButton>(
@@ -414,10 +440,12 @@ void main() {
         ),
       );
 
-      final chevronFinder =
-          find.byKey(const ValueKey<String>('BwSplitButton.chevron'));
+      final chevronFinder = find.descendant(
+        of: find.byKey(const ValueKey<String>('menu-trigger')),
+        matching: find.byType(AnimatedRotation),
+      );
       final closedRotation = tester.widget<AnimatedRotation>(chevronFinder);
-      expect(closedRotation.turns, BwSpacing.none);
+      expect(closedRotation.turns, 0);
       expect(closedRotation.duration, BwDuration.sm);
       expect(closedRotation.curve, BwEasing.standardAccelerate);
 
@@ -425,7 +453,7 @@ void main() {
       await tester.pump();
 
       final openRotation = tester.widget<AnimatedRotation>(chevronFinder);
-      expect(openRotation.turns, 0.5);
+      expect(openRotation.turns, BwSplitButton.chevronHalfTurn);
       expect(openRotation.duration, BwDuration.md);
       expect(openRotation.curve, BwEasing.standardDecelerate);
 
@@ -433,12 +461,13 @@ void main() {
       await tester.pump();
 
       final closingRotation = tester.widget<AnimatedRotation>(chevronFinder);
-      expect(closingRotation.turns, BwSpacing.none);
+      expect(closingRotation.turns, 0);
       expect(closingRotation.duration, BwDuration.sm);
       expect(closingRotation.curve, BwEasing.standardAccelerate);
     });
 
-    testWidgets('reduced motion makes chevron and menu item transitions instant',
+    testWidgets(
+        'reduced motion makes chevron and menu item transitions instant',
         (tester) async {
       await pumpBw(
         tester,
@@ -450,11 +479,17 @@ void main() {
         reduceMotion: true,
       );
 
-      final chevronFinder =
-          find.byKey(const ValueKey<String>('BwSplitButton.chevron'));
+      final chevronFinder = find.descendant(
+        of: find.byKey(const ValueKey<String>('menu-trigger')),
+        matching: find.byType(AnimatedRotation),
+      );
       expect(
         tester.widget<AnimatedRotation>(chevronFinder).duration,
         BwDuration.instant,
+      );
+      expect(
+        tester.widget<MenuAnchor>(find.byType(MenuAnchor)).animated,
+        isFalse,
       );
 
       await tester.tap(find.byKey(const ValueKey<String>('menu-trigger')));
@@ -707,6 +742,130 @@ void main() {
         expect(triggerButton.focusNode!.hasFocus, isTrue);
       },
     );
+
+    testWidgets('Tab and Shift+Tab close the open menu and move focus on', (
+      tester,
+    ) async {
+      final trailingFocusNode = FocusNode(debugLabel: 'trailing');
+      addTearDown(trailingFocusNode.dispose);
+
+      await pumpBw(
+        tester,
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            BwSplitButton(
+              label: 'Export report',
+              onPressed: () {},
+              options: sampleOptions(),
+            ),
+            ElevatedButton(
+              focusNode: trailingFocusNode,
+              onPressed: () {},
+              child: const Text('After'),
+            ),
+          ],
+        ),
+      );
+
+      // Tab to primary, then Tab to trigger:
+      await tester.sendKeyEvent(LogicalKeyboardKey.tab);
+      await tester.sendKeyEvent(LogicalKeyboardKey.tab);
+      await tester.pump();
+
+      // Enter opens menu and focuses first option:
+      await tester.sendKeyEvent(LogicalKeyboardKey.enter);
+      await tester.pumpAndSettle();
+      expect(find.text('Export as Excel'), findsOneWidget);
+
+      // Tab closes the menu and moves focus to the trailing button:
+      await tester.sendKeyEvent(LogicalKeyboardKey.tab);
+      await tester.pumpAndSettle();
+      expect(find.text('Export as Excel'), findsNothing);
+      expect(trailingFocusNode.hasFocus, isTrue);
+
+      // Shift+Tab back to trigger:
+      await tester.sendKeyDownEvent(LogicalKeyboardKey.shiftLeft);
+      await tester.sendKeyEvent(LogicalKeyboardKey.tab);
+      await tester.sendKeyUpEvent(LogicalKeyboardKey.shiftLeft);
+      await tester.pump();
+
+      // Enter opens menu again:
+      await tester.sendKeyEvent(LogicalKeyboardKey.enter);
+      await tester.pumpAndSettle();
+      expect(find.text('Export as Excel'), findsOneWidget);
+
+      // Shift+Tab closes menu and moves focus back to primary:
+      await tester.sendKeyDownEvent(LogicalKeyboardKey.shiftLeft);
+      await tester.sendKeyEvent(LogicalKeyboardKey.tab);
+      await tester.sendKeyUpEvent(LogicalKeyboardKey.shiftLeft);
+      await tester.pumpAndSettle();
+      expect(find.text('Export as Excel'), findsNothing);
+      final primaryButton = tester.widget<FilledButton>(
+        find.descendant(
+          of: find.byKey(const ValueKey<String>('primary-action')),
+          matching: find.byType(FilledButton),
+        ),
+      );
+      expect(primaryButton.focusNode!.hasFocus, isTrue);
+    });
+
+    testWidgets('arrow keys wrap around enabled options in open menu', (
+      tester,
+    ) async {
+      await pumpBw(
+        tester,
+        BwSplitButton(
+          label: 'Export report',
+          onPressed: () {},
+          options: <BwSplitButtonOption>[
+            BwSplitButtonOption(
+              label: 'First',
+              onSelected: () {},
+            ),
+            BwSplitButtonOption(
+              label: 'Disabled',
+              enabled: false,
+              onSelected: () {},
+            ),
+            BwSplitButtonOption(
+              label: 'Last',
+              onSelected: () {},
+            ),
+          ],
+        ),
+      );
+
+      await tester.tap(find.byKey(const ValueKey<String>('menu-trigger')));
+      await tester.pumpAndSettle();
+
+      final firstItem = tester.widget<MenuItemButton>(
+        find.descendant(
+          of: find.byKey(const ValueKey<String>('BwSplitButton.option.0')),
+          matching: find.byType(MenuItemButton),
+        ),
+      );
+      final lastItem = tester.widget<MenuItemButton>(
+        find.descendant(
+          of: find.byKey(const ValueKey<String>('BwSplitButton.option.2')),
+          matching: find.byType(MenuItemButton),
+        ),
+      );
+
+      firstItem.focusNode!.requestFocus();
+      await tester.pump();
+      expect(firstItem.focusNode!.hasFocus, isTrue);
+
+      // ArrowUp on first option wraps to last option (skipping disabled):
+      await tester.sendKeyEvent(LogicalKeyboardKey.arrowUp);
+      await tester.pump();
+      expect(lastItem.focusNode!.hasFocus, isTrue);
+
+      // ArrowDown on last option wraps back to first option:
+      await tester.sendKeyEvent(LogicalKeyboardKey.arrowDown);
+      await tester.pump();
+      expect(firstItem.focusNode!.hasFocus, isTrue);
+    });
   });
 
   group('semantics, loading, and RTL', () {

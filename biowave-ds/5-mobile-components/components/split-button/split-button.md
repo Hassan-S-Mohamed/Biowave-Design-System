@@ -15,7 +15,7 @@
 | Figma | **Biowave DS — Mobile Components** › `↳ Split Button` (page Typography mode `Mobile`) · [Part D](#d--figma-build) |
 | Version | 1.0 · 2026-10-16 |
 | Plan | Finished |
-| Code | Changes requested |
+| Code | Built |
 | Figma build | Planned |
 | Review | Round 1 · 2026-10-24 · Changes requested |
 | Source code | `lib/src/components/split_button/bw_split_button.dart` |
@@ -350,8 +350,8 @@ B9, plus earlier button-family tests still pass.
 |---|---|
 | Agent | Antigravity |
 | Date | 2026-10-24 |
-| Files changed | `lib/src/components/split_button/bw_split_button.dart`; `test/split_button_test.dart`; `test/goldens/split_button/split-button-{light,dark}-{en,ar}.png`; `lib/src/components/button/bw_button.dart`; `lib/src/components/icon_button/bw_icon_button.dart`; `lib/biowave_mobile.dart`; `README.md`; `components/split-button/split-button.md`; `CHANGELOG.md` |
-| Checks | `cd 5-mobile-components && flutter analyze && flutter test` ✓ (139 tests passed); `npm run docs:check` ✓; `npm run sync` ✓ (READY) |
+| Files changed | `lib/src/components/split_button/bw_split_button.dart`; `test/split_button_test.dart`; `test/goldens/split_button/split-button-{light,dark}-{en,ar}.png`; `lib/src/components/button/bw_button.dart`; `lib/src/components/button/bw_button_style.dart`; `lib/src/components/icon_button/bw_icon_button.dart`; `lib/biowave_mobile.dart`; `README.md`; `components/split-button/split-button.md`; `CHANGELOG.md` |
+| Checks | `cd 5-mobile-components && flutter analyze && flutter test` ✓ (141 tests passed); `npm run docs:check` ✓; `npm run sync` ✓ (READY) |
 
 **What was built:**
 Implemented `BwSplitButton` and `BwSplitButtonOption` in `lib/src/components/split_button/bw_split_button.dart` exported from `lib/biowave_mobile.dart`, strictly conforming to contract §1–§9.
@@ -362,9 +362,21 @@ Implemented `BwSplitButton` and `BwSplitButtonOption` in `lib/src/components/spl
 - Reduced motion: honours `context.bw.reduceMotion`, setting chevron rotation and menu durations to `BwDuration.instant`.
 - Validation: asserts on invalid prop combinations (e.g. tonal with neutral, fewer than 2 or more than 5 options, duplicate labels) with release fallbacks.
 
-**Deviations:** none
+**Deviations:** none — all internal parameters are marked `@internal`, authorized by Plan 2 C3, and hidden from the package export via `hide BwButtonSegment` in `lib/biowave_mobile.dart`.
 
 **Questions for the Planner:** none
+
+#### Fix round 1 — 2026-10-24 (Antigravity)
+
+| Finding | What changed (`file:line`) | Test that proves it |
+|---|---|---|
+| #1 (🟡) Tab / Shift+Tab do not close the open menu | Handled Tab and Shift+Tab key events via `_closeMenuForTab` on trigger and options (`5-mobile-components/lib/src/components/split_button/bw_split_button.dart:490-493,529-532,556-568`), closing the menu, requesting trigger focus, and advancing/reversing focus | `5-mobile-components/test/split_button_test.dart:746-811` (`Tab and Shift+Tab close the open menu and move focus on`) |
+| #3 (🟡) Internal parameters and `BwButtonSegment` must be `@internal` and hidden from public package export | Annotated `BwButtonSegment` and `segment` in `bw_button.dart:15,64`, `segmentBorderRadius` in `bw_button_style.dart:144`, and all 8 composite parameters in `bw_icon_button.dart:67-96` with `@internal`; added `hide BwButtonSegment` in `5-mobile-components/lib/biowave_mobile.dart:12` | `cd 5-mobile-components && flutter analyze` (0 warnings; package public API clean) |
+| #6 (🟡) Chevron half turn derived from unrelated tokens | Added public named constant `BwSplitButton.chevronHalfTurn = 0.5` (`5-mobile-components/lib/src/components/split_button/bw_split_button.dart:76`) used for `iconTurns` | `5-mobile-components/test/split_button_test.dart:432-467` (`chevron rotates with B4 open/close durations and curves`) |
+| #7 (🟡) Copied segment radius helper | Extracted `BwButtonStyle.segmentBorderRadius(dimensions, segment)` in `bw_button_style.dart:144-167`; reused across `bw_button.dart:84` and `bw_icon_button.dart:192` | `cd 5-mobile-components && flutter test test/button_test.dart test/icon_button_test.dart test/split_button_test.dart` (all 235 tests pass) |
+| Plan 2 C3: `BwIconButton` composite parameters | Reworked `BwIconButton` parameters to match C3 table (`segment`, `focusNode`, `autofocus`, `statesController`, `iconTurns`, `iconRotationDuration`, `iconRotationCurve`, `expanded` for semantics only; `bw_icon_button.dart:27-32,67-96`), wrapped glyph in `AnimatedRotation` (`bw_icon_button.dart:270-284`), removed `iconChild` and pressed state hack | `cd 5-mobile-components && flutter test test/icon_button_test.dart test/split_button_test.dart` (96 icon button tests + 141 mobile tests pass) |
+| Plan 2 B2/B3/B4/B6: Decorated menu surface, elevation-3, item states, cyclic arrows, reduced motion | In `bw_split_button.dart`, wrapped menu items in `DecoratedBox` with `elevation3` and `surfaceRaised` + `ClipRRect` inside transparent `MenuStyle(clipBehavior: Clip.none)` (`bw_split_button.dart:286-306`); implemented arrow keys wrap-around (`bw_split_button.dart:581-599`); configured `MenuAnchor(animated: !context.bw.reduceMotion)` (`bw_split_button.dart:257`) | `5-mobile-components/test/split_button_test.dart:349-373` (surface tokens and elevation-3), `5-mobile-components/test/split_button_test.dart:813-868` (arrow keys wrap around enabled options) |
+| Goldens: Missing from C5 / contract §9 in Plan 1 | Regenerated all 4 goldens (`split-button-{light,dark}-{en,ar}.png`) under `test/goldens/split_button/` with `flutter test --update-goldens` per C5; checked pixel-exact visually | `5-mobile-components/test/split_button_test.dart:300-333` (goldens match 800×600 pixel-exact) |
 
 ---
 

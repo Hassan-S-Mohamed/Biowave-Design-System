@@ -1,4 +1,5 @@
 import 'package:biowave_foundations/biowave_foundations.dart';
+import 'package:flutter/foundation.dart' show internal;
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 
@@ -23,9 +24,13 @@ class BwIconButton extends StatefulWidget {
     this.loading = false,
     this.loadingLabel,
     this.focusNode,
+    this.autofocus = false,
+    this.statesController,
     this.segment,
+    this.iconTurns = 0,
+    this.iconRotationDuration = BwDuration.instant,
+    this.iconRotationCurve = BwEasing.standard,
     this.expanded,
-    this.iconChild,
     super.key,
   })  : assert(label != '', 'BwIconButton needs a label'),
         assert(
@@ -57,10 +62,38 @@ class BwIconButton extends StatefulWidget {
   final bool tooltip;
   final bool loading;
   final String? loadingLabel;
+
+  /// Used by package-owned composite controls that manage trigger focus.
+  @internal
   final FocusNode? focusNode;
+
+  /// Used by package-owned composite controls that manage trigger focus.
+  @internal
+  final bool autofocus;
+
+  /// Used by package-owned composite controls to force interaction states.
+  @internal
+  final WidgetStatesController? statesController;
+
+  /// Used by package-owned controls that join buttons into one control.
+  @internal
   final BwButtonSegment? segment;
+
+  /// Used by package-owned composite controls with animated glyphs.
+  @internal
+  final double iconTurns;
+
+  /// Used by package-owned composite controls with animated glyphs.
+  @internal
+  final Duration iconRotationDuration;
+
+  /// Used by package-owned composite controls with animated glyphs.
+  @internal
+  final Curve iconRotationCurve;
+
+  /// Used by package-owned menu triggers to expose expanded state.
+  @internal
   final bool? expanded;
-  final Widget? iconChild;
 
   @override
   State<BwIconButton> createState() => _BwIconButtonState();
@@ -68,7 +101,6 @@ class BwIconButton extends StatefulWidget {
 
 class _BwIconButtonState extends State<BwIconButton> {
   FocusNode? _internalFocusNode;
-  WidgetStatesController? _statesController;
 
   FocusNode get _focusNode =>
       widget.focusNode ?? (_internalFocusNode ??= FocusNode());
@@ -77,7 +109,6 @@ class _BwIconButtonState extends State<BwIconButton> {
   void initState() {
     super.initState();
     _focusNode.addListener(_handleFocusChange);
-    _syncExpandedState();
     if (_announcesLoading) {
       _announceLoadingAfterFrame();
     }
@@ -91,10 +122,6 @@ class _BwIconButtonState extends State<BwIconButton> {
           ?.removeListener(_handleFocusChange);
       _focusNode.addListener(_handleFocusChange);
     }
-    if (oldWidget.expanded != widget.expanded ||
-        oldWidget.onPressed != widget.onPressed) {
-      _syncExpandedState();
-    }
     if (_announcesLoading && !oldWidget.loading) {
       _announceLoadingAfterFrame();
     }
@@ -104,19 +131,7 @@ class _BwIconButtonState extends State<BwIconButton> {
   void dispose() {
     _focusNode.removeListener(_handleFocusChange);
     _internalFocusNode?.dispose();
-    _statesController?.dispose();
     super.dispose();
-  }
-
-  void _syncExpandedState() {
-    if (widget.expanded == null && _statesController == null) {
-      return;
-    }
-    final controller = _statesController ??= WidgetStatesController();
-    controller.update(
-      WidgetState.pressed,
-      (widget.expanded ?? false) && widget.onPressed != null,
-    );
   }
 
   void _handleFocusChange() {
@@ -165,7 +180,7 @@ class _BwIconButtonState extends State<BwIconButton> {
     final effectiveSelected = _effectiveToggle && widget.selected;
     final motionDuration =
         context.bw.reduceMotion ? BwDuration.instant : BwDuration.sm;
-    const focusRingKey = ValueKey<String>('BwIconButton.focus-ring');
+    final focusRingKey = const ValueKey<String>('BwIconButton.focus-ring');
     final baseStyle = BwButtonStyle.resolve(
       context,
       _effectiveVariant,
@@ -173,36 +188,17 @@ class _BwIconButtonState extends State<BwIconButton> {
       widget.size,
       focusRingKey: focusRingKey,
     );
-    final segmentRadius = switch (widget.segment) {
-      null => null,
-      BwButtonSegment.start => BorderRadiusDirectional.only(
-          topStart: Radius.circular(metrics.radius),
-          bottomStart: Radius.circular(metrics.radius),
-          topEnd: const Radius.circular(BwRadius.xs),
-          bottomEnd: const Radius.circular(BwRadius.xs),
-        ),
-      BwButtonSegment.end => BorderRadiusDirectional.only(
-          topStart: const Radius.circular(BwRadius.xs),
-          bottomStart: const Radius.circular(BwRadius.xs),
-          topEnd: Radius.circular(metrics.radius),
-          bottomEnd: Radius.circular(metrics.radius),
-        ),
-    };
+    final borderRadius =
+        BwButtonStyle.segmentBorderRadius(metrics, widget.segment);
     final baseBackground = baseStyle.backgroundColor!;
     final baseIcon = baseStyle.iconColor!;
-    final baseOverlay = baseStyle.overlayColor!;
     final baseSide = baseStyle.side;
-    final forcePressed = (widget.expanded ?? false) && widget.onPressed != null;
     final style = baseStyle.copyWith(
       backgroundColor: WidgetStateProperty.resolveWith((states) {
-        final effectiveStates =
-            forcePressed && !states.contains(WidgetState.disabled)
-                ? <WidgetState>{...states, WidgetState.pressed}
-                : states;
-        if (!effectiveStates.contains(WidgetState.selected)) {
-          return baseBackground.resolve(effectiveStates);
+        if (!states.contains(WidgetState.selected)) {
+          return baseBackground.resolve(states);
         }
-        if (effectiveStates.contains(WidgetState.disabled)) {
+        if (states.contains(WidgetState.disabled)) {
           return colors.backgroundNeutralDisabled;
         }
         return switch (widget.color) {
@@ -228,22 +224,15 @@ class _BwIconButtonState extends State<BwIconButton> {
           BwButtonColor.inverse => colors.iconRoleBrand,
         };
       }),
-      overlayColor: WidgetStateProperty.resolveWith((states) {
-        final effectiveStates =
-            forcePressed && !states.contains(WidgetState.disabled)
-                ? <WidgetState>{...states, WidgetState.pressed}
-                : states;
-        return baseOverlay.resolve(effectiveStates);
-      }),
       side: _effectiveVariant == BwButtonVariant.outlined
           ? baseSide
           : const WidgetStatePropertyAll<BorderSide>(BorderSide.none),
-      shape: segmentRadius == null
+      shape: widget.segment == null
           ? null
           : WidgetStatePropertyAll<OutlinedBorder>(
-              RoundedRectangleBorder(borderRadius: segmentRadius),
+              RoundedRectangleBorder(borderRadius: borderRadius),
             ),
-      backgroundBuilder: segmentRadius == null
+      backgroundBuilder: widget.segment == null
           ? null
           : (
               BuildContext builderContext,
@@ -252,7 +241,7 @@ class _BwIconButtonState extends State<BwIconButton> {
             ) =>
               BwFocusRing(
                 focused: states.contains(WidgetState.focused),
-                borderRadius: segmentRadius,
+                borderRadius: borderRadius,
                 color: widget.color == BwButtonColor.inverse
                     ? colors.borderInverse
                     : colors.borderFocus,
@@ -278,8 +267,11 @@ class _BwIconButtonState extends State<BwIconButton> {
               dimension: metrics.iconSize,
               child: CircularProgressIndicator(color: resolvedIconColor),
             )
-          : (widget.iconChild ??
-              Icon(
+          : AnimatedRotation(
+              turns: widget.iconTurns,
+              duration: widget.iconRotationDuration,
+              curve: widget.iconRotationCurve,
+              child: Icon(
                 effectiveSelected ? widget.selectedIcon : widget.icon,
                 key: ValueKey<String>(
                   effectiveSelected
@@ -288,7 +280,8 @@ class _BwIconButtonState extends State<BwIconButton> {
                 ),
                 fill: effectiveSelected ? BwIconAxes.fillSelected : null,
                 semanticLabel: null,
-              )),
+              ),
+            ),
     );
     final enabled = widget.onPressed != null;
     final effectiveOnPressed =
@@ -297,7 +290,8 @@ class _BwIconButtonState extends State<BwIconButton> {
       BwButtonVariant.filled => IconButton.filled(
           onPressed: effectiveOnPressed,
           focusNode: _focusNode,
-          statesController: _statesController,
+          autofocus: widget.autofocus,
+          statesController: widget.statesController,
           style: style,
           isSelected: _effectiveToggle ? widget.selected : null,
           selectedIcon: visual,
@@ -306,7 +300,8 @@ class _BwIconButtonState extends State<BwIconButton> {
       BwButtonVariant.tonal => IconButton.filledTonal(
           onPressed: effectiveOnPressed,
           focusNode: _focusNode,
-          statesController: _statesController,
+          autofocus: widget.autofocus,
+          statesController: widget.statesController,
           style: style,
           isSelected: _effectiveToggle ? widget.selected : null,
           selectedIcon: visual,
@@ -315,7 +310,8 @@ class _BwIconButtonState extends State<BwIconButton> {
       BwButtonVariant.outlined => IconButton.outlined(
           onPressed: effectiveOnPressed,
           focusNode: _focusNode,
-          statesController: _statesController,
+          autofocus: widget.autofocus,
+          statesController: widget.statesController,
           style: style,
           isSelected: _effectiveToggle ? widget.selected : null,
           selectedIcon: visual,
@@ -324,7 +320,8 @@ class _BwIconButtonState extends State<BwIconButton> {
       BwButtonVariant.text => IconButton(
           onPressed: effectiveOnPressed,
           focusNode: _focusNode,
-          statesController: _statesController,
+          autofocus: widget.autofocus,
+          statesController: widget.statesController,
           style: style,
           isSelected: _effectiveToggle ? widget.selected : null,
           selectedIcon: visual,

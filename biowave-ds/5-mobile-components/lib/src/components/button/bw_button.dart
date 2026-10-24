@@ -1,4 +1,5 @@
 import 'package:biowave_foundations/biowave_foundations.dart';
+import 'package:flutter/foundation.dart' show internal;
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 
@@ -11,6 +12,7 @@ enum BwButtonVariant { filled, tonal, outlined, text }
 enum BwButtonColor { brand, secondary, neutral, error, inverse }
 
 /// Internal segment position for [BwSplitButton].
+@internal
 enum BwButtonSegment { start, end }
 
 /// A token-driven action button for Biowave mobile experiences.
@@ -57,6 +59,9 @@ class BwButton extends StatelessWidget {
   final String? loadingLabel;
   final FocusNode? focusNode;
   final bool autofocus;
+
+  /// Used by package-owned controls that join buttons into one control.
+  @internal
   final BwButtonSegment? segment;
 
   @override
@@ -76,27 +81,13 @@ class BwButton extends StatelessWidget {
       focusRingKey: focusRingKey,
       fullWidth: fullWidth,
     );
-    final segmentRadius = switch (segment) {
-      null => null,
-      BwButtonSegment.start => BorderRadiusDirectional.only(
-          topStart: Radius.circular(metrics.radius),
-          bottomStart: Radius.circular(metrics.radius),
-          topEnd: const Radius.circular(BwRadius.xs),
-          bottomEnd: const Radius.circular(BwRadius.xs),
-        ),
-      BwButtonSegment.end => BorderRadiusDirectional.only(
-          topStart: const Radius.circular(BwRadius.xs),
-          bottomStart: const Radius.circular(BwRadius.xs),
-          topEnd: Radius.circular(metrics.radius),
-          bottomEnd: Radius.circular(metrics.radius),
-        ),
-    };
+    final borderRadius = BwButtonStyle.segmentBorderRadius(metrics, segment);
     final colors = context.bw.colors;
-    final style = segmentRadius == null
+    final style = segment == null
         ? baseStyle
         : baseStyle.copyWith(
             shape: WidgetStatePropertyAll<OutlinedBorder>(
-              RoundedRectangleBorder(borderRadius: segmentRadius),
+              RoundedRectangleBorder(borderRadius: borderRadius),
             ),
             backgroundBuilder: (
               BuildContext builderContext,
@@ -105,7 +96,7 @@ class BwButton extends StatelessWidget {
             ) =>
                 BwFocusRing(
               focused: states.contains(WidgetState.focused),
-              borderRadius: segmentRadius,
+              borderRadius: borderRadius,
               color: color == BwButtonColor.inverse
                   ? colors.borderInverse
                   : colors.borderFocus,
