@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Review — Web Link round 2: Approved] — 2026-10-24
+### Changed
+- Link (web) review round 2: **Approved** — Part E3 of `3-web-components/components/link/link.md`. Round 1 findings #1–#4 fixed; headless Chrome accessibility tree in light/dark × en/ar: external name = label + hidden suffix from content ("Contact support (opens in a new tab)", AR suffix, `externalLabel` override), consumer `aria-label` kept unchanged, disabled links not tabbable or click-focusable; dimensions, colours, focus ring and RTL unchanged from Round 1. One 🟢 nit (#5, test guard against a synthesized `aria-label`). Code → Approved (header + README). `docs:check` ✓, `typecheck` ✓, `test:web` 123/123 ✓.
+
 ## [Fixed — Web Link review round 1] — 2026-10-24
 ### Fixed
 - Fixed all four Executor findings from review round 1: external accessible names now come from the visible label plus the localized visually hidden suffix while consumer `aria-label` values pass through unchanged; disabled links no longer receive `tabIndex=-1`; empty and non-string label warnings use independently testable once-only keys; and the component header points to the built source. `docs:check` ✓, `typecheck` ✓, `test:web` 123/123 ✓ at default timeouts.

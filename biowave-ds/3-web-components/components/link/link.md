@@ -15,9 +15,9 @@
 | Figma | **Biowave DS — Web Components** › `↳ Link` · build: [Part D](#d--figma-build) |
 | Version | 1.0 · 2026-10-21 |
 | Plan | Finished |
-| Code | Built |
+| Code | Approved |
 | Figma build | Planned |
-| Review | Round 1 · 2026-10-24 · Changes requested |
+| Review | Round 2 · 2026-10-24 · Approved |
 | Source code | `src/components/link/` (built) |
 | Tokens | — (no component tokens: every value is a shared semantic token, P-04) |
 | Contracts | [`link-contract.md`](link-contract.md) · [`figma-link-contract.md`](figma-link-contract.md) — generated, never edited |
@@ -668,8 +668,84 @@ Component description: "Takes people to another page or resource. Spec: 3-web-co
 
 | Round | Date | Code verdict | Figma verdict |
 |---|---|---|---|
+| 2 | 2026-10-24 | **Approved** | not reviewed |
 | 1 | 2026-10-24 | Changes requested | not reviewed |
 
+
+### E3 Round 2 — 2026-10-24
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 1.0 |
+| Spec version reviewed | 1.0 |
+| Reviewer | Claude |
+| Date | 2026-10-24 |
+| Code reviewed | `git diff origin/main...HEAD -- 3-web-components/src` on `ds/link-web`; fix round = `db4041d fix(link/web): round 1` (`components/link/Link.tsx`, `Link.test.tsx`) |
+| Verdict | **Approved** — all four Round 1 findings fixed; the accessible name of external, consumer-labelled and disabled links is right in a real browser in light/dark × en/ar; nothing else regressed. One new 🟢 nit (a test guard), not blocking |
+| Evidence | Run by the Reviewer on `ds/link-web`: `npm run docs:check` ✅ · `npm run typecheck` ✅ · `npm run test:web` ✅ 9 files, 123/123 (5.6 s, default timeouts, load avg 3.3). Headless Chrome 154 (own instance, CDP port 9333, real Tab / mouse input, accessible names from the Chrome accessibility tree `Accessibility.getPartialAXTree`) on a scratch page rendering the real `Link` from `src/index.ts` through `BiowaveProvider` with `tokens.css` + `icons.css`, 1440 px wide, in light/en, dark/ar, light/ar and dark/en |
+
+#### Round 1 findings
+
+| # | Status | Evidence |
+|---|---|---|
+| 1 🟡 external `aria-label` | **Fixed** | `Link.tsx:290` passes only the consumer `aria-label`; the suffix comes only from the hidden span (`Link.tsx:302-307`). Chrome AX tree, name source `contents` (no attribute): md "Contact support (opens in a new tab)", inline "Privacy policy that wraps lines (opens in a new tab)", AR "التواصل مع الدعم (يفتح في علامة تبويب جديدة)", `externalLabel` "Help New window", sm / lg the same in both locales. Consumer `aria-label="Support portal"` on an external link → name "Support portal", source `aria-label`, attribute unchanged (no suffix appended); non-external `aria-label="Go home"` → "Go home". Test `Link.test.tsx:344` "renders safe external links with localized and overridden accessible suffixes" (consumer case `:381-390`) |
+| 2 🟢 disabled `tabIndex={-1}` | **Fixed** | `tabIndex` removed (`Link.tsx:286-292`). Browser: no `tabindex` attribute, AX `disabled: true`, not focusable; Tab order skips both disabled links in all four combos; a real mouse click on the disabled and disabled-external label leaves focus on `BODY` and the URL unchanged; `cursor: default`. Tests `:409`, `:590` |
+| 3 🟢 non-string label warning | **Fixed** | Separate `warnOnce` keys (`Link.tsx:255-259`); test asserts the non-string case's own "Link needs a text label" and the count going 5 → 6 (`Link.test.tsx:579-580`) |
+| 4 🟢 header `Source code` | **Fixed** | `link.md` header: "`src/components/link/` (built)"; `docs:check` ✅ |
+
+#### Browser measurements (headless Chrome, Round 2 regression pass)
+
+| What | Spec | Measured |
+|---|---|---|
+| Accessible names | B6: label, + suffix for `external` | See finding 1 above; disabled "Disabled link" / "معطل", role link, `disabled: true` |
+| Hidden suffix span | visually hidden, no layout effect | `position: absolute`, 1 × 1 px, `clip: rect(0 0 0 0)`; the new `display: block` is a no-op for layout (absolute boxes are blockified) and gives Chrome the word break before the suffix. Inline external link still wraps to 2 line boxes with `open_in_new` 4 px after the last word (en x 97 → 101; ar 1398 → 1394); no horizontal page overflow (scrollWidth 1440 = viewport) |
+| Standalone block size | `target-min` (24 px) | sm · md · lg 24 · 24 · 24 px (en); AR lg 26 px (`action-lg` AR line height 26, above the minimum) |
+| Gap · icons | `spacing-xs` · `size-icon-sm` | 4 px · 16 px |
+| Underline (`always`) rest → hover | `border-width-default` → `-strong`, offset `spacing-xxs`, label only | 1 px → 2 px, offset 2 px, root `none`, hidden span `none` (md and inline) |
+| Colours | `color-link-*`, disabled `color-text-neutral-disabled` | light `rgb(37,89,212)` → hover `rgb(29,72,173)`, disabled `rgb(150,150,150)`; dark `rgb(109,156,232)`, disabled `rgb(84,84,84)` — same as Round 1 |
+| Focus (`:focus-visible` by Tab) | 2 px solid `color-border-focus`, offset 2 px, radius `radius-xs` | light `rgb(37,68,113)`, dark `rgb(144,163,188)`; 2 px solid, offset 2 px, radius 4 px |
+| RTL (dark/ar, light/ar) | leading icon at inline start; `open_in_new` flipped once by the Icon; `mail` not flipped | leading x 1400, label x 1296, external x 1276; external glyph `matrix(-1,0,0,1,0,0)`, wrapper `none`, `mail` `none`; LTR glyph `none` |
+
+#### Acceptance criteria
+
+| AC | Result | Evidence (file:line / test name) |
+|---|---|---|
+| AC-1 API matches B1 | ✅ | Unchanged from Round 1 (`Link.tsx:188-205`, fallbacks `:231-263`); consumer `aria-label` now forwarded unchanged (`:290`); test "warns once for each invalid combination and renders the documented fallback" (`Link.test.tsx:495`) |
+| AC-2 Tokens only | ✅ | Fix adds no values (`display: 'block'` is a keyword); test "contains no raw colors, dimensions, durations, or font names" (`:133`); browser table |
+| AC-3 Transitions B4; reduced motion | ✅ | Not touched by the fix; test "changes instantly in both directions between enabled and disabled" (`:308`); hover colour/underline measured |
+| AC-4 RTL B5; a11y B6 | ✅ | Name = `children` + hidden span only (`Link.tsx:299-307`), en and ar measured; disabled: no `href`, `role="link"`, `aria-disabled`, not tabbable, not click-focusable, `onClick` not called (`:286-292`, `:265-271`; test `:393`); one flip by the Icon (test `:456`, browser RTL row) |
+| AC-5 Tests B9 + C6; checks pass | ✅ | All B9 items covered as in Round 1, plus the consumer-label case (`:381-390`); `docs:check`, `typecheck`, `test:web` 123/123 ✅ |
+| AC-6 Exported; statuses | ✅ | `src/index.ts` unchanged; header and README were `Built` at review start |
+| AC-7 MUI styling overridden; Biowave Icon only | ✅ | `underline="none"`, `color="inherit"`, `variant="inherit"` (`Link.tsx:283-285`); only `<Icon name="open_in_new" directional />` (`:309`); no `@mui/icons-material` in `components/link/` |
+
+#### Rule checks (AGENTS.md §2)
+
+| Rule | Result | Notes |
+|---|---|---|
+| No generated files edited | ✅ | Fix commit touches `Link.tsx`, `Link.test.tsx`, `link.md` (C8 + header), README, CHANGELOG, run record |
+| No raw values / no primitives | ✅ | No new values |
+| RTL first | ✅ | No new physical properties; RTL measured in both themes |
+| Both themes, both languages, tested | ✅ | `renderWithBiowave` light/dark × en/ar unchanged; browser in all four combos |
+| WCAG 2.2 AA | ✅ | Name from visible text + suffix (2.5.3 label in name holds), keyboard, focus ring, 24 px target, non-colour underline |
+| Tests through `renderWithBiowave`, default timeouts | ✅ | New case uses `renderWithBiowave`; no timeout overrides |
+| Stayed inside the contract | ✅ | Fix limited to findings 1–4; C8 Fix round 1 lists each change with `file:line` and test |
+| Changelog | ✅ | `CHANGELOG.md` "[Fixed — Web Link review round 1] — 2026-10-24" |
+
+#### Findings
+
+| # | Severity | File | Issue | Required change | Owner |
+|---|---|---|---|---|---|
+| 5 | 🟢 Nit | `3-web-components/src/components/link/Link.test.tsx:351-360` | The en / ar external cases assert the name by role, which would also pass if a synthesized `aria-label` came back (the Round 1 bug). Nothing guards that the name comes from content | Optional: add `expect(enLink).not.toHaveAttribute('aria-label')` (and for the ar link) | Executor |
+
+#### Notes and questions for the Planner (not blocking, no Plan change requested)
+
+- Still open from Round 1 (plan wording, not code): `external` + `disabled` keeps the `open_in_new` icon and the suffix — Chrome reads "Disabled external (opens in a new tab)", which is slightly misleading for a link that opens nothing; and `disabled` + `component` still forwards `to`. A later plan version could say what both combinations show.
+
+#### Next step
+
+After-review gate → merge. Nit 5 can be picked up in a later version.
+
+---
 
 ### E2 Round 1 — 2026-10-24
 
