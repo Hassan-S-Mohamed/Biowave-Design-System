@@ -24,6 +24,7 @@
 | 06 | review | claude (wf-reviewer agent) | done — Round 2 Changes requested: #1–#11 fixed; new 🟡 #12 reset() leaves error, #13 md hit area adds layout, #14 tokens as matrix numbers; 🟢 #15 | docs:check ✓ · analyze ✓ · test ✓ 202/202 | (this commit) | [prompt](06-review-claude.prompt.md) |
 | 07 | fix | antigravity (Gemini 3.8 Flash) | partial — code/tests/goldens changed, stopped before C8/Handoff; orchestrator: tests ✓, analyze ✗ (3 issues) | docs:check ✓ · analyze ✗ · test ✓ | — | [prompt](07-fix-antigravity.prompt.md) |
 | 08 | fix | antigravity (Gemini 3.8 Flash) | done — analyzer issues fixed, C8 Fix round 2, Code Built, CHANGELOG | docs:check ✓ · analyze ✓ · test ✓ 204/204 (orchestrator) | (this commit) | [prompt](08-fix-antigravity.prompt.md) |
+| 09 | review | claude (wf-reviewer agent; resumed after session limit) | done — Round 3 Changes requested: #12, #14 fixed; open 🟡 #13 md band not really hit-testable, #16 error colours not rebuilt on validate/reset, #17 pointer-up focuses field (regression); 🟢 #15, #18. Fix-round limit reached | docs:check ✓ · analyze ✓ · test ✓ 204/204 | (this commit) | [prompt](09-review-claude.prompt.md) |
 
 ## Gates
 
@@ -32,7 +33,7 @@
 
 ## Questions raised
 
-- none
+- Reviewer Round 3: fix-round limit (2) reached with 3 open 🟡 (#13, #16, #17) — allow one more fix round, or accept as known issues?
 
 ## Summary
 

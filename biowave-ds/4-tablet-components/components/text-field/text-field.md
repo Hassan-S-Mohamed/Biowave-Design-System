@@ -15,9 +15,9 @@
 | Figma | **Biowave DS — Tablet Components** › `↳ Text field` (page Typography mode `Tablet`) · build: [Part D](#d--figma-build) |
 | Version | 1.2 · 2026-10-24 (spec and code plan 1.2; guidelines unchanged, same as Web 1.1) |
 | Plan | Finished |
-| Code | Built |
+| Code | Changes requested |
 | Figma build | Planned |
-| Review | Round 2 · 2026-10-24 · Changes requested |
+| Review | Round 3 · 2026-10-24 · Changes requested |
 | Source code | [`lib/src/components/text_field/`](../../lib/src/components/text_field/) |
 | Tokens | [`text-field.tokens.json`](text-field.tokens.json) — extends the Web file (D-13) |
 | Contracts | [`text-field-contract.md`](text-field-contract.md) · [`figma-text-field-contract.md`](figma-text-field-contract.md) — generated, never edited |
@@ -677,6 +677,7 @@ Component description: “Enters or edits short and multiline text with persiste
 |---|---|---|---|
 | 1 | 2026-10-24 | Changes requested | not reviewed |
 | 2 | 2026-10-24 | Changes requested | not reviewed |
+| 3 | 2026-10-24 | Changes requested | not reviewed |
 
 ### E2 Round 1 — 2026-10-24
 
@@ -859,6 +860,97 @@ Planner: #4, #5, #10, #11 → set Plan `Finished`, regenerate `text-field-contra
 #### Next step
 
 Fixer: #12, #13, #14 (and nit #15) → Round 3. No Planner items; Plan stays `Finished`.
+
+### E4 Round 3 — 2026-10-24
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 1.2 · 2026-10-24 |
+| Spec version reviewed | 1.2 |
+| Reviewer | Claude |
+| Date | 2026-10-24 |
+| Code reviewed | `git diff main...ds/text-field-tablet` (HEAD `cae3217`, Fix round 2) + working tree (clean at review start) |
+| Verdict | **Changes requested** — 0 🔴, 3 🟡 (#13 still open, new #16, #17), 2 🟢 (#15 still open, new #18), all Executor. #14 fixed; #12 fixed for text, outline and semantics, with a gap left (#16) |
+| Evidence | Run by the Reviewer in the `ds/text-field-tablet` worktree: `npm run docs:check` ✅ · `flutter analyze` ✅ no issues · `flutter test` ✅ 204/204 (all suites, including the 4 text-field goldens and the unchanged Button / Split button tests). Behaviour probes: throw-away tests in the scratchpad (a copy of `lib/` and the test helpers, outside the repo). Their results are quoted below. I checked the four goldens by eye |
+
+#### Previous round findings
+
+| # | Status | Evidence |
+|---|---|---|
+| 12 🟡 validator error copy / `reset()` | ⚠️ Fixed as asked; gap → #16 | `_validatorErrorText` and its post-frame `setState` are removed. The error is read from `_formFieldKey.currentState?.errorText` (`bw_text_field.dart:238-245`), and `validator` is passed straight to `TextFormField` (`:746`). Probe: `validate()` → "Required" shown, outline red (from `InputDecorator`'s own error state), semantics label `Rate\|Required…`; `reset()` → error text gone, outline back to default. Test "Form integration: validate() then reset() removes error text, error border and error from semantics label" (`test/text_field_test.dart:1308`). But `_hasError` is only re-read when `BwTextField` itself rebuilds. `validate()` / `reset()` rebuild only the `FormField`, so the parts that `BwTextField` colours stay in the wrong state → #16 |
+| 13 🟡 `md` hit area | ❌ Still open (layout part fixed) | Layout fixed: probe gap label→outline 6.0 (`BwSpacing.sm`) at `md` and `lg`; outline 40 / 48; whole widget 66 / 74 dp. Test `:882` checks this. **Hit area not extended in practice.** `_RenderBwFieldHitArea.hitTest` (`:933`) accepts the 4 dp band above and below the outline, but its parent `MouseRegion` (`:775`, `RenderMouseRegion`) only hit-tests children when `size.contains(position)`, so the band is never reached. Probe: `md` field, tap 3 dp above / below the outline → **not focused**. The real touch target is 40 dp. Only `semanticBounds` (`:901`) report 48, so `androidTapTargetGuideline` passes while the B2 rule "padded to 48 by a transparent region that focuses the input" is not met. See #13 below |
+| 14 🟡 tokens used as math constants | ✅ Fixed | `bw_field_action.dart:274`, `:279-284`, `:291` now `Offset(0, …)` / `translateByDouble(0, -dy, 0, 1)`; `bw_text_field.dart:628`, `:637`, `:790` `Offset(…, 0)`. `BwBorder.widthDefault` in the end-button overlap (`:789`) is the B2 design value. That is correct. One leftover fallback → nit #18 |
+| 15 🟢 spinner-painted test | ❌ Still open | The test (`:1455`) now asserts `attached`, `debugNeedsPaint == false` and non-zero `paintBounds`. Probe: I wrapped a `CircularProgressIndicator` in a render object that paints its child into an `OffsetLayer` that is never added to the tree (Round 1's bug). It gives `attached=true`, `needsPaint=false`, `paintBounds=36×36`, so **all three asserts pass for an invisible spinner**. The test still cannot catch the bug |
+
+#### Round 1 regression check
+
+Round 1 #1–#11 still hold. Validator still fails `Form.validate()` (probe and test). Affix text appears only in the semantics hint (probe: label `Email\|Bad`, hint `SAR`, no `hintText`). End button = `BwButton(segment: BwButtonSegment.end)`, and no file under `button/`, `icon/`, `icon_button/`, `split_button/` or `common/` is in `git diff main...HEAD`. Disabled Tab test, supporting-row insets, disabled helper in semantics and the motion test all pass. New regression from #13's fix → #17.
+
+#### Acceptance criteria
+
+| AC | Result | Evidence (file:line / test name) |
+|---|---|---|
+| AC-1 API = B1 | ✅ | Names, defaults and `placeholder` unchanged (`bw_text_field.dart:46-136`); asserts and fallbacks: test "asserts every invalid combination"; validator inside `Form`, including `reset()` (test `:1308`). Error colouring gap tracked under AC-2 (#16) |
+| AC-2 B2–B3 tokens only | ❌ | Tokens only, with no raw colours (guard test, "tokenAliases equals text-field.tokens.json"). Label gap `spacing-sm` and layout height met (test `:882`). ❌ B3 error colours for `counter` and add-on border / divider are not applied when the error comes from `validator` (#16). ❌ B2 `md` 48 hit area is not real (#13) |
+| AC-3 B4 transitions | ✅ | Unchanged; test "honours motion duration and reduced motion" |
+| AC-4 RTL B5; a11y B6 | ❌ | RTL: `ar` goldens mirrored, LTR add-ons and counter isolated. Semantics: one field node (label + supporting, affix in hint). ❌ B6 "Target size: B2 touch targets": `md` touch target is 40 dp (#13) |
+| AC-5 checks pass | ✅ | `docs:check`, `flutter analyze`, `flutter test` 204/204 (Reviewer run) |
+| AC-6 export + README | ✅ | `lib/biowave_tablet.dart:16`; README row = header |
+| AC-7 trailing action inside outline; disabled with field; neutral icons in error | ✅ | Unchanged (test "trailing action inside the outline…"); goldens |
+| AC-8 reuse; only `BwButton` change is the internal `segment` | ✅ | No shared button file in the diff; `BwButtonSegment` not exported; Button / Split button tests pass unedited |
+
+#### Re-probes asked by the orchestrator
+
+| Probe | Result |
+|---|---|
+| `validate()` then `reset()` clears error text, border and semantic error | ✅ All three cleared. But during the error, `counter` and add-on stay in default colours (#16) |
+| `md` / `lg` layout height = control height; label gap = `BwSpacing.sm`; 48 dp guideline passes | ✅ 40 / 48, gap 6 / 6, guideline passes. ❌ The guideline passes only through `semanticBounds`: a real tap in the 4 dp band does not focus (#13) |
+| No tokens used as math constants | ✅ (#14); leftover `fontSize ?? BwSize.iconSm` fallback, nit #18 |
+| Spinner-painted test detects an unpainted spinner | ❌ It does not (#15 probe) |
+
+#### Goldens (checked by eye)
+
+| File | Result |
+|---|---|
+| `text-field-light-en.png` | ✅ "Hourly rate (MD)" now sits `spacing-sm` under its label like the `lg` fields (#13 layout fixed). Default, Focused, Error (red counter), Disabled, Read-only + `Copy` end button (one seam border, square inner corners), `SAR` / `https://` add-ons, Password, multiline + counter all correct |
+| `text-field-light-ar.png` | ✅ Mirrored; end button on the left with square right corners; LTR add-ons and counter isolated |
+| `text-field-dark-en.png` | ✅ Dark tokens; disabled, error and add-on colours readable |
+| `text-field-dark-ar.png` | ✅ Dark + mirrored; no clipping or overflow |
+
+The goldens use `errorText`, so #16 (validator-driven error) is not visible in them.
+
+#### Rule checks (AGENTS.md §2)
+
+| Rule | Result | Notes |
+|---|---|---|
+| No generated files edited | ✅ | Fix round 2 touched none |
+| No raw values / no primitives | ✅ | No hex, `BwPalette`, numeric `EdgeInsets` / `SizedBox`; math constants now plain (#14). Nit #18 |
+| Logical properties, RTL icons | ✅ | AC-4 RTL part |
+| Light + dark, en + ar tested | ✅ | 4 goldens + property tests |
+| Accessibility | ❌ | `md` real touch target 40 dp (#13) |
+| Stayed inside the contract | ✅ | C8 Fix round 2: no deviations |
+| One component per task | ✅ | Only text-field files, README row, CHANGELOG, run records |
+| Changelog | ✅ | `CHANGELOG.md` "[Fixed — Tablet Text field review round 2]"; C8 Fix round 2 filled |
+
+#### Findings
+
+| # | Severity | File | Issue | Required change | Owner |
+|---|---|---|---|---|---|
+| 13 | 🟡 Should fix | `lib/src/components/text_field/bw_text_field.dart:775` (`MouseRegion`), `:933-957` (`_RenderBwFieldHitArea.hitTest`) | Still open. The layout is fixed, but the 4 dp band above and below an `md` outline never receives hits. `RenderMouseRegion` (and any other `RenderProxyBoxWithHitTestBehavior` ancestor) skips children when the point is outside its own size. Probe: tap 3 dp above / below the `md` outline → not focused. `semanticBounds` claims 48, so the guideline test passes while the real target is 40 dp (B2, B6) | Make the extended band really hit-testable. For example, put the hit-extension render object outside the `MouseRegion` (or extend the `MouseRegion`'s own hit test) and check that no other ancestor in `BwTextField` clips hit tests by size. Add a test that taps `tapAt` 3 dp above and 3 dp below an `md` outline and expects the field to be focused, and that a tap 3 dp outside an `lg` outline does not | Executor |
+| 16 | 🟡 Should fix | `bw_text_field.dart:238-245` (`_effectiveErrorText` / `_hasError`), `:604` (`_currentBorderColor`), `:650-657` (counter), `:666` (decoration `hasError`) | `_hasError` reads `_formFieldKey.currentState?.errorText`, but only when `BwTextField` rebuilds. `Form.validate()` / `reset()` rebuild only the inner `FormField`. Probe (`suffixText: 'SAR'`, `maxLength` + `showCounter`, required validator): after `validate()` the counter stays `#707070` and the add-on border stays `#707070`. With `errorText` they are `#D42222` (B3 error). Error state differs by error source | Rebuild `BwTextField` when the `FormField` error changes. For example, read the error inside the `TextFormField`'s builder path, or listen for changes and call `setState` (no post-frame copy of the value). Add a test: with a validator, `validate()` makes the counter and add-on border use the B3 error tokens (same as `errorText`), and `reset()` returns them to default | Executor |
+| 17 | 🟡 Should fix | `bw_text_field.dart:960-964` (`_RenderBwFieldHitArea.handleEvent`) | New regression from Fix round 2. `onTap` (`_focusField`) runs on **every** `PointerUpEvent` in the field, with no tap-gesture arbitration. The wrapper is on every field (all sizes, multiline too). Probe: in a `ListView`, a drag that starts on an unfocused field focuses it (keyboard would open while scrolling a form); a plain `TextField` stays unfocused. Probe: tapping the password toggle also focuses the field | Use a real tap recognizer (e.g. a `TapGestureRecognizer` added in `handleEvent` on `PointerDownEvent`, or `GestureDetector(onTap:)` around the extended region) so drags, long-presses and taps on inner buttons do not trigger it. Only take over the band outside the outline (#13). Add a test: drag-scroll starting on a field leaves it unfocused | Executor |
+| 15 | 🟢 Nit | `test/text_field_test.dart:1455-1488` | Still open. `attached`, `debugNeedsPaint` and `paintBounds` are all true or non-zero for a spinner painted into an orphan layer (probe), so the test does not detect Round 1's bug | Assert that the spinner's painted layer is part of the composited tree (walk `renderView.debugLayer` and find the spinner's layer or its `PictureLayer`), or add a focused golden of a loading end button | Executor |
+| 18 | 🟢 Nit | `bw_field_action.dart:47`, `bw_text_field_decoration.dart:602` | `inputStyle.fontSize ?? BwSize.iconSm`: an icon-size token used as a fallback font size (the same misuse as #14; the fallback is never reached because Biowave text styles always set `fontSize`) | Use the `!` operator, or assert that `fontSize` is set, instead of a token fallback | Executor |
+
+#### Notes
+
+- Fix round 2 was the last allowed fix round (`limits.maxFixRounds` = 2). The open items are all Executor 🟡 and need a human decision at the after-review gate.
+- #13 and #17 share one render object; one fix with a real tap recognizer limited to the band outside the outline closes both.
+- Figma build (Part D) not reviewed: `Figma build = Planned`.
+
+#### Next step
+
+Human decision (fix-round limit reached): either allow one more Fixer round for #13, #16, #17 (and nits #15, #18), or accept them as known issues. No Planner items; Plan stays `Finished`.
 
 ---
 
