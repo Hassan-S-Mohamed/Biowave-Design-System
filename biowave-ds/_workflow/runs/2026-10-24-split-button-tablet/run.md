@@ -23,6 +23,7 @@
 | 07 | fix | antigravity | partial — code + goldens done, stopped before C8/Handoff | docs:check ✓ · analyze ✓ · test ✓ 168/168 (orchestrator) | — | [prompt](07-fix-antigravity.prompt.md) |
 | 08 | fix | antigravity | failed — Antigravity quota reached (default model), nothing changed | — | — | [prompt](08-fix-antigravity.prompt.md) |
 | 09 | fix | antigravity (Gemini 3.8 Flash) | done — C8 Fix round 1, Code Built, CHANGELOG | docs:check ✓ · analyze ✓ · test ✓ 168/168 (orchestrator); light-ar golden checked by eye (menu under container, end-aligned) | (this commit) | [prompt](09-fix-antigravity.prompt.md) |
+| 10 | review | claude (wf-reviewer agent; resumed after session limit) | done — Round 2 Approved: #1–#10 fixed, 2 new 🟢 (#11 first-frame jump for wide menus, #12 menu not capped to screen width) | docs:check ✓ · analyze ✓ · test ✓ 168/168 · sync ✓ | (this commit) | [prompt](10-review-claude.prompt.md) |
 
 ## Gates
 

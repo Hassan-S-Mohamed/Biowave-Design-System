@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Review — Tablet Split button round 2: Approved] — 2026-10-24
+### Reviewed
+- Split button (tablet) review round 2: **Approved**. See Part E3 of `4-tablet-components/components/split-button/split-button.md`. Round 1 findings #1–#10 are all fixed. Re-probes pass: the menu opens end-aligned under the container in LTR and RTL with a `BwSpacing.xs` offset, and the keyboard reaches the menu items (ArrowDown/Up, Enter/Space, Esc, Tab). The BwButton / BwIconButton / `bw_button_style.dart` changes match C3 exactly, and the existing button and icon-button tests are unchanged. The four goldens were checked. Two optional 🟢 nits: #11 the menu jumps for one frame when it is wider than the container, #12 very long option labels are not capped to the screen width. Code → Approved (header + README). `docs:check` ✓, `flutter analyze` ✓, `flutter test` 168/168 ✓, `sync` READY.
+
 ## [Fixed — Tablet Split button review round 1] — 2026-10-24
 ### Fixed
 - Fixed Tablet `BwSplitButton` review round 1 findings and plan 2/2.1 items: #1 end-aligned menu under container in LTR/RTL with `BwSpacing.xs` vertical offset; #2 keyboard navigation for menu items (focus first/last, arrow keys move, Enter/Space selects); #3 Tab/Shift+Tab close open menu and advance/reverse focus; #6 chevron close duration `BwDuration.sm` with accelerate curve (open `BwDuration.md`, instant on reduced motion); #9 moved duplicated `_borderRadius` into shared `BwButtonStyle.segmentBorderRadius`; #10 asserted `tap` and `focus` semantics actions on primary button; applied plan 2 menu tokens with elevation-3 decorated surface (`MenuStyle` transparent, `Clip.none`), menu item state styles, and B9 PNG goldens (`light`/`dark` × `en`/`ar`) under `4-tablet-components/test/goldens/split_button/`. Code → Built.
