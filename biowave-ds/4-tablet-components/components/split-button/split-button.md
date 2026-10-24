@@ -15,7 +15,7 @@
 | Figma | **Biowave DS — Tablet Components** › `↳ Split Button` (page Typography mode `Tablet`) · [Part D](#d--figma-build) |
 | Version | 1.0 · 2026-10-16 |
 | Plan | Finished |
-| Code | Planned |
+| Code | Built |
 | Figma build | Planned |
 | Review | — |
 | Source code | `lib/src/components/split-button/` — not built yet (the Executor creates it) |
@@ -296,11 +296,13 @@ B9, plus earlier button-family tests still pass.
 
 | Field | Value |
 |---|---|
-| Agent | |
-| Date | |
-| Files changed | |
+| Agent | Codex |
+| Date | 2026-10-24 |
+| Files changed | `lib/src/components/split_button/bw_split_button.dart` · `test/split_button_test.dart` · `lib/src/components/button/bw_button.dart` · `lib/src/components/icon_button/bw_icon_button.dart` · `lib/biowave_tablet.dart` · `4-tablet-components/README.md` · this C8 log · `CHANGELOG.md` |
+| Round 2 fixes | Replaced the legacy chevron with `Symbols.expand_more_rounded`; sized menu options to the split-button container; corrected the directional test harness; disposed semantics handles inside each test body. |
+| Checks | `flutter analyze` ✓ · `npm run component-tokens` ✓ · `npm run sync` ✓ · `npm run docs:check` ✓ · `flutter test` not runnable in sandbox — orchestrator runs it (loopback socket denied) |
 
-**Deviations:** none
+**Deviations:** No PNG golden matcher paths were added because contract §9 does not authorise a goldens folder, as directed by the implementation prompt; the allowed visual matrix and RTL radii are covered programmatically. `MenuAnchor` does not expose animation-duration parameters, so its prescribed fade/scale uses Flutter's built-in timing; the chevron uses `BwDuration.md` / `BwEasing.*`, and reduced motion disables both animations.
 **Questions for the Planner:** none
 
 ---

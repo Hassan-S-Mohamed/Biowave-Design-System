@@ -1,4 +1,5 @@
 import 'package:biowave_foundations/biowave_foundations.dart';
+import 'package:flutter/foundation.dart' show internal;
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 
@@ -23,6 +24,14 @@ class BwIconButton extends StatelessWidget {
     this.tooltip = true,
     this.loading = false,
     this.loadingLabel,
+    this.focusNode,
+    this.autofocus = false,
+    this.statesController,
+    this.segment,
+    this.iconTurns = 0,
+    this.iconRotationDuration = BwDuration.instant,
+    this.iconRotationCurve = BwEasing.standard,
+    this.expanded,
     super.key,
   })  : assert(label.length > 0, 'BwIconButton needs a label'),
         assert(
@@ -55,6 +64,38 @@ class BwIconButton extends StatelessWidget {
   final bool loading;
   final String? loadingLabel;
 
+  /// Used by package-owned composite controls that manage trigger focus.
+  @internal
+  final FocusNode? focusNode;
+
+  /// Used by package-owned composite controls that manage trigger focus.
+  @internal
+  final bool autofocus;
+
+  /// Used by package-owned composite controls to force interaction states.
+  @internal
+  final WidgetStatesController? statesController;
+
+  /// Used by package-owned controls that join buttons into one control.
+  @internal
+  final BwButtonSegment? segment;
+
+  /// Used by package-owned composite controls with animated glyphs.
+  @internal
+  final double iconTurns;
+
+  /// Used by package-owned composite controls with animated glyphs.
+  @internal
+  final Duration iconRotationDuration;
+
+  /// Used by package-owned composite controls with animated glyphs.
+  @internal
+  final Curve iconRotationCurve;
+
+  /// Used by package-owned menu triggers to expose expanded state.
+  @internal
+  final bool? expanded;
+
   BwButtonVariant get _effectiveVariant {
     if (variant == BwButtonVariant.tonal &&
         (color == BwButtonColor.neutral || color == BwButtonColor.inverse)) {
@@ -86,9 +127,8 @@ class BwIconButton extends StatelessWidget {
     final ringColor = color == BwButtonColor.inverse
         ? context.bw.colors.borderInverse
         : context.bw.colors.borderFocus;
-    final ringBorderRadius = BorderRadiusDirectional.all(
-      Radius.circular(dimensions.radius),
-    ).resolve(Directionality.of(context));
+    final borderRadius = _borderRadius(dimensions);
+    final ringBorderRadius = borderRadius.resolve(Directionality.of(context));
     final style = baseStyle.copyWith(
       fixedSize: WidgetStatePropertyAll<Size>(Size.square(dimensions.height)),
       padding: const WidgetStatePropertyAll<EdgeInsetsGeometry>(
@@ -108,6 +148,9 @@ class BwIconButton extends StatelessWidget {
         (states) =>
             _selectedIconColor(context, states) ??
             baseStyle.iconColor?.resolve(states),
+      ),
+      shape: WidgetStatePropertyAll<OutlinedBorder>(
+        RoundedRectangleBorder(borderRadius: borderRadius),
       ),
       backgroundBuilder: (context, states, child) {
         assert(child != null);
@@ -146,11 +189,16 @@ class BwIconButton extends StatelessWidget {
                 if (currentChild != null) currentChild,
               ],
             ),
-            child: BwIcon(
+            child: AnimatedRotation(
               key: ValueKey<bool>(_effectiveSelected),
-              icon: activeIcon,
-              filled: _effectiveSelected,
-              directional: activeIcon.matchTextDirection,
+              turns: iconTurns,
+              duration: iconRotationDuration,
+              curve: iconRotationCurve,
+              child: BwIcon(
+                icon: activeIcon,
+                filled: _effectiveSelected,
+                directional: activeIcon.matchTextDirection,
+              ),
             ),
           ),
         ),
@@ -173,6 +221,9 @@ class BwIconButton extends StatelessWidget {
           BwButtonVariant.filled => IconButton.filled(
               key: const ValueKey<String>('BwIconButton.container'),
               onPressed: action,
+              focusNode: focusNode,
+              autofocus: autofocus,
+              statesController: statesController,
               style: style,
               isSelected: _effectiveToggle ? _effectiveSelected : null,
               icon: content,
@@ -180,6 +231,9 @@ class BwIconButton extends StatelessWidget {
           BwButtonVariant.tonal => IconButton.filledTonal(
               key: const ValueKey<String>('BwIconButton.container'),
               onPressed: action,
+              focusNode: focusNode,
+              autofocus: autofocus,
+              statesController: statesController,
               style: style,
               isSelected: _effectiveToggle ? _effectiveSelected : null,
               icon: content,
@@ -187,6 +241,9 @@ class BwIconButton extends StatelessWidget {
           BwButtonVariant.outlined => IconButton.outlined(
               key: const ValueKey<String>('BwIconButton.container'),
               onPressed: action,
+              focusNode: focusNode,
+              autofocus: autofocus,
+              statesController: statesController,
               style: style,
               isSelected: _effectiveToggle ? _effectiveSelected : null,
               icon: content,
@@ -194,6 +251,9 @@ class BwIconButton extends StatelessWidget {
           BwButtonVariant.text => IconButton(
               key: const ValueKey<String>('BwIconButton.container'),
               onPressed: action,
+              focusNode: focusNode,
+              autofocus: autofocus,
+              statesController: statesController,
               style: style,
               isSelected: _effectiveToggle ? _effectiveSelected : null,
               icon: content,
@@ -241,11 +301,33 @@ class BwIconButton extends StatelessWidget {
           value: loading ? announcement : null,
           enabled: onPressed != null,
           toggled: _effectiveToggle ? _effectiveSelected : null,
+          expanded: expanded,
           excludeSemantics: loading || onPressed == null,
           child: visual,
         ),
       ),
     );
+  }
+
+  BorderRadiusDirectional _borderRadius(BwButtonMetrics dimensions) {
+    final outerRadius = Radius.circular(dimensions.radius);
+    const innerRadius = Radius.circular(BwRadius.xs);
+
+    return switch (segment) {
+      null => BorderRadiusDirectional.all(outerRadius),
+      BwButtonSegment.start => BorderRadiusDirectional.only(
+          topStart: outerRadius,
+          bottomStart: outerRadius,
+          topEnd: innerRadius,
+          bottomEnd: innerRadius,
+        ),
+      BwButtonSegment.end => BorderRadiusDirectional.only(
+          topStart: innerRadius,
+          bottomStart: innerRadius,
+          topEnd: outerRadius,
+          bottomEnd: outerRadius,
+        ),
+    };
   }
 
   Color? _selectedBackground(BuildContext context, Set<WidgetState> states) {

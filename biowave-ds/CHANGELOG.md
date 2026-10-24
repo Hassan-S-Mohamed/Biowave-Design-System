@@ -2,6 +2,14 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Fixed — Tablet Split button implementation checks] — 2026-10-24
+### Fixed
+- Replaced the split-button trigger's legacy Material icon with the shared rounded Symbol, made menu options at least as wide as the split-button container, corrected RTL/LTR gap coverage, and disposed semantics handles within each accessibility test. Code → Built; analysis, component-token, sync, and docs checks pass, while Flutter Test remains delegated to the orchestrator because the sandbox denies its loopback socket.
+
+## [Tablet Split button — implementation] — 2026-10-24
+### Added
+- Added the token-driven Flutter `BwSplitButton` composition, logical segment radii for `BwButton` / `BwIconButton`, keyboard and screen-reader menu interaction, RTL-aware layout, package export, and contract test coverage. Code → Built; analysis, component-token, sync, and docs checks pass, while Flutter Test remains not runnable in the sandbox because its loopback harness socket is denied and will be run by the orchestrator.
+
 ## [Review — Tablet Icon button round 2: Approved] — 2026-10-24
 ### Changed
 - Icon button (tablet) review round 2: **Approved** — Part E3 of `4-tablet-components/components/icon-button/icon-button.md`. Round 1 #1 fixed (`MergeSemantics` exposes one labelled button node with `tap` + `focus` when enabled, none when disabled; tap-target guidelines now meaningful), #2 fixed (plan 1.1 authorises `test/goldens/icon_button/`; four goldens added and checked by eye), #3 fixed (icon cross-fade), #4 and #5 fixed (header source path, C1 reference). 🟢 #6 nit: no icon-button test asserts reduced motion (Implementer, non-blocking). Code → Approved (header + README). `docs:check` ✓, `flutter analyze` ✓, `flutter test` 152/152 ✓.
