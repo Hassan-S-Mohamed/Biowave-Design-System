@@ -2,6 +2,12 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Preview — Mobile Chip 1.0] — 2026-10-24 — Added light/English and dark/Arabic RTL planning sheets for assist, filter, input, and all seven tag colours across `sm`/`md` and the specified interactive states, with resolved token sheet and visual check notes.
+
+## [Preview — Tablet Chip 1.0] — 2026-10-24 — Added light/English and dark/Arabic RTL planning sheets for assist, filter, input, and all seven tag colours across `sm`/`md` and the specified interactive states, with resolved token sheet and visual check notes.
+
+## [Preview — Web Chip 1.0] — 2026-10-24 — Added light/English and dark/Arabic RTL planning sheets for assist, filter, input, and all seven tag colours across `sm`/`md` and the specified interactive states, with resolved token sheet and visual check notes.
+
 ## [Plan — Chip (web, tablet, mobile)] — 2026-10-23
 ### Added
 - Chip plan 1.0 on all three platforms: `3-web-components/components/chip/chip.md`, `4-tablet-components/components/chip/chip.md`, `5-mobile-components/components/chip/chip.md` (Parts A–D and F; Part A identical except A8). Variants `assist` · `filter` · `input` · `tag` (Tag / Label) · `status` (request status, P-05); sizes `sm` · `md`; tag colours `neutral` · `brand` · `secondary` · `success` · `warning` · `error` · `info`. No component tokens — every value is an existing semantic token (P-04), so no `chip.tokens.json`. Input chips use the Biowave Avatar (24 box = `size-icon-lg` at `sm`, needs Avatar `xs`; Avatar `sm` at `md`). The 7 request-status states are not written in the design system yet, so `status` is defined but out of build scope until plan 1.1. Contracts generated (`npm run contract -- <platform> chip`), docs pages built, Components rows added (Plan Finished · Code Planned · Figma Planned). Glyph `check` is not yet in `_sync/figma-icons.json`.

@@ -13,6 +13,7 @@
 | # | Step | Agent | Result | Checks | Commit | Prompt |
 |---|---|---|---|---|---|---|
 | 01 | plan | claude (wf-planner subagent) | done (2026-10-23, resumed after a connection drop) · Chip 1.0 on W/T/M: variants assist/filter/input/tag (Tag + Label)/status (P-05); sizes sm/md (web `sm`, touch `md`); interactive 32/40 outlined `radius-md`, static filled `radius-full`; tag colours neutral/brand/secondary/success/warning/error/info; no component tokens; web on `ButtonBase` + styled span (not MUI `Chip`: div role=button, remove icon not tabbable), remove = Biowave `IconButton`; Flutter custom `BwChip.*`. **`status` 7 states not specified** (renders neutral tag + warning until 1.1); `sm` chip with avatar blocked on Avatar `xs` | component-tokens ✓ · contract W/T/M ✓ · docs:build ✓ · docs:check ✓ · sync ✓ READY (`check` icon not indexed) | see git log | `01-plan-claude.prompt.md` |
+| 02–05 | preview ×3 | codex | web, tablet, mobile sheets complete (tablet retried after a Codex usage limit) — status variant left out (states not specified) | previews W/T/M ✓ | see git log | `0[2-5]-preview-codex-*.prompt.md` |
 
 ## Gates
 
