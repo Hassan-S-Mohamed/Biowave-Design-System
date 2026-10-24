@@ -15,9 +15,9 @@
 | Figma | **Biowave DS — Mobile Components** › `↳ Split Button` (page Typography mode `Mobile`) · [Part D](#d--figma-build) |
 | Version | 1.0 · 2026-10-16 |
 | Plan | Finished |
-| Code | Built |
+| Code | Changes requested |
 | Figma build | Planned |
-| Review | Round 1 · 2026-10-24 · Changes requested |
+| Review | Round 2 · 2026-10-24 · Changes requested |
 | Source code | `lib/src/components/split_button/bw_split_button.dart` |
 | Tokens | — (no component tokens yet) |
 | Contracts | [`split-button-contract.md`](split-button-contract.md) · [`figma-split-button-contract.md`](figma-split-button-contract.md) — generated, never edited |
@@ -476,7 +476,111 @@ Component description: one line from A1 + "Spec: 5-mobile-components/components/
 
 | Round | Date | Code verdict | Figma verdict |
 |---|---|---|---|
+| 2 | 2026-10-24 | Changes requested | not reviewed |
 | 1 | 2026-10-24 | Changes requested | not reviewed |
+
+### E3 Round 2 — 2026-10-24
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 2 · 2026-10-24 |
+| Spec version reviewed | 1.0 (F2 entry 2026-10-24) |
+| Reviewer | Claude |
+| Date | 2026-10-24 |
+| Commit reviewed | `8686b67` (branch `ds/split-button-mobile`, `git diff main...HEAD`; working tree clean before this review; merge base `0127282`) |
+| Verdict | **Changes requested** (0 🔴, 1 🟡, 2 🟢 open) |
+
+Checks run by the Reviewer (not copied from C8):
+
+| Command | Result |
+|---|---|
+| `npm run docs:check` | ✓ 18 component files OK |
+| `cd 5-mobile-components && flutter analyze` | ✓ No issues found |
+| `cd 5-mobile-components && flutter test` | ✓ 141 tests, all passed (goldens compared, not updated) |
+
+Behaviour probes (a throw-away widget test, copied into `test/` only for the run and deleted after; `git status` clean afterwards; 800 × 600 test screen; 11/11 passed):
+
+| Probe | Result |
+|---|---|
+| Tab / Shift+Tab close the menu | ✅ Focusable before + split + focusable after; Tab ×3, Enter opens, ArrowDown to item 2, then Tab → menu gone, focus on the next control, no option run (`[0, 0, 0]`). Shift+Tab from item 2 → menu gone, focus on `primary-action`. Also test `Tab and Shift+Tab close the open menu and move focus on` |
+| Menu position, LTR + RTL | ✅ Short options: `en` container x 330.9–469.1, menu x 330.9–469.1; `ar` container x 331.7–468.3, menu x 331.7–468.3; menu top = container bottom + 4.0 (`BwSpacing.xs`) in both. Long option: `en` menu x 137.4–469.1 (end edge = container right), `ar` menu x 331.7–647.4 (end edge = container left); width ≥ container |
+| Keyboard reach | ✅ Tab ×2 → Space opens, focus on option 0; ArrowUp wraps to the last option, ArrowDown wraps back to the first (B6); ArrowDown + Enter runs option 1 exactly once (`[0, 1, 0]`), menu closes, focus returns to `menu-trigger` |
+| Decorated `elevation-3` surface | ✅ Surface `DecoratedBox` color = `surfaceRaised`, `boxShadow` = `context.bw.elevation.elevation3`, radius `radius-lg`, `ClipRRect` inside; `MenuAnchor.clipBehavior = Clip.none`; `MenuStyle.elevation` not set. The M3 menu `Material` keeps its default elevation 3.0 but with transparent color and transparent `shadowColor`, so it paints nothing (B2: no numeric elevation set by the code) |
+| Menu fade under reduced motion | ✅ `animated: true` without reduced motion — `FadeTransition` opacity 0.064 → 0.32 → 1.0 over the first frames; with `disableAnimations` `MenuAnchor.animated == false` and every opacity is 1.0 on the first frame (B4) |
+| Shared button style, focused + pressed | ❌ Standalone `BwButton(variant: outlined)`: `overlayColor.resolve({focused, pressed})` = `overlayPressed` (on `main` = transparent) — finding 11 |
+
+Changes to the approved button components (`git diff main...HEAD -- lib/src/components/button lib/src/components/icon_button lib/biowave_mobile.dart`), checked against C3:
+- `bw_button.dart`: `@internal enum BwButtonSegment { start, end }` (`:15-16`), `@internal final BwButtonSegment? segment` (`:64-65`, default `null`); with `segment != null` the shape and the `BwFocusRing` builder use `BwButtonStyle.segmentBorderRadius` (`:84-106`); `segment == null` keeps `baseStyle`. ✅ Same names as tablet.
+- `bw_icon_button.dart`: the eight C3 params, all `@internal`, defaults exactly as C3 — `focusNode` `null`, `autofocus` `false`, `statesController` `null`, `segment` `null`, `iconTurns` `0`, `iconRotationDuration` `BwDuration.instant`, `iconRotationCurve` `BwEasing.standard`, `expanded` `null` (`:26-33`, `:66-96`); `AnimatedRotation` round the glyph (`:270-284`); `expanded` on `Semantics` (`:369`); radius via the shared helper (`:191-192`). `iconChild` and the expanded-driven pressed hack are gone. ✅
+- `bw_button_style.dart`: `@internal static BorderRadiusDirectional segmentBorderRadius(BwButtonMetrics, BwButtonSegment?)` (`:143-167`), `null` = `BorderRadiusDirectional.all(dimensions.radius)`. ✅ **But** the `overlay()` resolver was also changed (`:64-78`): `focused` no longer wins over `pressed` — not in C3, which says "No other change to these files is allowed" (finding 11).
+- `lib/biowave_mobile.dart:12`: `export 'src/components/button/bw_button.dart' hide BwButtonSegment;` ✅; `:15` exports `bw_split_button.dart`.
+- Existing tests unchanged: `git diff main...HEAD --stat -- 5-mobile-components/test` lists only `split_button_test.dart` and the 4 new goldens; `button_test.dart`, `icon_button_test.dart` and their goldens are untouched and pass.
+
+Goldens vs B9: the four goldens in `test/goldens/split_button/` cover allowed `variant` × `color` × sizes, light + dark, en + ar, with radii mirrored in RTL (viewed `split-button-light-ar.png`). B9 does not ask for an open-menu state (tablet B9 is word-for-word the same; its open-menu goldens go beyond it), so the mobile goldens meet B9. The menu surface is covered by token tests instead (Note).
+
+#### Round 1 findings
+
+| # | Status | Evidence |
+|---|---|---|
+| 1 | Fixed | `bw_split_button.dart:490-493`, `:529-532`, `:556-568`; probe above; test `Tab and Shift+Tab close the open menu and move focus on` |
+| 2 | Fixed | Plan 2 C3 table + C5 list every internal param; code matches C3 names and defaults (above) |
+| 3 | Fixed | `@internal` on every param, the enum and the helper; `hide BwButtonSegment` (`biowave_mobile.dart:12`); Fix round 1 in C8 lists them |
+| 4 | Fixed | Plan B2 maps `elevation-3`; code `bw_split_button.dart:253-306`; probe; test `… surface tokens and elevation-3` (`split_button_test.dart:349-373`) |
+| 5 | Fixed | C5 lists `test/goldens/split_button/` |
+| 6 | Fixed | `BwSplitButton.chevronHalfTurn = 0.5` (`:76`), closed `0.0` (`:352`); no token used as a turn or width sentinel (see finding 13 for its visibility) |
+| 7 | Fixed | One radius helper `BwButtonStyle.segmentBorderRadius`, used by both buttons for shape and ring (C3). The ~15-line `BwFocusRing` builder is still written in both files, as on tablet `main` — Note |
+| 8 | Fixed | C3 "chevron rotation per B4 (open `md` decelerate, close `sm` accelerate)"; code `:353-358` |
+| 9 | Fixed | B6 says arrows wrap; code `:581-599`; probe; test `arrow keys wrap around enabled options in open menu` |
+| 10 | Fixed | Header Source code = `lib/src/components/split_button/bw_split_button.dart` |
+
+#### Acceptance criteria
+
+| AC | Result | Evidence (file:line / test name) |
+|---|---|---|
+| AC-1 API = B1 (names, defaults, asserts) | ✅ | `bw_split_button.dart:14-33` (option), `:37-73` (params, defaults `filled` / `brand` / `lg`, asserts), release fallbacks `:131-146`, default `menuLabel` `:239-242`. Group `BwSplitButton API` |
+| AC-2 Values from tokens only; shared helpers reused, no copied styles | ⚠️ | Tokens only (test `component source contains no raw visual values`); radius helper shared (#7 fixed); menu surface tokens per B2 (probe). But the shared `BwButtonStyle.resolve` was changed outside C3 (finding 11) |
+| AC-3 States/transitions; reduced motion | ✅ | Chevron B4 timing (test `chevron rotates with B4 open/close durations and curves`); Expanded = Pressed via `statesController` (`:649-656`); menu fade on, off under reduced motion (probe; `:254`); test `reduced motion makes chevron and menu item transitions instant` |
+| AC-4 RTL and a11y per B5–B6 | ✅ | Directional radii and end-aligned menu in LTR + RTL (probe; test `menu geometry and end alignment in en and ar`; `*-ar` goldens); Tab / Shift+Tab, arrows wrap, Home / End, Esc (probes + tests); semantics test `exposes container semantics, …, and toggles expanded`; target size test `accessibility guidelines … meet tap target and contrast guidelines` |
+| AC-5 analyze, test, sync pass | ✅ | Checks table above (`sync` not re-run this round; C8 reports `sync` READY, and nothing in the fix touches synced files) |
+| AC-6 Exported; README status | ✅ | `lib/biowave_mobile.dart:15`; README row = header (`docs:check` ✓) |
+
+#### Rule checks (AGENTS.md §2 and workflow rules)
+
+| Rule | Result | Notes |
+|---|---|---|
+| 1 No generated files edited | ✅ | Contracts changed only by the Planner's `npm run contract` in `6c54d49`; the fix commit touches no generated file |
+| 2 No raw values | ✅ | `0.5` is a named ratio constant per C3; `0.0` only as zero width / turns |
+| 3 No primitives | ✅ | No `BwPalette` / `primitive.*` |
+| 4 RTL first | ✅ | `EdgeInsetsDirectional`, `BorderRadiusDirectional`, `AlignmentDirectional.bottomStart` |
+| 5 Both themes, both languages tested | ✅ | 4 goldens; token tests light + dark |
+| 6 Accessibility | ✅ | Keyboard, focus return, semantics (probes + tests) |
+| 7 Stay inside the contract | ❌ | `bw_button_style.dart` `overlay()` order changed; C3 / contract allow only the helper in that file, and C8 Fix round 1 does not list it (finding 11) |
+| 8 One component per task | ✅ | Only this unit plus the three C5 button files |
+| 9 Changelog | ✅ | `CHANGELOG.md` "Fixed — Mobile Split button review round 1" |
+| Role ownership | ✅ | Fixer wrote C8 Fix round 1, header Code and README status only |
+
+#### Findings
+
+| # | Severity | File | Issue | Required change | Owner |
+|---|---|---|---|---|---|
+| 11 | 🟡 Should fix | `lib/src/components/button/bw_button_style.dart:64-78` | The shared `overlay()` resolver now returns `overlayPressed` for `{focused, pressed}`; on `main` `focused` wins and returns transparent. This changes the approved BwButton / BwIconButton for every caller (tonal · outlined · text pressed while keyboard-focused; probe above), against Button B3 "focused → transparent", against C3 "No other change to these files is allowed", and unlike tablet `main` (focused first). It is not in C8 Fix round 1 (the CHANGELOG line says the pressed hack was "removed") | Restore the `main` order in `overlay()` so `bw_button_style.dart` differs from `main` only by `segmentBorderRadius`. If a split-button test then fails because the trigger is focused while expanded, do not change the shared style: stop and write it in C8 → Questions for the Planner | Executor |
+| 12 | 🟢 Nit | `lib/src/components/split_button/bw_split_button.dart:457-480` | The menu item focus ring is drawn twice: once by `side` (merged into the item shape) and again by a `DecoratedBox` border in `backgroundBuilder`, same width, color and place | Keep one of the two (B3: one ring inside the item edge) | Executor |
+| 13 | 🟢 Nit | `lib/src/components/split_button/bw_split_button.dart:76` | `BwSplitButton.chevronHalfTurn` is a public static, so it joins the exported API, which B1 does not list (C3 asks only for "a named constant in `bw_split_button.dart`") | Make it private (for example a top-level `const _chevronHalfTurn`) or `@visibleForTesting` | Executor |
+
+(Severity count: 🟡 #11; 🟢 #12, #13.)
+
+#### Notes (not findings)
+
+- Goldens: B9 does not ask for an open-menu golden, so the four goldens meet it. The tablet goldens also show the open menu. If the menu surface should have visual regression cover on both platforms, the Planner can add that to B9 for both in a later plan version; not required for this unit.
+- The `BwFocusRing` `backgroundBuilder` is repeated in `bw_button.dart` and `bw_icon_button.dart` (the radius comes from the shared helper). Same as tablet on `main`; C3 asks only for no copied radius code.
+- The M3 menu `Material` keeps M3's default elevation 3.0 with transparent color and `shadowColor`, so nothing is drawn; acceptable under B2.
+- The branch is based on `0127282`; `main` has moved on (`d6328c9`, `f555640`). Expect `CHANGELOG.md` conflicts at merge (orchestrator).
+- Figma build (Part D) not reviewed: `Figma build = Planned`.
+
+#### Next step
+
+- Executor (fix round 2): finding 11, and 12 and 13 if cheap; log in C8 → Fix round 2.
+- No Planner items: Plan stays `Finished`. Code → `Changes requested` (header + README).
 
 ### E2 Round 1 — 2026-10-24
 
