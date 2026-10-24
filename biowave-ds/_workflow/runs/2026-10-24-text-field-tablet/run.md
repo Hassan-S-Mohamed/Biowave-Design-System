@@ -12,6 +12,7 @@
 
 | # | Step | Agent | Result | Checks | Commit | Prompt |
 |---|---|---|---|---|---|---|
+| after-review (Round 3, limit reached) | Approve — one extra fix round | User allows Fix round 3 as an exception to maxFixRounds=2: #13, #16, #17 + nits #15, #18 → Antigravity (Gemini), then Round 4 |
 | after-review (Round 2) | Approve | Fix round 2 (last allowed) → Antigravity (Gemini): #12–#15 |
 | before fix | — | Split button (tablet) merged in #17; main merged into this branch (README, exports, CHANGELOG conflicts resolved); checks ✓ 197/197 |
 | after-plan (plan 1.2) | Approve | Previews skipped (only end-button corners change). Fix round 1 waits until split-button merges on this platform; then merge main and reuse its `segment` API unchanged |
@@ -33,7 +34,7 @@
 
 ## Questions raised
 
-- Reviewer Round 3: fix-round limit (2) reached with 3 open 🟡 (#13, #16, #17) — allow one more fix round, or accept as known issues?
+- Reviewer Round 3: fix-round limit (2) reached with 3 open 🟡 (#13, #16, #17) — allow one more fix round, or accept as known issues? → User: allow one more fix round.
 
 ## Summary
 
