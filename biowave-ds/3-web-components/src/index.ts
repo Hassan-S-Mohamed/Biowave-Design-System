@@ -20,6 +20,14 @@ export {
   type ButtonGroupSize,
 } from './components/button-group';
 export {
+  Divider,
+  type DividerProps,
+  type DividerComponent,
+  type DividerOrientation,
+  type DividerEmphasis,
+  type DividerInset,
+} from './components/divider';
+export {
   Icon,
   type IconProps,
   type IconName,

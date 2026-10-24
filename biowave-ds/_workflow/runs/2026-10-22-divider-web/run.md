@@ -16,6 +16,7 @@
 | 02–04 | preview ×3 | codex | 1.0 sheets: tablet complete; web and mobile partial (network disconnects / time limit, other session's Codex jobs running at the same time). Superseded by plan 1.1 | previews: tablet ✓, web ✗, mobile ✗ | see git log | `02…04-preview-codex-*.prompt.md` |
 | 05 | plan | claude (wf-planner subagent) | done (2026-10-23) · plan 1.1 with the user's answers: inset stays `spacing-xl` (List adds its own, noted); `showLabel` + `label` (horizontal only; `caption-md`, `color-text-neutral-muted`, gap `spacing-md`; web labelled divider = `<div role="separator" aria-label>`); `decorative` default false; web `component` `hr`/`li` — **`li` always `aria-hidden`** because axe 4.14 `list` fails a visible `<li role="separator">` (confirm at gate). Figma: `Show label` + `Label` properties | component-tokens ✓ · contract W/T/M ✓ · docs:build ✓ · docs:check ✓ | see git log | `05-plan-claude.prompt.md` |
 | 06–08 | preview ×3 | codex | plan 1.1 sheets for web, tablet, mobile (incl. the label) | previews W/T/M ✓ | see git log | `0[6-8]-preview-codex-*.prompt.md` |
+| 09 | implement | codex | done (2026-10-24): web Divider from contract 1.1 (code, tests, export); C8; Code Built. Codex: test:web 118/118 ×3. The sent prompt carried a stray Tooltip note in "Notes from the user" (touch time, "rich dividers"); the file was corrected after sending — the contract was the only build input | docs:check ✓ · typecheck ✓ · test:web ✓ 118/118 (orchestrator) | see git log | `09-implement-codex.prompt.md` |
 
 ## Gates
 

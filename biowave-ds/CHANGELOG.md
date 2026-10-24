@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Added — Web Divider 1.1] — 2026-10-24
+### Added
+- Built and exported the token-styled web `Divider` with horizontal and vertical orientations, three emphasis levels, logical start/both insets, optional centred labels, decorative and list semantics, development warnings with specified fallbacks, and forwarded root refs/data attributes. Added 11 table-driven tests covering both themes and languages, RTL/logical CSS, tokens, labels, semantics, invalid combinations, axe, and three consecutive 118/118 full-suite runs at default timeouts.
+
 ## [Preview — Mobile Divider 1.1] — 2026-10-24
 
 ## [Preview — Tablet Divider 1.1] — 2026-10-24
