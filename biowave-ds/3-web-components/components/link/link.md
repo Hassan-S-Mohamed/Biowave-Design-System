@@ -15,9 +15,9 @@
 | Figma | **Biowave DS — Web Components** › `↳ Link` · build: [Part D](#d--figma-build) |
 | Version | 1.0 · 2026-10-21 |
 | Plan | Finished |
-| Code | Built |
+| Code | Changes requested |
 | Figma build | Planned |
-| Review | — |
+| Review | Round 1 · 2026-10-24 · Changes requested |
 | Source code | `src/components/link/` — not built yet (the Executor creates it) |
 | Tokens | — (no component tokens: every value is a shared semantic token, P-04) |
 | Contracts | [`link-contract.md`](link-contract.md) · [`figma-link-contract.md`](figma-link-contract.md) — generated, never edited |
@@ -657,7 +657,85 @@ Component description: "Takes people to another page or resource. Spec: 3-web-co
 
 | Round | Date | Code verdict | Figma verdict |
 |---|---|---|---|
-| — | — | not reviewed | not reviewed |
+| 1 | 2026-10-24 | Changes requested | not reviewed |
+
+
+### E2 Round 1 — 2026-10-24
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 1.0 |
+| Spec version reviewed | 1.0 |
+| Reviewer | Claude |
+| Date | 2026-10-24 |
+| Code reviewed | `git diff origin/main...HEAD -- 3-web-components/src` on `ds/link-web` (`8e29350 implement(link/web)`): `components/link/Link.tsx`, `link.tokens.ts`, `Link.test.tsx`, `index.ts`; `src/index.ts` |
+| Verdict | **Changes requested** — solid build: every measured dimension, colour, focus ring and RTL position matches B2–B5 in light/dark × en/ar. 1 🟡 (external accessible name built with an undeclared `aria-label` on top of the B6 hidden span) and 3 🟢 nits |
+| Evidence | Run by the Reviewer on `ds/link-web`: `npm run docs:check` ✅ · `npm run typecheck` ✅ · `npm run test:web` ✅ 9 files, 123/123 (6.6 s, default timeouts). Headless Chrome (CDP, real Tab / mouse input) on a scratch page rendering the real `Link` through `BiowaveProvider` with `tokens.css` + `icons.css`, 1440 px wide, light/en and dark/ar |
+
+#### Browser measurements (headless Chrome)
+
+| What | Spec | Measured |
+|---|---|---|
+| Standalone `sm` · `md` · `lg` block size | `target-min` (24 px web) | 24 · 24 · 24 px at 1440 px (`--bw-target-min` 24 px) |
+| Label text style `sm` · `md` · `lg` | `action-sm|md|lg` | en 13/18 · 14/20 · 16/24 px, weight 500, Inter; ar 13/20 · 14/22 · 16/26 px, IBM Plex Sans Arabic |
+| Inline (`inherit`) | parent font, `display: inline`, no min size | 14/22 px 400 = the paragraph; `inline`; `min-block-size: 0`; wraps over 3 lines with the `open_in_new` icon (1em = 14 px) after the last word |
+| Icons `sm` · `md` · `lg` | `size-icon-sm` · `-sm` · `-md` | 16 · 16 · 20 px (wrapper and glyph) |
+| Gap | `spacing-xs` | 4 px |
+| Underline rest · hover/pressed (`always`) | `border-width-default` · `-strong`, offset `spacing-xxs` | 1 px · 2 px, offset 2 px, `currentColor`, label only (root `text-decoration: none`) |
+| `underline="hover"` | none at rest; default width on hover, pressed, focus | none · 1 px · 1 px · 1 px |
+| Colours light (default / hover / pressed) | `color-link-*` | `#2559D4` / `rgb(29,72,173)` / `rgb(21,55,134)`; neutral `#0A0A0A` constant; inverse `#FFFFFF`; disabled `#969696` |
+| Colours dark | same tokens | `#6D9CE8` / `rgb(156,188,242)` / `rgb(203,220,250)`; neutral `#F7F7F7`; inverse `#0A0A0A`; disabled `#545454` |
+| Focus (`:focus-visible` by Tab) | 2 px solid `color-border-focus`, offset 2 px, radius `radius-xs`; inverse `color-border-inverse` | light `#254471`, dark `#90A3BC`, inverse `#FFFFFF` / `#0A0A0A`; 2 px solid, offset 2 px, radius 4 px; label underlined on focus |
+| Tab order | disabled skipped | inline → inlineExt → sm → md → lg → hover → neutral → inverse (disabled skipped) |
+| Disabled | no hover/pressed change, `cursor: default` | colour and underline unchanged under hover and press; `cursor: default`; transition 0 s |
+| RTL (`md`, dark/ar) | leading icon at inline start, `open_in_new` flipped once by the Icon | leading icon x 868 (right), label x 764, external icon x 744 (left); glyph `matrix(-1,0,0,1,0,0)`, wrapper `none`; `mail` not flipped |
+| Motion | hover `motion-duration-sm`, pressed `-xs`, `standard` easing; reduced motion instant | `color 0.1s cubic-bezier(0.2,0,0,1)`; `:active` duration `-xs`; reduced motion through the `tokens.css` media query (durations 0 ms) |
+
+#### Acceptance criteria
+
+| AC | Result | Evidence (file:line / test name) |
+|---|---|---|
+| AC-1 API matches B1 | ✅ | Props and defaults `Link.tsx:23-38`, `:188-205`; MUI `color` / `underline` / `variant` / `sx` / `target` / `rel` removed from the type (`Link.tsx:40-58`); every B1 fallback + warn once (`Link.tsx:208-260`; test "warns once for each invalid combination and renders the documented fallback"); `component` forwards `to` + ref (test "renders an app-router component, forwards to, href, ref, and Link classes") |
+| AC-2 Tokens only | ✅ | `link.tokens.ts:15-82` uses `cssVars.*` and `biowaveVariants.action*` only; `1em` / `100%` are the B2 inline / layout values; test "maps every visual, layout, focus, underline, size, and motion value to cssVars"; raw-value guard (test "contains no raw colors, dimensions, durations, or font names"); browser table above |
+| AC-3 Transitions B4; reduced motion | ✅ | `Link.tsx:98-99`, `:114-118`, `:152`, `:159`, `:171`, `:177`; enabled ↔ disabled instant both ways (`Link.tsx:210-229`, test "changes instantly in both directions between enabled and disabled"); reduced motion from `tokens.css` |
+| AC-4 RTL B5; a11y B6 | ⚠️ | One flip by the Icon (`Link.tsx:306`; test "mirrors only the external Icon in RTL…"; browser RTL row). Disabled: no `href`, `role="link"`, `aria-disabled`, out of tab order, `onClick` not called (`Link.tsx:262-291`; test "removes disabled navigation…"). External name is right in en and ar, but it is produced by an `aria-label` the spec does not have — finding 1 |
+| AC-5 Tests B9 + C6 pass; checks pass | ✅ | Every B9 item and C6 item has a test in `Link.test.tsx` (4 theme × locale renders `:142-207`; states `:211-266`; underline `:268-306`; external `:344-380`; disabled `:382-404`; component `:406-430`; Enter / Space `:432-443`; RTL `:445-465`; axe `:467-480`; fallbacks `:484-581`); `noLegacyIcons.test.ts` passes; all three checks pass |
+| AC-6 Exported; statuses `Built` | ✅ | `src/index.ts` (diff, after Icon button); `components/link/index.ts:1-7`; README row and `link.md` header were `Built` at review start |
+| AC-7 MUI styling overridden; Biowave Icon only | ✅ | `underline="none"`, `color="inherit"`, `variant="inherit"` + own styles (`Link.tsx:280-282`, `:82-98`); browser shows no MUI underline or palette colour; only `<Icon name="open_in_new" directional />` (`Link.tsx:306`); no `@mui/icons-material` |
+
+#### Rule checks (AGENTS.md §2)
+
+| Rule | Result | Notes |
+|---|---|---|
+| No generated files edited | ✅ | Only `src/components/link/*` and `src/index.ts` in the code diff |
+| No raw values / no primitives | ✅ | Semantic `cssVars` and theme variants only |
+| RTL first (logical properties, icon mirroring) | ✅ | `minBlockSize`, `maxInlineSize`, `inlineSize`, `blockSize`, `marginInlineStart`; single flip by the Icon |
+| Both themes, both languages, tested | ✅ | `renderWithBiowave` for light/dark × en/ar (`Link.test.tsx:142-207`); browser check in light/en and dark/ar |
+| WCAG 2.2 AA | ⚠️ | Keyboard, focus ring, target size, non-colour cue all measured ✅; finding 1 on how the external name is built |
+| Tests through `renderWithBiowave`, default timeouts | ✅ | Every render uses `renderWithBiowave`; no timeout overrides in `Link.test.tsx` |
+| Stayed inside the contract | ⚠️ | Files = C5. C8 lists no deviations, but the `aria-label` (finding 1) and the extra `tabIndex={-1}` (finding 2) are not in B6 |
+| Leftovers from the three-agent build | ✅ | No stray files, debug code, commented-out code, TODOs or untracked files on the branch; one C8 entry; one changelog line |
+| Changelog | ✅ | `CHANGELOG.md` "[Added — Web Link 1.0] — 2026-10-24" |
+
+#### Findings
+
+| # | Severity | File | Issue | Required change | Owner |
+|---|---|---|---|---|---|
+| 1 | 🟡 Should fix | `3-web-components/src/components/link/Link.tsx:287-289`, `:302-304` | For `external`, the root gets `aria-label="<label> <suffix>"` **and** the B6 visually hidden span. The `aria-label` replaces the content as the accessible name, so the hidden span is dead, a consumer `aria-label` is silently changed (suffix appended), and the name is no longer the visible text (browser translation does not translate `aria-label`). B6 asks for the name from `children` + the hidden span only; C8 lists no deviation | Remove the `external` branch of `aria-label`; pass a consumer `aria-label` through unchanged. Keep the hidden span as the only source of the suffix. The existing tests (`Link.test.tsx:351-378`) must still pass by role + name | Executor |
+| 2 | 🟢 Nit | `3-web-components/src/components/link/Link.tsx:291` | Disabled adds `tabIndex={-1}`. An `<a>` without `href` is already out of the tab order; `-1` makes it focusable by mouse click, which B6 does not ask for | Drop `tabIndex` for disabled (update the two `tabindex` assertions, `Link.test.tsx:398`, `:578`, to `not.toHaveAttribute('tabindex')` and keep the Tab-order check) | Executor |
+| 3 | 🟢 Nit | `3-web-components/src/components/link/Link.test.tsx:564-568` | The non-string `children` case cannot prove its own warning: the shared `warnOnce` key already fired for the empty label, so the test only checks the count stays 5 | Assert the warning for non-string children in its own case (e.g. a separate key, or reset `warnOnce` state between cases) | Executor |
+| 4 | 🟢 Nit | `3-web-components/components/link/link.md:21` (header) | `Source code` still says "not built yet (the Executor creates it)" | Point it at `src/components/link/` (built) | Executor |
+
+#### Notes and questions for the Planner (not blocking, no Plan change requested)
+
+- `external` + `disabled`: the code drops `target` / `rel` but still renders the `open_in_new` icon and the "(opens in a new tab)" suffix. B1 / B6 do not say what this combination shows; worth one line in a later plan version.
+- `disabled` + `component` (router link): `href` is dropped, but `to` is still forwarded, so a real router link renders an `href` (navigation is still blocked by `preventDefault` in `onClick`). B6 says "`<a>` without `href`"; a later plan version could say whether `to` is dropped too.
+- Harness note: the inverse examples must sit on `color-surface-inverse` (not `color-background-inverse-default`, which is the light-on-light inverse button fill); with the right surface the token pair is the one in `contrast-pairs.json`.
+- Figma build (Part D) not reviewed: `Figma build = Planned`.
+
+#### Next step
+
+Executor: findings 1–4 → C8 Fix round 1 → Code `Built` → review Round 2.
 
 ---
 

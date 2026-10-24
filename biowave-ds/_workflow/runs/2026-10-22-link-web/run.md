@@ -16,6 +16,7 @@
 | 07 | implement | codex | stopped partway: Codex usage limit, no Handoff (partial code kept) | — | — | `07-implement-codex.prompt.md` |
 | 08 | implement | cursor | stopped at once: Cursor usage limit | — | — | `08-implement-cursor.prompt.md` |
 | 09 | implement | codex | done (2026-10-24): web Link built from contract 1.0, continuing the partial step-07 code; C8 filled; Code Built | docs:check ✓ · typecheck ✓ · test:web ✓ 123/123 (orchestrator) | see git log | `09-implement-codex.prompt.md` |
+| 10 | review | claude (wf-reviewer subagent) | done (2026-10-24) · **Changes requested** — Round 1: headless Chrome matches B2–B5 (24 px standalone, action-sm/md/lg, icons 16/16/20, underline 1 → 2 px, focus ring 2/2 px, colours both themes, disabled not tabbable, RTL icon + single `open_in_new` flip). #1 🟡 external links get an `aria-label` that overrides the hidden suffix span (B6) and alters consumer labels; #2 🟢 disabled `tabIndex={-1}` not in B6; #3 🟢 non-string children warning test can't fire (shared `warnOnce` key); #4 🟢 header Source code says not built. No leftovers from the 3-agent build. Planner notes (non-blocking): external + disabled display; disabled + `component` still renders `href` | docs:check ✓ · typecheck ✓ · test:web ✓ 123/123 | see git log | `10-review-claude.prompt.md` |
 
 ## Gates
 
