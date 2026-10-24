@@ -15,9 +15,9 @@
 | Figma | **Biowave DS — Web Components** › `↳ Avatar` · build: [Part D](#d--figma-build) |
 | Version | 1.1 · 2026-10-24 |
 | Plan | Finished |
-| Code | Built |
+| Code | Approved |
 | Figma build | Planned |
-| Review | Round 1 · 2026-10-24 · Approved |
+| Review | Round 2 · 2026-10-24 · Approved |
 | Source code | [`src/components/avatar/`](../../src/components/avatar/) |
 | Tokens | — (no component tokens: every value is an existing semantic token, P-04) |
 | Contracts | [`avatar-contract.md`](avatar-contract.md) · [`figma-avatar-contract.md`](figma-avatar-contract.md) — generated, never edited |
@@ -650,7 +650,96 @@ Component description: "Photo, initials or a fallback glyph that stands for a pe
 
 | Round | Date | Code verdict | Figma verdict |
 |---|---|---|---|
+| 2 | 2026-10-24 | **Approved** | not reviewed |
 | 1 | 2026-10-24 | **Approved** | not reviewed |
+
+### E3 Round 2 — 2026-10-24
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 1.1 |
+| Spec version reviewed | 1.1 |
+| Reviewer | Claude |
+| Date | 2026-10-24 |
+| Verdict | **Approved**: AC-8 … AC-10 met and measured in a real browser. AC-1 … AC-7 still hold (Round 1 measurements repeated). All three Round 1 findings fixed. 1 new Executor nit (test strength), not blocking |
+
+Commands run by the Reviewer on branch `ds/avatar-web` at `b2638ea` (fix round 1 = `b03a274`; in `3-web-components/src` the branch changes only `src/components/avatar/{Avatar.tsx,Avatar.test.tsx,avatarInitials.ts,useImageLoaded.ts,index.ts}` and `src/index.ts`):
+`npm run docs:check` ✅ 33 component files · `npm run typecheck` ✅ · `npm run test:web` ✅ **220/220**, 13 files, 6.63 s, default timeouts, first run (load average 3.14).
+Real browser: my own headless Chrome 156 (`--headless=new`, CDP on a private port, own profile, not the shared pane) ran the real `Avatar` / `Badge` / `Icon` from `3-web-components/src` inside `BiowaveProvider` with the generated `tokens.css` + `icons.css`. A scratch Vite config outside the repo served it (private port, own cache dir), with an image middleware that logs every request on the server side and can add a delay or answer 404. Viewport 1200 × 900. `window.Image` was wrapped before the app loaded so any `new Image()` would be counted. I started both processes and stopped them by PID afterwards.
+
+#### Acceptance criteria
+
+| AC | Result | Evidence (file:line / test name) |
+|---|---|---|
+| AC-1 API = B1 | ✅ | Unchanged from Round 1 (`Avatar.tsx:11-39, 145-208`). Browser: `Sara Ali` → `SA`, `سارة علي` → `س` (label `سارة علي`), decorative → `person` |
+| AC-2 B2–B3 from tokens | ✅ | `Avatar.tsx:47-139`, `cssVars.*` only. The new image rules use `insetBlock` / `insetInline: 0`, `100%` and `visibility` keywords, with no raw values. Guard test *contains no raw color, length, duration or font values*. Browser, all 24 size × shape × colour cells × light/dark × en/ar: same numbers as Round 1 (see probe) |
+| AC-3 B4 | ✅ | `Avatar.tsx:243-263`, `useImageLoaded.ts:17-44`. Browser: 2 s delayed photo → `SA` at t0 and t+800 ms with the `img` present but `visibility: hidden`. At t+2.8 s the `img` is visible and the fallback is gone. `src` change → `SA` on the same commit, with a new hidden `img` for the new `src` that becomes visible after its load. Switching to a 404, or a 404 from mount → `img` removed, initials stay, no broken glyph. `src=""` → no `img`. No MUI `svg` in any state |
+| AC-4 RTL = B5, a11y = B6 | ✅ | Browser placement (indicator centre relative to the avatar box), light + dark: en circle `(0.854, 0.146)`, square `(1, 0)` · ar circle `(0.146, 0.146)`, square `(0, 0)`, for `sm` and `xl`. `transform: none` on the container, initials and `img`. Named → `role="img"` + `aria-label`. Decorative → `aria-hidden="true"`, no role. Initials and icon `aria-hidden`. Badge label in `aria-describedby` (`Online`). 0 tabbable avatar nodes; the only tab stop on the page is the trailing button. Tests *is never focusable* and *is axe-clean in %s/%s with and without a badge* ✅ |
+| AC-5 Tests and checks | ✅ | Every B9 item has a test, including the 1.1 items: *keeps the fallback visible until an image loads and resets when src changes* (`Avatar.test.tsx:140-185`: first-render lazy attributes, hidden not `display: none`, `load` / `error` fired on the `img`, `src` change, empty `src`, `window.Image` spy never called) and *handles an already-complete %s image when its ref attaches* (`:187-204`). All through `renderWithBiowave`, no timeout arguments. Checks ✅ above |
+| AC-6 Exported; README | ✅ | `src/index.ts` unchanged. README row = header (this review sets Code `Approved`) |
+| AC-7 Biowave `Badge`, overlap from shape | ✅ | `Avatar.tsx:267-281`. Browser: indicator classes `MuiBadge-overlapCircular` / `MuiBadge-overlapRectangular`. Box with badge `56×56` = without, root `56×56` (`sm` `32×32`) |
+| AC-8 Lazy loading (B2 › image, C3 › Load tracking) | ✅ | `Avatar.tsx:243-262`: one real `img` from the first render, `loading="lazy"`, `decoding="async"`, `alt=""`, `draggable={false}`, own `onLoad` / `onError`. Hidden by `visibility` (`:114-126`), container `position: relative` (`:99`). `useImageLoaded.ts` no longer creates an image. **Browser network check:** avatar A in view and avatar B 6000 px below the fold, cache disabled. After 2.5 s the server log and `performance` resource entries list **only A's photo**. B's `img` is in the DOM (`40×40` box at y = 6080, `display: block`, `complete: false`, `naturalWidth: 0`) and shows `OH`. A deferred lazy image is not `complete`, so the ref check does not mark it as failed. After scrolling B into view, its request appears (+2.5 s in the log) and the photo shows with the fallback gone. Every `src` was requested exactly once over the whole run (no second probe request). `window.Image` constructor count = **0**. **Cached image, no flicker:** a second avatar with an already-loaded `src`, in the same document and again after a reload, shows the photo synchronously after the commit (`textContent` empty right after `flushSync`). Every sampled animation frame (25 of 25) shows the photo, never the initials. `handleImageRef` `Avatar.tsx:165-172` runs in the commit phase |
+| AC-9 RTL test asserts the corner | ✅ | `Avatar.test.tsx:328-352` *keeps avatar content unmirrored and resolves Badge to the top-end edge in %s* for `en` → `ltr` and `ar` → `rtl`. It asserts the resolved `dir` context, `insetInlineEnd` = `insetBlockStart` = `14.6%` (Badge B2 circular placement), and empty physical `left` / `right`. Browser confirms: indicator computed `direction: rtl` in ar, with the corner as measured in AC-4 |
+| AC-10 C8 Fix round 1, statuses | ✅ | C8 › *Fix round 1 — 2026-10-24*, with `file:line` per finding and every command with real numbers (typecheck 2.48 s, test:web 220/220 in 7.43 s, component-tokens, sync `READY`, docs:check 33 files). My own runs agree (220/220). Header `Code` was `Built` and matched the README row before this review |
+
+#### Rule checks (AGENTS.md §2)
+
+| Rule | Result | Notes |
+|---|---|---|
+| No generated files edited | ✅ | Fix commit touches only `Avatar.tsx`, `useImageLoaded.ts`, `Avatar.test.tsx`, C8, header, README row, CHANGELOG, run record. These are the C7 fix-round file list |
+| No raw values / no primitives | ✅ | `cssVars.*` semantic tokens only. The guard test passes |
+| RTL first (logical properties) | ✅ | Image box uses `insetBlock` / `insetInline` / `inlineSize` / `blockSize`. No physical properties |
+| Both themes, both languages, tested | ✅ | Render matrix, RTL test and axe in light + dark × en + ar. Browser checked all four |
+| Accessibility WCAG 2.2 AA | ✅ | `img` `alt=""` inside `role="img"`. Not focusable. Nothing animates |
+| Biowave `Icon` for the glyph (D-18) | ✅ | `<Icon name={icon} />` `Avatar.tsx:224`. No MUI `Person` |
+| Tests via `renderWithBiowave`, default timeouts | ✅ | No direct `render`, no timeout arguments |
+| Stayed inside the contract / one component | ✅ | No change to Badge, Icon or the shared test tooling |
+| Changelog | ✅ | `CHANGELOG.md` › *Fixed — Web Avatar review round 1* |
+
+#### Round 1 findings
+
+| # | Owner | Status | Evidence |
+|---|---|---|---|
+| 1 Lazy loading vs C3 probe | Planner → Executor | **Fixed** | Plan 1.1 B2 › image / C3 › Load tracking. Code `Avatar.tsx:243-262`, `useImageLoaded.ts:17-44`. Browser: a below-the-fold photo is not requested until scrolled near, and no `new Image()` is created (AC-8) |
+| 2 Stale header `Source code` | Planner | **Fixed** | Header links [`src/components/avatar/`](../../src/components/avatar/) |
+| 3 RTL test strength | Executor | **Fixed** | `Avatar.test.tsx:328-352` asserts direction and the placement values in en and ar (AC-9) |
+
+#### Figma build (Part D)
+
+Skipped. Figma build is `Planned`.
+
+#### Probe evidence
+
+```
+Headless Chrome 156, 1200×900, real Avatar in BiowaveProvider + tokens.css + icons.css
+  lazy    A in view, B at y=6080: requests after 2.5 s = [A] only · B img in DOM, hidden, complete=false, "OH"
+          scroll B into view → request B → img visible, fallback gone
+  load    2 s photo: t0 "SA" + hidden img · t+0.8 s same · t+2.8 s img visible, no fallback
+  src     change → "SA" + new hidden img at once → visible after its load
+  error   404 (after change, and from mount) → img removed, initials stay
+  cached  same doc and after reload: photo synchronously after commit, 25/25 frames photo
+  probe   window.Image constructed 0×; each src requested once
+  box     sm 32×32  md 40×40  lg 48×48  xl 56×56   (en = ar, light = dark), img 40×40 cover
+  radius  circle 9999px · square 6 / 8 / 10 / 12px
+  initials 12/16 500 · 14/20 500 · 16/24 500 · 18/24 600   (ar line height 18/22/26/26)
+  glyph   16 / 20 / 24 / 32px, "person", aria-hidden
+  colour  light neutral bg rgb(237,237,237) fg rgb(41,41,41) · dark brand bg rgb(7,19,35) fg rgb(144,163,188)
+  badge   en circle (0.854,0.146) square (1,0) · ar circle (0.146,0.146) square (0,0) · ar indicator direction rtl
+          box with badge = without · overlapCircular / overlapRectangular
+  focus   0 avatar tab stops
+```
+
+#### Findings
+
+| # | Severity | File | Issue | Required change | Owner |
+|---|---|---|---|---|---|
+| 1 | 🟢 Nit | `Avatar.test.tsx:172-174` | The "late `load` from the previous `src` changes nothing" step fires `load` on the first `img` after the `key` change has unmounted it. React 19 delegates events at the root, so an event on a detached node never reaches the handler. The step would pass without the `currentSrc` guard in `useImageLoaded.ts:27`. Behaviour is correct (the `key` remount already isolates stale events, and the browser confirms it), but the test does not exercise the guard | Optional: call the previous `src`'s `onLoad` while it is still mounted (for example, capture it before the rerender), or rename the step for what it proves. Not required for this unit | Executor |
+
+#### Next step
+
+- Approved → Code `Approved` (header + README). No Planner findings, so Plan stays `Finished`. Nit 1 can ride along with the next touch of `Avatar.test.tsx`. Figma build is still `Planned` and not reviewed.
+
+---
 
 ### E2 Round 1 — 2026-10-24
 

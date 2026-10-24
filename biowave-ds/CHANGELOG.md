@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Review — Web Avatar round 2] — 2026-10-24
+### Changed
+- Reviewed web `Avatar` (round 2, `avatar.md` › E3): **Approved**. In headless Chrome with a server-side request log, a photo 6000 px below the fold is not requested until it is scrolled near. Initials show while the hidden `img` loads. A 404 removes the `img`. A `src` change returns to loading. A cached photo shows synchronously with no fallback frame. `new Image()` was never called. Round 1 measurements still hold (sizes 32/40/48/56, radii, B3 colours, `SA` / `س`, Badge top-end with top-left in RTL, roles, not focusable). The RTL test now asserts direction and placement in en and ar. docs:check, typecheck and test:web (220/220) pass. All three Round 1 findings fixed; 1 new Executor nit (stale-event test step). Code → `Approved`; Plan stays `Finished`.
+
 ## [Fixed — Web Avatar review round 1] — 2026-10-24
 ### Fixed
 - Replaced the eager `new Image()` probe and MUI image path with the real first-render `<img loading="lazy">`, kept it box-preserving and hidden until its own load event, removed it after error, guarded stale events and cached completion, and retained the fallback throughout loading and failure. Avatar tests now fire events on that rendered image, prove no eager probe, and assert the Badge's exact logical top-end placement in both English and Arabic. The full web suite passes 220/220 at default timeouts.
