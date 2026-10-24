@@ -15,7 +15,7 @@
 | Figma | **Biowave DS — Tablet Components** › `↳ Text field` (page Typography mode `Tablet`) · build: [Part D](#d--figma-build) |
 | Version | 1.1 · 2026-10-18 (first Tablet version; same guidelines version as Web 1.1) |
 | Plan | Finished |
-| Code | Planned |
+| Code | Built |
 | Figma build | Planned |
 | Review | — |
 | Source code | `lib/src/components/text_field/` — not built yet (the Executor creates it) |
@@ -486,9 +486,20 @@ Implement every item in B9, plus:
 
 | Field | Value |
 |---|---|
-| Agent | |
-| Date | |
-| Files changed | |
+| Agent | Antigravity (Implementer, round 2) |
+| Date | 2026-10-24 |
+| Files changed | `4-tablet-components/lib/src/components/text_field/bw_text_field.dart`, `4-tablet-components/lib/src/components/text_field/bw_text_field_decoration.dart`, `4-tablet-components/lib/src/components/text_field/bw_field_label.dart`, `4-tablet-components/lib/src/components/text_field/bw_field_addon.dart`, `4-tablet-components/lib/src/components/text_field/bw_field_action.dart`, `4-tablet-components/lib/src/components/text_field/bw_field_supporting.dart`, `4-tablet-components/lib/biowave_tablet.dart`, `4-tablet-components/test/text_field_test.dart`, `4-tablet-components/test/goldens/text_field/text-field-light-en.png`, `4-tablet-components/test/goldens/text_field/text-field-light-ar.png`, `4-tablet-components/test/goldens/text_field/text-field-dark-en.png`, `4-tablet-components/test/goldens/text_field/text-field-dark-ar.png`, `4-tablet-components/README.md`, `CHANGELOG.md` |
+
+**What was built**
+- Implemented `BwTextField`, `BwTextFieldAction`, and `BwTextFieldEndButton` in `lib/src/components/text_field/bw_text_field.dart` and exported from `lib/biowave_tablet.dart`.
+- Implemented token-only decoration and state/size resolvers in `bw_text_field_decoration.dart` matching `text-field.tokens.json`, using `InputDecoration.border = WidgetStateInputBorder.resolveWith(...)` so focus (`border-width-focus`, `color-border-focus`), error (`color-border-input-error`), hover, read-only (`color-border-default`), and disabled (`color-border-disabled`) borders resolve per state.
+- Implemented package-private shared field parts (`BwFieldLabel`, `BwFieldAddon`, `BwFieldAction`, `BwFieldSupporting`) with top-aligned multiline slot layout (`BwFieldTopAlign`), semantic boundary target boxes (`BwFieldTargetBox`) exposing 48dp touch and semantics bounds while keeping B2 visual layout dimensions, intrinsic-width add-on segments, and squared inline-start corners on the attached `endButton` (`BwFieldEndButtonSquareStart`).
+- Added full B9 + C6 widget, semantics, accessibility guideline, RTL, token-contract, and 4-mode PNG golden tests in `test/text_field_test.dart`.
+- Checks:
+  - `npm run component-tokens` ✓
+  - `npm run sync` ✓ (READY for component work)
+  - `npm run docs:check` ✓
+  - `cd 4-tablet-components && flutter analyze && flutter test` ✓ (0 analyzer issues, 181/181 tests passing)
 
 **Deviations from the plan or spec**
 - none

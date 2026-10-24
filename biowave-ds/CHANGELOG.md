@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Tablet Text field — implementation] — 2026-10-24
+### Added
+- Built Tablet `BwTextField` (`BwTextField`, `BwTextFieldAction`, `BwTextFieldEndButton`) and package-private shared field parts (`BwFieldLabel`, `BwFieldAddon`, `BwFieldAction`, `BwFieldSupporting`, `BwTextFieldDecoration`) in `4-tablet-components/lib/src/components/text_field/`, exported from `package:biowave_tablet/biowave_tablet.dart`, with B9/C6 unit, widget, semantics, accessibility guideline, RTL, and light/dark × en/ar golden coverage in `4-tablet-components/test/text_field_test.dart` (`Code: Built`).
+
 ## [Review — Tablet Icon button round 2: Approved] — 2026-10-24
 ### Changed
 - Icon button (tablet) review round 2: **Approved** — Part E3 of `4-tablet-components/components/icon-button/icon-button.md`. Round 1 #1 fixed (`MergeSemantics` exposes one labelled button node with `tap` + `focus` when enabled, none when disabled; tap-target guidelines now meaningful), #2 fixed (plan 1.1 authorises `test/goldens/icon_button/`; four goldens added and checked by eye), #3 fixed (icon cross-fade), #4 and #5 fixed (header source path, C1 reference). 🟢 #6 nit: no icon-button test asserts reduced motion (Implementer, non-blocking). Code → Approved (header + README). `docs:check` ✓, `flutter analyze` ✓, `flutter test` 152/152 ✓.
