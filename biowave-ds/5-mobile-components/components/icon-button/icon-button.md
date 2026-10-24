@@ -15,10 +15,10 @@
 | Figma | **Biowave DS — Mobile Components** › `↳ Icon Button` (page Typography mode `Mobile`) · [Part D](#d--figma-build) |
 | Version | 1.0 · 2026-10-16 |
 | Plan | Finished |
-| Code | Changes requested |
+| Code | Built |
 | Figma build | Planned |
 | Review | Round 1 · 2026-10-23 · Changes requested |
-| Source code | `lib/src/components/icon-button/` — not built yet (the Executor creates it) |
+| Source code | [`lib/src/components/icon_button/bw_icon_button.dart`](../../lib/src/components/icon_button/bw_icon_button.dart) |
 | Tokens | — (no component tokens yet) |
 | Contracts | [`icon-button-contract.md`](icon-button-contract.md) · [`figma-icon-button-contract.md`](figma-icon-button-contract.md) — generated, never edited |
 | Docs page | [`icon-button.html`](icon-button.html) |
@@ -316,6 +316,14 @@ B9, plus earlier button-family tests still pass.
 **Deviations:** none
 **Questions for the Planner:** none
 
+#### Fix round 1 — 2026-10-24 (Antigravity)
+
+| Finding | What changed (`file:line`) | Test that proves it |
+|---|---|---|
+| #1 (🟡) Focus semantics and `focus` action lost on the excluding `Semantics` node | Wired a state-owned `FocusNode` into all `IconButton` constructors (`5-mobile-components/lib/src/components/icon_button/bw_icon_button.dart:61,79-91,210-243`) and exposed `focusable`, `focused`, and `onFocus` on the single `Semantics` container alongside `button`, `enabled`, `toggled`, and `onTap` (`5-mobile-components/lib/src/components/icon_button/bw_icon_button.dart:273-286`) | `5-mobile-components/test/icon_button_test.dart:376-426` (`label is read once and toggle state is exposed` — checks after Tab: `isFocused` true, `SemanticsAction.focus` present, exactly one labelled node, and `tester.semantics.tap` calls `onPressed` once) |
+| #2 (🟢) Header `Source code` row still said not built yet | Updated header `Source code` row to link `lib/src/components/icon_button/bw_icon_button.dart` (`5-mobile-components/components/icon-button/icon-button.md:21`) | `npm run docs:check` |
+| #3 (🟢) Unrelated `BwMobileTheme` reformat in `lib/biowave_mobile.dart` | Reverted `BwMobileTheme` formatting and kept only the `BwIconButton` export line (`5-mobile-components/lib/biowave_mobile.dart:13-23`) | `cd 5-mobile-components && flutter analyze && flutter test` |
+
 ---
 
 ## D · Figma build
@@ -402,6 +410,14 @@ Component description: one line from A1 + "Spec: 5-mobile-components/components/
 
 **Deviations:** none
 **Questions for the Planner:** none
+
+#### Fix round 1 — 2026-10-24 (Antigravity)
+
+| Finding | What changed (`file:line`) | Test that proves it |
+|---|---|---|
+| #1 (🟡) Focus semantics and `focus` action lost on the excluding `Semantics` node | Wired a state-owned `FocusNode` into all `IconButton` constructors (`5-mobile-components/lib/src/components/icon_button/bw_icon_button.dart:61,79-91,210-243`) and exposed `focusable`, `focused`, and `onFocus` on the single `Semantics` container alongside `button`, `enabled`, `toggled`, and `onTap` (`5-mobile-components/lib/src/components/icon_button/bw_icon_button.dart:273-286`) | `5-mobile-components/test/icon_button_test.dart:376-426` (`label is read once and toggle state is exposed` — checks after Tab: `isFocused` true, `SemanticsAction.focus` present, exactly one labelled node, and `tester.semantics.tap` calls `onPressed` once) |
+| #2 (🟢) Header `Source code` row still said not built yet | Updated header `Source code` row to link `lib/src/components/icon_button/bw_icon_button.dart` (`5-mobile-components/components/icon-button/icon-button.md:21`) | `npm run docs:check` |
+| #3 (🟢) Unrelated `BwMobileTheme` reformat in `lib/biowave_mobile.dart` | Reverted `BwMobileTheme` formatting and kept only the `BwIconButton` export line (`5-mobile-components/lib/biowave_mobile.dart:13-23`) | `cd 5-mobile-components && flutter analyze && flutter test` |
 
 ---
 

@@ -377,6 +377,7 @@ void main() {
         (tester) async {
       final semantics = tester.ensureSemantics();
       try {
+        var presses = 0;
         await pumpBw(
           tester,
           BwIconButton(
@@ -385,19 +386,40 @@ void main() {
             label: 'Unpin',
             toggle: true,
             selected: true,
-            onPressed: () {},
+            onPressed: () => presses += 1,
           ),
         );
 
         expect(find.bySemanticsLabel('Unpin'), findsOneWidget);
-        final node = tester.getSemantics(find.byType(BwIconButton));
-        expect(node.label, 'Unpin');
-        expect(node.flagsCollection.isButton, isTrue);
-        expect(node.flagsCollection.isToggled, ui.Tristate.isTrue);
+        final nodeBefore = tester.getSemantics(find.byType(BwIconButton));
+        expect(nodeBefore.label, 'Unpin');
+        expect(nodeBefore.flagsCollection.isButton, isTrue);
+        expect(nodeBefore.flagsCollection.isToggled, ui.Tristate.isTrue);
+        expect(nodeBefore.flagsCollection.isFocused, ui.Tristate.isFalse);
         expect(
-          node.getSemanticsData().hasAction(ui.SemanticsAction.tap),
+          nodeBefore.getSemanticsData().hasAction(ui.SemanticsAction.tap),
           isTrue,
         );
+        expect(
+          nodeBefore.getSemanticsData().hasAction(ui.SemanticsAction.focus),
+          isTrue,
+        );
+
+        await tester.sendKeyEvent(LogicalKeyboardKey.tab);
+        await tester.pump();
+
+        expect(find.bySemanticsLabel('Unpin'), findsOneWidget);
+        expect(find.semantics.byLabel('Unpin'), findsOne);
+        final nodeAfter = tester.getSemantics(find.byType(BwIconButton));
+        expect(nodeAfter.flagsCollection.isFocused, ui.Tristate.isTrue);
+        expect(
+          nodeAfter.getSemanticsData().hasAction(ui.SemanticsAction.focus),
+          isTrue,
+        );
+
+        tester.semantics.tap(find.semantics.byLabel('Unpin'));
+        await tester.pump();
+        expect(presses, 1);
       } finally {
         semantics.dispose();
       }

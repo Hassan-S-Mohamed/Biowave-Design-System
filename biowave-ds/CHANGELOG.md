@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Fixed — Mobile Icon button review round 1] — 2026-10-24
+### Fixed
+- Fixed Mobile `BwIconButton` review round 1 findings (#1–#3): exposed `focusable`, `focused`, and `SemanticsAction.focus` on the single accessible `Semantics` node from the button's `FocusNode` while keeping one labelled node with `button`, `toggled`, `enabled`, and `tap`, and extended `label is read once and toggle state is exposed` to verify post-Tab focus state, focus action, single labelled node, and `tester.semantics.tap` activation; updated the `Source code` link in `icon-button.md` and reverted the unrelated `BwMobileTheme` reformat in `lib/biowave_mobile.dart`.
+
 ## [Review — Mobile Icon button round 1: Changes requested] — 2026-10-23
 ### Changed
 - Icon button (mobile) review round 1: **Changes requested** — Part E2 of `5-mobile-components/components/icon-button/icon-button.md`. Screen-reader activation OK (one labelled node, `SemanticsAction.tap` calls `onPressed`). 🟡 #1: the excluding `Semantics` wrapper drops the focus state and `focus` action that BwButton exposes. 🟢 #2 header `Source code` row stale; 🟢 #3 unrelated `BwMobileTheme` reformat. All Implementer; Plan stays Finished. Code → Changes requested (header + README). `docs:check` ✓, `flutter analyze` ✓, `flutter test` 96/96 ✓, `sync` READY.

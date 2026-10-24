@@ -15,13 +15,9 @@ export 'src/components/icon_button/bw_icon_button.dart';
 /// Ready-made themes for the Mobile app.
 abstract final class BwMobileTheme {
   static ThemeData light(Locale locale) => BwTheme.build(
-    platform: BwPlatform.mobile,
-    brightness: Brightness.light,
-    locale: locale,
-  );
+      platform: BwPlatform.mobile,
+      brightness: Brightness.light,
+      locale: locale);
   static ThemeData dark(Locale locale) => BwTheme.build(
-    platform: BwPlatform.mobile,
-    brightness: Brightness.dark,
-    locale: locale,
-  );
+      platform: BwPlatform.mobile, brightness: Brightness.dark, locale: locale);
 }

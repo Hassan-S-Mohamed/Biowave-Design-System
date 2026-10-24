@@ -58,6 +58,8 @@ class BwIconButton extends StatefulWidget {
 }
 
 class _BwIconButtonState extends State<BwIconButton> {
+  late final FocusNode _focusNode = FocusNode()..addListener(_handleFocusChange);
+
   @override
   void initState() {
     super.initState();
@@ -71,6 +73,20 @@ class _BwIconButtonState extends State<BwIconButton> {
     super.didUpdateWidget(oldWidget);
     if (_announcesLoading && !oldWidget.loading) {
       _announceLoadingAfterFrame();
+    }
+  }
+
+  @override
+  void dispose() {
+    _focusNode
+      ..removeListener(_handleFocusChange)
+      ..dispose();
+    super.dispose();
+  }
+
+  void _handleFocusChange() {
+    if (mounted) {
+      setState(() {});
     }
   }
 
@@ -188,11 +204,13 @@ class _BwIconButtonState extends State<BwIconButton> {
               semanticLabel: null,
             ),
     );
+    final enabled = widget.onPressed != null;
     final effectiveOnPressed =
-        widget.loading && widget.onPressed != null ? () {} : widget.onPressed;
+        widget.loading && enabled ? () {} : widget.onPressed;
     final iconButton = switch (_effectiveVariant) {
       BwButtonVariant.filled => IconButton.filled(
           onPressed: effectiveOnPressed,
+          focusNode: _focusNode,
           style: style,
           isSelected: _effectiveToggle ? widget.selected : null,
           selectedIcon: visual,
@@ -200,6 +218,7 @@ class _BwIconButtonState extends State<BwIconButton> {
         ),
       BwButtonVariant.tonal => IconButton.filledTonal(
           onPressed: effectiveOnPressed,
+          focusNode: _focusNode,
           style: style,
           isSelected: _effectiveToggle ? widget.selected : null,
           selectedIcon: visual,
@@ -207,6 +226,7 @@ class _BwIconButtonState extends State<BwIconButton> {
         ),
       BwButtonVariant.outlined => IconButton.outlined(
           onPressed: effectiveOnPressed,
+          focusNode: _focusNode,
           style: style,
           isSelected: _effectiveToggle ? widget.selected : null,
           selectedIcon: visual,
@@ -214,6 +234,7 @@ class _BwIconButtonState extends State<BwIconButton> {
         ),
       BwButtonVariant.text => IconButton(
           onPressed: effectiveOnPressed,
+          focusNode: _focusNode,
           style: style,
           isSelected: _effectiveToggle ? widget.selected : null,
           selectedIcon: visual,
@@ -254,9 +275,12 @@ class _BwIconButtonState extends State<BwIconButton> {
       label: widget.label,
       value: _announcesLoading ? _loadingMessage : null,
       button: true,
-      enabled: widget.onPressed != null,
+      enabled: enabled,
+      focusable: enabled,
+      focused: enabled && _focusNode.hasFocus,
       toggled: _effectiveToggle ? widget.selected : null,
       onTap: effectiveOnPressed,
+      onFocus: enabled ? _focusNode.requestFocus : null,
       excludeSemantics: true,
       child: tooltipOrButton,
     );
