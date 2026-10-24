@@ -10,7 +10,7 @@
 | Built on | MUI `Divider` (`<hr>`), styled only from Biowave tokens |
 | Import | `import { Divider } from '@biowave/web'` |
 | Version | 1.1 · 2026-10-23 |
-| Source code | `src/components/divider/` — not built yet (the Executor creates it) |
+| Source code | [`src/components/divider/`](../../src/components/divider/) |
 | Tokens | — |
 | Source | [`divider.md`](divider.md) @ `6e043ffa04598608` |
 

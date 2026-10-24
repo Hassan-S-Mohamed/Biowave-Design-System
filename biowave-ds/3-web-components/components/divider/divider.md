@@ -14,11 +14,11 @@
 | Import | `import { Divider } from '@biowave/web'` |
 | Figma | **Biowave DS — Web Components** › `↳ Divider` · build: [Part D](#d--figma-build) |
 | Version | 1.1 · 2026-10-23 |
-| Plan | Open |
+| Plan | Finished |
 | Code | Changes requested |
 | Figma build | Planned |
 | Review | Round 1 · 2026-10-24 · Changes requested |
-| Source code | `src/components/divider/` — not built yet (the Executor creates it) |
+| Source code | [`src/components/divider/`](../../src/components/divider/) |
 | Tokens | — (no component tokens: every value is a semantic token, P-04) |
 | Contracts | [`divider-contract.md`](divider-contract.md) · [`figma-divider-contract.md`](figma-divider-contract.md) — generated, never edited |
 | Docs page | [`divider.html`](divider.html) |
@@ -703,3 +703,4 @@ Skipped: Figma build is `Planned` and `figma` is skipped in `_workflow/config.js
 |---|---|---|---|---|
 | 1.0 | 2026-10-22 | Initial | No | — |
 | 1.1 | 2026-10-23 | New props `showLabel`, `label`, `component` (`hr` · `li`); labelled root `<div role="separator" aria-label>`; `li` root always `aria-hidden`; two new warnings (B1); label tokens (B2–B3), RTL (B5), semantics (B6), tests (B9); Figma `Show label` + `Label` (D3–D4) | No | — (new options default off) |
+| 1.1 | 2026-10-24 | Review round 1 Planner finding #3: header Source code row links the built folder [`src/components/divider/`](../../src/components/divider/). Executor findings #1–#2 need no plan change (fixes stated in E2). No spec change; Plan → Finished, web contract regenerated | No | — |
