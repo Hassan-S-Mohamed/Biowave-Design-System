@@ -15,10 +15,10 @@
 | Figma | **Biowave DS — Mobile Components** › `↳ Text field` (page Typography mode `Mobile`) · build: [Part D](#d--figma-build) |
 | Version | 1.1 · 2026-10-18 (first Mobile version; same guidelines version as Web 1.1) |
 | Plan | Finished |
-| Code | Planned |
+| Code | Built |
 | Figma build | Planned |
 | Review | — |
-| Source code | `lib/src/components/text_field/` — not built yet (the Executor creates it) |
+| Source code | [`lib/src/components/text_field/`](../../lib/src/components/text_field/) |
 | Tokens | [`text-field.tokens.json`](text-field.tokens.json) — extends the Web file (D-13) |
 | Contracts | [`text-field-contract.md`](text-field-contract.md) · [`figma-text-field-contract.md`](figma-text-field-contract.md) — generated, never edited |
 | Docs page | [`text-field.html`](text-field.html) |
@@ -492,9 +492,10 @@ Implement every item in B9, plus:
 
 | Field | Value |
 |---|---|
-| Agent | |
-| Date | |
-| Files changed | |
+| Agent | Antigravity (continuing Codex step 01) |
+| Date | 2026-10-24 |
+| Files changed | `lib/src/components/text_field/bw_text_field.dart`; `lib/src/components/text_field/bw_text_field_decoration.dart`; `lib/src/components/text_field/bw_field_label.dart`; `lib/src/components/text_field/bw_field_addon.dart`; `lib/src/components/text_field/bw_field_action.dart`; `lib/src/components/text_field/bw_field_supporting.dart`; `lib/biowave_mobile.dart`; `test/text_field_test.dart`; `test/goldens/text_field/text-field-{light,dark}-{en,ar}.png`; `README.md`; `components/text-field/text-field.md`; `CHANGELOG.md` |
+| Checks | `cd 5-mobile-components && flutter analyze && flutter test` ✓ (148 tests); `npm run component-tokens` ✓; `npm run sync` ✓ (READY); `npm run docs:check` ✓ |
 
 **Deviations from the plan or spec**
 - none
