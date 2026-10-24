@@ -404,6 +404,12 @@
       "note": "icon on filled control"
     },
     {
+      "fg": "color.text.on.warning",
+      "bg": "color.icon.role.warning",
+      "min": 4.5,
+      "note": "Badge count text on warning indicator fill"
+    },
+    {
       "fg": "color.text.role.info",
       "bg": "color.surface.default",
       "min": 4.5,

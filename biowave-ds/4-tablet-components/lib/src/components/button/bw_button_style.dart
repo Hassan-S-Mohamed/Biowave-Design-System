@@ -1,4 +1,5 @@
 import 'package:biowave_foundations/biowave_foundations.dart';
+import 'package:flutter/foundation.dart' show internal;
 import 'package:flutter/material.dart';
 
 import '../../common/bw_control_size.dart';
@@ -118,6 +119,32 @@ abstract final class BwButtonStyle {
       ),
       iconSize: WidgetStatePropertyAll<double>(dimensions.iconSize),
     );
+  }
+
+  /// Resolves the corner radii for standalone and segmented buttons (B2).
+  @internal
+  static BorderRadiusDirectional segmentBorderRadius(
+    BwButtonMetrics dimensions,
+    BwButtonSegment? segment,
+  ) {
+    final outerRadius = Radius.circular(dimensions.radius);
+    const innerRadius = Radius.circular(BwRadius.xs);
+
+    return switch (segment) {
+      null => BorderRadiusDirectional.all(outerRadius),
+      BwButtonSegment.start => BorderRadiusDirectional.only(
+          topStart: outerRadius,
+          bottomStart: outerRadius,
+          topEnd: innerRadius,
+          bottomEnd: innerRadius,
+        ),
+      BwButtonSegment.end => BorderRadiusDirectional.only(
+          topStart: innerRadius,
+          bottomStart: innerRadius,
+          topEnd: outerRadius,
+          bottomEnd: outerRadius,
+        ),
+    };
   }
 
   static _ButtonPalette _palette(
