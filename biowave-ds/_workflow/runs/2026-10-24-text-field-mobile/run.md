@@ -12,6 +12,7 @@
 
 | # | Step | Agent | Result | Checks | Commit | Prompt |
 |---|---|---|---|---|---|---|
+| after-review (Round 2) | Approve | Fix round 2 (last allowed) → Antigravity (Gemini): #4, #11, #12, #13, #14 |
 | before fix | — | Split button (mobile) merged in #18; main merged into this branch (README, exports, CHANGELOG conflicts resolved); checks ✓ 171/171 |
 | after-plan (plan 1.2) | Approve | Previews skipped (only end-button corners change). Fix round 1 waits until split-button merges on this platform; then merge main and reuse its `segment` API unchanged |
 | after-review (Round 1) | Approve | Planner (one pass for tablet + mobile, shared decisions) → after-plan gate → Fixer on Antigravity (Gemini) |
