@@ -10,7 +10,7 @@
 | Built on | MUI `Tooltip` (popper + `Fade` transition), styled only from semantic tokens; no arrow, no MUI colors |
 | Import | `import { Tooltip } from '@biowave/web'` |
 | Version | 1.1 · 2026-10-24 |
-| Source code | `src/components/tooltip/` — not built yet (the Executor creates it) |
+| Source code | [`src/components/tooltip/`](../../src/components/tooltip/) |
 | Tokens | — |
 | Source | [`tooltip.md`](tooltip.md) @ `8595c0cfb0160037` |
 

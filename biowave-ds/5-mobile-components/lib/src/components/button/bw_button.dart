@@ -1,13 +1,19 @@
 import 'package:biowave_foundations/biowave_foundations.dart';
+import 'package:flutter/foundation.dart' show internal;
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 
 import '../../common/bw_control_size.dart';
+import '../../common/bw_focus_ring.dart';
 import 'bw_button_style.dart';
 
 enum BwButtonVariant { filled, tonal, outlined, text }
 
 enum BwButtonColor { brand, secondary, neutral, error, inverse }
+
+/// Internal segment position for [BwSplitButton].
+@internal
+enum BwButtonSegment { start, end }
 
 /// A token-driven action button for Biowave mobile experiences.
 class BwButton extends StatelessWidget {
@@ -24,6 +30,7 @@ class BwButton extends StatelessWidget {
     this.loadingLabel,
     this.focusNode,
     this.autofocus = false,
+    this.segment,
     super.key,
   })  : assert(
           label.isNotEmpty,
@@ -53,6 +60,10 @@ class BwButton extends StatelessWidget {
   final FocusNode? focusNode;
   final bool autofocus;
 
+  /// Used by package-owned controls that join buttons into one control.
+  @internal
+  final BwButtonSegment? segment;
+
   @override
   Widget build(BuildContext context) {
     final effectiveVariant = variant == BwButtonVariant.tonal &&
@@ -61,14 +72,38 @@ class BwButton extends StatelessWidget {
         : variant;
     final effectiveTrailingIcon = leadingIcon == null ? trailingIcon : null;
     final metrics = BwButtonStyle.metrics(context, size);
-    final style = BwButtonStyle.resolve(
+    const focusRingKey = ValueKey<String>('BwButton.focus-ring');
+    final baseStyle = BwButtonStyle.resolve(
       context,
       effectiveVariant,
       color,
       size,
-      focusRingKey: const ValueKey<String>('BwButton.focus-ring'),
+      focusRingKey: focusRingKey,
       fullWidth: fullWidth,
     );
+    final borderRadius = BwButtonStyle.segmentBorderRadius(metrics, segment);
+    final colors = context.bw.colors;
+    final style = segment == null
+        ? baseStyle
+        : baseStyle.copyWith(
+            shape: WidgetStatePropertyAll<OutlinedBorder>(
+              RoundedRectangleBorder(borderRadius: borderRadius),
+            ),
+            backgroundBuilder: (
+              BuildContext builderContext,
+              Set<WidgetState> states,
+              Widget? child,
+            ) =>
+                BwFocusRing(
+              focused: states.contains(WidgetState.focused),
+              borderRadius: borderRadius,
+              color: color == BwButtonColor.inverse
+                  ? colors.borderInverse
+                  : colors.borderFocus,
+              ringKey: focusRingKey,
+              child: child ?? const SizedBox.shrink(),
+            ),
+          );
     final foreground = style.foregroundColor!.resolve(<WidgetState>{
       if (onPressed == null) WidgetState.disabled,
     })!;

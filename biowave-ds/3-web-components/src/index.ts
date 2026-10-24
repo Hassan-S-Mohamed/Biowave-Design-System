@@ -5,6 +5,13 @@ export * from '@biowave/foundations';
 
 // Components (keep alphabetical):
 export {
+  Badge,
+  type BadgeProps,
+  type BadgeVariant,
+  type BadgeColor,
+  type BadgeOverlap,
+} from './components/badge';
+export {
   Button,
   type ButtonProps,
   type ButtonDirectionalIconProps,
@@ -20,6 +27,14 @@ export {
   type ButtonGroupSize,
 } from './components/button-group';
 export {
+  Divider,
+  type DividerProps,
+  type DividerComponent,
+  type DividerOrientation,
+  type DividerEmphasis,
+  type DividerInset,
+} from './components/divider';
+export {
   Icon,
   type IconProps,
   type IconName,
@@ -34,6 +49,13 @@ export {
   type IconButtonColor,
   type IconButtonSize,
 } from './components/icon-button';
+export {
+  Link,
+  type LinkProps,
+  type LinkColor,
+  type LinkSize,
+  type LinkUnderline,
+} from './components/link';
 export {
   SplitButton,
   type SplitButtonProps,
