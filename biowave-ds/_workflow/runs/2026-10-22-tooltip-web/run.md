@@ -19,6 +19,7 @@
 
 | Gate | Decision | Notes |
 |---|---|---|
+| after-plan | **Approve** (2026-10-24) | Flutter `RawTooltip` + pubspec Flutter min ≥ 3.47.0 approved; touch display time = framework defaults; rich tooltips out of 1.0; Icon button migration changes (keyboard-focus only, 320 px) accepted. Next: implement web, then tablet, mobile |
 
 ## Questions raised
 
