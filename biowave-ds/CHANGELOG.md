@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Review — Tablet Icon button round 2: Approved] — 2026-10-24
+### Changed
+- Icon button (tablet) review round 2: **Approved** — Part E3 of `4-tablet-components/components/icon-button/icon-button.md`. Round 1 #1 fixed (`MergeSemantics` exposes one labelled button node with `tap` + `focus` when enabled, none when disabled; tap-target guidelines now meaningful), #2 fixed (plan 1.1 authorises `test/goldens/icon_button/`; four goldens added and checked by eye), #3 fixed (icon cross-fade), #4 and #5 fixed (header source path, C1 reference). 🟢 #6 nit: no icon-button test asserts reduced motion (Implementer, non-blocking). Code → Approved (header + README). `docs:check` ✓, `flutter analyze` ✓, `flutter test` 152/152 ✓.
+
 ## [Fixed — Tablet Icon button review round 1] — 2026-10-23
 ### Fixed
 - Fixed Tablet `BwIconButton` review round 1 findings (#1 merged button semantics exposing `SemanticsAction.tap` and `SemanticsAction.focus` when enabled and none when disabled with one label and `toggled` state, plus tap-target and labeled-tap-target guidelines for `sm`/`md`; #3 cross-fading outgoing and incoming icons in `AnimatedSwitcher`; #2 added B9 PNG goldens under `4-tablet-components/test/goldens/icon_button/`). Code → Built.

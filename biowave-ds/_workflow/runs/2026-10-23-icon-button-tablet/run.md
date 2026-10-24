@@ -22,6 +22,7 @@
 | 06 | fix | codex | failed — ChatGPT usage limit partway; partial test edits kept | — | — | [prompt](06-fix-codex.prompt.md) |
 | 07 | fix | antigravity | partial — code + goldens done, stopped before C8/Handoff | docs:check ✓ · analyze ✓ · test ✓ 152/152 | — | [prompt](07-fix-antigravity.prompt.md) |
 | 08 | fix | antigravity | done — C8 Fix round 1, Code Built, CHANGELOG | docs:check ✓ · analyze ✓ · test ✓ 152/152 (orchestrator); goldens checked by eye | (this commit) | [prompt](08-fix-antigravity.prompt.md) |
+| 09 | review | claude (wf-reviewer agent) | done — Round 2 Approved; #1–#5 closed, 1 new 🟢 (#6 reduced-motion test) | docs:check ✓ · analyze ✓ · test ✓ 152/152 | (this commit) | [prompt](09-review-claude.prompt.md) |
 
 ## Gates
 
