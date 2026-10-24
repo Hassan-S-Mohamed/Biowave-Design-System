@@ -18,6 +18,7 @@
 | 07 | implement | codex | stopped at once: Codex usage limit, no edits | — | — | `07-implement-codex.prompt.md` |
 | 08 | implement | cursor | stopped at once: Cursor usage limit | — | — | `08-implement-cursor.prompt.md` |
 | 09 | implement | codex | done (2026-10-24): web Avatar from contract 1.0 composing the merged Badge (code, initials helper, image-loaded hook, tests, export); C8; Code Built | docs:check ✓ · typecheck ✓ · test:web ✓ 166/166 (orchestrator) | see git log | `09-implement-codex.prompt.md` |
+| 10 | review | claude (wf-reviewer subagent) | done (2026-10-24) · **Approved** — Round 1: headless Chrome EN/AR × light/dark: sizes 32/40/48/56, circle 9999 / square 6–12 px, 3 colours (min 6.39:1), image → initials → glyph (loading, 404, src change), initials SA / O / س / custom, Badge via public API (overlap by shape, top-end LTR / top-left RTL), named `role=img` vs decorative, never focusable. 🟢 #1 Planner: B2 `loading="lazy"` vs C3 `new Image()` probe contradict; 🟢 #2 Planner: header Source code; 🟢 #3 Executor: RTL test only checks non-empty insets. Code Approved, Plan → Open | docs:check ✓ · typecheck ✓ · test:web ✓ 166/166 | see git log | `10-review-claude.prompt.md` |
 
 ## Gates
 

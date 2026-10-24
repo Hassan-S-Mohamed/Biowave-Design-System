@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Review — Web Avatar round 1] — 2026-10-24
+### Changed
+- Reviewed web `Avatar` (round 1, `avatar.md` › E2): **Approved**. Measured in headless Chrome in light/dark × en/ar: sizes 32/40/48/56, circle 9999 px vs square 6/8/10/12 px, B3 colours (lowest contrast light secondary icon 6.39:1), image → initials → `person` fallback while loading, after a 404 and on `src` change, initials `SA` / `س` / custom, Badge `overlap` by shape at the top-end corner (top-left in RTL) with the avatar box unchanged, `decorative` vs named `role="img"`, never focusable. docs:check, typecheck and test:web (166/166) pass. 2 Planner nits (lazy loading vs the C3 probe, stale header link) and 1 Executor nit (RTL test strength). Code → `Approved`; Plan → `Open`.
+
 ## [Code — Web Avatar 1.0] — 2026-10-24
 ### Added
 - Built the token-only MUI Avatar with photo loading and error fallbacks, grapheme-safe Latin and Arabic initials, Icon fallback, four sizes, two shapes, three colours, Badge composition, decorative and named accessibility, RTL support, public exports, development warnings and complete contract tests.

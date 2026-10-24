@@ -14,10 +14,10 @@
 | Import | `import { Avatar } from '@biowave/web'` |
 | Figma | **Biowave DS — Web Components** › `↳ Avatar` · build: [Part D](#d--figma-build) |
 | Version | 1.0 · 2026-10-23 |
-| Plan | Finished |
-| Code | Built |
+| Plan | Open |
+| Code | Approved |
 | Figma build | Planned |
-| Review | — |
+| Review | Round 1 · 2026-10-24 · Approved |
 | Source code | `src/components/avatar/` — not built yet (the Executor creates it) |
 | Tokens | — (no component tokens: every value is an existing semantic token, P-04) |
 | Contracts | [`avatar-contract.md`](avatar-contract.md) · [`figma-avatar-contract.md`](figma-avatar-contract.md) — generated, never edited |
@@ -620,7 +620,80 @@ Component description: "Photo, initials or a fallback glyph that stands for a pe
 
 | Round | Date | Code verdict | Figma verdict |
 |---|---|---|---|
-| — | — | not reviewed | not reviewed |
+| 1 | 2026-10-24 | **Approved** | not reviewed |
+
+### E2 Round 1 — 2026-10-24
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 1.0 |
+| Spec version reviewed | 1.0 |
+| Reviewer | Claude |
+| Date | 2026-10-24 |
+| Verdict | **Approved** — AC-1 … AC-7 met and measured in a real browser; no 🔴/🟡 finding. 2 Planner nits (spec wording) and 1 Executor nit (test strength) |
+
+Commands run by the Reviewer on branch `ds/avatar-web` at `6535c3f` (implement commit = latest; in `3-web-components/src` the branch changes only `src/components/avatar/{Avatar.tsx,Avatar.test.tsx,avatarInitials.ts,useImageLoaded.ts,index.ts}` and `src/index.ts`):
+`npm run docs:check` ✅ 27 component files · `npm run typecheck` ✅ · `npm run test:web` ✅ **166/166**, 11 files, 8.40 s, default timeouts, first run (load average 1.92). Avatar alone: 22/22 in 1.73 s; no timeout arguments in `Avatar.test.tsx`; every render goes through `renderWithBiowave`.
+Real browser: my own headless Chrome (`--headless=new`, CDP on a private port, not the shared pane) running the real `Avatar` / `Badge` / `Icon` from `3-web-components/src` inside `BiowaveProvider` with the generated `tokens.css` + `icons.css` (Material Symbols Rounded loaded), served by a scratch Vite config outside the repo (private port, own cache dir) with a 4 s delayed image, a 404 image and a fast image; 1200 × 900; light/en · light/ar · dark/en · dark/ar. Both processes were started by me and stopped by PID afterwards.
+
+#### Acceptance criteria
+
+| AC | Result | Evidence (file:line / test name) |
+|---|---|---|
+| AC-1 API = B1 (names, types, defaults, initials rule, warnings) | ✅ | Props, types and defaults `Avatar.tsx:11-39, 137-153` (`icon='person'`, `size='md'`, `shape='circle'`, `color='neutral'`, `decorative=false`); `name` required unless `decorative` (discriminated union `:29-39`); `className`, `data-*`, `aria-describedby`, `ref` on the container `:211-225` (test *names meaningful content, hides decorative content and forwards the supported root props*). Exported types `index.ts:1-8`. Initials rule `avatarInitials.ts:1-17` (grapheme segmenter, `\p{Script=Arabic}`, `toLocaleUpperCase`); test *derives grapheme-safe initials for %s* (6 cases incl. emoji and combining mark). Browser: `Sara Ali` → `SA`, `Omar` → `O`, `سارة علي` → `س` (label `سارة علي`), `initials="xy"` → `xy`. All 4 B1 warnings once each `Avatar.tsx:162-191` via dev-only `warnOnce`; test *warns once for each invalid combination…* (4 calls over 2 renders) |
+| AC-2 B2–B3 values from tokens; no raw values / primitives | ✅ | `Avatar.tsx:47-131` — `cssVars.*` semantic tokens only; `inherit` keywords reset MUI's font (C3). Guard test *contains no raw color, length, duration or font values*. Browser, all 24 size × shape × colour cells in all 4 theme × language combos: box 32/40/48/56 (`sm`–`xl`), unchanged in ar; radius circle 9999 px, square 6/8/10/12 px; initials 12/14/16/18 px weight 500/500/500/600 (line height 16/20/24/24 en · 18/22/26/26 ar from the text style); glyph 16/20/24/32 px. Colours equal B3 in light and dark (e.g. light neutral bg `rgb(237,237,237)` / text+icon `rgb(41,41,41)`; dark brand bg `rgb(7,19,35)` / `rgb(144,163,188)`) |
+| AC-3 B4: swap at once; fallback while loading and after error; no MUI empty circle | ✅ | `useImageLoaded.ts:11-45`, `Avatar.tsx:221`. Browser: delayed image → `SA` and no `img` at t0, `img` (alt `""`, `loading=lazy`, `decoding=async`, `draggable=false`, 40 × 40, `object-fit: cover`) after load; `src` change → `SA` again on the next frame, new image after its load; switch to a 404 → `SA`; 404 from mount → `SA`; `src=""` → `SA` and no probe. No `svg` (MUI `Person`) in any state. Tests *keeps the fallback visible until an image loads and resets when src changes*, *uses initials before the Icon fallback…* (stubbed `window.Image`, `act`) |
+| AC-4 RTL = B5; a11y = B6 | ✅ | Browser placement (indicator centre relative to the avatar box): en circle `(0.854, 0.146)` = top-end on the circle edge, square `(1, 0)` = top-right corner; ar circle `(0.146, 0.146)`, square `(0, 0)` = top-left (top-start), for `xl` and `sm`, dot, check and count. `transform: none` on container and initials in ar. B6: named → `role="img"` + `aria-label` trimmed, `img` `alt=""`, initials / icon `aria-hidden` (`Avatar.tsx:194-209, 222-224`); decorative → `aria-hidden="true"`, no role / label; badge label in the container's `aria-describedby` (browser: `Online`, `Verified`, `5 messages`; test keeps the consumer id: description `Team member Online`). Contrast measured (initials / icon on bg): light neutral 12.43 / 12.43, brand 12.54 / 10.84, secondary 8.18 / **6.39** (lowest, = B6); dark neutral 10.51, brand 7.24, secondary 7.88 (both). Never focusable: 0 nodes with `tabindex`, test *is never focusable*; axe test light + dark × en + ar with and without badge ✅ |
+| AC-5 B9 + C6 tests exist and pass; checks pass | ✅ | Every B9 item and every C6 item has a test (`Avatar.test.tsx:92-394`, incl. `@ts-expect-error` type contract `:385-394` and the no-`svg` asserts); `src/test/noLegacyIcons.test.ts` passes. Checks ✅ above. RTL assertion strength: nit 3 |
+| AC-6 Exported; README status | ✅ | `src/index.ts` (alphabetical, first component); README row = header (Code set to Approved by this review) |
+| AC-7 Biowave `Badge`, `overlap` from shape; box unchanged | ✅ | `Avatar.tsx:240-254` — `children` / `overlap` stripped, `overlap` circular / rectangular. Browser: classes `MuiBadge-overlapCircular` / `-Rectangular`; `xl` with badge 56 × 56 = without 56 × 56, Badge root 56 × 56 (`sm` 32 × 32). Tests *uses the public Badge, maps overlap…*, owned-prop case in *invalid combinations* |
+
+#### Rule checks (AGENTS.md §2)
+
+| Rule | Result | Notes |
+|---|---|---|
+| No generated files edited | ✅ | Implement commit touches the C5 files, C8, README row, CHANGELOG, run record |
+| No raw values / no primitives | ✅ | `cssVars.*` semantic tokens only; guard test passes |
+| RTL first (logical properties) | ✅ | `inlineSize`, `blockSize`; no physical properties; placement owned by Badge (`insetInlineEnd`) |
+| Both themes, both languages, tested | ✅ | Render matrix and axe in light + dark × en + ar; browser checked all four |
+| Accessibility WCAG 2.2 AA | ✅ | B6 measured above; not a target, not focusable; nothing animates |
+| Biowave `Icon` for the glyph (D-18) | ✅ | `<Icon name={icon} />` `Avatar.tsx:207`; ligature rendered at the token size; no `@mui/icons-material`, no MUI `Person` |
+| Tests via `renderWithBiowave`, default timeouts | ✅ | No direct `render`, no own provider or cache, no timeout arguments |
+| Stayed inside the contract / one component | ✅ | No change to Icon, Badge or any other component |
+| Changelog | ✅ | `CHANGELOG.md` › *Code — Web Avatar 1.0* |
+
+#### Figma build (Part D)
+
+Skipped — Figma build is `Planned`.
+
+#### Probe evidence
+
+```
+Headless Chrome, 1200×900, real Avatar in BiowaveProvider + tokens.css + icons.css
+  box     sm 32×32  md 40×40  lg 48×48  xl 56×56   (en = ar, light = dark)
+  radius  circle 9999px · square 6 / 8 / 10 / 12px
+  initials 12/16 500 · 14/20 500 · 16/24 500 · 18/24 600   (ar line height 18/22/26/26)
+  glyph   16 / 20 / 24 / 32px, "person" ligature, aria-hidden
+  load    t0 slow → "SA", no img · t+5s → img alt="" lazy async draggable=false 40×40 cover
+          src change → "SA" next frame → img after load · 404 → "SA" · src="" → "SA"
+  badge   en circle centre (0.854,0.146) square (1,0) · ar circle (0.146,0.146) square (0,0)
+          box with badge 56×56 = without 56×56 · root 56×56
+Contrast  initials / icon on bg
+  light neutral 12.43/12.43  brand 12.54/10.84  secondary 8.18/6.39
+  dark  neutral 10.51/10.51  brand  7.24/7.24   secondary 7.88/7.88
+```
+
+#### Findings
+
+| # | Severity | File | Issue | Required change | Owner |
+|---|---|---|---|---|---|
+| 1 | 🟢 Nit | `avatar.md` B2 · C3 | B2 asks `loading="lazy"` on the `img`, but C3 prescribes a `new Image()` probe that fetches the photo eagerly on mount (`useImageLoaded.ts:25-34`) and the `img` is only rendered after it loaded — so `lazy` never has an effect and every avatar photo in a long list downloads at once. The code follows the plan; the two rules contradict each other | Decide in B2/C3: drop `loading="lazy"` from B2, or ask for a lazy probe (e.g. start the probe when the container enters the viewport, or render the hidden `img` with `loading="lazy"` and track its own `load` / `error`) | Planner |
+| 2 | 🟢 Nit | `avatar.md` header | Header row "Source code — `src/components/avatar/` — not built yet (the Executor creates it)" is stale; the code exists | Link `src/components/avatar/` as the other built components do | Planner |
+| 3 | 🟢 Nit | `Avatar.test.tsx:314-330` | The B9 RTL item "badge on the top-start corner" is asserted only as `insetInlineEnd` / `insetBlockStart` being non-empty, which is also true in LTR and does not prove the corner. jsdom has no layout; the browser confirms the placement (probe above) | Assert the declared placement that decides the corner (e.g. the indicator's `inset-inline-end` value and `direction: rtl` on the Badge root, or the RTL emotion class), or name the test for what it checks | Executor |
+
+#### Next step
+
+- Approved → Code `Approved` (header + README). Planner nits 1–2 → Plan `Open` (AGENTS.md §3: a review that sends Planner items back reopens the plan); the Planner settles B2/C3 on lazy loading, fixes the header link, sets `Finished` and regenerates the contracts. Executor nit 3 can ride along with the next touch of `Avatar.test.tsx`; not required for this unit. Figma build is still `Planned` and not reviewed.
 
 ---
 
