@@ -5,6 +5,14 @@ export * from '@biowave/foundations';
 
 // Components (keep alphabetical):
 export {
+  Avatar,
+  type AvatarProps,
+  type AvatarSize,
+  type AvatarShape,
+  type AvatarColor,
+  type AvatarBadgeProps,
+} from './components/avatar';
+export {
   Badge,
   type BadgeProps,
   type BadgeVariant,

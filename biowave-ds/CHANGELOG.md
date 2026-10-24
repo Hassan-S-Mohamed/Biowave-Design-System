@@ -2,6 +2,42 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Review — Web Avatar round 2] — 2026-10-24
+### Changed
+- Reviewed web `Avatar` (round 2, `avatar.md` › E3): **Approved**. In headless Chrome with a server-side request log, a photo 6000 px below the fold is not requested until it is scrolled near. Initials show while the hidden `img` loads. A 404 removes the `img`. A `src` change returns to loading. A cached photo shows synchronously with no fallback frame. `new Image()` was never called. Round 1 measurements still hold (sizes 32/40/48/56, radii, B3 colours, `SA` / `س`, Badge top-end with top-left in RTL, roles, not focusable). The RTL test now asserts direction and placement in en and ar. docs:check, typecheck and test:web (220/220) pass. All three Round 1 findings fixed; 1 new Executor nit (stale-event test step). Code → `Approved`; Plan stays `Finished`.
+
+## [Fixed — Web Avatar review round 1] — 2026-10-24
+### Fixed
+- Replaced the eager `new Image()` probe and MUI image path with the real first-render `<img loading="lazy">`, kept it box-preserving and hidden until its own load event, removed it after error, guarded stale events and cached completion, and retained the fallback throughout loading and failure. Avatar tests now fire events on that rendered image, prove no eager probe, and assert the Badge's exact logical top-end placement in both English and Arabic. The full web suite passes 220/220 at default timeouts.
+
+## [Plan — Avatar 1.1 (web, tablet, mobile)] — 2026-10-24
+### Changed
+- Avatar plan 1.0 → 1.1, answering the Planner nits of Web review round 1. **Web #1 (lazy loading):** B2 › image — Avatar renders the real `img` from the first render with `loading="lazy"`, `visibility: hidden` until its own `load` event (never `display: none`), removed on `error`; container `position: relative`. C3 › Load tracking drops the `new Image()` probe and MUI `src` / `slotProps.img`; `useImageLoaded(src)` tracks the `img`'s own events (stale events ignored, hydration `complete` check). B4 `src` change, B9 (content priority, lazy loading, `src` change, stronger RTL badge assertion for Executor nit #3), C5, C6 (fire `load` / `error` on the `img`), C7 AC-8 – AC-10 and a **Fix round 1 — Executor task list**. **Web #2:** header `Source code` links `src/components/avatar/`. **Tablet / mobile:** B2 › image note — the `ImageProvider` resolves only when the widget is built (lazy lists build visible rows only); no pre-fetch. Part A unchanged; no API or token change. Version 1.1 on all three; web Plan → Finished (header + README), Code stays Approved until the fix round; contracts and docs pages regenerated.
+
+## [Review — Web Avatar round 1] — 2026-10-24
+### Changed
+- Reviewed web `Avatar` (round 1, `avatar.md` › E2): **Approved**. Measured in headless Chrome in light/dark × en/ar: sizes 32/40/48/56, circle 9999 px vs square 6/8/10/12 px, B3 colours (lowest contrast light secondary icon 6.39:1), image → initials → `person` fallback while loading, after a 404 and on `src` change, initials `SA` / `س` / custom, Badge `overlap` by shape at the top-end corner (top-left in RTL) with the avatar box unchanged, `decorative` vs named `role="img"`, never focusable. docs:check, typecheck and test:web (166/166) pass. 2 Planner nits (lazy loading vs the C3 probe, stale header link) and 1 Executor nit (RTL test strength). Code → `Approved`; Plan → `Open`.
+
+## [Code — Web Avatar 1.0] — 2026-10-24
+### Added
+- Built the token-only MUI Avatar with photo loading and error fallbacks, grapheme-safe Latin and Arabic initials, Icon fallback, four sizes, two shapes, three colours, Badge composition, decorative and named accessibility, RTL support, public exports, development warnings and complete contract tests.
+
+## [Preview — Mobile Avatar 1.0] — 2026-10-23
+### Added
+- Added light/English and dark/Arabic RTL mobile Avatar planning sheets covering sm/md/lg/xl sizes, circle/square shapes, neutral/brand/secondary colours, image/initials/person content and loading/failed fallbacks, 48dp touch targets, plus mirrored count/dot badge placement, resolved token values, prompts and visual check notes.
+
+## [Preview — Tablet Avatar 1.0] — 2026-10-23
+### Added
+- Added light/English and dark/Arabic RTL tablet Avatar planning sheets covering sm/md/lg/xl sizes, circle/square shapes, neutral/brand/secondary colours, image/initials/person content and fallbacks, plus mirrored count/dot badge placement, resolved token values, prompts and generation check notes.
+
+## [Preview — Web Avatar 1.0] — 2026-10-23
+### Added
+- Added light/English and dark/Arabic RTL Avatar planning sheets covering sm/md/lg/xl sizes, circle/square shapes, neutral/brand/secondary colours, image/initials/person content and fallbacks, plus mirrored count/dot badge placement, with resolved token values and generation check notes.
+
+## [Plan — Avatar 1.0 (Web, Tablet, Mobile)] — 2026-10-23
+### Added
+- New component **Avatar** planned on all three platforms (Roadmap Day 4; depends on Icon and Badge 1.0): `3-web-components/components/avatar/avatar.md`, `4-tablet-components/components/avatar/avatar.md`, `5-mobile-components/components/avatar/avatar.md` (Parts A–D and F; Part A identical except A8). Image → initials → `person` glyph fallback (fallback shown while the image loads and after an error), initials rule (two Latin initials, one letter for Arabic-script names), sizes `sm`·`md`·`lg`·`xl` on `size-control-height-*`, shapes `circle`·`square`, colours `neutral`·`brand`·`secondary` (subtle backgrounds, no status meaning), one Badge placed by shape (`overlap` `circular`/`rectangular`), `decorative` mode, never focusable. Web on MUI `Avatar` + `Icon` + `Badge`; Flutter custom `BwAvatar` + `BwIcon` + `BwBadge`. No component tokens (P-04): no `avatar.tokens.json`. Plan `Finished`, Code and Figma `Planned`; contracts and docs pages generated; rows added to the three section READMEs.
+
 ## [Review — Web Tooltip round 2: Approved] — 2026-10-24
 ### Changed
 - Tooltip (web, plan 1.1) review round 2: **Approved** — Part E3 of `3-web-components/components/tooltip/tooltip.md`. Round 1 #1 fixed: in headless Chrome a pointer moving 1, 2 or 4 px per frame from the anchor across the gap keeps the tooltip open in every placement, en and ar, and when flipped (36/36); the gap hit-tests to the popper and the visible gap is still 4 px (`spacing-xs`). #2 fixed: exactly one described-by element in every sample, including both exit fades. #3 fixed (header link). Round 1 timings, keyboard-only focus open, Esc, reduced motion, sizes, colours and accessible names still hold. One 🟢 nit for a follow-up (an explicit `aria-label={undefined}` on a `label` child drops the name). Code → Approved, Review → Round 2 (header + README). `docs:check` ✓, `typecheck` ✓, `test:web` 146/146 ×3 ✓, `component-tokens` ✓, `sync` READY.
