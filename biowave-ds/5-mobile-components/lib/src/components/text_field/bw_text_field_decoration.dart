@@ -74,8 +74,6 @@ InputDecoration buildBwTextFieldDecoration({
     }
     return colors.iconNeutralMuted;
   });
-  final inputColor =
-      enabled ? colors.textNeutralDefault : colors.textNeutralDisabled;
   final placeholderColor =
       enabled ? colors.textNeutralPlaceholder : colors.textNeutralDisabled;
   final supportingColor =
@@ -122,8 +120,5 @@ InputDecoration buildBwTextFieldDecoration({
     errorStyle: context.bw.text.captionMd.copyWith(color: colors.textRoleError),
     counterStyle: context.bw.text.captionMd.copyWith(color: counterColor),
     errorMaxLines: 2,
-  ).copyWith(
-    // Keep input text resolution next to the decoration for unit verification.
-    labelStyle: context.bw.text.bodyLg.copyWith(color: inputColor),
   );
 }

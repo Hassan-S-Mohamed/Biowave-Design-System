@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import '../../common/bw_control_size.dart';
 import '../button/bw_button.dart';
 import '../icon_button/bw_icon_button.dart';
+import 'bw_field_action.dart';
 
 /// Persistent label, required indicator, and optional help action for fields.
 class BwFieldLabel extends StatefulWidget {
@@ -45,82 +46,96 @@ class _BwFieldLabelState extends State<BwFieldLabel> {
       return const SizedBox.shrink();
     }
 
+    final duration =
+        context.bw.reduceMotion ? BwDuration.instant : BwDuration.sm;
+
+    Widget? helpButton;
+    if (helpText != null) {
+      helpButton = CallbackShortcuts(
+        bindings: <ShortcutActivator, VoidCallback>{
+          const SingleActivator(LogicalKeyboardKey.escape): () {
+            Tooltip.dismissAllToolTips();
+          },
+        },
+        child: Tooltip(
+          key: _tooltipKey,
+          message: helpText,
+          excludeFromSemantics: true,
+          triggerMode: TooltipTriggerMode.tap,
+          preferBelow: false,
+          verticalOffset: BwSpacing.xs,
+          padding: const EdgeInsetsDirectional.symmetric(
+            horizontal: BwSpacing.md,
+            vertical: BwSpacing.xs,
+          ),
+          decoration: BoxDecoration(
+            color: context.bw.colors.surfaceInverse,
+            borderRadius: const BorderRadiusDirectional.all(
+              Radius.circular(BwRadius.sm),
+            ),
+          ),
+          textStyle: context.bw.text.labelSm.copyWith(
+            color: context.bw.colors.textNeutralInverse,
+          ),
+          waitDuration: BwDuration.instant,
+          showDuration:
+              context.bw.reduceMotion ? BwDuration.instant : BwDuration.xl2,
+          exitDuration:
+              context.bw.reduceMotion ? BwDuration.instant : BwDuration.sm,
+          child: BwFieldTargetBox(
+            layoutSize: const Size.square(BwSize.iconSm),
+            minTargetSize: Size.square(BwLayout.mobile.minTarget),
+            child: BwIconButton(
+              icon: Symbols.help_rounded,
+              label: widget.helpLabel,
+              onPressed: _showTooltip,
+              variant: BwButtonVariant.text,
+              color: BwButtonColor.neutral,
+              size: BwControlSize.sm,
+              tooltip: false,
+            ),
+          ),
+        ),
+      );
+    }
+
     return Row(
+      mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         if (!widget.hideLabel)
-          Expanded(
+          Flexible(
             child: ExcludeSemantics(
-              child: Text.rich(
-                TextSpan(
-                  children: <InlineSpan>[
-                    TextSpan(
-                      text: widget.label,
-                      style: context.bw.text.labelLg.copyWith(
-                        color: widget.labelColor,
-                      ),
-                    ),
-                    if (widget.requiredField)
+              child: AnimatedDefaultTextStyle(
+                duration: duration,
+                curve: BwEasing.standard,
+                style: context.bw.text.labelLg.copyWith(
+                  color: widget.labelColor,
+                ),
+                child: Text.rich(
+                  TextSpan(
+                    children: <InlineSpan>[
                       TextSpan(
-                        text: ' *',
-                        style: context.bw.text.labelLg.copyWith(
-                          color: widget.requiredColor,
-                        ),
+                        text: widget.label,
                       ),
-                  ],
+                      if (widget.requiredField)
+                        TextSpan(
+                          text: ' *',
+                          style: TextStyle(
+                            color: widget.requiredColor,
+                          ),
+                        ),
+                    ],
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-            ),
-          )
-        else
-          const Spacer(),
-        if (helpText != null) ...<Widget>[
-          const SizedBox(width: BwSpacing.xs),
-          CallbackShortcuts(
-            bindings: <ShortcutActivator, VoidCallback>{
-              const SingleActivator(LogicalKeyboardKey.escape): () {
-                Tooltip.dismissAllToolTips();
-              },
-            },
-            child: Tooltip(
-              key: _tooltipKey,
-              message: helpText,
-              excludeFromSemantics: true,
-              triggerMode: TooltipTriggerMode.tap,
-              preferBelow: false,
-              verticalOffset: BwSpacing.xs,
-              padding: const EdgeInsetsDirectional.symmetric(
-                horizontal: BwSpacing.md,
-                vertical: BwSpacing.xs,
-              ),
-              decoration: BoxDecoration(
-                color: context.bw.colors.surfaceInverse,
-                borderRadius: const BorderRadiusDirectional.all(
-                  Radius.circular(BwRadius.sm),
-                ),
-              ),
-              textStyle: context.bw.text.labelSm.copyWith(
-                color: context.bw.colors.textNeutralInverse,
-              ),
-              waitDuration: BwDuration.instant,
-              showDuration:
-                  context.bw.reduceMotion ? BwDuration.instant : BwDuration.xl2,
-              exitDuration:
-                  context.bw.reduceMotion ? BwDuration.instant : BwDuration.sm,
-              child: BwIconButton(
-                icon: Symbols.help_rounded,
-                label: widget.helpLabel,
-                onPressed: _showTooltip,
-                variant: BwButtonVariant.text,
-                color: BwButtonColor.neutral,
-                size: BwControlSize.sm,
-                tooltip: false,
               ),
             ),
           ),
-        ],
+        if (!widget.hideLabel && helpButton != null)
+          const SizedBox(width: BwSpacing.xs),
+        if (helpButton != null) helpButton,
       ],
     );
   }

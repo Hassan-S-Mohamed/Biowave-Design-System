@@ -29,13 +29,20 @@ class BwFieldSupporting extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final duration =
+        context.bw.reduceMotion ? BwDuration.instant : BwDuration.sm;
+
     if (counter) {
       return Directionality(
         textDirection: TextDirection.ltr,
-        child: Text(
-          text,
-          key: const ValueKey<String>('BwFieldSupporting.counter'),
+        child: AnimatedDefaultTextStyle(
+          duration: duration,
+          curve: BwEasing.standard,
           style: context.bw.text.captionMd.copyWith(color: color),
+          child: Text(
+            text,
+            key: const ValueKey<String>('BwFieldSupporting.counter'),
+          ),
         ),
       );
     }
@@ -59,9 +66,11 @@ class BwFieldSupporting extends StatelessWidget {
           const SizedBox(width: BwSpacing.xs),
         ],
         Expanded(
-          child: Text(
-            text,
+          child: AnimatedDefaultTextStyle(
+            duration: duration,
+            curve: BwEasing.standard,
             style: context.bw.text.captionMd.copyWith(color: color),
+            child: Text(text),
           ),
         ),
       ],

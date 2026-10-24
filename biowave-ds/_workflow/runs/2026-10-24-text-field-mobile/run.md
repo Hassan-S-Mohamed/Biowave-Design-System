@@ -20,6 +20,8 @@
 | 03 | implement | antigravity | done — finished Codex's partial build, tests compile and pass, goldens, C8, Code Built | docs:check ✓ · analyze ✓ · test ✓ 148/148 (orchestrator); dark-ar golden checked by eye | (this commit) | [prompt](03-implement-antigravity.prompt.md) |
 | 04 | review | claude (wf-reviewer agent) | done — Round 1 Changes requested: 1 🔴 (two text-field nodes, editable one unnamed), 6 🟡 (2 Planner), 3 🟢 | docs:check ✓ · analyze ✓ · test ✓ | (this commit) | [prompt](04-review-claude.prompt.md) |
 | 05 | plan | claude (wf-planner agent, one pass with the other platform) | done — plan 1.2: BwButton internal `segment` + radius helper in C5, B4 Flutter motion limit accepted, `placeholder` in B1 | contract ✓ · docs:check ✓ | (this commit) | [prompt](05-plan-claude.prompt.md) |
+| 06 | fix | antigravity (Gemini 3.8 Flash) | partial — code, tests, goldens done; stopped before C8/Handoff | docs:check ✓ · analyze ✓ · test ✓ 177/177 (orchestrator) | — | [prompt](06-fix-antigravity.prompt.md) |
+| 07 | fix | antigravity (Gemini 3.8 Flash) | done — C8 Fix round 1, Code Built, CHANGELOG | docs:check ✓ · analyze ✓ · test ✓ 177/177 (orchestrator); light-en golden checked (help icon after label, outline around add-ons) | (this commit) | [prompt](07-fix-antigravity.prompt.md) |
 
 ## Gates
 

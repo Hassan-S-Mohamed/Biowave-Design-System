@@ -15,7 +15,7 @@
 | Figma | **Biowave DS — Mobile Components** › `↳ Text field` (page Typography mode `Mobile`) · build: [Part D](#d--figma-build) |
 | Version | 1.2 · 2026-10-24 (spec and code plan 1.2; guidelines unchanged, same as Web 1.1) |
 | Plan | Finished |
-| Code | Changes requested |
+| Code | Built |
 | Figma build | Planned |
 | Review | Round 1 · 2026-10-24 · Changes requested |
 | Source code | [`lib/src/components/text_field/`](../../lib/src/components/text_field/) |
@@ -519,6 +519,28 @@ Implement every item in B9, plus:
 
 **Deviations from the plan or spec**
 - none
+
+**Questions for the Planner**
+- none
+
+#### Fix round 1 — 2026-10-24 (Antigravity)
+
+| Finding / Item | What changed (`file:line`) | Test that proves it |
+|---|---|---|
+| #1 (🔴) Single text-field semantics node | In `lib/src/components/text_field/bw_text_field.dart:575-582`, removed `container: true` and `textField: true` from the outer `Semantics` wrapper and simplified `label` to `_semanticsLabel` (`:471-472`) and `hint` to `_semanticsHint` (`:474-487`); the inner editable `TextFormField` (`:509-570`) is the single `isTextField` node carrying name (+ required), value, helper/error/counter, and tap/focus actions | `test/text_field_test.dart:497-634` (`field and each action are separate labelled nodes`), `test/text_field_test.dart:636-712` (`error and counter cases expose exactly one text-field node`) |
+| #2 (🟡) Semantics node count, matchesSemantics, full Tab order, real tap & Enter/Space tooltip tests | Added tests asserting single `isTextField` node count (`find.semantics.byPredicate`), `matchesSemantics` with label/value/validationResult/children, full Tab focus sequence (`help icon` → `field` → `trailing action` → `end button`), and tooltip activation by real tap and Enter/Space keys | `test/text_field_test.dart:403-442` (`help tooltip opens by real tap and Enter/Space, and closes with Escape`), `test/text_field_test.dart:497-634` (`field and each action are separate labelled nodes`), `test/text_field_test.dart:636-712` (`error and counter cases expose exactly one text-field node`) |
+| #3 (🟡) Help icon placed directly after label with `BwSpacing.xs` | In `lib/src/components/text_field/bw_field_label.dart:102-139`, replaced `Expanded` label and `Spacer()` with `Flexible` label and placed the help button directly after the label row (+ required indicator) separated by `SizedBox(width: BwSpacing.xs)`, correctly positioned in both LTR and RTL; updated all 4 goldens (`test/goldens/text_field/text-field-{light,dark}-{en,ar}.png`) | `test/text_field_test.dart:714-746` (`help icon 48dp hit area does not enlarge label-to-field gap`), `test/text_field_test.dart:366-399` (`renders across themes and locales without error` / goldens) |
+| #4 (🟡) Help icon 48dp tap area does not enlarge layout (label gap = `BwSpacing.sm`) | In `lib/src/components/text_field/bw_field_action.dart:47-142`, introduced package-private `BwFieldTargetBox` (`RenderShiftedBox`) constraining parent layout size to `Size.square(BwSize.iconSm)` (16dp) while keeping child hit target and semantics at `BwLayout.mobile.minTarget` (48dp); used in `lib/src/components/text_field/bw_field_label.dart:85-97` | `test/text_field_test.dart:714-746` (`help icon 48dp hit area does not enlarge label-to-field gap` verifies gap is `BwSpacing.sm` with and without helpText) |
+| #5 (🟡) Prefix/suffix add-ons inside outline with continuous border | In `lib/src/components/text_field/bw_field_addon.dart:27-38,53-78`, inset add-on box with `Padding` by `borderWidth` (1dp) on top, bottom, and outer edge (`start` for prefix, `end` for suffix) and inner corners `BwRadius.md - borderWidth`, so default, focus, and error borders remain visible around add-ons; in `bw_text_field.dart:193-197,320,507`, dynamically track error state via `_hasError` to update add-on borders; updated goldens | `test/text_field_test.dart:748-829` (`validator: FormField is single source of error, validate() false, reset() clears error, border, and semantics`), `test/text_field_test.dart:366-399` (goldens) |
+| #9 (🟢) Restore original `BwMobileTheme` formatting | In `lib/biowave_mobile.dart:19-25`, reverted multi-line theme constructor arguments for `BwMobileTheme.light` and `BwMobileTheme.dark` to match `main`, touching only package exports | `cd 5-mobile-components && flutter analyze` (clean) |
+| #10 (🟢) Remove test-only `labelStyle` and replace char codes with `''` | In `lib/src/components/text_field/bw_text_field_decoration.dart:74-76,122-125`, removed `labelStyle` and unused `inputColor`; in `lib/src/components/text_field/bw_text_field.dart:204,224,229,281`, replaced `String.fromCharCodes(const <int>[])` with `''` | `test/text_field_test.dart:240-271` (`border, fill, and text resolve in light/dark`), `cd 5-mobile-components && flutter analyze` |
+| Plan 1.2: End-button segment | In `lib/src/components/text_field/bw_text_field.dart:619`, passed `segment: BwButtonSegment.end` to attached `BwButton` for square start corners; in `bw_text_field.dart:451-469`, field radius sets square end corners (`topEnd: Radius.zero`, `bottomEnd: Radius.zero`) | `test/text_field_test.dart:831-873` (`end button: resolved shape radius has square start corners in en and ar`) |
+| Plan 1.2: Placeholder | In `lib/src/components/text_field/bw_text_field.dart:57,139,503`, kept `placeholder` mapped to `InputDecoration.hintText` and `hintStyle` per Plan 1.2 B1 | `test/text_field_test.dart:133-149` (`defaults match the contract`), `test/text_field_test.dart:240-271` (`border, fill, and text resolve in light/dark`) |
+| Plan 1.2: Motion & reduced motion | In `lib/src/components/text_field/bw_field_label.dart:49-50,109-133`, `bw_field_addon.dart:44-45,63-93`, and `bw_field_supporting.dart:32-33,38-46,69-74`, animated label text style, addon container/text style, and supporting/counter text style using `duration = context.bw.reduceMotion ? BwDuration.instant : BwDuration.sm` and `curve: BwEasing.standard` | `test/text_field_test.dart:896-939` (`transitions honour motion tokens and reduced motion`) |
+| Plan 1.2: C6 test suites | Added all four required C6 test suites: radius EN/AR (`:831-873`), loading end button paints spinner (`:875-894`), default button unchanged (`:847-850` + `button_test.dart`), and reduced motion (`:896-939`) | `test/text_field_test.dart:831-939`, `cd 5-mobile-components && flutter test` (177 tests pass) |
+
+**Deviations from the plan or spec**
+- none — Flutter's built-in `InputDecorator` border and helper ↔ error transition duration/curve is an accepted platform limit per Plan 1.2 B4.
 
 **Questions for the Planner**
 - none

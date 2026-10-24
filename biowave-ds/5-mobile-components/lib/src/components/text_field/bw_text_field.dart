@@ -174,6 +174,8 @@ class BwTextField extends StatefulWidget {
 }
 
 class _BwTextFieldState extends State<BwTextField> {
+  final GlobalKey<FormFieldState<String>> _formFieldKey =
+      GlobalKey<FormFieldState<String>>();
   late TextEditingController _controller;
   late FocusNode _focusNode;
   late bool _ownsController;
@@ -188,13 +190,18 @@ class _BwTextFieldState extends State<BwTextField> {
   bool get _hasConfiguredAction =>
       _hasPasswordAction || widget.action != null || widget.clearable;
 
+  bool get _hasError =>
+      widget.enabled &&
+      ((widget.errorText != null && widget.errorText!.isNotEmpty) ||
+          (_formFieldKey.currentState?.hasError ?? false));
+
   @override
   void initState() {
     super.initState();
     _ownsController = widget.controller == null;
     _controller = widget.controller ??
         TextEditingController(
-          text: widget.initialValue ?? String.fromCharCodes(const <int>[]),
+          text: widget.initialValue ?? '',
         );
     _controller.addListener(_handleControllerChange);
     _ownsFocusNode = widget.focusNode == null;
@@ -214,13 +221,12 @@ class _BwTextFieldState extends State<BwTextField> {
       _ownsController = widget.controller == null;
       _controller = widget.controller ??
           TextEditingController(
-            text: widget.initialValue ?? String.fromCharCodes(const <int>[]),
+            text: widget.initialValue ?? '',
           );
       _controller.addListener(_handleControllerChange);
     } else if (_ownsController &&
         oldWidget.initialValue != widget.initialValue) {
-      _controller.text =
-          widget.initialValue ?? String.fromCharCodes(const <int>[]);
+      _controller.text = widget.initialValue ?? '';
     }
 
     if (oldWidget.focusNode != widget.focusNode) {
@@ -272,7 +278,7 @@ class _BwTextFieldState extends State<BwTextField> {
 
   void _clear() {
     _controller.clear();
-    widget.onChanged?.call(String.fromCharCodes(const <int>[]));
+    widget.onChanged?.call('');
     widget.onCleared?.call();
     _focusNode.requestFocus();
   }
@@ -311,7 +317,7 @@ class _BwTextFieldState extends State<BwTextField> {
     if (!widget.enabled) {
       return colors.borderDisabled;
     }
-    if (widget.errorText != null) {
+    if (_hasError) {
       return colors.borderInputError;
     }
     if (_focusNode.hasFocus) {
@@ -462,23 +468,22 @@ class _BwTextFieldState extends State<BwTextField> {
     return const BorderRadiusDirectional.all(Radius.circular(BwRadius.md));
   }
 
-  String get _semanticsLabel {
-    final effectiveError = widget.enabled ? widget.errorText : null;
-    final parts = <String>[
-      widget.label,
-      if (widget.requiredField) _requiredWord,
-      if (!widget.multiline && widget.prefixText != null) widget.prefixText!,
-      if (!widget.multiline &&
-          widget.endButton == null &&
-          widget.suffixText != null)
+  String get _semanticsLabel =>
+      widget.requiredField ? '${widget.label}, $_requiredWord' : widget.label;
+
+  String? get _semanticsHint {
+    if (widget.multiline) {
+      return null;
+    }
+    final affixes = <String>[
+      if (widget.prefixText != null) widget.prefixText!,
+      if (widget.endButton == null && widget.suffixText != null)
         widget.suffixText!,
-      if (effectiveError != null) effectiveError,
-      if (effectiveError == null && widget.helperText != null)
-        widget.helperText!,
-      if (widget.showCounter && widget.maxLength != null)
-        '${_controller.text.characters.length}/${widget.maxLength}',
     ];
-    return parts.join(', ');
+    if (affixes.isEmpty) {
+      return null;
+    }
+    return affixes.join(', ');
   }
 
   Widget _buildField(BuildContext context) {
@@ -499,11 +504,11 @@ class _BwTextFieldState extends State<BwTextField> {
       helperText: effectiveError == null ? widget.helperText : null,
       counterText: counterText,
       borderRadius: _fieldRadius,
-      hasError: effectiveError != null,
+      hasError: _hasError,
     );
 
     final textField = TextFormField(
-      key: const ValueKey<String>('BwTextField.input'),
+      key: _formFieldKey,
       controller: _controller,
       focusNode: _focusNode,
       autofocus: widget.autofocus,
@@ -534,7 +539,15 @@ class _BwTextFieldState extends State<BwTextField> {
       onChanged: widget.onChanged,
       onFieldSubmitted: widget.onSubmitted,
       onTap: widget.onTap,
-      validator: widget.validator,
+      validator: widget.validator == null
+          ? null
+          : (value) {
+              final result = widget.validator!(value);
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (mounted) setState(() {});
+              });
+              return result;
+            },
       autovalidateMode: widget.autovalidateMode,
       forceErrorText: effectiveError,
       errorBuilder: (BuildContext context, String message) {
@@ -560,15 +573,12 @@ class _BwTextFieldState extends State<BwTextField> {
       onEnter: (_) => setState(() => _hovered = true),
       onExit: (_) => setState(() => _hovered = false),
       child: Semantics(
-        container: true,
         label: _semanticsLabel,
-        textField: true,
-        enabled: widget.enabled,
-        focusable: widget.enabled,
-        focused: widget.enabled && _focusNode.hasFocus,
-        onTap: widget.enabled ? _requestFocus : null,
-        onFocus: widget.enabled ? _requestFocus : null,
-        child: textField,
+        hint: _semanticsHint,
+        child: KeyedSubtree(
+          key: const ValueKey<String>('BwTextField.input'),
+          child: textField,
+        ),
       ),
     );
   }
@@ -595,9 +605,10 @@ class _BwTextFieldState extends State<BwTextField> {
               direction == TextDirection.ltr
                   ? -BwBorder.widthDefault
                   : BwBorder.widthDefault,
-              0,
+              0.0,
             ),
             child: BwButton(
+              key: const ValueKey<String>('BwTextField.end-button'),
               label: endButton.label,
               onPressed: widget.enabled ? endButton.onPressed : null,
               variant: BwButtonVariant.outlined,
@@ -605,6 +616,7 @@ class _BwTextFieldState extends State<BwTextField> {
               size: BwControlSize.lg,
               leadingIcon: endButton.icon,
               loading: endButton.loading,
+              segment: BwButtonSegment.end,
             ),
           ),
         ],

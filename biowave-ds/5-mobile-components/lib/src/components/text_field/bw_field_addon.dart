@@ -20,53 +20,77 @@ class BwFieldAddon extends StatelessWidget {
   final Color borderColor;
   final VoidCallback? onTap;
 
+  static bool isIntrinsicallyLtr(String value) =>
+      !RegExp(r'[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]').hasMatch(value);
+
   @override
   Widget build(BuildContext context) {
-    final radius = atStart
+    const borderWidth = BwBorder.widthDefault;
+    const innerRadius = Radius.circular(BwRadius.md - borderWidth);
+    final segmentRadius = atStart
         ? const BorderRadiusDirectional.only(
-            topStart: Radius.circular(BwRadius.md),
-            bottomStart: Radius.circular(BwRadius.md),
-          )
+            topStart: innerRadius,
+            bottomStart: innerRadius,
+          ).resolve(Directionality.of(context))
         : const BorderRadiusDirectional.only(
-            topEnd: Radius.circular(BwRadius.md),
-            bottomEnd: Radius.circular(BwRadius.md),
-          );
+            topEnd: innerRadius,
+            bottomEnd: innerRadius,
+          ).resolve(Directionality.of(context));
+
     final borderSide = BorderSide(
-      width: BwBorder.widthDefault,
+      width: borderWidth,
       color: borderColor,
     );
 
+    final duration =
+        context.bw.reduceMotion ? BwDuration.instant : BwDuration.sm;
+
     return ExcludeSemantics(
       child: GestureDetector(
-        behavior: HitTestBehavior.translucent,
+        behavior: HitTestBehavior.opaque,
+        excludeFromSemantics: true,
         onTap: onTap,
-        child: IntrinsicHeight(
-          child: Container(
-            key: ValueKey<String>(
-              atStart ? 'BwFieldAddon.prefix' : 'BwFieldAddon.suffix',
-            ),
-            constraints: const BoxConstraints(
-              minHeight: BwSize.controlHeightLg,
-            ),
-            alignment: AlignmentDirectional.center,
-            padding: const EdgeInsetsDirectional.symmetric(
-              horizontal: BwSpacing.controlPaddingInlineLg,
-            ),
-            decoration: BoxDecoration(
-              color: backgroundColor,
-              border: atStart
-                  ? BorderDirectional(end: borderSide)
-                  : BorderDirectional(start: borderSide),
-              borderRadius: radius,
-            ),
-            child: Directionality(
-              textDirection: _isIntrinsicallyLtr(text)
-                  ? TextDirection.ltr
-                  : Directionality.of(context),
-              child: Text(
-                text,
-                maxLines: 1,
-                style: context.bw.text.bodyLg.copyWith(color: textColor),
+        child: Padding(
+          padding: EdgeInsetsDirectional.only(
+            top: borderWidth,
+            bottom: borderWidth,
+            start: atStart ? borderWidth : 0.0,
+            end: !atStart ? borderWidth : 0.0,
+          ),
+          child: IntrinsicHeight(
+            child: AnimatedContainer(
+              key: ValueKey<String>(
+                atStart ? 'BwFieldAddon.prefix' : 'BwFieldAddon.suffix',
+              ),
+              duration: duration,
+              curve: BwEasing.standard,
+              constraints: const BoxConstraints(
+                minHeight: BwSize.controlHeightLg - (borderWidth * 2),
+              ),
+              alignment: AlignmentDirectional.center,
+              padding: const EdgeInsetsDirectional.symmetric(
+                horizontal: BwSpacing.controlPaddingInlineLg,
+              ),
+              decoration: BoxDecoration(
+                color: backgroundColor,
+                border: atStart
+                    ? BorderDirectional(end: borderSide)
+                    : BorderDirectional(start: borderSide),
+                borderRadius: segmentRadius,
+              ),
+              child: Directionality(
+                textDirection: isIntrinsicallyLtr(text)
+                    ? TextDirection.ltr
+                    : Directionality.of(context),
+                child: AnimatedDefaultTextStyle(
+                  duration: duration,
+                  curve: BwEasing.standard,
+                  style: context.bw.text.bodyLg.copyWith(color: textColor),
+                  child: Text(
+                    text,
+                    maxLines: 1,
+                  ),
+                ),
               ),
             ),
           ),
@@ -74,8 +98,4 @@ class BwFieldAddon extends StatelessWidget {
       ),
     );
   }
-}
-
-bool _isIntrinsicallyLtr(String value) {
-  return RegExp(r'[0-9]|[:/.%+\-]').hasMatch(value);
 }

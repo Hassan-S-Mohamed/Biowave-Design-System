@@ -3,7 +3,10 @@ import 'dart:io';
 import 'dart:ui' as ui;
 
 import 'package:biowave_mobile/biowave_mobile.dart';
+import 'package:biowave_mobile/src/components/button/bw_button.dart';
 import 'package:biowave_mobile/src/components/text_field/bw_field_action.dart';
+import 'package:biowave_mobile/src/components/text_field/bw_field_label.dart';
+import 'package:biowave_mobile/src/components/text_field/bw_field_supporting.dart';
 import 'package:biowave_mobile/src/components/text_field/bw_text_field_decoration.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -201,27 +204,17 @@ void main() {
         late BwColors colors;
         await pumpBw(
           tester,
-          Builder(
-            builder: (context) {
-              colors = context.bw.colors;
-              decoration = buildBwTextFieldDecoration(
-                context: context,
-                enabled: true,
-                readOnly: false,
-                placeholder: 'Placeholder',
-                prefixIcon: null,
-                suffixIcon: null,
-                helperText: null,
-                counterText: null,
-                borderRadius: const BorderRadiusDirectional.all(
-                  Radius.circular(BwRadius.md),
-                ),
-              );
-              return const SizedBox.shrink();
-            },
+          const BwTextField(
+            label: 'Work email',
+            placeholder: 'Placeholder',
+            initialValue: 'Value',
           ),
           brightness: brightness,
         );
+        final context = tester.element(find.byType(BwTextField));
+        colors = context.bw.colors;
+        decoration =
+            tester.widget<TextField>(find.byType(TextField)).decoration!;
 
         final border = decoration.border! as WidgetStateInputBorder;
         BorderSide side(Set<WidgetState> states) =>
@@ -273,7 +266,10 @@ void main() {
           colors.iconNeutralDisabled,
         );
         expect(decoration.hintStyle!.color, colors.textNeutralPlaceholder);
-        expect(decoration.labelStyle!.color, colors.textNeutralDefault);
+        expect(
+          tester.widget<TextField>(find.byType(TextField)).style?.color,
+          colors.textNeutralDefault,
+        );
       });
 
       testWidgets('read-only uses neutral fill and default border',
@@ -404,30 +400,45 @@ void main() {
       expect(controller.selection.baseOffset, 3);
     });
 
-    testWidgets('help tooltip opens by semantics tap and closes with Escape',
+    testWidgets(
+        'help tooltip opens by real tap and Enter/Space, and closes with Escape',
         (tester) async {
-      final semantics = tester.ensureSemantics();
-      try {
-        await pumpBw(
-          tester,
-          const BwTextField(
-            label: 'Work email',
-            helpText: 'We send reminders to this address',
-          ),
-        );
+      await pumpBw(
+        tester,
+        const BwTextField(
+          label: 'Work email',
+          helpText: 'We send reminders to this address',
+        ),
+      );
 
-        tester.semantics.tap(
-          find.semantics.byLabel('More information about Work email'),
-        );
-        await tester.pump();
-        expect(find.text('We send reminders to this address'), findsOneWidget);
+      // Real tap opens tooltip
+      await tester.tap(find.byType(BwIconButton));
+      await tester.pump();
+      expect(find.text('We send reminders to this address'), findsOneWidget);
 
-        await tester.sendKeyEvent(LogicalKeyboardKey.escape);
-        await tester.pump();
-        expect(find.text('We send reminders to this address'), findsNothing);
-      } finally {
-        semantics.dispose();
-      }
+      await tester.sendKeyEvent(LogicalKeyboardKey.escape);
+      await tester.pump();
+      expect(find.text('We send reminders to this address'), findsNothing);
+
+      // Focus help icon and Enter opens tooltip
+      await tester.sendKeyEvent(LogicalKeyboardKey.tab);
+      await tester.pump();
+      await tester.sendKeyEvent(LogicalKeyboardKey.enter);
+      await tester.pump();
+      expect(find.text('We send reminders to this address'), findsOneWidget);
+
+      await tester.sendKeyEvent(LogicalKeyboardKey.escape);
+      await tester.pump();
+      expect(find.text('We send reminders to this address'), findsNothing);
+
+      // Space opens tooltip
+      await tester.sendKeyEvent(LogicalKeyboardKey.space);
+      await tester.pump();
+      expect(find.text('We send reminders to this address'), findsOneWidget);
+
+      await tester.sendKeyEvent(LogicalKeyboardKey.escape);
+      await tester.pump();
+      expect(find.text('We send reminders to this address'), findsNothing);
     });
 
     testWidgets('counter counts and enforces grapheme clusters', (tester) async {
@@ -508,6 +519,40 @@ void main() {
           ),
         );
 
+        expect(
+          find.semantics.byPredicate(
+            (node) => node.flagsCollection.isTextField,
+          ),
+          findsOne,
+        );
+        expect(
+          tester.getSemantics(find.byType(EditableText)),
+          matchesSemantics(
+            isTextField: true,
+            label: 'Work email, required',
+            value: '',
+            hasTapAction: true,
+            hasFocusAction: true,
+            isEnabled: true,
+            isFocusable: true,
+            hasEnabledState: true,
+            validationResult: ui.SemanticsValidationResult.valid,
+            children: <Matcher>[
+              matchesSemantics(
+                label: 'Refresh email',
+                isButton: true,
+                hasTapAction: true,
+                hasFocusAction: true,
+                isEnabled: true,
+                isFocusable: true,
+                hasEnabledState: true,
+              ),
+              matchesSemantics(
+                label: 'Use your work email',
+              ),
+            ],
+          ),
+        );
         final fieldFinder = find.bySemanticsLabel(RegExp('Work email, required'));
         expect(
           find.semantics.byLabel(RegExp('Work email, required')),
@@ -565,8 +610,331 @@ void main() {
           tester.getSemantics(fieldFinder).flagsCollection.isFocused,
           ui.Tristate.isTrue,
         );
+        await tester.sendKeyEvent(LogicalKeyboardKey.tab);
+        await tester.pump();
+        expect(
+          tester
+              .getSemantics(find.bySemanticsLabel('Refresh email'))
+              .flagsCollection
+              .isFocused,
+          ui.Tristate.isTrue,
+        );
+        await tester.sendKeyEvent(LogicalKeyboardKey.tab);
+        await tester.pump();
+        expect(
+          tester
+              .getSemantics(find.bySemanticsLabel('Copy'))
+              .flagsCollection
+              .isFocused,
+          ui.Tristate.isTrue,
+        );
       } finally {
         semantics.dispose();
+      }
+    });
+
+    testWidgets('error and counter cases expose exactly one text-field node',
+        (tester) async {
+      final semantics = tester.ensureSemantics();
+      try {
+        // Error case
+        await pumpBw(
+          tester,
+          const BwTextField(
+            label: 'Work email',
+            errorText: 'Enter a valid work email',
+          ),
+        );
+
+        expect(
+          find.semantics.byPredicate(
+            (node) => node.flagsCollection.isTextField,
+          ),
+          findsOne,
+        );
+        expect(
+          tester.getSemantics(find.byType(EditableText)),
+          matchesSemantics(
+            isTextField: true,
+            label: 'Work email',
+            value: '',
+            hasTapAction: true,
+            hasFocusAction: true,
+            isEnabled: true,
+            isFocusable: true,
+            hasEnabledState: true,
+            validationResult: ui.SemanticsValidationResult.invalid,
+            children: <Matcher>[
+              matchesSemantics(
+                label: 'Enter a valid work email',
+                isLiveRegion: true,
+              ),
+            ],
+          ),
+        );
+
+        // Counter case
+        await pumpBw(
+          tester,
+          const BwTextField(
+            label: 'Work email',
+            initialValue: 'abc',
+            maxLength: 20,
+            showCounter: true,
+          ),
+        );
+
+        expect(
+          find.semantics.byPredicate(
+            (node) => node.flagsCollection.isTextField,
+          ),
+          findsOne,
+        );
+        expect(
+          tester.getSemantics(find.byType(EditableText)),
+          matchesSemantics(
+            isTextField: true,
+            label: 'Work email\n3/20',
+            value: 'abc',
+            hasTapAction: true,
+            hasFocusAction: true,
+            isEnabled: true,
+            isFocusable: true,
+            hasEnabledState: true,
+            maxValueLength: 20,
+            currentValueLength: 3,
+            validationResult: ui.SemanticsValidationResult.valid,
+          ),
+        );
+      } finally {
+        semantics.dispose();
+      }
+    });
+
+    testWidgets('help icon 48dp hit area does not enlarge label-to-field gap',
+        (tester) async {
+      await pumpBw(
+        tester,
+        const Column(
+          children: <Widget>[
+            BwTextField(label: 'Without help'),
+            BwTextField(label: 'With help', helpText: 'Help message'),
+          ],
+        ),
+      );
+
+      final labelWithoutHelp = tester.getRect(find.text('Without help'));
+      final inputWithoutHelp = tester.getRect(
+        find.descendant(
+          of: find.widgetWithText(BwTextField, 'Without help'),
+          matching: find.byKey(const ValueKey<String>('BwTextField.input')),
+        ),
+      );
+      final gapWithoutHelp = inputWithoutHelp.top - labelWithoutHelp.bottom;
+
+      final labelWithHelp = tester.getRect(find.text('With help'));
+      final inputWithHelp = tester.getRect(
+        find.descendant(
+          of: find.widgetWithText(BwTextField, 'With help'),
+          matching: find.byKey(const ValueKey<String>('BwTextField.input')),
+        ),
+      );
+      final gapWithHelp = inputWithHelp.top - labelWithHelp.bottom;
+
+      expect(gapWithoutHelp, BwSpacing.sm);
+      expect(gapWithHelp, BwSpacing.sm);
+    });
+
+    testWidgets(
+        'validator: FormField is single source of error, validate() false, reset() clears error, border, and semantics',
+        (tester) async {
+      final formKey = GlobalKey<FormState>();
+      final semantics = tester.ensureSemantics();
+      try {
+        await pumpBw(
+          tester,
+          Form(
+            key: formKey,
+            child: BwTextField(
+              label: 'Work email',
+              validator: (value) =>
+                  (value == null || value.isEmpty) ? 'Email is required' : null,
+            ),
+          ),
+        );
+
+        expect(find.text('Email is required'), findsNothing);
+        expect(
+          tester.getSemantics(find.byType(EditableText)),
+          matchesSemantics(
+            label: 'Work email',
+            value: '',
+            isTextField: true,
+            hasTapAction: true,
+            hasFocusAction: true,
+            isEnabled: true,
+            isFocusable: true,
+            hasEnabledState: true,
+            validationResult: ui.SemanticsValidationResult.valid,
+          ),
+        );
+
+        final isValid = formKey.currentState!.validate();
+        expect(isValid, isFalse);
+        await tester.pumpAndSettle();
+
+        expect(find.text('Email is required'), findsOneWidget);
+        expect(
+          tester.getSemantics(find.byType(EditableText)),
+          matchesSemantics(
+            label: 'Work email',
+            value: '',
+            isTextField: true,
+            hasTapAction: true,
+            hasFocusAction: true,
+            isEnabled: true,
+            isFocusable: true,
+            hasEnabledState: true,
+            validationResult: ui.SemanticsValidationResult.invalid,
+            children: <Matcher>[
+              matchesSemantics(
+                label: 'Email is required',
+                isLiveRegion: true,
+              ),
+            ],
+          ),
+        );
+
+        formKey.currentState!.reset();
+        await tester.pumpAndSettle();
+
+        expect(find.text('Email is required'), findsNothing);
+        expect(
+          tester.getSemantics(find.byType(EditableText)),
+          matchesSemantics(
+            label: 'Work email',
+            value: '',
+            isTextField: true,
+            hasTapAction: true,
+            hasFocusAction: true,
+            isEnabled: true,
+            isFocusable: true,
+            hasEnabledState: true,
+            validationResult: ui.SemanticsValidationResult.valid,
+          ),
+        );
+      } finally {
+        semantics.dispose();
+      }
+    });
+
+    testWidgets(
+        'end button: resolved shape radius has square start corners in en and ar',
+        (tester) async {
+      for (final locale in const [Locale('en'), Locale('ar')]) {
+        await pumpBw(
+          tester,
+          BwTextField(
+            label: 'Field',
+            endButton: BwTextFieldEndButton(
+              label: 'Action',
+              onPressed: () {},
+            ),
+          ),
+          locale: locale,
+        );
+
+        final button = tester.widget<BwButton>(
+          find.byKey(const ValueKey<String>('BwTextField.end-button')),
+        );
+        expect(button.segment, BwButtonSegment.end);
+
+        final outlineFinder = find.descendant(
+          of: find.byKey(const ValueKey<String>('BwTextField.input')),
+          matching: find.byType(TextField),
+        );
+        final textField = tester.widget<TextField>(outlineFinder);
+        final border = textField.decoration!.border! as WidgetStateInputBorder;
+        final outline = border.resolve(<WidgetState>{}) as OutlineInputBorder;
+        final isRtl = locale.languageCode == 'ar';
+
+        if (isRtl) {
+          expect(outline.borderRadius.topLeft, Radius.zero);
+          expect(outline.borderRadius.bottomLeft, Radius.zero);
+          expect(outline.borderRadius.topRight, const Radius.circular(BwRadius.md));
+          expect(outline.borderRadius.bottomRight, const Radius.circular(BwRadius.md));
+        } else {
+          expect(outline.borderRadius.topRight, Radius.zero);
+          expect(outline.borderRadius.bottomRight, Radius.zero);
+          expect(outline.borderRadius.topLeft, const Radius.circular(BwRadius.md));
+          expect(outline.borderRadius.bottomLeft, const Radius.circular(BwRadius.md));
+        }
+      }
+    });
+
+    testWidgets('loading end button paints its spinner', (tester) async {
+      await pumpBw(
+        tester,
+        BwTextField(
+          label: 'Code',
+          endButton: BwTextFieldEndButton(
+            label: 'Copy',
+            loading: true,
+            onPressed: () {},
+          ),
+        ),
+      );
+
+      final spinnerFinder = find.byType(CircularProgressIndicator);
+      expect(spinnerFinder, findsOneWidget);
+      final renderObject = tester.renderObject<RenderBox>(spinnerFinder);
+      expect(renderObject.attached, isTrue);
+      expect(renderObject.debugNeedsPaint, isFalse);
+      expect(renderObject.paintBounds.size, greaterThan(Size.zero));
+    });
+
+    testWidgets('transitions honour motion tokens and reduced motion',
+        (tester) async {
+      for (final reduceMotion in [false, true]) {
+        await pumpBw(
+          tester,
+          const BwTextField(
+            label: 'Name',
+            prefixText: 'https://',
+            helperText: 'Helper message',
+          ),
+          reduceMotion: reduceMotion,
+        );
+
+        final labelText = tester.widget<AnimatedDefaultTextStyle>(
+          find.descendant(
+            of: find.byType(BwFieldLabel),
+            matching: find.byType(AnimatedDefaultTextStyle),
+          ),
+        );
+        expect(
+          labelText.duration,
+          reduceMotion ? BwDuration.instant : BwDuration.sm,
+        );
+
+        final addonContainer = tester.widget<AnimatedContainer>(
+          find.byKey(const ValueKey<String>('BwFieldAddon.prefix')),
+        );
+        expect(
+          addonContainer.duration,
+          reduceMotion ? BwDuration.instant : BwDuration.sm,
+        );
+
+        final supportingText = tester.widget<AnimatedDefaultTextStyle>(
+          find.descendant(
+            of: find.byType(BwFieldSupporting),
+            matching: find.byType(AnimatedDefaultTextStyle),
+          ),
+        );
+        expect(
+          supportingText.duration,
+          reduceMotion ? BwDuration.instant : BwDuration.sm,
+        );
       }
     });
 
@@ -792,7 +1160,7 @@ void main() {
         testWidgets(
           '${brightness.name} ${locale.languageCode} states and parts',
           (tester) async {
-            await tester.binding.setSurfaceSize(const Size(800, 1200));
+            await tester.binding.setSurfaceSize(const Size(800, 1280));
             addTearDown(() => tester.binding.setSurfaceSize(null));
             final focusNode = FocusNode();
             addTearDown(focusNode.dispose);
@@ -805,7 +1173,7 @@ void main() {
                 key: goldenKey,
                 child: SizedBox(
                   width: 760,
-                  height: 1160,
+                  height: 1240,
                   child: Builder(
                     builder: (context) => ColoredBox(
                       color: context.bw.colors.surfacePage,
@@ -842,8 +1210,12 @@ void main() {
                             ),
                             const SizedBox(height: BwSpacing.md),
                             BwTextField(
+                              label: ar ? 'الموقع الإلكتروني' : 'Website',
+                              prefixText: 'https://',
+                            ),
+                            const SizedBox(height: BwSpacing.md),
+                            BwTextField(
                               label: ar ? 'المعدل بالساعة' : 'Hourly rate',
-                              prefixText: r'$',
                               suffixText: 'SAR',
                             ),
                             const SizedBox(height: BwSpacing.md),

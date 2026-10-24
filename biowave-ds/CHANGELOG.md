@@ -2,6 +2,18 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Fixed — Mobile Text field review round 1] — 2026-10-24
+### Fixed
+- Fixed Mobile `BwTextField` review round 1 findings and implemented Plan 1.2:
+  - Exposed exactly one `isTextField` semantics node on `TextFormField` carrying name, required state, value, helper/error/counter, and tap/focus actions (#1).
+  - Added tests asserting single text-field node count, `matchesSemantics`, full Tab navigation sequence (`help` → `field` → `action` → `end button`), and help tooltip activation via real tap and Enter/Space (#2).
+  - Placed help icon directly after label with `BwSpacing.xs` in `BwFieldLabel`, wrapping correctly in LTR and RTL; updated goldens (#3).
+  - Preserved `label gap = BwSpacing.sm` layout without expansion using `BwFieldTargetBox` to invisibly extend help hit target to 48dp (#4).
+  - Inset prefix and suffix add-ons inside outline with outer corner radius `BwRadius.md - borderWidth`, keeping default, focus, and error borders visible around add-ons; updated goldens (#5).
+  - Restored original `BwMobileTheme` formatting in `lib/biowave_mobile.dart` (#9).
+  - Removed test-only `labelStyle` and replaced dummy char codes with empty string `''` (#10).
+  - Applied Plan 1.2: attached end button uses `BwButton(segment: BwButtonSegment.end)` with square start corners; `placeholder` maps to `hintText`/`hintStyle`; label, add-on, and supporting text style transitions use `BwDuration.sm` and `BwEasing.standard` (`BwDuration.instant` under reduced motion); added C6 test suites (radius EN/AR, loading end button spinner, default button unchanged, reduced motion).
+
 ## [Plan — Mobile Text field 1.2] — 2026-10-24
 ### Changed
 - Text field (mobile) plan 1.2 fixes the Planner findings of review round 1 (Part E2 of `5-mobile-components/components/text-field/text-field.md`): #6 end-button corners, #7 B4 motion, #8 `placeholder`. B1 adds `placeholder` (`String?`, format hint, as Web B1). B2 / C3 / C5: the end button's square start corners come from a package-private `segment` on `BwButton` (`BwButtonSegment` + `BwButtonStyle.borderRadius` in `bw_button_style.dart`, not exported; default button unchanged; same mechanism as the Split button plan); painting-context interception and clipping are not allowed. B4: Flutter `InputDecorator`'s border and helper ↔ error transition is an accepted platform limit (fixed duration, no reduced motion); Biowave-owned part transitions use `BwDuration.sm` / `BwEasing.standard` and `BwDuration.instant` under reduced motion; AC-3, AC-8 and C6 made checkable. Same decisions as the Tablet plan 1.2. Part A unchanged. Plan → Finished (header + README); contract regenerated. Implementer findings #1–#5, #9, #10 untouched.
