@@ -2,6 +2,16 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Fixed — Mobile Text field review round 2] — 2026-10-24
+### Fixed
+- Fixed Mobile `BwTextField` review round 2 findings:
+  - Enabled real touches across the full 48 × 48 area for the help icon via `_BwTextFieldHitScope` wrapping the field column to route touch points within the help target to `_RenderBwFieldTargetBox` without adding layout, winning over the 6 dp outline overlap (#4).
+  - Derived all error colors (outline, add-on dividers, counter) synchronously from `FormFieldState.hasError` / `FormState` rebuilding on `validate()` and `reset()` without post-frame copies (#11).
+  - Adjusted add-on padding and inner radius to follow the active outline width (`BwBorder.widthFocus` in focused state, `BwBorder.widthDefault` otherwise), and added focused and error fields with add-ons to the test golden matrices (#12).
+  - Eliminated 1 dp seam gap at the column edge using `_BwFieldEndButtonOverlap` so the end button composite meets the column edge exactly in LTR and RTL (#13).
+  - Hardened end button tests to verify the spinner's nearest layer is attached to the render layer tree and resolve `ButtonStyle.shape` borderRadius in EN and AR (#14).
+  - Set Code status to `Built` in `text-field.md` header and `5-mobile-components/README.md`.
+
 ## [Review — Mobile Text field round 2: Changes requested] — 2026-10-24
 ### Changed
 - Text field (mobile) review round 2: **Changes requested** — Part E3 of `5-mobile-components/components/text-field/text-field.md`. Round 1 #1 (🔴 semantics: now one text-field node), #2, #3, #5, #6–#10 fixed; #4 still open (help icon's 48 dp area exists only in semantics, real touch target 16 × 16). New: 🟡 #11 `Form.reset()` leaves add-on dividers and counter in the error colour, 🟡 #12 focused outline only 1 dp around add-ons, 🟢 #13 end button 1 dp short of the column edge, 🟢 #14 spinner / end-button radius tests too weak. All Executor; Plan stays Finished; Code → Changes requested (header + README). `docs:check` ✓, `flutter analyze` ✓, `flutter test` 177/177 ✓, `sync` READY.

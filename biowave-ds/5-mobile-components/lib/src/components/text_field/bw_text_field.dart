@@ -1,5 +1,7 @@
 import 'package:biowave_foundations/biowave_foundations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 
 import '../../common/bw_control_size.dart';
@@ -176,12 +178,14 @@ class BwTextField extends StatefulWidget {
 class _BwTextFieldState extends State<BwTextField> {
   final GlobalKey<FormFieldState<String>> _formFieldKey =
       GlobalKey<FormFieldState<String>>();
+  final GlobalKey _helpTargetKey = GlobalKey();
   late TextEditingController _controller;
   late FocusNode _focusNode;
   late bool _ownsController;
   late bool _ownsFocusNode;
   late bool _obscured;
   bool _hovered = false;
+  String? _lastKnownErrorText;
 
   bool get _editable => widget.enabled && !widget.readOnly;
   bool get _effectiveObscure => !widget.multiline && _obscured;
@@ -190,14 +194,19 @@ class _BwTextFieldState extends State<BwTextField> {
   bool get _hasConfiguredAction =>
       _hasPasswordAction || widget.action != null || widget.clearable;
 
-  bool get _hasError =>
-      widget.enabled &&
-      ((widget.errorText != null && widget.errorText!.isNotEmpty) ||
-          (_formFieldKey.currentState?.hasError ?? false));
+  bool get _hasError {
+    if (!widget.enabled) return false;
+    final formFieldState = _formFieldKey.currentState;
+    if (formFieldState != null && widget.errorText == _lastKnownErrorText) {
+      return formFieldState.hasError;
+    }
+    return widget.errorText != null && widget.errorText!.isNotEmpty;
+  }
 
   @override
   void initState() {
     super.initState();
+    _lastKnownErrorText = widget.errorText;
     _ownsController = widget.controller == null;
     _controller = widget.controller ??
         TextEditingController(
@@ -242,6 +251,10 @@ class _BwTextFieldState extends State<BwTextField> {
     if (oldWidget.obscureText != widget.obscureText ||
         oldWidget.multiline != widget.multiline) {
       _obscured = widget.obscureText && !widget.multiline;
+    }
+
+    if (oldWidget.errorText != widget.errorText) {
+      _lastKnownErrorText = widget.errorText;
     }
   }
 
@@ -334,6 +347,8 @@ class _BwTextFieldState extends State<BwTextField> {
 
   Widget? _buildPrefix(BwColors colors) {
     final children = <Widget>[];
+    final outlineWidth =
+        _focusNode.hasFocus ? BwBorder.widthFocus : BwBorder.widthDefault;
     final prefixText = !widget.multiline ? widget.prefixText : null;
     if (prefixText != null) {
       children.add(
@@ -347,6 +362,7 @@ class _BwTextFieldState extends State<BwTextField> {
               ? colors.textNeutralSubtle
               : colors.textNeutralDisabled,
           borderColor: _borderColor(colors),
+          borderWidth: outlineWidth,
           onTap: widget.enabled ? _requestFocus : null,
         ),
       );
@@ -399,6 +415,8 @@ class _BwTextFieldState extends State<BwTextField> {
       children.add(action);
     }
 
+    final outlineWidth =
+        _focusNode.hasFocus ? BwBorder.widthFocus : BwBorder.widthDefault;
     final suffixText =
         !widget.multiline && widget.endButton == null ? widget.suffixText : null;
     if (suffixText != null) {
@@ -413,6 +431,7 @@ class _BwTextFieldState extends State<BwTextField> {
               ? colors.textNeutralSubtle
               : colors.textNeutralDisabled,
           borderColor: _borderColor(colors),
+          borderWidth: outlineWidth,
           onTap: widget.enabled ? _requestFocus : null,
         ),
       );
@@ -536,16 +555,23 @@ class _BwTextFieldState extends State<BwTextField> {
         required int? maxLength,
       }) =>
           null,
-      onChanged: widget.onChanged,
+      onChanged: (value) {
+        if (mounted) {
+          setState(() {});
+        }
+        widget.onChanged?.call(value);
+      },
       onFieldSubmitted: widget.onSubmitted,
       onTap: widget.onTap,
       validator: widget.validator == null
           ? null
           : (value) {
               final result = widget.validator!(value);
-              WidgetsBinding.instance.addPostFrameCallback((_) {
-                if (mounted) setState(() {});
-              });
+              if (mounted &&
+                  SchedulerBinding.instance.schedulerPhase ==
+                      SchedulerPhase.idle) {
+                setState(() {});
+              }
               return result;
             },
       autovalidateMode: widget.autovalidateMode,
@@ -585,6 +611,7 @@ class _BwTextFieldState extends State<BwTextField> {
 
   @override
   Widget build(BuildContext context) {
+    Form.maybeOf(context);
     final colors = context.bw.colors;
     final labelColor =
         widget.enabled ? colors.textNeutralDefault : colors.textNeutralDisabled;
@@ -595,51 +622,203 @@ class _BwTextFieldState extends State<BwTextField> {
 
     final endButton = !widget.multiline ? widget.endButton : null;
     if (endButton != null) {
-      final direction = Directionality.of(context);
+      final textDirection = Directionality.of(context);
       field = Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Expanded(child: field),
-          Transform.translate(
-            offset: Offset(
-              direction == TextDirection.ltr
-                  ? -BwBorder.widthDefault
-                  : BwBorder.widthDefault,
-              0.0,
+          Expanded(
+            child: _BwFieldEndButtonOverlap(
+              textDirection: textDirection,
+              child: field,
             ),
-            child: BwButton(
-              key: const ValueKey<String>('BwTextField.end-button'),
-              label: endButton.label,
-              onPressed: widget.enabled ? endButton.onPressed : null,
-              variant: BwButtonVariant.outlined,
-              color: BwButtonColor.neutral,
-              size: BwControlSize.lg,
-              leadingIcon: endButton.icon,
-              loading: endButton.loading,
-              segment: BwButtonSegment.end,
-            ),
+          ),
+          BwButton(
+            key: const ValueKey<String>('BwTextField.end-button'),
+            label: endButton.label,
+            onPressed: widget.enabled ? endButton.onPressed : null,
+            variant: BwButtonVariant.outlined,
+            color: BwButtonColor.neutral,
+            size: BwControlSize.lg,
+            leadingIcon: endButton.icon,
+            loading: endButton.loading,
+            segment: BwButtonSegment.end,
           ),
         ],
       );
     }
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: <Widget>[
-        if (showsLabelRow) ...<Widget>[
-          BwFieldLabel(
-            label: widget.label,
-            labelColor: labelColor,
-            requiredColor: requiredColor,
-            requiredField: widget.requiredField,
-            hideLabel: widget.hideLabel,
-            helpText: widget.helpText,
-            helpLabel: _effectiveHelpLabel,
-          ),
-          const SizedBox(height: BwSpacing.sm),
+    return _BwTextFieldHitScope(
+      helpTargetKey: _helpTargetKey,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: <Widget>[
+          if (showsLabelRow) ...<Widget>[
+            BwFieldLabel(
+              label: widget.label,
+              labelColor: labelColor,
+              requiredColor: requiredColor,
+              requiredField: widget.requiredField,
+              hideLabel: widget.hideLabel,
+              helpText: widget.helpText,
+              helpLabel: _effectiveHelpLabel,
+              helpTargetKey: _helpTargetKey,
+            ),
+            const SizedBox(height: BwSpacing.sm),
+          ],
+          field,
         ],
-        field,
-      ],
+      ),
     );
+  }
+}
+
+class _BwTextFieldHitScope extends SingleChildRenderObjectWidget {
+  const _BwTextFieldHitScope({
+    required this.helpTargetKey,
+    required super.child,
+  });
+
+  final GlobalKey helpTargetKey;
+
+  @override
+  RenderObject createRenderObject(BuildContext context) =>
+      _RenderBwTextFieldHitScope(helpTargetKey: helpTargetKey);
+
+  @override
+  void updateRenderObject(
+    BuildContext context,
+    covariant _RenderBwTextFieldHitScope renderObject,
+  ) {
+    renderObject.helpTargetKey = helpTargetKey;
+  }
+}
+
+class _RenderBwTextFieldHitScope extends RenderProxyBox {
+  _RenderBwTextFieldHitScope({
+    required GlobalKey helpTargetKey,
+    RenderBox? child,
+  })  : _helpTargetKey = helpTargetKey,
+        super(child);
+
+  GlobalKey _helpTargetKey;
+  GlobalKey get helpTargetKey => _helpTargetKey;
+  set helpTargetKey(GlobalKey value) {
+    if (_helpTargetKey == value) return;
+    _helpTargetKey = value;
+  }
+
+  @override
+  bool hitTest(BoxHitTestResult result, {required Offset position}) {
+    final helpContext = _helpTargetKey.currentContext;
+    if (helpContext != null) {
+      final helpRenderBox = helpContext.findRenderObject() as RenderBox?;
+      if (helpRenderBox != null && helpRenderBox.attached) {
+        final helpOffset =
+            helpRenderBox.localToGlobal(Offset.zero, ancestor: this);
+        final helpCenter = helpOffset +
+            Offset(
+              helpRenderBox.size.width / 2,
+              helpRenderBox.size.height / 2,
+            );
+        final helpHitRect = Rect.fromCenter(
+          center: helpCenter,
+          width: BwLayout.mobile.minTarget,
+          height: BwLayout.mobile.minTarget,
+        );
+        if (helpHitRect.contains(position)) {
+          final isHit = result.addWithPaintOffset(
+            offset: helpOffset,
+            position: position,
+            hitTest: (BoxHitTestResult result, Offset transformed) {
+              return helpRenderBox.hitTest(result, position: transformed);
+            },
+          );
+          if (isHit) {
+            result.add(BoxHitTestEntry(this, position));
+            return true;
+          }
+        }
+      }
+    }
+
+    if (!size.contains(position)) {
+      return false;
+    }
+    return super.hitTest(result, position: position);
+  }
+}
+
+class _BwFieldEndButtonOverlap extends SingleChildRenderObjectWidget {
+  const _BwFieldEndButtonOverlap({
+    required this.textDirection,
+    required super.child,
+  });
+
+  final TextDirection textDirection;
+
+  @override
+  RenderObject createRenderObject(BuildContext context) =>
+      _RenderBwFieldEndButtonOverlap(textDirection: textDirection);
+
+  @override
+  void updateRenderObject(
+    BuildContext context,
+    covariant _RenderBwFieldEndButtonOverlap renderObject,
+  ) {
+    renderObject.textDirection = textDirection;
+  }
+}
+
+class _RenderBwFieldEndButtonOverlap extends RenderShiftedBox {
+  _RenderBwFieldEndButtonOverlap({
+    required TextDirection textDirection,
+    RenderBox? child,
+  })  : _textDirection = textDirection,
+        super(child);
+
+  TextDirection _textDirection;
+  TextDirection get textDirection => _textDirection;
+  set textDirection(TextDirection value) {
+    if (_textDirection == value) return;
+    _textDirection = value;
+    markNeedsLayout();
+  }
+
+  @override
+  Size computeDryLayout(BoxConstraints constraints) {
+    final child = this.child;
+    if (child == null) return constraints.smallest;
+    final childSize = child.computeDryLayout(
+      constraints.copyWith(
+        minWidth: constraints.minWidth + BwBorder.widthDefault,
+        maxWidth: constraints.maxWidth + BwBorder.widthDefault,
+      ),
+    );
+    return constraints.constrain(
+      Size(constraints.maxWidth, childSize.height),
+    );
+  }
+
+  @override
+  void performLayout() {
+    final child = this.child;
+    if (child == null) {
+      size = constraints.smallest;
+      return;
+    }
+    child.layout(
+      constraints.copyWith(
+        minWidth: constraints.minWidth + BwBorder.widthDefault,
+        maxWidth: constraints.maxWidth + BwBorder.widthDefault,
+      ),
+      parentUsesSize: true,
+    );
+    size = constraints.constrain(
+      Size(constraints.maxWidth, child.size.height),
+    );
+    final childParentData = child.parentData! as BoxParentData;
+    childParentData.offset = _textDirection == TextDirection.ltr
+        ? Offset.zero
+        : const Offset(-BwBorder.widthDefault, 0.0);
   }
 }

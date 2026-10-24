@@ -17,6 +17,7 @@ class BwFieldLabel extends StatefulWidget {
     required this.hideLabel,
     required this.helpText,
     required this.helpLabel,
+    this.helpTargetKey,
     super.key,
   });
 
@@ -27,6 +28,7 @@ class BwFieldLabel extends StatefulWidget {
   final bool hideLabel;
   final String? helpText;
   final String helpLabel;
+  final GlobalKey? helpTargetKey;
 
   @override
   State<BwFieldLabel> createState() => _BwFieldLabelState();
@@ -83,16 +85,22 @@ class _BwFieldLabelState extends State<BwFieldLabel> {
           exitDuration:
               context.bw.reduceMotion ? BwDuration.instant : BwDuration.sm,
           child: BwFieldTargetBox(
+            key: widget.helpTargetKey,
             layoutSize: const Size.square(BwSize.iconSm),
             minTargetSize: Size.square(BwLayout.mobile.minTarget),
-            child: BwIconButton(
-              icon: Symbols.help_rounded,
-              label: widget.helpLabel,
-              onPressed: _showTooltip,
-              variant: BwButtonVariant.text,
-              color: BwButtonColor.neutral,
-              size: BwControlSize.sm,
-              tooltip: false,
+            child: GestureDetector(
+              excludeFromSemantics: true,
+              behavior: HitTestBehavior.opaque,
+              onTap: _showTooltip,
+              child: BwIconButton(
+                icon: Symbols.help_rounded,
+                label: widget.helpLabel,
+                onPressed: _showTooltip,
+                variant: BwButtonVariant.text,
+                color: BwButtonColor.neutral,
+                size: BwControlSize.sm,
+                tooltip: false,
+              ),
             ),
           ),
         ),

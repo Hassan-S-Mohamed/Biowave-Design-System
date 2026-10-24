@@ -10,6 +10,7 @@ class BwFieldAddon extends StatelessWidget {
     required this.textColor,
     required this.borderColor,
     required this.onTap,
+    this.borderWidth = BwBorder.widthDefault,
     super.key,
   });
 
@@ -19,26 +20,26 @@ class BwFieldAddon extends StatelessWidget {
   final Color textColor;
   final Color borderColor;
   final VoidCallback? onTap;
+  final double borderWidth;
 
   static bool isIntrinsicallyLtr(String value) =>
       !RegExp(r'[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]').hasMatch(value);
 
   @override
   Widget build(BuildContext context) {
-    const borderWidth = BwBorder.widthDefault;
-    const innerRadius = Radius.circular(BwRadius.md - borderWidth);
+    final innerRadius = Radius.circular(BwRadius.md - borderWidth);
     final segmentRadius = atStart
-        ? const BorderRadiusDirectional.only(
+        ? BorderRadiusDirectional.only(
             topStart: innerRadius,
             bottomStart: innerRadius,
           ).resolve(Directionality.of(context))
-        : const BorderRadiusDirectional.only(
+        : BorderRadiusDirectional.only(
             topEnd: innerRadius,
             bottomEnd: innerRadius,
           ).resolve(Directionality.of(context));
 
     final borderSide = BorderSide(
-      width: borderWidth,
+      width: BwBorder.widthDefault,
       color: borderColor,
     );
 
@@ -64,7 +65,7 @@ class BwFieldAddon extends StatelessWidget {
               ),
               duration: duration,
               curve: BwEasing.standard,
-              constraints: const BoxConstraints(
+              constraints: BoxConstraints(
                 minHeight: BwSize.controlHeightLg - (borderWidth * 2),
               ),
               alignment: AlignmentDirectional.center,

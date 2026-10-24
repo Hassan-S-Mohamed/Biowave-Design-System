@@ -132,7 +132,14 @@ class _RenderBwFieldTargetBox extends RenderShiftedBox {
     final childParentData = child.parentData! as BoxParentData;
     final transformed = position - childParentData.offset;
     if ((Offset.zero & child.size).contains(transformed)) {
-      if (hitTestChildren(result, position: position)) {
+      final isHit = result.addWithPaintOffset(
+        offset: childParentData.offset,
+        position: position,
+        hitTest: (BoxHitTestResult result, Offset transformed) {
+          return child.hitTest(result, position: transformed);
+        },
+      );
+      if (isHit) {
         result.add(BoxHitTestEntry(this, position));
         return true;
       }

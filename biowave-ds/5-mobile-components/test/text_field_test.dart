@@ -9,6 +9,7 @@ import 'package:biowave_mobile/src/components/text_field/bw_field_label.dart';
 import 'package:biowave_mobile/src/components/text_field/bw_field_supporting.dart';
 import 'package:biowave_mobile/src/components/text_field/bw_text_field_decoration.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -403,22 +404,39 @@ void main() {
     testWidgets(
         'help tooltip opens by real tap and Enter/Space, and closes with Escape',
         (tester) async {
+      final focusNode = FocusNode();
+      addTearDown(focusNode.dispose);
       await pumpBw(
         tester,
-        const BwTextField(
-          label: 'Work email',
-          helpText: 'We send reminders to this address',
+        Padding(
+          padding: const EdgeInsets.all(32),
+          child: BwTextField(
+            label: 'Work email',
+            helpText: 'We send reminders to this address',
+            focusNode: focusNode,
+          ),
         ),
       );
 
-      // Real tap opens tooltip
-      await tester.tap(find.byType(BwIconButton));
-      await tester.pump();
-      expect(find.text('We send reminders to this address'), findsOneWidget);
+      // Real tap at center and at edges of 48x48 target (center ± 20) opens tooltip
+      final helpCenter = tester.getCenter(find.byType(BwIconButton));
+      for (final offset in const <Offset>[
+        Offset.zero,
+        Offset(0, 20),
+        Offset(0, -20),
+        Offset(20, 0),
+        Offset(-20, 0),
+      ]) {
+        await tester.tapAt(helpCenter + offset);
+        await tester.pump();
+        expect(find.text('We send reminders to this address'), findsOneWidget);
+        // Help area wins over the outline it overlaps
+        expect(focusNode.hasFocus, isFalse);
 
-      await tester.sendKeyEvent(LogicalKeyboardKey.escape);
-      await tester.pump();
-      expect(find.text('We send reminders to this address'), findsNothing);
+        await tester.sendKeyEvent(LogicalKeyboardKey.escape);
+        await tester.pump();
+        expect(find.text('We send reminders to this address'), findsNothing);
+      }
 
       // Focus help icon and Enter opens tooltip
       await tester.sendKeyEvent(LogicalKeyboardKey.tab);
@@ -757,24 +775,74 @@ void main() {
             key: formKey,
             child: BwTextField(
               label: 'Work email',
+              prefixText: 'https://',
+              maxLength: 10,
+              showCounter: true,
               validator: (value) =>
                   (value == null || value.isEmpty) ? 'Email is required' : null,
             ),
           ),
         );
 
+        final colors = tester.element(find.byType(BwTextField)).bw.colors;
+
+        Color getOutlineColor() {
+          final textField = tester.widget<TextField>(find.descendant(
+            of: find.byKey(const ValueKey<String>('BwTextField.input')),
+            matching: find.byType(TextField),
+          ));
+          final border = textField.decoration!.border! as WidgetStateInputBorder;
+          final inputDecorator = tester.widget<InputDecorator>(find.descendant(
+            of: find.byKey(const ValueKey<String>('BwTextField.input')),
+            matching: find.byType(InputDecorator),
+          ));
+          final states = <WidgetState>{
+            if (inputDecorator.decoration.error != null ||
+                inputDecorator.decoration.errorText != null)
+              WidgetState.error,
+          };
+          final outline = border.resolve(states) as OutlineInputBorder;
+          return outline.borderSide.color;
+        }
+
+        Color getDividerColor() {
+          final container = tester.widget<AnimatedContainer>(
+            find.byKey(const ValueKey<String>('BwFieldAddon.prefix')),
+          );
+          final decoration = container.decoration! as BoxDecoration;
+          final border = decoration.border! as BorderDirectional;
+          return border.end.color;
+        }
+
+        Color getCounterColor() {
+          final animatedStyle = tester.widget<AnimatedDefaultTextStyle>(
+            find.ancestor(
+              of: find.byKey(const ValueKey<String>('BwFieldSupporting.counter')),
+              matching: find.byType(AnimatedDefaultTextStyle),
+            ).first,
+          );
+          return animatedStyle.style.color!;
+        }
+
+        // Before validate: default colors
+        expect(getOutlineColor(), equals(colors.borderInputDefault));
+        expect(getDividerColor(), equals(colors.borderInputDefault));
+        expect(getCounterColor(), equals(colors.textNeutralMuted));
         expect(find.text('Email is required'), findsNothing);
         expect(
           tester.getSemantics(find.byType(EditableText)),
           matchesSemantics(
-            label: 'Work email',
+            label: 'Work email\n0/10',
             value: '',
+            hint: 'https://',
             isTextField: true,
             hasTapAction: true,
             hasFocusAction: true,
             isEnabled: true,
             isFocusable: true,
             hasEnabledState: true,
+            maxValueLength: 10,
+            currentValueLength: 0,
             validationResult: ui.SemanticsValidationResult.valid,
           ),
         );
@@ -783,18 +851,25 @@ void main() {
         expect(isValid, isFalse);
         await tester.pumpAndSettle();
 
+        // After validate: error colors
+        expect(getOutlineColor(), equals(colors.borderInputError));
+        expect(getDividerColor(), equals(colors.borderInputError));
+        expect(getCounterColor(), equals(colors.textRoleError));
         expect(find.text('Email is required'), findsOneWidget);
         expect(
           tester.getSemantics(find.byType(EditableText)),
           matchesSemantics(
-            label: 'Work email',
+            label: 'Work email\n0/10',
             value: '',
+            hint: 'https://',
             isTextField: true,
             hasTapAction: true,
             hasFocusAction: true,
             isEnabled: true,
             isFocusable: true,
             hasEnabledState: true,
+            maxValueLength: 10,
+            currentValueLength: 0,
             validationResult: ui.SemanticsValidationResult.invalid,
             children: <Matcher>[
               matchesSemantics(
@@ -808,24 +883,105 @@ void main() {
         formKey.currentState!.reset();
         await tester.pumpAndSettle();
 
+        // After reset: default colors again
+        expect(getOutlineColor(), equals(colors.borderInputDefault));
+        expect(getDividerColor(), equals(colors.borderInputDefault));
+        expect(getCounterColor(), equals(colors.textNeutralMuted));
         expect(find.text('Email is required'), findsNothing);
         expect(
           tester.getSemantics(find.byType(EditableText)),
           matchesSemantics(
-            label: 'Work email',
+            label: 'Work email\n0/10',
             value: '',
+            hint: 'https://',
             isTextField: true,
             hasTapAction: true,
             hasFocusAction: true,
             isEnabled: true,
             isFocusable: true,
             hasEnabledState: true,
+            maxValueLength: 10,
+            currentValueLength: 0,
             validationResult: ui.SemanticsValidationResult.valid,
           ),
         );
       } finally {
         semantics.dispose();
       }
+    });
+
+    testWidgets(
+        'errorText: Form.reset() clears errorText, border, divider, and counter colors',
+        (tester) async {
+      final formKey = GlobalKey<FormState>();
+      await pumpBw(
+        tester,
+        Form(
+          key: formKey,
+          child: const BwTextField(
+            label: 'Website',
+            prefixText: 'https://',
+            maxLength: 10,
+            showCounter: true,
+            errorText: 'Invalid URL',
+          ),
+        ),
+      );
+
+      final colors = tester.element(find.byType(BwTextField)).bw.colors;
+
+      Color getOutlineColor() {
+        final textField = tester.widget<TextField>(find.descendant(
+          of: find.byKey(const ValueKey<String>('BwTextField.input')),
+          matching: find.byType(TextField),
+        ));
+        final border = textField.decoration!.border! as WidgetStateInputBorder;
+        final inputDecorator = tester.widget<InputDecorator>(find.descendant(
+          of: find.byKey(const ValueKey<String>('BwTextField.input')),
+          matching: find.byType(InputDecorator),
+        ));
+        final states = <WidgetState>{
+          if (inputDecorator.decoration.error != null ||
+              inputDecorator.decoration.errorText != null)
+            WidgetState.error,
+        };
+        final outline = border.resolve(states) as OutlineInputBorder;
+        return outline.borderSide.color;
+      }
+
+      Color getDividerColor() {
+        final container = tester.widget<AnimatedContainer>(
+          find.byKey(const ValueKey<String>('BwFieldAddon.prefix')),
+        );
+        final decoration = container.decoration! as BoxDecoration;
+        final border = decoration.border! as BorderDirectional;
+        return border.end.color;
+      }
+
+      Color getCounterColor() {
+        final animatedStyle = tester.widget<AnimatedDefaultTextStyle>(
+          find.ancestor(
+            of: find.byKey(const ValueKey<String>('BwFieldSupporting.counter')),
+            matching: find.byType(AnimatedDefaultTextStyle),
+          ).first,
+        );
+        return animatedStyle.style.color!;
+      }
+
+      // Before reset: error colors
+      expect(getOutlineColor(), equals(colors.borderInputError));
+      expect(getDividerColor(), equals(colors.borderInputError));
+      expect(getCounterColor(), equals(colors.textRoleError));
+      expect(find.text('Invalid URL'), findsOneWidget);
+
+      formKey.currentState!.reset();
+      await tester.pumpAndSettle();
+
+      // After reset: default colors
+      expect(getOutlineColor(), equals(colors.borderInputDefault));
+      expect(getDividerColor(), equals(colors.borderInputDefault));
+      expect(getCounterColor(), equals(colors.textNeutralMuted));
+      expect(find.text('Invalid URL'), findsNothing);
     });
 
     testWidgets(
@@ -849,6 +1005,29 @@ void main() {
         );
         expect(button.segment, BwButtonSegment.end);
 
+        final isRtl = locale.languageCode == 'ar';
+        final textDir = isRtl ? TextDirection.rtl : TextDirection.ltr;
+        final outlinedButton = tester.widget<OutlinedButton>(
+          find.descendant(
+            of: find.byKey(const ValueKey<String>('BwTextField.end-button')),
+            matching: find.byType(OutlinedButton),
+          ),
+        );
+        final shape = outlinedButton.style!.shape!.resolve(<WidgetState>{})!
+            as RoundedRectangleBorder;
+        final buttonRadius = shape.borderRadius.resolve(textDir);
+        if (isRtl) {
+          expect(buttonRadius.topRight, const Radius.circular(BwRadius.xs));
+          expect(buttonRadius.bottomRight, const Radius.circular(BwRadius.xs));
+          expect(buttonRadius.topLeft, const Radius.circular(BwRadius.md));
+          expect(buttonRadius.bottomLeft, const Radius.circular(BwRadius.md));
+        } else {
+          expect(buttonRadius.topLeft, const Radius.circular(BwRadius.xs));
+          expect(buttonRadius.bottomLeft, const Radius.circular(BwRadius.xs));
+          expect(buttonRadius.topRight, const Radius.circular(BwRadius.md));
+          expect(buttonRadius.bottomRight, const Radius.circular(BwRadius.md));
+        }
+
         final outlineFinder = find.descendant(
           of: find.byKey(const ValueKey<String>('BwTextField.input')),
           matching: find.byType(TextField),
@@ -856,7 +1035,6 @@ void main() {
         final textField = tester.widget<TextField>(outlineFinder);
         final border = textField.decoration!.border! as WidgetStateInputBorder;
         final outline = border.resolve(<WidgetState>{}) as OutlineInputBorder;
-        final isRtl = locale.languageCode == 'ar';
 
         if (isRtl) {
           expect(outline.borderRadius.topLeft, Radius.zero);
@@ -891,6 +1069,129 @@ void main() {
       expect(renderObject.attached, isTrue);
       expect(renderObject.debugNeedsPaint, isFalse);
       expect(renderObject.paintBounds.size, greaterThan(Size.zero));
+
+      // Assert nearest layer is attached to the shown layer tree
+      RenderObject? current = renderObject;
+      Layer? nearestLayer;
+      while (current != null && nearestLayer == null) {
+        nearestLayer = current.debugLayer;
+        current = current.parent;
+      }
+      expect(nearestLayer, isNotNull);
+      expect(nearestLayer!.attached, isTrue);
+    });
+
+    testWidgets('end button meets column edge exactly in en and ar',
+        (tester) async {
+      for (final locale in const [Locale('en'), Locale('ar')]) {
+        await pumpBw(
+          tester,
+          SizedBox(
+            width: 360,
+            child: BwTextField(
+              label: 'Code',
+              endButton: BwTextFieldEndButton(
+                label: 'Copy',
+                onPressed: () {},
+              ),
+            ),
+          ),
+          locale: locale,
+        );
+
+        final compositeRect = tester.getRect(find.byType(BwTextField));
+        final buttonRect = tester.getRect(
+          find.byKey(const ValueKey<String>('BwTextField.end-button')),
+        );
+        final isRtl = locale.languageCode == 'ar';
+
+        if (isRtl) {
+          expect(buttonRect.left, equals(compositeRect.left));
+        } else {
+          expect(buttonRect.right, equals(compositeRect.right));
+        }
+      }
+    });
+
+    testWidgets(
+        'add-on inset and inner radius follow outline width in default, focused, and error',
+        (tester) async {
+      final focusNode = FocusNode();
+      addTearDown(focusNode.dispose);
+
+      await pumpBw(
+        tester,
+        BwTextField(
+          label: 'Website',
+          prefixText: 'https://',
+          focusNode: focusNode,
+        ),
+      );
+
+      // Default (unfocused): border width 1, inset 1, inner radius md - 1 = 7
+      Padding getPadding() => tester.widget<Padding>(
+            find.ancestor(
+              of: find.byKey(const ValueKey<String>('BwFieldAddon.prefix')),
+              matching: find.byType(Padding),
+            ).first,
+          );
+      AnimatedContainer getContainer() => tester.widget<AnimatedContainer>(
+            find.byKey(const ValueKey<String>('BwFieldAddon.prefix')),
+          );
+
+      var padding = getPadding().padding as EdgeInsetsDirectional;
+      expect(padding.top, BwBorder.widthDefault);
+      expect(padding.bottom, BwBorder.widthDefault);
+      expect(padding.start, BwBorder.widthDefault);
+      var decoration = getContainer().decoration! as BoxDecoration;
+      expect(
+        decoration.borderRadius,
+        const BorderRadius.only(
+          topLeft: Radius.circular(BwRadius.md - BwBorder.widthDefault),
+          bottomLeft: Radius.circular(BwRadius.md - BwBorder.widthDefault),
+        ),
+      );
+
+      // Focus field: border width focus 2, inset 2, inner radius md - 2 = 6
+      focusNode.requestFocus();
+      await tester.pumpAndSettle();
+
+      padding = getPadding().padding as EdgeInsetsDirectional;
+      expect(padding.top, BwBorder.widthFocus);
+      expect(padding.bottom, BwBorder.widthFocus);
+      expect(padding.start, BwBorder.widthFocus);
+      decoration = getContainer().decoration! as BoxDecoration;
+      expect(
+        decoration.borderRadius,
+        const BorderRadius.only(
+          topLeft: Radius.circular(BwRadius.md - BwBorder.widthFocus),
+          bottomLeft: Radius.circular(BwRadius.md - BwBorder.widthFocus),
+        ),
+      );
+    });
+
+    testWidgets('scroll drag starting on the field leaves it unfocused',
+        (tester) async {
+      final focusNode = FocusNode();
+      addTearDown(focusNode.dispose);
+
+      await pumpBw(
+        tester,
+        ListView(
+          children: <Widget>[
+            BwTextField(
+              label: 'Email',
+              focusNode: focusNode,
+            ),
+            const SizedBox(height: 1000),
+          ],
+        ),
+      );
+
+      expect(focusNode.hasFocus, isFalse);
+      await tester.drag(find.byType(EditableText), const Offset(0, -200));
+      await tester.pumpAndSettle();
+      expect(focusNode.hasFocus, isFalse);
     });
 
     testWidgets('transitions honour motion tokens and reduced motion',
@@ -1160,10 +1461,12 @@ void main() {
         testWidgets(
           '${brightness.name} ${locale.languageCode} states and parts',
           (tester) async {
-            await tester.binding.setSurfaceSize(const Size(800, 1280));
+            await tester.binding.setSurfaceSize(const Size(800, 1480));
             addTearDown(() => tester.binding.setSurfaceSize(null));
             final focusNode = FocusNode();
             addTearDown(focusNode.dispose);
+            final addonFocusNode = _ForcedFocusNode();
+            addTearDown(addonFocusNode.dispose);
             const goldenKey = ValueKey<String>('text-field-golden');
             final ar = locale.languageCode == 'ar';
 
@@ -1173,7 +1476,7 @@ void main() {
                 key: goldenKey,
                 child: SizedBox(
                   width: 760,
-                  height: 1240,
+                  height: 1440,
                   child: Builder(
                     builder: (context) => ColoredBox(
                       color: context.bw.colors.surfacePage,
@@ -1212,6 +1515,18 @@ void main() {
                             BwTextField(
                               label: ar ? 'الموقع الإلكتروني' : 'Website',
                               prefixText: 'https://',
+                            ),
+                            const SizedBox(height: BwSpacing.md),
+                            BwTextField(
+                              label: ar ? 'التركيز مع بادئة' : 'Focus with add-on',
+                              prefixText: 'https://',
+                              focusNode: addonFocusNode,
+                            ),
+                            const SizedBox(height: BwSpacing.md),
+                            BwTextField(
+                              label: ar ? 'خطأ مع لاحقة' : 'Error with add-on',
+                              suffixText: 'SAR',
+                              errorText: ar ? 'أدخل قيمة صالحة' : 'Enter a valid value',
                             ),
                             const SizedBox(height: BwSpacing.md),
                             BwTextField(
@@ -1260,6 +1575,11 @@ void main() {
       }
     }
   });
+}
+
+class _ForcedFocusNode extends FocusNode {
+  @override
+  bool get hasFocus => true;
 }
 
 class _TrackedController extends TextEditingController {

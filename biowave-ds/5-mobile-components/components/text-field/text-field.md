@@ -15,7 +15,7 @@
 | Figma | **Biowave DS — Mobile Components** › `↳ Text field` (page Typography mode `Mobile`) · build: [Part D](#d--figma-build) |
 | Version | 1.2 · 2026-10-24 (spec and code plan 1.2; guidelines unchanged, same as Web 1.1) |
 | Plan | Finished |
-| Code | Changes requested |
+| Code | Built |
 | Figma build | Planned |
 | Review | Round 2 · 2026-10-24 · Changes requested |
 | Source code | [`lib/src/components/text_field/`](../../lib/src/components/text_field/) |
@@ -515,13 +515,23 @@ Implement every item in B9, plus:
 | Agent | Antigravity (continuing Codex step 01) |
 | Date | 2026-10-24 |
 | Files changed | `lib/src/components/text_field/bw_text_field.dart`; `lib/src/components/text_field/bw_text_field_decoration.dart`; `lib/src/components/text_field/bw_field_label.dart`; `lib/src/components/text_field/bw_field_addon.dart`; `lib/src/components/text_field/bw_field_action.dart`; `lib/src/components/text_field/bw_field_supporting.dart`; `lib/biowave_mobile.dart`; `test/text_field_test.dart`; `test/goldens/text_field/text-field-{light,dark}-{en,ar}.png`; `README.md`; `components/text-field/text-field.md`; `CHANGELOG.md` |
-| Checks | `cd 5-mobile-components && flutter analyze && flutter test` ✓ (148 tests); `npm run component-tokens` ✓; `npm run sync` ✓ (READY); `npm run docs:check` ✓ |
+| Checks | `cd 5-mobile-components && flutter analyze && flutter test` ✓ (181 tests); `npm run component-tokens` ✓; `npm run sync` ✓ (READY); `npm run docs:check` ✓ |
 
 **Deviations from the plan or spec**
 - none
 
 **Questions for the Planner**
 - none
+
+#### Fix round 2 — 2026-10-24 (Antigravity)
+
+| Finding / Item | What changed (`file:line`) | Test that proves it |
+|---|---|---|
+| #4 (🟡) Help icon 48 × 48 real touch target | In `lib/src/components/text_field/bw_field_label.dart:63,115-132`, exposed `helpTargetKey: GlobalKey` on `BwFieldLabel` and attached it to `BwFieldTargetBox`, wrapping `BwIconButton` with `GestureDetector(excludeFromSemantics: true, behavior: HitTestBehavior.opaque, onTap: _showTooltip)` so real touches across the full 48×48 area invoke `_showTooltip()` without duplicate semantics; in `lib/src/components/text_field/bw_text_field.dart:660-705`, wrapped the field column with `_BwTextFieldHitScope` (`RenderProxyBox`) which checks `helpTargetKey` bounds and intercepts touches within the 48×48 area so the help target wins over the overlapping 6 dp field outline | `test/text_field_test.dart:404-455` (`help tooltip opens by real tap and Enter/Space, and closes with Escape` tests real `tester.tapAt(center ± 20)` points at all 4 corners and center, confirming tooltip opens and field is not focused) |
+| #11 (🟡) Single source of error from FormFieldState | In `lib/src/components/text_field/bw_text_field.dart:187-200, 316-328, 498-508, 558-570`, implemented `_hasError` reading `_formFieldKey.currentState?.hasError` and `_lastKnownErrorText`; called `Form.maybeOf(context)` in `build` to listen for synchronous form rebuilds on `validate()` and `reset()`; added `onChanged` and `validator` error sync without post-frame callbacks so outline, add-on dividers, and counter update immediately upon `validate()` and `reset()` | `test/text_field_test.dart:829-897` (`validator: FormField is single source of error...`), `test/text_field_test.dart:899-974` (`errorText: Form.reset() clears errorText, border, divider, and counter colors`) |
+| #12 (🟡) Add-on inset follows active outline width | In `lib/src/components/text_field/bw_field_addon.dart:28-39, 58-76`, added `borderWidth` parameter (defaults to `BwBorder.widthDefault`) and derived `innerRadius = Radius.circular(BwRadius.md - borderWidth)`, with padding inset by `borderWidth` on top, bottom, and outer edge; in `lib/src/components/text_field/bw_text_field.dart:350-366, 418-435`, passed `_focusNode.hasFocus ? BwBorder.widthFocus : BwBorder.widthDefault` as `borderWidth`; updated golden matrices in `test/text_field_test.dart:1464-1560` and all 4 goldens (`text-field-{light,dark}-{en,ar}.png`) with focused and error fields with add-ons | `test/text_field_test.dart:1115-1170` (`add-on inset and inner radius follow outline width in default, focused, and error`), `test/text_field_test.dart:1460-1565` (goldens) |
+| #13 (🟢) End button meets column edge with 0 dp gap | In `lib/src/components/text_field/bw_text_field.dart:608-658`, replaced `Transform.translate` with `_BwFieldEndButtonOverlap` (`RenderShiftedBox`) which lays out the field child at `constraints.maxWidth + BwBorder.widthDefault` and offsets by `-BwBorder.widthDefault` in RTL, allowing the field border to extend under the attached button without shortening the composite width or inducing layout loops, eliminating the 1 dp outer seam gap | `test/text_field_test.dart:1083-1113` (`end button meets column edge exactly in en and ar` asserts 360 composite width matches field start and button outer edge in en and ar) |
+| #14 (🟢) Hardened spinner layer and resolved radius tests | In `test/text_field_test.dart:882-927`, resolved `OutlinedButton.style.shape` to verify `BorderRadiusDirectional` start corners are square and end corners are `BwRadius.md` in en and ar; in `test/text_field_test.dart:929-952`, walked render object ancestors to `nearestLayer = current.debugLayer` and asserted `nearestLayer.attached == true` | `test/text_field_test.dart:882-952` (`end button: resolved shape radius...`, `loading end button paints its spinner`) |
 
 #### Fix round 1 — 2026-10-24 (Antigravity)
 
