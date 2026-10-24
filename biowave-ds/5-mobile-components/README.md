@@ -53,6 +53,7 @@ Status is written in each file header and here; `npm run docs:check` fails if th
 | Text field | Finished | Planned | Planned | — | [page](components/text-field/text-field.html) | [text-field.md](components/text-field/text-field.md) |
 | Badge | Finished | Planned | Planned | — | [page](components/badge/badge.html) | [badge.md](components/badge/badge.md) |
 | Divider | Finished | Planned | Planned | — | [page](components/divider/divider.html) | [divider.md](components/divider/divider.md) |
+| Tooltip | Finished | Planned | Planned | — | [page](components/tooltip/tooltip.html) | [tooltip.md](components/tooltip/tooltip.md) |
 
 ## 5. Backlog (suggested order)
 Figma "Mobile Components" pages: Buttons, Inputs, Text Area, Bottom Sheet, Chips, Labels, Avatars, Cards, Tabs, Top App Bar, Navigation Bar, Banners, Snackbar, Checkbox, Radio button, Calendars, Badges, Toggle.

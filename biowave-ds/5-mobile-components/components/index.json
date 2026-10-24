@@ -9,6 +9,7 @@
     "icon-button",
     "link",
     "split-button",
-    "text-field"
+    "text-field",
+    "tooltip"
   ]
 }
