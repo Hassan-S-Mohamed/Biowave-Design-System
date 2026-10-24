@@ -2,6 +2,12 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Docs — live preview demo fixes] — 2026-10-24
+### Fixed
+- Icon button live preview: the Pin toggle used `variant="tonal"`, which IconButton ignores for toggles (A4.4), so it never switched and warned in the console. It is now `outlined` and its label changes "Pin" ↔ "Unpin" (A7).
+- Text field live preview: the password, add-on and end-button examples were all labelled "Email". They now read Password (helper "Use at least 12 characters", A7), Website and Employee ID, in English and Arabic.
+- Button group live preview: the "vertical · fill" heading is now translated in Arabic.
+
 ## [Docs — live previews on the Biowave Icon] — 2026-10-21
 ### Fixed
 - `_docs/live.tsx` still imported the `MaterialSymbol` test helper that icon/web deleted, so every live React preview (`npm start`) failed with a Vite import error. The demos now use the Biowave `Icon` from `3-web-components/src` (the directional arrow uses `directional` instead of the `bw-icon-directional` class).

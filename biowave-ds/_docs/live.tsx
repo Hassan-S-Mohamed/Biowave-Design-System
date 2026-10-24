@@ -38,20 +38,20 @@ interface Prefs {
 const copy = {
   en: {
     save: 'Save changes', cancel: 'Cancel', next: 'Next', add: 'Add user', delete: 'Delete',
-    edit: 'Edit device', copy: 'Copy', pin: 'Pin', export: 'Export report', excel: 'Export as Excel', csv: 'Export as CSV', pdf: 'Export as PDF',
+    edit: 'Edit device', copy: 'Copy', pin: 'Pin', unpin: 'Unpin', export: 'Export report', excel: 'Export as Excel', csv: 'Export as CSV', pdf: 'Export as PDF',
     more: 'More actions', loading: 'Saving…',
-    variants: 'Variants', sizes: 'Sizes', states: 'States', icons: 'Icons', toggle: 'Toggle', layouts: 'Layouts', preview: 'Configured preview',
-    email: 'Email', name: 'Full name', notes: 'Notes', search: 'Search devices', code: 'Employee ID',
-    helper: 'We send the sign-in link here.', errorText: 'Enter a valid email address.', notesHelper: 'Visible to admins only.',
+    variants: 'Variants', sizes: 'Sizes', states: 'States', icons: 'Icons', toggle: 'Toggle', layouts: 'Layouts', verticalFill: 'Vertical · fill', preview: 'Configured preview',
+    email: 'Email', name: 'Full name', notes: 'Notes', search: 'Search devices', code: 'Employee ID', password: 'Password', website: 'Website',
+    helper: 'We send the sign-in link here.', errorText: 'Enter a valid email address.', notesHelper: 'Visible to admins only.', passwordHelper: 'Use at least 12 characters.',
     disabled: 'Disabled', readOnly: 'Read-only', unknown: 'No live React component for this page yet.',
   },
   ar: {
     save: 'حفظ التغييرات', cancel: 'إلغاء', next: 'التالي', add: 'إضافة مستخدم', delete: 'حذف',
-    edit: 'تعديل الجهاز', copy: 'نسخ', pin: 'تثبيت', export: 'تصدير التقرير', excel: 'تصدير Excel', csv: 'تصدير CSV', pdf: 'تصدير PDF',
+    edit: 'تعديل الجهاز', copy: 'نسخ', pin: 'تثبيت', unpin: 'إلغاء التثبيت', export: 'تصدير التقرير', excel: 'تصدير Excel', csv: 'تصدير CSV', pdf: 'تصدير PDF',
     more: 'إجراءات أخرى', loading: 'جارٍ الحفظ…',
-    variants: 'الأنماط', sizes: 'الأحجام', states: 'الحالات', icons: 'الأيقونات', toggle: 'تبديل', layouts: 'التخطيطات', preview: 'المعاينة المضبوطة',
-    email: 'البريد الإلكتروني', name: 'الاسم الكامل', notes: 'ملاحظات', search: 'البحث في الأجهزة', code: 'الرقم الوظيفي',
-    helper: 'نرسل رابط تسجيل الدخول إلى هنا.', errorText: 'أدخل بريداً إلكترونياً صحيحاً.', notesHelper: 'يظهر للمسؤولين فقط.',
+    variants: 'الأنماط', sizes: 'الأحجام', states: 'الحالات', icons: 'الأيقونات', toggle: 'تبديل', layouts: 'التخطيطات', verticalFill: 'عمودي · ملء العرض', preview: 'المعاينة المضبوطة',
+    email: 'البريد الإلكتروني', name: 'الاسم الكامل', notes: 'ملاحظات', search: 'البحث في الأجهزة', code: 'الرقم الوظيفي', password: 'كلمة المرور', website: 'الموقع الإلكتروني',
+    helper: 'نرسل رابط تسجيل الدخول إلى هنا.', errorText: 'أدخل بريداً إلكترونياً صحيحاً.', notesHelper: 'يظهر للمسؤولين فقط.', passwordHelper: 'استخدم 12 حرفًا على الأقل.',
     disabled: 'معطّل', readOnly: 'للقراءة فقط', unknown: 'لا يوجد مكوّن React مباشر لهذه الصفحة بعد.',
   },
 } as const;
@@ -102,7 +102,7 @@ function IconButtonDemo({ t, color }: { t: (typeof copy)[Lang]; color: ButtonCol
       </Row>
       <Row title={t.sizes}>{sizes.map((s) => <IconButton key={s} size={s} variant="outlined" color={color} icon={<Icon name="edit" />} label={t.edit} />)}</Row>
       <Row title={t.toggle}>
-        <IconButton toggle selected={pinned} onClick={() => setPinned((p) => !p)} variant="tonal" color={noTonal.includes(color) ? 'brand' : color} icon={<Icon name="push_pin" />} selectedIcon={<Icon name="push_pin" filled />} label={t.pin} />
+        <IconButton toggle selected={pinned} onClick={() => setPinned((p) => !p)} variant="outlined" color={color} icon={<Icon name="push_pin" />} selectedIcon={<Icon name="push_pin" filled />} label={pinned ? t.unpin : t.pin} />
       </Row>
       <Row title={t.states}>
         <IconButton color={color} variant="filled" loading loadingLabel={t.loading} icon={<Icon name="delete" />} label={t.delete} />
@@ -153,7 +153,7 @@ function ButtonGroupDemo({ t }: { t: (typeof copy)[Lang] }) {
           </ButtonGroup>
         ))}
       </Row>
-      <Row title="vertical · fill" column>
+      <Row title={t.verticalFill} column>
         <ButtonGroup orientation="vertical" aria-label={t.save}>
           <Button variant="outlined" color="neutral">{t.cancel}</Button>
           <Button>{t.save}</Button>
@@ -173,13 +173,13 @@ function TextFieldDemo({ t, prefs }: { t: (typeof copy)[Lang]; prefs: Prefs }) {
   const grid: React.CSSProperties = { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 'var(--bw-spacing-lg)', inlineSize: '100%' };
   const configuredKey = [prefs.fieldExample, prefs.fieldSize, prefs.fieldState, prefs.fieldRequired, prefs.fieldHelper, prefs.fieldHelp, prefs.fieldCounter].join('-');
   const common: React.ComponentProps<typeof TextField> = {
-    label: prefs.fieldExample === 'multiline' ? t.notes : prefs.fieldExample === 'leading' || prefs.fieldExample === 'clearable' ? t.search : t.email,
+    label: { multiline: t.notes, leading: t.search, clearable: t.search, password: t.password, addons: t.website, endButton: t.code }[prefs.fieldExample as string] ?? t.email,
     size: prefs.fieldSize,
     required: prefs.fieldRequired,
     disabled: prefs.fieldState === 'disabled',
     readOnly: prefs.fieldState === 'readOnly',
     error: prefs.fieldState === 'fieldError',
-    helperText: prefs.fieldState === 'fieldError' ? t.errorText : prefs.fieldHelper ? (prefs.fieldExample === 'multiline' ? t.notesHelper : t.helper) : undefined,
+    helperText: prefs.fieldState === 'fieldError' ? t.errorText : prefs.fieldHelper ? (prefs.fieldExample === 'multiline' ? t.notesHelper : prefs.fieldExample === 'password' ? t.passwordHelper : t.helper) : undefined,
     helpText: prefs.fieldHelp ? t.helper : undefined,
     showCounter: prefs.fieldCounter,
     maxLength: prefs.fieldCounter ? 120 : undefined,
