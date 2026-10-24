@@ -1,4 +1,4 @@
-<!-- GENERATED from badge.md @ 5abba2d3f474c3fd — do not edit; change the source and run: npm run contract -- web badge -->
+<!-- GENERATED from badge.md @ d855142fd6fe5899 — do not edit; change the source and run: npm run contract -- web badge -->
 # Badge · شارة — Web — code contract
 
 > **Everything you need to build Badge on Web, and nothing else.** Read this file only. Generated from [`badge.md`](badge.md) (Parts B and C). If something is unclear or impossible, stop and write it in [C8 Execution log → Questions](badge.md#c8-execution-log-filled-by-the-executor) — never invent behaviour.
@@ -9,10 +9,10 @@
 | Platform | Web · React + MUI |
 | Built on | MUI `Badge` (`badgeContent`, `max`, `showZero`, `invisible`, `overlap`), restyled from tokens; the Check badge content is the Biowave `Icon` `check` |
 | Import | `import { Badge } from '@biowave/web'` |
-| Version | 1.0 · 2026-10-21 |
-| Source code | `src/components/badge/` — not built yet (the Executor creates it) |
+| Version | 1.1 · 2026-10-24 |
+| Source code | [`src/components/badge/`](../../src/components/badge/) |
 | Tokens | — |
-| Source | [`badge.md`](badge.md) @ `5abba2d3f474c3fd` |
+| Source | [`badge.md`](badge.md) @ `d855142fd6fe5899` |
 
 ## 1. What it is
 
@@ -50,9 +50,9 @@ A badge is a small indicator pinned to the corner of another element — an icon
 | `showZero` | boolean | | `false` | | A4.4 |
 | `color` | enum | `error` · `brand` · `secondary` · `success` · `warning` · `info` · `neutral` | `error` (`success` for `check`) | | A4.2 |
 | `overlap` | enum | `rectangular` · `circular` | `rectangular` | | A4.5 — only with `children` |
-| `invisible` | boolean | | `false` | | A4.6 — hides with the exit transition (B4) |
+| `invisible` | boolean | | `false` | | A4.6 — hides with the exit transition (B4); a hidden standalone badge takes no inline space (B4 › Hidden standalone) |
 | `label` | string | | — | ✓ when visible | A4.7 — the accessible meaning (B6) |
-| `children` | slot | one React element | — | | The `anchor`. Absent → standalone inline badge (no `ring`) |
+| `children` | slot | one React element | — | | The `anchor`. Absent → standalone inline badge (no `ring`; no space while hidden, B4) |
 | `className` · `data-*` · `ref` | | | | | Forwarded to the root `span` |
 
 Platform naming notes: MUI `badgeContent` = `count`; MUI `variant="standard"` = `count`, `"dot"` = `dot`; `check` is Biowave-only (P-05). Flutter `isVisible` = `!invisible`, `semanticLabel` = `label`, `child` = `children`.
@@ -102,7 +102,7 @@ Platform naming notes: MUI `badgeContent` = `count`; MUI `variant="standard"` = 
 Layout rules:
 - Root `span`: `position: relative; display: inline-flex; vertical-align: middle; flex: none`. It hugs the anchor; the badge never changes the anchor's box.
 - Anchored `indicator`: `position: absolute`, `pointer-events: none`, `z-index` = `layer-raised` (above the anchor, inside the root's stacking context only). Placement with logical properties: `inset-block-start: 0; inset-inline-end: 0`, translated so its centre sits on the corner (B5). `overlap="circular"`: the reference corner moves inward to the circle's edge at 45° — `inset-block-start` and `inset-inline-end` = 14.6% of the anchor box ((1 − cos 45°) ÷ 2, the same as MUI `overlap="circular"`).
-- Standalone `indicator` (no `children`): `position: static`, inline after text, no `ring`, no translation; it aligns to the text's middle.
+- Standalone `indicator` (no `children`): `position: static`, inline after text, no `ring`, no translation; it aligns to the text's middle. While hidden it is out of the layout (`display: none`, after the exit transition — B4 › Hidden standalone), so it adds no inline size.
 - `count`: one line, `white-space: nowrap`, centred; the text is wrapped in `<bdi dir="ltr">` so `99+` never reorders in Arabic.
 - `ring`: drawn outside the indicator box as `box-shadow: 0 0 0 var(--bw-border-width-strong) var(--bw-color-border-inverse)` — it adds no layout size.
 - `check-icon`: `<Icon name="check" />` centred; never `directional`.
@@ -117,7 +117,7 @@ No component tokens — every value is an existing semantic token (P-04); `badge
 | `brand` | `color-background-brand-default` | `color-text-on-brand` | `color-icon-on-brand` |
 | `secondary` | `color-background-secondary-default` | `color-text-on-secondary` | `color-icon-on-secondary` |
 | `success` | `color-background-success-default` | `color-text-on-success` | `color-icon-on-success` |
-| `warning` | `color-background-warning-default` | `color-text-on-warning` | — (not allowed) |
+| `warning` | `color-icon-role-warning` | `color-text-on-warning` | — (not allowed) |
 | `info` | `color-background-info-default` | `color-text-on-info` | `color-icon-on-info` |
 | `neutral` | `color-surface-inverse` | `color-text-neutral-inverse` | `color-icon-neutral-inverse` |
 
@@ -125,6 +125,8 @@ No component tokens — every value is an existing semantic token (P-04); `badge
 |---|---|---|
 | `ring` | colour | `color-border-inverse` |
 | `ring` | width | `border-width-strong` |
+
+`warning` fill (1.1): `color-background-warning-default` measures 2.20:1 against `color-surface-default` in light, below the B6 non-text 3:1. The fill is `color-icon-role-warning` — the semantic token for a warning graphic on a surface, which the token build already checks at ≥ 3:1 against `color-surface-default` in both themes (`contrast-pairs.json` › “status icon”): 3.24:1 light · 12.20:1 dark. `color-text-on-warning` on it: 6.10:1 light · 13.11:1 dark. No new token, no primitive.
 
 Dark theme: same tokens (values switch automatically). No exceptions.
 
@@ -147,6 +149,7 @@ Values are for checking only — never paste a value.
 | `color-icon-on-info` | `var(--bw-color-icon-on-info)` · `cssVars.color.icon.on.info` | #FFFFFF | #0A0A0A |
 | `color-icon-on-secondary` | `var(--bw-color-icon-on-secondary)` · `cssVars.color.icon.on.secondary` | #FFFFFF | #0A0A0A |
 | `color-icon-on-success` | `var(--bw-color-icon-on-success)` · `cssVars.color.icon.on.success` | #FFFFFF | #0A0A0A |
+| `color-icon-role-warning` | `var(--bw-color-icon-role-warning)` · `cssVars.color.icon.role.warning` | #D97424 | #FFC88F |
 | `color-surface-default` | `var(--bw-color-surface-default)` · `cssVars.color.surface.default` | #FFFFFF | #141414 |
 | `color-surface-inverse` | `var(--bw-color-surface-inverse)` · `cssVars.color.surface.inverse` | #141414 | #FFFFFF |
 | `color-text-neutral-inverse` | `var(--bw-color-text-neutral-inverse)` · `cssVars.color.text.neutral.inverse` | #FFFFFF | #0A0A0A |
@@ -181,6 +184,9 @@ Values are for checking only — never paste a value.
 
 Reduced motion: every transition is instant (built into `tokens.css`).
 
+**Hidden standalone** (no `children`, 1.1): a hidden standalone badge takes no inline space. When it hides, the B4 exit transition plays first; when it ends, the `indicator` leaves the layout (`display: none`), so the text it follows ends where it would without a badge. When it shows, the `indicator` returns to the layout at scale 0 and then plays the enter transition. With reduced motion it leaves and returns at once. A standalone badge that is hidden on first render takes no space from the first paint. Anchored badges are out of flow already; nothing changes for them.
+Why: A5 says a hidden badge shows nothing. A blank gap after a label reads as a missing value and puts labels in lists and tabs out of line; one reflow at the end of the exit is the smaller cost.
+
 ## 6. RTL
 
 ```
@@ -206,7 +212,7 @@ LTR   ╭──────╮(✓)             RTL  (✓)╭──────�
 | Anchored with `label` | Badge renders `<span id={useId()} style={visuallyHidden}>{label}</span>` (`src/internal/visuallyHidden.ts`) and clones the single child adding `aria-describedby` (appended to any ids the child already has). Screen reader: “Notifications, button, 3 unread messages” |
 | Hidden badge | No description: the hidden span and the child's added `aria-describedby` id are removed while `invisible` or the count hides it |
 | Standalone with `label` | Root `span` gets `role="img"` and `aria-label={label}` |
-| Contrast | `count` text on `indicator` ≥ 4.5:1 and `indicator` vs `color-surface-default` ≥ 3:1 for every allowed `color` × `variant` (B1 rules remove `warning` from `dot` and `check`) |
+| Contrast | `count` text on `indicator` ≥ 4.5:1 and `indicator` vs `color-surface-default` ≥ 3:1 for every allowed `color` × `variant` in both themes (B1 rules remove `warning` from `dot` and `check`). `warning` meets it through its `color-icon-role-warning` fill (B3): lowest pairs light `warning` indicator 3.24:1, dark `brand` text 4.65:1 |
 | Focus | Never focusable; no `tabIndex`. The anchor's focus ring ([a11y](../../../2-foundations/guidelines/a11y.md)) stays visible — the indicator covers at most its corner |
 | Target size | Not a target: `pointer-events: none`; the anchor's target (`target-min`) is unchanged |
 | Live updates | No `aria-live` |
@@ -259,10 +265,11 @@ import { Badge, IconButton, Icon } from '@biowave/web';
 ### Approach
 
 - Base: `@mui/material/Badge` wrapped by `styled(MuiBadge)` in `Badge.tsx`. Map props: `count` → `badgeContent` (only for `variant="count"`), `variant` `count`/`check` → MUI `standard`, `dot` → MUI `dot`; `max`, `showZero`, `invisible` passed through (MUI computes `99+` and the zero-hidden state — wrap the rendered content in `<bdi dir="ltr">` via `badgeContent`). For `check`, `badgeContent` = `<Icon name="check" />` (no `size`; the indicator sets `font-size` to `size-icon-sm`).
-- Styles from `cssVars` only (`cssVars.size.icon.md`, `cssVars.spacing.xs`, `cssVars.spacing.md`, `cssVars.radius.full`, `cssVars.border.width.strong`, `cssVars.color.*`, `cssVars.motion.*`, `cssVars.layer.raised`), applied to the MUI `badge` slot. One `switch` from `color` to the three B3 tokens; `neutral` uses `color.surface.inverse` / `color.text.neutral.inverse` / `color.icon.neutral.inverse`.
+- Styles from `cssVars` only (`cssVars.size.icon.md`, `cssVars.spacing.xs`, `cssVars.spacing.md`, `cssVars.radius.full`, `cssVars.border.width.strong`, `cssVars.color.*`, `cssVars.motion.*`, `cssVars.layer.raised`), applied to the MUI `badge` slot. One `switch` from `color` to the B3 tokens; `neutral` uses `color.surface.inverse` / `color.text.neutral.inverse` / `color.icon.neutral.inverse`; `warning` uses `color.icon.role.warning` / `color.text.on.warning` (1.1). `error` and `warning` have no `check-icon` token (B3 “—”): the map gives them none (`icon` optional in the map type), so no unlisted token sits in the component.
 - Placement: override MUI's `anchorOrigin` styles completely — set `top`/`right`/`transform` to `unset` and use `inset-block-start` / `inset-inline-end` plus `transform: translate(50%, -50%)`, and `[dir='rtl'] &` → `translate(-50%, -50%)` (B5). Visibility combines with the translation: hidden = `translate(…) scale(0)`, visible = `translate(…) scale(1)`, `transform-origin: center`.
 - Transitions: replace MUI's `theme.transitions` on the `badge` slot with `transform` timed by B4 — `motion-duration-md` + `motion-easing-standard-decelerate` when becoming visible, `motion-duration-sm` + `motion-easing-standard-accelerate` when hiding (set the transition on the `.MuiBadge-invisible` state for the exit). No transition on first paint.
 - Standalone (no `children`): add class `bw-badge-standalone`; the `badge` slot becomes `position: static`, no transform, no ring.
+- Hidden standalone (1.1, B4): keep an internal “collapsed” flag. Hidden on first render → collapsed. On hide → collapse on the indicator's `transitionend` for `transform`, or at once when `prefers-reduced-motion: reduce` matches (a 0 s transition fires no `transitionend`). On show → un-collapse first (still at scale 0), then remove the hidden state on the next frame so the enter transition runs. Collapsed = `display: none` on the `badge` slot (class `bw-badge-collapsed`). Anchored badges never collapse. Gotcha: a `transitionend` from the check `Icon` or another property must not collapse it — check `event.target` and `propertyName`.
 - a11y per B6: `useId()` for the description; `React.cloneElement(children, { 'aria-describedby': [existing, id].filter(Boolean).join(' ') })` only when visible and `label` is set; `visuallyHidden` from `src/internal/visuallyHidden.ts`.
 - Dev warnings: one `warnOnce` per combination in B1 (`process.env.NODE_ENV !== 'production'`).
 - Gotchas: stylis-plugin-rtl flips physical `right` → `left` in MUI's own styles; because the override uses logical properties and an explicit `[dir='rtl']` translation, make sure the flipped MUI `left` is also `unset` (test the RTL geometry). MUI's `dot` variant has its own `min-width`/`height`/`padding` — override all three from B2.
@@ -284,13 +291,14 @@ CHANGELOG.md                                            change
 
 ## 10. Tests
 
-- [ ] Every `variant` × allowed `color` renders the B2 sizes and B3 tokens in light + dark × en + ar (computed styles: `block-size`, `min-inline-size`, `padding-inline`, background, text and icon colour)
+- [ ] Every `variant` × allowed `color` renders the B2 sizes and B3 tokens in light + dark × en + ar (computed styles: `block-size`, `min-inline-size`, `padding-inline`, background, text and icon colour); `count` × `warning` background is `color-icon-role-warning`, never `color-background-warning-default`
 - [ ] `count` above `max` shows `{max}+` inside `<bdi dir="ltr">`; `count={0}` hides unless `showZero`; `max` default 99
 - [ ] Anchored: `ring` box-shadow uses `border-width-strong` + `color-border-inverse`; standalone: no ring, `position: static`
-- [ ] Placement: indicator centre on the anchor's top-end corner in LTR and top-start in RTL (both `overlap` values); the anchor's box size is the same with and without the badge
-- [ ] B4: hidden ↔ visible transitions use the listed duration/easing tokens; first render has no animation; reduced motion → instant
+- [ ] Placement: indicator centre on the anchor's top-end corner in LTR and top-start in RTL (both `overlap` values); the anchor's box size is the same with and without the badge — checked by comparing the anchor's computed styles rendered with and without `Badge` and by asserting the root adds no padding or border and the anchored indicator is out of flow (`position: absolute`), not by reading a style the test set itself
+- [ ] B4: hidden ↔ visible transitions use the listed duration/easing tokens; first render has no animation (checked by behaviour — e.g. no transition / `getAnimations()` empty or the initial transform already final — or by a whitespace-tolerant check, never by matching exact source text and line breaks); reduced motion → instant
+- [ ] Hidden standalone (B4): while the exit runs the indicator is still in the layout; after its `transitionend` (fired in the test) it has `display: none`; with reduced motion it has `display: none` at once; hidden on first render → `display: none` from the start; shown again → back in the layout at scale 0, then scale 1; an anchored hidden badge never gets `display: none`
 - [ ] a11y: indicator `aria-hidden`; anchored label wired by `aria-describedby` (existing ids kept); hidden badge removes it; standalone `role="img"` + name; axe has no violations in light + dark × en + ar
-- [ ] `pointer-events: none` on the indicator: a click on the badge reaches the anchor's handler
+- [ ] `pointer-events: none` declared on the indicator and the anchor's `onClick` kept after cloning (jsdom has no hit testing; name the test for what it checks — the real click-through is a browser check in review)
 - [ ] Every invalid combination in B1 warns once and renders the fallback
 - [ ] `check-icon` is the Biowave `Icon` with `name="check"`, not mirrored in RTL
 - [ ] No raw values (no hex, px, ms or font names in `Badge.tsx`) — same guard as the other components
@@ -298,6 +306,8 @@ CHANGELOG.md                                            change
 Implement every item in B9, plus:
 - [ ] Type test: `variant="check"` with `color="error"` still compiles (runtime fallback, B1) but an unknown `color` does not (`// @ts-expect-error`)
 - [ ] The Icon guard (`src/test/noLegacyIcons.test.ts`) still passes — the check glyph comes from `Icon`
+- [ ] (1.1) The colour test table has no `check-icon` token for `error` and `warning` (matches B3 and the component map)
+- [ ] (1.1) The three B9 items rewritten in 1.1 (anchor box size, click-through, first render) test behaviour as B9 says; no test matches source text with exact line breaks
 
 ## 11. Acceptance criteria (the Reviewer checks exactly these)
 
@@ -308,6 +318,19 @@ Implement every item in B9, plus:
 - [ ] AC-5 Tests in B9 and C6 exist and pass; `npm run typecheck`, `npm run test:web`, `npm run docs:check` pass
 - [ ] AC-6 Exported from `src/index.ts`; section README status updated
 - [ ] AC-7 The anchor is untouched except for the appended `aria-describedby`: same box size, same click target, same focus ring
+- [ ] AC-8 (1.1, finding 1) `count` × `warning` indicator uses `color-icon-role-warning`; measured ≥ 3:1 against `color-surface-default` in light and dark; text `color-text-on-warning`
+- [ ] AC-9 (1.1, finding 2) A hidden standalone badge takes no inline space after its exit transition (at once with reduced motion), per B4 › Hidden standalone; anchored badges unchanged
+- [ ] AC-10 (1.1, findings 4, 5) No `check-icon` token for `error` / `warning` in `Badge.tsx` or the test table; the three B9 items test behaviour (C6 1.1)
+- [ ] AC-11 (1.1) C8 gets a "Fix round 1" entry listing every command with ✓/✗ and real numbers: `npm run typecheck`, `npm run test:web` (passed/total), `npm run docs:check`
+
+**Fix round 1 — Executor task list** (one list; nothing else is in scope):
+1. #1 `warning` fill → `cssVars.color.icon.role.warning` (B3) — `Badge.tsx`; update the colour test table and add the B9 `warning` assertion — `Badge.test.tsx`
+2. #2 Hidden standalone takes no space (B4 › Hidden standalone, C3) — `Badge.tsx` + the B9 hidden-standalone tests — `Badge.test.tsx`
+3. #4 Drop the unreachable `icon` value for `error` and `warning` (make it optional in the map type) — `Badge.tsx`; same in the test table — `Badge.test.tsx`
+4. #5 Rewrite the three declaration-only tests as B9 (1.1) says: (a) anchor box size by comparison, (b) name the click-through test for what it checks, (c) first render by behaviour or a whitespace-tolerant check — `Badge.test.tsx`
+5. C8 "Fix round 1" entry (AC-11); one `CHANGELOG.md` entry
+
+Files the Executor may touch in this fix round: `3-web-components/src/components/badge/Badge.tsx`, `3-web-components/src/components/badge/Badge.test.tsx`, C8 of this file and `CHANGELOG.md`. No other component, no tokens, no foundations files.
 
 ## 12. Rules
 

@@ -13,12 +13,12 @@
 | Built on | MUI `Badge` (`badgeContent`, `max`, `showZero`, `invisible`, `overlap`), restyled from tokens; the Check badge content is the Biowave `Icon` `check` |
 | Import | `import { Badge } from '@biowave/web'` |
 | Figma | **Biowave DS — Web Components** › `↳ Badge` · build: [Part D](#d--figma-build) |
-| Version | 1.0 · 2026-10-21 |
-| Plan | Open |
+| Version | 1.1 · 2026-10-24 |
+| Plan | Finished |
 | Code | Approved |
 | Figma build | Planned |
 | Review | Round 1 · 2026-10-24 · Approved |
-| Source code | `src/components/badge/` — not built yet (the Executor creates it) |
+| Source code | [`src/components/badge/`](../../src/components/badge/) |
 | Tokens | — (no component tokens: every value is an existing semantic token, P-04) |
 | Contracts | [`badge-contract.md`](badge-contract.md) · [`figma-badge-contract.md`](figma-badge-contract.md) — generated, never edited |
 | Docs page | [`badge.html`](badge.html) |
@@ -95,7 +95,7 @@ A badge is a small indicator pinned to the corner of another element — an icon
 | `brand` | Neutral emphasis in brand surfaces: new features, informational counts |
 | `secondary` | Counts inside teal (secondary) areas |
 | `success` | Done or verified. Default for `check` |
-| `warning` | Needs attention soon — `count` only (the orange shape alone is too light to see on a white surface) |
+| `warning` | Needs attention soon: pending approvals, delayed syncs — `count` only (a warning counts what is pending; a dot or check has no number to qualify). Its fill is a darker orange than the standard warning fill, so the shape stays visible on a white surface (A9) |
 | `info` | Informational counts and updates |
 | `neutral` | Low-emphasis counts that are not urgent (items in a list or tab) |
 
@@ -135,7 +135,7 @@ A badge has no interactive states. It follows its data, not the pointer.
 
 | State | When it happens | What the user sees |
 |---|---|---|
-| Hidden | `count` is 0 (without `showZero`) or `invisible` is on | Nothing; the anchor looks as it does without a badge |
+| Hidden | `count` is 0 (without `showZero`) or `invisible` is on | Nothing; the anchor looks as it does without a badge. A hidden standalone badge also gives back its space, so no gap stays after its text |
 | Appearing | The badge becomes visible | The indicator grows from its centre |
 | Visible | Default | The indicator on the anchor's top-end corner (top-left in Arabic) |
 | Over max | `count` > `max` | `99+` |
@@ -202,7 +202,7 @@ Top bar (Icon button + count)        Side navigation item (standalone count)
 - Every visible badge has a `label` in English and Arabic; screen readers hear it with the anchor (“Notifications, button, 3 unread messages”)
 - The indicator itself is hidden from assistive technology, so the bare number or the dot is never read without meaning
 - Meaning never relies on colour alone: the `label` says it, and `count` shows a number
-- Text in the badge meets 4.5:1 against the indicator; the indicator meets 3:1 against the surface (why `warning` is `count` only)
+- Text in the badge meets 4.5:1 against the indicator, and the indicator meets 3:1 against the surface, for every allowed colour and variant in both themes — `warning` uses the darker warning icon colour as its fill for this reason (the standard orange fill is too light on a white surface)
 - The badge is never focusable and never a click target; the anchor keeps its own target size and focus ring
 - Count changes are not live-announced (no noise); important new items are announced by the page
 
@@ -232,9 +232,9 @@ Top bar (Icon button + count)        Side navigation item (standalone count)
 | `showZero` | boolean | | `false` | | A4.4 |
 | `color` | enum | `error` · `brand` · `secondary` · `success` · `warning` · `info` · `neutral` | `error` (`success` for `check`) | | A4.2 |
 | `overlap` | enum | `rectangular` · `circular` | `rectangular` | | A4.5 — only with `children` |
-| `invisible` | boolean | | `false` | | A4.6 — hides with the exit transition (B4) |
+| `invisible` | boolean | | `false` | | A4.6 — hides with the exit transition (B4); a hidden standalone badge takes no inline space (B4 › Hidden standalone) |
 | `label` | string | | — | ✓ when visible | A4.7 — the accessible meaning (B6) |
-| `children` | slot | one React element | — | | The `anchor`. Absent → standalone inline badge (no `ring`) |
+| `children` | slot | one React element | — | | The `anchor`. Absent → standalone inline badge (no `ring`; no space while hidden, B4) |
 | `className` · `data-*` · `ref` | | | | | Forwarded to the root `span` |
 
 Platform naming notes: MUI `badgeContent` = `count`; MUI `variant="standard"` = `count`, `"dot"` = `dot`; `check` is Biowave-only (P-05). Flutter `isVisible` = `!invisible`, `semanticLabel` = `label`, `child` = `children`.
@@ -284,7 +284,7 @@ Platform naming notes: MUI `badgeContent` = `count`; MUI `variant="standard"` = 
 Layout rules:
 - Root `span`: `position: relative; display: inline-flex; vertical-align: middle; flex: none`. It hugs the anchor; the badge never changes the anchor's box.
 - Anchored `indicator`: `position: absolute`, `pointer-events: none`, `z-index` = `layer-raised` (above the anchor, inside the root's stacking context only). Placement with logical properties: `inset-block-start: 0; inset-inline-end: 0`, translated so its centre sits on the corner (B5). `overlap="circular"`: the reference corner moves inward to the circle's edge at 45° — `inset-block-start` and `inset-inline-end` = 14.6% of the anchor box ((1 − cos 45°) ÷ 2, the same as MUI `overlap="circular"`).
-- Standalone `indicator` (no `children`): `position: static`, inline after text, no `ring`, no translation; it aligns to the text's middle.
+- Standalone `indicator` (no `children`): `position: static`, inline after text, no `ring`, no translation; it aligns to the text's middle. While hidden it is out of the layout (`display: none`, after the exit transition — B4 › Hidden standalone), so it adds no inline size.
 - `count`: one line, `white-space: nowrap`, centred; the text is wrapped in `<bdi dir="ltr">` so `99+` never reorders in Arabic.
 - `ring`: drawn outside the indicator box as `box-shadow: 0 0 0 var(--bw-border-width-strong) var(--bw-color-border-inverse)` — it adds no layout size.
 - `check-icon`: `<Icon name="check" />` centred; never `directional`.
@@ -299,7 +299,7 @@ No component tokens — every value is an existing semantic token (P-04); `badge
 | `brand` | `color-background-brand-default` | `color-text-on-brand` | `color-icon-on-brand` |
 | `secondary` | `color-background-secondary-default` | `color-text-on-secondary` | `color-icon-on-secondary` |
 | `success` | `color-background-success-default` | `color-text-on-success` | `color-icon-on-success` |
-| `warning` | `color-background-warning-default` | `color-text-on-warning` | — (not allowed) |
+| `warning` | `color-icon-role-warning` | `color-text-on-warning` | — (not allowed) |
 | `info` | `color-background-info-default` | `color-text-on-info` | `color-icon-on-info` |
 | `neutral` | `color-surface-inverse` | `color-text-neutral-inverse` | `color-icon-neutral-inverse` |
 
@@ -307,6 +307,8 @@ No component tokens — every value is an existing semantic token (P-04); `badge
 |---|---|---|
 | `ring` | colour | `color-border-inverse` |
 | `ring` | width | `border-width-strong` |
+
+`warning` fill (1.1): `color-background-warning-default` measures 2.20:1 against `color-surface-default` in light, below the B6 non-text 3:1. The fill is `color-icon-role-warning` — the semantic token for a warning graphic on a surface, which the token build already checks at ≥ 3:1 against `color-surface-default` in both themes (`contrast-pairs.json` › “status icon”): 3.24:1 light · 12.20:1 dark. `color-text-on-warning` on it: 6.10:1 light · 13.11:1 dark. No new token, no primitive.
 
 Dark theme: same tokens (values switch automatically). No exceptions.
 
@@ -321,6 +323,9 @@ Dark theme: same tokens (values switch automatically). No exceptions.
 | Initial render | mount while visible | none — no entrance animation on first paint | — | — |
 
 Reduced motion: every transition is instant (built into `tokens.css`).
+
+**Hidden standalone** (no `children`, 1.1): a hidden standalone badge takes no inline space. When it hides, the B4 exit transition plays first; when it ends, the `indicator` leaves the layout (`display: none`), so the text it follows ends where it would without a badge. When it shows, the `indicator` returns to the layout at scale 0 and then plays the enter transition. With reduced motion it leaves and returns at once. A standalone badge that is hidden on first render takes no space from the first paint. Anchored badges are out of flow already; nothing changes for them.
+Why: A5 says a hidden badge shows nothing. A blank gap after a label reads as a missing value and puts labels in lists and tabs out of line; one reflow at the end of the exit is the smaller cost.
 
 ### B5 RTL
 
@@ -347,7 +352,7 @@ LTR   ╭──────╮(✓)             RTL  (✓)╭──────�
 | Anchored with `label` | Badge renders `<span id={useId()} style={visuallyHidden}>{label}</span>` (`src/internal/visuallyHidden.ts`) and clones the single child adding `aria-describedby` (appended to any ids the child already has). Screen reader: “Notifications, button, 3 unread messages” |
 | Hidden badge | No description: the hidden span and the child's added `aria-describedby` id are removed while `invisible` or the count hides it |
 | Standalone with `label` | Root `span` gets `role="img"` and `aria-label={label}` |
-| Contrast | `count` text on `indicator` ≥ 4.5:1 and `indicator` vs `color-surface-default` ≥ 3:1 for every allowed `color` × `variant` (B1 rules remove `warning` from `dot` and `check`) |
+| Contrast | `count` text on `indicator` ≥ 4.5:1 and `indicator` vs `color-surface-default` ≥ 3:1 for every allowed `color` × `variant` in both themes (B1 rules remove `warning` from `dot` and `check`). `warning` meets it through its `color-icon-role-warning` fill (B3): lowest pairs light `warning` indicator 3.24:1, dark `brand` text 4.65:1 |
 | Focus | Never focusable; no `tabIndex`. The anchor's focus ring ([a11y](../../../2-foundations/guidelines/a11y.md)) stays visible — the indicator covers at most its corner |
 | Target size | Not a target: `pointer-events: none`; the anchor's target (`target-min`) is unchanged |
 | Live updates | No `aria-live` |
@@ -387,13 +392,14 @@ Structure, properties, the Figma ↔ code mapping and Code Connect: [Part D](#d-
 
 ### B9 Tests
 
-- [ ] Every `variant` × allowed `color` renders the B2 sizes and B3 tokens in light + dark × en + ar (computed styles: `block-size`, `min-inline-size`, `padding-inline`, background, text and icon colour)
+- [ ] Every `variant` × allowed `color` renders the B2 sizes and B3 tokens in light + dark × en + ar (computed styles: `block-size`, `min-inline-size`, `padding-inline`, background, text and icon colour); `count` × `warning` background is `color-icon-role-warning`, never `color-background-warning-default`
 - [ ] `count` above `max` shows `{max}+` inside `<bdi dir="ltr">`; `count={0}` hides unless `showZero`; `max` default 99
 - [ ] Anchored: `ring` box-shadow uses `border-width-strong` + `color-border-inverse`; standalone: no ring, `position: static`
-- [ ] Placement: indicator centre on the anchor's top-end corner in LTR and top-start in RTL (both `overlap` values); the anchor's box size is the same with and without the badge
-- [ ] B4: hidden ↔ visible transitions use the listed duration/easing tokens; first render has no animation; reduced motion → instant
+- [ ] Placement: indicator centre on the anchor's top-end corner in LTR and top-start in RTL (both `overlap` values); the anchor's box size is the same with and without the badge — checked by comparing the anchor's computed styles rendered with and without `Badge` and by asserting the root adds no padding or border and the anchored indicator is out of flow (`position: absolute`), not by reading a style the test set itself
+- [ ] B4: hidden ↔ visible transitions use the listed duration/easing tokens; first render has no animation (checked by behaviour — e.g. no transition / `getAnimations()` empty or the initial transform already final — or by a whitespace-tolerant check, never by matching exact source text and line breaks); reduced motion → instant
+- [ ] Hidden standalone (B4): while the exit runs the indicator is still in the layout; after its `transitionend` (fired in the test) it has `display: none`; with reduced motion it has `display: none` at once; hidden on first render → `display: none` from the start; shown again → back in the layout at scale 0, then scale 1; an anchored hidden badge never gets `display: none`
 - [ ] a11y: indicator `aria-hidden`; anchored label wired by `aria-describedby` (existing ids kept); hidden badge removes it; standalone `role="img"` + name; axe has no violations in light + dark × en + ar
-- [ ] `pointer-events: none` on the indicator: a click on the badge reaches the anchor's handler
+- [ ] `pointer-events: none` declared on the indicator and the anchor's `onClick` kept after cloning (jsdom has no hit testing; name the test for what it checks — the real click-through is a browser check in review)
 - [ ] Every invalid combination in B1 warns once and renders the fallback
 - [ ] `check-icon` is the Biowave `Icon` with `name="check"`, not mirrored in RTL
 - [ ] No raw values (no hex, px, ms or font names in `Badge.tsx`) — same guard as the other components
@@ -408,7 +414,7 @@ Structure, properties, the Figma ↔ code mapping and Code Connect: [Part D](#d-
 |---|---|
 | Component | Badge |
 | Platform | Web (React + MUI) |
-| Plan version | 1 · 2026-10-21 |
+| Plan version | 1.1 · 2026-10-24 |
 
 ### C1 Goal
 
@@ -427,10 +433,11 @@ Structure, properties, the Figma ↔ code mapping and Code Connect: [Part D](#d-
 ### C3 Approach
 
 - Base: `@mui/material/Badge` wrapped by `styled(MuiBadge)` in `Badge.tsx`. Map props: `count` → `badgeContent` (only for `variant="count"`), `variant` `count`/`check` → MUI `standard`, `dot` → MUI `dot`; `max`, `showZero`, `invisible` passed through (MUI computes `99+` and the zero-hidden state — wrap the rendered content in `<bdi dir="ltr">` via `badgeContent`). For `check`, `badgeContent` = `<Icon name="check" />` (no `size`; the indicator sets `font-size` to `size-icon-sm`).
-- Styles from `cssVars` only (`cssVars.size.icon.md`, `cssVars.spacing.xs`, `cssVars.spacing.md`, `cssVars.radius.full`, `cssVars.border.width.strong`, `cssVars.color.*`, `cssVars.motion.*`, `cssVars.layer.raised`), applied to the MUI `badge` slot. One `switch` from `color` to the three B3 tokens; `neutral` uses `color.surface.inverse` / `color.text.neutral.inverse` / `color.icon.neutral.inverse`.
+- Styles from `cssVars` only (`cssVars.size.icon.md`, `cssVars.spacing.xs`, `cssVars.spacing.md`, `cssVars.radius.full`, `cssVars.border.width.strong`, `cssVars.color.*`, `cssVars.motion.*`, `cssVars.layer.raised`), applied to the MUI `badge` slot. One `switch` from `color` to the B3 tokens; `neutral` uses `color.surface.inverse` / `color.text.neutral.inverse` / `color.icon.neutral.inverse`; `warning` uses `color.icon.role.warning` / `color.text.on.warning` (1.1). `error` and `warning` have no `check-icon` token (B3 “—”): the map gives them none (`icon` optional in the map type), so no unlisted token sits in the component.
 - Placement: override MUI's `anchorOrigin` styles completely — set `top`/`right`/`transform` to `unset` and use `inset-block-start` / `inset-inline-end` plus `transform: translate(50%, -50%)`, and `[dir='rtl'] &` → `translate(-50%, -50%)` (B5). Visibility combines with the translation: hidden = `translate(…) scale(0)`, visible = `translate(…) scale(1)`, `transform-origin: center`.
 - Transitions: replace MUI's `theme.transitions` on the `badge` slot with `transform` timed by B4 — `motion-duration-md` + `motion-easing-standard-decelerate` when becoming visible, `motion-duration-sm` + `motion-easing-standard-accelerate` when hiding (set the transition on the `.MuiBadge-invisible` state for the exit). No transition on first paint.
 - Standalone (no `children`): add class `bw-badge-standalone`; the `badge` slot becomes `position: static`, no transform, no ring.
+- Hidden standalone (1.1, B4): keep an internal “collapsed” flag. Hidden on first render → collapsed. On hide → collapse on the indicator's `transitionend` for `transform`, or at once when `prefers-reduced-motion: reduce` matches (a 0 s transition fires no `transitionend`). On show → un-collapse first (still at scale 0), then remove the hidden state on the next frame so the enter transition runs. Collapsed = `display: none` on the `badge` slot (class `bw-badge-collapsed`). Anchored badges never collapse. Gotcha: a `transitionend` from the check `Icon` or another property must not collapse it — check `event.target` and `propertyName`.
 - a11y per B6: `useId()` for the description; `React.cloneElement(children, { 'aria-describedby': [existing, id].filter(Boolean).join(' ') })` only when visible and `label` is set; `visuallyHidden` from `src/internal/visuallyHidden.ts`.
 - Dev warnings: one `warnOnce` per combination in B1 (`process.env.NODE_ENV !== 'production'`).
 - Gotchas: stylis-plugin-rtl flips physical `right` → `left` in MUI's own styles; because the override uses logical properties and an explicit `[dir='rtl']` translation, make sure the flipped MUI `left` is also `unset` (test the RTL geometry). MUI's `dot` variant has its own `min-width`/`height`/`padding` — override all three from B2.
@@ -455,6 +462,8 @@ CHANGELOG.md                                            change
 Implement every item in B9, plus:
 - [ ] Type test: `variant="check"` with `color="error"` still compiles (runtime fallback, B1) but an unknown `color` does not (`// @ts-expect-error`)
 - [ ] The Icon guard (`src/test/noLegacyIcons.test.ts`) still passes — the check glyph comes from `Icon`
+- [ ] (1.1) The colour test table has no `check-icon` token for `error` and `warning` (matches B3 and the component map)
+- [ ] (1.1) The three B9 items rewritten in 1.1 (anchor box size, click-through, first render) test behaviour as B9 says; no test matches source text with exact line breaks
 
 ### C7 Acceptance criteria (the Reviewer checks exactly these)
 
@@ -465,6 +474,19 @@ Implement every item in B9, plus:
 - [ ] AC-5 Tests in B9 and C6 exist and pass; `npm run typecheck`, `npm run test:web`, `npm run docs:check` pass
 - [ ] AC-6 Exported from `src/index.ts`; section README status updated
 - [ ] AC-7 The anchor is untouched except for the appended `aria-describedby`: same box size, same click target, same focus ring
+- [ ] AC-8 (1.1, finding 1) `count` × `warning` indicator uses `color-icon-role-warning`; measured ≥ 3:1 against `color-surface-default` in light and dark; text `color-text-on-warning`
+- [ ] AC-9 (1.1, finding 2) A hidden standalone badge takes no inline space after its exit transition (at once with reduced motion), per B4 › Hidden standalone; anchored badges unchanged
+- [ ] AC-10 (1.1, findings 4, 5) No `check-icon` token for `error` / `warning` in `Badge.tsx` or the test table; the three B9 items test behaviour (C6 1.1)
+- [ ] AC-11 (1.1) C8 gets a "Fix round 1" entry listing every command with ✓/✗ and real numbers: `npm run typecheck`, `npm run test:web` (passed/total), `npm run docs:check`
+
+**Fix round 1 — Executor task list** (one list; nothing else is in scope):
+1. #1 `warning` fill → `cssVars.color.icon.role.warning` (B3) — `Badge.tsx`; update the colour test table and add the B9 `warning` assertion — `Badge.test.tsx`
+2. #2 Hidden standalone takes no space (B4 › Hidden standalone, C3) — `Badge.tsx` + the B9 hidden-standalone tests — `Badge.test.tsx`
+3. #4 Drop the unreachable `icon` value for `error` and `warning` (make it optional in the map type) — `Badge.tsx`; same in the test table — `Badge.test.tsx`
+4. #5 Rewrite the three declaration-only tests as B9 (1.1) says: (a) anchor box size by comparison, (b) name the click-through test for what it checks, (c) first render by behaviour or a whitespace-tolerant check — `Badge.test.tsx`
+5. C8 "Fix round 1" entry (AC-11); one `CHANGELOG.md` entry
+
+Files the Executor may touch in this fix round: `3-web-components/src/components/badge/Badge.tsx`, `3-web-components/src/components/badge/Badge.test.tsx`, C8 of this file and `CHANGELOG.md`. No other component, no tokens, no foundations files.
 
 ---
 
@@ -498,13 +520,13 @@ Implement every item in B9, plus:
 | Figma file | **Biowave DS — Web Components** (`_sync/figma-files.json` › `web`) |
 | Page / section | `↳ Badge` › sections `Badge` and `Badge — Documentation` |
 | Mode | **Create new.** The Check badge (P-05) is the `Variant=Check` of this set, not a separate set |
-| Plan version | 1 · 2026-10-21 |
+| Plan version | 1.1 · 2026-10-24 |
 
 ### D1 Rules for this build
 
 0. **Library first; no component tokens (D-13).** Badge has no `badge.tokens.json` (B3: every value is a semantic token). Bind directly to the **Biowave DS — Foundations** library variables listed in the contract; never create local variables, collections or styles. Text style `Web/{en|ar}/data/sm`; the check glyph is the **Icon** set in this file.
 1. **Every value is bound.** Fill, stroke colour and weight, radius, padding, height, min width → variables; text → text style. No raw hex / px.
-2. **Token → variable:** `-` between segments becomes `/`: `color-background-error-default` → `1. Themes › color/background/error/default`; `color-surface-inverse` → `1. Themes › color/surface/inverse`; `size-icon-md` → `4. Size › size/icon/md`; `spacing-xs` → `3. Spacing › spacing/xs`; `spacing-md` → `3. Spacing › spacing/md`; `radius-full` → `2. Radius › radius/full`; `border-width-strong` → `9. Border › border/width/strong`; `color-border-inverse` → `1. Themes › color/border/inverse`.
+2. **Token → variable:** `-` between segments becomes `/`: `color-background-error-default` → `1. Themes › color/background/error/default`; `color-surface-inverse` → `1. Themes › color/surface/inverse`; `color-icon-role-warning` → `1. Themes › color/icon/role/warning` (the `Warning` fill, B3); `size-icon-md` → `4. Size › size/icon/md`; `spacing-xs` → `3. Spacing › spacing/xs`; `spacing-md` → `3. Spacing › spacing/md`; `radius-full` → `2. Radius › radius/full`; `border-width-strong` → `9. Border › border/width/strong`; `color-border-inverse` → `1. Themes › color/border/inverse`.
 3. **Never** bind `_Primitive/*` or `_deprecated/*`.
 4. **Layer names = anatomy part names** (A2): the component itself is `indicator`; children `count`, `check-icon`. The `ring` is the indicator's outside stroke. `anchor` exists only in documentation examples.
 5. Auto layout on the component. Absolute positioning only in documentation examples, where the badge instance is placed on an anchor's top-end corner (B2 placement).
@@ -578,14 +600,15 @@ EN  ┌──────────┐(3)        AR  (3)┌──────�
 
 ### D8 Documentation pages
 
-Build the 12 standard pages (`_templates/component.md` D8 + `2-foundations/figma-doc-kit.md` › Page layouts) in section `Badge — Documentation` on `↳ Badge`, frames `Badge / 00 Component sheet` … `Badge / 11 Changelog` (skip `10`, version 1.0), only from the Doc Kit. If the Doc Kit is not published, finish Phase 1 and report "docs waiting for Doc Kit".
+Build the 12 standard pages (`_templates/component.md` D8 + `2-foundations/figma-doc-kit.md` › Page layouts) in section `Badge — Documentation` on `↳ Badge`, frames `Badge / 00 Component sheet` … `Badge / 11 Changelog` (version 1.1: page `10` shows F0), only from the Doc Kit. If the Doc Kit is not published, finish Phase 1 and report "docs waiting for Doc Kit".
 
 Page notes for Badge:
 - 01 Introduction: one Icon button (`mail`) with a `Count` badge, one with a `Dot`, one avatar stand-in (`Doc/Skeleton` circle until Avatar exists) with a `Check` badge; Light and Dark panels.
 - 03 Variations: `Variant` row, `Color` row per variant (allowed colours only), `overlap` rectangular vs circular, standalone after a label (`Ring=Off`), `max` (`99+`).
 - 04 States and motion: hidden → visible → hidden with B4 timings.
 - 08 RTL: EN and AR anchored pairs (D7) and a standalone AR row: `الوارد (12)`.
-- 09 Accessibility: the label read with the anchor (“Notifications, button, 3 unread messages”), contrast pairs, why `Warning` is `Count` only.
+- 09 Accessibility: the label read with the anchor (“Notifications, button, 3 unread messages”), contrast pairs (incl. the `Warning` fill on `color/icon/role/warning`, B3), why `Warning` is `Count` only (A4.2).
+- 10 Changes from previous version: F0 (1.1).
 
 Component description: "Marks an element with a count, a dot or a check (Check badge). Never interactive. Spec: 3-web-components/components/badge/badge.md".
 
@@ -603,7 +626,7 @@ Component description: "Marks an element with a count, a dot or a check (Check b
 - [ ] F-AC-5 Correct in Light and Dark (variable mode switch only); Typography mode `Web`
 - [ ] F-AC-6 `check-icon` is an Icon instance (`check`, Rounded), not detached and not mirrored
 - [ ] F-AC-7 AR variants per D7; component description filled
-- [ ] F-AC-8 Values match B2–B3 one by one (redline on every `Variant` with `Ring=On`)
+- [ ] F-AC-8 Values match B2–B3 one by one (redline on every `Variant` with `Ring=On`); `Count × Warning` fill bound to `color/icon/role/warning`
 - [ ] F-AC-9 Documentation pages per D8 (or reported blocked by the Doc Kit); Components List card
 
 ---
@@ -715,6 +738,17 @@ Contrast (WCAG)  text/indicator   indicator/surface-default
 
 - Approved → Code `Approved` (header + README). Planner nits 1–3 → Plan `Open` (AGENTS.md §3: a review that sends Planner items back reopens the plan); the Planner rewords B6/A9, adds the B2/B4 line and the header link, sets `Finished` and regenerates the contracts. Executor nits 4–5 can ride along with the next touch of `Badge.tsx`; not required for this unit. Figma build is still `Planned` and not reviewed.
 
+#### Planner response (2026-10-24)
+
+| # | Decision |
+|---|---|
+| 1 | Kept `warning` on `count` and gave it a semantic fill that meets 3:1 — accessibility is not weakened and no option is removed. Removing `warning` from `count` would leave `warning` with no variant at all, a breaking API change for a colour that has a real job (colors.md: “needs attention, pending, not critical” — pending approvals, delayed syncs); `error` overstates those and `neutral` hides them. Fill options checked in `2-foundations/dist/tokens.json` against `color-surface-default`, light / dark: `color-background-warning-default` 2.20 / 10.20 (fails light); `-hover` 2.32 (fails); `-pressed` 3.24 / 14.63 (passes, but a pressed state token on a static shape breaks the state rule); **`color-icon-role-warning` 3.24 / 12.20** — the token whose job is a warning graphic on a surface, already guaranteed ≥ 3:1 by the token build (`contrast-pairs.json` › “status icon”). Chosen: indicator `color-icon-role-warning`, text `color-text-on-warning` (6.10 / 13.11). `dot` and `check` stay without `warning` (A4.2 reason reworded: a warning counts what is pending). Written into A4.2 and A9 (all three platforms), B3, B6, B9, C3, C6, C7 AC-8, D1, D8, D10 F-AC-8; tablet and mobile B3/B6/B9 too |
+| 2 | A hidden standalone badge takes no space, after its exit transition (at once with reduced motion; none from the first paint when hidden on mount). Reason: A5 — a hidden badge shows nothing; a blank gap after a label reads as a missing value and misaligns lists and tabs; one reflow at the end of the exit is the smaller cost. Written into A5 (Hidden row, all three platforms), B1, B2, B4 › Hidden standalone, C3, B9, C7 AC-9; tablet and mobile B4/B9 get the same rule |
+| 3 | Header Source code → [`src/components/badge/`](../../src/components/badge/) |
+| 4, 5 | Executor nits carried into C3/C6 and C7 AC-10 and the Fix round 1 task list |
+
+Plan version 1.1; Plan `Finished`; contracts regenerated for web, tablet and mobile. Executor items for Fix round 1: the task list under C7 (#1, #2, #4, #5). #1 and #2 change code behaviour, so the approved 1.0 code no longer matches the plan until that fix round runs.
+
 ---
 
 ## F · Changelog
@@ -723,16 +757,18 @@ Contrast (WCAG)  text/indicator   indicator/surface-default
 
 ### F0 Changes from previous version
 
-None — version 1.0. Filled when the version is above 1.0; it feeds Figma doc page 10.
+1.1 — review round 1 Planner items: `count` × `warning` indicator fill is `color-icon-role-warning` (was `color-background-warning-default`, 2.20:1 on a white surface) so every allowed colour meets 3:1; a hidden standalone badge gives back its inline space after the exit transition; header links the built source. Fix round 1 task list adds the Executor nits (no unlisted `check-icon` token for `error`/`warning`, behavioural tests). No API change.
 
 ### F1 Guidelines changelog
 
 | Version | Date | Change | Migration | Author |
 |---|---|---|---|---|
+| 1.1 | 2026-10-24 | A4.2 `warning` reason reworded and its darker fill named; A5 hidden standalone gives back its space; A9 3:1 for every allowed colour and variant (review round 1 #1, #2) | — | Claude (Planner) |
 | 1.0 | 2026-10-21 | Initial. Count, dot and Check badge (P-05: the Figma Check badge folds into Badge as `variant` `check`) | — | Claude (Planner) |
 
 ### F2 Spec changelog
 
 | Version | Date | Change | Breaking | Migration |
 |---|---|---|---|---|
+| 1.1 | 2026-10-24 | B3 `warning` fill `color-icon-role-warning`; B1/B2/B4 hidden standalone takes no space; B6 contrast row; B9 `warning`, hidden-standalone and behavioural test wording; C3/C6/C7 AC-8–11 + Fix round 1 task list; D1/D8/D10 `Warning` fill variable (review round 1 #1–#5) | No — visual change of `warning` fill only | — |
 | 1.0 | 2026-10-21 | Initial | No | — |

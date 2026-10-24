@@ -2,6 +2,11 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Plan — Badge (web, tablet, mobile) 1.1] — 2026-10-24
+### Changed
+- Badge plan 1.0 → 1.1 for web review round 1 Planner nits (`badge.md` › E2 Planner response, F0–F2 on all three platforms). #1: `count` × `warning` indicator fill is now `color-icon-role-warning` (3.24:1 light · 12.20:1 dark on `color-surface-default`; text `color-text-on-warning` 6.10:1 · 13.11:1) instead of `color-background-warning-default` (2.20:1 light) — A4.2 and A9 (all three platforms), B3, B6, B9, C3, D updated; `warning` stays `count` only. #2: a hidden standalone badge takes no space after its exit transition (A5, B1, B2, B4, B9). #3: web header links `src/components/badge/`. Web C7 gains AC-8…AC-11 and a Fix round 1 Executor task list (#1, #2 plus Executor nits #4 unreachable icon token, #5 behavioural tests). No new tokens, no API change.
+- Plan `Finished` (web header + README); regenerated web, tablet and mobile `badge-contract.md` / `figma-badge-contract.md` and the docs pages.
+
 ## [Review — Web Badge round 1] — 2026-10-24
 ### Changed
 - Reviewed web `Badge` 1.0 (round 1, `badge.md` › E2): **Approved** — AC-1…AC-7 met; sizes, tokens, ring, placement (en/ar, both overlaps), focus, hit-testing and enter/exit/reduced motion measured in headless Chrome; docs:check, typecheck, test:web 121/121 pass. Code → `Approved`; Plan → `Open` for 3 Planner nits (B6/A9 contrast wording for light `count` × `warning` 2.20:1, hidden standalone space, stale Source code header row); 2 Executor nits (unreachable icon tokens, three declaration-only tests)

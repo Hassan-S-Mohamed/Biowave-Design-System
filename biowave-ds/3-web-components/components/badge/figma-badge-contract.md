@@ -1,4 +1,4 @@
-<!-- GENERATED from badge.md @ d42e9bec93d980eb — do not edit; change the source and run: npm run contract -- web badge -->
+<!-- GENERATED from badge.md @ 7582f24e133776dc — do not edit; change the source and run: npm run contract -- web badge -->
 # Badge · شارة — Web — Figma contract
 
 > **Everything the Figma Agent needs to build Badge in the Web Components file, with our variables and styles.** Read this file only. Generated from [`badge.md`](badge.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-18). Questions go to [D11 Execution log](badge.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
@@ -11,8 +11,8 @@
 | Page | `↳ Badge` (one page per component) |
 | Component | Badge · شارة |
 | Platform | Web · React + MUI |
-| Version | 1.0 · 2026-10-21 |
-| Source | [`badge.md`](badge.md) @ `d42e9bec93d980eb` |
+| Version | 1.1 · 2026-10-24 |
+| Source | [`badge.md`](badge.md) @ `7582f24e133776dc` |
 
 ## 1. Library connections in this file
 
@@ -53,6 +53,7 @@ None yet — this component has no component tokens. Bind to the Foundations var
 | `color-icon-on-info` | 1. Themes › `color/icon/on/info` | `914bfb05cd12b9e876ddbf6f6ff19a4b369910af` | COLOR | SHAPE_FILL, STROKE_COLOR | spec |
 | `color-icon-on-secondary` | 1. Themes › `color/icon/on/secondary` | `c9e557cbf045baf1678551c328e726930b0ce16d` | COLOR | SHAPE_FILL, STROKE_COLOR | spec |
 | `color-icon-on-success` | 1. Themes › `color/icon/on/success` | `c28ce6e06425528619528dc4b33496dc55ff1d45` | COLOR | SHAPE_FILL, STROKE_COLOR | spec |
+| `color-icon-role-warning` | 1. Themes › `color/icon/role/warning` | `3fa016bcd1409896b81681403e6a214dcc365fda` | COLOR | SHAPE_FILL, STROKE_COLOR | spec |
 | `color-surface-default` | 1. Themes › `color/surface/default` | `2013a1c60d84d2bac2524fd0c32229e20cc341a1` | COLOR | FRAME_FILL, SHAPE_FILL | spec |
 | `color-surface-inverse` | 1. Themes › `color/surface/inverse` | `364770c6a80914cb1d30c8afc1e354431dbb5f07` | COLOR | FRAME_FILL, SHAPE_FILL | spec |
 | `color-text-neutral-inverse` | 1. Themes › `color/text/neutral/inverse` | `83e1f6c6d7ddf8376b1bc5d0b9d5f6cd13b68e9b` | COLOR | TEXT_FILL | spec |
@@ -109,9 +110,9 @@ Library file **Google · Material Symbols** · key `RXlnhYgUKBBE6HveEr7e9C` — 
 | `showZero` | boolean | | `false` | | A4.4 |
 | `color` | enum | `error` · `brand` · `secondary` · `success` · `warning` · `info` · `neutral` | `error` (`success` for `check`) | | A4.2 |
 | `overlap` | enum | `rectangular` · `circular` | `rectangular` | | A4.5 — only with `children` |
-| `invisible` | boolean | | `false` | | A4.6 — hides with the exit transition (B4) |
+| `invisible` | boolean | | `false` | | A4.6 — hides with the exit transition (B4); a hidden standalone badge takes no inline space (B4 › Hidden standalone) |
 | `label` | string | | — | ✓ when visible | A4.7 — the accessible meaning (B6) |
-| `children` | slot | one React element | — | | The `anchor`. Absent → standalone inline badge (no `ring`) |
+| `children` | slot | one React element | — | | The `anchor`. Absent → standalone inline badge (no `ring`; no space while hidden, B4) |
 | `className` · `data-*` · `ref` | | | | | Forwarded to the root `span` |
 
 Platform naming notes: MUI `badgeContent` = `count`; MUI `variant="standard"` = `count`, `"dot"` = `dot`; `check` is Biowave-only (P-05). Flutter `isVisible` = `!invisible`, `semanticLabel` = `label`, `child` = `children`.
@@ -161,7 +162,7 @@ Platform naming notes: MUI `badgeContent` = `count`; MUI `variant="standard"` = 
 Layout rules:
 - Root `span`: `position: relative; display: inline-flex; vertical-align: middle; flex: none`. It hugs the anchor; the badge never changes the anchor's box.
 - Anchored `indicator`: `position: absolute`, `pointer-events: none`, `z-index` = `layer-raised` (above the anchor, inside the root's stacking context only). Placement with logical properties: `inset-block-start: 0; inset-inline-end: 0`, translated so its centre sits on the corner (B5). `overlap="circular"`: the reference corner moves inward to the circle's edge at 45° — `inset-block-start` and `inset-inline-end` = 14.6% of the anchor box ((1 − cos 45°) ÷ 2, the same as MUI `overlap="circular"`).
-- Standalone `indicator` (no `children`): `position: static`, inline after text, no `ring`, no translation; it aligns to the text's middle.
+- Standalone `indicator` (no `children`): `position: static`, inline after text, no `ring`, no translation; it aligns to the text's middle. While hidden it is out of the layout (`display: none`, after the exit transition — B4 › Hidden standalone), so it adds no inline size.
 - `count`: one line, `white-space: nowrap`, centred; the text is wrapped in `<bdi dir="ltr">` so `99+` never reorders in Arabic.
 - `ring`: drawn outside the indicator box as `box-shadow: 0 0 0 var(--bw-border-width-strong) var(--bw-color-border-inverse)` — it adds no layout size.
 - `check-icon`: `<Icon name="check" />` centred; never `directional`.
@@ -176,7 +177,7 @@ No component tokens — every value is an existing semantic token (P-04); `badge
 | `brand` | `color-background-brand-default` | `color-text-on-brand` | `color-icon-on-brand` |
 | `secondary` | `color-background-secondary-default` | `color-text-on-secondary` | `color-icon-on-secondary` |
 | `success` | `color-background-success-default` | `color-text-on-success` | `color-icon-on-success` |
-| `warning` | `color-background-warning-default` | `color-text-on-warning` | — (not allowed) |
+| `warning` | `color-icon-role-warning` | `color-text-on-warning` | — (not allowed) |
 | `info` | `color-background-info-default` | `color-text-on-info` | `color-icon-on-info` |
 | `neutral` | `color-surface-inverse` | `color-text-neutral-inverse` | `color-icon-neutral-inverse` |
 
@@ -184,6 +185,8 @@ No component tokens — every value is an existing semantic token (P-04); `badge
 |---|---|---|
 | `ring` | colour | `color-border-inverse` |
 | `ring` | width | `border-width-strong` |
+
+`warning` fill (1.1): `color-background-warning-default` measures 2.20:1 against `color-surface-default` in light, below the B6 non-text 3:1. The fill is `color-icon-role-warning` — the semantic token for a warning graphic on a surface, which the token build already checks at ≥ 3:1 against `color-surface-default` in both themes (`contrast-pairs.json` › “status icon”): 3.24:1 light · 12.20:1 dark. `color-text-on-warning` on it: 6.10:1 light · 13.11:1 dark. No new token, no primitive.
 
 Dark theme: same tokens (values switch automatically). No exceptions.
 
@@ -198,6 +201,9 @@ Dark theme: same tokens (values switch automatically). No exceptions.
 | Initial render | mount while visible | none — no entrance animation on first paint | — | — |
 
 Reduced motion: every transition is instant (built into `tokens.css`).
+
+**Hidden standalone** (no `children`, 1.1): a hidden standalone badge takes no inline space. When it hides, the B4 exit transition plays first; when it ends, the `indicator` leaves the layout (`display: none`), so the text it follows ends where it would without a badge. When it shows, the `indicator` returns to the layout at scale 0 and then plays the enter transition. With reduced motion it leaves and returns at once. A standalone badge that is hidden on first render takes no space from the first paint. Anchored badges are out of flow already; nothing changes for them.
+Why: A5 says a hidden badge shows nothing. A blank gap after a label reads as a missing value and puts labels in lists and tabs out of line; one reflow at the end of the exit is the smaller cost.
 
 ### B5 RTL
 
@@ -224,7 +230,7 @@ LTR   ╭──────╮(✓)             RTL  (✓)╭──────�
 | Anchored with `label` | Badge renders `<span id={useId()} style={visuallyHidden}>{label}</span>` (`src/internal/visuallyHidden.ts`) and clones the single child adding `aria-describedby` (appended to any ids the child already has). Screen reader: “Notifications, button, 3 unread messages” |
 | Hidden badge | No description: the hidden span and the child's added `aria-describedby` id are removed while `invisible` or the count hides it |
 | Standalone with `label` | Root `span` gets `role="img"` and `aria-label={label}` |
-| Contrast | `count` text on `indicator` ≥ 4.5:1 and `indicator` vs `color-surface-default` ≥ 3:1 for every allowed `color` × `variant` (B1 rules remove `warning` from `dot` and `check`) |
+| Contrast | `count` text on `indicator` ≥ 4.5:1 and `indicator` vs `color-surface-default` ≥ 3:1 for every allowed `color` × `variant` in both themes (B1 rules remove `warning` from `dot` and `check`). `warning` meets it through its `color-icon-role-warning` fill (B3): lowest pairs light `warning` indicator 3.24:1, dark `brand` text 4.65:1 |
 | Focus | Never focusable; no `tabIndex`. The anchor's focus ring ([a11y](../../../2-foundations/guidelines/a11y.md)) stays visible — the indicator covers at most its corner |
 | Target size | Not a target: `pointer-events: none`; the anchor's target (`target-min`) is unchanged |
 | Live updates | No `aria-live` |
@@ -246,13 +252,13 @@ LTR   ╭──────╮(✓)             RTL  (✓)╭──────�
 | Figma file | **Biowave DS — Web Components** (`_sync/figma-files.json` › `web`) |
 | Page / section | `↳ Badge` › sections `Badge` and `Badge — Documentation` |
 | Mode | **Create new.** The Check badge (P-05) is the `Variant=Check` of this set, not a separate set |
-| Plan version | 1 · 2026-10-21 |
+| Plan version | 1.1 · 2026-10-24 |
 
 ### D1 Rules for this build
 
 0. **Library first; no component tokens (D-13).** Badge has no `badge.tokens.json` (B3: every value is a semantic token). Bind directly to the **Biowave DS — Foundations** library variables listed in the contract; never create local variables, collections or styles. Text style `Web/{en|ar}/data/sm`; the check glyph is the **Icon** set in this file.
 1. **Every value is bound.** Fill, stroke colour and weight, radius, padding, height, min width → variables; text → text style. No raw hex / px.
-2. **Token → variable:** `-` between segments becomes `/`: `color-background-error-default` → `1. Themes › color/background/error/default`; `color-surface-inverse` → `1. Themes › color/surface/inverse`; `size-icon-md` → `4. Size › size/icon/md`; `spacing-xs` → `3. Spacing › spacing/xs`; `spacing-md` → `3. Spacing › spacing/md`; `radius-full` → `2. Radius › radius/full`; `border-width-strong` → `9. Border › border/width/strong`; `color-border-inverse` → `1. Themes › color/border/inverse`.
+2. **Token → variable:** `-` between segments becomes `/`: `color-background-error-default` → `1. Themes › color/background/error/default`; `color-surface-inverse` → `1. Themes › color/surface/inverse`; `color-icon-role-warning` → `1. Themes › color/icon/role/warning` (the `Warning` fill, B3); `size-icon-md` → `4. Size › size/icon/md`; `spacing-xs` → `3. Spacing › spacing/xs`; `spacing-md` → `3. Spacing › spacing/md`; `radius-full` → `2. Radius › radius/full`; `border-width-strong` → `9. Border › border/width/strong`; `color-border-inverse` → `1. Themes › color/border/inverse`.
 3. **Never** bind `_Primitive/*` or `_deprecated/*`.
 4. **Layer names = anatomy part names** (A2): the component itself is `indicator`; children `count`, `check-icon`. The `ring` is the indicator's outside stroke. `anchor` exists only in documentation examples.
 5. Auto layout on the component. Absolute positioning only in documentation examples, where the badge instance is placed on an anchor's top-end corner (B2 placement).
@@ -328,14 +334,15 @@ EN  ┌──────────┐(3)        AR  (3)┌──────�
 
 ### D8 Documentation pages
 
-Build the 12 standard pages (`_templates/component.md` D8 + `2-foundations/figma-doc-kit.md` › Page layouts) in section `Badge — Documentation` on `↳ Badge`, frames `Badge / 00 Component sheet` … `Badge / 11 Changelog` (skip `10`, version 1.0), only from the Doc Kit. If the Doc Kit is not published, finish Phase 1 and report "docs waiting for Doc Kit".
+Build the 12 standard pages (`_templates/component.md` D8 + `2-foundations/figma-doc-kit.md` › Page layouts) in section `Badge — Documentation` on `↳ Badge`, frames `Badge / 00 Component sheet` … `Badge / 11 Changelog` (version 1.1: page `10` shows F0), only from the Doc Kit. If the Doc Kit is not published, finish Phase 1 and report "docs waiting for Doc Kit".
 
 Page notes for Badge:
 - 01 Introduction: one Icon button (`mail`) with a `Count` badge, one with a `Dot`, one avatar stand-in (`Doc/Skeleton` circle until Avatar exists) with a `Check` badge; Light and Dark panels.
 - 03 Variations: `Variant` row, `Color` row per variant (allowed colours only), `overlap` rectangular vs circular, standalone after a label (`Ring=Off`), `max` (`99+`).
 - 04 States and motion: hidden → visible → hidden with B4 timings.
 - 08 RTL: EN and AR anchored pairs (D7) and a standalone AR row: `الوارد (12)`.
-- 09 Accessibility: the label read with the anchor (“Notifications, button, 3 unread messages”), contrast pairs, why `Warning` is `Count` only.
+- 09 Accessibility: the label read with the anchor (“Notifications, button, 3 unread messages”), contrast pairs (incl. the `Warning` fill on `color/icon/role/warning`, B3), why `Warning` is `Count` only (A4.2).
+- 10 Changes from previous version: F0 (1.1).
 
 Component description: "Marks an element with a count, a dot or a check (Check badge). Never interactive. Spec: 3-web-components/components/badge/badge.md".
 
@@ -556,7 +563,7 @@ All rules in **D1** (§8), plus:
 - [ ] F-AC-5 Correct in Light and Dark (variable mode switch only); Typography mode `Web`
 - [ ] F-AC-6 `check-icon` is an Icon instance (`check`, Rounded), not detached and not mirrored
 - [ ] F-AC-7 AR variants per D7; component description filled
-- [ ] F-AC-8 Values match B2–B3 one by one (redline on every `Variant` with `Ring=On`)
+- [ ] F-AC-8 Values match B2–B3 one by one (redline on every `Variant` with `Ring=On`); `Count × Warning` fill bound to `color/icon/role/warning`
 - [ ] F-AC-9 Documentation pages per D8 (or reported blocked by the Doc Kit); Components List card
 
 - [ ] F-AC-L1 Lint (`figma-read-tokens.js`) = 0 violations before Phase 1, after Phase 1 and after Phase 2 (outputs attached in D11)

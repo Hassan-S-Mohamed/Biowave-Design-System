@@ -1,4 +1,4 @@
-<!-- GENERATED from badge.md @ 3e4219d95a0415a2 — do not edit; change the source and run: npm run contract -- tablet badge -->
+<!-- GENERATED from badge.md @ d85074845f3110e5 — do not edit; change the source and run: npm run contract -- tablet badge -->
 # Badge · شارة — Tablet — code contract
 
 > **Everything you need to build Badge on Tablet, and nothing else.** Read this file only. Generated from [`badge.md`](badge.md) (Parts B and C). If something is unclear or impossible, stop and write it in [C8 Execution log → Questions](badge.md#c8-execution-log-filled-by-the-executor) — never invent behaviour.
@@ -9,10 +9,10 @@
 | Platform | Tablet · Flutter + Material 3 |
 | Built on | Biowave `Stack` composition shaped like M3 `Badge` (M3 `Badge` cannot centre the indicator on the corner, draw the ring or animate visibility — C3); Check badge glyph via `BwIcon` (`Symbols.check_rounded`) |
 | Import | `BwBadge` from `package:biowave_tablet/biowave_tablet.dart` |
-| Version | 1.0 · 2026-10-21 |
+| Version | 1.1 · 2026-10-24 |
 | Source code | `lib/src/components/badge/` — not built yet (the Executor creates it) |
 | Tokens | — |
-| Source | [`badge.md`](badge.md) @ `3e4219d95a0415a2` |
+| Source | [`badge.md`](badge.md) @ `d85074845f3110e5` |
 
 ## 1. What it is
 
@@ -51,7 +51,7 @@ A badge is a small indicator pinned to the corner of another element — an icon
 | `showZero` | `bool` | | `false` | | A4.4 |
 | `color` | `BwBadgeColor?` | `error` · `brand` · `secondary` · `success` · `warning` · `info` · `neutral` | `null` → `error` (`success` for `check`) | | A4.2 |
 | `overlap` | `BwBadgeOverlap` | `rectangular` · `circular` | `rectangular` | | A4.5 — only with `child` |
-| `isVisible` | `bool` | | `true` | | A4.6 (web `invisible`, inverted) — hides with the exit transition (B4) |
+| `isVisible` | `bool` | | `true` | | A4.6 (web `invisible`, inverted) — hides with the exit transition (B4); a hidden standalone badge takes no space (B4) |
 | `semanticLabel` | `String?` | | `null` | ✓ when visible | A4.7 — the accessible meaning (B6) |
 
 Platform naming: web `children` = `child`; web `invisible` = `!isVisible`; web `label` = `semanticLabel`. Named constructors are not used — one constructor, like the web props.
@@ -101,7 +101,7 @@ Identical to [Web B3](../../../3-web-components/components/badge/badge.md#b3-tok
 | `brand` | `color-background-brand-default` → `backgroundBrandDefault` | `color-text-on-brand` → `textOnBrand` | `color-icon-on-brand` → `iconOnBrand` |
 | `secondary` | `color-background-secondary-default` → `backgroundSecondaryDefault` | `color-text-on-secondary` → `textOnSecondary` | `color-icon-on-secondary` → `iconOnSecondary` |
 | `success` | `color-background-success-default` → `backgroundSuccessDefault` | `color-text-on-success` → `textOnSuccess` | `color-icon-on-success` → `iconOnSuccess` |
-| `warning` | `color-background-warning-default` → `backgroundWarningDefault` | `color-text-on-warning` → `textOnWarning` | — |
+| `warning` | `color-icon-role-warning` → `iconRoleWarning` | `color-text-on-warning` → `textOnWarning` | — |
 | `info` | `color-background-info-default` → `backgroundInfoDefault` | `color-text-on-info` → `textOnInfo` | `color-icon-on-info` → `iconOnInfo` |
 | `neutral` | `color-surface-inverse` → `surfaceInverse` | `color-text-neutral-inverse` → `textNeutralInverse` | `color-icon-neutral-inverse` → `iconNeutralInverse` |
 
@@ -109,6 +109,8 @@ Identical to [Web B3](../../../3-web-components/components/badge/badge.md#b3-tok
 |---|---|---|
 | `ring` | colour | `color-border-inverse` → `context.bw.colors.borderInverse` |
 | `ring` | width | `border-width-strong` → `BwBorder.widthStrong` |
+
+`warning` fill (1.1): `color-icon-role-warning`, not `color-background-warning-default` (2.20:1 on `color-surface-default` in light) — reason and ratios in [Web B3](../../../3-web-components/components/badge/badge.md#b3-tokens-by-part-and-state).
 
 Dark theme: same tokens. No exceptions.
 
@@ -131,6 +133,8 @@ Values are for checking only — never paste a value.
 | `color-icon-on-info` | `context.bw.colors.iconOnInfo` | #FFFFFF | #0A0A0A |
 | `color-icon-on-secondary` | `context.bw.colors.iconOnSecondary` | #FFFFFF | #0A0A0A |
 | `color-icon-on-success` | `context.bw.colors.iconOnSuccess` | #FFFFFF | #0A0A0A |
+| `color-icon-role-warning` | `context.bw.colors.iconRoleWarning` | #D97424 | #FFC88F |
+| `color-surface-default` | `context.bw.colors.surfaceDefault` | #FFFFFF | #141414 |
 | `color-surface-inverse` | `context.bw.colors.surfaceInverse` | #141414 | #FFFFFF |
 | `color-text-neutral-inverse` | `context.bw.colors.textNeutralInverse` | #FFFFFF | #0A0A0A |
 | `color-text-on-brand` | `context.bw.colors.textOnBrand` | #FFFFFF | #0A0A0A |
@@ -151,6 +155,8 @@ Values are for checking only — never paste a value.
 Same table as [Web B4](../../../3-web-components/components/badge/badge.md#b4-states-and-transitions). Flutter: `AnimatedScale(alignment: Alignment.center)` on the indicator — to visible `duration: BwDuration.md, curve: BwEasing.standardDecelerate`; to hidden `duration: BwDuration.sm, curve: BwEasing.standardAccelerate`; first build has no animation. Count, `color` and `variant` changes rebuild at once.
 Reduced motion: when `context.bw.reduceMotion` is true use `BwDuration.instant`.
 
+**Hidden standalone** (`child == null`, 1.1): takes no space, as [Web B4 › Hidden standalone](../../../3-web-components/components/badge/badge.md#b4-states-and-transitions). When it hides, the exit `AnimatedScale` plays first; in its `onEnd` the indicator is replaced by `SizedBox.shrink()`. When it shows, the indicator is rebuilt at scale 0 and then animates in. With `reduceMotion` it leaves and returns at once. Hidden on first build → `SizedBox.shrink()` from the start. Anchored badges are unchanged.
+
 ## 6. RTL
 
 As [Web B5](../../../3-web-components/components/badge/badge.md#b5-rtl): placement mirrors to the top-start corner through `PositionedDirectional(end: 0)` and the RTL-signed `FractionalTranslation`; `count` stays LTR (`99+`); `check-icon` is `BwIcon(icon: Symbols.check_rounded)` without `directional` — never mirrored.
@@ -169,7 +175,7 @@ LTR   ┌──────────┐(3)        RTL  (3)┌─────�
 | Anchored with `semanticLabel` | `MergeSemantics(child: Semantics(value: semanticLabel, child: child))` — TalkBack / VoiceOver: “Notifications, 3 unread messages, button” |
 | Hidden badge | No `value` while hidden |
 | Standalone with `semanticLabel` | `Semantics(label: semanticLabel, image: true)` around the indicator (outside `ExcludeSemantics`) |
-| Contrast | As Web B6 |
+| Contrast | As Web B6 — every allowed `color` × `variant` meets 3:1 against `color-surface-default` in both themes; `warning` through its `iconRoleWarning` fill (B3) |
 | Focus | Never focusable; no `Focus` / `InkWell` in the badge. The anchor's focus ring stays visible |
 | Target size | Not a target: the indicator is wrapped in `IgnorePointer`; the anchor keeps ≥ `target-min` (48) |
 | Live updates | No `liveRegion` |
@@ -241,11 +247,12 @@ CHANGELOG.md                                     change
 
 ## 10. Tests
 
-- [ ] Every `variant` × allowed `color` renders the B2 sizes (`tester.getSize` of the indicator) and B3 colours in light + dark × en + ar
+- [ ] Every `variant` × allowed `color` renders the B2 sizes (`tester.getSize` of the indicator) and B3 colours in light + dark × en + ar; `count` × `warning` fill is `iconRoleWarning`, never `backgroundWarningDefault`
 - [ ] `count` above `max` shows `{max}+` in LTR order in both directions; `count: 0` hides unless `showZero`; `max` default 99
 - [ ] Anchored: ring width `BwBorder.widthStrong`, colour `borderInverse`, outside; standalone: no ring
 - [ ] Placement: indicator centre on the anchor's top-end corner in LTR and top-start in RTL (`tester.getCenter` vs `tester.getTopRight`/`getTopLeft` of the child), both `overlap` values; anchor size unchanged
 - [ ] B4: `AnimatedScale` durations/curves per direction; first build not animated; `reduceMotion` → instant
+- [ ] Hidden standalone (B4): during the exit the indicator keeps its size; after the exit ends its size is zero (`tester.getSize`); `reduceMotion` → zero at once; hidden on first build → zero; shown again → full size after the enter; an anchored hidden badge keeps the `Stack` sized by the child
 - [ ] Semantics: indicator excluded; anchored `value` merged into the anchor node; standalone `image` node with the label; hidden badge adds nothing
 - [ ] A tap on the indicator reaches the anchor's `onPressed`
 - [ ] Every assert in B1 fires with its message

@@ -13,7 +13,7 @@
 | Built on | Biowave `Stack` composition shaped like M3 `Badge` (M3 `Badge` cannot centre the indicator on the corner, draw the ring or animate visibility — C3); Check badge glyph via `BwIcon` (`Symbols.check_rounded`) |
 | Import | `BwBadge` from `package:biowave_tablet/biowave_tablet.dart` |
 | Figma | **Biowave DS — Tablet Components** › `↳ Badge` (page Typography mode `Tablet`) · build: [Part D](#d--figma-build) |
-| Version | 1.0 · 2026-10-21 |
+| Version | 1.1 · 2026-10-24 |
 | Plan | Finished |
 | Code | Planned |
 | Figma build | Planned |
@@ -95,7 +95,7 @@ A badge is a small indicator pinned to the corner of another element — an icon
 | `brand` | Neutral emphasis in brand surfaces: new features, informational counts |
 | `secondary` | Counts inside teal (secondary) areas |
 | `success` | Done or verified. Default for `check` |
-| `warning` | Needs attention soon — `count` only (the orange shape alone is too light to see on a white surface) |
+| `warning` | Needs attention soon: pending approvals, delayed syncs — `count` only (a warning counts what is pending; a dot or check has no number to qualify). Its fill is a darker orange than the standard warning fill, so the shape stays visible on a white surface (A9) |
 | `info` | Informational counts and updates |
 | `neutral` | Low-emphasis counts that are not urgent (items in a list or tab) |
 
@@ -135,7 +135,7 @@ A badge has no interactive states. It follows its data, not the pointer.
 
 | State | When it happens | What the user sees |
 |---|---|---|
-| Hidden | `count` is 0 (without `showZero`) or `invisible` is on | Nothing; the anchor looks as it does without a badge |
+| Hidden | `count` is 0 (without `showZero`) or `invisible` is on | Nothing; the anchor looks as it does without a badge. A hidden standalone badge also gives back its space, so no gap stays after its text |
 | Appearing | The badge becomes visible | The indicator grows from its centre |
 | Visible | Default | The indicator on the anchor's top-end corner (top-left in Arabic) |
 | Over max | `count` > `max` | `99+` |
@@ -207,7 +207,7 @@ Navigation rail (dot and count on items)
 - Every visible badge has a `label` in English and Arabic; screen readers hear it with the anchor (“Notifications, button, 3 unread messages”)
 - The indicator itself is hidden from assistive technology, so the bare number or the dot is never read without meaning
 - Meaning never relies on colour alone: the `label` says it, and `count` shows a number
-- Text in the badge meets 4.5:1 against the indicator; the indicator meets 3:1 against the surface (why `warning` is `count` only)
+- Text in the badge meets 4.5:1 against the indicator, and the indicator meets 3:1 against the surface, for every allowed colour and variant in both themes — `warning` uses the darker warning icon colour as its fill for this reason (the standard orange fill is too light on a white surface)
 - The badge is never focusable and never a click target; the anchor keeps its own target size and focus ring
 - Count changes are not live-announced (no noise); important new items are announced by the page
 
@@ -238,7 +238,7 @@ Navigation rail (dot and count on items)
 | `showZero` | `bool` | | `false` | | A4.4 |
 | `color` | `BwBadgeColor?` | `error` · `brand` · `secondary` · `success` · `warning` · `info` · `neutral` | `null` → `error` (`success` for `check`) | | A4.2 |
 | `overlap` | `BwBadgeOverlap` | `rectangular` · `circular` | `rectangular` | | A4.5 — only with `child` |
-| `isVisible` | `bool` | | `true` | | A4.6 (web `invisible`, inverted) — hides with the exit transition (B4) |
+| `isVisible` | `bool` | | `true` | | A4.6 (web `invisible`, inverted) — hides with the exit transition (B4); a hidden standalone badge takes no space (B4) |
 | `semanticLabel` | `String?` | | `null` | ✓ when visible | A4.7 — the accessible meaning (B6) |
 
 Platform naming: web `children` = `child`; web `invisible` = `!isVisible`; web `label` = `semanticLabel`. Named constructors are not used — one constructor, like the web props.
@@ -288,7 +288,7 @@ Identical to [Web B3](../../../3-web-components/components/badge/badge.md#b3-tok
 | `brand` | `color-background-brand-default` → `backgroundBrandDefault` | `color-text-on-brand` → `textOnBrand` | `color-icon-on-brand` → `iconOnBrand` |
 | `secondary` | `color-background-secondary-default` → `backgroundSecondaryDefault` | `color-text-on-secondary` → `textOnSecondary` | `color-icon-on-secondary` → `iconOnSecondary` |
 | `success` | `color-background-success-default` → `backgroundSuccessDefault` | `color-text-on-success` → `textOnSuccess` | `color-icon-on-success` → `iconOnSuccess` |
-| `warning` | `color-background-warning-default` → `backgroundWarningDefault` | `color-text-on-warning` → `textOnWarning` | — |
+| `warning` | `color-icon-role-warning` → `iconRoleWarning` | `color-text-on-warning` → `textOnWarning` | — |
 | `info` | `color-background-info-default` → `backgroundInfoDefault` | `color-text-on-info` → `textOnInfo` | `color-icon-on-info` → `iconOnInfo` |
 | `neutral` | `color-surface-inverse` → `surfaceInverse` | `color-text-neutral-inverse` → `textNeutralInverse` | `color-icon-neutral-inverse` → `iconNeutralInverse` |
 
@@ -297,12 +297,16 @@ Identical to [Web B3](../../../3-web-components/components/badge/badge.md#b3-tok
 | `ring` | colour | `color-border-inverse` → `context.bw.colors.borderInverse` |
 | `ring` | width | `border-width-strong` → `BwBorder.widthStrong` |
 
+`warning` fill (1.1): `color-icon-role-warning`, not `color-background-warning-default` (2.20:1 on `color-surface-default` in light) — reason and ratios in [Web B3](../../../3-web-components/components/badge/badge.md#b3-tokens-by-part-and-state).
+
 Dark theme: same tokens. No exceptions.
 
 ### B4 States and transitions
 
 Same table as [Web B4](../../../3-web-components/components/badge/badge.md#b4-states-and-transitions). Flutter: `AnimatedScale(alignment: Alignment.center)` on the indicator — to visible `duration: BwDuration.md, curve: BwEasing.standardDecelerate`; to hidden `duration: BwDuration.sm, curve: BwEasing.standardAccelerate`; first build has no animation. Count, `color` and `variant` changes rebuild at once.
 Reduced motion: when `context.bw.reduceMotion` is true use `BwDuration.instant`.
+
+**Hidden standalone** (`child == null`, 1.1): takes no space, as [Web B4 › Hidden standalone](../../../3-web-components/components/badge/badge.md#b4-states-and-transitions). When it hides, the exit `AnimatedScale` plays first; in its `onEnd` the indicator is replaced by `SizedBox.shrink()`. When it shows, the indicator is rebuilt at scale 0 and then animates in. With `reduceMotion` it leaves and returns at once. Hidden on first build → `SizedBox.shrink()` from the start. Anchored badges are unchanged.
 
 ### B5 RTL
 
@@ -322,7 +326,7 @@ LTR   ┌──────────┐(3)        RTL  (3)┌─────�
 | Anchored with `semanticLabel` | `MergeSemantics(child: Semantics(value: semanticLabel, child: child))` — TalkBack / VoiceOver: “Notifications, 3 unread messages, button” |
 | Hidden badge | No `value` while hidden |
 | Standalone with `semanticLabel` | `Semantics(label: semanticLabel, image: true)` around the indicator (outside `ExcludeSemantics`) |
-| Contrast | As Web B6 |
+| Contrast | As Web B6 — every allowed `color` × `variant` meets 3:1 against `color-surface-default` in both themes; `warning` through its `iconRoleWarning` fill (B3) |
 | Focus | Never focusable; no `Focus` / `InkWell` in the badge. The anchor's focus ring stays visible |
 | Target size | Not a target: the indicator is wrapped in `IgnorePointer`; the anchor keeps ≥ `target-min` (48) |
 | Live updates | No `liveRegion` |
@@ -358,11 +362,12 @@ Row(children: [Text('Requests'), SizedBox(width: BwSpacing.xs), BwBadge(count: 1
 
 ### B9 Tests
 
-- [ ] Every `variant` × allowed `color` renders the B2 sizes (`tester.getSize` of the indicator) and B3 colours in light + dark × en + ar
+- [ ] Every `variant` × allowed `color` renders the B2 sizes (`tester.getSize` of the indicator) and B3 colours in light + dark × en + ar; `count` × `warning` fill is `iconRoleWarning`, never `backgroundWarningDefault`
 - [ ] `count` above `max` shows `{max}+` in LTR order in both directions; `count: 0` hides unless `showZero`; `max` default 99
 - [ ] Anchored: ring width `BwBorder.widthStrong`, colour `borderInverse`, outside; standalone: no ring
 - [ ] Placement: indicator centre on the anchor's top-end corner in LTR and top-start in RTL (`tester.getCenter` vs `tester.getTopRight`/`getTopLeft` of the child), both `overlap` values; anchor size unchanged
 - [ ] B4: `AnimatedScale` durations/curves per direction; first build not animated; `reduceMotion` → instant
+- [ ] Hidden standalone (B4): during the exit the indicator keeps its size; after the exit ends its size is zero (`tester.getSize`); `reduceMotion` → zero at once; hidden on first build → zero; shown again → full size after the enter; an anchored hidden badge keeps the `Stack` sized by the child
 - [ ] Semantics: indicator excluded; anchored `value` merged into the anchor node; standalone `image` node with the label; hidden badge adds nothing
 - [ ] A tap on the indicator reaches the anchor's `onPressed`
 - [ ] Every assert in B1 fires with its message
@@ -379,7 +384,7 @@ Row(children: [Text('Requests'), SizedBox(width: BwSpacing.xs), BwBadge(count: 1
 |---|---|
 | Component | Badge |
 | Platform | Tablet (Flutter + M3) |
-| Plan version | 1 · 2026-10-21 |
+| Plan version | 1.1 · 2026-10-24 |
 
 ### C1 Goal
 
@@ -460,7 +465,7 @@ Implement every item in B9, plus:
 | Figma file | **Biowave DS — Tablet Components** (`_sync/figma-files.json` › `tablet`) |
 | Page / section | `↳ Badge` › sections `Badge` and `Badge — Documentation` |
 | Mode | **Create new.** The Check badge (P-05) is `Variant=Check` of this set |
-| Plan version | 1 · 2026-10-21 |
+| Plan version | 1.1 · 2026-10-24 |
 
 ### D1 Rules for this build
 
@@ -547,16 +552,18 @@ Component description: "Marks an element with a count, a dot or a check (Check b
 
 ### F0 Changes from previous version
 
-None — version 1.0. Filled when the version is above 1.0; it feeds Figma doc page 10.
+1.1 — Web review round 1 Planner items, applied to every platform: `count` × `warning` indicator fill is `color-icon-role-warning` (was `color-background-warning-default`, 2.20:1 on a white surface) so every allowed colour meets 3:1; a hidden standalone badge gives back its space after the exit transition. Not built yet on this platform; no API change.
 
 ### F1 Guidelines changelog
 
 | Version | Date | Change | Migration | Author |
 |---|---|---|---|---|
+| 1.1 | 2026-10-24 | A4.2 `warning` reason reworded and its darker fill named; A5 hidden standalone gives back its space; A9 3:1 for every allowed colour and variant (web review round 1 #1, #2) | — | Claude (Planner) |
 | 1.0 | 2026-10-21 | Initial. Count, dot and Check badge (P-05: the Figma Check badge folds into Badge as `variant` `check`) | — | Claude (Planner) |
 
 ### F2 Spec changelog
 
 | Version | Date | Change | Breaking | Migration |
 |---|---|---|---|---|
+| 1.1 | 2026-10-24 | B3 `warning` fill `iconRoleWarning`; B1/B4 hidden standalone takes no space; B6 contrast row; B9 `warning` and hidden-standalone tests (web review round 1 #1, #2) | No | — |
 | 1.0 | 2026-10-21 | Initial | No | — |

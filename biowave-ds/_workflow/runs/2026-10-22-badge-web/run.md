@@ -17,6 +17,7 @@
 | 07 | implement | cursor | stopped at once: Cursor usage limit | — | — | `07-implement-cursor.prompt.md` |
 | 08 | implement | codex | done (2026-10-24): web Badge built from contract 1.0, continuing the partial step-06 code; C8 filled; Code Built | docs:check ✓ · typecheck ✓ · test:web ✓ 121/121 (orchestrator) | see git log | `08-implement-codex.prompt.md` |
 | 09 | review | claude (wf-reviewer subagent) | done (2026-10-24) · **Approved** — Round 1: AC-1…AC-7 met; headless Chrome: count 20×20 (`99+` 31.2 wide), dot 8×8, check 20×20 + 16 px glyph, 7 colours = B3 both themes, 2 px ring anchored only, centre on the anchor's top-end corner (EN/AR), anchor unchanged, motion 0.2/0.1 s, reduced motion instant. 🟢 only: #1 Planner — light `count` × `warning` indicator 2.20:1 vs B6's 3:1; #2 Planner — hidden standalone badge keeps its space; #3 Planner — header Source code stale; #4 Executor — unreachable icon token for error/warning; #5 Executor — 3 B9 tests check declarations, not behaviour. Code → Approved; reviewer set Plan → Open (Planner nits) | docs:check ✓ · typecheck ✓ · test:web ✓ 121/121 | see git log | `09-review-claude.prompt.md` |
+| 10 | plan | claude (wf-planner subagent) | done (2026-10-24) · plan 1.1: #1 `count` × `warning` fill → `color-icon-role-warning` (3.24:1 light / 12.20:1 dark vs surface; text `color-text-on-warning` 6.10 / 13.11:1), `warning` kept; #2 hidden standalone badge takes no space after its exit (all three platforms); #3 header. C7 AC-8…AC-11 + web Fix round 1 task list (#1, #2, Executor nits #4, #5). Plan Finished | contract W/T/M ✓ · docs:check ✓ | see git log | `10-plan-claude.prompt.md` |
 
 ## Gates
 
@@ -26,6 +27,8 @@
 | after-plan | **Approve** (2026-10-23) | Next: implement web + tablet; mobile after mobile Icon |
 
 ## Questions raised
+
+- Planner (1.1): web Code still `Approved` but the plan now changes code → fix round 1 + review before merge? Add contrast pair `color-text-on-warning` / `color-icon-role-warning` (4.5) to `2-foundations/scripts/contrast-pairs.json` in a foundations follow-up?
 
 ## Summary
 
