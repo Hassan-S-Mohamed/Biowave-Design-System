@@ -5,13 +5,14 @@
 | Unit | `icon-button` on `tablet` |
 | Unit file | `4-tablet-components/components/icon-button/icon-button.md` |
 | Branch | `ds/icon-button-tablet` (from `main`) |
-| Pull request | — |
+| Pull request | https://github.com/hassanSmohamed/Biowave-Design-System/pull/14 |
 | Skipped steps | figma (config › skip). Plan and preview were done in earlier runs (Plan Finished, contract current). |
 
 ## Steps
 
 | # | Step | Agent | Result | Checks | Commit | Prompt |
 |---|---|---|---|---|---|---|
+| before-merge | Approve | Squash-merge; 🟢 #6 (reduced-motion test) left for a later pass |
 | after-plan (plan 1.1) | Approve | Preview skipped — no visual change; existing previews stand. Fix round 1 → Codex |
 | after-review (Round 1) | Approve | Planner fixes #2, #4, #5 → contract; Fixer (Codex) fixes #1, #3 + goldens; re-review |
 | 01 | implement | codex | partial — flutter test not runnable in sandbox; orchestrator run: 5 failures (2× BwIcon, empty toggle label) | docs:check ✓ · analyze ✓ · test ✗ | — | [prompt](01-implement-codex.prompt.md) |
@@ -35,5 +36,7 @@
 - Codex sandbox (`-s workspace-write`) blocks Flutter's loopback socket, so Codex cannot run `flutter test`; the orchestrator runs it.
 
 ## Summary
+
+BwIconButton (tablet): built by Codex (3 passes, tests run by orchestrator), Round 1 Changes requested (screen-reader tap action, goldens missing from C5), Planner plan 1.1, Fix round 1 by Codex→Antigravity (usage limits), Round 2 Approved, merged. Open: 🟢 #6 reduced-motion test.
 
 Run in parallel with other tablet/mobile units in a separate worktree (`Biowave Design System-icon-button-tablet`). Agent assigned by the user: codex.
