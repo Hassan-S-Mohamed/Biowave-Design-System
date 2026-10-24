@@ -5,13 +5,14 @@
 | Unit | `icon-button` on `mobile` |
 | Unit file | `5-mobile-components/components/icon-button/icon-button.md` |
 | Branch | `ds/icon-button-mobile` (from `main`) |
-| Pull request | — |
+| Pull request | https://github.com/hassanSmohamed/Biowave-Design-System/pull/15 |
 | Skipped steps | figma (config › skip). Plan and preview were done in earlier runs (Plan Finished, contract current). |
 
 ## Steps
 
 | # | Step | Agent | Result | Checks | Commit | Prompt |
 |---|---|---|---|---|---|---|
+| before-merge | Approve | Squash-merge |
 | after-review (Round 2) | Approve | Fix round 2 (last allowed) → Codex: #4 D11 clean-up |
 | after-review (Round 1) | Approve | Fix round 1 → Codex (fallback Antigravity) |
 | 01 | implement | cursor | failed — Cursor usage limit, no files changed | — | — | [prompt](01-implement-cursor.prompt.md) |
@@ -34,5 +35,7 @@
 - none
 
 ## Summary
+
+BwIconButton (mobile): Cursor (usage limit) → Codex (timeout, partial) → Antigravity finished the build; Round 1 Changes requested (focus semantics); Fix round 1 Antigravity; Round 2 Changes requested (duplicate entry in D11); Fix round 2 Codex; Round 3 Approved; merged.
 
 Run in parallel with other tablet/mobile units in a separate worktree (`Biowave Design System-icon-button-mobile`). Agent assigned by the user: cursor.
