@@ -28,6 +28,7 @@
 | 09 | review | claude (wf-reviewer agent; resumed after session limit) | done — Round 3 Changes requested: #12, #14 fixed; open 🟡 #13 md band not really hit-testable, #16 error colours not rebuilt on validate/reset, #17 pointer-up focuses field (regression); 🟢 #15, #18. Fix-round limit reached | docs:check ✓ · analyze ✓ · test ✓ 204/204 | (this commit) | [prompt](09-review-claude.prompt.md) |
 | 10 | fix | antigravity (Gemini 3.8 Flash) | partial — code + tests done, stopped before C8/Handoff | docs:check ✓ · analyze ✓ · test ✓ 208/208 (orchestrator) | — | [prompt](10-fix-antigravity.prompt.md) |
 | 11 | fix | antigravity (Gemini 3.8 Flash) | done — C8 Fix round 3, Code Built, CHANGELOG | docs:check ✓ · analyze ✓ · test ✓ 208/208 (orchestrator) | (this commit) | [prompt](11-fix-antigravity.prompt.md) |
+| 12 | review | claude (wf-reviewer agent) | done — Round 4 Changes requested: #16, #17, #18 fixed; open 🟡 #13 band ignored when a supporting row shows, #19 raw 4.0 dp; 🟢 #15, #20 (Planner), #21. Plan → Open | docs:check ✓ · analyze ✓ · test ✓ 208/208 | (this commit) | [prompt](12-review-claude.prompt.md) |
 
 ## Gates
 
@@ -37,6 +38,7 @@
 ## Questions raised
 
 - Reviewer Round 3: fix-round limit (2) reached with 3 open 🟡 (#13, #16, #17) — allow one more fix round, or accept as known issues? → User: allow one more fix round.
+- Reviewer Round 4: the extra fix round is used; allow Fix round 4 (#13, #19) + Planner pass (#20), or accept as known issues?
 
 ## Summary
 
