@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Review — Mobile Text field round 1: Changes requested] — 2026-10-24
+### Changed
+- Text field (mobile) review round 1: **Changes requested** — Part E2 of `5-mobile-components/components/text-field/text-field.md`. 1 🔴 (two text-field semantics nodes; the editable one has no name), 6 🟡 (semantics/keyboard/tooltip tests, help icon not after the label, help target grows the label row, add-ons hide the outline, end-button corners vs `BwButton` (Planner), B4 motion vs `InputDecorator` (Planner)), 3 🟢. Plan → Open; Code → Changes requested (header + README). `docs:check` ✓, `flutter analyze` ✓, `flutter test` 148/148 ✓, `sync` READY.
+
 ## [Mobile Text field — code implementation (1.1)] — 2026-10-24
 ### Added
 - Built `BwTextField`, `BwTextFieldAction`, and `BwTextFieldEndButton` for `biowave_mobile` (`lib/src/components/text_field/` + `test/text_field_test.dart` + 4 goldens in `test/goldens/text_field/`), with shared private field parts (`BwFieldLabel`, `BwFieldAddon`, `BwFieldAction`, `BwFieldSupporting`) and `buildBwTextFieldDecoration`, token-only states and sizes (`lg` with 48dp touch targets and 40dp in-outline trailing action box inset by `BwSpacing.xs`), grapheme-cluster counter enforcement, separate accessible semantics nodes for help/trailing/end actions, and full RTL/theme/golden test coverage.

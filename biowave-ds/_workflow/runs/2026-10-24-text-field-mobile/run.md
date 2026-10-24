@@ -15,6 +15,7 @@
 | 01 | implement | codex | failed — ChatGPT usage limit partway; lib compiles, test file has 22 analyzer errors; no C8/Handoff | docs:check ✓ · analyze ✗ | — | [prompt](01-implement-codex.prompt.md) |
 | 02 | implement | cursor | failed — Cursor usage limit, nothing changed | — | — | [prompt](02-implement-cursor.prompt.md) |
 | 03 | implement | antigravity | done — finished Codex's partial build, tests compile and pass, goldens, C8, Code Built | docs:check ✓ · analyze ✓ · test ✓ 148/148 (orchestrator); dark-ar golden checked by eye | (this commit) | [prompt](03-implement-antigravity.prompt.md) |
+| 04 | review | claude (wf-reviewer agent) | done — Round 1 Changes requested: 1 🔴 (two text-field nodes, editable one unnamed), 6 🟡 (2 Planner), 3 🟢 | docs:check ✓ · analyze ✓ · test ✓ | (this commit) | [prompt](04-review-claude.prompt.md) |
 
 ## Gates
 

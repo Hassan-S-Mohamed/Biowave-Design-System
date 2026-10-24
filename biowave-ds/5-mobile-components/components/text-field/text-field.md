@@ -14,10 +14,10 @@
 | Import | `BwTextField` from `package:biowave_mobile/biowave_mobile.dart` |
 | Figma | **Biowave DS — Mobile Components** › `↳ Text field` (page Typography mode `Mobile`) · build: [Part D](#d--figma-build) |
 | Version | 1.1 · 2026-10-18 (first Mobile version; same guidelines version as Web 1.1) |
-| Plan | Finished |
-| Code | Built |
+| Plan | Open |
+| Code | Changes requested |
 | Figma build | Planned |
-| Review | — |
+| Review | Round 1 · 2026-10-24 · Changes requested |
 | Source code | [`lib/src/components/text_field/`](../../lib/src/components/text_field/) |
 | Tokens | [`text-field.tokens.json`](text-field.tokens.json) — extends the Web file (D-13) |
 | Contracts | [`text-field-contract.md`](text-field-contract.md) · [`figma-text-field-contract.md`](figma-text-field-contract.md) — generated, never edited |
@@ -599,7 +599,76 @@ Component description: “Enters or edits short and multiline text with persiste
 
 | Round | Date | Code verdict | Figma verdict |
 |---|---|---|---|
-| — | — | not reviewed | not reviewed |
+| 1 | 2026-10-24 | Changes requested | not reviewed |
+
+### E2 Round 1 — 2026-10-24
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 1.1 · 2026-10-18 |
+| Spec version reviewed | 1.1 |
+| Reviewer | Claude |
+| Date | 2026-10-24 |
+| Commit reviewed | `8a677f8` (branch `ds/text-field-mobile`; `git diff main...HEAD`; working tree clean before this review) |
+| Verdict | **Changes requested** (1 🔴, 6 🟡, 3 🟢) |
+
+Checks run by the Reviewer (not copied from C8):
+
+| Command | Result |
+|---|---|
+| `npm run docs:check` | ✓ 18 component files OK |
+| `cd 5-mobile-components && flutter analyze` | ✓ No issues found |
+| `cd 5-mobile-components && flutter test` | ✓ 148 tests, all passed (goldens compared, not updated) |
+| `npm run sync` (AC-5) | ✓ READY for component work; `mobile text-field` code and Figma contracts current |
+
+Extra evidence: semantics, help-row and add-on probes were run on a scratch copy of the package outside the repo (`debugDumpSemanticsTree`, `tester.getRect`); nothing in the worktree was added or changed by them. All four goldens in `test/goldens/text_field/` were inspected.
+
+**Codex → Antigravity hand-over.** Codex's uncompiled test file was never committed, so a line-by-line comparison is not possible. The 22 analyzer errors listed in the step-03 prompt are all mechanical (`const` constructors inside `throwsA`, the missing `BwLayout.contentMax` → `BwSize.containerSm`, `TextFormField` getters → `tester.widget<TextField>`, `SemanticsFinder` → `find.semantics.*`), and the current file still asserts each of those things (`text_field_test.dart:34-97`, `:101-181`, `:420`, `:494-575`). No evidence of a removed expectation. But the semantics test as written does not prove B9 "one text-field node" (finding 2), and it passes while finding 1 is present.
+
+#### Acceptance criteria
+
+| AC | Result | Evidence (file:line / test name) |
+|---|---|---|
+| AC-1 Public API matches B1 | ✅ (🟢 8) | `bw_text_field.dart:45-170`: every B1 param, type and default; `BwTextFieldAction`/`BwTextFieldEndButton` `:15-42`; asserts `:90-127`; release fallbacks: counter `:489`, rows `:513-514`, obscure `:185`, action priority `:420-453`, trailing icon `:374`, add-ons / end button `:331, 396, 586`. Test `invalid combinations assert`, `defaults match the contract`. Extra `placeholder` param not in B1 (finding 8) |
+| AC-2 B2–B3 values from tokens; no raw values | ⚠️ | Decoration `bw_text_field_decoration.dart:22-128` matches B3 (tests `border, fill, and text resolve in light/dark`, `read-only uses neutral fill and default border`); no `Color(0x` / `BwPalette` (test `uses no raw colours…`). But B2 layout is not met for the help row (finding 4), add-on outline (finding 5) and end-button shared border (finding 6) |
+| AC-3 B4 transitions; reduced motion | ❌ | No `BwDuration` / `BwEasing` / `disableAnimations` for the field anywhere in `text_field/` (only the tooltip, `bw_field_label.dart:107-111`). Border, helper and error transitions come from Flutter's `InputDecorator` (hard-coded 167 ms `fastOutSlowIn`, ignores reduced motion). Finding 7 |
+| AC-4 RTL (B5); semantics, focus, targets (B6) | ❌ | RTL ✓ (test `RTL mirrors layout but not neutral glyphs`, `*-ar` goldens, add-on LTR isolation `bw_field_addon.dart:62-65`). Targets ✓ (test `targets, labels, and contrast meet guidance`). Password toggle ✓ "Show password" / "Hide password" + `toggled` via `BwIconButton(toggle:)` (`bw_text_field.dart:421-431`, test `password toggle changes state and preserves caret`). Disabled ✓ (test `disabled controls leave help reachable`). **Semantics ✗:** two text-field nodes (finding 1). Help icon not after the label (finding 3) |
+| AC-5 analyze, test, sync, docs:check | ✅ | Checks table above |
+| AC-6 Exported; README row = header | ✅ | `lib/biowave_mobile.dart:15`; README row equalled the header (`Built`) before this review (`docs:check` ✓) |
+| AC-7 Trailing action inside outline; disabled with field; neutral icons in error | ✅ | Box `BwSize.controlHeightMd`, inset `BwSpacing.xs` (test `field and action use mobile size tokens`); `onPressed: null` when disabled `bw_text_field.dart:428, 440`; clear hidden `:444`; icons `iconNeutralMuted` in error `bw_text_field_decoration.dart:69-71` |
+| AC-8 Reuses BwButton, BwIconButton, BwFocusRing, BwControlSize; private parts not exported | ✅ | `BwFieldAction` → `BwIconButton` (`bw_field_action.dart:28`), help → `BwIconButton` (`bw_field_label.dart:112`), end button → `BwButton` (`bw_text_field.dart:600`), icons → `BwIcon`. `git diff main...HEAD` touches no file under `button/`, `icon/`, `icon_button/` or `common/`. Only `bw_text_field.dart` is exported |
+
+#### Rule checks (AGENTS.md §2 and workflow rules)
+
+| Rule | Result | Notes |
+|---|---|---|
+| 1 No generated files edited | ✅ | No contract, `dist/`, `_sync` or docs shell in the diff |
+| 2–3 No raw values / no primitives | ✅ | Token-only; source-policy test passes |
+| 4 RTL first | ✅ | `EdgeInsetsDirectional`, `BorderRadiusDirectional`, `BorderDirectional`; directional radius resolved before `OutlineInputBorder` |
+| 5 Both themes, both languages tested | ✅ | 4 goldens + render matrix |
+| 6 Accessibility | ❌ | Finding 1 (duplicate text-field node), finding 4 (help target changes layout) |
+| 7 Stay inside the contract | ⚠️ | C8 says "Deviations: none", but the end button is fully rounded (finding 6) and B4 is not met (finding 7); both should have been raised in C8 → Questions |
+| 8 One component per task | ⚠️ | `lib/biowave_mobile.dart` `BwMobileTheme` reformatted (finding 9) |
+| 9 Changelog | ✅ | `CHANGELOG.md` entry "Mobile Text field — code implementation (1.1)" |
+
+#### Findings
+
+| # | Severity | File | Issue | Required change | Owner |
+|---|---|---|---|---|---|
+| 1 | 🔴 Blocker | `lib/src/components/text_field/bw_text_field.dart:562-572` | `Semantics(container: true, textField: true, label: …)` around `TextFormField` adds a **second** text-field node. Semantics dump: outer node `isTextField`, label "Work email, required, Use your work email, 3/20", **no value**; inner (real, editable) node `isTextField`, value "abc", label "3/20" only, and the helper again as a child node. TalkBack / VoiceOver meet two text fields; the one that edits has no name, and the helper is read twice. B6: one text-field node named by `label` (+ required), helper/error/counter read with it | Expose exactly one `isTextField` node that carries the name (+ "required" / "مطلوب"), the value, helper/error/counter and the tap/focus actions (e.g. drop `container`/`textField` from the wrapper so it does not form its own node, or name the field through the decoration semantics). Help icon, trailing action and end button stay separate nodes | Executor |
+| 2 | 🟡 Should fix | `test/text_field_test.dart:494-575, 436-458` | Tests do not prove B9: the "one node" test only finds a label by regex (passes with finding 1 present), no `matchesSemantics`, no count of text-field nodes, helper/error/counter not checked in the field's semantics; Tab order checked only help → field (not → trailing action → end button); help tooltip tested only by a semantics tap, not a real tap or keyboard activation (Enter / Space) as B9 requires | Add: count of `isTextField` nodes == 1 with `matchesSemantics` (label, value, textField, tap, focus) for helper, error and counter cases; full Tab order help → field → action → end button; tooltip opens on `tester.tap` and on Enter/Space with focus on the help icon | Executor |
+| 3 | 🟡 Should fix | `lib/src/components/text_field/bw_field_label.dart:48-79` | Help icon is pushed to the far end of the label row (`Expanded` label / `Spacer`). Seen in all four goldens (en: at the far right; ar: at the far left) and measured: in a 360-wide field (x 220–580) the help glyph sits at x 548–564, the row end. B2 redline (Web B2 "Work email * (?)") and A4.3 "The help icon sits after the label" put it right after the label | Place the help icon directly after the label (+ required indicator) with `BwSpacing.xs` between them, label `Flexible` so long labels still wrap; in RTL it follows the label on the left. Update goldens | Executor |
+| 4 | 🟡 Should fix | `lib/src/components/text_field/bw_field_label.dart:112-119` | The help icon's 48 hit area enlarges the label row: label-to-field gap is 18 with `helpText` vs 6 (`BwSpacing.sm`) without (measured). B2: hit areas are "extended invisibly so layout does not change" | Keep the label row at label height and `label gap = spacing-sm`; extend the help icon's hit area without taking layout space. Add a test for the gap with and without `helpText` | Executor |
+| 5 | 🟡 Should fix | `lib/src/components/text_field/bw_field_addon.dart:39-75`, `bw_text_field_decoration.dart:107-112` | Prefix / suffix add-ons paint over the field outline: the add-on box covers the full field rect (prefix `220,30 → 264.5,78` = field top, bottom and start edge), so the outer border, and the focus / error outline, are missing around the add-ons (golden "Hourly rate", all four). B2: add-ons inside one outline with dividers | Draw add-ons inside the outline (inset by the border width, outer corners radius-md minus border) so the field border, focus and error colours stay visible around them; golden for focused + error with add-ons | Executor |
+| 6 | 🟡 Should fix | `lib/src/components/text_field/bw_text_field.dart:586-611`; spec B2 / C3 / C5 | End button is a normal fully rounded `BwButton` with its own border (golden "Share code"); B2/C3 want its start corners square and one shared border. `BwButton` has no shape parameter and C5 does not allow changing it, so the spec cannot be met as written. C8 reports no deviation | Planner: decide — allow a shape/corner parameter on `BwButton` in C5 (and list it), or change B2/C3 to accept the rounded attached button. Then regenerate the contract | Planner |
+| 7 | 🟡 Should fix | spec B4 / C3; `bw_text_field_decoration.dart` | C3 builds on `TextFormField` + `InputDecorator`, whose border / helper / error transitions use Flutter's fixed 167 ms `fastOutSlowIn` and ignore `MediaQuery.disableAnimations`. B4 (`BwDuration.sm`, `BwEasing.standard`, reduced motion instant) cannot be met with that approach; nothing in the field uses the motion tokens | Planner: either accept Flutter's built-in field transition in B4 (and say reduced motion is not applied to it), or specify how to get `BwDuration.sm` / reduced motion (e.g. own animated border). Regenerate the contract | Planner |
+| 8 | 🟢 Nit | spec B1; `bw_text_field.dart:57, 139` | `placeholder` is implemented (and B3 maps `placeholder` → `hintStyle`) but B1 does not list it | Add `placeholder` (`String?`) to B1 | Planner |
+| 9 | 🟢 Nit | `lib/biowave_mobile.dart:18-28` | `BwMobileTheme` reformatted; step said "do not reformat anything else" (rule 8) | Restore the original formatting; keep only the export line | Executor |
+| 10 | 🟢 Nit | `bw_text_field_decoration.dart:125-128`; `bw_text_field.dart:197, 217, 223, 275` | `labelStyle` set only "for unit verification" (no label is ever rendered by the decoration); `String.fromCharCodes(const <int>[])` used instead of `''` | Assert the input text colour through `TextField.style` and drop the `labelStyle` copy; use `''` | Executor |
+
+#### Previous round
+
+None — first review.
 
 ---
 
