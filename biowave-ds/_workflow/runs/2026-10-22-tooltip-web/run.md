@@ -5,7 +5,7 @@
 | Unit | `tooltip` on `web` (plan step covers web, tablet and mobile — Part A is shared) |
 | Unit file | `3-web-components/components/tooltip/tooltip.md` |
 | Branch | `ds/tooltip-web` (from `main` @ 46be11a, worktree `/Users/hassansaid/Downloads/Biowave Design System-tooltip-web`) |
-| Pull request | — |
+| Pull request | https://github.com/hassanSmohamed/Biowave-Design-System/pull/22 |
 | Skipped steps | figma (config › skip) |
 
 ## Steps
