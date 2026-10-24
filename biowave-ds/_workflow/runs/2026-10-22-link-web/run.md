@@ -5,7 +5,7 @@
 | Unit | `link` on web, tablet and mobile (plan 1.0 from 2026-10-21, `_workflow/runs/2026-10-21-link-web/`) |
 | Unit file | `3-web-components/components/link/link.md` |
 | Branch | `ds/link-web`, worktree `/Users/hassansaid/Downloads/Biowave Design System-link-web`; `main` @ 46be11a merged in |
-| Pull request | — |
+| Pull request | https://github.com/hassanSmohamed/Biowave-Design-System/pull/16 |
 | Skipped steps | figma (config › skip) |
 
 ## Steps
