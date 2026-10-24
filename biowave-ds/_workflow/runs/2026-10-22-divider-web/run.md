@@ -28,6 +28,7 @@
 
 | Gate | Decision | Notes |
 |---|---|---|
+| before-merge | `main` (Badge #19, library re-read #20) merged in (2fa2c1f): docs:check ✓ · typecheck ✓ · test:web ✓ 156/156; pushed, PR opened (2026-10-24) — merge decision pending | PR carries Divider plan 1.1 (W/T/M) + the web build |
 | after-review | **Tiny Planner step, then fix** (2026-10-24) | Planner: header Source code (#3) + Plan back to Finished, no spec change → fix round 1 (#1 li bullet, #2 computed-style test) → review round 2 |
 | after-plan (1.1) | **Approve** (2026-10-24) | `component="li"` always `aria-hidden` approved. Next: implement web → tablet → mobile |
 | (plan questions, 2026-10-23) | User answers to 1.0 questions | Inset: keep 16 px, List adds its own · text on divider: yes, show/hide prop · `decorative` default: no · web `component="li"`: yes |
