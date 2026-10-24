@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Fixed — Tablet Text field review round 2] — 2026-10-24
+### Fixed
+- Fixed Tablet `BwTextField` review round 2 findings: #12 made `FormField` (`_formFieldKey.currentState`) the single source of validator error, dropping `_validatorErrorText` and its post-frame `setState` so `validate()` then `reset()` removes error text, error border and error semantics; #13 extended `md` hit area to 48 dp without adding layout height using `_RenderBwFieldHitArea`, preserving 40 dp control layout height and `spacing-sm` label gap; #14 replaced token misuses as geometric constants in `bw_field_action.dart` and `bw_text_field.dart` with plain numbers `0` and `1`; #15 asserted loading end button spinner render object is attached and painted (`debugNeedsPaint == false`). Deleted temporary `test/failures/` artifacts. Code → Built.
+
 ## [Review — Tablet Text field round 2: Changes requested] — 2026-10-24
 ### Changed
 - Text field (tablet) review round 2: **Changes requested**, in Part E3 of `4-tablet-components/components/text-field/text-field.md`. Round 1 #1–#11 all fixed (validator fails `Form.validate()`, affixes only in the semantics hint, end button via the existing `BwButtonSegment` with no shared button file edited, loading spinner painted). New Executor items: 🟡 #12 `Form.reset()` leaves the validator error on screen; 🟡 #13 the `md` 48 dp hit area adds 4 dp of layout above/below the outline (label gap 10 vs `spacing-sm`); 🟡 #14 `BwSpacing.none` / `BwBorder.widthDefault` used as 0 / 1 in a transform matrix (`bw_field_action.dart`); 🟢 #15 loading-spinner test checks presence only. Code status and README Review column updated; Plan stays `Finished`.

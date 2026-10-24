@@ -8,6 +8,7 @@ import 'package:biowave_tablet/src/components/text_field/bw_field_action.dart';
 import 'package:biowave_tablet/src/components/text_field/bw_field_addon.dart';
 import 'package:biowave_tablet/src/components/text_field/bw_text_field_decoration.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -876,6 +877,52 @@ void main() {
         }
       },
     );
+
+    testWidgets(
+      'layout height equals control height at md and lg, label gap equals spacing-sm, and 48 dp tap target guideline passes',
+      (tester) async {
+        for (final size in _allowedSizes) {
+          await tester.pumpBw(
+            SizedBox(
+              width: 560,
+              child: BwTextField(
+                label: 'Work email',
+                size: size,
+                helpText: 'We send shift reminders here',
+                clearable: true,
+                initialValue: 'name@biowave.sa',
+              ),
+            ),
+          );
+
+          final labelBottom = tester.getBottomLeft(
+            find.byKey(const ValueKey<String>('BwTextField.label-row')),
+          ).dy;
+          final fieldTop = tester.getTopLeft(_fieldInputDecorator()).dy;
+          final gap = fieldTop - labelBottom;
+          expect(gap, BwSpacing.sm, reason: 'size ${size.name} label gap');
+
+          final expectedHeight = size == BwControlSize.md
+              ? BwSize.controlHeightMd
+              : BwSize.controlHeightLg;
+          final fieldHeight = tester.getSize(_fieldInputDecorator()).height;
+          expect(
+            fieldHeight,
+            expectedHeight,
+            reason: 'size ${size.name} layout height',
+          );
+
+          if (size == BwControlSize.md) {
+            final hitAreaHeight = tester.getSize(
+              find.byKey(const ValueKey<String>('BwTextField.md-hit-area')),
+            ).height;
+            expect(hitAreaHeight, BwSize.controlHeightMd);
+          }
+
+          await expectLater(tester, meetsGuideline(androidTapTargetGuideline));
+        }
+      },
+    );
   });
 
   group('BwTextField interactions', () {
@@ -1257,6 +1304,74 @@ void main() {
       expect(find.byKey(const ValueKey<String>('BwTextField.error-icon')), findsNothing);
     });
 
+    testWidgets(
+      'Form integration: validate() then reset() removes error text, error border and error from semantics label',
+      (tester) async {
+        final formKey = GlobalKey<FormState>();
+        final semantics = tester.ensureSemantics();
+
+        await tester.pumpBw(
+          SizedBox(
+            width: 560,
+            child: Form(
+              key: formKey,
+              child: BwTextField(
+                label: 'Work email',
+                helperText: 'Format: name@company.com',
+                validator: (value) =>
+                    (value == null || value.isEmpty) ? 'Email is required' : null,
+              ),
+            ),
+          ),
+        );
+
+        // Initially: no error text, no error icon, helper text shown
+        expect(find.text('Email is required'), findsNothing);
+        expect(find.byKey(const ValueKey<String>('BwTextField.error-icon')), findsNothing);
+        expect(find.text('Format: name@company.com'), findsOneWidget);
+
+        var tfData = tester.getSemantics(find.byType(EditableText)).getSemanticsData();
+        expect(tfData.label, contains('Work email'));
+        expect(tfData.label, contains('Format: name@company.com'));
+        expect(tfData.label, isNot(contains('Email is required')));
+
+        // Validate -> returns false, error shown, error icon shown
+        final valid = formKey.currentState!.validate();
+        expect(valid, isFalse);
+        await tester.pumpAndSettle();
+
+        expect(find.text('Email is required'), findsOneWidget);
+        expect(find.byKey(const ValueKey<String>('BwTextField.error-icon')), findsOneWidget);
+
+        // Decoration error is shown
+        var decorator = tester.widget<InputDecorator>(_fieldInputDecorator());
+        expect(decorator.decoration.error, isNotNull);
+
+        tfData = tester.getSemantics(find.byType(EditableText)).getSemanticsData();
+        expect(tfData.label, contains('Work email'));
+        expect(tfData.label, contains('Email is required'));
+        expect(tfData.label, isNot(contains('Format: name@company.com')));
+
+        // Reset -> removes error text, error border and error from semantics label
+        formKey.currentState!.reset();
+        await tester.pumpAndSettle();
+
+        expect(find.text('Email is required'), findsNothing);
+        expect(find.byKey(const ValueKey<String>('BwTextField.error-icon')), findsNothing);
+        expect(find.text('Format: name@company.com'), findsOneWidget);
+
+        decorator = tester.widget<InputDecorator>(_fieldInputDecorator());
+        expect(decorator.decoration.error, isNull);
+
+        tfData = tester.getSemantics(find.byType(EditableText)).getSemanticsData();
+        expect(tfData.label, contains('Work email'));
+        expect(tfData.label, contains('Format: name@company.com'));
+        expect(tfData.label, isNot(contains('Email is required')));
+
+        semantics.dispose();
+      },
+    );
+
     testWidgets('Form integration: autovalidateMode.onUserInteraction', (
       tester,
     ) async {
@@ -1363,7 +1478,13 @@ void main() {
       expect(button.segment, BwButtonSegment.end);
       expect(button.loading, isTrue);
 
-      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+      final spinnerFinder = find.byType(CircularProgressIndicator);
+      expect(spinnerFinder, findsOneWidget);
+
+      final spinnerRender = tester.renderObject(spinnerFinder);
+      expect(spinnerRender.attached, isTrue);
+      expect(spinnerRender.debugNeedsPaint, isFalse);
+      expect(spinnerRender.paintBounds.size, isNot(Size.zero));
     });
 
     testWidgets('supporting-row start and counter end insets are consistent across all layouts', (

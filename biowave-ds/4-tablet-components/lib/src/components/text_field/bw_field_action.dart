@@ -244,7 +244,7 @@ class _RenderBwFieldTopAlign extends RenderShiftedBox {
       }
       break;
     }
-    return BwSpacing.none;
+    return 0.0;
   }
 
   @override
@@ -271,16 +271,16 @@ class _RenderBwFieldTopAlign extends RenderShiftedBox {
   void paint(PaintingContext context, Offset offset) {
     final child = this.child;
     if (child == null) return;
-    context.paintChild(child, offset - Offset(BwSpacing.none, _decoratorCenterOffsetY));
+    context.paintChild(child, offset - Offset(0, _decoratorCenterOffsetY));
   }
 
   @override
   void applyPaintTransform(RenderBox child, Matrix4 transform) {
     transform.translateByDouble(
-      BwSpacing.none,
+      0,
       -_decoratorCenterOffsetY,
-      BwSpacing.none,
-      BwBorder.widthDefault,
+      0,
+      1,
     );
   }
 
@@ -288,7 +288,7 @@ class _RenderBwFieldTopAlign extends RenderShiftedBox {
   bool hitTestChildren(BoxHitTestResult result, {required Offset position}) {
     final child = this.child;
     if (child == null) return false;
-    final shift = Offset(BwSpacing.none, -_decoratorCenterOffsetY);
+    final shift = Offset(0, -_decoratorCenterOffsetY);
     return result.addWithPaintOffset(
       offset: shift,
       position: position,

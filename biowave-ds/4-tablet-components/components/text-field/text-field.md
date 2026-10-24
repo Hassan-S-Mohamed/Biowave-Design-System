@@ -15,7 +15,7 @@
 | Figma | **Biowave DS — Tablet Components** › `↳ Text field` (page Typography mode `Tablet`) · build: [Part D](#d--figma-build) |
 | Version | 1.2 · 2026-10-24 (spec and code plan 1.2; guidelines unchanged, same as Web 1.1) |
 | Plan | Finished |
-| Code | Changes requested |
+| Code | Built |
 | Figma build | Planned |
 | Review | Round 2 · 2026-10-24 · Changes requested |
 | Source code | [`lib/src/components/text_field/`](../../lib/src/components/text_field/) |
@@ -551,6 +551,32 @@ Implement every item in B9, plus:
 - In `bw_text_field.dart`, unified supporting row start and counter end insets to `spacing-xs` (4 dp) across all field configurations by compensating subtext visual offsets (`startPadding` / `endPadding`).
 
 **Questions for the Planner**
+- none
+
+#### Fix round 2 — 2026-10-24
+
+| Field | Value |
+|---|---|
+| Agent | Antigravity (Fixer) |
+| Date | 2026-10-24 |
+| Files changed | `4-tablet-components/lib/src/components/text_field/bw_field_action.dart`, `4-tablet-components/lib/src/components/text_field/bw_text_field.dart`, `4-tablet-components/test/text_field_test.dart`, `4-tablet-components/test/goldens/text_field/text-field-light-en.png`, `4-tablet-components/test/goldens/text_field/text-field-light-ar.png`, `4-tablet-components/test/goldens/text_field/text-field-dark-en.png`, `4-tablet-components/test/goldens/text_field/text-field-dark-ar.png`, `4-tablet-components/components/text-field/text-field.md`, `4-tablet-components/README.md`, `CHANGELOG.md` |
+
+| Finding | What changed (`file:line`) | Test that proves it |
+|---|---|---|
+| #12 🟡 Single source of truth for validator error | `bw_text_field.dart:184-188`, `:238-240`, `:765-776`: removed `_validatorErrorText` and its post-frame `setState`; `FormField` (`_formFieldKey.currentState`) is the single source for the validator error; `_hasError`, error border, error widget, and semantics label read `_effectiveErrorText` directly | `test/text_field_test.dart:1308-1374`: `Form integration: validate() then reset() removes error text, error border and error from semantics label` |
+| #13 🟡 Extend `md` hit area to 48 dp without adding layout height | `bw_text_field.dart:800-815`, `:818-970`: wrapped `md` field in `_BwFieldHitArea` (`_RenderBwFieldHitArea`) instead of `ConstrainedBox(minHeight: 48)` + `Align`; preserves visual/layout height at 40 dp and label gap at `BwSpacing.sm` (6 dp) while expanding touch hit-test target and semantics bounds to 48 dp; regenerated all 4 goldens and inspected each PNG | `test/text_field_test.dart:880-927`: `BwTextField size scale and hit areas: control height md=40 lg=48; md hit area padded to 48dp with zero extra layout height; label gap equals BwSpacing.sm` and `androidTapTargetGuideline` |
+| #14 🟡 Use plain math constants for geometry, not design tokens | `bw_field_action.dart:247`, `:274`, `:278-285`, `:291`: replaced `BwSpacing.none` / `BwBorder.widthDefault` in `translateByDouble` / `Offset` with plain numbers `0` and `1`; `bw_text_field.dart:628`, `:637`: replaced `BwSpacing.none` in `Offset` with `0` | `test/text_field_test.dart:47-68`: `no raw colours, sizes or durations in the source` (guard test passes with plain geometric constants) |
+| #15 🟢 Assert loading end button spinner is painted | `test/text_field_test.dart:1482-1488`: asserted `CircularProgressIndicator` render object is attached, `debugNeedsPaint == false`, and `paintBounds.size != Size.zero` | `test/text_field_test.dart:1468-1489`: `end button: BwButton uses segment: BwButtonSegment.end; loading paints spinner` |
+
+**Checks:**
+- `npm run docs:check` ✓
+- `cd 4-tablet-components && flutter analyze` ✓ (No issues found)
+- `cd 4-tablet-components && flutter test` ✓ (204/204 passed)
+
+**Deviations from the plan or spec:**
+- none
+
+**Questions for the Planner:**
 - none
 
 ---

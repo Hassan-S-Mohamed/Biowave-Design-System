@@ -1,5 +1,6 @@
 import 'package:biowave_foundations/biowave_foundations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
 import '../../common/bw_control_size.dart';
@@ -183,11 +184,12 @@ class BwTextField extends StatefulWidget {
 }
 
 class _BwTextFieldState extends State<BwTextField> {
+  final GlobalKey<FormFieldState<String>> _formFieldKey =
+      GlobalKey<FormFieldState<String>>();
   TextEditingController? _ownedController;
   FocusNode? _ownedFocusNode;
   bool _passwordVisible = false;
   bool _hovered = false;
-  String? _validatorErrorText;
 
   TextEditingController get _effectiveController =>
       widget.controller ?? _ownedController!;
@@ -233,8 +235,9 @@ class _BwTextFieldState extends State<BwTextField> {
           ? null
           : widget.suffixText;
 
-  String? get _effectiveErrorText =>
-      !widget.enabled ? null : (widget.errorText ?? _validatorErrorText);
+  String? get _effectiveErrorText => !widget.enabled
+      ? null
+      : (widget.errorText ?? _formFieldKey.currentState?.errorText);
 
   bool get _hasError =>
       widget.enabled &&
@@ -282,10 +285,6 @@ class _BwTextFieldState extends State<BwTextField> {
         _ownedFocusNode = null;
       }
       _effectiveFocusNode.addListener(_handleFocusChanged);
-    }
-
-    if (widget.validator == null && _validatorErrorText != null) {
-      _validatorErrorText = null;
     }
 
     if (!widget.obscureText && _passwordVisible) {
@@ -626,7 +625,7 @@ class _BwTextFieldState extends State<BwTextField> {
       if (child == null || startPadding == BwSpacing.none) return child;
       final isRtl = context.bw.isRtl;
       return Transform.translate(
-        offset: Offset((isRtl ? 1 : -1) * startPadding, BwSpacing.none),
+        offset: Offset((isRtl ? 1 : -1) * startPadding, 0),
         child: child,
       );
     }
@@ -635,25 +634,15 @@ class _BwTextFieldState extends State<BwTextField> {
       if (child == null || endPadding == BwSpacing.none) return child;
       final isRtl = context.bw.isRtl;
       return Transform.translate(
-        offset: Offset((isRtl ? -1 : 1) * endPadding, BwSpacing.none),
+        offset: Offset((isRtl ? -1 : 1) * endPadding, 0),
         child: child,
       );
     }
 
-    final helperWidget = _hasError
-        ? null
-        : offsetSupporting(
-            BwFieldSupporting.buildHelper(
-              context,
-              helperText: widget.helperText,
-              size: normalizedSize,
-              enabled: widget.enabled,
-            ),
-          );
-    final errorWidget = offsetSupporting(
-      BwFieldSupporting.buildError(
+    final helperWidget = offsetSupporting(
+      BwFieldSupporting.buildHelper(
         context,
-        errorText: _effectiveErrorText,
+        helperText: widget.helperText,
         size: normalizedSize,
         enabled: widget.enabled,
       ),
@@ -686,7 +675,7 @@ class _BwTextFieldState extends State<BwTextField> {
       prefixIcon: prefixSlot,
       suffixIcon: suffixSlot,
       helper: helperWidget,
-      error: errorWidget,
+      error: null,
       counter: counterWidget,
     );
 
@@ -717,7 +706,7 @@ class _BwTextFieldState extends State<BwTextField> {
     ];
 
     Widget textFormField = TextFormField(
-      key: const ValueKey<String>('BwTextField.input'),
+      key: _formFieldKey,
       controller: _effectiveController,
       focusNode: _effectiveFocusNode,
       autofocus: widget.autofocus,
@@ -744,26 +733,17 @@ class _BwTextFieldState extends State<BwTextField> {
         readOnly: _effectiveReadOnly,
       ),
       decoration: decoration,
-      onChanged: widget.onChanged,
+      onChanged: (value) {
+        if (mounted) {
+          setState(() {});
+        }
+        widget.onChanged?.call(value);
+      },
       onFieldSubmitted: widget.onSubmitted,
       onTap: widget.onTap,
       autovalidateMode: widget.autovalidateMode,
       forceErrorText: !widget.enabled ? null : widget.errorText,
-      validator: widget.validator == null
-          ? null
-          : (value) {
-              final result = widget.validator!(value);
-              if (_validatorErrorText != result) {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  if (mounted) {
-                    setState(() {
-                      _validatorErrorText = result;
-                    });
-                  }
-                });
-              }
-              return result;
-            },
+      validator: widget.validator,
       errorBuilder: (context, errorText) =>
           offsetSupporting(
             BwFieldSupporting.buildError(
@@ -776,29 +756,19 @@ class _BwTextFieldState extends State<BwTextField> {
           const SizedBox.shrink(),
     );
 
-    textFormField = Semantics(
-      label: _resolvedSemanticLabel(context),
-      hint: affixHints.isEmpty ? null : affixHints.join(', '),
-      child: KeyedSubtree(
-        key: const ValueKey<String>('BwTextField.field'),
-        child: textFormField,
-      ),
+    textFormField = _BwFieldHitArea(
+      key: const ValueKey<String>('BwTextField.field'),
+      minTargetHeight: BwLayout.tablet.minTarget,
+      onTap: widget.enabled ? _focusField : null,
+      semanticLabel: () => _resolvedSemanticLabel(context),
+      semanticHint: affixHints.isEmpty ? null : affixHints.join(', '),
+      child: textFormField,
     );
 
     if (normalizedSize == BwControlSize.md && !widget.multiline) {
-      textFormField = GestureDetector(
-        behavior: HitTestBehavior.translucent,
-        excludeFromSemantics: true,
-        onTap: widget.enabled ? _focusField : null,
-        child: ConstrainedBox(
-          key: const ValueKey<String>('BwTextField.md-hit-area'),
-          constraints: BoxConstraints(minHeight: BwLayout.tablet.minTarget),
-          child: Align(
-            alignment: AlignmentDirectional.centerStart,
-            heightFactor: 1.0,
-            child: textFormField,
-          ),
-        ),
+      textFormField = KeyedSubtree(
+        key: const ValueKey<String>('BwTextField.md-hit-area'),
+        child: textFormField,
       );
     }
 
@@ -817,7 +787,7 @@ class _BwTextFieldState extends State<BwTextField> {
           Transform.translate(
             offset: Offset(
               (context.bw.isRtl ? 1 : -1) * BwBorder.widthDefault,
-              BwSpacing.none,
+              0,
             ),
             child: _buildEndButton(context, endButton),
           ),
@@ -842,5 +812,154 @@ class _BwTextFieldState extends State<BwTextField> {
         fieldRow,
       ],
     );
+  }
+}
+
+class _BwFieldHitArea extends SingleChildRenderObjectWidget {
+  const _BwFieldHitArea({
+    required this.minTargetHeight,
+    required this.onTap,
+    required this.semanticLabel,
+    this.semanticHint,
+    required super.child,
+    super.key,
+  });
+
+  final double minTargetHeight;
+  final VoidCallback? onTap;
+  final ValueGetter<String> semanticLabel;
+  final String? semanticHint;
+
+  @override
+  RenderObject createRenderObject(BuildContext context) =>
+      _RenderBwFieldHitArea(
+        minTargetHeight: minTargetHeight,
+        onTap: onTap,
+        semanticLabel: semanticLabel,
+        semanticHint: semanticHint,
+      );
+
+  @override
+  void updateRenderObject(
+    BuildContext context,
+    covariant RenderObject renderObject,
+  ) {
+    (renderObject as _RenderBwFieldHitArea)
+      ..minTargetHeight = minTargetHeight
+      ..onTap = onTap
+      ..semanticLabel = semanticLabel
+      ..semanticHint = semanticHint;
+  }
+}
+
+class _RenderBwFieldHitArea extends RenderShiftedBox {
+  _RenderBwFieldHitArea({
+    required double minTargetHeight,
+    required this.onTap,
+    required ValueGetter<String> semanticLabel,
+    required String? semanticHint,
+  })  : _minTargetHeight = minTargetHeight,
+        _semanticLabel = semanticLabel,
+        _semanticHint = semanticHint,
+        super(null);
+
+  double _minTargetHeight;
+  double get minTargetHeight => _minTargetHeight;
+  set minTargetHeight(double value) {
+    if (_minTargetHeight == value) return;
+    _minTargetHeight = value;
+    markNeedsLayout();
+  }
+
+  VoidCallback? onTap;
+
+  ValueGetter<String> _semanticLabel;
+  ValueGetter<String> get semanticLabel => _semanticLabel;
+  set semanticLabel(ValueGetter<String> value) {
+    _semanticLabel = value;
+    markNeedsSemanticsUpdate();
+  }
+
+  String? _semanticHint;
+  String? get semanticHint => _semanticHint;
+  set semanticHint(String? value) {
+    if (_semanticHint == value) return;
+    _semanticHint = value;
+    markNeedsSemanticsUpdate();
+  }
+
+  @override
+  void describeSemanticsConfiguration(SemanticsConfiguration config) {
+    super.describeSemanticsConfiguration(config);
+    config.label = _semanticLabel();
+    if (_semanticHint != null && _semanticHint!.isNotEmpty) {
+      config.hint = _semanticHint!;
+    }
+  }
+
+  @override
+  Rect get semanticBounds {
+    if (size.height >= _minTargetHeight) {
+      return Offset.zero & size;
+    }
+    return Rect.fromCenter(
+      center: size.center(Offset.zero),
+      width: size.width,
+      height: _minTargetHeight,
+    );
+  }
+
+  @override
+  Size computeDryLayout(BoxConstraints constraints) {
+    final child = this.child;
+    if (child == null) return constraints.smallest;
+    return child.getDryLayout(constraints);
+  }
+
+  @override
+  void performLayout() {
+    final child = this.child;
+    if (child == null) {
+      size = constraints.smallest;
+      return;
+    }
+    child.layout(constraints, parentUsesSize: true);
+    size = child.size;
+    final childParentData = child.parentData! as BoxParentData;
+    childParentData.offset = Offset.zero;
+  }
+
+  @override
+  bool hitTest(BoxHitTestResult result, {required Offset position}) {
+    final child = this.child;
+    if (child == null) return false;
+    final targetRect = size.height >= _minTargetHeight
+        ? (Offset.zero & size)
+        : Rect.fromCenter(
+            center: size.center(Offset.zero),
+            width: size.width,
+            height: _minTargetHeight,
+          );
+    if (targetRect.contains(position)) {
+      final clamped = Offset(
+        position.dx.clamp(0.0, size.width).toDouble(),
+        position.dy.clamp(0.0, size.height).toDouble(),
+      );
+      final hitChild = child.hitTest(result, position: clamped);
+      if (!hitChild && onTap != null) {
+        result.add(BoxHitTestEntry(this, position));
+        return true;
+      }
+      result.add(BoxHitTestEntry(this, position));
+      return true;
+    }
+    return false;
+  }
+
+  @override
+  void handleEvent(PointerEvent event, BoxHitTestEntry entry) {
+    if (event is PointerUpEvent && onTap != null) {
+      onTap!();
+    }
   }
 }
