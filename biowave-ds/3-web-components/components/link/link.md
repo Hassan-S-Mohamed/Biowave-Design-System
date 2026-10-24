@@ -15,7 +15,7 @@
 | Figma | **Biowave DS — Web Components** › `↳ Link` · build: [Part D](#d--figma-build) |
 | Version | 1.0 · 2026-10-21 |
 | Plan | Finished |
-| Code | Planned |
+| Code | Built |
 | Figma build | Planned |
 | Review | — |
 | Source code | `src/components/link/` — not built yet (the Executor creates it) |
@@ -490,9 +490,11 @@ Implement every item in B9, plus:
 
 | Field | Value |
 |---|---|
-| Agent | |
-| Date | |
-| Files changed | |
+| Agent | Codex |
+| Date | 2026-10-24 |
+| Built | Web Link 1.0: token-only inline and standalone styling, every API fallback, external and router behavior, disabled and visited states, localized accessibility, RTL icon handling, public exports, and contract coverage. |
+| Files changed | `3-web-components/src/components/link/Link.tsx`, `link.tokens.ts`, `Link.test.tsx`, `index.ts`; `3-web-components/src/index.ts`; `3-web-components/README.md`; `3-web-components/components/link/link.md`; `CHANGELOG.md` |
+| Checks | `npm run component-tokens` ✓; `npm run sync` ✓ READY; `npm run docs:check` ✓; `npm run typecheck` ✓; `npm run test:web` ✓ 123/123 |
 
 **Deviations from the plan or spec** (with reason — the Planner updates the spec if accepted):
 - none

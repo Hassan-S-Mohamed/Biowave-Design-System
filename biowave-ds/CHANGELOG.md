@@ -2,6 +2,7 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Added — Web Link 1.0] — 2026-10-24 — Implemented the token-only MUI Link wrapper, inline and standalone sizes, brand/neutral/inverse states, visited and disabled behavior, safe localized external links, app-router composition, RTL icon handling, public exports, and complete contract tests.
 ## [Preview — Mobile Link 1.0] — 2026-10-23 — Added light/English and dark/Arabic RTL planning sheets covering inline and standalone options, five mobile states, all sizes, leading and mirrored external icons, 48 px touch targets and resolved shared-token callouts.
 ## [Preview — Tablet Link 1.0] — 2026-10-23 — Added light/English and dark/Arabic RTL planning sheets covering inline and standalone options, five tablet states, all sizes, leading and mirrored external icons, 48 px touch targets and resolved shared-token callouts.
 ## [Preview — Web Link 1.0] — 2026-10-22 — Added light/English and dark/Arabic RTL planning sheets covering the planned options, six states, resolved shared-token callouts and RTL mirroring.
