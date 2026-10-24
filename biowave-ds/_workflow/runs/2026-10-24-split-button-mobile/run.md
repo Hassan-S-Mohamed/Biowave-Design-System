@@ -12,6 +12,7 @@
 
 | # | Step | Agent | Result | Checks | Commit | Prompt |
 |---|---|---|---|---|---|---|
+| after-review (Round 2) | Approve | Fix round 2 (last allowed) → Antigravity (Gemini): #11, #12, #13 |
 | after-plan (plan 2) | Approve | Previews skipped; Fix round 1 → Antigravity (Gemini) |
 | after-review (Round 1) | Approve | Planner mirrors tablet plan 2.1 (same segment API names) for #2, #4, #5, #7–#10 → after-plan gate → Fixer #1, #3, #6, #7 on Antigravity (Gemini) |
 | 01 | implement | antigravity | partial — code, tests, goldens done; stopped before C8/Handoff | docs:check ✓ · analyze ✓ · test ✓ 139/139 (orchestrator) | — | [prompt](01-implement-antigravity.prompt.md) |
