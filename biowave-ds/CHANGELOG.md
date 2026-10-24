@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Review — Mobile Split button round 1: Changes requested] — 2026-10-24
+### Changed
+- Split button (mobile) review round 1: **Changes requested** — Part E2 of `5-mobile-components/components/split-button/split-button.md`. Menu sits under the container (LTR + RTL), items reachable by keyboard, chevron timing per B4. Open: Tab / Shift+Tab do not close the menu (#1), BwIconButton `focusNode` / `expanded` / `iconChild` not planned (#2, Planner) and public instead of internal (#3), `elevation-3` mapping and menu tokens missing from the plan (#4, Planner), goldens not in C5 (#5, Planner), half turn derived from unrelated tokens (#6), copied segment radius / focus-ring helper (#7, Planner); 3 🟢 plan nits. Plan → Open, Code → Changes requested (header + README). `docs:check` ✓, `flutter analyze` ✓, `flutter test` 139/139 ✓, `sync` READY.
+
 ## [Mobile Split button — code implementation (1.0)] — 2026-10-24
 ### Added
 - Built `BwSplitButton` and `BwSplitButtonOption` for `biowave_mobile` (`lib/src/components/split_button/bw_split_button.dart` + `test/split_button_test.dart` + 4 goldens in `test/goldens/split_button/`), composing `BwButton` (`primary-action`) and `BwIconButton` (`menu-trigger`) with internal `segment` parameter for directional corner radii, `MenuAnchor` for menu alternatives with `alignmentOffset`, accessible semantics container and trigger, token-driven styles, and reduced-motion handling.
