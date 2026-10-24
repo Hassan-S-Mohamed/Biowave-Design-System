@@ -228,6 +228,7 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(function Badg
     variant === 'count' && normalizedCount === 0 && !showZero;
   const hidden = invisible || hiddenByCount;
   const resolvedColor = effectiveColor(variant, color);
+  const indicatorRef = React.useRef<HTMLSpanElement>(null);
   const reducedMotion =
     typeof window !== 'undefined' &&
     typeof window.matchMedia === 'function' &&
@@ -251,7 +252,14 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(function Badg
 
     if (hidden) {
       setStandaloneHidden(true);
-      if (reducedMotion) setStandaloneCollapsed(true);
+      const runningAnimations = indicatorRef.current?.getAnimations?.();
+      if (
+        reducedMotion ||
+        standaloneHidden ||
+        runningAnimations?.length === 0
+      ) {
+        setStandaloneCollapsed(true);
+      }
       return undefined;
     }
 
@@ -276,7 +284,7 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(function Badg
   const renderedCollapsed =
     !anchored && (standaloneCollapsed || (hidden && reducedMotion));
 
-  const handleIndicatorTransitionEnd = React.useCallback(
+  const handleIndicatorTransitionComplete = React.useCallback(
     (event: React.TransitionEvent<HTMLSpanElement>) => {
       if (
         !anchored &&
@@ -289,6 +297,27 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(function Badg
     },
     [anchored, hidden],
   );
+
+  React.useEffect(() => {
+    const indicator = indicatorRef.current;
+    if (!indicator) return undefined;
+
+    const handleTransitionCancel = (event: TransitionEvent) => {
+      if (
+        !anchored &&
+        hidden &&
+        event.target === indicator &&
+        event.propertyName === 'transform'
+      ) {
+        setStandaloneCollapsed(true);
+      }
+    };
+
+    indicator.addEventListener('transitioncancel', handleTransitionCancel);
+    return () => {
+      indicator.removeEventListener('transitioncancel', handleTransitionCancel);
+    };
+  }, [anchored, hidden]);
 
   if (variant === 'count' && count == null) {
     warnOnce(
@@ -386,8 +415,9 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(function Badg
       slotProps={{
         badge: {
           'aria-hidden': true,
+          ref: indicatorRef,
           className: badgeClasses,
-          onTransitionEnd: handleIndicatorTransitionEnd,
+          onTransitionEnd: handleIndicatorTransitionComplete,
           style: {
             display: renderedCollapsed ? 'none' : undefined,
             transform: !anchored && renderedHidden ? 'scale(0)' : undefined,

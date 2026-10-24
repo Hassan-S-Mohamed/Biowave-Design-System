@@ -15,7 +15,7 @@
 | Figma | **Biowave DS — Web Components** › `↳ Badge` · build: [Part D](#d--figma-build) |
 | Version | 1.1 · 2026-10-24 |
 | Plan | Finished |
-| Code | Changes requested |
+| Code | Built |
 | Figma build | Planned |
 | Review | Round 2 · 2026-10-24 · Changes requested |
 | Source code | [`src/components/badge/`](../../src/components/badge/) |
@@ -513,6 +513,18 @@ Files the Executor may touch in this fix round: `3-web-components/src/components
 | #5 — behavioural B9 tests | `Badge.test.tsx:200-318, 422-446` compares computed anchor box styles with and without Badge, verifies the initial visible transform, and names/asserts `pointer-events: none` plus preserved anchor `onClick`. | The cited tests exercise rendered behavior without exact multiline source matching or simulated browser hit-testing. |
 
 **Checks:** `npm run docs:check` ✓ (21 component files) · `npm run typecheck` ✓ (2 TypeScript projects, 0 errors) · `npm run test:web` ✓ (125/125 tests, 9/9 files; Badge 18/18)
+
+**Deviations:** none
+**Questions for the Planner:** none
+
+#### Fix round 2 — 2026-10-24
+
+| Finding | What changed (`file:line`) | Test that proves it |
+|---|---|---|
+| #1 — fast re-hide leaves standalone space | `Badge.tsx:231-320, 415-424` collapses an already-hidden standalone badge immediately, checks for an empty Web Animations list when no exit can run, and collapses its own canceled `transform` transition. | `Badge.test.tsx:323-428` keeps the normal transition path, covers collapsed → show → hide at 0 ms and 16 ms, and covers `transitioncancel`; first-paint and reduced-motion coverage remains at `Badge.test.tsx:430-456`. |
+| #2 — root box assertion | `Badge.test.tsx:224-266` checks the Badge root's computed padding and border width are zero alongside the existing anchor box comparison and absolute indicator assertion. | `places rectangular and circular indicators at the logical top-end in LTR and RTL` runs for both overlaps in English and Arabic. |
+
+**Checks:** `npm run docs:check` ✓ (21 component files) · `npm run typecheck` ✓ (2 TypeScript projects, 0 errors) · `npm run test:web` ✓ (128/128 tests, 9/9 files; Badge 21/21)
 
 **Deviations:** none
 **Questions for the Planner:** none

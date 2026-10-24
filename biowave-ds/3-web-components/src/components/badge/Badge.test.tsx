@@ -227,6 +227,7 @@ describe('Badge visual contract', () => {
         const indicator = getIndicator(view.container);
         const plainStyles = getComputedStyle(plainAnchor);
         const badgedStyles = getComputedStyle(badgedAnchor);
+        const rootStyles = getComputedStyle(root);
 
         expect(root).toHaveStyle({
           position: 'relative',
@@ -250,6 +251,8 @@ describe('Badge visual contract', () => {
           padding: plainStyles.padding,
           border: plainStyles.border,
         });
+        expect(Number.parseFloat(rootStyles.padding) || 0).toBe(0);
+        expect(Number.parseFloat(rootStyles.borderWidth) || 0).toBe(0);
         expect(indicator).toHaveStyle({
           position: 'absolute',
           insetBlockStart: overlap === 'circular' ? '14.6%' : 0,
@@ -367,6 +370,61 @@ describe('Badge visual contract', () => {
       requestFrame.mockRestore();
       cancelFrame.mockRestore();
     }
+  });
+
+  it.each([0, 16])(
+    'collapses a standalone re-hidden after %d ms when no exit transition can run',
+    (delay) => {
+      let frame: FrameRequestCallback | undefined;
+      const requestFrame = vi
+        .spyOn(window, 'requestAnimationFrame')
+        .mockImplementation((callback) => {
+          frame = callback;
+          return 1;
+        });
+      const cancelFrame = vi
+        .spyOn(window, 'cancelAnimationFrame')
+        .mockImplementation(() => undefined);
+      const view = renderBadge({ count: 0, label: 'Notifications' });
+
+      try {
+        view.rerender(<Badge count={1} label="One notification" />);
+        let indicator = getIndicator(view.container);
+        expect(indicator).not.toHaveClass('bw-badge-collapsed');
+        expect(indicator).toHaveStyle({ transform: 'scale(0)' });
+
+        if (delay > 0) {
+          act(() => frame?.(delay));
+          indicator = getIndicator(view.container);
+          Object.defineProperty(indicator, 'getAnimations', {
+            configurable: true,
+            value: vi.fn(() => []),
+          });
+        }
+
+        view.rerender(<Badge count={0} label="Notifications" />);
+        indicator = getIndicator(view.container);
+        expect(indicator).toHaveClass('bw-badge-collapsed');
+        expect(indicator).toHaveStyle({ display: 'none' });
+      } finally {
+        view.unmount();
+        requestFrame.mockRestore();
+        cancelFrame.mockRestore();
+      }
+    },
+  );
+
+  it('collapses a hidden standalone when its transform exit is canceled', () => {
+    const view = renderBadge({ count: 3, label: 'Three notifications' });
+
+    view.rerender(<Badge count={3} invisible label="Three notifications" />);
+    let indicator = getIndicator(view.container);
+    expect(indicator).not.toHaveClass('bw-badge-collapsed');
+
+    fireEvent.transitionCancel(indicator, { propertyName: 'transform' });
+    indicator = getIndicator(view.container);
+    expect(indicator).toHaveClass('bw-badge-collapsed');
+    expect(indicator).toHaveStyle({ display: 'none' });
   });
 
   it('collapses a standalone immediately on first hidden render and with reduced motion', () => {

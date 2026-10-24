@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Fixed — Web Badge review round 2] — 2026-10-24
+### Fixed
+- Fixed the standalone Badge re-hide race so 0 ms and one-frame show → hide updates collapse immediately when no exit transition can run, and canceled transform exits also collapse. Added 0 ms, 16 ms and `transitioncancel` regressions, plus computed zero-padding and zero-border assertions for the anchored Badge root; all existing first-paint, normal-exit and reduced-motion behaviour remains covered.
+
 ## [Review — Web Badge round 2] — 2026-10-24
 ### Changed
 - Reviewed web `Badge` after fix round 1 (round 2, `badge.md` › E3): **Changes requested**. AC-8 met: the `count` × `warning` fill is `color-icon-role-warning`, measured in headless Chrome at 3.24:1 (light) and 12.20:1 (dark) against the surface, with text at 6.10:1 and 13.11:1. AC-10 and AC-11 met; Round 1's measurements still hold. docs:check, typecheck and test:web (125/125) pass. AC-9 fails in one case: a collapsed standalone badge that is shown and hidden again within about one frame stays in the layout at scale 0, leaving a 23.46 px gap (🟡 #1, Executor), plus one 🟢 test nit. Code → `Changes requested`; Plan stays `Finished`.
