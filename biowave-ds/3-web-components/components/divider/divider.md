@@ -14,10 +14,10 @@
 | Import | `import { Divider } from '@biowave/web'` |
 | Figma | **Biowave DS — Web Components** › `↳ Divider` · build: [Part D](#d--figma-build) |
 | Version | 1.1 · 2026-10-23 |
-| Plan | Finished |
-| Code | Built |
+| Plan | Open |
+| Code | Changes requested |
 | Figma build | Planned |
-| Review | — |
+| Review | Round 1 · 2026-10-24 · Changes requested |
 | Source code | `src/components/divider/` — not built yet (the Executor creates it) |
 | Tokens | — (no component tokens: every value is a semantic token, P-04) |
 | Contracts | [`divider-contract.md`](divider-contract.md) · [`figma-divider-contract.md`](figma-divider-contract.md) — generated, never edited |
@@ -597,7 +597,86 @@ Component description: “Thin line that separates groups of content, with an op
 
 | Round | Date | Code verdict | Figma verdict |
 |---|---|---|---|
-| — | — | not reviewed | not reviewed |
+| 1 | 2026-10-24 | **Changes requested** | not reviewed |
+
+### E2 Round 1 — 2026-10-24
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 1.1 |
+| Spec version reviewed | 1.1 |
+| Reviewer | Claude |
+| Date | 2026-10-24 |
+| Verdict | **Changes requested** |
+
+Code reviewed: `git diff origin/main...HEAD -- 3-web-components/src` on `ds/divider-web` (commit `3e8f79b`): `src/components/divider/` (`Divider.tsx`, `divider.tokens.ts`, `Divider.test.tsx`, `index.ts`) and `src/index.ts:22-29`. Working tree was clean before the review.
+
+Commands run by the Reviewer (2026-10-24, on the user's machine):
+`npm run docs:check` ✅ · `npm run typecheck` ✅ · `npm run sync` ✅ READY (exit 0) · `npm run test:web`: run 1 ❌ 117/118 (load average 3.4–6 from other agents; total test time 45 s against about 16 s normally; the name of the failing test was cut from the captured tail, so the file is not known). Re-run per the user's note: runs 2–5 ✅ 118/118 each (load 5.9–7.0, 5.4–11 s). `Divider.test.tsx` passed 11/11 in every captured run (about 0.9 s).
+
+Real browser: my own headless Chrome 156 (`--headless=new`, driven over CDP on a private port, not the shared pane). It rendered the real `Divider` from `3-web-components/src` with the generated `tokens.css` inside `BiowaveProvider`, built by a scratch Vite config outside the repo. Checked in light / dark × `en` / `ar`: computed styles, `Accessibility.getPartialAXTree`, and axe-core (wcag2a/aa, 21, 22aa, best-practice) on the whole page. I stopped my processes by PID afterwards.
+
+| Measured | light · en | light · ar | dark · en | dark · ar | Spec |
+|---|---|---|---|---|---|
+| Line thickness (`border-width-default` = 1px) | 1px, only border-bottom (horiz.) / border-right (vert.) | 1px, border-bottom / border-**left** (vert., inline-end in RTL) | as light · en | as light · ar | B2 ✅ |
+| `subtle` · `default` · `strong` colour | rgb(237) · rgb(219) · rgb(189) | same | rgb(41) · rgb(64) · rgb(84) | same | = `color-border-*` resolved per theme, B3 ✅ |
+| Inset `none` · `start` · `both` (400px box) | 0 · margin-left 16 · margin 16/16 | 0 · margin-**right** 16 · 16/16 | as en | as ar | `spacing-xl` = 16px, start flips, B2/B5 ✅ |
+| Vertical in a 48px flex row | 1×48, `align-self: stretch`; `both` → margin-block 16, 1×16; `start` → falls back to 0 margin | same, line on the left | same | same | B1/B2 ✅ |
+| Label `or` / `أو` | 12px / 16px Inter, weight 400, rgb(112), padding 8/8, container 16px tall, label centred (label centre 216 = box centre) | 12px / 18px IBM Plex Sans Arabic, container 18px | rgb(189) | rgb(189), 18px | `caption-md` per language, `color-text-neutral-muted`, gap `spacing-md`, B2/B3 ✅ |
+| Segments | `::before`/`::after` `flex: 1 0 16px`, 1px block-end border in the emphasis colour; label + `inset="both"` → outer margins 16/16 | same | same | same | B2 ✅ |
+| Long label in a 200px box | wraps to 3 lines, `text-align: center`, each segment exactly 16px, not truncated | 3 lines, segments 16px | same | same | B2 ✅ |
+| Label on vertical | plain `<hr aria-orientation="vertical">`, no text | same | same | same | B1 ✅ |
+| `component="li"` without label in a `<ul>` | **23px tall, `display: list-item` with a visible bullet** (`list-style-type: disc`, 22px line box) + 1px line | **25px** (24px line box) | 23px | 25px | B2 ❌ (finding 1) |
+| `component="li"` with label | `display: flex`, no marker, 16px | 18px | 16px | 18px | ✅ |
+
+Accessibility tree (all four combinations):
+- `<hr>` → `separator`, orientation horizontal, no `aria-orientation` attribute. Vertical → `separator`, orientation vertical.
+- Labelled → `<div role="separator" aria-label="or|أو">`, name "or" / "أو", visible text inside.
+- `decorative` (plain, labelled, vertical) → `aria-hidden="true"`, ignored, no `aria-label` / `aria-orientation`.
+- `component="li"` (plain, and labelled with `decorative={false}`) → `<li role="separator" aria-hidden="true">`, ignored, no `aria-label` / `aria-orientation`. The explicit `undefined` overrides the `aria-orientation` MUI would compute.
+- No `tabindex` anywhere.
+- axe: **0 violations** in all four; `list`, `listitem`, `aria-allowed-attr`, `aria-allowed-role`, `aria-hidden-focus` and `color-contrast` pass.
+
+#### Acceptance criteria
+
+| AC | Result | Evidence (file:line / test name) |
+|---|---|---|
+| AC-1 Public API = B1 (names, types, defaults, root table, warnings + fallbacks); no extra MUI props; `component` only `hr` · `li` | ✅ | `Divider.tsx:14-26` props (only B1 names + `className`, `data-*`; `ref` via `forwardRef` `:102`); defaults `:104-110`; root element `:137` (`li` → `li`, labelled → `div`, else `hr`); three warnings + fallbacks `:118-135`; tests *uses the required root and separator semantics*, *warns once for invalid combinations and renders each fallback*; in the browser every fallback renders as specified |
+| AC-2 Every B2–B3 value from the listed semantic token / text style; no raw values, no primitives | ⚠️ | `divider.tokens.ts:7-32` = B3 row for row (`cssVars.*`, `biowaveVariants.captionMd`); `Divider.tsx:41-91` uses only the map; test *uses only semantic tokens and logical directional properties*; every browser value above matches its token. **But** for `component="li"` without a label, B2's `border-width-default` thickness and "never adds its own spacing above / below" do not hold (finding 1) |
+| AC-3 Logical properties only (incl. label gap); RTL as B5 | ✅ | `Divider.tsx:45-49, 55-63, 74, 82` (`marginInlineStart`, `marginInline`, `marginBlock`, `inlineSize`, `blockSize`, `borderBlockEndWidth`, `borderInlineEndWidth`, `paddingInline`). MUI's physical `borderBottomWidth` / `borderRightWidth` and wrapper `padding-left/right` are overridden (browser: wrapper padding 8/8, vertical line on the inline-end side in both directions); test *keeps start inset at the logical inline start in English and Arabic* |
+| AC-4 Semantics per B6; axe clean incl. a list with `li` dividers | ✅ | `Divider.tsx:136, 147-150`; tests *uses the required root and separator semantics*, *hides decorative dividers…*, *renders list dividers as hidden li roots…*, *has no axe violations in both themes and languages*; browser AX tree + axe above |
+| AC-5 B9 + C6 tests exist and pass through `renderWithBiowave` at default timeouts; typecheck, test:web, docs:check, sync pass | ⚠️ | Every render uses `renderWithBiowave` (`Divider.test.tsx:9`); no cache or provider, no timeout arguments; checks green (test:web run 1 red under load, runs 2–5 green). Gaps: no test would catch finding 1; the C6 "no physical padding in the **computed** rules" check reads rule text only (finding 2) |
+| AC-6 Exported from `src/index.ts`; README row + header Code `Built`; C8 + CHANGELOG filled | ✅ | `src/index.ts:22-29`; `3-web-components/README.md:52` and header Code `Built` (before this review); C8 filled; CHANGELOG `[Added — Web Divider 1.1]` |
+
+#### Rule checks (AGENTS.md §2 + step prompt)
+
+| Rule | Result | Notes |
+|---|---|---|
+| No generated files edited | ✅ | The `src/` diff touches only the C5 files; contracts, HTML and `index.json` came from the plan step |
+| Tokens only — no raw values, no primitives | ✅ | Source lint test passes; no `primitive.*` / `base.*` in the unit |
+| RTL logical properties | ✅ | See AC-3; in the browser the start inset and the vertical line flip in Arabic |
+| Both themes, both languages — and tested | ✅ | Every layout × emphasis and the label rendered in light/dark × en/ar (*renders every valid layout…*, *centres English and Arabic labels…*); the browser confirms per-theme colours and per-language label metrics |
+| WCAG 2.2 AA | ✅ | Not interactive, never focusable; label `color-text-neutral-muted` (B3 pairs); axe 0 violations in jsdom and in Chrome |
+| Tests via `renderWithBiowave`, default timeouts | ✅ | No Emotion cache or provider in the test file, no timeout arguments, `vitest.config.ts` untouched |
+| Stayed inside the contract (C5 files) | ✅ | Exactly the C5 files |
+| `component="li"` always hidden (user-approved) | ✅ | `Divider.tsx:136`; tested with `decorative={false}` |
+
+#### Figma build (Part D)
+
+Skipped: Figma build is `Planned` and `figma` is skipped in `_workflow/config.json`.
+
+#### Findings
+
+| # | Severity | File | Issue | Required change | Owner |
+|---|---|---|---|---|---|
+| 1 | 🔴 Blocker | `Divider.tsx:52-91` | `component="li"` **without** a label keeps the browser's `display: list-item` / `list-style-type: disc`. Inside an ordinary `<ul>` (the B7 example) it shows a **bullet** and an empty 22px (en) / 24px (ar) line box above the line, so the divider is 23 / 25px tall and adds its own space. This breaks B2 (thickness `border-width-default`, "never adds its own spacing above / below"). Measured in headless Chrome in all four theme × language combinations. The labelled `li` is fine (`display: flex`). jsdom tests cannot see it | Reset the list-item styling on the root: at least `listStyle: 'none'`, and keep the unlabelled line a block (for example `display: 'block'` when not labelled), so the `li` renders exactly like the `<hr>`: 1px tall, no marker. Add a test that the `li` divider's styled rules contain `list-style: none` (or that the computed `list-style-type` is `none`) in en and ar |
+| 2 | 🟢 Nit | `Divider.test.tsx:157-201` | For the Arabic label, C6 asks for "same `padding-inline` on both sides, no physical padding in the computed or source rules". The test checks only the bw- rule text, so it would miss MUI's own `.MuiDivider-wrapper` `padding-left/right: calc(8px * 1.2)` (overridden today) if the override ever broke | Also assert `getComputedStyle(wrapper)` `paddingInlineStart` = `paddingInlineEnd` = `dividerTokens.label.gap` under `locale: 'ar'` |
+| 3 | 🟢 Nit | `divider.md` header | The Source code row still says "not built yet (the Executor creates it)", but the code now exists | Link the folder like the other components: [`src/components/divider/`](../../src/components/divider/) |
+
+#### Next step
+
+- Changes requested → Executor (fix round 1): 🔴 #1 and 🟢 #2; append a Fix round entry to C8.
+- Planner: 🟢 #3 (header row only, no behaviour change in A–D). Plan is set to `Open` per the workflow rule; set it back to `Finished` and regenerate the contract.
 
 ---
 

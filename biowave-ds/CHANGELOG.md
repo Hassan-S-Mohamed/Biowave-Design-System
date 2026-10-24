@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Review — Web Divider round 1: Changes requested] — 2026-10-24
+### Changed
+- Divider (web) review round 1: **Changes requested**. See Part E2 of `3-web-components/components/divider/divider.md`. Checked in headless Chrome (light/dark × en/ar): thickness, the three emphasis colours, insets (start flips in RTL), vertical stretch and fallbacks, label metrics and wrapping all match the tokens; the AX tree matches B6; axe has 0 violations, including a `<ul>` with `li` dividers. 🔴 #1: an unlabelled `component="li"` keeps `list-style: disc`, so it shows a bullet and is 23/25px tall (Executor). 🟢 #2: computed-padding test for the Arabic label (Executor). 🟢 #3: stale Source code header row (Planner). Plan → Open, Code → Changes requested (header + README). `docs:check` ✓, `typecheck` ✓, `sync` READY, `test:web` 118/118 in runs 2–5 (run 1 117/118 under load).
+
 ## [Added — Web Divider 1.1] — 2026-10-24
 ### Added
 - Built and exported the token-styled web `Divider` with horizontal and vertical orientations, three emphasis levels, logical start/both insets, optional centred labels, decorative and list semantics, development warnings with specified fallbacks, and forwarded root refs/data attributes. Added 11 table-driven tests covering both themes and languages, RTL/logical CSS, tokens, labels, semantics, invalid combinations, axe, and three consecutive 118/118 full-suite runs at default timeouts.
