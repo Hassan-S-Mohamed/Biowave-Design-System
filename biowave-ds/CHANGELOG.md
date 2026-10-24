@@ -29,6 +29,55 @@ Every change to the design system is logged here **in the same task**, newest fi
 ## [Tablet Split button — implementation] — 2026-10-24
 ### Added
 - Added the token-driven Flutter `BwSplitButton` composition, logical segment radii for `BwButton` / `BwIconButton`, keyboard and screen-reader menu interaction, RTL-aware layout, package export, and contract test coverage. Code → Built; analysis, component-token, sync, and docs checks pass, while Flutter Test remains not runnable in the sandbox because its loopback harness socket is denied and will be run by the orchestrator.
+## [Review — Web Link round 2: Approved] — 2026-10-24
+### Changed
+- Link (web) review round 2: **Approved** — Part E3 of `3-web-components/components/link/link.md`. Round 1 findings #1–#4 fixed; headless Chrome accessibility tree in light/dark × en/ar: external name = label + hidden suffix from content ("Contact support (opens in a new tab)", AR suffix, `externalLabel` override), consumer `aria-label` kept unchanged, disabled links not tabbable or click-focusable; dimensions, colours, focus ring and RTL unchanged from Round 1. One 🟢 nit (#5, test guard against a synthesized `aria-label`). Code → Approved (header + README). `docs:check` ✓, `typecheck` ✓, `test:web` 123/123 ✓.
+
+## [Fixed — Web Link review round 1] — 2026-10-24
+### Fixed
+- Fixed all four Executor findings from review round 1: external accessible names now come from the visible label plus the localized visually hidden suffix while consumer `aria-label` values pass through unchanged; disabled links no longer receive `tabIndex=-1`; empty and non-string label warnings use independently testable once-only keys; and the component header points to the built source. `docs:check` ✓, `typecheck` ✓, `test:web` 123/123 ✓ at default timeouts.
+
+## [Review — Web Link round 1: Changes requested] — 2026-10-24
+### Changed
+- Link (web) review round 1: **Changes requested** — Part E2 of `3-web-components/components/link/link.md`. Headless Chrome confirms B2–B5 in light/en and dark/ar (24 px target, action-sm|md|lg, 16/16/20 px icons, 1→2 px underline at 2 px offset, 2 px focus ring at 2 px offset, one RTL flip by the Icon). 🟡 #1: external links build their name with an `aria-label` on top of the B6 hidden span; 🟢 #2–4: disabled `tabIndex=-1`, non-string label warning test, stale `Source code` header field. Code → Changes requested (header + README). `docs:check` ✓, `typecheck` ✓, `test:web` 123/123 ✓.
+
+## [Added — Web Link 1.0] — 2026-10-24 — Implemented the token-only MUI Link wrapper, inline and standalone sizes, brand/neutral/inverse states, visited and disabled behavior, safe localized external links, app-router composition, RTL icon handling, public exports, and complete contract tests.
+
+## [Preview — Mobile Link 1.0] — 2026-10-23 — Added light/English and dark/Arabic RTL planning sheets covering inline and standalone options, five mobile states, all sizes, leading and mirrored external icons, 48 px touch targets and resolved shared-token callouts.
+
+## [Preview — Tablet Link 1.0] — 2026-10-23 — Added light/English and dark/Arabic RTL planning sheets covering inline and standalone options, five tablet states, all sizes, leading and mirrored external icons, 48 px touch targets and resolved shared-token callouts.
+
+## [Preview — Web Link 1.0] — 2026-10-22 — Added light/English and dark/Arabic RTL planning sheets covering the planned options, six states, resolved shared-token callouts and RTL mirroring.
+
+## [Plan — Link (web, tablet, mobile) 1.0] — 2026-10-21
+### Added
+- Link plan for Web, Tablet and Mobile (`<section>/components/link/link.md`, Parts A–D and F; Part A identical on all three except A8): inline and standalone links, `color` brand · neutral · inverse, `size` inherit · sm · md · lg, `underline` always · hover, optional leading icon, `external` (`open_in_new`, screen-reader suffix / hint), `show-visited` on web only. Web on MUI `Link`; Flutter `BwLink` (custom `InkWell` + text) and `BwLink.span` for inline links. Semantic tokens only — no `link.tokens.json` (P-04). Plan `Finished`.
+- Generated contracts `link-contract.md` · `figma-link-contract.md` and docs pages `link.html` for the three platforms; Link rows in the three section README Components tables.
+- Open: glyph `open_in_new` is not in `_sync/figma-icons.json` yet (`npm run sync:icons:plan` → read in Figma → `npm run sync:icons`, then regenerate the Figma contracts).
+
+## [Review — Mobile Icon button round 3: Approved] — 2026-10-24
+### Changed
+- Icon button (mobile) review round 3: **Approved** — Part E4 of `5-mobile-components/components/icon-button/icon-button.md`. Round 2 #4 fixed (D11 / Part D equal to `main` again; Fix round 1 kept once in C8). No code or test change since Round 2. No findings. Plan stays Finished. Code → Approved (header + README). `docs:check` ✓, `flutter analyze` ✓, `flutter test` 96/96 ✓, `sync` READY.
+
+## [Fixed — Mobile Icon button review round 2] — 2026-10-24
+### Fixed
+- Removed the duplicate Mobile Icon button Fix round 1 entry from D11, retained the canonical copy in C8, added the Fix round 2 execution-log entry, and restored the code status to Built. No code changed.
+
+## [Review — Mobile Icon button round 2: Changes requested] — 2026-10-24
+### Changed
+- Icon button (mobile) review round 2: **Changes requested** — Part E3 of `5-mobile-components/components/icon-button/icon-button.md`. Round 1 #1 fixed (single semantics node now exposes `focused` after Tab and `SemanticsAction.focus`, label read once, `tester.semantics.tap` calls `onPressed`), #2 and #3 fixed. 🟡 #4: the Fixer's Fix round 1 entry was also pasted into D11 (Figma Agent log) — Implementer removes it. Plan stays Finished. Code → Changes requested (header + README). `docs:check` ✓, `flutter analyze` ✓, `flutter test` 96/96 ✓, `sync` READY.
+
+## [Fixed — Mobile Icon button review round 1] — 2026-10-24
+### Fixed
+- Fixed Mobile `BwIconButton` review round 1 findings (#1–#3): exposed `focusable`, `focused`, and `SemanticsAction.focus` on the single accessible `Semantics` node from the button's `FocusNode` while keeping one labelled node with `button`, `toggled`, `enabled`, and `tap`, and extended `label is read once and toggle state is exposed` to verify post-Tab focus state, focus action, single labelled node, and `tester.semantics.tap` activation; updated the `Source code` link in `icon-button.md` and reverted the unrelated `BwMobileTheme` reformat in `lib/biowave_mobile.dart`.
+
+## [Review — Mobile Icon button round 1: Changes requested] — 2026-10-23
+### Changed
+- Icon button (mobile) review round 1: **Changes requested** — Part E2 of `5-mobile-components/components/icon-button/icon-button.md`. Screen-reader activation OK (one labelled node, `SemanticsAction.tap` calls `onPressed`). 🟡 #1: the excluding `Semantics` wrapper drops the focus state and `focus` action that BwButton exposes. 🟢 #2 header `Source code` row stale; 🟢 #3 unrelated `BwMobileTheme` reformat. All Implementer; Plan stays Finished. Code → Changes requested (header + README). `docs:check` ✓, `flutter analyze` ✓, `flutter test` 96/96 ✓, `sync` READY.
+
+## [Mobile Icon button — code implementation (1.0)] — 2026-10-23
+### Added
+- Built `BwIconButton` for `biowave_mobile` (`lib/src/components/icon_button/bw_icon_button.dart` + `test/icon_button_test.dart` + 4 goldens in `test/goldens/icon_button/`), sharing `BwButtonStyle.resolve`, `BwControlSize`, and `BwFocusRing`, with token-only selected state (`WidgetState.selected`), long-press M3 `Tooltip` styled with B3.4 tokens, loading spinner and single announcement, and a single accessible container node carrying the tap action and toggle state.
 
 ## [Review — Tablet Icon button round 2: Approved] — 2026-10-24
 ### Changed
@@ -49,6 +98,7 @@ Every change to the design system is logged here **in the same task**, newest fi
 ## [Tablet Icon button — implementation] — 2026-10-23
 - Round 3 disposes the icon-button semantics handle inside the test body before Flutter verifies that no handles remain active.
 - Added the token-driven Flutter `BwIconButton`, package export, and contract test coverage; fixed selected transitions to keep one `BwIcon` mounted and exposed the labelled toggle semantics outside the visual-only tooltip. Code is Built; analysis, component-token, sync, and docs checks pass, while Flutter Test remains not runnable in the sandbox because its loopback harness socket is denied and will be run by the orchestrator.
+
 ## [Review — Mobile Icon round 1: Approved] — 2026-10-23
 ### Changed
 - Icon (mobile) review round 1: **Approved** — Part E2 of `5-mobile-components/components/icon/icon.md`. AC-1…AC-5 met; 3 🟢 nits for the Executor (test name over-claims a button double-flip check, stale header `Source code` row, changelog entry format). Note: mobile `BwButton` still renders `Icon` directly, so the B9 button double-flip check moves to Button / Icon button (mobile). Review → Round 1 · Approved (header + README). `docs:check` ✓, `flutter analyze` ✓, `flutter test` 92/92 ✓.
