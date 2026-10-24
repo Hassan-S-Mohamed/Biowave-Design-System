@@ -63,14 +63,12 @@ abstract final class BwButtonStyle {
 
     Color overlay(Set<WidgetState> states) {
       if (variant == BwButtonVariant.filled ||
-          states.contains(WidgetState.disabled)) {
+          states.contains(WidgetState.disabled) ||
+          states.contains(WidgetState.focused)) {
         return transparent;
       }
       if (states.contains(WidgetState.pressed)) {
         return colors.overlayPressed;
-      }
-      if (states.contains(WidgetState.focused)) {
-        return transparent;
       }
       if (states.contains(WidgetState.hovered)) {
         return colors.overlayHover;

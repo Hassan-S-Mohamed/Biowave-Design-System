@@ -15,7 +15,7 @@
 | Figma | **Biowave DS — Mobile Components** › `↳ Split Button` (page Typography mode `Mobile`) · [Part D](#d--figma-build) |
 | Version | 1.0 · 2026-10-16 |
 | Plan | Finished |
-| Code | Changes requested |
+| Code | Built |
 | Figma build | Planned |
 | Review | Round 2 · 2026-10-24 · Changes requested |
 | Source code | `lib/src/components/split_button/bw_split_button.dart` |
@@ -377,6 +377,14 @@ Implemented `BwSplitButton` and `BwSplitButtonOption` in `lib/src/components/spl
 | Plan 2 C3: `BwIconButton` composite parameters | Reworked `BwIconButton` parameters to match C3 table (`segment`, `focusNode`, `autofocus`, `statesController`, `iconTurns`, `iconRotationDuration`, `iconRotationCurve`, `expanded` for semantics only; `bw_icon_button.dart:27-32,67-96`), wrapped glyph in `AnimatedRotation` (`bw_icon_button.dart:270-284`), removed `iconChild` and pressed state hack | `cd 5-mobile-components && flutter test test/icon_button_test.dart test/split_button_test.dart` (96 icon button tests + 141 mobile tests pass) |
 | Plan 2 B2/B3/B4/B6: Decorated menu surface, elevation-3, item states, cyclic arrows, reduced motion | In `bw_split_button.dart`, wrapped menu items in `DecoratedBox` with `elevation3` and `surfaceRaised` + `ClipRRect` inside transparent `MenuStyle(clipBehavior: Clip.none)` (`bw_split_button.dart:286-306`); implemented arrow keys wrap-around (`bw_split_button.dart:581-599`); configured `MenuAnchor(animated: !context.bw.reduceMotion)` (`bw_split_button.dart:257`) | `5-mobile-components/test/split_button_test.dart:349-373` (surface tokens and elevation-3), `5-mobile-components/test/split_button_test.dart:813-868` (arrow keys wrap around enabled options) |
 | Goldens: Missing from C5 / contract §9 in Plan 1 | Regenerated all 4 goldens (`split-button-{light,dark}-{en,ar}.png`) under `test/goldens/split_button/` with `flutter test --update-goldens` per C5; checked pixel-exact visually | `5-mobile-components/test/split_button_test.dart:300-333` (goldens match 800×600 pixel-exact) |
+
+#### Fix round 2 — 2026-10-24 (Antigravity)
+
+| Finding | What changed (`file:line`) | Test that proves it |
+|---|---|---|
+| #11 (🟡) Shared `overlay()` resolver order in `bw_button_style.dart` | Restored `states.contains(WidgetState.focused)` check before `WidgetState.pressed` (`5-mobile-components/lib/src/components/button/bw_button_style.dart:66`) returning transparent so `bw_button_style.dart` differs from `main` only by `segmentBorderRadius` | `cd 5-mobile-components && flutter test test/button_test.dart test/split_button_test.dart` (all 91 tests pass) |
+| #12 (🟢) Dual focus ring on menu item | Removed redundant `backgroundBuilder` focus border in `5-mobile-components/lib/src/components/split_button/bw_split_button.dart:457-466`, drawing the menu item focus ring once via `side` | `5-mobile-components/test/split_button_test.dart:418-425` (`expect(itemStyle.side!.resolve(...))`) |
+| #13 (🟢) `BwSplitButton.chevronHalfTurn` visibility | Marked `BwSplitButton.chevronHalfTurn` with `@visibleForTesting` in `5-mobile-components/lib/src/components/split_button/bw_split_button.dart:76` so it is not exposed as part of the public API | `cd 5-mobile-components && flutter analyze` (0 issues); `5-mobile-components/test/split_button_test.dart:456` |
 
 ---
 

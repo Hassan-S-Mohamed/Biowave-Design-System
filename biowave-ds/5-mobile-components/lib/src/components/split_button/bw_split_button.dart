@@ -73,6 +73,7 @@ class BwSplitButton extends StatefulWidget {
         );
 
   /// Chevron half turn when expanded (B4).
+  @visibleForTesting
   static const double chevronHalfTurn = 0.5;
 
   /// Primary action label.
@@ -464,20 +465,6 @@ class _BwSplitButtonState extends State<BwSplitButton> {
         }
         return BorderSide.none;
       }),
-      backgroundBuilder: (context, states, child) {
-        assert(child != null);
-        return DecoratedBox(
-          decoration: BoxDecoration(
-            border: states.contains(WidgetState.focused)
-                ? Border.all(
-                    color: colors.borderFocus,
-                    width: BwBorder.widthFocus,
-                  )
-                : null,
-          ),
-          child: child!,
-        );
-      },
       animationDuration: reduceMotion ? BwDuration.instant : BwDuration.sm,
       splashFactory: NoSplash.splashFactory,
     );

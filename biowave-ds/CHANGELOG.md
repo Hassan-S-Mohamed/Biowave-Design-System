@@ -2,6 +2,14 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Fixed — Mobile Split button review round 2] — 2026-10-24
+### Fixed
+- Fixed Mobile `BwSplitButton` review round 2 findings:
+  - Restored `main` order in shared `overlay()` resolver of `lib/src/components/button/bw_button_style.dart` (`focused` wins and returns transparent) so that file differs from `main` only by `segmentBorderRadius` (#11).
+  - Removed duplicate menu item focus ring in `backgroundBuilder`, drawing it once via `side` in `lib/src/components/split_button/bw_split_button.dart` (#12).
+  - Marked `BwSplitButton.chevronHalfTurn` with `@visibleForTesting` in `lib/src/components/split_button/bw_split_button.dart` so it is not exported as public API (#13).
+  - Code status set to `Built` in `split-button.md` header and `5-mobile-components/README.md`.
+
 ## [Review — Mobile Split button round 2: Changes requested] — 2026-10-24
 ### Changed
 - Split button (mobile) review round 2: **Changes requested** — Part E3 of `5-mobile-components/components/split-button/split-button.md`. Round 1 #1–#10 all fixed (Tab / Shift+Tab close, internal `@internal` API with tablet names and `BwButtonSegment` hidden, shared `segmentBorderRadius`, decorated `elevation-3` menu surface, menu position LTR + RTL, arrows wrap, menu fade off under reduced motion — probed). Open: the shared `BwButtonStyle` `overlay()` order was changed outside C3, so focused + pressed BwButton / BwIconButton now show `overlayPressed` (#11 🟡, Executor); 2 🟢 nits (double item focus ring, public `chevronHalfTurn`). Plan stays Finished; Code → Changes requested (header + README). `docs:check` ✓, `flutter analyze` ✓, `flutter test` 141/141 ✓.
