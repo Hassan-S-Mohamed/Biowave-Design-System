@@ -1,4 +1,4 @@
-<!-- GENERATED from icon-button.md @ 7becb0e38b4b033a — do not edit; change the source and run: npm run contract -- tablet icon-button -->
+<!-- GENERATED from icon-button.md @ c45979476b48593a — do not edit; change the source and run: npm run contract -- tablet icon-button -->
 # Icon button · زر أيقونة — Tablet — code contract
 
 > **Everything you need to build Icon button on Tablet, and nothing else.** Read this file only. Generated from [`icon-button.md`](icon-button.md) (Parts B and C). If something is unclear or impossible, stop and write it in [C8 Execution log → Questions](icon-button.md#c8-execution-log-filled-by-the-executor) — never invent behaviour.
@@ -10,9 +10,9 @@
 | Built on | M3 `IconButton` · `IconButton.filled` · `IconButton.filledTonal` · `IconButton.outlined` with a `ButtonStyle` from tokens; `isSelected` for toggles; `tooltip` → M3 `Tooltip` (long press) |
 | Import | `BwIconButton` from `package:biowave_tablet/biowave_tablet.dart` |
 | Version | 1.0 · 2026-10-16 |
-| Source code | `lib/src/components/icon-button/` — not built yet (the Executor creates it) |
+| Source code | `lib/src/components/icon_button/bw_icon_button.dart` |
 | Tokens | — |
-| Source | [`icon-button.md`](icon-button.md) @ `7becb0e38b4b033a` |
+| Source | [`icon-button.md`](icon-button.md) @ `c45979476b48593a` |
 
 ## 1. What it is
 
@@ -109,7 +109,7 @@ BwIconButton(icon: Symbols.edit_rounded, label: 'تعديل الجهاز', onPre
 
 ### Goal
 
-`BwIconButton` meets B1–B6 and passes C9 using only tokens and the shared button helpers.
+`BwIconButton` meets B1–B6 and passes C6 / B9 using only tokens and the shared button helpers.
 
 ### Scope
 
@@ -128,6 +128,7 @@ None.
 ```
 4-tablet-components/lib/src/components/icon_button/bw_icon_button.dart   new (reuses BwButtonStyle, BwControlSize, focus ring)
 4-tablet-components/test/icon_button_test.dart                           new
+4-tablet-components/test/goldens/icon_button/                            new (generated goldens)
 4-tablet-components/lib/biowave_tablet.dart                                       change: export
 4-tablet-components/README.md                                            change: status row
 ```

@@ -13,6 +13,55 @@ Every change to the design system is logged here **in the same task**, newest fi
 - `_docs/live.tsx` still imported the `MaterialSymbol` test helper that icon/web deleted, so every live React preview (`npm start`) failed with a Vite import error. The demos now use the Biowave `Icon` from `3-web-components/src` (the directional arrow uses `directional` instead of the `bw-icon-directional` class).
 ### Added
 - `_docs/tsconfig.json` and `tsc -p _docs` in `npm run typecheck`, so a broken import in `live.tsx` now fails the typecheck.
+
+## [Review — Mobile Icon button round 3: Approved] — 2026-10-24
+### Changed
+- Icon button (mobile) review round 3: **Approved** — Part E4 of `5-mobile-components/components/icon-button/icon-button.md`. Round 2 #4 fixed (D11 / Part D equal to `main` again; Fix round 1 kept once in C8). No code or test change since Round 2. No findings. Plan stays Finished. Code → Approved (header + README). `docs:check` ✓, `flutter analyze` ✓, `flutter test` 96/96 ✓, `sync` READY.
+
+## [Fixed — Mobile Icon button review round 2] — 2026-10-24
+### Fixed
+- Removed the duplicate Mobile Icon button Fix round 1 entry from D11, retained the canonical copy in C8, added the Fix round 2 execution-log entry, and restored the code status to Built. No code changed.
+
+## [Review — Mobile Icon button round 2: Changes requested] — 2026-10-24
+### Changed
+- Icon button (mobile) review round 2: **Changes requested** — Part E3 of `5-mobile-components/components/icon-button/icon-button.md`. Round 1 #1 fixed (single semantics node now exposes `focused` after Tab and `SemanticsAction.focus`, label read once, `tester.semantics.tap` calls `onPressed`), #2 and #3 fixed. 🟡 #4: the Fixer's Fix round 1 entry was also pasted into D11 (Figma Agent log) — Implementer removes it. Plan stays Finished. Code → Changes requested (header + README). `docs:check` ✓, `flutter analyze` ✓, `flutter test` 96/96 ✓, `sync` READY.
+
+## [Fixed — Mobile Icon button review round 1] — 2026-10-24
+### Fixed
+- Fixed Mobile `BwIconButton` review round 1 findings (#1–#3): exposed `focusable`, `focused`, and `SemanticsAction.focus` on the single accessible `Semantics` node from the button's `FocusNode` while keeping one labelled node with `button`, `toggled`, `enabled`, and `tap`, and extended `label is read once and toggle state is exposed` to verify post-Tab focus state, focus action, single labelled node, and `tester.semantics.tap` activation; updated the `Source code` link in `icon-button.md` and reverted the unrelated `BwMobileTheme` reformat in `lib/biowave_mobile.dart`.
+
+## [Review — Mobile Icon button round 1: Changes requested] — 2026-10-23
+### Changed
+- Icon button (mobile) review round 1: **Changes requested** — Part E2 of `5-mobile-components/components/icon-button/icon-button.md`. Screen-reader activation OK (one labelled node, `SemanticsAction.tap` calls `onPressed`). 🟡 #1: the excluding `Semantics` wrapper drops the focus state and `focus` action that BwButton exposes. 🟢 #2 header `Source code` row stale; 🟢 #3 unrelated `BwMobileTheme` reformat. All Implementer; Plan stays Finished. Code → Changes requested (header + README). `docs:check` ✓, `flutter analyze` ✓, `flutter test` 96/96 ✓, `sync` READY.
+
+## [Mobile Icon button — code implementation (1.0)] — 2026-10-23
+### Added
+- Built `BwIconButton` for `biowave_mobile` (`lib/src/components/icon_button/bw_icon_button.dart` + `test/icon_button_test.dart` + 4 goldens in `test/goldens/icon_button/`), sharing `BwButtonStyle.resolve`, `BwControlSize`, and `BwFocusRing`, with token-only selected state (`WidgetState.selected`), long-press M3 `Tooltip` styled with B3.4 tokens, loading spinner and single announcement, and a single accessible container node carrying the tap action and toggle state.
+## [Review — Tablet Icon button round 2: Approved] — 2026-10-24
+### Changed
+- Icon button (tablet) review round 2: **Approved** — Part E3 of `4-tablet-components/components/icon-button/icon-button.md`. Round 1 #1 fixed (`MergeSemantics` exposes one labelled button node with `tap` + `focus` when enabled, none when disabled; tap-target guidelines now meaningful), #2 fixed (plan 1.1 authorises `test/goldens/icon_button/`; four goldens added and checked by eye), #3 fixed (icon cross-fade), #4 and #5 fixed (header source path, C1 reference). 🟢 #6 nit: no icon-button test asserts reduced motion (Implementer, non-blocking). Code → Approved (header + README). `docs:check` ✓, `flutter analyze` ✓, `flutter test` 152/152 ✓.
+
+## [Fixed — Tablet Icon button review round 1] — 2026-10-23
+### Fixed
+- Fixed Tablet `BwIconButton` review round 1 findings (#1 merged button semantics exposing `SemanticsAction.tap` and `SemanticsAction.focus` when enabled and none when disabled with one label and `toggled` state, plus tap-target and labeled-tap-target guidelines for `sm`/`md`; #3 cross-fading outgoing and incoming icons in `AnimatedSwitcher`; #2 added B9 PNG goldens under `4-tablet-components/test/goldens/icon_button/`). Code → Built.
+
+## [Plan — Tablet Icon button 1.1] — 2026-10-23
+### Changed
+- Icon button (tablet) plan 1.1 fixes the Planner findings of review round 1 (Part E2 of `4-tablet-components/components/icon-button/icon-button.md`): #2 C5 now authorises `4-tablet-components/test/goldens/icon_button/` (generated goldens) so B9's PNG goldens are allowed; #4 header "Source code" → `lib/src/components/icon_button/bw_icon_button.dart`; #5 C1 "passes C9" → "passes C6 / B9". Plan → Finished (header + README); contract regenerated. Implementer findings #1, #3 untouched.
+
+## [Review — Tablet Icon button round 1: Changes requested] — 2026-10-23
+### Changed
+- Icon button (tablet) review round 1: **Changes requested** — Part E2 of `4-tablet-components/components/icon-button/icon-button.md`. 🔴 #1 the outer `Semantics(excludeSemantics: true)` exposes no tap action, so screen readers cannot activate the button (Implementer). 🟡 #2 B9 goldens are not authorised by C5 — answers the C8 question; Planner adds `test/goldens/icon_button/` (Planner). 🟢 #3 icon swap is fade-in not cross-fade; #4 stale "Source code" header; #5 C1 cites a missing C9. Plan → Open, Code → Changes requested (header + README). `docs:check` ✓, `flutter analyze` ✓, `flutter test` 147/147 ✓.
+
+## [Tablet Icon button — implementation] — 2026-10-23
+- Round 3 disposes the icon-button semantics handle inside the test body before Flutter verifies that no handles remain active.
+- Added the token-driven Flutter `BwIconButton`, package export, and contract test coverage; fixed selected transitions to keep one `BwIcon` mounted and exposed the labelled toggle semantics outside the visual-only tooltip. Code is Built; analysis, component-token, sync, and docs checks pass, while Flutter Test remains not runnable in the sandbox because its loopback harness socket is denied and will be run by the orchestrator.
+## [Review — Mobile Icon round 1: Approved] — 2026-10-23
+### Changed
+- Icon (mobile) review round 1: **Approved** — Part E2 of `5-mobile-components/components/icon/icon.md`. AC-1…AC-5 met; 3 🟢 nits for the Executor (test name over-claims a button double-flip check, stale header `Source code` row, changelog entry format). Note: mobile `BwButton` still renders `Icon` directly, so the B9 button double-flip check moves to Button / Icon button (mobile). Review → Round 1 · Approved (header + README). `docs:check` ✓, `flutter analyze` ✓, `flutter test` 92/92 ✓.
+
+- **2026-10-23 — Mobile Icon (`BwIcon`) built:** Implemented `BwIcon`, `BwIconSize`, and `BwIconColor` in `5-mobile-components/lib/src/components/icon/bw_icon.dart` (exported from `biowave_mobile.dart`) with token-driven sizes and colours, `BwIconAxes` fill/weight/grade/opticalSize axes, RTL `directional` mirroring, decorative/meaningful semantics, golden tests (`light`/`dark` × `en`/`ar`), and the `no_legacy_icons_test.dart` D-18 guard (`Code: Built`).
+
 ## [Review — Web Split button round 3: Approved] — 2026-10-21
 ### Changed
 - Split button (web) review round 3: **Approved** — Part E4 of `3-web-components/components/split-button/split-button.md`. Round 2 #9 fixed (headless Chrome computed Paper `transition`: open `opacity`/`transform` 0.2s `standard-decelerate`, close 0.1s `standard-accelerate`, no delay) and #10 fixed (`prefers-reduced-motion: reduce` → 0 s, menu instant); Round 1 #1 still holds (menu end edge right in English, left in Arabic). 🟢 #11 nit: MUI Grow's `auto` timeout keeps the invisible backdrop ~240 ms after close — carried to the Menu component. Code → Approved (header + README). `docs:check` ✓, `typecheck` ✓, `test:web` 100/100 ✓, `sync` READY.
