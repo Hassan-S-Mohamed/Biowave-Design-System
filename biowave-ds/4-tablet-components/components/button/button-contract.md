@@ -10,7 +10,7 @@
 | Built on | M3 `FilledButton` · `FilledButton.tonal` · `OutlinedButton` · `TextButton`, chosen by `variant`, with a `ButtonStyle` built only from Biowave tokens. No ink splash |
 | Import | `BwButton` from `package:biowave_tablet/biowave_tablet.dart` |
 | Version | 1.1 · 2026-10-20 |
-| Source code | `lib/src/components/button/` — not built yet (the Executor creates it) |
+| Source code | [`lib/src/components/button/`](../../lib/src/components/button/) |
 | Tokens | [`button.tokens.json`](button.tokens.json) |
 | Source | [`button.md`](button.md) @ `51582d15ef4cb8c6` |
 
