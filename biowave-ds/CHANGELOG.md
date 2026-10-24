@@ -2,6 +2,25 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Review — Tablet Icon button round 2: Approved] — 2026-10-24
+### Changed
+- Icon button (tablet) review round 2: **Approved** — Part E3 of `4-tablet-components/components/icon-button/icon-button.md`. Round 1 #1 fixed (`MergeSemantics` exposes one labelled button node with `tap` + `focus` when enabled, none when disabled; tap-target guidelines now meaningful), #2 fixed (plan 1.1 authorises `test/goldens/icon_button/`; four goldens added and checked by eye), #3 fixed (icon cross-fade), #4 and #5 fixed (header source path, C1 reference). 🟢 #6 nit: no icon-button test asserts reduced motion (Implementer, non-blocking). Code → Approved (header + README). `docs:check` ✓, `flutter analyze` ✓, `flutter test` 152/152 ✓.
+
+## [Fixed — Tablet Icon button review round 1] — 2026-10-23
+### Fixed
+- Fixed Tablet `BwIconButton` review round 1 findings (#1 merged button semantics exposing `SemanticsAction.tap` and `SemanticsAction.focus` when enabled and none when disabled with one label and `toggled` state, plus tap-target and labeled-tap-target guidelines for `sm`/`md`; #3 cross-fading outgoing and incoming icons in `AnimatedSwitcher`; #2 added B9 PNG goldens under `4-tablet-components/test/goldens/icon_button/`). Code → Built.
+
+## [Plan — Tablet Icon button 1.1] — 2026-10-23
+### Changed
+- Icon button (tablet) plan 1.1 fixes the Planner findings of review round 1 (Part E2 of `4-tablet-components/components/icon-button/icon-button.md`): #2 C5 now authorises `4-tablet-components/test/goldens/icon_button/` (generated goldens) so B9's PNG goldens are allowed; #4 header "Source code" → `lib/src/components/icon_button/bw_icon_button.dart`; #5 C1 "passes C9" → "passes C6 / B9". Plan → Finished (header + README); contract regenerated. Implementer findings #1, #3 untouched.
+
+## [Review — Tablet Icon button round 1: Changes requested] — 2026-10-23
+### Changed
+- Icon button (tablet) review round 1: **Changes requested** — Part E2 of `4-tablet-components/components/icon-button/icon-button.md`. 🔴 #1 the outer `Semantics(excludeSemantics: true)` exposes no tap action, so screen readers cannot activate the button (Implementer). 🟡 #2 B9 goldens are not authorised by C5 — answers the C8 question; Planner adds `test/goldens/icon_button/` (Planner). 🟢 #3 icon swap is fade-in not cross-fade; #4 stale "Source code" header; #5 C1 cites a missing C9. Plan → Open, Code → Changes requested (header + README). `docs:check` ✓, `flutter analyze` ✓, `flutter test` 147/147 ✓.
+
+## [Tablet Icon button — implementation] — 2026-10-23
+- Round 3 disposes the icon-button semantics handle inside the test body before Flutter verifies that no handles remain active.
+- Added the token-driven Flutter `BwIconButton`, package export, and contract test coverage; fixed selected transitions to keep one `BwIcon` mounted and exposed the labelled toggle semantics outside the visual-only tooltip. Code is Built; analysis, component-token, sync, and docs checks pass, while Flutter Test remains not runnable in the sandbox because its loopback harness socket is denied and will be run by the orchestrator.
 ## [Review — Mobile Icon round 1: Approved] — 2026-10-23
 ### Changed
 - Icon (mobile) review round 1: **Approved** — Part E2 of `5-mobile-components/components/icon/icon.md`. AC-1…AC-5 met; 3 🟢 nits for the Executor (test name over-claims a button double-flip check, stale header `Source code` row, changelog entry format). Note: mobile `BwButton` still renders `Icon` directly, so the B9 button double-flip check moves to Button / Icon button (mobile). Review → Round 1 · Approved (header + README). `docs:check` ✓, `flutter analyze` ✓, `flutter test` 92/92 ✓.
