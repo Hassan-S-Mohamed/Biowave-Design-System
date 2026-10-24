@@ -119,7 +119,12 @@
     "maxSize": 1600,
     "quality": 85
   },
-  "agentArgs": {},
+  "agentArgs": {
+    "antigravity": [
+      "--model",
+      "gemini-3.8-flash-high"
+    ]
+  },
   "limits": {
     "maxFixRounds": 2,
     "timeoutMinutes": 45
