@@ -15,10 +15,10 @@
 | Figma | **Biowave DS — Tablet Components** › `↳ Split Button` (page Typography mode `Tablet`) · [Part D](#d--figma-build) |
 | Version | 1.0 · 2026-10-16 |
 | Plan | Finished |
-| Code | Planned |
+| Code | Approved |
 | Figma build | Planned |
-| Review | — |
-| Source code | `lib/src/components/split-button/` — not built yet (the Executor creates it) |
+| Review | Round 2 · 2026-10-24 · Approved |
+| Source code | `lib/src/components/split_button/bw_split_button.dart` |
 | Tokens | — (no component tokens yet) |
 | Contracts | [`split-button-contract.md`](split-button-contract.md) · [`figma-split-button-contract.md`](figma-split-button-contract.md) — generated, never edited |
 | Docs page | [`split-button.html`](split-button.html) |
@@ -181,17 +181,46 @@ Each part has its own states, the same as [Button A5](../button/button.md#a5-sta
 
 ### B2 Dimensions
 
-Two parts with `BwSpacing.xxs` between; outer corners `radius-md` (`xl`: `radius-xl`), inner corners `radius-xs` via `BorderRadiusDirectional`; parts follow BwButton / BwIconButton B2. Menu: [Web B2](../../../3-web-components/components/split-button/split-button.md#b2-dimensions) tokens, via `MenuStyle`/`MenuItemButton` styles.
+Two parts with `spacing-xxs` (`BwSpacing.xxs`) between; outer corners `radius-md` (`xl`: `radius-xl`), inner corners `radius-xs` via `BorderRadiusDirectional`; parts follow BwButton / BwIconButton B2. Menu: the [Web B2](../../../3-web-components/components/split-button/split-button.md#b2-dimensions) tokens, mapped on Tablet as below.
+
+| Part | Property | Token | Tablet mapping |
+|---|---|---|---|
+| `menu` | offset from `container` | `spacing-xs` | `MenuAnchor.alignmentOffset` (vertical) |
+| `menu` | min-width | width of `container` | `MenuStyle.minimumSize` and item `minimumSize` |
+| `menu` | padding | `spacing-none` | `MenuStyle.padding` |
+| `menu` | background | `color-surface-raised` | the decorated surface (below) |
+| `menu` | radius | `radius-lg` | the decorated surface; `MenuStyle.shape` uses the same radius |
+| `menu` | elevation | `elevation-3` | the decorated surface: `boxShadow: context.bw.elevation.elevation3` |
+| `menu` | M3 surface (unused) | `color-background-transparent` | `MenuStyle.backgroundColor`, `shadowColor` and `surfaceTintColor` |
+| `menu` item | height | `size-control-height-md` | item `minimumSize` |
+| `menu` item | padding-inline | `spacing-control-padding-inline-md` | `EdgeInsetsDirectional` |
+| `menu` item | icon–label gap | `spacing-control-gap-md` | |
+| `menu` item | text style | `body-md` | `context.bw.text.bodyMd` |
+| `menu` item | focus ring width | `border-width-focus` | inner ring (B3); item corners square, clipped by the surface |
+
+**How `elevation-3` maps on Tablet.** `elevation-3` is a `List<BoxShadow>` (`context.bw.elevation.elevation3`, light and dark), and `MenuStyle` takes only a number (`elevation`) and a `shadowColor`, so the M3 surface is not used for the look: `MenuStyle.backgroundColor`, `shadowColor` and `surfaceTintColor` are `color-background-transparent`, and `MenuAnchor(clipBehavior: Clip.none)` so the shadow is not cut off. All `menuChildren` sit in one decorated surface — `DecoratedBox(BoxDecoration(color: color-surface-raised, borderRadius: radius-lg, boxShadow: elevation-3))` with a `ClipRRect` of `radius-lg` inside it, so item overlays follow the corners. No numeric M3 elevation is set.
 
 ### B3 Tokens by part and state
 
 [Web B3](../../../3-web-components/components/split-button/split-button.md#b3-tokens-by-part-and-state). Expanded trigger = Pressed tokens (`WidgetState.pressed` forced while the menu is open).
+
+Menu item tokens on Tablet (`MenuItemButton` style):
+
+| State | Text | Icon | Overlay | Ring |
+|---|---|---|---|---|
+| Rest | `color-text-neutral-default` | `color-icon-neutral-subtle` | `color-background-transparent` | — |
+| Hover (pointer) | `color-text-neutral-default` | `color-icon-neutral-subtle` | `color-overlay-hover` | — |
+| Pressed | `color-text-neutral-default` | `color-icon-neutral-subtle` | `color-overlay-pressed` | — |
+| Focus (keyboard) | `color-text-neutral-default` | `color-icon-neutral-subtle` | `color-overlay-hover` | `color-border-focus`, `border-width-focus`, inside the item edge |
+| Disabled | `color-text-neutral-disabled` | `color-icon-neutral-disabled` | `color-background-transparent` | — |
 
 Dark theme: same tokens. No exceptions.
 
 ### B4 States and transitions
 
 Same as the [Web B4](../../../3-web-components/components/split-button/split-button.md#b4-states-and-transitions) with Flutter durations (`BwDuration.*`) and easings (`BwEasing.*`). No hover in Tablet examples; hover code paths stay for pointer devices. Reduced motion: `context.bw.reduceMotion` → `BwDuration.instant`.
+
+Chevron: `motion-duration-md` + `motion-easing-standard-decelerate` on open, `motion-duration-sm` + `motion-easing-standard-accelerate` on close. Menu fade / scale: `MenuAnchor` has no duration or curve parameters, so it uses Flutter's built-in timing; `MenuAnchor(animated: !context.bw.reduceMotion)` turns it off under reduced motion.
 
 ### B5 RTL
 
@@ -248,7 +277,7 @@ Structure, properties, the Figma ↔ code mapping and Code Connect: [Part D](#d-
 | Component | Split button |
 | Platform | Tablet (Flutter + M3) |
 | Depends on | BwButton and BwIconButton **Built** |
-| Plan version | 1 · 2026-10-16 |
+| Plan version | 2 · 2026-10-24 (Review Round 1 findings 4, 5, 7, 8) |
 
 ### C1 Goal
 
@@ -260,7 +289,22 @@ In: B1–B6, B9. Out: anything not in the spec.
 
 ### C3 Approach
 
-Row of `BwButton` + `BwIconButton` with an internal `segment` parameter (start/end) that only changes `BorderRadiusDirectional`; `MenuAnchor` with `alignmentOffset` from `BwSpacing.xs`, anchored at the end; chevron `AnimatedRotation(duration: BwDuration.md)`.
+Row of `BwButton` + `BwIconButton`; `MenuAnchor` with `alignmentOffset` from `BwSpacing.xs`, anchored at the end; menu surface per B2 (decorated surface carrying `elevation-3`); chevron rotation per B4.
+
+Internal parameters on the approved button components. All are marked `@internal`, are hidden from `lib/biowave_tablet.dart`, and default to today's behaviour (no change for existing callers; existing button and icon-button tests and goldens must pass unchanged). No other change to these files is allowed.
+
+| File | Internal parameter | Type · default | Used for |
+|---|---|---|---|
+| `bw_button.dart` | `segment` | `BwButtonSegment?` (`start` · `end`) · `null` | Corner radii only (`BorderRadiusDirectional`, B2); `null` = today's radius |
+| `bw_icon_button.dart` | `segment` | `BwButtonSegment?` · `null` | Corner radii only (B2) |
+| `bw_icon_button.dart` | `focusNode` | `FocusNode?` · `null` | `MenuAnchor.childFocusNode`; focus returns to the trigger (B6) |
+| `bw_icon_button.dart` | `autofocus` | `bool` · `false` | Passed to the inner button |
+| `bw_icon_button.dart` | `statesController` | `WidgetStatesController?` · `null` | Forces `WidgetState.pressed` while the menu is open (B3 Expanded) |
+| `bw_icon_button.dart` | `iconTurns` | `double` · `0` | Chevron half turn when expanded (B4), through an `AnimatedRotation` round the glyph |
+| `bw_icon_button.dart` | `iconRotationDuration` | `Duration` · `BwDuration.instant` | Chevron duration (B4) |
+| `bw_icon_button.dart` | `iconRotationCurve` | `Curve` · `BwEasing.standard` | Chevron easing (B4) |
+| `bw_icon_button.dart` | `expanded` | `bool?` · `null` | `Semantics(expanded:)` on the trigger (B6); `null` = no expanded state |
+| `bw_button_style.dart` | shared segment radius helper | `BorderRadiusDirectional` from `BwButtonSegment?` · `null` = today's radius | One helper for the B2 corner radii, used by `bw_button.dart` and `bw_icon_button.dart` (no copied code) |
 
 ### C4 Token gaps
 
@@ -271,9 +315,11 @@ None.
 ```
 4-tablet-components/lib/src/components/split_button/bw_split_button.dart  new
 4-tablet-components/test/split_button_test.dart                           new
-4-tablet-components/lib/src/components/button/bw_button.dart              change: internal `segment` (corner radii)
-4-tablet-components/lib/src/components/icon_button/bw_icon_button.dart    change: internal `segment`
-4-tablet-components/lib/biowave_tablet.dart                                        change: export
+4-tablet-components/test/goldens/split_button/                            new (generated goldens)
+4-tablet-components/lib/src/components/button/bw_button.dart              change: internal `segment` (corner radii) — C3
+4-tablet-components/lib/src/components/button/bw_button_style.dart        change: shared segment radius helper (internal, used by BwButton and BwIconButton)
+4-tablet-components/lib/src/components/icon_button/bw_icon_button.dart    change: internal `segment`, `focusNode`, `autofocus`, `statesController`, `iconTurns`, `iconRotationDuration`, `iconRotationCurve`, `expanded` (+ `AnimatedRotation` round the glyph, `expanded` on its `Semantics`) — C3
+4-tablet-components/lib/biowave_tablet.dart                               change: export
 4-tablet-components/README.md                                             change: status row
 ```
 
@@ -296,12 +342,32 @@ B9, plus earlier button-family tests still pass.
 
 | Field | Value |
 |---|---|
-| Agent | |
-| Date | |
-| Files changed | |
+| Agent | Codex |
+| Date | 2026-10-24 |
+| Files changed | `lib/src/components/split_button/bw_split_button.dart` · `test/split_button_test.dart` · `lib/src/components/button/bw_button.dart` · `lib/src/components/icon_button/bw_icon_button.dart` · `lib/biowave_tablet.dart` · `4-tablet-components/README.md` · this C8 log · `CHANGELOG.md` |
+| Round 2 fixes | Replaced the legacy chevron with `Symbols.expand_more_rounded`; sized menu options to the split-button container; corrected the directional test harness; disposed semantics handles inside each test body. |
+| Checks | `flutter analyze` ✓ · `npm run component-tokens` ✓ · `npm run sync` ✓ · `npm run docs:check` ✓ · `flutter test` not runnable in sandbox — orchestrator runs it (loopback socket denied) |
 
-**Deviations:** none
+**Deviations:** No PNG golden matcher paths were added because contract §9 does not authorise a goldens folder, as directed by the implementation prompt; the allowed visual matrix and RTL radii are covered programmatically. `MenuAnchor` does not expose animation-duration parameters, so its prescribed fade/scale uses Flutter's built-in timing; the chevron uses `BwDuration.md` / `BwEasing.*`, and reduced motion disables both animations.
 **Questions for the Planner:** none
+
+#### Fix round 1
+
+| Finding | What changed (`file:line`) | Test that proves it |
+|---|---|---|
+| #1 (🔴 Blocker — menu not end-aligned under container in LTR/RTL, vertical offset) | Resolved menu alignment offset (`-extraWidth`, `BwSpacing.xs`) and set `MenuStyle(alignment: AlignmentDirectional.bottomStart)` so the menu opens directly under the split-button container with its end edge aligned with the container's end edge in both LTR and RTL (`lib/src/components/split_button/bw_split_button.dart:145-153`, `:174`, `:180`). | `test/split_button_test.dart:196-272` (`positions menu under container with end edge aligned and BwSpacing.xs vertical offset in LTR and RTL`). |
+| #2 (🔴 Blocker — keyboard cannot reach menu items) | Added option focus node management, trigger shortcuts (Enter, Space, ArrowDown open menu and focus first enabled item; ArrowUp opens and focuses last enabled item; ArrowDown/ArrowUp while open move into menu), menu shortcuts (ArrowDown/Up cycle enabled items, Home/End jump to first/last), and Enter/Space selection with focus restored to trigger (`lib/src/components/split_button/bw_split_button.dart:123-133`, `:286`, `:376-401`, `:405-434`, `:450-479`, `:489-540`). | `test/split_button_test.dart:444-511` (`keyboard navigates menu items with arrows and selects with Enter and Space`) and `test/split_button_test.dart:413-442` (`opens and closes by keyboard and returns focus to trigger`). |
+| #3 (🟡 Tab / Shift+Tab do not collapse menu) | Handled Tab and Shift+Tab key events on both trigger and menu options via `_closeMenuForTab`, closing the open menu without restoring trigger focus and moving focus forward or backward via `nextFocus()` / `previousFocus()` (`lib/src/components/split_button/bw_split_button.dart:370-373`, `:409-412`, `:436-448`). | `test/split_button_test.dart:513-561` (`Tab and Shift+Tab close the open menu and move focus on`). |
+| #4 (🟡 BwIconButton internal parameters recorded in C3) | Recorded internal `focusNode`, `autofocus`, `statesController`, `iconTurns`, `iconRotationDuration`, `iconRotationCurve`, and `expanded` parameters in C3/C5 (planned in Plan 2) and applied to `BwIconButton` (`lib/src/components/icon_button/bw_icon_button.dart:27-34`, `:192-202`, `:304`). | `test/split_button_test.dart:329-411` (`semantic actions expose two focus stops and expanded state`) and `test/split_button_test.dart:563-611` (`chevron uses BwDuration.md + decelerate on open, BwDuration.sm + accelerate on close, and instant under reduced motion`). |
+| #5 (🟡 Menu tokens & elevation-3 surface mapped per Plan 2) | Configured `MenuAnchor` with transparent background/shadow/tint and `Clip.none`, wrapping menu items in `DecoratedBox` with `colors.surfaceRaised`, `BwRadius.lg`, and `boxShadow: context.bw.elevation.elevation3` (`lib/src/components/split_button/bw_split_button.dart:163-165`, `:175`, `:179-199`, `:208-228`). | `test/split_button_test.dart:274-327` (`menu surface uses surfaceRaised, radius-lg, elevation-3, and transparent M3 MenuStyle with Clip.none`). |
+| #6 (🟡 Chevron close timing) | Configured chevron animation duration to use `BwDuration.sm` with `BwEasing.standardAccelerate` when closing and `BwDuration.md` with `BwEasing.standardDecelerate` when opening (`BwDuration.instant` under reduced motion) (`lib/src/components/split_button/bw_split_button.dart:264-270`). | `test/split_button_test.dart:563-611` (`chevron uses BwDuration.md + decelerate on open, BwDuration.sm + accelerate on close, and instant under reduced motion`). |
+| #7 (🟡 Goldens authorised by Plan 2) | Added B9 visual matrix golden tests and generated PNG goldens (`light-en.png`, `light-ar.png`, `dark-en.png`, `dark-ar.png`) under `test/goldens/split_button/` covering variant × color × size, closed and open states, LTR and RTL (`test/split_button_test.dart:761-956`). | `test/split_button_test.dart:764-814` (`B9 matrix light/en`, `B9 matrix light/ar`, `B9 matrix dark/en`, `B9 matrix dark/ar`). |
+| #9 (🟢 Copied `_borderRadius` moved to shared helper per Plan 2.1) | Added shared `@internal static BorderRadiusDirectional segmentBorderRadius` in `bw_button_style.dart`, removed duplicate `_borderRadius` from `bw_button.dart` and `bw_icon_button.dart`, and invoked the shared helper in both (`lib/src/components/button/bw_button_style.dart:124-148`, `lib/src/components/button/bw_button.dart:100`, `lib/src/components/icon_button/bw_icon_button.dart:130`). | `test/split_button_test.dart:109-194` (`renders every allowed variant, color, size, theme, and direction`), `test/button_test.dart`, and `test/icon_button_test.dart`. |
+| #10 (🟢 Primary semantics node tap and focus actions) | Asserted `hasTapAction: true` and `hasFocusAction: true` on the primary button semantics node (`test/split_button_test.dart:348-349`). | `test/split_button_test.dart:329-411` (`semantic actions expose two focus stops and expanded state`). |
+| Menu item states (Plan 2) | In `_menuItemStyle`, styled menu items using token-resolved colors for default/disabled text (`textNeutralDefault` / `textNeutralDisabled`) and icons (`iconNeutralSubtle` / `iconNeutralDisabled`), state overlays (`overlayPressed`, `overlayHover`), focus ring border (`borderFocus`, `widthFocus`), and control dimensions (`bodyMd`, `controlHeightMd`, `controlPaddingInlineMd`) (`lib/src/components/split_button/bw_split_button.dart:308-364`). | `test/split_button_test.dart:613-643` (`selects one option once and restores trigger focus`), `test/split_button_test.dart:444-511` (`keyboard navigates menu items with arrows and selects with Enter and Space`), and `test/split_button_test.dart:761-956` (golden matrix). |
+
+- **Files changed:** `4-tablet-components/lib/src/components/split_button/bw_split_button.dart`, `4-tablet-components/lib/src/components/button/bw_button.dart`, `4-tablet-components/lib/src/components/button/bw_button_style.dart`, `4-tablet-components/lib/src/components/icon_button/bw_icon_button.dart`, `4-tablet-components/test/split_button_test.dart`, `4-tablet-components/test/goldens/split_button/light-en.png`, `4-tablet-components/test/goldens/split_button/light-ar.png`, `4-tablet-components/test/goldens/split_button/dark-en.png`, `4-tablet-components/test/goldens/split_button/dark-ar.png`, `4-tablet-components/components/split-button/split-button.md`, `4-tablet-components/README.md`, `CHANGELOG.md`
+- **Checks:** `npm run docs:check` ✓ · `cd 4-tablet-components && flutter analyze && flutter test` ✓
 
 ---
 
@@ -401,7 +467,154 @@ Component description: one line from A1 + "Spec: 4-tablet-components/components/
 
 | Round | Date | Code verdict | Figma verdict |
 |---|---|---|---|
-| — | — | not reviewed | not reviewed |
+| 2 | 2026-10-24 | Approved | not reviewed |
+| 1 | 2026-10-24 | Changes requested | not reviewed |
+
+### E3 Round 2 — 2026-10-24
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 2 · 2026-10-24 (+ 2.1) |
+| Spec version reviewed | 1.0 |
+| Reviewer | Claude |
+| Date | 2026-10-24 |
+| Code reviewed | `git diff main...ds/split-button-tablet` (HEAD `116c829`, Fix round 1) + working tree (clean at review start) |
+| Verdict | **Approved** — all Round 1 findings closed; 0 🔴, 0 🟡, 2 new 🟢 |
+| Evidence | Run by the Reviewer in the `ds/split-button-tablet` worktree: `npm run docs:check` ✅ · `flutter analyze` ✅ no issues · `flutter test` ✅ 168/168 · `npm run sync` ✅ READY. Behaviour probes: throw-away tests in the scratchpad (outside the repo) run with `flutter test <path>` from `4-tablet-components`; results quoted below |
+
+#### Round 1 findings
+
+| # | Owner | Status | Evidence |
+|---|---|---|---|
+| 1 🔴 menu position | Implementer | **Fixed** | `MenuStyle(alignment: AlignmentDirectional.bottomStart)` + `alignmentOffset: Offset(-extraWidth, BwSpacing.xs)` (`bw_split_button.dart:145-153`, `:174`, `:180`); menu min width = container (`:190-192`). Probe (800 wide, container x 242–558, bottom y 324): a menu as wide as the container sits at x 242–558 in LTR and RTL; a wider menu (408) sits at x 150–558 in LTR (end = right edge) and x 242–650 in RTL (end = left edge); menu top 328 = 324 + `BwSpacing.xs`. Test "positions menu under container with end edge aligned and BwSpacing.xs vertical offset in LTR and RTL" (`split_button_test.dart:196`) covers both widths and both directions. Goldens `light-ar` / `dark-ar` show the menu under the container, edges flush |
+| 2 🔴 menu keyboard | Implementer | **Fixed** | Trigger handler `:366-403` (Enter / Space / ArrowDown open + focus the first enabled item, ArrowUp → last; while open ArrowDown/Up move into the menu); menu handler `:405-434` (ArrowDown/Up wrap over enabled items, Home/End, Esc). Probe LTR + RTL: pointer open → focus stays on the trigger; Esc closes, focus on trigger; ArrowDown → `option.0`, → `option.1`, → wraps to `option.0`; Esc in the menu closes and returns focus to `menu-trigger`; outside tap closes. Test "keyboard navigates menu items with arrows and selects with Enter and Space" (`:444`): Tab, Tab, Enter, ArrowDown, Enter runs option 2 exactly once, focus back on the trigger; ArrowUp / Space path too |
+| 3 🟡 Tab collapse | Implementer | **Fixed** | `_closeMenuForTab` (`:436-448`) from the trigger (`:370-373`) and the menu (`:409-412`). Test "Tab and Shift+Tab close the open menu and move focus on" (`:513`): Tab → next control, Shift+Tab → primary action |
+| 4 🟡 BwIconButton params not planned | Planner → Implementer | **Fixed** | Plan 2 C3 / C5 list them; the code matches C3 exactly (question 1 below); C8 Fix round 1 row #4 |
+| 5 🟡 `elevation-3` / menu tokens | Planner → Implementer | **Fixed** | Plan 2 B2 / B3. Code: transparent `backgroundColor` / `shadowColor` / `surfaceTintColor`, `Clip.none`, no numeric elevation (`:175`, `:181-189`); `DecoratedBox(surfaceRaised, radius-lg, elevation3)` + `ClipRRect(radius-lg)` (`:208-217`); item states per B3 (`:308-364`). Test "menu surface uses surfaceRaised, radius-lg, elevation-3, …" (`:274`), light + dark |
+| 6 🟡 chevron close timing | Implementer | **Fixed** | `BwDuration.md` + decelerate on open, `BwDuration.sm` + accelerate on close, `instant` under reduced motion (`:264-270`). Test "chevron uses BwDuration.md + decelerate on open, BwDuration.sm + accelerate on close, …" (`:563`) |
+| 7 🟡 goldens | Planner → Implementer | **Fixed** | C5 authorises the folder; `group('goldens')` (`:761`) writes `test/goldens/split_button/{light,dark}-{en,ar}.png`: 3 variants × allowed colors, 4 sizes, the open menu (with an icon item and a disabled item) and a disabled split button. All four checked by eye: radii and order mirror in Arabic, menu end-aligned under the container in both directions, the open trigger shows the forced pressed fill and the flipped chevron, the disabled item uses the disabled text / icon tokens, the directional `arrow_forward` item icon mirrors in RTL |
+| 8 🟢 header Source code | Planner | **Fixed** | Header row reads `lib/src/components/split_button/bw_split_button.dart` |
+| 9 🟢 copied `_borderRadius` | Implementer | **Fixed** | One `@internal BwButtonStyle.segmentBorderRadius` (`bw_button_style.dart:124-148`), used by `bw_button.dart:100` and `bw_icon_button.dart:130`; both private copies removed |
+| 10 🟢 primary focus action | Implementer | **Fixed** | `hasTapAction: true, hasFocusAction: true` on the primary node (`split_button_test.dart:348-349`) |
+
+#### Questions from the review prompt
+
+| Question | Answer | Evidence |
+|---|---|---|
+| Do the BwButton / BwIconButton / `bw_button_style.dart` changes match C3 exactly, and are existing button and icon-button tests unchanged? | **Yes** | `git diff main...HEAD`: BwButton adds only `@internal enum BwButtonSegment`, the `@internal segment` param (default `null`) and the shape / ring radius from the shared helper; `null` gives `BorderRadiusDirectional.all(dimensions.radius)`, today's value. BwIconButton adds exactly the 8 C3 params (`segment`, `focusNode`, `autofocus`, `statesController`, `iconTurns` = 0, `iconRotationDuration` = `BwDuration.instant`, `iconRotationCurve` = `BwEasing.standard`, `expanded` = `null`), all `@internal`, passed to the four `IconButton` constructors, the `AnimatedRotation` round the glyph and `expanded:` on `Semantics`. Nothing else changed. `bw_button_style.dart` adds only `segmentBorderRadius`. `BwButtonSegment` is hidden from `lib/biowave_tablet.dart:12`. `git diff main...HEAD -- test/` touches only `split_button_test.dart` and the new `goldens/split_button/`; `button_test.dart`, `icon_button_test.dart` and their goldens are unchanged and pass |
+| Menu position (re-probe) | **Correct** | Round 1 finding 1 above |
+| Keyboard reach of menu items (re-probe) | **Correct** | Round 1 findings 2–3 above |
+
+#### Acceptance criteria
+
+| AC | Result | Evidence (file:line / test name) |
+|---|---|---|
+| AC-1 API = B1 (names, defaults, asserts) | ✅ | `bw_split_button.dart:28-76` (defaults `filled`, `brand`, `lg`); `BwSplitButtonOption` `:12-26`; asserts 2–5 options, option label ≠ label, tonal + neutral `:42-65`; release fallback `:100-106`; localized menu label `:159-162`. Tests "asserts invalid combinations", "derives an Arabic menu label when none is provided" |
+| AC-2 Tokens only; shared helpers reused | ✅ | Parts are `BwButton` / `BwIconButton` (`:237-273`); menu values all `context.bw.*` / `Bw*` (`:163-217`, `:308-364`); shared `segmentBorderRadius` (finding 9). No hex, px literals, ms or primitives (grep) |
+| AC-3 States/transitions; reduced motion | ✅ | Expanded = forced `WidgetState.pressed` (`:542-549`); chevron timing (`:264-270`); `MenuAnchor(animated: !reduceMotion)` (`:176`); Tab / Esc / item / outside tap collapse (probe + tests) |
+| AC-4 RTL and a11y per B5–B6 | ✅ | Menu end-aligned in both directions (finding 1); keyboard reach (finding 2); `Semantics(container, label)` (`:167-170`), trigger `expanded` (`:271`), two focus stops (test "semantic actions expose two focus stops and expanded state"); items 48 dp tall (`tapTargetSize: padded`), visual 40 = `controlHeightMd` (probe) |
+| AC-5 analyze + test; `npm run sync` | ✅ | All pass (above) |
+| AC-6 Exported; README status | ✅ | `lib/biowave_tablet.dart:15`; README row equals the header (`docs:check` ✅) |
+
+#### Rule checks (AGENTS.md §2)
+
+| Rule | Result | Notes |
+|---|---|---|
+| No generated files edited | ✅ | Contracts changed only by `npm run contract` in the plan steps; no `generated/`, `dist/` or HTML shell edits |
+| No raw values / no primitives | ✅ | `turns: 0.5` is a geometry factor; zero sizes use `BwSpacing.none` |
+| Logical properties, RTL icons | ✅ | `AlignmentDirectional`, `EdgeInsetsDirectional`, `BorderRadiusDirectional`; chevron not mirrored, item icons follow `matchTextDirection` |
+| Light + dark, en + ar tested | ✅ | Property matrix + four goldens |
+| Accessibility (WCAG 2.2 AA) | ✅ | Keyboard reach, focus return, visible item focus ring (`borderFocus`, `widthFocus`, inside the item), 48 dp targets |
+| Stayed inside the contract | ✅ | Files = C5; button-family changes = C3 |
+| Code matches spec | ✅ | B1–B6 |
+| Changelog | ✅ | `CHANGELOG.md` "[Fixed — Tablet Split button review round 1]"; C8 Fix round 1 filled |
+
+#### Findings
+
+| # | Severity | File | Issue | Required change | Owner |
+|---|---|---|---|---|---|
+| 11 | 🟢 Nit | `lib/src/components/split_button/bw_split_button.dart:489-540` | When the menu is wider than the container, the first open frame places it with `extraWidth = 0` (start-aligned) and the next frame moves it to end-aligned (probe LTR: frame 1 x 242–650, frame 2 x 150–558). With animation on, frame 1 is at the start of the fade and hard to see; under reduced motion (`animated: false`) the one-frame jump is visible | Optional: measure the menu width before it is shown (for example lay it out offstage, or keep it invisible for the first frame), so it opens in its final place | Implementer |
+| 12 | 🟢 Nit | `lib/src/components/split_button/bw_split_button.dart:217-224` | `IntrinsicWidth` lets a very long option label make the menu wider than the screen; it is not wrapped or capped (probe: 800 wide screen, menu x 0–920 in LTR, −120–800 in RTL). A6 keeps option labels short, so this is an edge case | Optional: cap the menu width to the overlay width so long labels wrap or ellipsize | Implementer |
+
+#### Notes
+
+- When the menu cannot fit beside the screen edge, Flutter shifts it onto the screen, so the end edges no longer line up (probe: container at the screen edge, 744-wide menu). This is the expected clamp, not a finding.
+- Shift+Tab from inside the menu goes to the primary action (the control before the trigger). This matches "focus moves on as usual". Not a finding.
+- In the light goldens the `elevation-3` shadow draws as a flat band under the menu. That is how `flutter_tester` draws it; the decoration is the token (asserted by the surface test).
+- Figma build (Part D) not reviewed: `Figma build = Planned`.
+
+#### Next step
+
+Approved. Code → `Approved` (header + README). Findings 11–12 are optional nits; they do not block the merge.
+
+### E2 Round 1 — 2026-10-24
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 1 · 2026-10-16 |
+| Spec version reviewed | 1.0 |
+| Reviewer | Claude |
+| Date | 2026-10-24 |
+| Code reviewed | `git diff main...ds/split-button-tablet` (HEAD `54f813b`, implement rounds 1–2) + working tree (clean at review start) |
+| Verdict | **Changes requested** — 2 🔴 (menu position, menu keyboard navigation), 5 🟡, 3 🟢 |
+| Evidence | Run by the Reviewer in the `ds/split-button-tablet` worktree: `npm run docs:check` ✅ · `flutter analyze` ✅ no issues · `flutter test` ✅ 160/160 · `npm run sync` ✅ READY. Behaviour probes: throw-away tests in the scratchpad (outside the repo) run with `flutter test <path>` from `4-tablet-components`; results quoted in findings 1–3 |
+
+#### Questions from the review prompt
+
+| Question | Answer | Evidence |
+|---|---|---|
+| Does `segment` change only `BorderRadiusDirectional` in BwButton / BwIconButton, with no change to their behaviour, semantics or tests? | **BwButton: yes. BwIconButton: radius yes, but the change is wider than the contract** (finding 4). Defaults keep existing behaviour; existing tests are untouched and pass | BwButton: `segment` `bw_button.dart:34`, `_borderRadius` `:234-253`; `segment: null` returns `BorderRadiusDirectional.all(dimensions.radius)`, the same value `BwButtonStyle` already sets (`bw_button_style.dart:105-111`); the focus ring uses the same radius. BwIconButton: same `segment` + `_borderRadius` (`bw_icon_button.dart:30`, `:312-331`), **plus** 7 more internal params (`focusNode`, `autofocus`, `statesController`, `iconTurns`, `iconRotationDuration`, `iconRotationCurve`, `expanded`, `:27-34`), an `AnimatedRotation` wrapper round the glyph (`:192-202`) and `expanded:` on its `Semantics` (`:304`). Defaults (`turns 0`, `BwDuration.instant`, `expanded null`, no focus node / states controller) are no-ops. `git diff main...HEAD -- test/` touches only `split_button_test.dart`; `button_test.dart` and `icon_button_test.dart` (incl. goldens) pass unchanged. `BwButtonSegment` is `@internal` and hidden from the package export (`lib/biowave_tablet.dart:12`) |
+| Were the build-round-1 part-gap (−174.4) and menu-width (170 < 227.7) failures fixed in code, not by weakening the tests? | **Yes** | Gap: the test asserts the exact value `BwSpacing.xxs` on the correct edges for each direction (`split_button_test.dart:168-173`) over every variant × color × size × theme × direction; the harness now sets `Directionality` inside `Localizations.override` (`:49-54`). Layout is `Row[BwButton, SizedBox(BwSpacing.xxs), BwIconButton]` (`bw_split_button.dart:180-222`). Menu width: fixed in code — the container is measured on open (`:296-299`) and used as `MenuStyle.minimumSize` (`:144-146`) and item `minimumSize` (`:231-236`); the test still asserts item width ≥ container width (`:313-316`). The round-1 test text is not in history (one commit), so the check is against the contract, which these assertions match exactly |
+| Screen reader + keyboard: one labelled node per part with tap and focus; menu opens/closes by keyboard and returns focus to the trigger | **Partly.** Labels, tap, `expanded`, two focus stops, open by Enter / Space / ArrowDown, close by Esc and focus return all work. **Arrow keys never reach the menu items and Tab does not close the menu** (findings 2–3); the primary node's focus action is not asserted (finding 10) | Tests "semantic actions expose two focus stops and expanded state" (`:181-252`), "opens and closes by keyboard and returns focus to trigger" (`:254-283`), "selects one option once and restores trigger focus" (`:298-328`) |
+
+#### Acceptance criteria
+
+| AC | Result | Evidence (file:line / test name) |
+|---|---|---|
+| AC-1 API = B1 (names, defaults, asserts) | ✅ | Params/defaults `bw_split_button.dart:28-39` (`filled`, `brand`, `lg`); `BwSplitButtonOption(label, onSelected, icon, enabled)` `:12-24`; asserts 2–5 options, option label ≠ `label`, tonal + neutral `:40-63`; release fallback tonal + neutral → outlined `:94-100`; default menu label en / ar `:120-123`. Tests "asserts invalid combinations", "derives an Arabic menu label when none is provided" |
+| AC-2 Tokens only; shared helpers reused | ⚠️ | Parts reuse `BwButton` / `BwIconButton` (`:184-219`); menu uses `surfaceRaised`, `BwRadius.lg`, `bodyMd`, `controlHeightMd`, `controlPaddingInlineMd`, `controlGapMd`, overlays, `borderFocus` (`:136-282`). `elevation-3` missing (finding 5); `_borderRadius` copied into both button files (finding 9) |
+| AC-3 States/transitions; reduced motion | ⚠️ | Expanded = forced `WidgetState.pressed` (`:309-316`, asserted in the semantics test); chevron half turn, `BwDuration.md` + decelerate on open. Close uses `md`, not `sm` (finding 6); Tab does not collapse (finding 3). Reduced motion: `animated: !reduceMotion` + `BwDuration.instant` (`:133`, `:213-214`), test "reduced motion makes chevron and menu transitions instant" |
+| AC-4 RTL and a11y per B5–B6 | ❌ | RTL radii and gap correct both ways (render-matrix test). Menu not end-aligned with the container (finding 1); no arrow-key navigation (finding 2). Semantics container + trigger `expanded` per B6 ✅; parts and menu items ≥ 48 ✅ |
+| AC-5 analyze + test; `npm run sync` | ✅ | All pass (above) |
+| AC-6 Exported; README status | ✅ | `lib/biowave_tablet.dart:15` (alphabetical); README row matched the header (`docs:check` ✅) |
+
+#### Rule checks (AGENTS.md §2)
+
+| Rule | Result | Notes |
+|---|---|---|
+| No generated files edited | ✅ | No `generated/`, `dist/`, contract or HTML shell in the diff |
+| No raw values / no primitives | ✅ | Only `Bw*` / `context.bw.*`; `turns: 0.5` is a geometry factor. `no_legacy_icons_test` passes (`Symbols.expand_more_rounded`, `:202`) |
+| Logical properties, RTL icons | ✅ | `BorderRadiusDirectional`, `EdgeInsetsDirectional`, `AlignmentDirectional` only; chevron not mirrored |
+| Light + dark, en + ar tested | ⚠️ | Property matrix covers both themes and directions; no goldens (finding 7) |
+| Accessibility (WCAG 2.2 AA) | ❌ | Menu items not reachable by arrow keys (finding 2) |
+| Stayed inside the contract | ⚠️ | BwIconButton changed beyond "internal `segment`", not listed in C8 deviations (finding 4) |
+| Code matches spec | ❌ | Findings 1–3, 5, 6 |
+| Changelog | ✅ | `CHANGELOG.md` "[Tablet Split button — implementation]" and "[Fixed — Tablet Split button implementation checks]"; C8 filled |
+
+#### Findings
+
+| # | Severity | File | Issue | Required change | Owner |
+|---|---|---|---|---|---|
+| 1 | 🔴 Blocker | `lib/src/components/split_button/bw_split_button.dart:137` | `MenuStyle(alignment: AlignmentDirectional.bottomEnd)` puts the menu's start corner at the container's **end** corner, so the menu opens beside the container, not under it. Probe (800-wide screen, container x 242–558): LTR menu x 484–800 (held back only by the screen edge), RTL menu x 0–316. B5: the menu's end edge lines up with the container's end edge (right in LTR, left in RTL). Same defect the web build fixed in its Round 3 | Anchor the menu so its end edge equals the container's end edge in both directions (e.g. `AlignmentDirectional.bottomStart` with the container-width minimum, plus an end-aligned offset when the menu is wider), keeping `BwSpacing.xs` as the vertical offset. Add an LTR + RTL test: menu end edge = container end edge, menu top = container bottom + `BwSpacing.xs` | Implementer |
+| 2 | 🔴 Blocker | `lib/src/components/split_button/bw_split_button.dart:196-200`, `:293-307` | Menu items cannot be reached by keyboard. Probe: Tab ×2 → Enter opens the menu; ArrowDown ×2 leaves primary focus on `BwSplitButton.menu-trigger`; Enter then **closes** the menu without selecting. The trigger's `CallbackShortcuts` take ArrowDown/Up (`_openMenu` returns early when open) and focus never moves into the menu. B6 "MenuAnchor keyboard (arrows, Esc)"; AGENTS.md rule 6 | On keyboard open (Enter / Space / ArrowDown) move focus to the first enabled item (ArrowUp: last); while open, ArrowDown/Up on the trigger move into the menu; arrows move between items; Enter / Space selects. Add a test: Tab to trigger → Enter → ArrowDown → Enter runs the 2nd option exactly once and focus returns to the trigger | Implementer |
+| 3 | 🟡 Should fix | `lib/src/components/split_button/bw_split_button.dart` | Tab does not collapse the menu (probe: still open after Tab). Web B4: Expanded → Collapsed on "item chosen · Esc · click outside · Tab" | Close the menu on Tab / Shift+Tab (focus moves on as usual); add a test | Implementer |
+| 4 | 🟡 Should fix | `lib/src/components/icon_button/bw_icon_button.dart:27-34`, `:192-202`, `:304` · plan C3 / C5 | C3 / C5 authorise only "internal `segment` (corner radii)" on BwIconButton. The build also adds `focusNode`, `autofocus`, `statesController`, `iconTurns`, `iconRotationDuration`, `iconRotationCurve`, `expanded` and an `AnimatedRotation` wrapper. All are `@internal`, default to no-ops and existing tests pass, and they serve B3 (forced pressed), B4 (chevron) and B6 (focus return, `expanded`) — but they are outside the plan and not listed in C8 deviations | Record these internal parameters in C3 and C5 (BwIconButton line) so the change to the approved component is planned, then regenerate the contract. The Implementer lists them in C8 in the next fix round | Planner |
+| 5 | 🟡 Should fix | plan B2 (tablet) · contract §4.1 · `bw_split_button.dart:136-157` | Web B2 menu = `elevation-3`; the tablet build leaves elevation and shadow to M3 `MenuStyle` defaults (no token). The tablet token `context.bw.elevation.elevation3` is a `List<BoxShadow>`, which `MenuStyle` cannot take (only `elevation` + `shadowColor`), and §4.1 lists only the three radii, none of the menu tokens | Say in tablet B2 how `elevation-3` maps onto the menu on tablet (or allow a decorated menu surface), and list the menu tokens (surface-raised, elevation-3, radius-lg, item tokens, overlays, border-focus) so §4.1 shows them; regenerate the contract | Planner |
+| 6 | 🟡 Should fix | `lib/src/components/split_button/bw_split_button.dart:213-217` | Chevron uses `BwDuration.md` both ways; Web B4 collapses with `motion-duration-sm` (the accelerate easing is already switched) | Use `BwDuration.sm` when collapsing (`instant` under reduced motion); assert both durations in the motion test | Implementer |
+| 7 | 🟡 Should fix | plan C5 · B9 | B9 asks for goldens (variant × color × size, light / dark, en / ar, mirrored radii) but C5 / contract §9 do not authorise a goldens folder, so the Implementer correctly logged it as a deviation. Same gap as icon-button Round 1 #2 | Add `4-tablet-components/test/goldens/split_button/  new (generated goldens)` to C5 and regenerate; then the Implementer adds the goldens (closed and open menu, LTR + RTL) | Planner |
+| 8 | 🟢 Nit | `split-button.md` header | "Source code" still reads `lib/src/components/split-button/ — not built yet`; the file is `lib/src/components/split_button/bw_split_button.dart` | Correct the header row | Planner |
+| 9 | 🟢 Nit | `bw_button.dart:234-253`, `bw_icon_button.dart:312-331` | `_borderRadius(segment)` is copied verbatim into both files (AC-2 "shared helpers reused, no copied styles") | Move it to one shared helper (e.g. in `bw_button_style.dart`) used by both | Implementer |
+| 10 | 🟢 Nit | `test/split_button_test.dart:189-192` | The primary part is checked for tap only; the trigger for tap + focus. The icon-button lesson says every part must prove tap + focus | Assert `hasTapAction: true, hasFocusAction: true` on the primary node too | Implementer |
+
+#### Notes
+
+- C8 deviation "MenuAnchor does not expose animation-duration parameters" is accepted: the menu fade / scale uses Flutter's internal timing and reduced motion turns it off (`animated: false`). The Planner may record this in tablet B4 when fixing finding 5.
+- `_containerWidth` is measured when the menu opens; if the label changes while the menu is open, the width stays stale until the next open. Not a finding.
+- Figma build (Part D) not reviewed: `Figma build = Planned`.
+
+#### Next step
+
+Changes requested. Planner first (findings 4, 5, 7, 8 → Plan `Open`, regenerate the contract), then a fix round for the Implementer (findings 1, 2, 3, 6, 9, 10, plus the goldens from 7 and the C8 note from 4). Code → `Changes requested`.
 
 ---
 
@@ -423,4 +636,6 @@ None — version 1.0. Filled when the version is above 1.0; it feeds Figma doc p
 
 | Version | Date | Change | Breaking | Migration |
 |---|---|---|---|---|
+| 1.0 | 2026-10-24 | Plan 2.1 (review round 1 finding #9, user-approved): C3 / C5 add `bw_button_style.dart` — one shared internal segment radius helper used by BwButton and BwIconButton. No new behaviour | No | — |
+| 1.0 | 2026-10-24 | Tablet B2–B4 clarified for Review Round 1 (no new behaviour): menu tokens listed, `elevation-3` mapped onto a decorated menu surface, menu item states listed, chevron close timing and `MenuAnchor` built-in fade timing recorded. Plan 2: C3 / C5 record the internal BwButton / BwIconButton parameters; C5 adds the goldens folder | No | — |
 | 1.0 | 2026-10-16 | Initial | No | — |
