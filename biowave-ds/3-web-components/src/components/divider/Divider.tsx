@@ -51,11 +51,14 @@ const DividerRoot = styled(MuiDivider, {
 
   return {
     boxSizing: 'border-box',
+    display: $labelled ? 'flex' : 'block',
     flexShrink: 0,
     inlineSize: $orientation === 'horizontal' ? 'auto' : undefined,
     blockSize: $orientation === 'vertical' ? 'auto' : undefined,
     alignSelf: $orientation === 'vertical' ? 'stretch' : undefined,
+    listStyle: 'none',
     margin: dividerTokens.inset.none,
+    padding: dividerTokens.inset.none,
     borderWidth: 0,
     borderStyle: 'solid',
     borderColor: line.color,
@@ -65,7 +68,6 @@ const DividerRoot = styled(MuiDivider, {
     ...inset,
     ...($labelled
       ? {
-          display: 'flex',
           alignItems: 'center',
           '&::before, &::after': {
             flex: `1 0 ${dividerTokens.label.minimumSegmentLength}`,

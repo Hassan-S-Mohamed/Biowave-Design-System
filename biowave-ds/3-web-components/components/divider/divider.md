@@ -15,7 +15,7 @@
 | Figma | **Biowave DS — Web Components** › `↳ Divider` · build: [Part D](#d--figma-build) |
 | Version | 1.1 · 2026-10-23 |
 | Plan | Finished |
-| Code | Changes requested |
+| Code | Built |
 | Figma build | Planned |
 | Review | Round 1 · 2026-10-24 · Changes requested |
 | Source code | [`src/components/divider/`](../../src/components/divider/) |
@@ -462,6 +462,17 @@ Implement every item in B9, plus:
 
 **Questions for the Planner:**
 - none
+
+#### Fix round 1 — 2026-10-24
+
+| Finding | What changed (`file:line`) | Test that proves it |
+|---|---|---|
+| #1 🔴 | `Divider.tsx:54-61` — reset every root to block layout when unlabelled, removed list markers, and zeroed its own tokenized margin and padding so an unlabelled `li` renders like the `hr` line. | `Divider.test.tsx:297` — **renders an unlabelled list divider as only its line in English and Arabic** checks the styled and computed list style, layout, padding, border width, and height/border parity with the standard `hr`. |
+| #2 🟢 | `Divider.test.tsx:193-199` — read the Arabic wrapper's computed `paddingInline` and assert its logical start and end values both equal `dividerTokens.label.gap`. | `Divider.test.tsx:155` — **centres English and Arabic labels between token-styled line segments** now proves the computed Arabic inline padding, not only the generated rule text. |
+
+Checks: `npm run docs:check` ✓; `npm run typecheck` ✓; `npm run test:web` ✓ 119/119 at default timeouts.
+
+Questions: none.
 
 ---
 

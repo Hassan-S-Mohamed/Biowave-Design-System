@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Fixed — Web Divider review round 1] — 2026-10-24
+### Fixed
+- Reset unlabelled `component="li"` Divider roots to block layout with no list marker or own margin/padding, so they render with the same tokenized one-line height and border as the default `hr` in English and Arabic. Added regression coverage for the list style, rendered height/border, and computed Arabic inline label padding. `docs:check` ✓; `typecheck` ✓; `test:web` 119/119 ✓ at default timeouts.
+
 ## [Plan — Web Divider 1.1 header fix] — 2026-10-24
 ### Changed
 - Divider (web) answering Review round 1 Planner finding #3: header **Source code** row in `3-web-components/components/divider/divider.md` now links the built folder [`src/components/divider/`](3-web-components/src/components/divider/); Part F2 line added. No spec change (Executor findings #1–#2 keep their E2 fixes). Plan Open → Finished (header + `3-web-components/README.md`); Code stays Changes requested; web Divider contract regenerated.

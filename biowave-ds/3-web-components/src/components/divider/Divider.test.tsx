@@ -193,6 +193,10 @@ describe('Divider label', () => {
           if (locale === 'ar') {
             expect(document.documentElement).toHaveAttribute('dir', 'rtl');
             expect(rules).not.toMatch(/padding-(?:left|right)/i);
+            const labelStyle = getComputedStyle(labelElement as Element);
+            const [inlineStart, inlineEnd = inlineStart] = labelStyle.paddingInline.split(/\s+/);
+            expect(inlineStart).toBe(dividerTokens.label.gap);
+            expect(inlineEnd).toBe(dividerTokens.label.gap);
           }
           view.unmount();
         }
@@ -288,6 +292,43 @@ describe('Divider semantics and validation', () => {
       expect(divider.querySelector('hr')).toBeNull();
     }
     expect(container.querySelector('ul > hr')).toBeNull();
+  });
+
+  it('renders an unlabelled list divider as only its line in English and Arabic', () => {
+    for (const locale of locales) {
+      const view = renderWithBiowave(
+        <>
+          <ul>
+            <li>Before</li>
+            <Divider component="li" data-testid={`list-line-${locale}`} />
+            <li>After</li>
+          </ul>
+          <Divider data-testid={`hr-line-${locale}`} />
+        </>,
+        { locale },
+      );
+      const divider = screen.getByTestId(`list-line-${locale}`);
+      const standardDivider = screen.getByTestId(`hr-line-${locale}`);
+      const rules = cssRulesFor(divider);
+      const style = getComputedStyle(divider);
+      const standardStyle = getComputedStyle(standardDivider);
+
+      expect(rules).toContain('display: block');
+      expect(rules).toContain('list-style: none');
+      expect(rules).toContain(`margin: ${dividerTokens.inset.none}`);
+      expect(rules).toContain(`padding: ${dividerTokens.inset.none}`);
+      expect(rules).toContain(`border-block-end-width: ${dividerTokens.line.default.width}`);
+      expect(style.display).toBe('block');
+      expect(style.listStyle).toBe('none');
+      expect(style.padding).toBe(dividerTokens.inset.none);
+      expect(style.borderBlockEndWidth).toBe(dividerTokens.line.default.width);
+      expect(style.borderBlockEndWidth).toBe(standardStyle.borderBlockEndWidth);
+      expect(style.height).toBe(standardStyle.height);
+      expect(divider.getBoundingClientRect().height).toBe(
+        standardDivider.getBoundingClientRect().height,
+      );
+      view.unmount();
+    }
   });
 
   it('warns once for invalid combinations and renders each fallback', () => {
