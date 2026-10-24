@@ -15,7 +15,7 @@
 | Figma | **Biowave DS — Tablet Components** › `↳ Text field` (page Typography mode `Tablet`) · build: [Part D](#d--figma-build) |
 | Version | 1.2 · 2026-10-24 (spec and code plan 1.2; guidelines unchanged, same as Web 1.1) |
 | Plan | Finished |
-| Code | Changes requested |
+| Code | Built |
 | Figma build | Planned |
 | Review | Round 1 · 2026-10-24 · Changes requested |
 | Source code | [`lib/src/components/text_field/`](../../lib/src/components/text_field/) |
@@ -523,6 +523,32 @@ Implement every item in B9, plus:
 
 **Deviations from the plan or spec**
 - none
+
+**Questions for the Planner**
+- none
+
+#### Fix round 1 — 2026-10-24
+
+| Field | Value |
+|---|---|
+| Agent | Antigravity (Fixer) |
+| Date | 2026-10-24 |
+| Files changed | `4-tablet-components/lib/src/components/text_field/bw_text_field.dart`, `4-tablet-components/lib/src/components/text_field/bw_field_addon.dart`, `4-tablet-components/lib/src/components/text_field/bw_field_label.dart`, `4-tablet-components/test/text_field_test.dart`, `4-tablet-components/test/goldens/text_field/text-field-light-en.png`, `4-tablet-components/test/goldens/text_field/text-field-light-ar.png`, `4-tablet-components/test/goldens/text_field/text-field-dark-en.png`, `4-tablet-components/test/goldens/text_field/text-field-dark-ar.png`, `4-tablet-components/components/text-field/text-field.md`, `4-tablet-components/README.md`, `CHANGELOG.md` |
+
+| Finding | What changed (`file:line`) | Test that proves it |
+|---|---|---|
+| #1 🔴 Validator pass-through & FormState integration | `bw_text_field.dart:750-780`: passed `widget.validator` result through, added `forceErrorText`, and wired `errorBuilder` to render `BwFieldSupporting.buildError` | `test/text_field_test.dart:1238-1296`: `Form integration: validator result is passed through to FormField` and `Form integration: autovalidateMode.onUserInteraction` |
+| #2 🔴 Affix hint semantics separation | `bw_text_field.dart:357-370`, `:652-675`, `:782-793`: `hintText` resolves only from `widget.placeholder` without copyWith merge; affixes described exclusively in `Semantics.hint` | `test/text_field_test.dart:1298-1342`: `empty field with affixes: shows no hintText, affixes in semantics hint only` |
+| #3 🔴 Remove PaintingContext interception; square end button via `BwButton(segment: BwButtonSegment.end)` | `bw_field_addon.dart:1-153`: removed `BwFieldEndButtonSquareStart` and custom canvas interceptors; `bw_text_field.dart:584-599`: end button uses `BwButton(segment: BwButtonSegment.end)` | `test/text_field_test.dart:1344-1372`: `end button: BwButton uses segment: BwButtonSegment.end; loading paints spinner` |
+| #6 🟡 Golden affix demo cases | `test/text_field_test.dart:1376-1386`: separated affixes into "Hourly rate (MD)" + `SAR` suffix and "Website" + `https://` prefix; updated all 4 goldens | `test/text_field_test.dart:1463-1490`: golden matrix tests for dark/en, dark/ar, light/en, light/ar |
+| #7 🟡 Tab navigation past disabled field & dead check | `test/text_field_test.dart:644-760`: removed dead `helpTapped`, asserted Tab 1 lands on help icon, Tab 2 skips disabled field/action/end button and focuses next field; verified `isFocused: false` and `isEnabled: false` | `test/text_field_test.dart:644-760`: `disabled: field, trailing action and end button not focusable; help icon still reachable; helper text kept in semantics` |
+| #8 🟢 Consistent supporting-row start and counter insets | `bw_text_field.dart:617-660`: unified supporting-row start and counter end insets across all fields (with/without leading icon or multiline) by offsetting subtext by `startPadding` / `endPadding` | `test/text_field_test.dart:1374-1416`: `supporting-row start and counter end insets are consistent across all layouts` |
+| #9 🟢 Keep helper text in semantics when disabled | `bw_text_field.dart:363`: kept `helperText` in semantics label when field is disabled (suppressing only error text) | `test/text_field_test.dart:703-713`: `disabled: field, trailing action and end button not focusable... helper text kept in semantics` |
+| Plan 1.2 motion & reduced motion | `bw_field_label.dart:88-112`: added `AnimatedDefaultTextStyle` with `BwDuration.sm` and `BwEasing.standard` (instant when `reduceMotion`); tested all Biowave parts | `test/text_field_test.dart:1157-1236`: `honours motion duration and reduced motion` |
+
+**Deviations from the plan or spec**
+- Reused existing `BwButtonSegment` in `lib/src/components/button/bw_button.dart` and `BwButtonStyle.segmentBorderRadius(dimensions, segment)` in `bw_button_style.dart` (merged from Split button, #17) as instructed by user note, rather than adding a new helper or editing button files.
+- In `bw_text_field.dart`, unified supporting row start and counter end insets to `spacing-xs` (4 dp) across all field configurations by compensating subtext visual offsets (`startPadding` / `endPadding`).
 
 **Questions for the Planner**
 - none

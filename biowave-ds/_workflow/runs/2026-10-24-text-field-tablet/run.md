@@ -19,6 +19,7 @@
 | 02 | implement | antigravity | done — 5 failures fixed, goldens, C8, Code Built | docs:check ✓ · analyze ✓ · test ✓ 181/181 (orchestrator); light-ar golden checked by eye | (this commit) | [prompt](02-implement-antigravity.prompt.md) |
 | 03 | review | claude (wf-reviewer agent) | done — Round 1 Changes requested: 3 🔴 (validator ignored, affix as hint, end-button layer detached), 4 🟡 (2 Planner), 4 🟢 | docs:check ✓ · analyze ✓ · test ✓ | (this commit) | [prompt](03-review-claude.prompt.md) |
 | 04 | plan | claude (wf-planner agent, one pass with the other platform) | done — plan 1.2: BwButton internal `segment` + radius helper in C5, B4 Flutter motion limit accepted, `placeholder` in B1 | contract ✓ · docs:check ✓ | (this commit) | [prompt](04-plan-claude.prompt.md) |
+| 05 | fix | antigravity (Gemini 3.8 Flash) | done — Fix round 1: validator, affixes, end button via BwButton segment (painter removed), demo data, tests, motion | docs:check ✓ · analyze ✓ · test ✓ 202/202 (orchestrator); light-en golden checked | (this commit) | [prompt](05-fix-antigravity.prompt.md) |
 
 ## Gates
 

@@ -284,6 +284,10 @@ class _BwTextFieldState extends State<BwTextField> {
       _effectiveFocusNode.addListener(_handleFocusChanged);
     }
 
+    if (widget.validator == null && _validatorErrorText != null) {
+      _validatorErrorText = null;
+    }
+
     if (!widget.obscureText && _passwordVisible) {
       _passwordVisible = false;
     }
@@ -356,26 +360,11 @@ class _BwTextFieldState extends State<BwTextField> {
         ? (isArabic ? '، مطلوب' : ', required')
         : '';
     final baseLabel = '${widget.label}$requiredSuffix';
-    final supporting = _hasError
-        ? _effectiveErrorText
-        : (widget.enabled ? widget.helperText : null);
+    final supporting = _hasError ? _effectiveErrorText : widget.helperText;
     if (supporting != null && supporting.isNotEmpty) {
       return '$baseLabel\n$supporting';
     }
     return baseLabel;
-  }
-
-  String? _resolvedHintSemantics() {
-    final parts = <String>[
-      if (widget.placeholder != null && widget.placeholder!.isNotEmpty)
-        widget.placeholder!,
-      if (_effectivePrefixText != null && _effectivePrefixText!.isNotEmpty)
-        _effectivePrefixText!,
-      if (_effectiveSuffixText != null && _effectiveSuffixText!.isNotEmpty)
-        _effectiveSuffixText!,
-    ];
-    if (parts.isEmpty) return null;
-    return parts.join(', ');
   }
 
   Color _currentBorderColor(BuildContext context) {
@@ -594,19 +583,17 @@ class _BwTextFieldState extends State<BwTextField> {
   }
 
   Widget _buildEndButton(BuildContext context, BwTextFieldEndButton endButton) {
-    return BwFieldEndButtonSquareStart(
-      isRtl: context.bw.isRtl,
-      child: KeyedSubtree(
-        key: const ValueKey<String>('BwTextField.end-button'),
-        child: BwButton(
-          label: endButton.label,
-          leadingIcon: endButton.icon,
-          loading: endButton.loading,
-          variant: BwButtonVariant.outlined,
-          color: BwButtonColor.neutral,
-          size: _effectiveSize,
-          onPressed: widget.enabled ? endButton.onPressed : null,
-        ),
+    return KeyedSubtree(
+      key: const ValueKey<String>('BwTextField.end-button'),
+      child: BwButton(
+        label: endButton.label,
+        leadingIcon: endButton.icon,
+        loading: endButton.loading,
+        variant: BwButtonVariant.outlined,
+        color: BwButtonColor.neutral,
+        size: _effectiveSize,
+        segment: BwButtonSegment.end,
+        onPressed: widget.enabled ? endButton.onPressed : null,
       ),
     );
   }
@@ -627,27 +614,59 @@ class _BwTextFieldState extends State<BwTextField> {
     final prefixSlot = _buildPrefixSlot(context, metrics, borderColor);
     final suffixSlot = _buildSuffixSlot(context, metrics, borderColor);
 
+    final startPadding = (hasPrefixAddon || hasLeadingIcon)
+        ? BwSpacing.none
+        : metrics.paddingInline;
+    final endPadding =
+        (hasTrailingAction || hasTrailingIcon || hasSuffixAddon)
+            ? BwSpacing.none
+            : metrics.paddingInline;
+
+    Widget? offsetSupporting(Widget? child) {
+      if (child == null || startPadding == BwSpacing.none) return child;
+      final isRtl = context.bw.isRtl;
+      return Transform.translate(
+        offset: Offset((isRtl ? 1 : -1) * startPadding, BwSpacing.none),
+        child: child,
+      );
+    }
+
+    Widget? offsetCounter(Widget? child) {
+      if (child == null || endPadding == BwSpacing.none) return child;
+      final isRtl = context.bw.isRtl;
+      return Transform.translate(
+        offset: Offset((isRtl ? -1 : 1) * endPadding, BwSpacing.none),
+        child: child,
+      );
+    }
+
     final helperWidget = _hasError
         ? null
-        : BwFieldSupporting.buildHelper(
-            context,
-            helperText: widget.helperText,
-            size: normalizedSize,
-            enabled: widget.enabled,
+        : offsetSupporting(
+            BwFieldSupporting.buildHelper(
+              context,
+              helperText: widget.helperText,
+              size: normalizedSize,
+              enabled: widget.enabled,
+            ),
           );
-    final errorWidget = BwFieldSupporting.buildError(
-      context,
-      errorText: _effectiveErrorText,
-      size: normalizedSize,
-      enabled: widget.enabled,
+    final errorWidget = offsetSupporting(
+      BwFieldSupporting.buildError(
+        context,
+        errorText: _effectiveErrorText,
+        size: normalizedSize,
+        enabled: widget.enabled,
+      ),
     );
-    final counterWidget = BwFieldSupporting.buildCounter(
-      context,
-      value: _effectiveController.text,
-      maxLength: widget.maxLength,
-      showCounter: widget.showCounter,
-      enabled: widget.enabled,
-      hasError: _hasError,
+    final counterWidget = offsetCounter(
+      BwFieldSupporting.buildCounter(
+        context,
+        value: _effectiveController.text,
+        maxLength: widget.maxLength,
+        showCounter: widget.showCounter,
+        enabled: widget.enabled,
+        hasError: _hasError,
+      ),
     );
 
     final decoration = BwTextFieldDecoration.resolve(
@@ -663,14 +682,12 @@ class _BwTextFieldState extends State<BwTextField> {
       hasTrailingIcon: hasTrailingIcon,
       hasSuffixAddon: hasSuffixAddon,
       hasEndButton: hasEndButton,
-      hintText: _resolvedHintSemantics(),
+      hintText: widget.placeholder,
       prefixIcon: prefixSlot,
       suffixIcon: suffixSlot,
       helper: helperWidget,
       error: errorWidget,
       counter: counterWidget,
-    ).copyWith(
-      hintText: widget.placeholder,
     );
 
     final effectiveKeyboardType = widget.multiline
@@ -688,9 +705,15 @@ class _BwTextFieldState extends State<BwTextField> {
     final int? effectiveMaxLines =
         widget.multiline ? widget.maxRows : 1;
 
-    final addonDescriptions = <String>[
-      if (hasPrefixAddon) _effectivePrefixText!,
-      if (hasSuffixAddon) _effectiveSuffixText!,
+    final affixHints = <String>[
+      if (hasPrefixAddon &&
+          _effectivePrefixText != null &&
+          _effectivePrefixText!.isNotEmpty)
+        _effectivePrefixText!,
+      if (hasSuffixAddon &&
+          _effectiveSuffixText != null &&
+          _effectiveSuffixText!.isNotEmpty)
+        _effectiveSuffixText!,
     ];
 
     Widget textFormField = TextFormField(
@@ -725,6 +748,7 @@ class _BwTextFieldState extends State<BwTextField> {
       onFieldSubmitted: widget.onSubmitted,
       onTap: widget.onTap,
       autovalidateMode: widget.autovalidateMode,
+      forceErrorText: !widget.enabled ? null : widget.errorText,
       validator: widget.validator == null
           ? null
           : (value) {
@@ -738,13 +762,23 @@ class _BwTextFieldState extends State<BwTextField> {
                   }
                 });
               }
-              return null;
+              return result;
             },
+      errorBuilder: (context, errorText) =>
+          offsetSupporting(
+            BwFieldSupporting.buildError(
+              context,
+              errorText: errorText,
+              size: normalizedSize,
+              enabled: widget.enabled,
+            ),
+          ) ??
+          const SizedBox.shrink(),
     );
 
     textFormField = Semantics(
       label: _resolvedSemanticLabel(context),
-      hint: addonDescriptions.isEmpty ? null : addonDescriptions.join(', '),
+      hint: affixHints.isEmpty ? null : affixHints.join(', '),
       child: KeyedSubtree(
         key: const ValueKey<String>('BwTextField.field'),
         child: textFormField,

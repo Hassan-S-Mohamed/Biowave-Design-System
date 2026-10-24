@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:ui' show PointerDeviceKind, SemanticsAction, Tristate;
 
 import 'package:biowave_tablet/biowave_tablet.dart';
+import 'package:biowave_tablet/src/components/button/bw_button.dart';
 import 'package:biowave_tablet/src/components/text_field/bw_field_action.dart';
 import 'package:biowave_tablet/src/components/text_field/bw_field_addon.dart';
 import 'package:biowave_tablet/src/components/text_field/bw_text_field_decoration.dart';
@@ -642,29 +643,39 @@ void main() {
     );
 
     testWidgets(
-      'disabled: field, trailing action and end button not focusable; help icon still reachable',
+      'disabled: field, trailing action and end button not focusable; help icon still reachable; helper text kept in semantics',
       (tester) async {
         final semantics = tester.ensureSemantics();
-        var helpTapped = false;
         var actionTapped = false;
         var endTapped = false;
+        final secondFocus = FocusNode();
+        addTearDown(secondFocus.dispose);
 
         await tester.pumpBw(
           SizedBox(
             width: 560,
-            child: BwTextField(
-              label: 'Invite link',
-              enabled: false,
-              helpText: 'Share this URL',
-              action: BwTextFieldAction(
-                icon: Symbols.search_rounded,
-                label: 'Inspect',
-                onPressed: () => actionTapped = true,
-              ),
-              endButton: BwTextFieldEndButton(
-                label: 'Copy',
-                onPressed: () => endTapped = true,
-              ),
+            child: Column(
+              children: [
+                BwTextField(
+                  label: 'Invite link',
+                  enabled: false,
+                  helpText: 'Share this URL',
+                  helperText: 'Employee ID is fixed',
+                  action: BwTextFieldAction(
+                    icon: Symbols.search_rounded,
+                    label: 'Inspect',
+                    onPressed: () => actionTapped = true,
+                  ),
+                  endButton: BwTextFieldEndButton(
+                    label: 'Copy',
+                    onPressed: () => endTapped = true,
+                  ),
+                ),
+                BwTextField(
+                  label: 'Second field',
+                  focusNode: secondFocus,
+                ),
+              ],
             ),
           ),
         );
@@ -689,6 +700,16 @@ void main() {
         expect(actionData.hasAction(SemanticsAction.tap), isFalse);
         expect(endData.hasAction(SemanticsAction.tap), isFalse);
 
+        // Disabled field keeps helperText in semantics label
+        final disabledFieldSemantics = tester
+            .getSemantics(
+              find.byKey(const ValueKey<String>('BwTextField.field')).first,
+            )
+            .getSemanticsData();
+        expect(disabledFieldSemantics.label, contains('Invite link'));
+        expect(disabledFieldSemantics.label, contains('Employee ID is fixed'));
+        expect(disabledFieldSemantics.flagsCollection.isFocused != Tristate.isTrue, isTrue);
+
         // Tab reaches help icon, and does not focus disabled field/action/endButton
         await tester.sendKeyEvent(LogicalKeyboardKey.tab);
         await tester.pump();
@@ -703,12 +724,38 @@ void main() {
           Tristate.isTrue,
         );
 
+        // Tab again skips the disabled field, trailing action, and end button, focusing the second field
+        await tester.sendKeyEvent(LogicalKeyboardKey.tab);
+        await tester.pump();
+        expect(secondFocus.hasFocus, isTrue);
+
+        final updatedFieldSemantics = tester
+            .getSemantics(
+              find.byKey(const ValueKey<String>('BwTextField.field')).first,
+            )
+            .getSemanticsData();
+        expect(updatedFieldSemantics.flagsCollection.isFocused != Tristate.isTrue, isTrue);
+
+        final updatedActionData = tester
+            .getSemantics(
+              find.byKey(const ValueKey<String>('BwTextField.trailing-action')),
+            )
+            .getSemanticsData();
+        final updatedEndData = tester
+            .getSemantics(
+              find.byKey(const ValueKey<String>('BwTextField.end-button')),
+            )
+            .getSemanticsData();
+        expect(updatedActionData.flagsCollection.isFocused != Tristate.isTrue, isTrue);
+        expect(updatedActionData.flagsCollection.isEnabled, Tristate.isFalse);
+        expect(updatedEndData.flagsCollection.isFocused != Tristate.isTrue, isTrue);
+        expect(updatedEndData.flagsCollection.isEnabled, Tristate.isFalse);
+
         tester.semantics.tap(
           find.semantics.byLabel('More information about Invite link'),
         );
         await tester.pumpAndSettle();
         expect(find.text('Share this URL'), findsOneWidget);
-        expect(helpTapped, isFalse);
         expect(actionTapped, isFalse);
         expect(endTapped, isFalse);
 
@@ -1109,7 +1156,36 @@ void main() {
       expect(Directionality.of(counterElement), TextDirection.ltr);
     });
 
-    testWidgets('honours reduced motion', (tester) async {
+    testWidgets('honours motion duration and reduced motion', (tester) async {
+      // Default (reduceMotion: false): uses BwDuration.sm and BwEasing.standard
+      await tester.pumpBw(
+        const BwTextField(
+          label: 'Work email',
+          prefixText: 'https://',
+          helperText: 'Helper',
+          maxLength: 20,
+          showCounter: true,
+        ),
+      );
+
+      final defaultAddon = tester.widget<AnimatedContainer>(
+        find.byKey(const ValueKey<String>('BwTextField.prefix')),
+      );
+      expect(defaultAddon.duration, BwDuration.sm);
+      expect(defaultAddon.curve, BwEasing.standard);
+
+      final defaultStyles = tester.widgetList<AnimatedDefaultTextStyle>(
+        find.descendant(
+          of: find.byType(BwTextField),
+          matching: find.byType(AnimatedDefaultTextStyle),
+        ),
+      );
+      for (final animated in defaultStyles) {
+        expect(animated.duration, BwDuration.sm);
+        expect(animated.curve, BwEasing.standard);
+      }
+
+      // reduceMotion: true: uses BwDuration.instant
       await tester.pumpBw(
         const BwTextField(
           label: 'Work email',
@@ -1135,6 +1211,200 @@ void main() {
       for (final animated in animatedStyles) {
         expect(animated.duration, BwDuration.instant);
       }
+    });
+
+    testWidgets('Form integration: validator result is passed through to FormField', (
+      tester,
+    ) async {
+      final formKey = GlobalKey<FormState>();
+      final controller = TextEditingController();
+      addTearDown(controller.dispose);
+
+      await tester.pumpBw(
+        SizedBox(
+          width: 560,
+          child: Form(
+            key: formKey,
+            child: BwTextField(
+              label: 'Username',
+              controller: controller,
+              validator: (value) =>
+                  (value == null || value.isEmpty) ? 'Username is required' : null,
+            ),
+          ),
+        ),
+      );
+
+      // Initially valid before validate is called
+      expect(find.text('Username is required'), findsNothing);
+      expect(find.byKey(const ValueKey<String>('BwTextField.error-icon')), findsNothing);
+
+      // Calling validate() on empty field must return false and show error message and error icon
+      final isValidInitial = formKey.currentState!.validate();
+      expect(isValidInitial, isFalse);
+      await tester.pumpAndSettle();
+
+      expect(find.text('Username is required'), findsOneWidget);
+      expect(find.byKey(const ValueKey<String>('BwTextField.error-icon')), findsOneWidget);
+
+      // Entering valid input and re-validating clears the error and returns true
+      controller.text = 'hassansaid';
+      final isValidFixed = formKey.currentState!.validate();
+      expect(isValidFixed, isTrue);
+      await tester.pumpAndSettle();
+
+      expect(find.text('Username is required'), findsNothing);
+      expect(find.byKey(const ValueKey<String>('BwTextField.error-icon')), findsNothing);
+    });
+
+    testWidgets('Form integration: autovalidateMode.onUserInteraction', (
+      tester,
+    ) async {
+      final formKey = GlobalKey<FormState>();
+
+      await tester.pumpBw(
+        SizedBox(
+          width: 560,
+          child: Form(
+            key: formKey,
+            child: BwTextField(
+              label: 'Email',
+              autovalidateMode: AutovalidateMode.onUserInteraction,
+              validator: (value) {
+                if (value == null || value.isEmpty) return 'Email required';
+                if (!value.contains('@')) return 'Must contain @';
+                return null;
+              },
+            ),
+          ),
+        ),
+      );
+
+      expect(find.text('Email required'), findsNothing);
+
+      // User types invalid text
+      await tester.enterText(find.byType(EditableText), 'invalid');
+      await tester.pumpAndSettle();
+      expect(find.text('Must contain @'), findsOneWidget);
+      expect(formKey.currentState!.validate(), isFalse);
+
+      // User fixes the text
+      await tester.enterText(find.byType(EditableText), 'user@biowave.sa');
+      await tester.pumpAndSettle();
+      expect(find.text('Must contain @'), findsNothing);
+      expect(formKey.currentState!.validate(), isTrue);
+    });
+
+    testWidgets('empty field with affixes: shows no hintText, affixes in semantics hint only', (
+      tester,
+    ) async {
+      final semantics = tester.ensureSemantics();
+
+      await tester.pumpBw(
+        const SizedBox(
+          width: 560,
+          child: BwTextField(
+            label: 'Website',
+            prefixText: 'https://',
+            suffixText: '.sa',
+          ),
+        ),
+      );
+
+      final decorator = tester.widget<InputDecorator>(_fieldInputDecorator());
+      expect(decorator.decoration.hintText, isNull);
+
+      final tfNode = tester.getSemantics(find.byType(EditableText));
+      final data = tfNode.getSemanticsData();
+      expect(data.label, 'Website');
+      expect(data.hint, 'https://, .sa');
+
+      await tester.pumpBw(
+        const SizedBox(
+          width: 560,
+          child: BwTextField(
+            label: 'Website',
+            placeholder: 'biowave',
+            prefixText: 'https://',
+            suffixText: '.sa',
+          ),
+        ),
+      );
+      final decoratorWithPlaceholder =
+          tester.widget<InputDecorator>(_fieldInputDecorator());
+      expect(decoratorWithPlaceholder.decoration.hintText, 'biowave');
+
+      semantics.dispose();
+    });
+
+    testWidgets('end button: BwButton uses segment: BwButtonSegment.end; loading paints spinner', (
+      tester,
+    ) async {
+      await tester.pumpBw(
+        SizedBox(
+          width: 560,
+          child: BwTextField(
+            label: 'API Key',
+            endButton: BwTextFieldEndButton(
+              label: 'Copy',
+              loading: true,
+              onPressed: () {},
+            ),
+          ),
+        ),
+      );
+
+      final button = tester.widget<BwButton>(
+        find.descendant(
+          of: find.byKey(const ValueKey<String>('BwTextField.end-button')),
+          matching: find.byType(BwButton),
+        ),
+      );
+      expect(button.segment, BwButtonSegment.end);
+      expect(button.loading, isTrue);
+
+      expect(find.byType(CircularProgressIndicator), findsOneWidget);
+    });
+
+    testWidgets('supporting-row start and counter end insets are consistent across all layouts', (
+      tester,
+    ) async {
+      // Field with leading icon
+      await tester.pumpBw(
+        const SizedBox(
+          width: 560,
+          child: BwTextField(
+            label: 'Email',
+            leadingIcon: Symbols.mail_rounded,
+            helperText: 'Helper text',
+          ),
+        ),
+      );
+      final fieldWithIconRect = tester.getRect(_fieldInputDecorator());
+      final helperWithIconRect = tester.getRect(
+        find.byKey(const ValueKey<String>('BwTextField.supporting-text')),
+      );
+      final insetWithIcon = helperWithIconRect.left - fieldWithIconRect.left;
+
+      // Field without leading icon (multiline)
+      await tester.pumpBw(
+        const SizedBox(
+          width: 560,
+          child: BwTextField(
+            label: 'Notes',
+            multiline: true,
+            helperText: 'Helper text',
+          ),
+        ),
+      );
+      final fieldMultiRect = tester.getRect(_fieldInputDecorator());
+      final helperMultiRect = tester.getRect(
+        find.byKey(const ValueKey<String>('BwTextField.supporting-text')),
+      );
+      final insetMulti = helperMultiRect.left - fieldMultiRect.left;
+
+      expect(insetMulti, closeTo(insetWithIcon, 0.01));
+      expect(insetWithIcon, closeTo(BwSpacing.xs, 0.01));
     });
 
     testWidgets('hover state updates add-on divider border colour', (
@@ -1331,9 +1601,14 @@ class _TextFieldGoldenBoard extends StatelessWidget {
                     BwTextField(
                       label: isAr ? 'أجر الساعة (MD)' : 'Hourly rate (MD)',
                       size: BwControlSize.md,
-                      prefixText: 'https://',
                       suffixText: 'SAR',
                       initialValue: '120',
+                    ),
+                    const SizedBox(height: BwSpacing.xl),
+                    BwTextField(
+                      label: isAr ? 'الموقع الإلكتروني' : 'Website',
+                      prefixText: 'https://',
+                      initialValue: 'biowave.sa',
                     ),
                     const SizedBox(height: BwSpacing.xl),
                     BwTextField(

@@ -85,25 +85,32 @@ class _BwFieldLabelState extends State<BwFieldLabel> {
       return const SizedBox.shrink();
     }
 
+    final duration =
+        context.bw.reduceMotion ? BwDuration.instant : BwDuration.sm;
+
     Widget? visibleLabel;
     if (!widget.hideLabel) {
       visibleLabel = ExcludeSemantics(
         child: GestureDetector(
           behavior: HitTestBehavior.opaque,
           onTap: widget.enabled ? widget.onTapLabel : null,
-          child: Text.rich(
-            TextSpan(
-              text: widget.label,
-              style: labelStyle,
-              children: [
-                if (widget.requiredField)
-                  TextSpan(
-                    text: ' *',
-                    style: labelStyle.copyWith(color: stateColors.required),
-                  ),
-              ],
+          child: AnimatedDefaultTextStyle(
+            duration: duration,
+            curve: BwEasing.standard,
+            style: labelStyle,
+            child: Text.rich(
+              TextSpan(
+                text: widget.label,
+                children: [
+                  if (widget.requiredField)
+                    TextSpan(
+                      text: ' *',
+                      style: labelStyle.copyWith(color: stateColors.required),
+                    ),
+                ],
+              ),
+              key: const ValueKey<String>('BwTextField.label'),
             ),
-            key: const ValueKey<String>('BwTextField.label'),
           ),
         ),
       );
