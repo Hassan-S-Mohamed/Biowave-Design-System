@@ -19,6 +19,7 @@
 
 | Gate | Decision | Notes |
 |---|---|---|
+| after-plan | **Approve 1.0, status later** (2026-10-24) | Tag + Label = one `tag` variant; `sm` chip with an avatar waits for Avatar `xs`; `status` waits for its 7 states (plan 1.1). Implement after Avatar is built and merged (input chip uses Avatar) |
 
 ## Questions raised
 
