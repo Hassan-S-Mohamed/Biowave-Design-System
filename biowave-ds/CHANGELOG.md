@@ -26,6 +26,74 @@ Every change to the design system is logged here **in the same task**, newest fi
 ### Added
 - New component **Avatar** planned on all three platforms (Roadmap Day 4; depends on Icon and Badge 1.0): `3-web-components/components/avatar/avatar.md`, `4-tablet-components/components/avatar/avatar.md`, `5-mobile-components/components/avatar/avatar.md` (Parts A–D and F; Part A identical except A8). Image → initials → `person` glyph fallback (fallback shown while the image loads and after an error), initials rule (two Latin initials, one letter for Arabic-script names), sizes `sm`·`md`·`lg`·`xl` on `size-control-height-*`, shapes `circle`·`square`, colours `neutral`·`brand`·`secondary` (subtle backgrounds, no status meaning), one Badge placed by shape (`overlap` `circular`/`rectangular`), `decorative` mode, never focusable. Web on MUI `Avatar` + `Icon` + `Badge`; Flutter custom `BwAvatar` + `BwIcon` + `BwBadge`. No component tokens (P-04): no `avatar.tokens.json`. Plan `Finished`, Code and Figma `Planned`; contracts and docs pages generated; rows added to the three section READMEs.
 
+## [Review — Web Tooltip round 2: Approved] — 2026-10-24
+### Changed
+- Tooltip (web, plan 1.1) review round 2: **Approved** — Part E3 of `3-web-components/components/tooltip/tooltip.md`. Round 1 #1 fixed: in headless Chrome a pointer moving 1, 2 or 4 px per frame from the anchor across the gap keeps the tooltip open in every placement, en and ar, and when flipped (36/36); the gap hit-tests to the popper and the visible gap is still 4 px (`spacing-xs`). #2 fixed: exactly one described-by element in every sample, including both exit fades. #3 fixed (header link). Round 1 timings, keyboard-only focus open, Esc, reduced motion, sizes, colours and accessible names still hold. One 🟢 nit for a follow-up (an explicit `aria-label={undefined}` on a `label` child drops the name). Code → Approved, Review → Round 2 (header + README). `docs:check` ✓, `typecheck` ✓, `test:web` 146/146 ×3 ✓, `component-tokens` ✓, `sync` READY.
+
+## [Fixed — Web Tooltip review round 1] — 2026-10-24
+### Fixed
+- Moved the `spacing-xs` anchor gap into the interactive Popper as the tooltip's resolved-placement, anchor-facing logical margin; removed the Popper offset modifier; restored the closed description copy only after `Fade` exits so the described-by id has one owner; linked the source header; and added frame-by-frame hover, negative-control, eight-case gap-geometry and exit-fade id regressions. The full web suite passes 146/146 in three consecutive default-timeout runs.
+
+## [Plan — Tooltip 1.1 (web, tablet, mobile)] — 2026-10-24
+### Changed
+- Tooltip plan 1.0 → 1.1, answering Web review round 1 Planner blocker #1 (not hoverable, WCAG 1.4.13). **Web:** C3 › Offset drops the popper `offset` modifier; the `spacing-xs` gap becomes the tooltip's anchor-facing margin (`tooltipTokens.offset`, `cssVars.spacing.xs`, logical properties keyed on the resolved `data-popper-placement`), which lies inside the popper box MUI's interactive mode listens on; `leaveDelay` stays 0; C3 › Description id (show the hidden copy only after `Fade` `onExited`). B2 / B4 / B6 notes; B9 adds a step-by-step hover-across-the-gap test (timers advanced one frame between pointer events, with a negative control), a gap-geometry test and a one-id-during-exit check; C5 / C6 / C7 AC-7 – AC-10 and a **Fix round 1 — Executor task list** for #1, #2 (duplicate described-by id during exit) and #3 (header Source code). **Tablet / mobile:** the same gap problem existed for pointer hover (`RawTooltip` `dismissDelay: BwDuration.instant`, gap outside the `MouseRegion`); C3 › Position now puts the gap as transparent main-axis padding inside the hover area, the padded child touching the target, edge clamp `BwSpacing.md - BwSpacing.xs` on the main axis; B2 / B6 notes, B9 test, AC-7. Part A unchanged; no token or API change. Version 1.1 on all three; web Plan → Finished (header + README), Code stays Changes requested; contracts and docs pages regenerated.
+
+## [Review — Web Tooltip round 1: Changes requested] — 2026-10-24
+### Changed
+- Tooltip (web) review round 1: **Changes requested** — Part E2 of `3-web-components/components/tooltip/tooltip.md`. Headless Chrome confirms B2–B6 tokens, hover delay 500 ms, keyboard-only immediate open, enter 200 ms decelerate / exit 100 ms accelerate, reduced motion 0 ms, max width 320 px, offset 4 px, both themes, logical placement with the RTL swap and flip, and the label / description / disabled names. 🔴 #1 (Planner): not hoverable — C3's `margin: 0` + popper `offset` leaves the 4 px gap outside the popper, so a pointer moving onto the tooltip closes it (WCAG 1.4.13). 🟢 #2 duplicate description id during the exit fade; 🟢 #3 stale header `Source code`. Plan → Open, Code → Changes requested (header + README). `docs:check` ✓, `typecheck` ✓, `test:web` 133/133 ×3 ✓, `sync` READY.
+
+## [Added — Web Tooltip 1.0] — 2026-10-24
+### Added
+- Implemented and exported the token-styled React + MUI `Tooltip` with logical RTL placement, label and persistent-description semantics, controlled and uncontrolled interaction, hoverable and Escape-dismissible behavior, reduced motion, disabled-anchor support and 26 tests across light/dark, English/Arabic, motion, placement and axe accessibility; all 133 web tests passed in three consecutive full runs.
+
+## [Plan — Tooltip 1.0 (web, tablet, mobile)] — 2026-10-23
+### Added
+- Added mobile Tooltip light/English and dark/Arabic RTL planning sheets covering logical top/bottom/start/end placement, label and description purposes, long-press and tap triggers, five states, 48 px touch targets, exact token callouts, 4 px anchor offset, and the 320 px two-line maximum-width specimen.
+- New component **Tooltip** planned on all three platforms: `3-web-components/components/tooltip/tooltip.md` (`Tooltip`, MUI `Tooltip` + `Fade`), `4-tablet-components/…` and `5-mobile-components/components/tooltip/tooltip.md` (`BwTooltip`, Flutter `RawTooltip` because M3 `Tooltip` does not expose its fade duration and curve). Part A shared (A8 per platform): options `placement` (`top` · `bottom` · `start` · `end`, logical), `purpose` (`label` · `description`), `trigger` (touch: `long-press` · `tap`); WCAG 1.4.13 dismissible / hoverable / persistent; EN + AR copy. Tokens and timings reuse the approved Icon button web temporary tooltip (B3.4: `color-surface-inverse`, `color-text-neutral-inverse`, `label-sm`, `radius-sm`, `spacing-xs` / `spacing-md`, offset `spacing-xs`; B4: hover delay `motion-duration-2xl`, keyboard focus immediate, enter `md` `standard-decelerate`, exit `sm` `standard-accelerate`, reduced motion instant) plus max width `size-container-xxs`. No component tokens (P-04), no token gaps. Icon button and Text field help-tooltip migration recorded as follow-ups in C2 (not edited). Plan → Finished, Code / Figma → Planned (headers + section READMEs); contracts and docs pages generated.
+- Added tablet Tooltip light/English and dark/Arabic RTL planning sheets covering logical top/bottom/start/end placement, label and description purposes, long-press and tap triggers, five states, 48 px touch targets, exact token callouts, 4 px anchor offset, and the 320 px two-line maximum-width specimen.
+
+## [Review — Web Divider round 2: Approved] — 2026-10-24
+### Changed
+- Divider (web) review round 2: **Approved**, no findings. See Part E3 of `3-web-components/components/divider/divider.md`. Round 1 #1 fixed: in headless Chrome (light/dark × en/ar) an unlabelled `component="li"` divider in a plain `<ul>` is 1px tall, `display: block`, `list-style-type: none`, no own margin or padding. #2 fixed (computed Arabic label `paddingInline` test); #3 fixed by the Planner step. Round 1 measurements still hold (thickness, emphasis colours, insets + RTL, vertical, label, AX tree); axe 0 violations. Code → Approved (header + README). `docs:check` ✓, `typecheck` ✓, `test:web` 119/119 ✓, `sync` READY.
+
+## [Fixed — Web Divider review round 1] — 2026-10-24
+### Fixed
+- Reset unlabelled `component="li"` Divider roots to block layout with no list marker or own margin/padding, so they render with the same tokenized one-line height and border as the default `hr` in English and Arabic. Added regression coverage for the list style, rendered height/border, and computed Arabic inline label padding. `docs:check` ✓; `typecheck` ✓; `test:web` 119/119 ✓ at default timeouts.
+
+## [Plan — Web Divider 1.1 header fix] — 2026-10-24
+### Changed
+- Divider (web) answering Review round 1 Planner finding #3: header **Source code** row in `3-web-components/components/divider/divider.md` now links the built folder [`src/components/divider/`](3-web-components/src/components/divider/); Part F2 line added. No spec change (Executor findings #1–#2 keep their E2 fixes). Plan Open → Finished (header + `3-web-components/README.md`); Code stays Changes requested; web Divider contract regenerated.
+
+## [Review — Web Divider round 1: Changes requested] — 2026-10-24
+### Changed
+- Divider (web) review round 1: **Changes requested**. See Part E2 of `3-web-components/components/divider/divider.md`. Checked in headless Chrome (light/dark × en/ar): thickness, the three emphasis colours, insets (start flips in RTL), vertical stretch and fallbacks, label metrics and wrapping all match the tokens; the AX tree matches B6; axe has 0 violations, including a `<ul>` with `li` dividers. 🔴 #1: an unlabelled `component="li"` keeps `list-style: disc`, so it shows a bullet and is 23/25px tall (Executor). 🟢 #2: computed-padding test for the Arabic label (Executor). 🟢 #3: stale Source code header row (Planner). Plan → Open, Code → Changes requested (header + README). `docs:check` ✓, `typecheck` ✓, `sync` READY, `test:web` 118/118 in runs 2–5 (run 1 117/118 under load).
+
+## [Added — Web Divider 1.1] — 2026-10-24
+### Added
+- Built and exported the token-styled web `Divider` with horizontal and vertical orientations, three emphasis levels, logical start/both insets, optional centred labels, decorative and list semantics, development warnings with specified fallbacks, and forwarded root refs/data attributes. Added 11 table-driven tests covering both themes and languages, RTL/logical CSS, tokens, labels, semantics, invalid combinations, axe, and three consecutive 118/118 full-suite runs at default timeouts.
+
+## [Preview — Mobile Divider 1.1] — 2026-10-24
+
+## [Preview — Tablet Divider 1.1] — 2026-10-24
+
+## [Preview — Web Divider 1.1] — 2026-10-24
+
+## [Plan — Divider 1.1 (web, tablet, mobile)] — 2026-10-23
+### Changed
+- Divider plan 1.0 → 1.1 on all three platforms (`3-web-components/components/divider/divider.md`, `4-tablet-components/…`, `5-mobile-components/…`; Part A identical except A8), answering the four 1.0 questions: (1) inset stays `spacing-xl` for `start` and `both` — A4.3/B2 note the List plan (Day 8) adds its own text-aligned inset, nothing added now; (2) new optional centred label on horizontal dividers, `showLabel` + `label` (“or” / “أو”): `caption-md`, `color-text-neutral-muted` (4.5:1 pairs already exist), `spacing-md` gap each side, line segments ≥ `spacing-xl`, wraps and never truncates; ignored with a warning / assert on vertical dividers and when the label is empty; Figma `Show label` (BOOLEAN) + `Label` (TEXT), still 18 variants; (3) web `decorative` stays default `false`; (4) new web `component` prop (`hr` default · `li`): `<li role="separator">` inside `<ul>` / `<ol>`, always `aria-hidden="true"` because axe-core 4.14's `list` rule rejects a visible separator child (checked); labelled web root is `<div role="separator" aria-label>`. B9/C6 tests, C7, D1–D10 and Part F updated. No component tokens (P-04). Plan stays Finished; contracts regenerated for web, tablet and mobile; `component-tokens` ✓, `docs:build` ✓, `docs:check` ✓.
+
+## [Preview — Tablet Divider 1.0] — 2026-10-23
+
+## [Preview — Web Divider 1.0 blocked: image service unavailable] — 2026-10-23
+
+## [Plan — Divider 1.0 (web, tablet, mobile)] — 2026-10-22
+### Added
+- New component **Divider** (Day 3) planned on all three platforms: `3-web-components/components/divider/divider.md`, `4-tablet-components/components/divider/divider.md`, `5-mobile-components/components/divider/divider.md` (Parts A–D and F; Part A identical except A8). Options `orientation` (horizontal · vertical), `emphasis` (subtle · default · strong → `color-border-subtle` · `color-border-default` · `color-border-strong`), `inset` (none · start · both, `spacing-xl`; start is horizontal only), web-only `decorative`; line `border-width-default`. Base MUI `Divider` (`<hr>`, logical borders and margins) / M3 `Divider` + `VerticalDivider` as `BwDivider`. No component tokens (P-04: semantic tokens fit), no icons, no text on the divider in 1.0. Web C6 tests render only through the shared `renderWithBiowave` at default timeouts. Figma: 18 variants (Orientation × Emphasis × Inset, `Direction=RTL` only for Horizontal · Start), bound directly to Foundations variables. Plan → Finished, Code / Figma build → Planned (headers + the three section READMEs); contracts and docs pages generated.
+
+## [Sync — Figma library index re-read] — 2026-10-24
+### Changed
+- `_sync/figma-library.json` re-read from Figma (Foundations variables + styles, Doc Kit components, reach from the Web Components file) after the Badge contrast-pair change made the index stale (token source hash). Keys, names, scopes and styles unchanged; the only content change is the Web code syntax now filled in on 296 Foundations variables (set in Figma since the 2026-10-18 read). Variables dump rebuilt from the previous index and proven identical to Figma's semantic variables by a fingerprint over all 318 rows (primitives stay out, as before). `npm run contract -- --all` regenerated 24 Figma contracts (code syntax) and 4 code contracts (header Source code catch-up). `docs:check` ✓, `sync` ✓ READY, library index fresh.
+
 ## [Review — Web Badge round 3] — 2026-10-24
 ### Changed
 - Reviewed web `Badge` after fix round 2 (round 3, `badge.md` › E4): **Approved**. Round 2 #1 fixed: in headless Chrome a collapsed standalone badge shown and hidden again at 0 ms, ~16 ms and every 4 ms step to 64 ms (light/en, dark/ar, `invisible` and `count` 1 → 0; 68 cases) now leaves no gap; `transitioncancel` handled; the normal exit still animates. #2 fixed (root padding/border asserted). AC-8 … AC-11 measurements still hold (warning fill 3.24 / 12.20:1). docs:check, typecheck and test:web (128/128) pass. Code → `Approved`; Plan stays `Finished`.

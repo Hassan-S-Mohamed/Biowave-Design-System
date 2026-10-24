@@ -5,10 +5,12 @@
     "badge",
     "button",
     "button-group",
+    "divider",
     "icon",
     "icon-button",
     "link",
     "split-button",
-    "text-field"
+    "text-field",
+    "tooltip"
   ]
 }

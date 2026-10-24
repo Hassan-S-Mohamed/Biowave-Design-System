@@ -10,7 +10,7 @@
 | Built on | MUI `Link` (native `<a href>`), styled only from Biowave tokens; MUI underline, palette colours and typography are not used |
 | Import | `import { Link } from '@biowave/web'` |
 | Version | 1.0 · 2026-10-21 |
-| Source code | `src/components/link/` — not built yet (the Executor creates it) |
+| Source code | `src/components/link/` (built) |
 | Tokens | — |
 | Source | [`link.md`](link.md) @ `0d11096cf85332eb` |
 

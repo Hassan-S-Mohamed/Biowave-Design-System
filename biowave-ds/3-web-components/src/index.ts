@@ -35,6 +35,14 @@ export {
   type ButtonGroupSize,
 } from './components/button-group';
 export {
+  Divider,
+  type DividerProps,
+  type DividerComponent,
+  type DividerOrientation,
+  type DividerEmphasis,
+  type DividerInset,
+} from './components/divider';
+export {
   Icon,
   type IconProps,
   type IconName,
@@ -71,3 +79,9 @@ export {
   type TextFieldProps,
   type TextFieldSize,
 } from './components/text-field';
+export {
+  Tooltip,
+  type TooltipProps,
+  type TooltipPlacement,
+  type TooltipPurpose,
+} from './components/tooltip';

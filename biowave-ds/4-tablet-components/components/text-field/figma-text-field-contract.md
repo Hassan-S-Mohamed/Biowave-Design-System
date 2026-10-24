@@ -1,7 +1,7 @@
-<!-- GENERATED from text-field.md @ 8eda96fdcdbab27f — do not edit; change the source and run: npm run contract -- tablet text-field -->
+<!-- GENERATED from text-field.md @ 864ecc5c2c1e58c7 — do not edit; change the source and run: npm run contract -- tablet text-field -->
 # Text field · حقل نص — Tablet — Figma contract
 
-> **Everything the Figma Agent needs to build Text field in the Tablet Components file, with our variables and styles.** Read this file only. Generated from [`text-field.md`](text-field.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-18). Questions go to [D11 Execution log](text-field.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
+> **Everything the Figma Agent needs to build Text field in the Tablet Components file, with our variables and styles.** Read this file only. Generated from [`text-field.md`](text-field.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-24). Questions go to [D11 Execution log](text-field.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
 
 **Two phases, one review:** Phase 1 — build the component set (§7–§8). Phase 2 — as soon as Phase 1 is finished, the 12 documentation pages and the Components List card (§9).
 
@@ -12,7 +12,7 @@
 | Component | Text field · حقل نص |
 | Platform | Tablet · Flutter + Material 3 |
 | Version | 1.1 · 2026-10-18 (first Tablet version; same guidelines version as Web 1.1) |
-| Source | [`text-field.md`](text-field.md) @ `8eda96fdcdbab27f` |
+| Source | [`text-field.md`](text-field.md) @ `864ecc5c2c1e58c7` |
 
 ## 1. Library connections in this file
 

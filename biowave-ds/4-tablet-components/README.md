@@ -52,6 +52,8 @@ Status is written in each file header and here; `npm run docs:check` fails if th
 | Link | Finished | Planned | Planned | — | [page](components/link/link.html) | [link.md](components/link/link.md) |
 | Text field | Finished | Planned | Planned | — | [page](components/text-field/text-field.html) | [text-field.md](components/text-field/text-field.md) |
 | Badge | Finished | Planned | Planned | — | [page](components/badge/badge.html) | [badge.md](components/badge/badge.md) |
+| Divider | Finished | Planned | Planned | — | [page](components/divider/divider.html) | [divider.md](components/divider/divider.md) |
+| Tooltip | Finished | Planned | Planned | — | [page](components/tooltip/tooltip.html) | [tooltip.md](components/tooltip/tooltip.md) |
 | Avatar | Finished | Planned | Planned | — | [page](components/avatar/avatar.html) | [avatar.md](components/avatar/avatar.md) |
 
 ## 5. Backlog (suggested order)
