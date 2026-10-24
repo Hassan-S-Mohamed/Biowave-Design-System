@@ -15,9 +15,9 @@
 | Figma | **Biowave DS — Tablet Components** › `↳ Text field` (page Typography mode `Tablet`) · build: [Part D](#d--figma-build) |
 | Version | 1.2 · 2026-10-24 (spec and code plan 1.2; guidelines unchanged, same as Web 1.1) |
 | Plan | Finished |
-| Code | Built |
+| Code | Changes requested |
 | Figma build | Planned |
-| Review | Round 1 · 2026-10-24 · Changes requested |
+| Review | Round 2 · 2026-10-24 · Changes requested |
 | Source code | [`lib/src/components/text_field/`](../../lib/src/components/text_field/) |
 | Tokens | [`text-field.tokens.json`](text-field.tokens.json) — extends the Web file (D-13) |
 | Contracts | [`text-field-contract.md`](text-field-contract.md) · [`figma-text-field-contract.md`](figma-text-field-contract.md) — generated, never edited |
@@ -650,6 +650,7 @@ Component description: “Enters or edits short and multiline text with persiste
 | Round | Date | Code verdict | Figma verdict |
 |---|---|---|---|
 | 1 | 2026-10-24 | Changes requested | not reviewed |
+| 2 | 2026-10-24 | Changes requested | not reviewed |
 
 ### E2 Round 1 — 2026-10-24
 
@@ -739,6 +740,99 @@ Only one commit exists on the branch, so the round-1 test text cannot be diffed;
 #### Next step
 
 Planner: #4, #5, #10, #11 → set Plan `Finished`, regenerate `text-field-contract.md`. Then Fixer: #1, #2, #3, #6, #7 (and nits #8, #9) → Round 2.
+
+### E3 Round 2 — 2026-10-24
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 1.2 · 2026-10-24 |
+| Spec version reviewed | 1.2 |
+| Reviewer | Claude |
+| Date | 2026-10-24 |
+| Code reviewed | `git diff main...ds/text-field-tablet` (HEAD `858c04a`, Fix round 1; `main` includes Split button #17) + working tree (clean at review start) |
+| Verdict | **Changes requested** — 0 🔴, 3 🟡, 1 🟢 (#12–#15), all Executor. Round 1 #1–#11 all fixed |
+| Evidence | Run by the Reviewer in the `ds/text-field-tablet` worktree: `npm run docs:check` ✅ · `flutter analyze` ✅ no issues · `flutter test` ✅ 202/202 (all suites, includes the 4 text-field goldens and the unchanged Button / Split button tests and goldens). Behaviour probes: throw-away tests in the scratchpad (copy of `lib/` + test helpers, outside the repo) — results quoted below. The four goldens checked by eye |
+
+#### Previous round findings
+
+| # | Status | Evidence |
+|---|---|---|
+| 1 🔴 validator / `Form` | ✅ Fixed | `bw_text_field.dart:752-766` returns the validator result to `TextFormField`; `forceErrorText` `:751`; `errorBuilder` `:767-776`. Probe: empty field → `validate()` = **false**, "Required" shown; `errorText` + passing validator → `validate()` false, error shown. Tests "Form integration: validator result is passed through to FormField", "…autovalidateMode.onUserInteraction". New side effect: #12 |
+| 2 🔴 affix as placeholder / read twice | ✅ Fixed | `hintText: widget.placeholder` only (`bw_text_field.dart:685`); affixes only in `Semantics.hint` (`:708-717`, `:779-786`); `BwFieldAddon` is `ExcludeSemantics` (`bw_field_addon.dart:89`). Probe `suffixText: 'SAR'`, `helperText: 'Per hour'`: label `"Hourly rate\nPer hour"`, hint `"SAR"`, `hintText` null — affix read once, never a visible placeholder. Test "empty field with affixes: shows no hintText, affixes in semantics hint only" |
+| 3 🔴 painting-context interception | ✅ Fixed | `BwFieldEndButtonSquareStart` removed (`bw_field_addon.dart` has no `PaintingContext` / `Canvas` code); end button = `BwButton(segment: BwButtonSegment.end)` (`bw_text_field.dart:585-599`). Existing `BwButtonSegment` (`button/bw_button.dart:17`) and `BwButtonStyle.segmentBorderRadius` (`bw_button_style.dart:126`) reused; **no file under `button/`, `icon/`, `icon_button/`, `split_button/` or `common/` in `git diff main...HEAD`**; `BwButtonSegment` still hidden from `lib/biowave_tablet.dart:12`. Probe: `loading: true` end button → spinner's `OpacityLayer` `attached = true`, size 24×24 (painted). Test "end button: … loading paints spinner" (checks presence only; the probe confirms painting) |
+| 4 🟡 Planner — end-button mechanism | ✅ Fixed | Plan 1.2 C3 / C5 (internal `segment`, reuse if it exists, interception forbidden) |
+| 5 🟡 Planner — `placeholder` | ✅ Fixed | Plan 1.2 B1 `placeholder`; code `bw_text_field.dart:88`, `:179`, `:685` |
+| 6 🟡 golden affix demo | ✅ Fixed | Goldens: "Hourly rate (MD)" + `SAR` suffix and "Website" + `https://` prefix, all four modes |
+| 7 🟡 disabled Tab test | ✅ Fixed | `test/text_field_test.dart` "disabled: field, trailing action and end button not focusable; help icon still reachable…": Tab 1 → help icon, Tab 2 → second field (`hasFocus`), disabled field / action / end button `isFocused` false, `isEnabled` false; `helpTapped` removed. Tests for #1–#3 added |
+| 8 🟢 supporting-row insets | ✅ Fixed | `bw_text_field.dart:617-641` (paint offset of helper / error / counter); goldens: helper rows start 4 dp from the outline for every field (email, disabled, multiline) and counters 4 dp from the end. Test "supporting-row start and counter end insets are consistent across all layouts". See note on the method |
+| 9 🟢 helper text dropped when disabled | ✅ Fixed | `bw_text_field.dart:363`; test asserts the disabled label contains "Employee ID is fixed" |
+| 10 🟢 Planner — header source code | ✅ Fixed | Header "Source code" → `lib/src/components/text_field/` |
+| 11 🟢 Planner — B4 motion limit | ✅ Fixed | Plan 1.2 B4 / AC-3; `bw_field_label.dart` `AnimatedDefaultTextStyle` `BwDuration.sm` + `BwEasing.standard`, instant under reduced motion; test "honours motion duration and reduced motion" |
+
+#### Acceptance criteria
+
+| AC | Result | Evidence (file:line / test name) |
+|---|---|---|
+| AC-1 API = B1 | ❌ | Names, defaults, `placeholder` (`bw_text_field.dart:46-136`, `:179`); asserts / fallbacks unchanged; tests "uses documented defaults", "asserts every invalid combination". Validator now works inside `Form`, but `Form.reset()` leaves the old validator error on screen (#12) |
+| AC-2 B2–B3 tokens only | ❌ | Colours, sizes, radii from tokens (guard test "no raw colours, sizes or durations in the source"; "tokenAliases equals text-field.tokens.json"). ❌ B2 label gap `spacing-sm` and "layout height stays `size-control-height-md`" not met at `md` (#13); token constants used as matrix numbers (#14) |
+| AC-3 B4 transitions | ✅ | `BwFieldLabel`, `BwFieldAddon` (`bw_field_addon.dart:80-81`, `AnimatedContainer` `BwEasing.standard`), `BwFieldSupporting` use `BwDuration.sm` / `BwDuration.instant` under `context.bw.reduceMotion`; `InputDecorator` left as is; test "honours motion duration and reduced motion" |
+| AC-4 RTL B5; a11y B6 | ✅ | RTL tests + `ar` goldens mirrored (end button on the left with square right corners, `SAR` / `https://` / counter isolated LTR); one field node named by label (+ required), affix once in hint (probe), separate help / action / end-button nodes; disabled focus rules (test above) |
+| AC-5 checks pass | ✅ | `docs:check`, `flutter analyze`, `flutter test` 202/202 (Reviewer run). `npm run sync` not re-run (not in this platform's checks) |
+| AC-6 export + README | ✅ | `lib/biowave_tablet.dart:16`; README row = header |
+| AC-7 trailing action inside outline; disabled with field; neutral icons in error | ✅ | Unchanged from Round 1 (test "trailing action inside the outline…", `onPressed: null` when disabled `bw_text_field.dart:470`, `:481`, `:491`); goldens |
+| AC-8 reuse; only `BwButton` change is the internal `segment` | ✅ | `BwButton`, `BwIconButton`, `BwIcon`, `BwControlSize` reused; `segment` from Split button reused unchanged — no shared button file edited (diff above); private field parts not exported; Button / Split button tests and goldens pass unedited |
+
+#### Re-probes asked by the orchestrator
+
+| Probe | Result |
+|---|---|
+| `Form.validate()` false while an error shows | ✅ `false` + "Required" shown. But after `FormState.reset()` the error stays on screen — #12 |
+| Affix text never a visible placeholder, never read twice | ✅ `hintText` null; label has no affix; hint `"SAR"` once |
+| Loading end button paints its spinner | ✅ spinner layer attached, 24×24 |
+| End button uses existing `BwButtonSegment` / `segmentBorderRadius` unchanged; no shared button file edited | ✅ |
+| "Hourly rate" looks shorter (light-en) | Its outline is `md` (40 dp) by design (the demo label says "(MD)"); the others are `lg` (48 dp). But the `md` field takes 48 dp of layout: probe label→outline gap **10 dp** at `md` vs **6 dp** (`BwSpacing.sm`) at `lg`, total widget height 74 dp at both sizes — #13 |
+| `bw_field_action.dart:271-285` tokens as plain numbers | Confirmed — #14 |
+
+#### Goldens (checked by eye)
+
+| File | Result |
+|---|---|
+| `text-field-light-en.png` | ✅ Default (help icon, required `*`, leading icon, placeholder, helper), Focused (focus border, clear), Error (error border, icon, text, counter; leading icon neutral), Disabled (helper kept), Read-only + `Copy` end button (one border at the seam, square inner corners), "Hourly rate (MD)" + `SAR`, "Website" + `https://`, Password toggle, multiline with clear + counter. Helper / counter insets consistent. "Hourly rate" outline 40 dp = `md` (correct) but sits 4 dp lower under its label than the `lg` fields (#13) |
+| `text-field-light-ar.png` | ✅ Mirrored; end button on the left, square right corners; LTR add-ons and counter isolated. Same #13 |
+| `text-field-dark-en.png` | ✅ Dark tokens; add-on background, disabled and error colours readable |
+| `text-field-dark-ar.png` | ✅ Dark + mirrored; no clipping or overflow |
+
+#### Rule checks (AGENTS.md §2)
+
+| Rule | Result | Notes |
+|---|---|---|
+| No generated files edited | ✅ | Contract changes come from plan 1.2 regeneration (Planner step); Fix round 1 touched none |
+| No raw values / no primitives | ⚠️ | No hex, `BwPalette`, numeric `EdgeInsets` / `SizedBox`. But tokens are used as stand-ins for math constants `0` and `1` (#14) — the reverse misuse of rule 2 |
+| Logical properties, RTL icons | ✅ | AC-4 |
+| Light + dark, en + ar tested | ✅ | 4 goldens + property tests |
+| Accessibility | ✅ | AC-4 |
+| Stayed inside the contract | ✅ | C8 Fix round 1 lists the reuse of the Split button `segment` as a deviation (allowed by C3 "if it already exists, reuse it unchanged") |
+| One component per task | ✅ | Only text-field files, the README row, CHANGELOG, run records |
+| Changelog | ✅ | `CHANGELOG.md` "[Fixed — Tablet Text field review round 1] — 2026-10-24"; C8 Fix round 1 filled |
+
+#### Findings
+
+| # | Severity | File | Issue | Required change | Owner |
+|---|---|---|---|---|---|
+| 12 | 🟡 Should fix | `lib/src/components/text_field/bw_text_field.dart:190`, `:236-237`, `:653-660`, `:754-764` | The validator error is mirrored into `_validatorErrorText` by a post-frame `setState`, and the decoration's `error` widget, error border and semantics label read that copy. `FormState.reset()` clears the `FormField` error but never the copy. Probe: `Form` + required validator → `validate()` → `reset()` → "Required" still shown, `decoration.error` still set, red border. The copy also lags the `FormField` by one frame | Use the `FormField` as the single source of the validator error (e.g. drop `_validatorErrorText`; let `errorBuilder` / `forceErrorText` drive the error, and read the field's error for `_hasError` and semantics, e.g. via a `GlobalKey<FormFieldState<String>>`). Add a test: `validate()` shows the error, `reset()` removes the text, the error border and the error from the semantics label | Executor |
+| 13 | 🟡 Should fix | `bw_text_field.dart:788-803` (`md` hit area) | B2: the `md` hit area is padded to 48 "by a transparent region …; layout height stays `size-control-height-md`", and the label gap is `spacing-sm`. The `ConstrainedBox(minHeight: minTarget)` + `Align(heightFactor: 1.0)` takes 48 dp of layout, so 4 dp of empty space sit above and below the 40 dp outline. Probe: label→outline gap 10 dp at `md` vs `BwSpacing.sm` (6) at `lg`; whole widget 74 dp at both sizes. Visible in all four goldens ("Hourly rate (MD)") | Extend the hit area without adding layout (as `BwFieldTargetBox` does for the action / help icon: lay out at the visual size, hit-test the 48 dp box). Add a test: at `md` and `lg` the gap between label and outline equals `BwSpacing.sm` and the field's layout height equals `BwSize.controlHeightMd` / `Lg`, while the md tap target still meets `androidTapTargetGuideline` | Executor |
+| 14 | 🟡 Should fix | `lib/src/components/text_field/bw_field_action.dart:274`, `:278-285`, `:291` (`_RenderBwFieldTopAlign`) | Tokens used as plain numbers: `translateByDouble(BwSpacing.none, -dy, BwSpacing.none, BwBorder.widthDefault)` puts the border-width token in the matrix's homogeneous `w` slot (must be exactly 1) and the spacing token in `z`. If `border-width-default` changes (e.g. to 1.5 or 2), the paint transform used for hit-testing, semantics rects and `localToGlobal` of top-aligned multiline icons / actions scales and breaks, with no visible design reason. Same pattern for `Offset(BwSpacing.none, …)` at `:274`, `:291` | Use plain math constants for geometry that is not a design value: `transform.translateByDouble(0, -dy, 0, 1)` and `Offset(0, -dy)` (the raw-value guard does not ban these). Keep tokens only for design values. Also review the same pattern elsewhere in the unit (e.g. `Offset(…, BwSpacing.none)` in `bw_text_field.dart:629`, `:638`, `:820`) | Executor |
+| 15 | 🟢 Nit | `test/text_field_test.dart` "end button: … loading paints spinner" | The test only finds a `CircularProgressIndicator` widget; Round 1's bug (spinner built but painted on an orphan layer) would still pass it | Also assert the spinner is painted (e.g. its nearest layer is attached, or a focused golden of a loading end button) | Executor |
+
+#### Notes
+
+- #8 is solved by `Transform.translate` of the helper / error / counter (paint offset, not layout). It gives the right picture and semantics rects follow the transform; the helper still wraps at the width of the inner content box. Acceptable; no change asked.
+- Disabled field with a validator: `Form.validate()` returns `false` (Flutter validates every field) but the error is hidden because `enabled: false` hides errors. B1 does not say whether a disabled field is validated. Not a finding this round; the Planner may want to state it (e.g. "disabled fields are not validated") in a later plan version.
+- Figma build (Part D) not reviewed: `Figma build = Planned`.
+
+#### Next step
+
+Fixer: #12, #13, #14 (and nit #15) → Round 3. No Planner items; Plan stays `Finished`.
 
 ---
 
