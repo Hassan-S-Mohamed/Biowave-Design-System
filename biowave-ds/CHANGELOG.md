@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Review — Web Tooltip round 1: Changes requested] — 2026-10-24
+### Changed
+- Tooltip (web) review round 1: **Changes requested** — Part E2 of `3-web-components/components/tooltip/tooltip.md`. Headless Chrome confirms B2–B6 tokens, hover delay 500 ms, keyboard-only immediate open, enter 200 ms decelerate / exit 100 ms accelerate, reduced motion 0 ms, max width 320 px, offset 4 px, both themes, logical placement with the RTL swap and flip, and the label / description / disabled names. 🔴 #1 (Planner): not hoverable — C3's `margin: 0` + popper `offset` leaves the 4 px gap outside the popper, so a pointer moving onto the tooltip closes it (WCAG 1.4.13). 🟢 #2 duplicate description id during the exit fade; 🟢 #3 stale header `Source code`. Plan → Open, Code → Changes requested (header + README). `docs:check` ✓, `typecheck` ✓, `test:web` 133/133 ×3 ✓, `sync` READY.
+
 ## [Added — Web Tooltip 1.0] — 2026-10-24
 ### Added
 - Implemented and exported the token-styled React + MUI `Tooltip` with logical RTL placement, label and persistent-description semantics, controlled and uncontrolled interaction, hoverable and Escape-dismissible behavior, reduced motion, disabled-anchor support and 26 tests across light/dark, English/Arabic, motion, placement and axe accessibility; all 133 web tests passed in three consecutive full runs.

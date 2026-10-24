@@ -14,10 +14,10 @@
 | Import | `import { Tooltip } from '@biowave/web'` |
 | Figma | **Biowave DS — Web Components** › `↳ Tooltip` · build: [Part D](#d--figma-build) |
 | Version | 1.0 · 2026-10-23 |
-| Plan | Finished |
-| Code | Built |
+| Plan | Open |
+| Code | Changes requested |
 | Figma build | Planned |
-| Review | — |
+| Review | Round 1 · 2026-10-24 · Changes requested |
 | Source code | `src/components/tooltip/` — not built yet (the Executor creates it) |
 | Tokens | — (no component tokens: every value is an existing semantic token, P-04) |
 | Contracts | [`tooltip-contract.md`](tooltip-contract.md) · [`figma-tooltip-contract.md`](figma-tooltip-contract.md) — generated, never edited |
@@ -547,7 +547,77 @@ Component description: "Short text that names an icon-only control or adds a one
 
 | Round | Date | Code verdict | Figma verdict |
 |---|---|---|---|
-| — | — | not reviewed | not reviewed |
+| 1 | 2026-10-24 | **Changes requested** | not reviewed |
+
+### E2 Round 1 — 2026-10-24
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 1 · 2026-10-23 |
+| Spec version reviewed | 1.0 |
+| Reviewer | Claude |
+| Date | 2026-10-24 |
+| Verdict | **Changes requested** |
+
+Commands run by the Reviewer on branch `ds/tooltip-web` at `ba70e3c` (implement = latest commit; `uptime` load 4.37):
+`npm run docs:check` ✅ 21 component files · `npm run typecheck` ✅ · `npm run test:web` ✅ **133/133**, 9 files, three consecutive full runs (6.97 s · 7.44 s · 5.50 s), default timeouts · `npm run component-tokens` ✅ · `npm run sync` ✅ READY.
+Real browser: my own headless Chrome 156 (`--headless=new`, driven over CDP with real `Input.dispatchMouseEvent` / `dispatchKeyEvent`, not the shared pane), the real `Tooltip` from `3-web-components/src` inside `BiowaveProvider`, the generated `tokens.css`, served by a scratch Vite config outside the repo; viewport 1024×768, anchor 40×40 at (400, 300); `prefers-reduced-motion` emulated as `no-preference` and `reduce`.
+
+Almost everything in B2–B6 measures exactly right in both themes and both languages: colours, padding, radius, max width, offset, text style, hover delay, keyboard-only immediate open, enter/exit durations and easings, reduced motion, logical placement with the RTL swap, flip, and the label / description / disabled accessible names. **One blocker:** the tooltip is not hoverable for a real pointer. C3 resets the tooltip margin to 0 and makes the popper `offset` the only gap, so the 4 px between anchor and tooltip lies outside both elements; with `leaveDelay` 0 the tooltip starts closing as soon as the pointer enters that gap (WCAG 1.4.13, B6 "Hoverable", AC-3). The unit test misses it because it fires `mouseLeave` and `mouseOver` in the same tick. The approach is prescribed by C3, so the fix starts in the plan.
+
+#### Findings
+
+| # | Severity | File | Issue | Required change | Owner |
+|---|---|---|---|---|---|
+| 1 | 🔴 Blocker | `tooltip.md` C3 → `Tooltip.tsx:150-154, 177`; `Tooltip.test.tsx:227-231` | Not hoverable (WCAG 1.4.13, B6, AC-3). The anchor–tooltip gap (`spacing-xs`, measured 4 px: anchor top 300, tooltip bottom 296) is outside the popper because C3 sets `margin: 0` and uses the popper `offset` modifier. Moving the pointer up from the anchor 1, 2 or 4 px per frame (16 ms), the tooltip starts its exit as soon as the pointer is in the gap and is gone 500 ms later (`finalOpen: false` for every step size). Only an instant jump from anchor to tooltip keeps it open (stays 3 s, Esc then closes it). The test fires `mouseLeave(button)` + `mouseOver(tooltip)` synchronously, so it cannot see the gap | Planner: change C3 so the `spacing-xs` gap is inside the hover area — e.g. offset modifier 0 and the gap as the tooltip's margin on the anchor-facing side (MUI's per-placement margin, which sits inside the popper box), still one source (`tooltipTokens.offset`) — and add to B9 a test that moves the pointer through the gap with timers advanced between events (anchor `mouseLeave` → advance ≥ 1 frame → tooltip `mouseOver`) and expects the tooltip to stay. Then the Executor re-implements; the gap stays 4 px in all four placements | Planner |
+| 2 | 🟢 Nit | `Tooltip.tsx:203-207` | `purpose="description"`: during the 100 ms exit fade the visually hidden copy is rendered while the fading tooltip still exists, so two elements share the `aria-describedby` id (measured: id count 2 at 40 ms after pointer leave; 1 when closed and when open) | Render the hidden copy only after the tooltip has exited (e.g. transition `onExited`), or keep one element; add the id-count check during exit to the description test | Executor |
+| 3 | 🟢 Nit | `tooltip.md` header | `Source code` still reads "not built yet (the Executor creates it)" | Link `src/components/tooltip/` as Button / Icon button / Text field do | Executor |
+
+#### Acceptance criteria
+
+| AC | Result | Evidence (file:line / test name) |
+|---|---|---|
+| AC-1 API = B1 | ✅ | `Tooltip.tsx:10-21` exactly `title`, `children`, `placement` (`top` default), `purpose` (`label` default), `open`, `onOpen`, `onClose`; no MUI-only prop exposed (`enterDelay`, `arrow`, `slotProps` … set internally only). Fallbacks `Tooltip.tsx:90-100` — test *warns once and applies both invalid-combination fallbacks* |
+| AC-2 B2–B3 tokens; one offset source | ✅ | `tooltip.tokens.ts:3-20`; offset only from `tooltipTokens.offset` (`Tooltip.tsx:153`). Browser, all four theme × language: padding 4/4/8/8 px, radius 6 px, max-width 320 px (long text wraps at 320 × 56, no overflow), margin 0, border none, shadow none, `text-align: start`, z-index 1600, gap 4 px. Light bg `rgb(20,20,20)` / fg `rgb(255,255,255)`, dark bg `rgb(255,255,255)` / fg `rgb(10,10,10)` = `--bw-color-surface-inverse` / `--bw-color-text-neutral-inverse`. Text en Inter 12/16 500, ar IBM Plex Sans Arabic 12/18 500 (`label-sm` + Arabic line height). Tests *uses the complete visual token set in …* ×4, *maps every visual … value to the specified token* |
+| AC-3 B4 transitions; reduced motion | ❌ | Hover delay: closed at 440 ms, open at 507–519 ms (`motion-duration-2xl` 500). Keyboard Tab: `:focus-visible` true, open within 30 ms. Mouse click: focus without `:focus-visible`, not open at 80 ms, opens after the hover delay. Enter `opacity 200ms var(--bw-motion-easing-standard-decelerate)`, opacity 1 at ~190–215 ms; exit `opacity 100ms var(--bw-motion-easing-standard-accelerate)`, removed at 104–112 ms. Esc closes, focus stays on the anchor; Tab away closes. Reduced: `0ms` both ways, first sample opacity 1, removed at 1 ms, hover delay still 508 ms. Persistent: stays 3 s with the pointer on it. **Hoverable fails — finding 1** |
+| AC-4 RTL B5; a11y B6 | ✅ | Browser `data-popper-placement` and geometry: en top/bottom/start/end → top/bottom/left/right; ar → top/bottom/**right**/**left**; gap 4 px, centred (Δ ≤ 0.2 px); anchor at the top edge with `top` flips to `bottom`. Chrome AX tree: `label` → button name "Edit device", no description, closed and open, `aria-label` only (no `title`); `description` → name "Work email", description = title, closed and open, `aria-describedby` resolves to one element, no `title`; disabled → button named "Delete", `span.bw-tooltip__anchor` has no `aria-label` / `aria-describedby` / `title` (also while open), opens on hover. Tests *maps … in en/ar* ×8, *flips to the opposite side …*, *names label anchors exactly once …*, *keeps child handlers and description ids …*, axe ×4. See nit 2 |
+| AC-5 Tests and checks pass | ✅ | B9 + C6 items present (26 tests); typecheck ✅, `test:web` 133/133 ×3 at default timeouts, component-tokens ✅, sync READY, docs:check ✅. The hoverable test is too weak (finding 1) |
+| AC-6 Exported; README; nothing outside C5 | ✅ | `src/index.ts:52-57`; README row; implement commit touches only C5 files + C8 + run record; Icon button and Text field untouched |
+
+#### Rule checks (AGENTS.md §2)
+
+| Rule | Result | Notes |
+|---|---|---|
+| No generated files edited | ✅ | Implement commit touches no contract, `index.json`, HTML shell or generated code |
+| No raw values / no primitives | ✅ | Only `cssVars.*`, `base.*` semantic values and `biowaveVariants.labelSm`; `margin: '0 !important'` and `base.spacing.none` are zero, not raw sizes. Test *contains no raw colors, dimensions, durations, or font names …* |
+| RTL first | ✅ | `paddingInline` / `paddingBlock`, `textAlign: 'start'`; physical placement derived from the provider direction (`Tooltip.tsx:33-36, 72`), measured above |
+| Both themes, both languages, tested | ✅ | Render and axe matrices light/dark × en/ar; all four measured in the browser |
+| Accessibility WCAG 2.2 AA | ❌ | 1.4.13 dismissible ✅, persistent ✅, **hoverable ❌** (finding 1); contrast ≈ 18.4:1 light / 19.8:1 dark |
+| Tests through `renderWithBiowave`, default timeouts | ✅ | Only `renderWithBiowave`; no timeout arguments, no `vitest.config.ts` change |
+| Stayed inside the contract | ✅ | C8 reports no deviations; matches the code |
+| Changelog | ✅ | `CHANGELOG.md` › *Added — Web Tooltip 1.0* |
+
+#### Figma build (Part D)
+
+Skipped — Figma build is `Planned`.
+
+#### Probe evidence
+
+```
+Headless Chrome 156, anchor 40×40 at (400,300), light/en (others identical except noted)
+  hover           closed @440 ms · open @507–519 ms
+  enter           opacity 200ms var(--bw-motion-easing-standard-decelerate)   opacity 0 → .41 → .69 → .84 → .89 → .96 → 1 @~215 ms
+  exit            opacity 100ms var(--bw-motion-easing-standard-accelerate)   removed @104–112 ms
+  reduced motion  opacity 0ms (enter and exit) · removed @1 ms · hover still 508 ms
+  keyboard Tab    :focus-visible true · open @30 ms · Esc → closed, focus #anchor · Tab → #other, closed
+  mouse click     :focus-visible false · closed @80 ms · open after hover delay
+  container       pad 4 4 8 8 · radius 6 · max-w 320 · gap 4 · z 1600 · ar font 12/18 IBM Plex Sans Arabic
+  placement en    top→top  bottom→bottom  start→left   end→right
+  placement ar    top→top  bottom→bottom  start→right  end→left    · edge top → flips to bottom
+  hoverable       pointer up 1/2/4 px per 16 ms → exits once in the 296–300 gap, finalOpen false ×3
+                  instant jump onto tooltip → stays 3 s, Esc closes
+  description id  ids resolving: closed 1 · open 1 · 40 ms into exit 2
+```
 
 ---
 
