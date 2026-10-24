@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Mobile Split button — code implementation (1.0)] — 2026-10-24
+### Added
+- Built `BwSplitButton` and `BwSplitButtonOption` for `biowave_mobile` (`lib/src/components/split_button/bw_split_button.dart` + `test/split_button_test.dart` + 4 goldens in `test/goldens/split_button/`), composing `BwButton` (`primary-action`) and `BwIconButton` (`menu-trigger`) with internal `segment` parameter for directional corner radii, `MenuAnchor` for menu alternatives with `alignmentOffset`, accessible semantics container and trigger, token-driven styles, and reduced-motion handling.
+
 ## [Review — Mobile Icon button round 3: Approved] — 2026-10-24
 ### Changed
 - Icon button (mobile) review round 3: **Approved** — Part E4 of `5-mobile-components/components/icon-button/icon-button.md`. Round 2 #4 fixed (D11 / Part D equal to `main` again; Fix round 1 kept once in C8). No code or test change since Round 2. No findings. Plan stays Finished. Code → Approved (header + README). `docs:check` ✓, `flutter analyze` ✓, `flutter test` 96/96 ✓, `sync` READY.

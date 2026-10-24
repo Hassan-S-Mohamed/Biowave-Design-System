@@ -15,7 +15,7 @@
 | Figma | **Biowave DS — Mobile Components** › `↳ Split Button` (page Typography mode `Mobile`) · [Part D](#d--figma-build) |
 | Version | 1.0 · 2026-10-16 |
 | Plan | Finished |
-| Code | Planned |
+| Code | Built |
 | Figma build | Planned |
 | Review | — |
 | Source code | `lib/src/components/split-button/` — not built yet (the Executor creates it) |
@@ -296,11 +296,22 @@ B9, plus earlier button-family tests still pass.
 
 | Field | Value |
 |---|---|
-| Agent | |
-| Date | |
-| Files changed | |
+| Agent | Antigravity |
+| Date | 2026-10-24 |
+| Files changed | `lib/src/components/split_button/bw_split_button.dart`; `test/split_button_test.dart`; `test/goldens/split_button/split-button-{light,dark}-{en,ar}.png`; `lib/src/components/button/bw_button.dart`; `lib/src/components/icon_button/bw_icon_button.dart`; `lib/biowave_mobile.dart`; `README.md`; `components/split-button/split-button.md`; `CHANGELOG.md` |
+| Checks | `cd 5-mobile-components && flutter analyze && flutter test` ✓ (139 tests passed); `npm run docs:check` ✓; `npm run sync` ✓ (READY) |
+
+**What was built:**
+Implemented `BwSplitButton` and `BwSplitButtonOption` in `lib/src/components/split_button/bw_split_button.dart` exported from `lib/biowave_mobile.dart`, strictly conforming to contract §1–§9.
+- Composed of `BwButton` (`primary-action`) and `BwIconButton` (`menu-trigger`) separated by `BwSpacing.xxs` (`gap`) with temporary M3 `MenuAnchor` (`menu`).
+- Corner radii: outer corners `radius-md` (or `radius-xl` for `size: BwControlSize.xl`), inner facing corners `radius-xs` (`BwRadius.xs`) using `BorderRadiusDirectional` via the internal `segment` parameter (`BwButtonSegment.start` and `BwButtonSegment.end`).
+- Changes to `BwButton` and `BwIconButton`: contract §9 explicitly specifies changing `bw_button.dart` and `bw_icon_button.dart` to support the internal `segment` parameter controlling corner radii and focus ring outlines. `BwIconButton` additionally wires `focusNode`, `expanded` (forcing `WidgetState.pressed` overlay and background per contract §4 while open), and `iconChild` (for `AnimatedRotation` chevron rotation with `BwDuration.md`).
+- Semantics and accessibility: outer `Semantics(container: true, label: label)` grouping the two focus stops, trigger with `Semantics(button: true, label: menuLabel, expanded: isOpen)` exposing single labelled button nodes with tap and focus actions (`tester.semantics.tap`, isFocused after Tab).
+- Reduced motion: honours `context.bw.reduceMotion`, setting chevron rotation and menu durations to `BwDuration.instant`.
+- Validation: asserts on invalid prop combinations (e.g. tonal with neutral, fewer than 2 or more than 5 options, duplicate labels) with release fallbacks.
 
 **Deviations:** none
+
 **Questions for the Planner:** none
 
 ---

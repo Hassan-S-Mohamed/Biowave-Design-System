@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 
 import '../../common/bw_control_size.dart';
+import '../../common/bw_focus_ring.dart';
 import '../button/bw_button.dart';
 import '../button/bw_button_style.dart';
 
@@ -21,6 +22,10 @@ class BwIconButton extends StatefulWidget {
     this.tooltip = true,
     this.loading = false,
     this.loadingLabel,
+    this.focusNode,
+    this.segment,
+    this.expanded,
+    this.iconChild,
     super.key,
   })  : assert(label != '', 'BwIconButton needs a label'),
         assert(
@@ -52,17 +57,27 @@ class BwIconButton extends StatefulWidget {
   final bool tooltip;
   final bool loading;
   final String? loadingLabel;
+  final FocusNode? focusNode;
+  final BwButtonSegment? segment;
+  final bool? expanded;
+  final Widget? iconChild;
 
   @override
   State<BwIconButton> createState() => _BwIconButtonState();
 }
 
 class _BwIconButtonState extends State<BwIconButton> {
-  late final FocusNode _focusNode = FocusNode()..addListener(_handleFocusChange);
+  FocusNode? _internalFocusNode;
+  WidgetStatesController? _statesController;
+
+  FocusNode get _focusNode =>
+      widget.focusNode ?? (_internalFocusNode ??= FocusNode());
 
   @override
   void initState() {
     super.initState();
+    _focusNode.addListener(_handleFocusChange);
+    _syncExpandedState();
     if (_announcesLoading) {
       _announceLoadingAfterFrame();
     }
@@ -71,6 +86,15 @@ class _BwIconButtonState extends State<BwIconButton> {
   @override
   void didUpdateWidget(BwIconButton oldWidget) {
     super.didUpdateWidget(oldWidget);
+    if (oldWidget.focusNode != widget.focusNode) {
+      (oldWidget.focusNode ?? _internalFocusNode)
+          ?.removeListener(_handleFocusChange);
+      _focusNode.addListener(_handleFocusChange);
+    }
+    if (oldWidget.expanded != widget.expanded ||
+        oldWidget.onPressed != widget.onPressed) {
+      _syncExpandedState();
+    }
     if (_announcesLoading && !oldWidget.loading) {
       _announceLoadingAfterFrame();
     }
@@ -78,10 +102,21 @@ class _BwIconButtonState extends State<BwIconButton> {
 
   @override
   void dispose() {
-    _focusNode
-      ..removeListener(_handleFocusChange)
-      ..dispose();
+    _focusNode.removeListener(_handleFocusChange);
+    _internalFocusNode?.dispose();
+    _statesController?.dispose();
     super.dispose();
+  }
+
+  void _syncExpandedState() {
+    if (widget.expanded == null && _statesController == null) {
+      return;
+    }
+    final controller = _statesController ??= WidgetStatesController();
+    controller.update(
+      WidgetState.pressed,
+      (widget.expanded ?? false) && widget.onPressed != null,
+    );
   }
 
   void _handleFocusChange() {
@@ -130,22 +165,44 @@ class _BwIconButtonState extends State<BwIconButton> {
     final effectiveSelected = _effectiveToggle && widget.selected;
     final motionDuration =
         context.bw.reduceMotion ? BwDuration.instant : BwDuration.sm;
+    const focusRingKey = ValueKey<String>('BwIconButton.focus-ring');
     final baseStyle = BwButtonStyle.resolve(
       context,
       _effectiveVariant,
       widget.color,
       widget.size,
-      focusRingKey: const ValueKey<String>('BwIconButton.focus-ring'),
+      focusRingKey: focusRingKey,
     );
+    final segmentRadius = switch (widget.segment) {
+      null => null,
+      BwButtonSegment.start => BorderRadiusDirectional.only(
+          topStart: Radius.circular(metrics.radius),
+          bottomStart: Radius.circular(metrics.radius),
+          topEnd: const Radius.circular(BwRadius.xs),
+          bottomEnd: const Radius.circular(BwRadius.xs),
+        ),
+      BwButtonSegment.end => BorderRadiusDirectional.only(
+          topStart: const Radius.circular(BwRadius.xs),
+          bottomStart: const Radius.circular(BwRadius.xs),
+          topEnd: Radius.circular(metrics.radius),
+          bottomEnd: Radius.circular(metrics.radius),
+        ),
+    };
     final baseBackground = baseStyle.backgroundColor!;
     final baseIcon = baseStyle.iconColor!;
+    final baseOverlay = baseStyle.overlayColor!;
     final baseSide = baseStyle.side;
+    final forcePressed = (widget.expanded ?? false) && widget.onPressed != null;
     final style = baseStyle.copyWith(
       backgroundColor: WidgetStateProperty.resolveWith((states) {
-        if (!states.contains(WidgetState.selected)) {
-          return baseBackground.resolve(states);
+        final effectiveStates =
+            forcePressed && !states.contains(WidgetState.disabled)
+                ? <WidgetState>{...states, WidgetState.pressed}
+                : states;
+        if (!effectiveStates.contains(WidgetState.selected)) {
+          return baseBackground.resolve(effectiveStates);
         }
-        if (states.contains(WidgetState.disabled)) {
+        if (effectiveStates.contains(WidgetState.disabled)) {
           return colors.backgroundNeutralDisabled;
         }
         return switch (widget.color) {
@@ -171,9 +228,37 @@ class _BwIconButtonState extends State<BwIconButton> {
           BwButtonColor.inverse => colors.iconRoleBrand,
         };
       }),
+      overlayColor: WidgetStateProperty.resolveWith((states) {
+        final effectiveStates =
+            forcePressed && !states.contains(WidgetState.disabled)
+                ? <WidgetState>{...states, WidgetState.pressed}
+                : states;
+        return baseOverlay.resolve(effectiveStates);
+      }),
       side: _effectiveVariant == BwButtonVariant.outlined
           ? baseSide
           : const WidgetStatePropertyAll<BorderSide>(BorderSide.none),
+      shape: segmentRadius == null
+          ? null
+          : WidgetStatePropertyAll<OutlinedBorder>(
+              RoundedRectangleBorder(borderRadius: segmentRadius),
+            ),
+      backgroundBuilder: segmentRadius == null
+          ? null
+          : (
+              BuildContext builderContext,
+              Set<WidgetState> states,
+              Widget? child,
+            ) =>
+              BwFocusRing(
+                focused: states.contains(WidgetState.focused),
+                borderRadius: segmentRadius,
+                color: widget.color == BwButtonColor.inverse
+                    ? colors.borderInverse
+                    : colors.borderFocus,
+                ringKey: focusRingKey,
+                child: child ?? const SizedBox.shrink(),
+              ),
       padding: const WidgetStatePropertyAll<EdgeInsetsGeometry>(
         EdgeInsetsDirectional.zero,
       ),
@@ -193,16 +278,17 @@ class _BwIconButtonState extends State<BwIconButton> {
               dimension: metrics.iconSize,
               child: CircularProgressIndicator(color: resolvedIconColor),
             )
-          : Icon(
-              effectiveSelected ? widget.selectedIcon : widget.icon,
-              key: ValueKey<String>(
-                effectiveSelected
-                    ? 'BwIconButton.icon.selected'
-                    : 'BwIconButton.icon',
-              ),
-              fill: effectiveSelected ? BwIconAxes.fillSelected : null,
-              semanticLabel: null,
-            ),
+          : (widget.iconChild ??
+              Icon(
+                effectiveSelected ? widget.selectedIcon : widget.icon,
+                key: ValueKey<String>(
+                  effectiveSelected
+                      ? 'BwIconButton.icon.selected'
+                      : 'BwIconButton.icon',
+                ),
+                fill: effectiveSelected ? BwIconAxes.fillSelected : null,
+                semanticLabel: null,
+              )),
     );
     final enabled = widget.onPressed != null;
     final effectiveOnPressed =
@@ -211,6 +297,7 @@ class _BwIconButtonState extends State<BwIconButton> {
       BwButtonVariant.filled => IconButton.filled(
           onPressed: effectiveOnPressed,
           focusNode: _focusNode,
+          statesController: _statesController,
           style: style,
           isSelected: _effectiveToggle ? widget.selected : null,
           selectedIcon: visual,
@@ -219,6 +306,7 @@ class _BwIconButtonState extends State<BwIconButton> {
       BwButtonVariant.tonal => IconButton.filledTonal(
           onPressed: effectiveOnPressed,
           focusNode: _focusNode,
+          statesController: _statesController,
           style: style,
           isSelected: _effectiveToggle ? widget.selected : null,
           selectedIcon: visual,
@@ -227,6 +315,7 @@ class _BwIconButtonState extends State<BwIconButton> {
       BwButtonVariant.outlined => IconButton.outlined(
           onPressed: effectiveOnPressed,
           focusNode: _focusNode,
+          statesController: _statesController,
           style: style,
           isSelected: _effectiveToggle ? widget.selected : null,
           selectedIcon: visual,
@@ -235,6 +324,7 @@ class _BwIconButtonState extends State<BwIconButton> {
       BwButtonVariant.text => IconButton(
           onPressed: effectiveOnPressed,
           focusNode: _focusNode,
+          statesController: _statesController,
           style: style,
           isSelected: _effectiveToggle ? widget.selected : null,
           selectedIcon: visual,
@@ -279,6 +369,7 @@ class _BwIconButtonState extends State<BwIconButton> {
       focusable: enabled,
       focused: enabled && _focusNode.hasFocus,
       toggled: _effectiveToggle ? widget.selected : null,
+      expanded: widget.expanded,
       onTap: effectiveOnPressed,
       onFocus: enabled ? _focusNode.requestFocus : null,
       excludeSemantics: true,
