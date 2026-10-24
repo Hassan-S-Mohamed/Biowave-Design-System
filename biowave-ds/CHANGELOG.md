@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Code — Web Avatar 1.0] — 2026-10-24
+### Added
+- Built the token-only MUI Avatar with photo loading and error fallbacks, grapheme-safe Latin and Arabic initials, Icon fallback, four sizes, two shapes, three colours, Badge composition, decorative and named accessibility, RTL support, public exports, development warnings and complete contract tests.
+
 ## [Preview — Mobile Avatar 1.0] — 2026-10-23
 ### Added
 - Added light/English and dark/Arabic RTL mobile Avatar planning sheets covering sm/md/lg/xl sizes, circle/square shapes, neutral/brand/secondary colours, image/initials/person content and loading/failed fallbacks, 48dp touch targets, plus mirrored count/dot badge placement, resolved token values, prompts and visual check notes.
