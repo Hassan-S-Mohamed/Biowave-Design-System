@@ -1,7 +1,7 @@
-<!-- GENERATED from badge.md @ cb62b04e319fe8ec — do not edit; change the source and run: npm run contract -- tablet badge -->
+<!-- GENERATED from badge.md @ c2beb38ab3fd7286 — do not edit; change the source and run: npm run contract -- tablet badge -->
 # Badge · شارة — Tablet — Figma contract
 
-> **Everything the Figma Agent needs to build Badge in the Tablet Components file, with our variables and styles.** Read this file only. Generated from [`badge.md`](badge.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-18). Questions go to [D11 Execution log](badge.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
+> **Everything the Figma Agent needs to build Badge in the Tablet Components file, with our variables and styles.** Read this file only. Generated from [`badge.md`](badge.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-24). Questions go to [D11 Execution log](badge.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
 
 **Two phases, one review:** Phase 1 — build the component set (§7–§8). Phase 2 — as soon as Phase 1 is finished, the 12 documentation pages and the Components List card (§9).
 
@@ -12,7 +12,7 @@
 | Component | Badge · شارة |
 | Platform | Tablet · Flutter + Material 3 |
 | Version | 1.1 · 2026-10-24 |
-| Source | [`badge.md`](badge.md) @ `cb62b04e319fe8ec` |
+| Source | [`badge.md`](badge.md) @ `c2beb38ab3fd7286` |
 
 ## 1. Library connections in this file
 
