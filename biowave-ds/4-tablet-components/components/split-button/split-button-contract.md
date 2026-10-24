@@ -1,4 +1,4 @@
-<!-- GENERATED from split-button.md @ 0fe30d866a0bf643 — do not edit; change the source and run: npm run contract -- tablet split-button -->
+<!-- GENERATED from split-button.md @ 38c07a96b7363134 — do not edit; change the source and run: npm run contract -- tablet split-button -->
 # Split button · زر مقسّم — Tablet — code contract
 
 > **Everything you need to build Split button on Tablet, and nothing else.** Read this file only. Generated from [`split-button.md`](split-button.md) (Parts B and C). If something is unclear or impossible, stop and write it in [C8 Execution log → Questions](split-button.md#c8-execution-log-filled-by-the-executor) — never invent behaviour.
@@ -12,7 +12,7 @@
 | Version | 1.0 · 2026-10-16 |
 | Source code | `lib/src/components/split_button/bw_split_button.dart` |
 | Tokens | — |
-| Source | [`split-button.md`](split-button.md) @ `0fe30d866a0bf643` |
+| Source | [`split-button.md`](split-button.md) @ `38c07a96b7363134` |
 
 ## 1. What it is
 
@@ -185,6 +185,7 @@ Internal parameters on the approved button components. All are marked `@internal
 | `bw_icon_button.dart` | `iconRotationDuration` | `Duration` · `BwDuration.instant` | Chevron duration (B4) |
 | `bw_icon_button.dart` | `iconRotationCurve` | `Curve` · `BwEasing.standard` | Chevron easing (B4) |
 | `bw_icon_button.dart` | `expanded` | `bool?` · `null` | `Semantics(expanded:)` on the trigger (B6); `null` = no expanded state |
+| `bw_button_style.dart` | shared segment radius helper | `BorderRadiusDirectional` from `BwButtonSegment?` · `null` = today's radius | One helper for the B2 corner radii, used by `bw_button.dart` and `bw_icon_button.dart` (no copied code) |
 
 ### Token gaps
 
@@ -197,6 +198,7 @@ None.
 4-tablet-components/test/split_button_test.dart                           new
 4-tablet-components/test/goldens/split_button/                            new (generated goldens)
 4-tablet-components/lib/src/components/button/bw_button.dart              change: internal `segment` (corner radii) — C3
+4-tablet-components/lib/src/components/button/bw_button_style.dart        change: shared segment radius helper (internal, used by BwButton and BwIconButton)
 4-tablet-components/lib/src/components/icon_button/bw_icon_button.dart    change: internal `segment`, `focusNode`, `autofocus`, `statesController`, `iconTurns`, `iconRotationDuration`, `iconRotationCurve`, `expanded` (+ `AnimatedRotation` round the glyph, `expanded` on its `Semantics`) — C3
 4-tablet-components/lib/biowave_tablet.dart                               change: export
 4-tablet-components/README.md                                             change: status row

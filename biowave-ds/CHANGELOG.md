@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Plan — Tablet Split button 2.1] — 2026-10-24
+### Changed
+- Split button (tablet) plan 2.1 adds review round 1 finding #9 (user-approved): C5 authorises `4-tablet-components/lib/src/components/button/bw_button_style.dart` (change: shared segment radius helper, internal, used by BwButton and BwIconButton) and C3 lists it in the internal-parameters table; F2 row added. No new behaviour. Plan stays Finished; contract regenerated.
+
 ## [Plan — Tablet Split button 2] — 2026-10-24
 ### Changed
 - Split button (tablet) plan 2 fixes the Planner findings of review round 1 (Part E2 of `4-tablet-components/components/split-button/split-button.md`): #4 C3 / C5 now record the internal BwButton `segment` and BwIconButton `segment`, `focusNode`, `autofocus`, `statesController`, `iconTurns`, `iconRotationDuration`, `iconRotationCurve`, `expanded` (all `@internal`, defaults keep today's behaviour); #5 B2 maps `elevation-3` onto a decorated menu surface (`MenuStyle` transparent, `clipBehavior: Clip.none`) and lists every menu token, B3 lists the menu item states, B4 records chevron close timing and `MenuAnchor`'s built-in fade timing; #7 C5 authorises `4-tablet-components/test/goldens/split_button/`; #8 header "Source code" → `lib/src/components/split_button/bw_split_button.dart`. Plan → Finished (header + README); contract regenerated. Implementer findings #1–#3, #6, #9, #10 untouched.

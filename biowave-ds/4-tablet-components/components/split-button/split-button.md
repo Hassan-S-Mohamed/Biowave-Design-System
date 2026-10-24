@@ -304,6 +304,7 @@ Internal parameters on the approved button components. All are marked `@internal
 | `bw_icon_button.dart` | `iconRotationDuration` | `Duration` · `BwDuration.instant` | Chevron duration (B4) |
 | `bw_icon_button.dart` | `iconRotationCurve` | `Curve` · `BwEasing.standard` | Chevron easing (B4) |
 | `bw_icon_button.dart` | `expanded` | `bool?` · `null` | `Semantics(expanded:)` on the trigger (B6); `null` = no expanded state |
+| `bw_button_style.dart` | shared segment radius helper | `BorderRadiusDirectional` from `BwButtonSegment?` · `null` = today's radius | One helper for the B2 corner radii, used by `bw_button.dart` and `bw_icon_button.dart` (no copied code) |
 
 ### C4 Token gaps
 
@@ -316,6 +317,7 @@ None.
 4-tablet-components/test/split_button_test.dart                           new
 4-tablet-components/test/goldens/split_button/                            new (generated goldens)
 4-tablet-components/lib/src/components/button/bw_button.dart              change: internal `segment` (corner radii) — C3
+4-tablet-components/lib/src/components/button/bw_button_style.dart        change: shared segment radius helper (internal, used by BwButton and BwIconButton)
 4-tablet-components/lib/src/components/icon_button/bw_icon_button.dart    change: internal `segment`, `focusNode`, `autofocus`, `statesController`, `iconTurns`, `iconRotationDuration`, `iconRotationCurve`, `expanded` (+ `AnimatedRotation` round the glyph, `expanded` on its `Semantics`) — C3
 4-tablet-components/lib/biowave_tablet.dart                               change: export
 4-tablet-components/README.md                                             change: status row
@@ -538,5 +540,6 @@ None — version 1.0. Filled when the version is above 1.0; it feeds Figma doc p
 
 | Version | Date | Change | Breaking | Migration |
 |---|---|---|---|---|
+| 1.0 | 2026-10-24 | Plan 2.1 (review round 1 finding #9, user-approved): C3 / C5 add `bw_button_style.dart` — one shared internal segment radius helper used by BwButton and BwIconButton. No new behaviour | No | — |
 | 1.0 | 2026-10-24 | Tablet B2–B4 clarified for Review Round 1 (no new behaviour): menu tokens listed, `elevation-3` mapped onto a decorated menu surface, menu item states listed, chevron close timing and `MenuAnchor` built-in fade timing recorded. Plan 2: C3 / C5 record the internal BwButton / BwIconButton parameters; C5 adds the goldens folder | No | — |
 | 1.0 | 2026-10-16 | Initial | No | — |
