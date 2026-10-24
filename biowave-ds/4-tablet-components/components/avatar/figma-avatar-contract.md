@@ -1,7 +1,7 @@
-<!-- GENERATED from avatar.md @ 678bb500cfae3ff9 — do not edit; change the source and run: npm run contract -- tablet avatar -->
+<!-- GENERATED from avatar.md @ b518e20ec62fa8ed — do not edit; change the source and run: npm run contract -- tablet avatar -->
 # Avatar · صورة رمزية — Tablet — Figma contract
 
-> **Everything the Figma Agent needs to build Avatar in the Tablet Components file, with our variables and styles.** Read this file only. Generated from [`avatar.md`](avatar.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-18). Questions go to [D11 Execution log](avatar.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
+> **Everything the Figma Agent needs to build Avatar in the Tablet Components file, with our variables and styles.** Read this file only. Generated from [`avatar.md`](avatar.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-24). Questions go to [D11 Execution log](avatar.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
 
 **Two phases, one review:** Phase 1 — build the component set (§7–§8). Phase 2 — as soon as Phase 1 is finished, the 12 documentation pages and the Components List card (§9).
 
@@ -11,8 +11,8 @@
 | Page | `↳ Avatar` (one page per component) |
 | Component | Avatar · صورة رمزية |
 | Platform | Tablet · Flutter + Material 3 |
-| Version | 1.0 · 2026-10-23 |
-| Source | [`avatar.md`](avatar.md) @ `678bb500cfae3ff9` |
+| Version | 1.1 · 2026-10-24 |
+| Source | [`avatar.md`](avatar.md) @ `b518e20ec62fa8ed` |
 
 ## 1. Library connections in this file
 
@@ -143,7 +143,7 @@ Same sizes as [Web B2](../../../3-web-components/components/avatar/avatar.md#b2-
 
 Layout rules:
 - `container`: `SizedBox.square(dimension: …)` → `ClipRRect(borderRadius: BorderRadius.circular(…))` → `ColoredBox(color: …)` → `Center`. Fixed size; never grows with content or with the badge.
-- `image`: `Image(image:, fit: BoxFit.cover, alignment: Alignment.center, excludeFromSemantics: true, gaplessPlayback: false)`, filling the container; `frameBuilder` shows the fallback until the first frame, `errorBuilder` shows the fallback on error.
+- `image`: `Image(image:, fit: BoxFit.cover, alignment: Alignment.center, excludeFromSemantics: true, gaplessPlayback: false)`, filling the container; `frameBuilder` shows the fallback until the first frame, `errorBuilder` shows the fallback on error. (1.1) No lazy-loading flag and no pre-fetch: Flutter resolves the `ImageProvider` only when the `Image` is built, and lazy lists (`ListView.builder`, `SliverList`) build only the rows near the viewport, so off-screen avatars do not fetch their photos — the same effect as web `loading="lazy"`. Never resolve or `precacheImage` the photo ahead of the build.
 - `initials`: `Text(maxLines: 1, softWrap: false, textAlign: TextAlign.center)` with the B2 text style.
 - `fallback-icon`: `BwIcon(icon: icon, size: …)` without `directional`.
 - `badge`: `BwBadge` with `child` = the container and `overlap: BwBadgeOverlap.circular` for `circle`, `.rectangular` for `square`; placement and ring per Badge B2.

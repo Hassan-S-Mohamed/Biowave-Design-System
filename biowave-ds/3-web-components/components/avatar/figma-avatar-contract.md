@@ -1,7 +1,7 @@
-<!-- GENERATED from avatar.md @ d9a1357f54b12492 — do not edit; change the source and run: npm run contract -- web avatar -->
+<!-- GENERATED from avatar.md @ 4801081da461460f — do not edit; change the source and run: npm run contract -- web avatar -->
 # Avatar · صورة رمزية — Web — Figma contract
 
-> **Everything the Figma Agent needs to build Avatar in the Web Components file, with our variables and styles.** Read this file only. Generated from [`avatar.md`](avatar.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-18). Questions go to [D11 Execution log](avatar.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
+> **Everything the Figma Agent needs to build Avatar in the Web Components file, with our variables and styles.** Read this file only. Generated from [`avatar.md`](avatar.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-24). Questions go to [D11 Execution log](avatar.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
 
 **Two phases, one review:** Phase 1 — build the component set (§7–§8). Phase 2 — as soon as Phase 1 is finished, the 12 documentation pages and the Components List card (§9).
 
@@ -11,8 +11,8 @@
 | Page | `↳ Avatar` (one page per component) |
 | Component | Avatar · صورة رمزية |
 | Platform | Web · React + MUI |
-| Version | 1.0 · 2026-10-23 |
-| Source | [`avatar.md`](avatar.md) @ `d9a1357f54b12492` |
+| Version | 1.1 · 2026-10-24 |
+| Source | [`avatar.md`](avatar.md) @ `4801081da461460f` |
 
 ## 1. Library connections in this file
 
@@ -150,8 +150,8 @@ Platform naming notes: MUI `variant` `circular` · `rounded` = Biowave `shape` `
 | `fallback-icon` | size | `size-icon-sm` | `size-icon-md` | `size-icon-lg` | `size-icon-xl` |
 
 Layout rules:
-- `container`: `display: inline-flex; align-items: center; justify-content: center; flex: none; overflow: hidden; vertical-align: middle`; fixed square from the size token; never grows or shrinks with content or with the badge.
-- `image`: `inline-size: 100%; block-size: 100%; object-fit: cover; object-position: center`; `loading="lazy"`, `decoding="async"`, `alt=""`, `draggable={false}`.
+- `container`: `position: relative; display: inline-flex; align-items: center; justify-content: center; flex: none; overflow: hidden; vertical-align: middle`; fixed square from the size token; never grows or shrinks with content or with the badge.
+- `image` (1.1): one real `<img>` inside the container, rendered from the first render whenever `src` is not empty — `position: absolute; inset-block: 0; inset-inline: 0; inline-size: 100%; block-size: 100%; object-fit: cover; object-position: center`; `loading="lazy"`, `decoding="async"`, `alt=""`, `draggable={false}`. Its own `load` / `error` events drive the content (B4): while Loading it is `visibility: hidden` and the fallback shows under it; after `load` it is visible and the fallback is gone; after `error` it is removed (never a broken-image glyph). So the browser fetches a photo only when the avatar comes near the viewport (A8), and a long list does not download every photo at once. Never hide the loading `img` with `display: none` — browsers do not lazy-load an image that has no box.
 - `initials`: one line, `white-space: nowrap`, centred, `user-select: none`; the text style's line height is used as is.
 - `fallback-icon`: `<Icon name={icon} />` with `size` unset; the container sets `font-size` to the B2 icon token so Icon follows it (Icon B1). Never `directional`.
 - `badge`: the container is the Badge `anchor`; `overlap` = `circular` for `circle`, `rectangular` for `square`. Badge's own B2 places the indicator on the top-end corner and draws its `ring`; Avatar adds no offset of its own.
@@ -176,7 +176,7 @@ No component tokens — every value is an existing semantic token (P-04); `avata
 |---|---|---|---|---|
 | Loading → Image | the `img` `load` event | none — the photo replaces the fallback at once | `motion-duration-instant` | — |
 | Loading → Image failed | the `img` `error` event | none — the fallback stays | `motion-duration-instant` | — |
-| `src` changes | new `src` | back to Loading (fallback shown) until the new image loads | `motion-duration-instant` | — |
+| `src` changes | new `src` | back to Loading: a new hidden `img` for the new `src`, fallback shown until its `load` | `motion-duration-instant` | — |
 | `size` / `shape` / `color` / `name` changes | prop change | none | `motion-duration-instant` | — |
 | Badge hidden ↔ visible | Badge props | as Badge B4 (Badge animates its own indicator) | Badge B4 | Badge B4 |
 

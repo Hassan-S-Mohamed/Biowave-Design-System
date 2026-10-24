@@ -13,7 +13,7 @@
 | Built on | Custom widget shaped like M3 `CircleAvatar` (`CircleAvatar` has no rounded-square shape, shows nothing while an image loads and cannot place a Badge — C3); fallback glyph via `BwIcon` (`Symbols.person_rounded`); badge via `BwBadge` |
 | Import | `BwAvatar` from `package:biowave_tablet/biowave_tablet.dart` |
 | Figma | **Biowave DS — Tablet Components** › `↳ Avatar` (page Typography mode `Tablet`) · build: [Part D](#d--figma-build) |
-| Version | 1.0 · 2026-10-23 |
+| Version | 1.1 · 2026-10-24 |
 | Plan | Finished |
 | Code | Planned |
 | Figma build | Planned |
@@ -271,7 +271,7 @@ Same sizes as [Web B2](../../../3-web-components/components/avatar/avatar.md#b2-
 
 Layout rules:
 - `container`: `SizedBox.square(dimension: …)` → `ClipRRect(borderRadius: BorderRadius.circular(…))` → `ColoredBox(color: …)` → `Center`. Fixed size; never grows with content or with the badge.
-- `image`: `Image(image:, fit: BoxFit.cover, alignment: Alignment.center, excludeFromSemantics: true, gaplessPlayback: false)`, filling the container; `frameBuilder` shows the fallback until the first frame, `errorBuilder` shows the fallback on error.
+- `image`: `Image(image:, fit: BoxFit.cover, alignment: Alignment.center, excludeFromSemantics: true, gaplessPlayback: false)`, filling the container; `frameBuilder` shows the fallback until the first frame, `errorBuilder` shows the fallback on error. (1.1) No lazy-loading flag and no pre-fetch: Flutter resolves the `ImageProvider` only when the `Image` is built, and lazy lists (`ListView.builder`, `SliverList`) build only the rows near the viewport, so off-screen avatars do not fetch their photos — the same effect as web `loading="lazy"`. Never resolve or `precacheImage` the photo ahead of the build.
 - `initials`: `Text(maxLines: 1, softWrap: false, textAlign: TextAlign.center)` with the B2 text style.
 - `fallback-icon`: `BwIcon(icon: icon, size: …)` without `directional`.
 - `badge`: `BwBadge` with `child` = the container and `overlap: BwBadgeOverlap.circular` for `circle`, `.rectangular` for `square`; placement and ring per Badge B2.
@@ -372,7 +372,7 @@ BwAvatar(name: 'Sara Ali', image: NetworkImage(sara.photoUrl), decorative: true)
 |---|---|
 | Component | Avatar |
 | Platform | Tablet (Flutter + M3) |
-| Plan version | 1 · 2026-10-23 |
+| Plan version | 1.1 · 2026-10-24 |
 | Depends on | `BwIcon` (`lib/src/components/icon/`) · **`BwBadge` 1.0** (`lib/src/components/badge/`, plan Finished, code not on `main` yet — build Avatar after Badge is merged; if `BwBadge` is missing, stop and report in C8) |
 
 ### C1 Goal
@@ -545,7 +545,7 @@ Component description: "Photo, initials or a fallback glyph that stands for a pe
 
 ### F0 Changes from previous version
 
-None — version 1.0. Filled when the version is above 1.0; it feeds Figma doc page 10.
+1.1 — follows web review round 1 #1 (lazy loading): B2 › image now states that the photo is fetched only when the `Image` widget is built (lazy lists build only visible rows) and must not be pre-fetched. No change to the API, tokens, look or the C plan tasks.
 
 ### F1 Guidelines changelog
 
@@ -557,4 +557,5 @@ None — version 1.0. Filled when the version is above 1.0; it feeds Figma doc p
 
 | Version | Date | Change | Breaking | Migration |
 |---|---|---|---|---|
+| 1.1 | 2026-10-24 | Web review round 1 #1 (lazy loading): B2 › image note — no pre-fetch or `precacheImage`; the `ImageProvider` resolves when the widget is built | No | None |
 | 1.0 | 2026-10-23 | Initial | No | — |

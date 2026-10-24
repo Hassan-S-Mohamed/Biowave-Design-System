@@ -13,12 +13,12 @@
 | Built on | MUI `Avatar` (`src`, `variant` `circular` · `rounded`, children fallback), restyled from tokens; fallback glyph via the Biowave `Icon`; badge via the Biowave `Badge` |
 | Import | `import { Avatar } from '@biowave/web'` |
 | Figma | **Biowave DS — Web Components** › `↳ Avatar` · build: [Part D](#d--figma-build) |
-| Version | 1.0 · 2026-10-23 |
-| Plan | Open |
+| Version | 1.1 · 2026-10-24 |
+| Plan | Finished |
 | Code | Approved |
 | Figma build | Planned |
 | Review | Round 1 · 2026-10-24 · Approved |
-| Source code | `src/components/avatar/` — not built yet (the Executor creates it) |
+| Source code | [`src/components/avatar/`](../../src/components/avatar/) |
 | Tokens | — (no component tokens: every value is an existing semantic token, P-04) |
 | Contracts | [`avatar-contract.md`](avatar-contract.md) · [`figma-avatar-contract.md`](figma-avatar-contract.md) — generated, never edited |
 | Docs page | [`avatar.html`](avatar.html) |
@@ -276,8 +276,8 @@ Platform naming notes: MUI `variant` `circular` · `rounded` = Biowave `shape` `
 | `fallback-icon` | size | `size-icon-sm` | `size-icon-md` | `size-icon-lg` | `size-icon-xl` |
 
 Layout rules:
-- `container`: `display: inline-flex; align-items: center; justify-content: center; flex: none; overflow: hidden; vertical-align: middle`; fixed square from the size token; never grows or shrinks with content or with the badge.
-- `image`: `inline-size: 100%; block-size: 100%; object-fit: cover; object-position: center`; `loading="lazy"`, `decoding="async"`, `alt=""`, `draggable={false}`.
+- `container`: `position: relative; display: inline-flex; align-items: center; justify-content: center; flex: none; overflow: hidden; vertical-align: middle`; fixed square from the size token; never grows or shrinks with content or with the badge.
+- `image` (1.1): one real `<img>` inside the container, rendered from the first render whenever `src` is not empty — `position: absolute; inset-block: 0; inset-inline: 0; inline-size: 100%; block-size: 100%; object-fit: cover; object-position: center`; `loading="lazy"`, `decoding="async"`, `alt=""`, `draggable={false}`. Its own `load` / `error` events drive the content (B4): while Loading it is `visibility: hidden` and the fallback shows under it; after `load` it is visible and the fallback is gone; after `error` it is removed (never a broken-image glyph). So the browser fetches a photo only when the avatar comes near the viewport (A8), and a long list does not download every photo at once. Never hide the loading `img` with `display: none` — browsers do not lazy-load an image that has no box.
 - `initials`: one line, `white-space: nowrap`, centred, `user-select: none`; the text style's line height is used as is.
 - `fallback-icon`: `<Icon name={icon} />` with `size` unset; the container sets `font-size` to the B2 icon token so Icon follows it (Icon B1). Never `directional`.
 - `badge`: the container is the Badge `anchor`; `overlap` = `circular` for `circle`, `rectangular` for `square`. Badge's own B2 places the indicator on the top-end corner and draws its `ring`; Avatar adds no offset of its own.
@@ -302,7 +302,7 @@ No component tokens — every value is an existing semantic token (P-04); `avata
 |---|---|---|---|---|
 | Loading → Image | the `img` `load` event | none — the photo replaces the fallback at once | `motion-duration-instant` | — |
 | Loading → Image failed | the `img` `error` event | none — the fallback stays | `motion-duration-instant` | — |
-| `src` changes | new `src` | back to Loading (fallback shown) until the new image loads | `motion-duration-instant` | — |
+| `src` changes | new `src` | back to Loading: a new hidden `img` for the new `src`, fallback shown until its `load` | `motion-duration-instant` | — |
 | `size` / `shape` / `color` / `name` changes | prop change | none | `motion-duration-instant` | — |
 | Badge hidden ↔ visible | Badge props | as Badge B4 (Badge animates its own indicator) | Badge B4 | Badge B4 |
 
@@ -369,13 +369,14 @@ Structure, properties, the Figma ↔ code mapping and Code Connect: [Part D](#d-
 ### B9 Tests
 
 - [ ] Every `size` × `shape` × `color` renders the B2 size and radius and the B3 colours in light + dark × en + ar (computed styles: `inline-size`, `block-size`, `border-radius`, background, initials and icon colour, initials text-style class)
-- [ ] Content priority: loaded image → image; loading → fallback, then image after `load`; `error` → fallback; no `src` → initials; no name → `fallback-icon` (`person` by default, `icon` overrides)
-- [ ] `src` change shows the fallback again until the new image loads; empty `src` = no image
+- [ ] Content priority: loading → fallback visible and the `img` already in the DOM but hidden; image after that `img`'s `load`; its `error` → fallback and no `img`; no `src` → initials; no name → `fallback-icon` (`person` by default, `icon` overrides)
+- [ ] (1.1) Lazy loading: from the first render the `img` has `loading="lazy"`, `decoding="async"`, `alt=""`, `draggable="false"` and is not `display: none`; no other image request is made (no `new Image()` probe)
+- [ ] `src` change shows the fallback again until the new `img` loads; a late `load` / `error` from the previous `src` changes nothing; empty `src` = no image and no `img`
 - [ ] Initials rule: “Sara Ali” → “SA”, “Omar” → “O”, “ sara  maria ali ” → “SA”, “سارة علي” → “س”, an emoji or a letter with a combining mark is kept whole (one grapheme); `initials` overrides; 3+ characters → first 2 + warning
 - [ ] `badge`: rendered through the Biowave `Badge`; `overlap` `circular` for `circle`, `rectangular` for `square`; a passed `overlap` / `children` is ignored; the container box size is the same with and without the badge
 - [ ] a11y: named → `role="img"` + name, `img` `alt=""`, initials and icon `aria-hidden`; `decorative` → `aria-hidden`; badge label in the container's description; consumer `aria-describedby` kept; axe has no violations in light + dark × en + ar, with and without badge
 - [ ] Never focusable: `userEvent.tab()` skips the avatar
-- [ ] RTL: badge on the top-start corner; initials and image not mirrored (no `scaleX(-1)` on any avatar part)
+- [ ] RTL: badge on the top-start corner — (1.1) asserted from the declared placement that decides the corner, not only non-empty insets: in `ar` the indicator resolves `direction: rtl`, its `insetInlineEnd` and `insetBlockStart` are the Badge B2 placement values and the physical `left` / `right` are `unset`; the same test in `en` resolves `direction: ltr` (so inline-end is the top-right there and the top-left in Arabic); initials and image not mirrored (no `scaleX(-1)` on any avatar part)
 - [ ] Every invalid combination in B1 warns once and renders the fallback
 - [ ] No raw values (no hex, px, ms or font names in `Avatar.tsx`) — same guard as the other components
 
@@ -389,7 +390,7 @@ Structure, properties, the Figma ↔ code mapping and Code Connect: [Part D](#d-
 |---|---|
 | Component | Avatar |
 | Platform | Web (React + MUI) |
-| Plan version | 1 · 2026-10-23 |
+| Plan version | 1.1 · 2026-10-24 |
 | Depends on | Icon (built, `src/components/icon/`) · **Badge 1.0** (`src/components/badge/`, plan Finished, code not on `main` yet — build Avatar after Badge is merged; if `Badge` is missing, stop and report in C8) |
 
 ### C1 Goal
@@ -398,7 +399,7 @@ Structure, properties, the Figma ↔ code mapping and Code Connect: [Part D](#d-
 
 ### C2 Scope
 
-**In scope:** B1–B9 — all props, the image → initials → icon fallback with load tracking, the initials rule, the `badge` composition, the dev warnings.
+**In scope:** B1–B9 — all props, the image → initials → icon fallback with load tracking, the initials rule, the `badge` composition, the dev warnings; (1.1) review round 1 fixes — the Fix round 1 task list under C7.
 
 **Out of scope** (do not build)
 - Avatar groups (stacked avatars, “+3” overflow) and interactive avatars (click handlers, buttons) — the List, Chip and Top app bar plans place Avatar inside their own interactive parts
@@ -410,13 +411,17 @@ Structure, properties, the Figma ↔ code mapping and Code Connect: [Part D](#d-
 ### C3 Approach
 
 - Base: `@mui/material/Avatar` wrapped by `styled(MuiAvatar)` in `Avatar.tsx`. Map `shape` `circle` → MUI `variant="circular"`, `square` → `variant="rounded"`, and override MUI's radius, size, font and colours completely from `cssVars` (`cssVars.size.control.height.*`, `cssVars.radius.*`, `cssVars.size.icon.*`, `cssVars.color.*`). Initials take the text style class on an inner `span` (`bw-text-label-sm` …); the root's MUI `font-size` / `font-family` are reset so only the class applies.
-- Load tracking: do **not** rely on MUI's internal loading (it shows an empty circle while loading). Track `src` with a small `useImageLoaded(src)` hook in the component folder (`new Image()` probe, `'loading' | 'loaded' | 'error'`, reset on `src` change, cleanup on unmount). Pass `src` to MUI only when `'loaded'`; otherwise render the fallback as MUI children. The `img` gets `alt=""` through `slotProps.img` together with `loading`, `decoding`, `draggable`.
+- Load tracking (1.1 — review round 1 #1): do **not** rely on MUI's internal loading (it shows an empty circle while loading) and do **not** probe with `new Image()` (it fetches every photo at once, so `loading="lazy"` never applies). Avatar renders the real `img` itself as a child of MUI `Avatar`, next to the fallback, and tracks that element's own events:
+  - `<img key={src} className="bw-avatar__image" src={src} loading="lazy" decoding="async" alt="" draggable={false} onLoad={…} onError={…} />` whenever `src` is not empty (B2 › image). MUI's `src`, `srcSet`, `alt` and `slotProps.img` are not used.
+  - `useImageLoaded(src)` in `useImageLoaded.ts` returns `{ status: 'loading' | 'loaded' | 'error', onLoad, onError }`: `'loading'` for a new non-empty `src`, `'error'` for an empty one; events that belong to a previous `src` are ignored.
+  - `'loading'` → `img` `visibility: hidden`, fallback rendered; `'loaded'` → `img` visible, fallback not rendered; `'error'` → no `img`, fallback rendered.
+  - An image that finished before React attached its handlers (server-rendered HTML being hydrated): a ref callback on the `img` reads `complete` — `naturalWidth > 0` → `'loaded'`, `0` → `'error'`.
 - Initials: a pure `avatarInitials(name)` in `avatarInitials.ts` per the B1 Initials rule (`/\p{Script=Arabic}/u`); unit-tested.
 - Fallback glyph: `<Icon name={icon} />` inside a `span` sized by `font-size: var(--bw-size-icon-*)`; colour from the B3 icon token.
 - Badge: when `badge` is set, return `<Badge {...rest} overlap={shape === 'circle' ? 'circular' : 'rectangular'}>{container}</Badge>` (strip `children` / `overlap` from `badge` first). The container must forward `aria-describedby` (Badge clones it), `className`, `data-*` and `ref`.
 - a11y per B6; `visuallyHidden` is not needed (the name is `aria-label`).
 - Dev warnings: `warnOnce` from `src/internal/warnOnce.ts`, one per B1 combination.
-- Gotchas: MUI `Avatar` adds `font-size: 1.25rem`, `line-height: 1` and a theme `background-color` — override all; MUI's fallback `Person` SVG appears when children are empty — always pass children; `object-fit` is MUI's default on `img`, keep it explicit.
+- Gotchas: MUI `Avatar` adds `font-size: 1.25rem`, `line-height: 1` and a theme `background-color` — override all; MUI's fallback `Person` SVG appears when children are empty — always pass children; the `img` is Avatar's own now, so `object-fit`, `object-position` and the absolute fill are set explicitly (B2).
 
 ### C4 Token gaps
 
@@ -425,10 +430,10 @@ None. Every value in B2–B3 is an existing semantic token; no component tokens 
 ### C5 Files to create / change
 
 ```
-3-web-components/src/components/avatar/Avatar.tsx           new: Avatar, AvatarProps, AvatarSize, AvatarShape, AvatarColor, AvatarBadgeProps
+3-web-components/src/components/avatar/Avatar.tsx           new: Avatar, AvatarProps, AvatarSize, AvatarShape, AvatarColor, AvatarBadgeProps · (1.1) change: own lazy img (C3)
 3-web-components/src/components/avatar/avatarInitials.ts    new: avatarInitials(name)
-3-web-components/src/components/avatar/useImageLoaded.ts    new: load tracking hook
-3-web-components/src/components/avatar/Avatar.test.tsx      new
+3-web-components/src/components/avatar/useImageLoaded.ts    new: load tracking hook · (1.1) change: tracks the img's own events, no probe
+3-web-components/src/components/avatar/Avatar.test.tsx      new · (1.1) change: B9 content / lazy / RTL items
 3-web-components/src/components/avatar/index.ts            new
 3-web-components/src/index.ts                              change: export Avatar + types
 3-web-components/README.md                                 change: Avatar row Code status
@@ -440,7 +445,7 @@ CHANGELOG.md                                               change
 Implement every item in B9, plus:
 - [ ] Every test renders through the shared `renderWithBiowave` (`src/test/render.tsx`, options `theme` and `locale`); no test creates its own emotion cache or `BiowaveProvider`
 - [ ] Default timeouts only: no timeout arguments in `Avatar.test.tsx`, no `testTimeout` / `fileParallelism` change; every test passes under the 5 s default
-- [ ] Image loading is driven deterministically: stub `window.Image` so the test fires `load` / `error` itself (wrapped in `act`); no real network
+- [ ] Image loading is driven deterministically: (1.1) the test fires `load` / `error` on the rendered `img` itself (`fireEvent.load` / `fireEvent.error`, wrapped in `act`); no `window.Image` stub is needed — spy on it only to assert it is never constructed; no real network
 - [ ] `avatarInitials` unit tests per the B9 cases
 - [ ] Type test: an unknown `size`, `shape` or `color` is a TypeScript error (`// @ts-expect-error`); `badge={{ overlap: 'circular' }}` is a type error
 - [ ] The Icon guard (`src/test/noLegacyIcons.test.ts`) still passes — the fallback glyph comes from `Icon`; MUI's built-in `Person` icon never renders (assert no `svg` in the avatar)
@@ -454,6 +459,19 @@ Implement every item in B9, plus:
 - [ ] AC-5 Tests in B9 and C6 exist and pass through `renderWithBiowave` with default timeouts; `npm run typecheck`, `npm run test:web`, `npm run docs:check` pass
 - [ ] AC-6 Exported from `src/index.ts`; section README status updated
 - [ ] AC-7 The badge is the Biowave `Badge` with `overlap` from `shape`; the avatar box size is unchanged by it
+- [ ] AC-8 (1.1) Lazy loading per B2 › image and C3 › Load tracking: the real `img` is in the DOM from the first render with `loading="lazy"`, hidden (not `display: none`) until its own `load`; no `new Image()` probe; in a browser, an avatar far below the fold does not request its photo until scrolled near
+- [ ] AC-9 (1.1) The B9 RTL test asserts the corner from the declared placement and direction (`ar` and `en`), not only non-empty insets
+- [ ] AC-10 (1.1) C8 gets a **Fix round 1** entry with every command and real numbers (`npm run typecheck`, `npm run test:web` passed/total + duration, `npm run component-tokens`, `npm run docs:check`, `npm run sync`); header `Code` set to `Built`; `3-web-components/README.md` row matches
+
+**Fix round 1 — Executor task list** (one list; nothing else is in scope):
+1. #1 Lazy image — C3 › Load tracking and B2 › image: render the real `img` with `loading="lazy"` and track its own `load` / `error`; remove the `new Image()` probe and the MUI `src` / `slotProps.img` path; keep the fallback until the `img` has loaded. Files: `Avatar.tsx`, `useImageLoaded.ts`
+2. #1 Tests — B9 (1.1) content priority, lazy loading and `src` change items; drive loading with `fireEvent.load` / `fireEvent.error` on the `img` instead of the `window.Image` stub (C6 1.1). File: `Avatar.test.tsx`
+3. #3 RTL test — B9 (1.1) RTL item: assert direction and the placement values in `ar` and `en` (AC-9). File: `Avatar.test.tsx`
+4. C8 **Fix round 1** entry (AC-10); header `Code` → `Built` and the README row; one `CHANGELOG.md` entry
+
+(#2, the header `Source code` link, is done by the Planner in 1.1.)
+
+Files the Executor may touch in this fix round: `3-web-components/src/components/avatar/Avatar.tsx`, `useImageLoaded.ts`, `Avatar.test.tsx`, the header `Code` field and C8 of this file, the `3-web-components/README.md` row and `CHANGELOG.md`. Nothing else — not Badge, Icon or the shared test tooling.
 
 ---
 
@@ -703,7 +721,7 @@ Contrast  initials / icon on bg
 
 ### F0 Changes from previous version
 
-None — version 1.0. Filled when the version is above 1.0; it feeds Figma doc page 10.
+1.1 — review round 1 Planner items #1 and #2: the photo is now loaded lazily for real. Avatar renders the `img` itself with `loading="lazy"`, hidden until its own `load` event, instead of probing every photo with `new Image()` on mount; the fallback still shows while loading and after an error. Same props, same tokens, same look. B9 gains a lazy-loading item and a stronger RTL badge assertion (Executor nit #3); C7 carries the Fix round 1 task list. Header `Source code` now links the built folder.
 
 ### F1 Guidelines changelog
 
@@ -715,4 +733,5 @@ None — version 1.0. Filled when the version is above 1.0; it feeds Figma doc p
 
 | Version | Date | Change | Breaking | Migration |
 |---|---|---|---|---|
+| 1.1 | 2026-10-24 | Review round 1 #1 (Planner): B2 › image (own `img`, `loading="lazy"`, hidden until `load`, removed on `error`, never `display: none`; container `position: relative`), B4 `src` change, C3 › Load tracking (no `new Image()` probe, `useImageLoaded` tracks the `img`'s events, hydration `complete` check), B9 content / lazy / `src`-change items, C5, C6 (fire events on the `img`), C7 AC-8 – AC-10 and the Fix round 1 task list (#1, #3 RTL assertion). #2: header `Source code` link | No | None — same props and look |
 | 1.0 | 2026-10-23 | Initial | No | — |

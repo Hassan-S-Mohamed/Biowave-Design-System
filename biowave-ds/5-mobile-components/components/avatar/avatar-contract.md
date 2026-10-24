@@ -1,4 +1,4 @@
-<!-- GENERATED from avatar.md @ a6a01ba8a6e3963e — do not edit; change the source and run: npm run contract -- mobile avatar -->
+<!-- GENERATED from avatar.md @ 5312c3c22b7b81c5 — do not edit; change the source and run: npm run contract -- mobile avatar -->
 # Avatar · صورة رمزية — Mobile — code contract
 
 > **Everything you need to build Avatar on Mobile, and nothing else.** Read this file only. Generated from [`avatar.md`](avatar.md) (Parts B and C). If something is unclear or impossible, stop and write it in [C8 Execution log → Questions](avatar.md#c8-execution-log-filled-by-the-executor) — never invent behaviour.
@@ -9,10 +9,10 @@
 | Platform | Mobile · Flutter + Material 3 |
 | Built on | Custom widget shaped like M3 `CircleAvatar` (`CircleAvatar` has no rounded-square shape, shows nothing while an image loads and cannot place a Badge — C3); fallback glyph via `BwIcon` (`Symbols.person_rounded`); badge via `BwBadge` |
 | Import | `BwAvatar` from `package:biowave_mobile/biowave_mobile.dart` |
-| Version | 1.0 · 2026-10-23 |
+| Version | 1.1 · 2026-10-24 |
 | Source code | `lib/src/components/avatar/` — not built yet (the Executor creates it) |
 | Tokens | — |
-| Source | [`avatar.md`](avatar.md) @ `a6a01ba8a6e3963e` |
+| Source | [`avatar.md`](avatar.md) @ `5312c3c22b7b81c5` |
 
 ## 1. What it is
 
@@ -84,7 +84,7 @@ Same sizes as [Web B2](../../../3-web-components/components/avatar/avatar.md#b2-
 
 Layout rules:
 - `container`: `SizedBox.square(dimension: …)` → `ClipRRect(borderRadius: BorderRadius.circular(…))` → `ColoredBox(color: …)` → `Center`. Fixed size; never grows with content or with the badge.
-- `image`: `Image(image:, fit: BoxFit.cover, alignment: Alignment.center, excludeFromSemantics: true, gaplessPlayback: false)`, filling the container; `frameBuilder` shows the fallback until the first frame, `errorBuilder` shows the fallback on error.
+- `image`: `Image(image:, fit: BoxFit.cover, alignment: Alignment.center, excludeFromSemantics: true, gaplessPlayback: false)`, filling the container; `frameBuilder` shows the fallback until the first frame, `errorBuilder` shows the fallback on error. (1.1) No lazy-loading flag and no pre-fetch: Flutter resolves the `ImageProvider` only when the `Image` is built, and lazy lists (`ListView.builder`, `SliverList`) build only the rows near the viewport, so off-screen avatars do not fetch their photos — the same effect as web `loading="lazy"`. Never resolve or `precacheImage` the photo ahead of the build.
 - `initials`: `Text(maxLines: 1, softWrap: false, textAlign: TextAlign.center)` with the B2 text style.
 - `fallback-icon`: `BwIcon(icon: icon, size: …)` without `directional`.
 - `badge`: `BwBadge` with `child` = the container and `overlap: BwBadgeOverlap.circular` for `circle`, `.rectangular` for `square`; placement and ring per Badge B2.

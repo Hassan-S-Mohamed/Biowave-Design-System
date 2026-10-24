@@ -53,7 +53,7 @@ Status is written in each file header and here; `npm run docs:check` fails if th
 | Badge | Finished | Approved | Planned | Round 3 · 2026-10-24 · Approved | [page](components/badge/badge.html) | [badge.md](components/badge/badge.md) |
 | Divider | Finished | Approved | Planned | Round 2 · 2026-10-24 · Approved | [page](components/divider/divider.html) | [divider.md](components/divider/divider.md) |
 | Tooltip | Finished | Approved | Planned | Round 2 · 2026-10-24 · Approved | [page](components/tooltip/tooltip.html) | [tooltip.md](components/tooltip/tooltip.md) |
-| Avatar | Open | Approved | Planned | Round 1 · 2026-10-24 · Approved | [page](components/avatar/avatar.html) | [avatar.md](components/avatar/avatar.md) |
+| Avatar | Finished | Approved | Planned | Round 1 · 2026-10-24 · Approved | [page](components/avatar/avatar.html) | [avatar.md](components/avatar/avatar.md) |
 
 ## 5. Backlog (from the Figma "Web Components" pages, suggested order)
 1. Button · Icon button · Button group · Split button
