@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Review — Mobile Text field round 3: Changes requested] — 2026-10-24
+### Changed
+- Text field (mobile) review round 3: **Changes requested** — Part E4 of `5-mobile-components/components/text-field/text-field.md`. Fixed: #12 (focus outline width around add-ons), #13 (end button flush with the column edge). Still open: 🟡 #4 (top 12 dp of the help icon's 48 dp area dropped in a `ListView` / tight `SizedBox`), 🟡 #11 (add-on divider and counter colours lag when a parent changes `errorText` — regression — and while typing with autovalidate), 🟢 #14 (spinner test passes for an orphan-layer spinner). New: 🟡 #15 password toggle focuses the field. Drag on a field does not focus it ✓; `validate()` / `reset()` colours ✓. All Executor; Plan stays Finished; Code → Changes requested (header + README). Last allowed fix round used — human decision at the gate. `docs:check` ✓, `flutter analyze` ✓, `flutter test` 181/181 ✓, `sync` READY.
+
 ## [Fixed — Mobile Text field review round 2] — 2026-10-24
 ### Fixed
 - Fixed Mobile `BwTextField` review round 2 findings:

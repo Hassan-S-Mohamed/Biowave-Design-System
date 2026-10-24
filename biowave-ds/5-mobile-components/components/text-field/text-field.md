@@ -15,9 +15,9 @@
 | Figma | **Biowave DS — Mobile Components** › `↳ Text field` (page Typography mode `Mobile`) · build: [Part D](#d--figma-build) |
 | Version | 1.2 · 2026-10-24 (spec and code plan 1.2; guidelines unchanged, same as Web 1.1) |
 | Plan | Finished |
-| Code | Built |
+| Code | Changes requested |
 | Figma build | Planned |
-| Review | Round 2 · 2026-10-24 · Changes requested |
+| Review | Round 3 · 2026-10-24 · Changes requested |
 | Source code | [`lib/src/components/text_field/`](../../lib/src/components/text_field/) |
 | Tokens | [`text-field.tokens.json`](text-field.tokens.json) — extends the Web file (D-13) |
 | Contracts | [`text-field-contract.md`](text-field-contract.md) · [`figma-text-field-contract.md`](figma-text-field-contract.md) — generated, never edited |
@@ -653,6 +653,7 @@ Component description: “Enters or edits short and multiline text with persiste
 |---|---|---|---|
 | 1 | 2026-10-24 | Changes requested | not reviewed |
 | 2 | 2026-10-24 | Changes requested | not reviewed |
+| 3 | 2026-10-24 | Changes requested | not reviewed |
 
 ### E2 Round 1 — 2026-10-24
 
@@ -812,6 +813,107 @@ Extra evidence: probes were run on a scratch copy of the package outside the rep
 | 8 🟢 (Planner) | Fixed | B1 lists `placeholder` |
 | 9 🟢 | Fixed | `git diff main...HEAD -- lib/biowave_mobile.dart` = the export line only |
 | 10 🟢 | Fixed | No `labelStyle` in the decoration; no `String.fromCharCodes` in `text_field/` |
+
+### E4 Round 3 — 2026-10-24
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 1.2 · 2026-10-24 |
+| Spec version reviewed | 1.2 |
+| Reviewer | Claude |
+| Date | 2026-10-24 |
+| Commit reviewed | `b62f002` Fix round 2 (branch `ds/text-field-mobile`; `git diff main...HEAD`; working tree clean before this review) |
+| Verdict | **Changes requested** (0 🔴, 3 🟡, 1 🟢; all Executor). #12 and #13 fixed; #4, #11 and #14 still open; new 🟡 #15 |
+
+Checks run by the Reviewer (not copied from C8):
+
+| Command | Result |
+|---|---|
+| `npm run docs:check` | ✓ 21 component files OK |
+| `cd 5-mobile-components && flutter analyze` | ✓ No issues found |
+| `cd 5-mobile-components && flutter test` | ✓ 181 tests, all passed (goldens compared, not updated) |
+| `npm run sync` (AC-5) | ✓ READY for component work |
+
+Extra evidence: probes ran on a scratch copy of the package outside the repo (`tester.tapAt` at real points, `tester.dragFrom` in a `ListView`, `Form.validate()` / `reset()`, autovalidate, a parent changing `errorText`, `getRect` of the end button, and a spinner painted into an orphan layer). Nothing in the worktree was added or changed by them. I checked all four goldens in `test/goldens/text_field/` by eye.
+
+#### Re-probes asked by the orchestrator
+
+| Probe | Result |
+|---|---|
+| Help icon 48 dp area opens the tooltip (real `tapAt`) | ⚠️ Works when the space above the field belongs to a larger parent (test setup `Padding(all: 32)`): all 11 points (centre, ±20 on each axis, the four ±20 diagonals, ±23 vertical) open the tooltip and never focus the field, in en and ar. **Fails in ordinary layouts**: with the field in `SizedBox(width: 360)`, in a `ListView`, or in a `ListView` with 16 dp padding, the points −20 (vertical), −20/−20, +20/−20 and −23 open nothing. The help centre is 12 dp below the `BwTextField` top, so the top 12 dp of the 48 square lies outside `BwTextField`'s own box, and any parent that checks its own size first drops it → #4 |
+| A scroll drag starting on a field does not focus it | ✓ `ListView`, `dragFrom` −150 dp starting on the input, a prefix add-on, a leading icon, the help icon, the help area over the outline and the outline edge: no field focused, no tooltip. Test `scroll drag starting on the field leaves it unfocused` (`text_field_test.dart:1173`) |
+| Tapping the password toggle does not focus the field | ❌ Unfocused password field, tap the eye → `hasFocus = true` (text shown ✓). `_togglePassword` calls `_focusNode.requestFocus()` (`bw_text_field.dart:299-306`) → #15. A custom `action` does not focus (✓); clear does, as B6 asks |
+| No hit area inside a box that drops touches outside its size | ⚠️ `BwFieldTargetBox` (16 × 16) is no longer the limit: `_RenderBwTextFieldHitScope` (`bw_text_field.dart:696-745`) tests the 48 square before its own size and calls the help box directly. But the scope itself is only as big as `BwTextField`, and the 48 square reaches 12 dp above it → #4 |
+| Error colours (outline, add-on dividers, counter) after `validate()` / `reset()` | ✓ One `pump()` after `validate()`: message, outline, divider and counter in error. After `reset()`: all default. Tests `validator: FormField is single source of error…` (`:766`), `errorText: Form.reset() clears…` (`:913`). **But** see #11: the colours are wrong when a parent changes `errorText`, and while typing with autovalidate |
+| Focus outline width around add-ons | ✓ Focused: add-on inset `BwBorder.widthFocus` on top, bottom and outer edge, inner radius `BwRadius.md - widthFocus` (`bw_field_addon.dart:30-76`, `bw_text_field.dart:350-366, 418-435`); focused + error also 2. Test `add-on inset and inner radius follow outline width…` (`:1116`; despite its name it checks default and focused only). Goldens "Focus with add-on" show 2 dp all round |
+| End button flush with the column edge | ✓ 360-wide column: en plain field 220–580, end-button field 220–503.8, button 502.8–580 (1 dp overlap, one seam); ar button 220–297.2, field 296.2–580. `_BwFieldEndButtonOverlap` (`bw_text_field.dart:749-823`). Test `end button meets column edge exactly in en and ar` (`:1084`) |
+| Spinner test fails for a spinner in a detached layer | ❌ Probe: a render object that paints a `CircularProgressIndicator` through its own `PaintingContext` into an `OffsetLayer` that is never added to the tree. The test's checks give `attached = true`, `debugNeedsPaint = false`, size 24 × 24, nearest `debugLayer` = the ancestor repaint boundary's `OffsetLayer`, `attached = true` → the test **passes for an invisible spinner** → #14. (Round 2's suggested "walk up to the first `debugLayer`" was not enough; the fault is in that advice, not in how it was followed) |
+
+#### Round 1 regression check
+
+Round 1 fixes hold: one `isTextField` node with name, value, helper / error / counter (tests `field and each action are separate labelled nodes`, `error and counter cases expose exactly one text-field node`); the help `GestureDetector` is `excludeFromSemantics` (`bw_field_label.dart:91-93`), so no extra node. Full Tab order, help after the label with `BwSpacing.xs`, label gap `BwSpacing.sm` with and without help (test `:732`), add-ons inside the outline, end-button `segment` with resolved radius (test `:987`), motion tokens (test `:1197`), `lib/biowave_mobile.dart` = export line only. `git diff main...HEAD` touches no file under `button/`, `icon/`, `icon_button/`, `split_button/`, `common/`.
+
+#### Goldens (checked by eye)
+
+| File | Result |
+|---|---|
+| `text-field-light-en.png` | ✅ Default, Focus (2 dp), Error, Disabled, Read-only, `https://` add-on, **Focus with add-on** (2 dp outline all round), **Error with add-on** (red outline and divider), `SAR` suffix, `Copy` end button (one seam, square inner corners, flush with the column), help icon right after "Work email", trailing action |
+| `text-field-light-ar.png` | ✅ Mirrored; add-ons and end button at the mirrored ends; LTR add-on text isolated |
+| `text-field-dark-en.png` | ✅ Dark tokens, readable error, disabled and add-on colours |
+| `text-field-dark-ar.png` | ✅ Dark + mirrored; no clipping or overflow |
+
+The goldens set `errorText` at first build, so #11 does not show in them.
+
+#### Acceptance criteria
+
+| AC | Result | Evidence (file:line / test name) |
+|---|---|---|
+| AC-1 Public API matches B1 | ✅ | Unchanged from Round 2 (`bw_text_field.dart:45-170`); tests `defaults match the contract`, `invalid combinations assert` |
+| AC-2 B2–B3 values from tokens; no raw values | ⚠️ | Source-policy test ✓; add-on focus inset ✓ (#12 fixed); end button flush ✓ (#13 fixed). B3 error colours for add-on dividers and counter wrong after a parent changes `errorText` and while typing with autovalidate (#11) |
+| AC-3 B4 transitions; reduced motion | ✅ | Test `transitions honour motion tokens and reduced motion`; `InputDecorator` not forked |
+| AC-4 RTL (B5); semantics, focus, targets (B6) | ❌ | RTL ✓ (`*-ar` goldens, test `RTL mirrors layout but not neutral glyphs`). Semantics ✓. Help target not a full 48 dp in ordinary layouts (#4). Password toggle moves focus into the field (#15) |
+| AC-5 analyze, test, sync, docs:check | ✅ | Checks table above |
+| AC-6 Exported; README row = header | ✅ | `lib/biowave_mobile.dart:16`; README row equalled the header before this review |
+| AC-7 Trailing action inside outline; disabled with field; neutral icons in error | ✅ | Test `field and action use mobile size tokens`; `onPressed: null` when disabled; `bw_text_field_decoration.dart` icon colours |
+| AC-8 Reuses BwButton, BwIconButton, BwFocusRing, BwControlSize; only the internal `segment` | ✅ | No shared file in the diff; `BwButtonSegment` not exported |
+
+#### Rule checks (AGENTS.md §2 and workflow rules)
+
+| Rule | Result | Notes |
+|---|---|---|
+| 1 No generated files edited | ✅ | Fix round 2 touched none |
+| 2–3 No raw values / no primitives | ✅ | Token math only geometric (`BwRadius.md - borderWidth`, `±BwBorder.widthDefault`) |
+| 4 RTL first | ✅ | `_BwFieldEndButtonOverlap` offsets by direction; add-on insets directional |
+| 5 Both themes, both languages tested | ✅ | 4 goldens (now with focused / error add-ons) + render matrix |
+| 6 Accessibility | ❌ | #4 (help target), #15 (toggle opens the keyboard) |
+| 7 Stay inside the contract | ⚠️ | #15: focusing the field from the password toggle is behaviour B6 does not ask for (B6 asks it only for clear) |
+| 8 One component per task | ✅ | Only text-field files, README row, CHANGELOG, run records |
+| 9 Changelog | ✅ | `CHANGELOG.md` "Fixed — Mobile Text field review round 2"; C8 Fix round 2 filled |
+
+#### Findings
+
+| # | Severity | File | Issue | Required change | Owner |
+|---|---|---|---|---|---|
+| 4 | 🟡 Should fix (still open) | `lib/src/components/text_field/bw_text_field.dart:696-745` (`_RenderBwTextFieldHitScope`), `:645-669` | The 48 square is now hit-tested at the `BwTextField` root, but the help centre sits 12 dp below the root's top edge, so the top 12 dp of the square is outside `BwTextField`'s box. A parent that checks its own size first (`SizedBox`, `ConstrainedBox`, a `ListView` item, sliver padding) drops those touches. Probe: in `SizedBox(width: 360)` and in a `ListView`, `tapAt(centre + (0, −20))`, `(±20, −20)`, `(0, −23)` → no tooltip. Real target ≈ 48 × 36 in common layouts. The test passes only because it wraps the field in `Padding(all: 32)` | Keep the whole 48 square inside `BwTextField`'s own box without changing the visible layout (label gap stays `BwSpacing.sm`, field height unchanged). For example, position the help so the square does not cross the top edge, or report the label row's extra height as hit-only space. Then test in a `ListView` and a tight `SizedBox` with no padding: `tapAt` at the four corners and the four edges of the square opens the tooltip and does not focus the field | Executor |
+| 11 | 🟡 Should fix (still open; new regression) | `bw_text_field.dart:197-204` (`_hasError`), `:256-258` (`_lastKnownErrorText`), `:568-575` (validator `setState`), `:614` | `validate()` / `reset()` now work, but `_hasError` reads `FormFieldState.hasError` in `BwTextField.build`. That runs **before** the inner `FormField` takes the new `forceErrorText` or re-validates, so the colours lag one change. `_lastKnownErrorText` always equals `widget.errorText` at build time, so its check never applies. Probes (`prefixText` + counter): parent sets `errorText: 'Bad'` → `null`: message and outline clear, **divider and counter stay error**; then `null` → `'Bad'`: message and outline red, **divider and counter default** (inverted). This is a regression: the `errorText` path worked in Round 2. Autovalidate `onUserInteraction`, focused, type an invalid value: message and outline red, divider stays focus colour, counter default, until focus leaves | Take every error colour from a value that is current in the same frame: e.g. `widget.errorText` when it is non-null, otherwise the `FormField`'s error **after** it has built (read it inside the `FormField` subtree, such as a builder below `TextFormField`, or `setState` from a listener once the field's error changes). Remove `_lastKnownErrorText`. Tests: parent toggles `errorText` on → off → on, and autovalidate typing an invalid then a valid value while focused; after each step assert outline, divider and counter colours | Executor |
+| 15 | 🟡 Should fix (new) | `bw_text_field.dart:299-306` (`_togglePassword`) | Tapping show / hide on an unfocused password field focuses it (probe: `hasFocus` false → true), which opens the on-screen keyboard. B6 asks the clear action to return focus to the field; it does not ask this of the password toggle (rule 7). The Tablet Round 3 probe treats the same effect as a defect | Toggle `obscureText` and keep the caret without calling `_focusNode.requestFocus()`. Focus stays where it was: an already-focused field stays focused, an unfocused field stays unfocused. Add a test: tap the toggle on an unfocused field → not focused; on a focused field → still focused, caret kept | Executor |
+| 14 | 🟢 Nit (still open) | `test/text_field_test.dart:1053-1082` | The nearest-`debugLayer` walk stops at the ancestor repaint boundary, which is attached even when the spinner is painted into an orphan layer (probe above). The test cannot catch the Tablet Round 1 bug | Check the picture really reaches the composited tree: e.g. a focused golden of a loading end button, or assert that `renderView.debugLayer` contains a `PictureLayer` whose bounds cover the spinner's global rect | Executor |
+
+#### Previous round
+
+| # | Status | Evidence |
+|---|---|---|
+| 4 🟡 | Still open (partly fixed) | Hit testing now reaches the help button in the whole square when the parent has space above the field (test `:404`, probe with `Padding`). The top 12 dp is dropped in a `ListView` or tight `SizedBox` (see #4) |
+| 11 🟡 | Still open | `validate()` / `reset()` fixed for validator and `errorText` (tests `:766`, `:913`, probe). Parent-driven `errorText` changes and focused autovalidate show wrong divider / counter colours (see #11) |
+| 12 🟡 | Fixed | Add-on inset and inner radius follow `BwBorder.widthFocus` when focused (`bw_field_addon.dart:30-76`, test `:1116`); goldens "Focus with add-on" and "Error with add-on" in all four files |
+| 13 🟢 | Fixed | End button outer edge = column edge in en and ar, 1 dp overlap kept (probe; test `:1084`) |
+| 14 🟢 | Still open | Radius part fixed (resolved `ButtonStyle.shape`, test `:987`). Spinner part: test passes for an orphan-layer spinner (see #14) |
+
+#### Notes
+
+- Fix round 2 was the last allowed fix round (`limits.maxFixRounds` = 2). The open items are all Executor and need a human decision at the after-review gate: allow one more fix round for #4, #11, #15 (and nit #14), or accept them as known issues.
+- No Planner items; Plan stays `Finished`.
+- Figma build (Part D) not reviewed: `Figma build = Planned`.
 
 ---
 
