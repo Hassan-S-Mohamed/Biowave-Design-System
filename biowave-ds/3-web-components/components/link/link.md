@@ -15,10 +15,10 @@
 | Figma | **Biowave DS — Web Components** › `↳ Link` · build: [Part D](#d--figma-build) |
 | Version | 1.0 · 2026-10-21 |
 | Plan | Finished |
-| Code | Changes requested |
+| Code | Built |
 | Figma build | Planned |
 | Review | Round 1 · 2026-10-24 · Changes requested |
-| Source code | `src/components/link/` — not built yet (the Executor creates it) |
+| Source code | `src/components/link/` (built) |
 | Tokens | — (no component tokens: every value is a shared semantic token, P-04) |
 | Contracts | [`link-contract.md`](link-contract.md) · [`figma-link-contract.md`](figma-link-contract.md) — generated, never edited |
 | Docs page | [`link.html`](link.html) |
@@ -495,6 +495,17 @@ Implement every item in B9, plus:
 | Built | Web Link 1.0: token-only inline and standalone styling, every API fallback, external and router behavior, disabled and visited states, localized accessibility, RTL icon handling, public exports, and contract coverage. |
 | Files changed | `3-web-components/src/components/link/Link.tsx`, `link.tokens.ts`, `Link.test.tsx`, `index.ts`; `3-web-components/src/index.ts`; `3-web-components/README.md`; `3-web-components/components/link/link.md`; `CHANGELOG.md` |
 | Checks | `npm run component-tokens` ✓; `npm run sync` ✓ READY; `npm run docs:check` ✓; `npm run typecheck` ✓; `npm run test:web` ✓ 123/123 |
+
+#### Fix round 1 — 2026-10-24
+
+| Finding | What changed (`file:line`) | Test that proves it |
+|---|---|---|
+| #1 🟡 | Removed the synthesized external-link `aria-label`; the visible label and visually hidden suffix now form the accessible name, while a consumer `aria-label` passes through unchanged (`Link.tsx:290`, `Link.tsx:299-307`). | `Link.test.tsx:344` — `renders safe external links with localized and overridden accessible suffixes` covers EN, AR, an overridden suffix, and an unchanged consumer label. |
+| #2 🟢 | Removed disabled `tabIndex={-1}` so an anchor without `href` is naturally outside the tab order (`Link.tsx:286-292`). | `Link.test.tsx:393` — `removes disabled navigation and activation from the tab order`; assertions at `:409` and `:590` require no `tabindex`. |
+| #3 🟢 | Gave empty and non-string labels separate `warnOnce` keys so each invalid case proves its own warning (`Link.tsx:255-259`). | `Link.test.tsx:575-580` asserts the non-string case emits `Link needs a text label` and increments the warning count. |
+| #4 🟢 | Updated the header Source code field to point to the built component (`link.md:21`). | `npm run docs:check` ✓. |
+
+Fix checks: `npm run docs:check` ✓; `npm run typecheck` ✓; `npm run test:web` ✓ 123/123 (default timeouts).
 
 **Deviations from the plan or spec** (with reason — the Planner updates the spec if accepted):
 - none

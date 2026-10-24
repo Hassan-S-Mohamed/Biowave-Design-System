@@ -253,7 +253,10 @@ const LinkInternal = React.forwardRef<HTMLAnchorElement, LinkInternalProps>(func
     );
   }
   if (typeof children !== 'string' || children.length === 0) {
-    warnOnce('link-text-label', 'Link needs a text label');
+    warnOnce(
+      typeof children === 'string' ? 'link-text-label-empty' : 'link-text-label-non-string',
+      'Link needs a text label',
+    );
   }
   if (missingDestination) {
     warnOnce('link-href', 'Link needs an href');
@@ -284,11 +287,8 @@ const LinkInternal = React.forwardRef<HTMLAnchorElement, LinkInternalProps>(func
       target={external && !effectiveDisabled ? '_blank' : undefined}
       rel={external && !effectiveDisabled ? 'noopener noreferrer' : undefined}
       role={effectiveDisabled ? 'link' : undefined}
-      aria-label={
-        external ? `${ariaLabel ?? String(children)} ${effectiveExternalLabel}` : ariaLabel
-      }
+      aria-label={ariaLabel}
       aria-disabled={effectiveDisabled ? true : undefined}
-      tabIndex={effectiveDisabled ? -1 : undefined}
       onClick={handleClick}
     >
       {effectiveStartIcon ? (
@@ -299,8 +299,11 @@ const LinkInternal = React.forwardRef<HTMLAnchorElement, LinkInternalProps>(func
       <span className="bw-link__label">{children}</span>
       {external ? (
         <>
-          <span className="bw-link__external-label" style={visuallyHidden}>
-            {` ${effectiveExternalLabel}`}
+          <span
+            className="bw-link__external-label"
+            style={{ ...visuallyHidden, display: 'block' }}
+          >
+            {effectiveExternalLabel}
           </span>
           <span className="bw-link__icon bw-link__external-icon" aria-hidden="true">
             <Icon name="open_in_new" directional />

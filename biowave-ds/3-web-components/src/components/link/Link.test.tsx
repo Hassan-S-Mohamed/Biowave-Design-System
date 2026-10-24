@@ -377,6 +377,17 @@ describe('Link behavior and accessibility', () => {
     );
     expect(screen.getByRole('link', { name: 'Help New window' })).toBeInTheDocument();
     override.unmount();
+
+    const consumerLabel = renderWithBiowave(
+      <Link href="https://example.com" size="md" external aria-label="Support portal">
+        Contact support
+      </Link>,
+    );
+    expect(screen.getByRole('link', { name: 'Support portal' })).toHaveAttribute(
+      'aria-label',
+      'Support portal',
+    );
+    consumerLabel.unmount();
   });
 
   it('removes disabled navigation and activation from the tab order', async () => {
@@ -395,7 +406,7 @@ describe('Link behavior and accessibility', () => {
     expect(disabled).not.toHaveAttribute('href');
     expect(disabled).toHaveAttribute('role', 'link');
     expect(disabled).toHaveAttribute('aria-disabled', 'true');
-    expect(disabled).toHaveAttribute('tabindex', '-1');
+    expect(disabled).not.toHaveAttribute('tabindex');
     expect(fireEvent.click(disabled)).toBe(false);
     expect(onClick).not.toHaveBeenCalled();
 
@@ -565,17 +576,18 @@ describe('Link validation fallbacks', () => {
       <Link href="/number">{42 as unknown as string}</Link>,
     );
     expect(nonString.container.querySelector('a')).toHaveTextContent('42');
-    expect(warn).toHaveBeenCalledTimes(5);
+    expect(warn).toHaveBeenLastCalledWith('Link needs a text label');
+    expect(warn).toHaveBeenCalledTimes(6);
     nonString.unmount();
 
     const missingHref = renderWithBiowave(<Link>Missing href</Link>);
     missingHref.rerender(<Link>Missing href</Link>);
     const fallback = screen.getByRole('link', { name: 'Missing href' });
     expect(warn).toHaveBeenCalledWith('Link needs an href');
-    expect(warn).toHaveBeenCalledTimes(6);
+    expect(warn).toHaveBeenCalledTimes(7);
     expect(fallback).not.toHaveAttribute('href');
     expect(fallback).toHaveAttribute('aria-disabled', 'true');
-    expect(fallback).toHaveAttribute('tabindex', '-1');
+    expect(fallback).not.toHaveAttribute('tabindex');
 
     warn.mockRestore();
   });

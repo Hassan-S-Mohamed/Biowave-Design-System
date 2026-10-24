@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Fixed — Web Link review round 1] — 2026-10-24
+### Fixed
+- Fixed all four Executor findings from review round 1: external accessible names now come from the visible label plus the localized visually hidden suffix while consumer `aria-label` values pass through unchanged; disabled links no longer receive `tabIndex=-1`; empty and non-string label warnings use independently testable once-only keys; and the component header points to the built source. `docs:check` ✓, `typecheck` ✓, `test:web` 123/123 ✓ at default timeouts.
+
 ## [Review — Web Link round 1: Changes requested] — 2026-10-24
 ### Changed
 - Link (web) review round 1: **Changes requested** — Part E2 of `3-web-components/components/link/link.md`. Headless Chrome confirms B2–B5 in light/en and dark/ar (24 px target, action-sm|md|lg, 16/16/20 px icons, 1→2 px underline at 2 px offset, 2 px focus ring at 2 px offset, one RTL flip by the Icon). 🟡 #1: external links build their name with an `aria-label` on top of the B6 hidden span; 🟢 #2–4: disabled `tabIndex=-1`, non-string label warning test, stale `Source code` header field. Code → Changes requested (header + README). `docs:check` ✓, `typecheck` ✓, `test:web` 123/123 ✓.
