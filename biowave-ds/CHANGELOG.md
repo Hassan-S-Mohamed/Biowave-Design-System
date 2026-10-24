@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Review — Web Badge round 1] — 2026-10-24
+### Changed
+- Reviewed web `Badge` 1.0 (round 1, `badge.md` › E2): **Approved** — AC-1…AC-7 met; sizes, tokens, ring, placement (en/ar, both overlaps), focus, hit-testing and enter/exit/reduced motion measured in headless Chrome; docs:check, typecheck, test:web 121/121 pass. Code → `Approved`; Plan → `Open` for 3 Planner nits (B6/A9 contrast wording for light `count` × `warning` 2.20:1, hidden standalone space, stale Source code header row); 2 Executor nits (unreachable icon tokens, three declaration-only tests)
+
 ## [Code — Web Badge 1.0] — 2026-10-24
 ### Added
 - Built and exported the web `Badge` on MUI Badge with count, dot and Check variants; contract colour fallbacks; tokenized dimensions, ring and enter/exit motion; logical rectangular/circular placement and standalone flow; RTL-safe counts and positioning; accessible descriptions; development warnings; and 14 Badge tests covering every allowed variant/colour across both themes and languages, fallbacks, motion, layout and axe.

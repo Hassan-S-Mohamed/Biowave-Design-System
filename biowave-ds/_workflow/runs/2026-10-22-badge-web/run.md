@@ -16,6 +16,7 @@
 | 06 | implement | codex | stopped partway: Codex usage limit, no Handoff (partial code kept) | — | — | `06-implement-codex.prompt.md` |
 | 07 | implement | cursor | stopped at once: Cursor usage limit | — | — | `07-implement-cursor.prompt.md` |
 | 08 | implement | codex | done (2026-10-24): web Badge built from contract 1.0, continuing the partial step-06 code; C8 filled; Code Built | docs:check ✓ · typecheck ✓ · test:web ✓ 121/121 (orchestrator) | see git log | `08-implement-codex.prompt.md` |
+| 09 | review | claude (wf-reviewer subagent) | done (2026-10-24) · **Approved** — Round 1: AC-1…AC-7 met; headless Chrome: count 20×20 (`99+` 31.2 wide), dot 8×8, check 20×20 + 16 px glyph, 7 colours = B3 both themes, 2 px ring anchored only, centre on the anchor's top-end corner (EN/AR), anchor unchanged, motion 0.2/0.1 s, reduced motion instant. 🟢 only: #1 Planner — light `count` × `warning` indicator 2.20:1 vs B6's 3:1; #2 Planner — hidden standalone badge keeps its space; #3 Planner — header Source code stale; #4 Executor — unreachable icon token for error/warning; #5 Executor — 3 B9 tests check declarations, not behaviour. Code → Approved; reviewer set Plan → Open (Planner nits) | docs:check ✓ · typecheck ✓ · test:web ✓ 121/121 | see git log | `09-review-claude.prompt.md` |
 
 ## Gates
 

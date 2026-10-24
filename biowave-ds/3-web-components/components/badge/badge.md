@@ -14,10 +14,10 @@
 | Import | `import { Badge } from '@biowave/web'` |
 | Figma | **Biowave DS — Web Components** › `↳ Badge` · build: [Part D](#d--figma-build) |
 | Version | 1.0 · 2026-10-21 |
-| Plan | Finished |
-| Code | Built |
+| Plan | Open |
+| Code | Approved |
 | Figma build | Planned |
-| Review | — |
+| Review | Round 1 · 2026-10-24 · Approved |
 | Source code | `src/components/badge/` — not built yet (the Executor creates it) |
 | Tokens | — (no component tokens: every value is an existing semantic token, P-04) |
 | Contracts | [`badge-contract.md`](badge-contract.md) · [`figma-badge-contract.md`](figma-badge-contract.md) — generated, never edited |
@@ -630,7 +630,90 @@ Component description: "Marks an element with a count, a dot or a check (Check b
 
 | Round | Date | Code verdict | Figma verdict |
 |---|---|---|---|
-| — | — | not reviewed | not reviewed |
+| 1 | 2026-10-24 | **Approved** | not reviewed |
+
+### E2 Round 1 — 2026-10-24
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 1.0 |
+| Spec version reviewed | 1.0 |
+| Reviewer | Claude |
+| Date | 2026-10-24 |
+| Verdict | **Approved** — every AC met and measured in a real browser; no 🔴/🟡 finding. 3 Planner nits (spec wording / gaps) and 2 Executor nits (test strength, dead values) |
+
+Commands run by the Reviewer on branch `ds/badge-web` at `045354c` (implement commit = latest; the branch changes only `src/components/badge/{Badge.tsx,Badge.test.tsx,index.ts}` and `src/index.ts` in `3-web-components/src`):
+`npm run docs:check` ✅ 21 component files · `npm run typecheck` ✅ · `npm run test:web` ✅ **121/121**, 9 files, 6.86 s, default timeouts, first run (load average 5.2). Badge alone: 14/14 in ~1.0 s; no timeout arguments in `Badge.test.tsx`; every render goes through `renderWithBiowave`.
+Real browser: my own headless Chrome 154 (`--headless=new`, driven over CDP, not the shared pane), the real `Badge` / `IconButton` / `Icon` from `3-web-components/src` inside `BiowaveProvider` with the generated `tokens.css` + `icons.css`, served by a scratch Vite config outside the repo, 1200 × 900 viewport, en/light · ar/light · en/dark · ar/dark, `prefers-reduced-motion` emulated as `no-preference` and `reduce`.
+
+**Leftovers from the three-agent build (Codex → Cursor → Codex):** none found. The branch adds exactly the four C5 files; no stray files, no `TODO`/`console.log`/`debugger`, no `@mui/icons-material`, no extra exports, working tree clean. C8 names only Codex as agent (the hand-overs are in the run record only) — not a finding.
+
+#### Acceptance criteria
+
+| AC | Result | Evidence (file:line / test name) |
+|---|---|---|
+| AC-1 API = B1 (names, types, defaults, fallbacks, warnings) | ✅ | Props and defaults `Badge.tsx:22-34, 197-211` (`variant='count'`, `max=99`, `showZero=false`, `invisible=false`, colour default `error` / `success` for check `:183`); `className`, `data-*`, `ref` forwarded to the root span (`:313-315`; tests *labels a visible standalone badge…*, *forwards the root ref*). All 8 B1 fallbacks + one `warnOnce` each `:222-278` (dev-only via `internal/warnOnce.ts`); test *warns once for every invalid combination and renders each fallback* (8 calls for 16 renders). Browser: check × `error`/`warning` render success green, dot × `warning` renders error red. Type test *allows runtime color fallbacks but rejects unknown colors at the type level* (C6) |
+| AC-2 B2–B3 values from tokens; no raw values / primitives | ✅ | `Badge.tsx:52-98, 107-158` — `cssVars.*` only; guard test *contains no raw colors, pixel dimensions, durations, font names, or legacy icons*. Browser (all 4 theme × language combos): count 20 × 20 (`size-icon-md`), `99+` 31.17 × 20 (grows), padding-inline 4 px (`spacing-xs`); dot 8 × 8 (`spacing-md`); check 20 × 20 with the glyph 16 px (`size-icon-sm`, Icon `size` unset); radius 9999 px; count text 12 px / line-height 16 px en · 18 px ar / weight 500 / `tabular-nums` — the `.bw-text-data-sm` rule wins over MUI's badge font (Emotion caches `prepend: true`). Backgrounds and text/icon colours equal the B3 tokens in light and dark for all 7 colours (e.g. light error `rgb(212,34,34)` / white, dark error `rgb(255,118,118)` / `rgb(10,10,10)`). Ring `0 0 0 2px` `color-border-inverse` (`#FFFFFF` light, `#0A0A0A` dark), anchored only; standalone `box-shadow: none` |
+| AC-3 B4 transitions; no first-paint animation; reduced motion | ✅ | `Badge.tsx:111-113, 152-170`. Browser, sampled every frame: **exit** `0.1s cubic-bezier(0.3,0,1,1)` (`sm` + accelerate), scale 1 → 0 done at ~124 ms; **enter** `0.2s cubic-bezier(0,0,0,1)` (`md` + decelerate), 0 → 1 done at ~217 ms; first paint: scale 1, `getAnimations()` empty. During exit the old content stays (count→0 still shows `3` while shrinking). Reduce: both durations `0s`, first frame already final. Test *uses distinct token transitions for enter and exit…* (see nit 5) |
+| AC-4 RTL = B5; a11y = B6 (axe clean) | ✅ | Placement `Badge.tsx:121-122, 145-150, 172-174`. Browser: indicator centre = anchor top-end corner exactly — en `(168, 208)` = button right/top, ar `(1032, 208)` = button left/top (`translate(-50%,-50%)`); circular centre `(250.17, 213.83)` vs expected 14.6 % point `(250.16, 213.84)`; dot centre on the corner too. `99+` inside `<bdi dir="ltr">` reads `99+` in ar. Check glyph `transform: none` in RTL (test *keeps the check icon non-directional in RTL*). Standalone in ar sits at the inline end (left of the text). B6: indicator `aria-hidden="true"`; `aria-describedby` appended after existing ids and removed while hidden, back when visible (browser + test *appends and removes the anchored description…*); standalone `role="img"` + `aria-label`, removed while hidden; never focusable (0 focusable badge nodes); axe test 4 combos ✅. Contrast measured: count text ≥ 4.5:1 for every colour in both themes (lowest dark brand 4.65:1); indicator vs `color-surface-default` ≥ 3:1 except light `warning` 2.20:1 — see nit 1 |
+| AC-5 B9 + C6 tests exist and pass; checks pass | ✅ | All 10 B9 items and both C6 items have a test (`Badge.test.tsx:85-473`); `src/test/noLegacyIcons.test.ts` passes. docs:check, typecheck, test:web ✅ above. Strength of three placement/motion assertions: nit 5 |
+| AC-6 Exported; README status | ✅ | `src/index.ts:7-13` (alphabetical, first), `src/components/badge/index.ts`; README row = header (Code set to Approved by this review) |
+| AC-7 Anchor untouched except `aria-describedby` | ✅ | `Badge.tsx:293-299` clones with only `aria-describedby`; test keeps `className` and `onClick`. Browser: anchored IconButton 40 × 40 = same button without a badge 40 × 40, root 40 × 40; `elementFromPoint` inside the indicator over the button returns the BUTTON (`pointer-events: none`, en + ar); Tab to the anchored button: `:focus-visible`, `outline: solid 2px` `color-border-focus` (`#254471` light, `#90A3BC` dark), offset 2 px — unchanged, the indicator covers only the corner |
+
+#### Rule checks (AGENTS.md §2)
+
+| Rule | Result | Notes |
+|---|---|---|
+| No generated files edited | ✅ | Implement commit touches the 4 source files, C8, README row, CHANGELOG, run record |
+| No raw values / no primitives | ✅ | `cssVars.*` semantic tokens only; `14.6%` is the B2 geometric ratio (not a dimension); guard test passes |
+| RTL first (logical properties) | ✅ | `blockSize`, `minInlineSize`, `paddingInline`, `insetBlockStart`, `insetInlineEnd`; physical `top/right/bottom/left` only set to `unset` to cancel MUI's anchor origin; RTL translate via `[dir='rtl'] &` (B5) |
+| Both themes, both languages, tested | ✅ | Render matrix and axe in light + dark × en + ar; browser checked all four |
+| Accessibility WCAG 2.2 AA | ✅ | B6 measured above; reduced motion instant; not a target, not focusable. Light count × `warning` shape contrast: nit 1 |
+| Biowave `Icon` (D-18) | ✅ | `<Icon className="bw-badge-check-icon" name="check" />` `Badge.tsx:290`; no `@mui/icons-material` |
+| Tests via `renderWithBiowave`, default timeouts | ✅ | No `render` from RTL directly, no timeout arguments |
+| Stayed inside the contract / one component | ✅ | No change to Icon, IconButton or any other component |
+| Changelog | ✅ | `CHANGELOG.md` › *Code — Web Badge 1.0* |
+
+#### Figma build (Part D)
+
+Skipped — Figma build is `Planned`.
+
+#### Probe evidence
+
+```
+Headless Chrome 154, 1200×900, real Badge in BiowaveProvider + tokens.css
+  count  en/light  error 20.00×20.00  pad-inline 4px  bg rgb(212,34,34)  text #fff  12px/16px 500 tabular-nums
+         "99+"     31.17×20.00   <bdi dir=ltr>       ar: 12px/18px IBM Plex Sans Arabic, still "99+"
+  dot    8.00×8.00  pad 0     check 20.00×20.00, glyph 16px, transform none (ar)
+  anchored IconButton 40×40 (plain 40×40)  root 40×40
+    en  indicator centre (168,208) = button top-right   transform matrix(1,0,0,1,10,-10)
+    ar  indicator centre (1032,208) = button top-left   transform matrix(1,0,0,1,-10,-10)
+    circular (250.17,213.83) vs 14.6% point (250.16,213.84)
+    ring rgb(255,255,255) 0 0 0 2px (light) · rgb(10,10,10) (dark)   z-index 1  pointer-events none
+    elementFromPoint inside indicator → BUTTON (en, ar)
+  focus (Tab)  :focus-visible  outline solid 2px rgb(37,68,113) offset 2px (light) · rgb(144,163,188) (dark)
+  motion  exit 0.1s cubic-bezier(0.3,0,1,1) scale→0 at ~124ms · enter 0.2s cubic-bezier(0,0,0,1) →1 at ~217ms
+          reduce: 0s, first frame final · first paint: no animation
+  standalone invisible: root width 23.45px visible → 23.45px hidden
+Contrast (WCAG)  text/indicator   indicator/surface-default
+  light warning   8.99            2.20  ← below B6's 3:1
+  dark brand      4.65            4.33  (lowest dark pair)
+  all others      ≥ 5.18          ≥ 5.18
+```
+
+#### Findings
+
+| # | Severity | File | Issue | Required change | Owner |
+|---|---|---|---|---|---|
+| 1 | 🟢 Nit | `badge.md` B6 › Contrast · A9 | B6 asks indicator vs `color-surface-default` ≥ 3:1 "for every allowed `color` × `variant`", and A9 says this rule is "why `warning` is `count` only" — but `count` × `warning` is allowed and measures **2.20:1** in light (`color-background-warning-default` on `#FFFFFF`). The code uses the B3 tokens correctly; the spec contradicts itself. A4.2 shows the intent (the dark text, 8.99:1, carries the meaning; the shape alone is too light) | Reword B6 / A9: the 3:1 shape rule applies to `dot` and `check`; `count` × `warning` relies on its text (≥ 4.5:1 on the indicator) — or drop `warning` from `count`. Part A change goes to all three platform files | Planner |
+| 2 | 🟢 Nit | `badge.md` B2 / B4 | A hidden **standalone** badge keeps its inline space: `position: static` + `scale(0)` leaves a 23.45 px blank after the text (browser, "Requests ⎵⎵⎵"). The spec does not say whether a hidden standalone badge should keep or release its space | State it in B2/B4 (keep the space to avoid text reflow, or collapse after the exit transition) | Planner |
+| 3 | 🟢 Nit | `badge.md` header | Header row "Source code — `src/components/badge/` — not built yet (the Executor creates it)" is stale; the code exists | Link `src/components/badge/` as the other built components do | Planner |
+| 4 | 🟢 Nit | `Badge.tsx:72-77, 90-96` · `Badge.test.tsx:29-53` | `getColorTokens` gives `error` and `warning` an `icon` value of `cssVars.color.text.on.*` — a token B3 does not list for `check-icon` ("— not allowed"). It is unreachable (B1 fallback turns check × error/warning into success) and the test table copies it | Drop the `icon` value for those two colours (or make it optional) so no unlisted token sits in the component; update the test table | Executor |
+| 5 | 🟢 Nit | `Badge.test.tsx:181-225, 252-257, 269-294` | Three B9 items are asserted by declarations, not behaviour: (a) "anchor box size is the same with and without the badge" checks the anchor's own inline style, which the test itself set; (b) "a click on the badge reaches the anchor's handler" clicks the anchor, not the badge area; (c) "first render has no animation" matches `Badge.tsx` source text including exact line breaks, so a formatter run breaks the test. jsdom has no layout, and the real browser confirms all three (probe above) | (a) compare the anchor's computed styles with and without `Badge`, or assert the root adds no padding/border and the indicator is out of flow; (b) jsdom has no hit testing, so name the assertion for what it checks (`pointer-events: none` declared, anchor `onClick` kept) rather than "click on the badge"; (c) use a whitespace-tolerant regex or a behavioural check | Executor |
+
+#### Next step
+
+- Approved → Code `Approved` (header + README). Planner nits 1–3 → Plan `Open` (AGENTS.md §3: a review that sends Planner items back reopens the plan); the Planner rewords B6/A9, adds the B2/B4 line and the header link, sets `Finished` and regenerates the contracts. Executor nits 4–5 can ride along with the next touch of `Badge.tsx`; not required for this unit. Figma build is still `Planned` and not reviewed.
 
 ---
 
