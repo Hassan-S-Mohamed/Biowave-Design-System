@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Review — Tablet Text field round 1: Changes requested] — 2026-10-24
+### Changed
+- Text field (tablet) review round 1: **Changes requested**, in Part E2 of `4-tablet-components/components/text-field/text-field.md`. 🔴 #1 `validator` never fails `Form.validate()`; 🔴 #2 affix text leaks into the visible placeholder and is read twice; 🔴 #3 the end-button corner-squaring painter drops composited layers (loading spinner invisible); 🟡 #4 (Planner) C3/C5 give no supported way to square `BwButton` corners; 🟡 #5 (Planner) `placeholder` is missing from Tablet B1; 🟡 #6 the affix golden demo puts `https://` on a SAR hourly rate; 🟡 #7 disabled-focus and new behaviours are not tested; 🟢 #8–#11 nits. The 5 round-1 build test failures were fixed in code, not by weakening tests. Plan → Open, Code → Changes requested (header + README). `docs:check` ✓, `flutter analyze` ✓, `flutter test` 181/181 ✓.
+
 ## [Tablet Text field — implementation] — 2026-10-24
 ### Added
 - Built Tablet `BwTextField` (`BwTextField`, `BwTextFieldAction`, `BwTextFieldEndButton`) and package-private shared field parts (`BwFieldLabel`, `BwFieldAddon`, `BwFieldAction`, `BwFieldSupporting`, `BwTextFieldDecoration`) in `4-tablet-components/lib/src/components/text_field/`, exported from `package:biowave_tablet/biowave_tablet.dart`, with B9/C6 unit, widget, semantics, accessibility guideline, RTL, and light/dark × en/ar golden coverage in `4-tablet-components/test/text_field_test.dart` (`Code: Built`).

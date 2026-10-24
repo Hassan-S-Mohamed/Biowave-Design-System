@@ -14,10 +14,10 @@
 | Import | `BwTextField` from `package:biowave_tablet/biowave_tablet.dart` |
 | Figma | **Biowave DS — Tablet Components** › `↳ Text field` (page Typography mode `Tablet`) · build: [Part D](#d--figma-build) |
 | Version | 1.1 · 2026-10-18 (first Tablet version; same guidelines version as Web 1.1) |
-| Plan | Finished |
-| Code | Built |
+| Plan | Open |
+| Code | Changes requested |
 | Figma build | Planned |
-| Review | — |
+| Review | Round 1 · 2026-10-24 · Changes requested |
 | Source code | `lib/src/components/text_field/` — not built yet (the Executor creates it) |
 | Tokens | [`text-field.tokens.json`](text-field.tokens.json) — extends the Web file (D-13) |
 | Contracts | [`text-field-contract.md`](text-field-contract.md) · [`figma-text-field-contract.md`](figma-text-field-contract.md) — generated, never edited |
@@ -603,7 +603,96 @@ Component description: “Enters or edits short and multiline text with persiste
 
 | Round | Date | Code verdict | Figma verdict |
 |---|---|---|---|
-| — | — | not reviewed | not reviewed |
+| 1 | 2026-10-24 | Changes requested | not reviewed |
+
+### E2 Round 1 — 2026-10-24
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 1.1 · 2026-10-18 |
+| Spec version reviewed | 1.1 |
+| Reviewer | Claude |
+| Date | 2026-10-24 |
+| Code reviewed | `git diff main...ds/text-field-tablet` (HEAD `ec58464`, Implementer rounds 1–2 in one commit) + working tree (clean at review start) |
+| Verdict | **Changes requested** — 3 🔴, 4 🟡, 4 🟢 (#1–#11); Planner items #4, #5, #10, #11 → Plan `Open` |
+| Evidence | Run by the Reviewer in the `ds/text-field-tablet` worktree: `npm run docs:check` ✅ · `flutter analyze` ✅ no issues · `flutter test` ✅ 181/181 (includes the 4 text-field goldens). Behaviour probes: throw-away tests in the scratchpad (copy of `lib/` + test helpers, outside the repo) — results quoted in the findings. The four goldens checked by eye (below) |
+
+#### Previous round findings
+
+None — first round.
+
+#### Round 2 build fixes (the 5 failing tests) — fixed in code, not by weakening tests
+
+Only one commit exists on the branch, so the round-1 test text cannot be diffed; each current test was read against the contract and the code path was checked.
+
+| Failure | Status | Evidence |
+|---|---|---|
+| Action inset 28 → 4 | ✅ Code | `bw_field_action.dart:92-98` end padding `metrics.actionInset` (`BwSpacing.xs`) with `endPadding` 0 when an action is present (`bw_text_field_decoration.dart` `resolve`, `endPadding`). Test (`text_field_test.dart:469-531`) still asserts exact equality `== BwSpacing.xs` per locale, size and multiline |
+| Help-icon label `''` | ✅ Code | `bw_field_label.dart:146-164` — `Tooltip(excludeFromSemantics: true)` around `BwFieldTargetBox` (`bw_field_action.dart:171-176`, semantic boundary + merge) holding `BwIconButton(label: resolvedHelpLabel)`. Test `:589` asserts the exact string `'More information about Work email'`, button flag and tap action |
+| Disabled focusability | ✅ Code | Help icon reachable by Tab (test `:688-701` asserts `isFocused`). Reviewer probe: disabled field with help icon + action + end button followed by a second field — Tab 1 → help icon, Tab 2 → the next field (disabled field, action and end button skipped). Test is weaker than B9 here — see #7 |
+| Unlabelled tap target | ✅ Code | md hit-area `GestureDetector(excludeFromSemantics: true)` `bw_text_field.dart:754-768`; `labeledTapTargetGuideline` still runs for both sizes and themes (`:790-831`) |
+| Password toggle label | ✅ Code | `bw_text_field.dart:345-351`, `:469-482` (`toggle: true`, `selected`). Test `:900-953` asserts exact `'Show password'` → `'Hide password'`, `toggled` false → true, caret offset 4 kept, focus kept |
+
+#### Acceptance criteria
+
+| AC | Result | Evidence (file:line / test name) |
+|---|---|---|
+| AC-1 API = B1 | ❌ | Names/defaults `bw_text_field.dart:46-90`, asserts `:91-136`, release fallbacks `:197-234`; tests "uses documented defaults", "asserts every invalid combination". But `validator` does not "work inside `Form`" (#1), and an unplanned public `placeholder` param exists (`:88`, `:179`) — #5 |
+| AC-2 B2–B3 tokens only | ✅ | `bw_text_field_decoration.dart` size metrics `:217-262`, state tokens `:270-360`; tests "tokenAliases equals text-field.tokens.json", "bw_text_field_decoration unit test…", "no raw colours, sizes or durations in the source" |
+| AC-3 B4 transitions; reduced motion | ✅ | `BwDuration.sm` / `BwEasing.standard`, `BwDuration.instant` under `context.bw.reduceMotion` (`bw_field_supporting.dart`, `bw_field_addon.dart:76-77`, `bw_field_label.dart:144`); test "honours reduced motion". Note #11 (InputDecorator's own border animation) |
+| AC-4 RTL B5; a11y B6 | ❌ | RTL ✅ (`EdgeInsetsDirectional` / `BorderRadiusDirectional` throughout; test "RTL: layout mirrored, icons not mirrored, LTR content isolated"; `ar` goldens mirrored). A11y: one text-field node named by label (+ required), helper/error/counter read with it, separate labelled help / trailing action / end-button nodes with tap + focus ✅ (tests `:559-642`, `:719-788`); disabled rules ✅ (probe). ❌ affix text is read twice (in label and hint) and leaks into the visible placeholder — #2 |
+| AC-5 checks pass | ✅ | `docs:check`, `flutter analyze`, `flutter test` 181/181 (Reviewer run). `npm run sync` READY per C8, not re-run (not in this platform's checks) |
+| AC-6 export + README | ✅ | `lib/biowave_tablet.dart:15`; README row = header (now `Changes requested`, `docs:check` keeps them equal) |
+| AC-7 trailing action inside outline; disabled with field; neutral icons in error | ✅ | Test `:469-531` (inside outline, inset `xs`, every size, single + multiline, en + ar); `onPressed: null` when disabled `bw_text_field.dart:481`, `:492`, `:502`; error icon colours `bw_text_field_decoration.dart` state `error` uses `iconNeutralMuted`; error goldens show neutral leading icon |
+| AC-8 reuse; private parts not exported | ❌ | `BwButton`, `BwIconButton`, `BwIcon`, `BwFocusRing` (via the buttons), `BwControlSize` reused, none changed (no diff under `button/`, `icon/`, `icon_button/`); only `bw_text_field.dart` exported. ❌ the end button is wrapped in a canvas-intercepting painter that breaks `BwButton` painting (#3) |
+
+#### Goldens (checked by eye)
+
+| File | Result |
+|---|---|
+| `text-field-light-en.png` | ✅ Default (help icon, required `*`, leading icon, placeholder, helper), Focused (2px focus border, clear action), Error (error border, error icon + text, counter), Disabled, Read-only + `Copy` end button (shared border, square seam), Password with toggle, multiline with clear + counter. ❌ Affix demo: "Hourly rate (MD)" with `https://` prefix **and** `SAR` suffix (#6) · 🟢 supporting-row start offset differs (#8) |
+| `text-field-light-ar.png` | ✅ Mirrored: labels, icons at inline start/end, end button on the left with square right corners, counter LTR, `https://` / `SAR` isolated LTR. Same #6 / #8 |
+| `text-field-dark-en.png` | ✅ Dark tokens (borders, fills, disabled, add-on background, error colour readable) |
+| `text-field-dark-ar.png` | ✅ Dark + mirrored; no clipping or overflow, real fonts |
+
+#### Rule checks (AGENTS.md §2)
+
+| Rule | Result | Notes |
+|---|---|---|
+| No generated files edited | ✅ | No `generated/`, `dist/`, contract or HTML shell in the diff |
+| No raw values / no primitives | ✅ | Guard test passes; no `BwPalette`, no `Color(0x` |
+| Logical properties, RTL icons | ✅ | See AC-4 |
+| Light + dark, en + ar tested | ✅ | Property tests + 4 goldens |
+| Accessibility | ❌ | #2 (affix read twice); otherwise B6 met |
+| Stayed inside the contract | ❌ | Unlogged `placeholder` param (#5); C8 says "Deviations: none" |
+| One component per task | ✅ | Only unit files, the export line, the README row, one CHANGELOG entry, run records |
+| Changelog | ✅ | `CHANGELOG.md` "[Tablet Text field — implementation] — 2026-10-24"; C8 filled |
+
+#### Findings
+
+| # | Severity | File | Issue | Required change | Owner |
+|---|---|---|---|---|---|
+| 1 | 🔴 Blocker | `lib/src/components/text_field/bw_text_field.dart:728-742` | The `validator` wrapper always returns `null` to `TextFormField` and shows the message through a post-frame `setState`. So `FormState.validate()` returns **true** while the error is on screen. Reviewer probe: `Form` + `validator: (v) => v.isEmpty ? 'Required' : null`, empty field → `validate()` = `true`, "Required" shown. B1 says the validator "works inside `Form`". A form with invalid fields can be submitted | Return the validator result to the `FormField` (e.g. pass `widget.validator` through and read `FormFieldState.errorText` for the decoration / semantics, or use `forceErrorText` for `errorText`), so `validate()` is false when a message is returned. Add tests: `validate()` false + error shown; true + no error after a fix; `autovalidateMode.onUserInteraction` | Implementer |
+| 2 | 🔴 Blocker | `bw_text_field.dart:666`, `:672-674`, `:745-747` | The affix text is passed as `InputDecoration.hintText` (`_resolvedHintSemantics`), and `.copyWith(hintText: widget.placeholder)` does not clear it when `placeholder` is null. Result: an **empty** field shows the affixes as visible placeholder text. Probe: `prefixText: 'https://', suffixText: '.sa'`, empty → `hintText = "https://, .sa"` rendered. The affix is also read twice. Probe for `suffixText: 'SAR'`: label `"Hourly rate\nPer hour\nSAR"` + hint `"SAR"` | Keep `hintText` = `placeholder` only. Put the affix description only in the `Semantics.hint` (B6 "Hourly rate, SAR"). Add tests: an empty field with affixes shows no hint text, and the semantics read each affix once | Implementer |
+| 3 | 🔴 Blocker | `lib/src/components/text_field/bw_field_addon.dart:157-330` (`BwFieldEndButtonSquareStart`) | Squares the button corners by replacing the `PaintingContext` with a subclass backed by an orphan `OffsetLayer` and a wrapping `Canvas`. It overrides only `canvas`, `pushClipPath`, `pushClipRRect` and `pushTransform`. Any composited child (repaint boundary, opacity, colour filter) goes to the orphan layer and is never shown. Probe: `endButton: BwTextFieldEndButton(loading: true)` — the spinner's `RenderAnimatedOpacity` layer `attached = false` (plain `BwButton`: `true`), so the loading spinner is invisible and the label is hidden by `Visibility`: an empty button. Ink and focus ring are drawn on other layers, so they are not squared either. Not covered by any test | Remove the painting-context interception. Square the seam with a supported mechanism, once the Planner has picked one (#4). Add a test that pumps a loading end button and expects the spinner to be painted (golden or layer attached) | Implementer |
+| 4 | 🟡 Should fix | `text-field.md` C3 / C5 (and Button B1) | C3 needs "the button's start corners square via `BorderRadiusDirectional`", but `BwButton` has no shape / radius parameter, and C5 does not allow changing `BwButton`. This gap led to #3 | Choose one and write it in C3/C5: (a) allow a package-private `BwButton` shape or corner override (add `button/bw_button.dart` to C5 with the exact param), or (b) a clip-based approach (e.g. `ClipRRect` + an outer border segment) with the accepted visual. Then regenerate the contract | Planner |
+| 5 | 🟡 Should fix | `text-field.md` B1; `bw_text_field.dart:88`, `:179` | Tablet B1 has no `placeholder` param. Web B1 does, and Tablet A2 / B3 (`hintStyle`) need one. The Implementer added a public `placeholder` but did not log it (C8 "Deviations: none") | Planner: add `placeholder` (`String?`, "Format hint, never the accessible name") to Tablet B1 and regenerate. Implementer: list unplanned API in C8 Deviations next time | Planner |
+| 6 | 🟡 Should fix | `test/text_field_test.dart:1330-1338` (golden board); `test/goldens/text_field/*.png` | The affix demo has a `https://` prefix next to a `SAR` suffix on "Hourly rate" with value `120`. That is a URL scheme on a money amount. It contradicts A2 #5 (prefix = "fixed text such as `http://` or a currency") and B7 (`Hourly rate` + `suffixText: 'SAR'` only). Goldens are the visual record designers check | Use two real cases: e.g. "Hourly rate" + `suffixText: 'SAR'` (B7), and "Website" + `prefixText: 'https://'`, both in the board; regenerate the four goldens and check them by eye | Implementer |
+| 7 | 🟡 Should fix | `test/text_field_test.dart:644-717` | B9 "Disabled: field, trailing action and end button not focusable" is not asserted: the test checks only that tap actions are missing and that Tab 1 lands on the help icon. `helpTapped` is never set (dead check). Also no test covers `Form`/`validator` (#1), empty-with-affix (#2) or a loading end button (#3) | After help icon, Tab again and assert focus left the disabled field (e.g. a second field gets focus; field/action/end button `isFocused` false, `isFocusable` false). Remove `helpTapped` or wire it. Add the tests named in #1–#3 | Implementer |
+| 8 | 🟢 Nit | `bw_text_field_decoration.dart` `resolve` (`contentPadding` start) | The supporting-row start offset follows `contentPadding.start`, so it changes with the leading slot: ≈4 dp for fields with a leading icon (email, disabled) vs ≈20 dp for the multiline field without one; the error-row counter sits ≈20 dp from the inline end vs ≈4 dp elsewhere (all four goldens) | Use one supporting-row inset for every field (the `helper` / `error` / `counter` padding independent of the leading slot). If Web B2 does not fix the value, ask the Planner in C8 | Implementer |
+| 9 | 🟢 Nit | `bw_text_field.dart:359-361` | When disabled, helper text is still shown (goldens "Employee ID is fixed") but is dropped from the field's semantics label, so screen-reader users lose it | Keep `helperText` in the label when disabled (only the error is suppressed) | Implementer |
+| 10 | 🟢 Nit | `text-field.md` header | "Source code" still says "not built yet (the Executor creates it)" | Set it to `lib/src/components/text_field/` (and in the contract header on regenerate) | Planner |
+| 11 | 🟢 Nit | `text-field.md` B4 | M3 `InputDecorator` animates its border with a fixed internal duration that neither `BwDuration.sm` nor reduced motion can set. B4 says all transitions use `BwDuration.sm` and become instant under reduced motion | Record this platform limit in B4 (as for the Tooltip fade on Icon button), or require a custom border animation | Planner |
+
+#### Notes
+
+- The field's semantics label includes helper / error / counter text (`"Work email, required\nFormat: …"`). This is how Flutter's `InputDecorator` merges them and matches B6 "read with it"; not a finding.
+- `Tooltip.dismissAllToolTips()` on Esc (`bw_field_label.dart:56-58`) closes every tooltip in the app, not only this one; acceptable for now.
+- Figma build (Part D) not reviewed: `Figma build = Planned`.
+
+#### Next step
+
+Planner: #4, #5, #10, #11 → set Plan `Finished`, regenerate `text-field-contract.md`. Then Fixer: #1, #2, #3, #6, #7 (and nits #8, #9) → Round 2.
 
 ---
 
