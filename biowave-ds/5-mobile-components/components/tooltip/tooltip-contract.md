@@ -1,4 +1,4 @@
-<!-- GENERATED from tooltip.md @ d440ae22ed8a584a — do not edit; change the source and run: npm run contract -- mobile tooltip -->
+<!-- GENERATED from tooltip.md @ 63d33dfec630079b — do not edit; change the source and run: npm run contract -- mobile tooltip -->
 # Tooltip · تلميح — Mobile — code contract
 
 > **Everything you need to build Tooltip on Mobile, and nothing else.** Read this file only. Generated from [`tooltip.md`](tooltip.md) (Parts B and C). If something is unclear or impossible, stop and write it in [C8 Execution log → Questions](tooltip.md#c8-execution-log-filled-by-the-executor) — never invent behaviour.
@@ -9,10 +9,10 @@
 | Platform | Mobile · Flutter + Material 3 |
 | Built on | Flutter `RawTooltip` (the widgets-layer engine under M3 `Tooltip`), styled from semantic tokens. M3 `Tooltip` (ROADMAP base) does not expose its fade duration and curve; `RawTooltip.animationStyle` does (C3) |
 | Import | `BwTooltip` from `package:biowave_mobile/biowave_mobile.dart` |
-| Version | 1.0 · 2026-10-23 |
+| Version | 1.1 · 2026-10-24 |
 | Source code | `lib/src/components/tooltip/` — not built yet (the Executor creates it) |
 | Tokens | — |
-| Source | [`tooltip.md`](tooltip.md) @ `d440ae22ed8a584a` |
+| Source | [`tooltip.md`](tooltip.md) @ `63d33dfec630079b` |
 
 ## 1. What it is
 
@@ -69,7 +69,7 @@ Platform naming notes: web `title` = Flutter `message`; web `children` = Flutter
 | `container` | radius | `radius-sm` | `BorderRadiusDirectional.all(Radius.circular(BwRadius.sm))` |
 | `container` | width | hug the text · max `size-container-xxs` | `BoxConstraints(maxWidth: BwSize.containerXxs)` |
 | `container` | border · shadow | none · none | — |
-| `container` | gap to the anchor (offset) | `spacing-xs` | `BwSpacing.xs` |
+| `container` | gap to the anchor (offset) | `spacing-xs` | `BwSpacing.xs` — (1.1) transparent padding inside the tooltip's hover area, not empty space between anchor and tooltip (B6 hoverable, C3 › Position) |
 | `container` | minimum distance to the screen edge | `spacing-md` | `BwSpacing.md` |
 | `label` | text style | `label-sm` | `context.bw.text.labelSm` (Mobile scale, Arabic style from the locale) |
 | `label` | alignment · wrapping | start-aligned · wraps at the max width, never truncated | `TextAlign.start`, no `maxLines` |
@@ -139,7 +139,7 @@ RTL   placement: end    ┌ تعديل الجهاز ┐ [◆]
 | `purpose: label` | The anchor's semantics node is named by `message`: `MergeSemantics(child: Semantics(label: message, child: child))`; `RawTooltip.semanticsTooltip: null`, so the text is read once |
 | `purpose: description` | `RawTooltip.semanticsTooltip: message` — read after the anchor's own name |
 | Dismissible | Esc (hardware keyboard) closes the tooltip; focus stays on the anchor. A tap elsewhere closes it |
-| Hoverable · persistent | `ignorePointer: false`: a pointer can move onto the tooltip without it closing; no auto-hide while hovered or focused |
+| Hoverable · persistent | `ignorePointer: false`: a pointer can move onto the tooltip without it closing; no auto-hide while hovered or focused. (1.1) Checked against Web review round 1 #1: plan 1.0 had the same gap problem with a pointer — the position delegate left the `BwSpacing.xs` gap outside both the anchor and the tooltip's `MouseRegion`, and with `dismissDelay: BwDuration.instant` a pointer moving slowly from the anchor would dismiss the tooltip in the gap. Fixed in C3 › Position: the gap is transparent padding inside the tooltip's hover area. Touch triggers are not affected (no hover) |
 | Contrast | `textNeutralInverse` on `surfaceInverse` ≥ 4.5:1 in both themes (`textContrastGuideline`) |
 | Focus | The anchor keeps its own focus ring; the tooltip is never focusable and adds no traversal stop |
 | Haptics | Long press keeps the framework feedback (`enableFeedback: true`) |
@@ -199,7 +199,7 @@ BwTooltip(
 
 - **Base:** `RawTooltip` (Flutter widgets layer; M3 `Tooltip` is built on it but does not pass `animationStyle` through). `tooltipBuilder: (context, animation) => FadeTransition(opacity: animation, child: _BwTooltipBox(...))`, where the box is a `ConstrainedBox(maxWidth: BwSize.containerXxs)` → `DecoratedBox(color: surfaceInverse, borderRadius)` → `Padding` → `Text(message, style: labelSm.copyWith(color: textNeutralInverse), textAlign: TextAlign.start)`.
 - **Timing:** `animationStyle: AnimationStyle(duration: BwDuration.md, reverseDuration: BwDuration.sm, curve: BwEasing.standardDecelerate, reverseCurve: BwEasing.standardAccelerate)`; with `context.bw.reduceMotion` both durations are `BwDuration.instant`. `hoverDelay: BwDuration.xl2`, `dismissDelay: BwDuration.instant`. `touchDelay` is not passed (framework default display time after a touch; Biowave has no token for it). `triggerMode` from `trigger`. `ignorePointer: false`, `enableFeedback: true`.
-- **Position:** a `positionDelegate` computes the offset from `placement`, `Directionality.of(context)`, the target rect, the tooltip size and the overlay size: gap `BwSpacing.xs`, centred on the cross axis, flipped to the opposite side when the chosen side has no room, clamped `BwSpacing.md` inside the overlay.
+- **Position (1.1):** the `BwSpacing.xs` gap must be inside the tooltip's hover area. `RawTooltip` wraps the `tooltipBuilder` output in its `MouseRegion` (with `ignorePointer: false`), so the builder returns `Padding(padding: <main axis>, child: _BwTooltipBox(...))` with transparent padding `BwSpacing.xs` on **both** main-axis sides (`EdgeInsetsDirectional.symmetric(vertical: BwSpacing.xs)` for `top` / `bottom`, `EdgeInsetsDirectional.symmetric(horizontal: BwSpacing.xs)` for `start` / `end`) — both sides, because the builder does not know whether the delegate flips. A `positionDelegate` places this padded child **touching** the target (no extra gap) from `placement`, `Directionality.of(context)`, the target rect, the child size and the overlay size: centred on the cross axis; flipped to the opposite side when the chosen side has no room; clamped so the visible box stays `BwSpacing.md` inside the overlay (main axis: clamp the padded child at `BwSpacing.md - BwSpacing.xs`; cross axis: `BwSpacing.md`). Result: the visible gap is `BwSpacing.xs` on the facing side, and the pointer never leaves the hover area between anchor and box. `dismissDelay` stays `BwDuration.instant` — no delay is added to hide the gap. **Gotcha:** if a test shows the padding is not inside `RawTooltip`'s hover region, stop and report in C8 › Questions — do not add a dismiss delay or a custom overlay.
 - **Keyboard:** wrap the child in `Focus(canRequestFocus: false, skipTraversal: true, onFocusChange: …)`; when focus arrives and `FocusManager.instance.highlightMode == FocusHighlightMode.traditional`, call `ensureTooltipVisible()` on a `GlobalKey<RawTooltipState>`; on focus loss call `RawTooltip.dismissAllToolTips()`. Esc: `CallbackShortcuts` (`SingleActivator(LogicalKeyboardKey.escape)` → `RawTooltip.dismissAllToolTips()`).
 - **Semantics:** per B6. `label` uses `MergeSemantics` + `Semantics(label:)` and `semanticsTooltip: null`; `description` passes `semanticsTooltip: message`.
 - **SDK:** `RawTooltip` and `AnimationStyle` on `RawTooltip` need a newer Flutter than the current `pubspec.yaml` floor (`flutter: ">=3.24.0"`). Raise the floor to `">=3.47.0"` (the installed stable is 3.47.7). If the analyzer still cannot find `RawTooltip`, stop and report in C8 › Questions — do not fall back to M3 `Tooltip` or a custom overlay.
@@ -227,6 +227,7 @@ CHANGELOG.md                                                      change: one en
 - [ ] Goldens: tooltip shown, every `placement`, light + dark, en + ar (`test/goldens/tooltip/`), plus a long text wrapping at the max width in en and ar
 - [ ] Every transition in B4: long press opens; `trigger: tap` opens on tap; pointer hover opens only after `BwDuration.xl2`; hardware-keyboard focus opens at once; Esc, blur, pointer leave and tap elsewhere close; animation durations and curves from B4; `reduceMotion` → `BwDuration.instant`
 - [ ] Every `placement` in LTR and RTL: tooltip position relative to the anchor matches B5 (`tester.getRect`); flips to the opposite side when there is no room; stays `spacing-md` from the screen edge
+- [ ] (1.1) Hoverable across the gap (mouse `TestGesture`, `PointerDeviceKind.mouse`), for `top` and for `end` in LTR and RTL: hover the anchor, pump `BwDuration.xl2` + `BwDuration.md` → shown; then move the pointer from inside the anchor, across the gap, into the visible box in steps of one logical pixel, pumping one frame between moves; then pump `BwDuration.sm` + `BwDuration.xl2` → still shown. Negative control: move the pointer off the anchor away from the tooltip → dismissed after `BwDuration.sm`. Gap geometry: the visible box (`_BwTooltipBox`) is exactly `BwSpacing.xs` from the anchor on the facing side in all four placements, LTR and RTL, also after a flip
 - [ ] Semantics: `label` → anchor node label = `message`, read once; `description` → node has tooltip = `message` after its own label
 - [ ] `textContrastGuideline` passes with the tooltip shown in light and dark
 - [ ] Empty `message` asserts; no raw values (lint test)
@@ -246,6 +247,7 @@ Implement every item in B9, plus:
 - [ ] AC-4 RTL as B5 (measured positions in LTR and RTL); a11y as B6 (semantics per purpose, Esc, no traversal stop, contrast)
 - [ ] AC-5 Tests in B9 and C6 exist and pass; `cd 5-mobile-components && flutter analyze && flutter test`, `npm run component-tokens`, `npm run sync`, `npm run docs:check` pass
 - [ ] AC-6 Exported from `lib/biowave_mobile.dart`; README status updated; nothing outside C5 changed
+- [ ] AC-7 (1.1) Hoverable across the gap per C3 › Position (transparent main-axis padding inside the hover area, padded child touching the target, visible gap `BwSpacing.xs`, edge clamp keeps `BwSpacing.md`); the B9 (1.1) test exists and passes
 
 ## 12. Rules
 

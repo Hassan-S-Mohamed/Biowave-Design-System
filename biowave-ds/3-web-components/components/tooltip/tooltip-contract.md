@@ -1,4 +1,4 @@
-<!-- GENERATED from tooltip.md @ f97fd31adb22d8a1 — do not edit; change the source and run: npm run contract -- web tooltip -->
+<!-- GENERATED from tooltip.md @ 8595c0cfb0160037 — do not edit; change the source and run: npm run contract -- web tooltip -->
 # Tooltip · تلميح — Web — code contract
 
 > **Everything you need to build Tooltip on Web, and nothing else.** Read this file only. Generated from [`tooltip.md`](tooltip.md) (Parts B and C). If something is unclear or impossible, stop and write it in [C8 Execution log → Questions](tooltip.md#c8-execution-log-filled-by-the-executor) — never invent behaviour.
@@ -9,10 +9,10 @@
 | Platform | Web · React + MUI |
 | Built on | MUI `Tooltip` (popper + `Fade` transition), styled only from semantic tokens; no arrow, no MUI colors |
 | Import | `import { Tooltip } from '@biowave/web'` |
-| Version | 1.0 · 2026-10-23 |
+| Version | 1.1 · 2026-10-24 |
 | Source code | `src/components/tooltip/` — not built yet (the Executor creates it) |
 | Tokens | — |
-| Source | [`tooltip.md`](tooltip.md) @ `f97fd31adb22d8a1` |
+| Source | [`tooltip.md`](tooltip.md) @ `8595c0cfb0160037` |
 
 ## 1. What it is
 
@@ -71,7 +71,7 @@ Platform naming notes: A4.3 `trigger` is touch only and has no web prop (web alw
 | `container` | radius | `radius-sm` |
 | `container` | width | hug the text · max `size-container-xxs` |
 | `container` | border · shadow | none · none (the inverse surface gives the contrast) |
-| `container` | gap to the anchor (offset) | `spacing-xs` |
+| `container` | gap to the anchor (offset) | `spacing-xs` — (1.1) inside the tooltip's hover area, so the pointer never leaves the tooltip's hit box on its way from the anchor (B6 hoverable) |
 | `container` | minimum distance to the viewport edge | `spacing-md` |
 | `container` | stacking | `layer-tooltip` (MUI theme `zIndex.tooltip`, already set from this token) |
 | `label` | text style | `label-sm` (`biowaveVariants.labelSm`; Arabic line height from the locale) |
@@ -116,7 +116,7 @@ Values are for checking only — never paste a value.
 |---|---|---|---|---|
 | Hidden → Shown | pointer rests on the anchor for `motion-duration-2xl` (delay) | opacity | `motion-duration-md` | `motion-easing-standard-decelerate` |
 | Hidden → Shown | keyboard focus (`:focus-visible`) on the anchor — no delay | opacity | `motion-duration-md` | `motion-easing-standard-decelerate` |
-| Shown → Shown | pointer moves from the anchor onto the tooltip | — (stays open, hoverable) | — | — |
+| Shown → Shown | pointer moves from the anchor across the `spacing-xs` gap onto the tooltip, at any speed (1.1) | — (stays open, hoverable) | — | — |
 | Shown → Hidden | pointer leaves anchor and tooltip · blur · Esc — no delay | opacity | `motion-duration-sm` | `motion-easing-standard-accelerate` |
 
 Reduced motion (`prefers-reduced-motion: reduce`): enter and exit use `motion-duration-instant` (no fade). The hover delay `motion-duration-2xl` stays; keyboard focus still opens at once.
@@ -145,7 +145,7 @@ RTL   placement="end"    ┌ تعديل الجهاز ┐ [◆]
 | `purpose="label"` | The anchor gets `aria-label={title}` (MUI `describeChild={false}`). A disabled anchor is wrapped in a `span` that carries **no** `aria-label`; the name goes on the disabled element itself (same rule as Icon button B6) |
 | `purpose="description"` | The anchor gets `aria-describedby` pointing to an element that always exists (visually hidden copy of `title` while closed, the tooltip while open). No native `title` attribute on the anchor, ever (it would show a second, unstyled browser tooltip) |
 | Dismissible | Esc closes the open tooltip; focus stays on the anchor (WCAG 1.4.13) |
-| Hoverable · persistent | Pointer can move onto the tooltip without it closing; it stays until pointer leave, blur or Esc (no auto-hide timer) |
+| Hoverable · persistent | Pointer can move onto the tooltip without it closing; it stays until pointer leave, blur or Esc (no auto-hide timer). (1.1) The `spacing-xs` gap between anchor and tooltip belongs to the popper element, which carries MUI's interactive hover listeners, so a pointer moving slowly from the anchor never passes through an area that is outside both (C3 › Offset). `leaveDelay` stays 0 |
 | Contrast | `color-text-neutral-inverse` on `color-surface-inverse` ≥ 4.5:1 in both themes |
 | Focus | The anchor keeps its own focus ring; the tooltip adds none |
 | Screen reader output | `label`: "Edit device, button" · `description`: "Work email, edit text, We send shift reminders to this address." |
@@ -185,7 +185,7 @@ import { Tooltip, IconButton, Button, Icon } from '@biowave/web';   // Biowave I
 
 ### Scope
 
-**In scope:** B1–B6, B9, C6.
+**In scope:** B1–B6, B9, C6; (1.1) review round 1 fixes — the Fix round 1 task list under C7.
 
 **Out of scope** (do not build or change)
 - Rich tooltips (title, actions, links) and arrows
@@ -194,7 +194,9 @@ import { Tooltip, IconButton, Button, Icon } from '@biowave/web';   // Biowave I
 
 ### Approach
 
-- **Base:** wrap MUI `Tooltip` with `slots={{ transition: Fade }}`, no `arrow`. Styles go through `slotProps.tooltip.sx` from a `tooltip.tokens.ts` map (`cssVars.*` for colors, padding, radius, max width; `biowaveVariants.labelSm` for the text). Reset MUI's own placement margin on the tooltip element to `0`, so the popper `offset` modifier (`base.spacing.xs`, read once from the token map) is the only gap; set the popper `preventOverflow` padding from `base.spacing.md` and `flip` to the opposite side.
+- **Base:** wrap MUI `Tooltip` with `slots={{ transition: Fade }}`, no `arrow`. Styles go through `slotProps.tooltip.sx` from a `tooltip.tokens.ts` map (`cssVars.*` for colors, padding, radius, max width; `biowaveVariants.labelSm` for the text). Set the popper `preventOverflow` padding from `base.spacing.md` and `flip` to the opposite side. The gap to the anchor is set as described under **Offset (1.1)** — not with the popper `offset` modifier.
+- **Offset (1.1, finding 1):** the `spacing-xs` gap must lie inside the popper element (the box MUI's interactive mode listens on), never between the popper and the anchor. So: **no** popper `offset` modifier (remove it, or `[0, 0]`), and the gap is the tooltip element's own margin on the side facing the anchor — which sits inside the popper box, because the absolutely positioned popper contains its child's margins. Key the rules on the resolved placement, with the same selectors MUI uses for its own placement margins, so a flip moves the gap with it: `.MuiTooltip-popper[data-popper-placement*="top"] &` → `marginBlockEnd`, `…="bottom"` → `marginBlockStart`, `…="left"` → `marginInlineEnd` in LTR / `marginInlineStart` in RTL, `…="right"` → `marginInlineStart` in LTR / `marginInlineEnd` in RTL (logical properties only, direction from the provider), each `tooltipTokens.offset` as the `cssVars.spacing.xs` string (**gotcha:** a plain number in an `sx` margin is multiplied by the theme spacing, so do not pass `base.spacing.xs` there); every other margin of the tooltip 0, overriding MUI's default placement margins (mouse and touch). One source: `tooltipTokens.offset` is read only here. If the zero reset needs `!important` to beat MUI's rules, the facing-side margin uses the same selector and the same `!important` — the B9 gap-geometry test decides. The visible gap stays `spacing-xs` in all four placements and both directions; cross-axis centring and the `spacing-md` viewport padding are unchanged (the margin is on the main axis only). `leaveDelay` stays 0 — no delay is added to hide the gap
+- **Description id (1.1, finding 2):** the visually hidden copy exists only while no tooltip element is mounted: show it again from the `Fade` `onExited` callback (not when `open` turns false), remove it when the tooltip opens. Exactly one element owns the id at every moment
 - **Timings:** `enterDelay={base.motion.duration['2xl']}`, `leaveDelay` 0 (`base.motion.duration.instant`); transition `timeout` enter `base.motion.duration.md`, exit `base.motion.duration.sm`; easing enter `cssVars.motion.easing['standard-decelerate']`, exit `cssVars.motion.easing['standard-accelerate']`. Numeric props come from `base` (never a literal). Reduced motion: `useMediaQuery('(prefers-reduced-motion: reduce)')` → both timeouts `base.motion.duration.instant` (CSS `prefers-reduced-motion` does not reach JS numbers). Same pattern as `IconButtonTooltip.tsx` — read it as a reference, do not import from or change it.
 - **Open logic (uncontrolled):** internal `open` state. Hover opens through MUI `onOpen` (delayed by `enterDelay`); `onFocus` opens at once only when the target matches `:focus-visible`; `onBlur`, pointer leave (MUI `onClose`) and Esc close. Keep MUI's interactive mode so the pointer can move onto the tooltip. Compose the child's own `onFocus` / `onBlur` handlers (call them first). When the `open` prop is set, use it as is and only forward `onOpen` / `onClose`.
 - **Placement:** map logical → MUI physical from the provider direction: `start` → `left` in LTR / `right` in RTL, `end` → the opposite, `top` / `bottom` unchanged. **Gotcha:** check whether MUI already swaps `left`/`right` under the RTL theme; if it does, pass the LTR mapping and let MUI flip. The B9 placement test (resulting `data-popper-placement` in en and ar) decides — never both.
@@ -209,9 +211,9 @@ None.
 ### Files to create / change
 
 ```
-3-web-components/src/components/tooltip/Tooltip.tsx          new
-3-web-components/src/components/tooltip/tooltip.tokens.ts    new (cssVars / base map for B2–B4)
-3-web-components/src/components/tooltip/Tooltip.test.tsx     new
+3-web-components/src/components/tooltip/Tooltip.tsx          new · (1.1) change: Offset, Description id (C3)
+3-web-components/src/components/tooltip/tooltip.tokens.ts    new (cssVars / base map for B2–B4) · (1.1) change only if `offset` must become a `cssVars` string for the margin
+3-web-components/src/components/tooltip/Tooltip.test.tsx     new · (1.1) change: B9 (1.1) tests
 3-web-components/src/components/tooltip/index.ts             new
 3-web-components/src/index.ts                                change: export Tooltip, TooltipProps, TooltipPlacement, TooltipPurpose (alphabetical)
 3-web-components/README.md                                   change: Tooltip row (Code)
@@ -222,9 +224,11 @@ CHANGELOG.md                                                 change: one entry
 
 - [ ] Light + dark · en + ar: rendered tooltip uses exactly the B2–B3 tokens (background, color, padding, radius, max width, offset, text style)
 - [ ] Every transition in B4: not open before `motion-duration-2xl` on hover, open after; open at once on keyboard focus; stays when the pointer moves onto the tooltip; closes on pointer leave, blur and Esc; enter/exit easing and durations; reduced motion → `motion-duration-instant`
+- [ ] (1.1) Hoverable across the gap, in small steps with timers advanced between events (for `top`, and for `end` in en and ar): open by hover; then, one pointer move per step, each step followed by one frame of fake time inside `act` (`vi.advanceTimersToNextFrame()`; any advance runs a pending zero leave timer): ① anchor `mouseLeave` together with `mouseOver` on the popper element (the gap is the popper's own box — the pointer is now in the gap) · ② ③ ④ `mouseMove` on the popper (crossing the `spacing-xs` gap in equal steps) · ⑤ `mouseOver` on the `role="tooltip"` element. Then advance `motion-duration-sm` + `motion-duration-2xl`: the tooltip is still open (`role="tooltip"` present, opacity transition not in exit). Negative control in the same test file: anchor `mouseLeave` with no popper `mouseOver`, advance one frame → the tooltip starts its exit and is gone after `motion-duration-sm`
+- [ ] (1.1) Gap geometry: for each resolved `data-popper-placement` (`top`, `bottom`, `left`, `right`) in en and ar, the tooltip element's margin on the side facing the anchor resolves to `spacing-xs` and its other three margins to 0; the popper has no `offset` modifier (or `[0, 0]`)
 - [ ] Every `placement` in en and ar: resulting popper placement is the physical side B5 gives (`start` = left in LTR, right in RTL); flips to the opposite side when there is no room
 - [ ] `purpose="label"`: anchor named by `title` exactly once; disabled anchor: span wrapper has no `aria-label`, the element is named
-- [ ] `purpose="description"`: `aria-describedby` resolves to the text while closed and while open; no `title` attribute on the anchor
+- [ ] `purpose="description"`: `aria-describedby` resolves to the text while closed and while open; no `title` attribute on the anchor; (1.1) exactly **one** element carries the described-by id at every moment — closed, entering, open, and during the exit fade (sample at half of `motion-duration-sm` after pointer leave and after Esc)
 - [ ] Every invalid combination in B1 warns and falls back
 - [ ] a11y: axe on `baseElement` with the tooltip open (portal included) in light/dark × en/ar, for `label`, `description` and a disabled anchor
 - [ ] No raw values (lint test over the component folder)
@@ -235,6 +239,7 @@ Implement every item in B9, plus:
 - [ ] Controlled `open`: the tooltip follows the prop; `onOpen` / `onClose` are called; internal timers do not override it
 - [ ] Token-map test: every entry of `tooltip.tokens.ts` names the B2–B4 token (no raw values)
 - [ ] No timeout arguments in `Tooltip.test.tsx`; every test passes under the 5 s default; `npm run test:web` green in 3 consecutive full runs
+- [ ] (1.1) The old same-tick hover test (`mouseLeave(anchor)` + `mouseOver(tooltip)` with no time between) is replaced by the B9 (1.1) step-by-step test, not kept as the only hoverable proof
 
 ## 11. Acceptance criteria (the Reviewer checks exactly these)
 
@@ -244,6 +249,19 @@ Implement every item in B9, plus:
 - [ ] AC-4 RTL behaves as B5 (logical `start` / `end`, measured placement in en and ar); a11y as B6 (`label` named once, disabled span unnamed, `description` always described, no native `title`)
 - [ ] AC-5 Tests in B9 and C6 exist and pass; `npm run typecheck`, `npm run test:web` (3 full runs, default timeouts), `npm run component-tokens`, `npm run sync`, `npm run docs:check` pass
 - [ ] AC-6 Exported from `src/index.ts`; README status row updated; nothing outside C5 changed (Icon button and Text field untouched)
+- [ ] AC-7 (1.1, finding 1) Hoverable with a real pointer: no popper `offset` modifier; the `spacing-xs` gap is the tooltip's anchor-facing margin inside the popper (C3 › Offset), one source `tooltipTokens.offset`; visible gap still `spacing-xs` in all four placements, en and ar; the B9 (1.1) step-by-step and gap-geometry tests exist and pass
+- [ ] AC-8 (1.1, finding 2) `purpose="description"`: one element owns the described-by id at every moment, including the exit fade (C3 › Description id); B9 test covers it
+- [ ] AC-9 (1.1, finding 3) Header `Source code` links [`src/components/tooltip/`](../../src/components/tooltip/) as Button / Icon button do
+- [ ] AC-10 (1.1) C8 gets a **Fix round 1** entry with every command and real numbers (`npm run typecheck`, `npm run test:web` ×3 passed/total + duration, `npm run component-tokens`, `npm run docs:check`, `npm run sync`); header `Code` set to `Built`; `3-web-components/README.md` row matches
+
+**Fix round 1 — Executor task list** (one list; nothing else is in scope):
+1. #1 Offset inside the hover area — C3 › Offset. Remove the popper `offset` modifier; anchor-facing tooltip margin per resolved placement from `tooltipTokens.offset`. Files: `Tooltip.tsx` (and `tooltip.tokens.ts` only if the entry's type must change)
+2. #1 Tests — B9 (1.1) step-by-step hover across the gap (`top`, `end` en + ar) with the negative control, and the gap-geometry test; replace the same-tick hover test (C6 1.1). File: `Tooltip.test.tsx`
+3. #2 One described-by element during the exit fade — C3 › Description id. Files: `Tooltip.tsx` + the description test (B9 1.1)
+4. #3 Header `Source code` row → [`src/components/tooltip/`](../../src/components/tooltip/) (AC-9)
+5. C8 **Fix round 1** entry (AC-10); header `Code` → `Built` and the README row; one `CHANGELOG.md` entry
+
+Files the Executor may touch in this fix round: `3-web-components/src/components/tooltip/Tooltip.tsx`, `tooltip.tokens.ts` (only as in task 1), `Tooltip.test.tsx`, the header `Source code` and `Code` fields and C8 of this file, the `3-web-components/README.md` row and `CHANGELOG.md`. Nothing else — not the shared test tooling, Icon button or Text field.
 
 ## 12. Rules
 

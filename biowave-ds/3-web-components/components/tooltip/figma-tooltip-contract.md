@@ -1,4 +1,4 @@
-<!-- GENERATED from tooltip.md @ 0ecec7c42553ada1 — do not edit; change the source and run: npm run contract -- web tooltip -->
+<!-- GENERATED from tooltip.md @ 5b8c705a77675822 — do not edit; change the source and run: npm run contract -- web tooltip -->
 # Tooltip · تلميح — Web — Figma contract
 
 > **Everything the Figma Agent needs to build Tooltip in the Web Components file, with our variables and styles.** Read this file only. Generated from [`tooltip.md`](tooltip.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-18). Questions go to [D11 Execution log](tooltip.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
@@ -11,8 +11,8 @@
 | Page | `↳ Tooltip` (one page per component) |
 | Component | Tooltip · تلميح |
 | Platform | Web · React + MUI |
-| Version | 1.0 · 2026-10-23 |
-| Source | [`tooltip.md`](tooltip.md) @ `0ecec7c42553ada1` |
+| Version | 1.1 · 2026-10-24 |
+| Source | [`tooltip.md`](tooltip.md) @ `5b8c705a77675822` |
 
 ## 1. Library connections in this file
 
@@ -109,7 +109,7 @@ Platform naming notes: A4.3 `trigger` is touch only and has no web prop (web alw
 | `container` | radius | `radius-sm` |
 | `container` | width | hug the text · max `size-container-xxs` |
 | `container` | border · shadow | none · none (the inverse surface gives the contrast) |
-| `container` | gap to the anchor (offset) | `spacing-xs` |
+| `container` | gap to the anchor (offset) | `spacing-xs` — (1.1) inside the tooltip's hover area, so the pointer never leaves the tooltip's hit box on its way from the anchor (B6 hoverable) |
 | `container` | minimum distance to the viewport edge | `spacing-md` |
 | `container` | stacking | `layer-tooltip` (MUI theme `zIndex.tooltip`, already set from this token) |
 | `label` | text style | `label-sm` (`biowaveVariants.labelSm`; Arabic line height from the locale) |
@@ -134,7 +134,7 @@ Dark theme: same tokens — the values switch, so the tooltip is light on dark p
 |---|---|---|---|---|
 | Hidden → Shown | pointer rests on the anchor for `motion-duration-2xl` (delay) | opacity | `motion-duration-md` | `motion-easing-standard-decelerate` |
 | Hidden → Shown | keyboard focus (`:focus-visible`) on the anchor — no delay | opacity | `motion-duration-md` | `motion-easing-standard-decelerate` |
-| Shown → Shown | pointer moves from the anchor onto the tooltip | — (stays open, hoverable) | — | — |
+| Shown → Shown | pointer moves from the anchor across the `spacing-xs` gap onto the tooltip, at any speed (1.1) | — (stays open, hoverable) | — | — |
 | Shown → Hidden | pointer leaves anchor and tooltip · blur · Esc — no delay | opacity | `motion-duration-sm` | `motion-easing-standard-accelerate` |
 
 Reduced motion (`prefers-reduced-motion: reduce`): enter and exit use `motion-duration-instant` (no fade). The hover delay `motion-duration-2xl` stays; keyboard focus still opens at once.
@@ -163,7 +163,7 @@ RTL   placement="end"    ┌ تعديل الجهاز ┐ [◆]
 | `purpose="label"` | The anchor gets `aria-label={title}` (MUI `describeChild={false}`). A disabled anchor is wrapped in a `span` that carries **no** `aria-label`; the name goes on the disabled element itself (same rule as Icon button B6) |
 | `purpose="description"` | The anchor gets `aria-describedby` pointing to an element that always exists (visually hidden copy of `title` while closed, the tooltip while open). No native `title` attribute on the anchor, ever (it would show a second, unstyled browser tooltip) |
 | Dismissible | Esc closes the open tooltip; focus stays on the anchor (WCAG 1.4.13) |
-| Hoverable · persistent | Pointer can move onto the tooltip without it closing; it stays until pointer leave, blur or Esc (no auto-hide timer) |
+| Hoverable · persistent | Pointer can move onto the tooltip without it closing; it stays until pointer leave, blur or Esc (no auto-hide timer). (1.1) The `spacing-xs` gap between anchor and tooltip belongs to the popper element, which carries MUI's interactive hover listeners, so a pointer moving slowly from the anchor never passes through an area that is outside both (C3 › Offset). `leaveDelay` stays 0 |
 | Contrast | `color-text-neutral-inverse` on `color-surface-inverse` ≥ 4.5:1 in both themes |
 | Focus | The anchor keeps its own focus ring; the tooltip adds none |
 | Screen reader output | `label`: "Edit device, button" · `description`: "Work email, edit text, We send shift reminders to this address." |

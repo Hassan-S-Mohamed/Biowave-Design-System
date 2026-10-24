@@ -1,4 +1,4 @@
-<!-- GENERATED from tooltip.md @ 0be77806755acfc9 — do not edit; change the source and run: npm run contract -- mobile tooltip -->
+<!-- GENERATED from tooltip.md @ 8b09b401c1e57a1d — do not edit; change the source and run: npm run contract -- mobile tooltip -->
 # Tooltip · تلميح — Mobile — Figma contract
 
 > **Everything the Figma Agent needs to build Tooltip in the Mobile Components file, with our variables and styles.** Read this file only. Generated from [`tooltip.md`](tooltip.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-18). Questions go to [D11 Execution log](tooltip.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
@@ -11,8 +11,8 @@
 | Page | `↳ Tooltip` (one page per component) |
 | Component | Tooltip · تلميح |
 | Platform | Mobile · Flutter + Material 3 |
-| Version | 1.0 · 2026-10-23 |
-| Source | [`tooltip.md`](tooltip.md) @ `0be77806755acfc9` |
+| Version | 1.1 · 2026-10-24 |
+| Source | [`tooltip.md`](tooltip.md) @ `8b09b401c1e57a1d` |
 
 ## 1. Library connections in this file
 
@@ -112,7 +112,7 @@ Platform naming notes: web `title` = Flutter `message`; web `children` = Flutter
 | `container` | radius | `radius-sm` | `BorderRadiusDirectional.all(Radius.circular(BwRadius.sm))` |
 | `container` | width | hug the text · max `size-container-xxs` | `BoxConstraints(maxWidth: BwSize.containerXxs)` |
 | `container` | border · shadow | none · none | — |
-| `container` | gap to the anchor (offset) | `spacing-xs` | `BwSpacing.xs` |
+| `container` | gap to the anchor (offset) | `spacing-xs` | `BwSpacing.xs` — (1.1) transparent padding inside the tooltip's hover area, not empty space between anchor and tooltip (B6 hoverable, C3 › Position) |
 | `container` | minimum distance to the screen edge | `spacing-md` | `BwSpacing.md` |
 | `label` | text style | `label-sm` | `context.bw.text.labelSm` (Mobile scale, Arabic style from the locale) |
 | `label` | alignment · wrapping | start-aligned · wraps at the max width, never truncated | `TextAlign.start`, no `maxLines` |
@@ -163,7 +163,7 @@ RTL   placement: end    ┌ تعديل الجهاز ┐ [◆]
 | `purpose: label` | The anchor's semantics node is named by `message`: `MergeSemantics(child: Semantics(label: message, child: child))`; `RawTooltip.semanticsTooltip: null`, so the text is read once |
 | `purpose: description` | `RawTooltip.semanticsTooltip: message` — read after the anchor's own name |
 | Dismissible | Esc (hardware keyboard) closes the tooltip; focus stays on the anchor. A tap elsewhere closes it |
-| Hoverable · persistent | `ignorePointer: false`: a pointer can move onto the tooltip without it closing; no auto-hide while hovered or focused |
+| Hoverable · persistent | `ignorePointer: false`: a pointer can move onto the tooltip without it closing; no auto-hide while hovered or focused. (1.1) Checked against Web review round 1 #1: plan 1.0 had the same gap problem with a pointer — the position delegate left the `BwSpacing.xs` gap outside both the anchor and the tooltip's `MouseRegion`, and with `dismissDelay: BwDuration.instant` a pointer moving slowly from the anchor would dismiss the tooltip in the gap. Fixed in C3 › Position: the gap is transparent padding inside the tooltip's hover area. Touch triggers are not affected (no hover) |
 | Contrast | `textNeutralInverse` on `surfaceInverse` ≥ 4.5:1 in both themes (`textContrastGuideline`) |
 | Focus | The anchor keeps its own focus ring; the tooltip is never focusable and adds no traversal stop |
 | Haptics | Long press keeps the framework feedback (`enableFeedback: true`) |
