@@ -12,6 +12,7 @@
 
 | # | Step | Agent | Result | Checks | Commit | Prompt |
 |---|---|---|---|---|---|---|
+| after-review (Round 1) | Approve | Planner mirrors tablet plan 2.1 (same segment API names) for #2, #4, #5, #7–#10 → after-plan gate → Fixer #1, #3, #6, #7 on Antigravity (Gemini) |
 | 01 | implement | antigravity | partial — code, tests, goldens done; stopped before C8/Handoff | docs:check ✓ · analyze ✓ · test ✓ 139/139 (orchestrator) | — | [prompt](01-implement-antigravity.prompt.md) |
 | 02 | implement | antigravity (Gemini 3.8 Flash) | done — C8, Code Built, CHANGELOG | docs:check ✓ · analyze ✓ · test ✓ 139/139 (orchestrator) | (this commit) | [prompt](02-implement-antigravity.prompt.md) |
 | 03 | review | claude (wf-reviewer agent; resumed after session limit) | done — Round 1 Changes requested: 0 🔴, 7 🟡 (4 Planner), 3 🟢 (Planner); menu position, keyboard reach and chevron timing OK | docs:check ✓ · analyze ✓ · test ✓ 139/139 · sync ✓ | (this commit) | [prompt](03-review-claude.prompt.md) |
