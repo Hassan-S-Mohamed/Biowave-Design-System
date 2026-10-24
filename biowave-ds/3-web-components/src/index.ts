@@ -5,6 +5,13 @@ export * from '@biowave/foundations';
 
 // Components (keep alphabetical):
 export {
+  Badge,
+  type BadgeProps,
+  type BadgeVariant,
+  type BadgeColor,
+  type BadgeOverlap,
+} from './components/badge';
+export {
   Button,
   type ButtonProps,
   type ButtonDirectionalIconProps,

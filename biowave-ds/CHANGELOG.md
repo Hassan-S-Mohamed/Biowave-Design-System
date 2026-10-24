@@ -2,6 +2,58 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Review — Web Badge round 3] — 2026-10-24
+### Changed
+- Reviewed web `Badge` after fix round 2 (round 3, `badge.md` › E4): **Approved**. Round 2 #1 fixed: in headless Chrome a collapsed standalone badge shown and hidden again at 0 ms, ~16 ms and every 4 ms step to 64 ms (light/en, dark/ar, `invisible` and `count` 1 → 0; 68 cases) now leaves no gap; `transitioncancel` handled; the normal exit still animates. #2 fixed (root padding/border asserted). AC-8 … AC-11 measurements still hold (warning fill 3.24 / 12.20:1). docs:check, typecheck and test:web (128/128) pass. Code → `Approved`; Plan stays `Finished`.
+
+## [Fixed — Web Badge review round 2] — 2026-10-24
+### Fixed
+- Fixed the standalone Badge re-hide race so 0 ms and one-frame show → hide updates collapse immediately when no exit transition can run, and canceled transform exits also collapse. Added 0 ms, 16 ms and `transitioncancel` regressions, plus computed zero-padding and zero-border assertions for the anchored Badge root; all existing first-paint, normal-exit and reduced-motion behaviour remains covered.
+
+## [Review — Web Badge round 2] — 2026-10-24
+### Changed
+- Reviewed web `Badge` after fix round 1 (round 2, `badge.md` › E3): **Changes requested**. AC-8 met: the `count` × `warning` fill is `color-icon-role-warning`, measured in headless Chrome at 3.24:1 (light) and 12.20:1 (dark) against the surface, with text at 6.10:1 and 13.11:1. AC-10 and AC-11 met; Round 1's measurements still hold. docs:check, typecheck and test:web (125/125) pass. AC-9 fails in one case: a collapsed standalone badge that is shown and hidden again within about one frame stays in the layout at scale 0, leaving a 23.46 px gap (🟡 #1, Executor), plus one 🟢 test nit. Code → `Changes requested`; Plan stays `Finished`.
+
+## [Fixed — Web Badge review round 1] — 2026-10-24
+### Fixed
+- Updated `count` × `warning` to use the contrast-safe `color-icon-role-warning` fill, collapsed hidden standalone badges after their exit transition (immediately for reduced motion and on an initially hidden mount), removed unreachable error/warning check-icon tokens, and replaced declaration-only coverage with behavioural anchor-layout, first-frame and click-preservation tests. Badge passes 18/18 tests; the full web suite passes 125/125.
+
+## [Foundations — contrast pair for Badge warning count] — 2026-10-24
+### Added
+- `2-foundations/scripts/contrast-pairs.json`: new pair `color-text-on-warning` on `color-icon-role-warning` (min 4.5:1, normal text) in the warning group: the Badge `count` text on its warning indicator fill (Badge plan 1.1, B3/B6). `npm run tokens`: 164/164 contrast pairs pass, 0 error(s) in both themes. No token values changed, so there is no Figma variable sync (`npm run sync`: Token source → Figma variables ✓ in sync).
+
+## [Plan — Badge (web, tablet, mobile) 1.1] — 2026-10-24
+### Changed
+- Badge plan 1.0 → 1.1 for web review round 1 Planner nits (`badge.md` › E2 Planner response, F0–F2 on all three platforms). #1: `count` × `warning` indicator fill is now `color-icon-role-warning` (3.24:1 light · 12.20:1 dark on `color-surface-default`; text `color-text-on-warning` 6.10:1 · 13.11:1) instead of `color-background-warning-default` (2.20:1 light) — A4.2 and A9 (all three platforms), B3, B6, B9, C3, D updated; `warning` stays `count` only. #2: a hidden standalone badge takes no space after its exit transition (A5, B1, B2, B4, B9). #3: web header links `src/components/badge/`. Web C7 gains AC-8…AC-11 and a Fix round 1 Executor task list (#1, #2 plus Executor nits #4 unreachable icon token, #5 behavioural tests). No new tokens, no API change.
+- Plan `Finished` (web header + README); regenerated web, tablet and mobile `badge-contract.md` / `figma-badge-contract.md` and the docs pages.
+
+## [Review — Web Badge round 1] — 2026-10-24
+### Changed
+- Reviewed web `Badge` 1.0 (round 1, `badge.md` › E2): **Approved** — AC-1…AC-7 met; sizes, tokens, ring, placement (en/ar, both overlaps), focus, hit-testing and enter/exit/reduced motion measured in headless Chrome; docs:check, typecheck, test:web 121/121 pass. Code → `Approved`; Plan → `Open` for 3 Planner nits (B6/A9 contrast wording for light `count` × `warning` 2.20:1, hidden standalone space, stale Source code header row); 2 Executor nits (unreachable icon tokens, three declaration-only tests)
+
+## [Code — Web Badge 1.0] — 2026-10-24
+### Added
+- Built and exported the web `Badge` on MUI Badge with count, dot and Check variants; contract colour fallbacks; tokenized dimensions, ring and enter/exit motion; logical rectangular/circular placement and standalone flow; RTL-safe counts and positioning; accessible descriptions; development warnings; and 14 Badge tests covering every allowed variant/colour across both themes and languages, fallbacks, motion, layout and axe.
+
+## [Preview — Tablet Badge 1.0] — 2026-10-23
+### Added
+- Added light/English and dark/Arabic RTL tablet Badge planning sheets covering count `1`, `9` and `99+`, dot and Check badge variants, every allowed colour, 48dp rectangular and circular anchor placement, standalone flow, exact dimension/ring callouts, planned states and bilingual accessibility copy; the preview README records resolved token values, generation prompts, visual checks and remaining raster precision caveats.
+
+## [Preview — Mobile Badge 1.0] — 2026-10-23
+### Added
+- Added light/English and dark/Arabic RTL mobile Badge planning sheets covering count `1`, `9` and `99+`, dot and Check badge variants, every allowed colour, 48dp rectangular and circular anchor placement, exact dimension/ring callouts, planned states and bilingual content examples; the preview README records resolved values, generation prompts, visual checks and raster precision caveats.
+
+## [Preview — Web Badge 1.0] — 2026-10-22
+### Added
+- Added light/English and dark/Arabic RTL Badge planning sheets covering count `1`, `9` and `99+`, dot and Check badge variants, every allowed colour, exact size/ring callouts, rectangular and circular anchor placement, standalone flow, planned states, and bilingual content examples; the preview README records resolved values, prompts and raster QA caveats.
+
+## [Plan — Badge (web, tablet, mobile) 1.0] — 2026-10-21
+### Added
+- Badge plan (Plan `Finished`, Code and Figma build `Planned`) in `3-web-components/components/badge/badge.md`, `4-tablet-components/components/badge/badge.md` and `5-mobile-components/components/badge/badge.md`: Parts A–D and F, Part A identical on all three platforms except A8. Variants `count` · `dot` · `check` — the Figma **Check badge** folds into Badge as `variant="check"` (P-05); seven colours (`error` default, `success` default for `check`; `warning` count only), `max` (`99+`), `showZero`, `overlap` `rectangular` · `circular`, `invisible` / `isVisible`, required `label` / `semanticLabel`, standalone inline mode, outside `ring` when anchored. Web on MUI `Badge` (`Badge`), Flutter `BwBadge` as a `Stack` composition shaped like M3 `Badge`; check glyph through Icon (`check`, D-18); Western digits (D-10).
+- No component tokens: every value is an existing semantic token (P-04), so no `badge.tokens.json`.
+- Generated contracts `badge-contract.md` and `figma-badge-contract.md` for web, tablet and mobile; docs pages via `npm run docs:build`; Badge rows in the three section README Components tables.
+- Icon `check` is not in `_sync/figma-icons.json` yet: `npm run sync:icons:plan` wrote `_sync/figma-read-icons.generated.js`; the Figma contracts show it as ⏳ not indexed until the script is run in the Material Symbols file and `npm run sync:icons` merges the result.
+
 ## [Review — Mobile Split button round 3: Approved] — 2026-10-24
 ### Changed
 - Split button (mobile) review round 3: **Approved** — Part E4 of `5-mobile-components/components/split-button/split-button.md`. Round 2 #11–#13 fixed: shared `BwButtonStyle` `overlay()` equal to `main` again (focused + pressed standalone BwButton → transparent, probed), `bw_button_style.dart` differs from `main` only by `segmentBorderRadius`; menu item focus ring drawn once; `chevronHalfTurn` `@visibleForTesting`. No findings. Plan stays Finished; Code → Approved (header + README). `docs:check` ✓, `flutter analyze` ✓, `flutter test` 141/141 ✓.
@@ -40,6 +92,7 @@ Every change to the design system is logged here **in the same task**, newest fi
 ## [Mobile Split button — code implementation (1.0)] — 2026-10-24
 ### Added
 - Built `BwSplitButton` and `BwSplitButtonOption` for `biowave_mobile` (`lib/src/components/split_button/bw_split_button.dart` + `test/split_button_test.dart` + 4 goldens in `test/goldens/split_button/`), composing `BwButton` (`primary-action`) and `BwIconButton` (`menu-trigger`) with internal `segment` parameter for directional corner radii, `MenuAnchor` for menu alternatives with `alignmentOffset`, accessible semantics container and trigger, token-driven styles, and reduced-motion handling.
+
 ## [Review — Tablet Split button round 2: Approved] — 2026-10-24
 ### Reviewed
 - Split button (tablet) review round 2: **Approved**. See Part E3 of `4-tablet-components/components/split-button/split-button.md`. Round 1 findings #1–#10 are all fixed. Re-probes pass: the menu opens end-aligned under the container in LTR and RTL with a `BwSpacing.xs` offset, and the keyboard reaches the menu items (ArrowDown/Up, Enter/Space, Esc, Tab). The BwButton / BwIconButton / `bw_button_style.dart` changes match C3 exactly, and the existing button and icon-button tests are unchanged. The four goldens were checked. Two optional 🟢 nits: #11 the menu jumps for one frame when it is wider than the container, #12 very long option labels are not capped to the screen width. Code → Approved (header + README). `docs:check` ✓, `flutter analyze` ✓, `flutter test` 168/168 ✓, `sync` READY.
@@ -67,6 +120,7 @@ Every change to the design system is logged here **in the same task**, newest fi
 ## [Tablet Split button — implementation] — 2026-10-24
 ### Added
 - Added the token-driven Flutter `BwSplitButton` composition, logical segment radii for `BwButton` / `BwIconButton`, keyboard and screen-reader menu interaction, RTL-aware layout, package export, and contract test coverage. Code → Built; analysis, component-token, sync, and docs checks pass, while Flutter Test remains not runnable in the sandbox because its loopback harness socket is denied and will be run by the orchestrator.
+
 ## [Review — Web Link round 2: Approved] — 2026-10-24
 ### Changed
 - Link (web) review round 2: **Approved** — Part E3 of `3-web-components/components/link/link.md`. Round 1 findings #1–#4 fixed; headless Chrome accessibility tree in light/dark × en/ar: external name = label + hidden suffix from content ("Contact support (opens in a new tab)", AR suffix, `externalLabel` override), consumer `aria-label` kept unchanged, disabled links not tabbable or click-focusable; dimensions, colours, focus ring and RTL unchanged from Round 1. One 🟢 nit (#5, test guard against a synthesized `aria-label`). Code → Approved (header + README). `docs:check` ✓, `typecheck` ✓, `test:web` 123/123 ✓.
