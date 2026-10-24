@@ -5,7 +5,7 @@
 | Unit | `badge` on web, tablet and mobile (plan 1.0 from 2026-10-21, `_workflow/runs/2026-10-21-badge-web/`) |
 | Unit file | `3-web-components/components/badge/badge.md` |
 | Branch | `ds/badge-web`, worktree `/Users/hassansaid/Downloads/Biowave Design System-badge-web`; `main` @ 46be11a merged in |
-| Pull request | check your internet connection or https://githubstatus.com |
+| Pull request | — |
 | Skipped steps | figma (config › skip) |
 
 ## Steps
@@ -29,7 +29,7 @@
 
 | Gate | Decision | Notes |
 |---|---|---|
-| before-merge | `main` (Link #16) merged in (71a04fb): docs:check ✓ · typecheck ✓ · test:web ✓ 144/144; pushed, PR opened (2026-10-24) — merge decision pending | PR carries Badge plan 1.1 (W/T/M), the contrast pair, and the web build |
+| before-merge | `main` (Link #16) merged in (71a04fb): docs:check ✓ · typecheck ✓ · test:web ✓ 144/144; push and PR pending (network down at 2026-10-24) | PR carries Badge plan 1.1 (W/T/M), the contrast pair, and the web build |
 | after-review (R2) | **Approve** (2026-10-24) | Fix round 2 (last allowed) with codex for #1, #2, then review round 3 |
 | after-plan (1.1) | **Approve** (2026-10-24) | Fix round 1 → review round 2 → before-merge; no new previews. First a small Planner step: contrast pair `color-text-on-warning` / `color-icon-role-warning` (4.5:1) in `contrast-pairs.json` + `npm run tokens` |
 | before-merge | **Plan 1.1 first** (2026-10-24) | Planner fixes Round 1 Planner nits #1–#3 (light `count` × `warning` contrast vs B6 3:1), then a small fix if code changes, then the before-merge gate |
