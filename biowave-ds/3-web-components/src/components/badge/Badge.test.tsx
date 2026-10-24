@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { fireEvent, screen } from '@testing-library/react';
+import { act, fireEvent, screen } from '@testing-library/react';
 import { axe } from 'vitest-axe';
 import { describe, expect, it, vi } from 'vitest';
 import { cssVars } from '@biowave/foundations';
@@ -24,12 +24,11 @@ const colorsByVariant: Record<BadgeVariant, BadgeColor[]> = {
 
 const colorTokens: Record<
   BadgeColor,
-  { background: string; foreground: string; icon: string }
+  { background: string; foreground: string; icon?: string }
 > = {
   error: {
     background: cssVars.color.background.error.default,
     foreground: cssVars.color.text.on.error,
-    icon: cssVars.color.text.on.error,
   },
   brand: {
     background: cssVars.color.background.brand.default,
@@ -47,9 +46,8 @@ const colorTokens: Record<
     icon: cssVars.color.icon.on.success,
   },
   warning: {
-    background: cssVars.color.background.warning.default,
+    background: cssVars.color.icon.role.warning,
     foreground: cssVars.color.text.on.warning,
-    icon: cssVars.color.text.on.warning,
   },
   info: {
     background: cssVars.color.background.info.default,
@@ -101,6 +99,8 @@ describe('Badge visual contract', () => {
             const tokens = colorTokens[color];
             const expectedSize =
               variant === 'dot' ? cssVars.spacing.md : cssVars.size.icon.md;
+            const expectedForeground =
+              variant === 'check' ? tokens.icon ?? tokens.foreground : tokens.foreground;
 
             expect(indicator).toHaveAttribute('aria-hidden', 'true');
             expect(indicator).toHaveStyle({
@@ -109,7 +109,7 @@ describe('Badge visual contract', () => {
               paddingInline: variant === 'count' ? cssVars.spacing.xs : 0,
               borderRadius: cssVars.radius.full,
               backgroundColor: tokens.background,
-              color: variant === 'check' ? tokens.icon : tokens.foreground,
+              color: expectedForeground,
               pointerEvents: 'none',
               zIndex: cssVars.layer.raised,
             });
@@ -138,6 +138,25 @@ describe('Badge visual contract', () => {
         }
       }
     }
+  });
+
+  it('uses the warning graphic token for the count fill and no warning check-icon token', () => {
+    const view = renderBadge({
+      count: 7,
+      color: 'warning',
+      label: 'Seven pending requests',
+    });
+    const indicator = getIndicator(view.container);
+
+    expect(indicator).toHaveStyle({
+      backgroundColor: cssVars.color.icon.role.warning,
+      color: cssVars.color.text.on.warning,
+    });
+    expect(indicator).not.toHaveStyle({
+      backgroundColor: cssVars.color.background.warning.default,
+    });
+    expect(colorTokens.error.icon).toBeUndefined();
+    expect(colorTokens.warning.icon).toBeUndefined();
   });
 
   it('uses count and max semantics and keeps the rendered count LTR', () => {
@@ -182,20 +201,32 @@ describe('Badge visual contract', () => {
     for (const locale of locales) {
       for (const overlap of ['rectangular', 'circular'] as const) {
         const view = renderWithBiowave(
-          <Badge count={3} overlap={overlap} label="Three notifications">
+          <>
             <button
               type="button"
-              data-testid="anchor"
+              data-testid="plain-anchor"
               style={{ inlineSize: cssVars.target.min, blockSize: cssVars.target.min }}
             >
               Inbox
             </button>
-          </Badge>,
+            <Badge count={3} overlap={overlap} label="Three notifications">
+              <button
+                type="button"
+                data-testid="badged-anchor"
+                style={{ inlineSize: cssVars.target.min, blockSize: cssVars.target.min }}
+              >
+                Inbox
+              </button>
+            </Badge>
+          </>,
           { locale },
         );
         const root = getRoot(view.container);
-        const anchor = screen.getByTestId('anchor');
+        const plainAnchor = screen.getByTestId('plain-anchor');
+        const badgedAnchor = screen.getByTestId('badged-anchor');
         const indicator = getIndicator(view.container);
+        const plainStyles = getComputedStyle(plainAnchor);
+        const badgedStyles = getComputedStyle(badgedAnchor);
 
         expect(root).toHaveStyle({
           position: 'relative',
@@ -206,11 +237,21 @@ describe('Badge visual contract', () => {
           '--badge-translate-inline': locale === 'ar' ? '-50%' : '50%',
           '--badge-translate-block': '-50%',
         });
-        expect(anchor).toHaveStyle({
-          inlineSize: cssVars.target.min,
-          blockSize: cssVars.target.min,
+        expect({
+          inlineSize: badgedStyles.inlineSize,
+          blockSize: badgedStyles.blockSize,
+          boxSizing: badgedStyles.boxSizing,
+          padding: badgedStyles.padding,
+          border: badgedStyles.border,
+        }).toEqual({
+          inlineSize: plainStyles.inlineSize,
+          blockSize: plainStyles.blockSize,
+          boxSizing: plainStyles.boxSizing,
+          padding: plainStyles.padding,
+          border: plainStyles.border,
         });
         expect(indicator).toHaveStyle({
+          position: 'absolute',
           insetBlockStart: overlap === 'circular' ? '14.6%' : 0,
           insetInlineEnd: overlap === 'circular' ? '14.6%' : 0,
           transform:
@@ -224,8 +265,25 @@ describe('Badge visual contract', () => {
     }
   });
 
-  it('uses distinct token transitions for enter and exit with no first-paint duration', () => {
-    const view = renderBadge({ count: 0, label: 'Notifications' });
+  it('uses distinct token transitions and renders the first visible frame at its final transform', () => {
+    const initiallyVisible = renderWithBiowave(
+      <Badge count={1} label="One notification">
+        <button type="button">Notifications</button>
+      </Badge>,
+    );
+    const initialIndicator = getIndicator(initiallyVisible.container);
+    expect(initialIndicator).not.toHaveClass('MuiBadge-invisible');
+    expect(initialIndicator).toHaveStyle({
+      transform:
+        'translate(var(--badge-translate-inline), var(--badge-translate-block)) scale(1)',
+    });
+    initiallyVisible.unmount();
+
+    const view = renderWithBiowave(
+      <Badge count={0} label="Notifications">
+        <button type="button">Notifications</button>
+      </Badge>,
+    );
     const indicator = getIndicator(view.container);
 
     expect(indicator).toHaveClass('MuiBadge-invisible');
@@ -235,26 +293,121 @@ describe('Badge visual contract', () => {
       transitionTimingFunction: cssVars.motion.easing['standard-accelerate'],
     });
 
-    view.rerender(<Badge count={1} label="One notification" />);
+    view.rerender(
+      <Badge count={1} label="One notification">
+        <button type="button">Notifications</button>
+      </Badge>,
+    );
     expect(indicator).not.toHaveClass('MuiBadge-invisible');
     expect(indicator).toHaveStyle({
       transitionDuration: cssVars.motion.duration.md,
       transitionTimingFunction: cssVars.motion.easing['standard-decelerate'],
     });
 
-    view.rerender(<Badge count={0} label="Notifications" />);
+    view.rerender(
+      <Badge count={0} label="Notifications">
+        <button type="button">Notifications</button>
+      </Badge>,
+    );
     expect(indicator).toHaveClass('MuiBadge-invisible');
     expect(indicator).toHaveStyle({
       transitionDuration: cssVars.motion.duration.sm,
       transitionTimingFunction: cssVars.motion.easing['standard-accelerate'],
     });
 
-    expect(badgeSource).toContain(
-      `$mounted\n      ? cssVars.motion.duration.md\n      : cssVars.motion.duration.instant`,
+  });
+
+  it('collapses a hidden standalone after its transform exit and restores it before entering', () => {
+    const view = renderBadge({ count: 3, label: 'Three notifications' });
+    let indicator = getIndicator(view.container);
+
+    view.rerender(<Badge count={3} invisible label="Three notifications" />);
+    indicator = getIndicator(view.container);
+    expect(indicator).toHaveClass('MuiBadge-invisible');
+    expect(indicator).not.toHaveClass('bw-badge-collapsed');
+    expect(getComputedStyle(indicator).display).not.toBe('none');
+
+    fireEvent.transitionEnd(indicator, { propertyName: 'opacity' });
+    expect(getIndicator(view.container)).not.toHaveClass('bw-badge-collapsed');
+
+    const count = indicator.querySelector('bdi');
+    if (!count) throw new Error('Badge count was not rendered');
+    fireEvent.transitionEnd(count, { propertyName: 'transform' });
+    expect(getIndicator(view.container)).not.toHaveClass('bw-badge-collapsed');
+
+    fireEvent.transitionEnd(indicator, { propertyName: 'transform' });
+    indicator = getIndicator(view.container);
+    expect(indicator).toHaveClass('bw-badge-collapsed');
+    expect(indicator).toHaveStyle({ display: 'none' });
+
+    let frame: FrameRequestCallback | undefined;
+    const requestFrame = vi
+      .spyOn(window, 'requestAnimationFrame')
+      .mockImplementation((callback) => {
+        frame = callback;
+        return 1;
+      });
+    const cancelFrame = vi
+      .spyOn(window, 'cancelAnimationFrame')
+      .mockImplementation(() => undefined);
+
+    try {
+      view.rerender(<Badge count={3} label="Three notifications" />);
+      indicator = getIndicator(view.container);
+      expect(indicator).not.toHaveClass('bw-badge-collapsed');
+      expect(indicator).toHaveClass('MuiBadge-invisible');
+      expect(getComputedStyle(indicator).display).not.toBe('none');
+      expect(indicator).toHaveStyle({ transform: 'scale(0)' });
+
+      act(() => frame?.(0));
+      indicator = getIndicator(view.container);
+      expect(indicator).not.toHaveClass('MuiBadge-invisible');
+      expect(indicator).toHaveStyle({ transform: 'none' });
+    } finally {
+      requestFrame.mockRestore();
+      cancelFrame.mockRestore();
+    }
+  });
+
+  it('collapses a standalone immediately on first hidden render and with reduced motion', () => {
+    const initiallyHidden = renderBadge({ count: 0, label: 'Notifications' });
+    expect(getIndicator(initiallyHidden.container)).toHaveStyle({ display: 'none' });
+    initiallyHidden.unmount();
+
+    vi.stubGlobal('matchMedia', (query: string): MediaQueryList => ({
+      matches: query === '(prefers-reduced-motion: reduce)',
+      media: query,
+      onchange: null,
+      addListener: vi.fn(),
+      removeListener: vi.fn(),
+      addEventListener: vi.fn(),
+      removeEventListener: vi.fn(),
+      dispatchEvent: vi.fn(() => false),
+    }));
+    let reduced: ReturnType<typeof renderBadge> | undefined;
+    try {
+      reduced = renderBadge({ count: 3, label: 'Three notifications' });
+      reduced.rerender(
+        <Badge count={3} invisible label="Three notifications" />,
+      );
+      expect(getIndicator(reduced.container)).toHaveStyle({ display: 'none' });
+    } finally {
+      reduced?.unmount();
+      vi.unstubAllGlobals();
+    }
+  });
+
+  it('never collapses an anchored hidden badge', () => {
+    const view = renderWithBiowave(
+      <Badge count={3} invisible label="Three notifications">
+        <button type="button">Notifications</button>
+      </Badge>,
     );
-    expect(badgeSource).toContain(
-      `$mounted\n          ? cssVars.motion.duration.sm\n          : cssVars.motion.duration.instant`,
-    );
+    const indicator = getIndicator(view.container);
+
+    fireEvent.transitionEnd(indicator, { propertyName: 'transform' });
+    expect(indicator).not.toHaveClass('bw-badge-collapsed');
+    expect(getComputedStyle(indicator).display).not.toBe('none');
   });
 
   it('keeps transition durations in motion tokens so reduced motion can make them instant', () => {
@@ -266,7 +419,7 @@ describe('Badge visual contract', () => {
 });
 
 describe('Badge accessibility and behaviour', () => {
-  it('appends and removes the anchored description without changing other anchor props', () => {
+  it('appends and removes the description, declares pointer-events none, and preserves anchor onClick', () => {
     const onClick = vi.fn();
     const view = renderWithBiowave(
       <>

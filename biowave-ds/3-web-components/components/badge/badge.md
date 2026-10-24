@@ -15,7 +15,7 @@
 | Figma | **Biowave DS — Web Components** › `↳ Badge` · build: [Part D](#d--figma-build) |
 | Version | 1.1 · 2026-10-24 |
 | Plan | Finished |
-| Code | Approved |
+| Code | Built |
 | Figma build | Planned |
 | Review | Round 1 · 2026-10-24 · Approved |
 | Source code | [`src/components/badge/`](../../src/components/badge/) |
@@ -499,6 +499,20 @@ Files the Executor may touch in this fix round: `3-web-components/src/components
 | Built | Web Badge 1.0 on MUI Badge: count, dot and Check variants; seven contract colours with runtime fallbacks; rectangular/circular and standalone placement; tokenized ring, dimensions and enter/exit motion; RTL-safe placement/counts; accessible anchored and standalone labelling; development warnings; public exports. |
 | Files changed | `3-web-components/src/components/badge/Badge.tsx` · `3-web-components/src/components/badge/Badge.test.tsx` · `3-web-components/src/components/badge/index.ts` · `3-web-components/src/index.ts` · `3-web-components/components/badge/badge.md` · `3-web-components/README.md` · `CHANGELOG.md` |
 | Checks | `npm run component-tokens` ✓ · `npm run sync` ✓ READY · `npm run typecheck` ✓ · `npm run test:web` ✓ (121/121) · `npm run docs:check` ✓ |
+
+**Deviations:** none
+**Questions for the Planner:** none
+
+#### Fix round 1 — 2026-10-24
+
+| Finding | What changed (`file:line`) | Test that proves it |
+|---|---|---|
+| #1 — warning fill | `Badge.tsx:78-82` maps `warning` to `color-icon-role-warning` with `color-text-on-warning`. | `Badge.test.tsx:143-160` checks the warning fill and text tokens and rejects `color-background-warning-default`. |
+| #2 — hidden standalone layout | `Badge.tsx:231-290, 367-395` tracks the standalone exit, collapses only after its own `transform` transition, collapses immediately for reduced motion or an initially hidden mount, and restores layout before the next-frame enter; anchored badges never collapse. | `Badge.test.tsx:320-411` covers exit timing, irrelevant/child transition events, `display: none`, next-frame re-entry, initial hidden state, reduced motion and anchored behavior. |
+| #4 — unreachable check-icon tokens | `Badge.tsx:44-100` makes `icon` optional and omits it for `error` and `warning`. | `Badge.test.tsx:25-62, 158-159` mirrors the optional map and asserts both values are absent. |
+| #5 — behavioural B9 tests | `Badge.test.tsx:200-318, 422-446` compares computed anchor box styles with and without Badge, verifies the initial visible transform, and names/asserts `pointer-events: none` plus preserved anchor `onClick`. | The cited tests exercise rendered behavior without exact multiline source matching or simulated browser hit-testing. |
+
+**Checks:** `npm run docs:check` ✓ (21 component files) · `npm run typecheck` ✓ (2 TypeScript projects, 0 errors) · `npm run test:web` ✓ (125/125 tests, 9/9 files; Badge 18/18)
 
 **Deviations:** none
 **Questions for the Planner:** none

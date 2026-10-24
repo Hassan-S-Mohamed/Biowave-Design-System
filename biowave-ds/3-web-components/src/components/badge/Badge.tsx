@@ -41,6 +41,12 @@ interface StyledBadgeProps {
   $mounted: boolean;
 }
 
+interface BadgeColorTokens {
+  background: string;
+  foreground: string;
+  icon?: string;
+}
+
 const styledBadgeProps = new Set([
   '$badgeVariant',
   '$badgeColor',
@@ -49,7 +55,7 @@ const styledBadgeProps = new Set([
   '$mounted',
 ]);
 
-function getColorTokens(color: BadgeColor) {
+function getColorTokens(color: BadgeColor): BadgeColorTokens {
   switch (color) {
     case 'brand':
       return {
@@ -71,9 +77,8 @@ function getColorTokens(color: BadgeColor) {
       };
     case 'warning':
       return {
-        background: cssVars.color.background.warning.default,
+        background: cssVars.color.icon.role.warning,
         foreground: cssVars.color.text.on.warning,
-        icon: cssVars.color.text.on.warning,
       };
     case 'info':
       return {
@@ -92,7 +97,6 @@ function getColorTokens(color: BadgeColor) {
       return {
         background: cssVars.color.background.error.default,
         foreground: cssVars.color.text.on.error,
-        icon: cssVars.color.text.on.error,
       };
   }
 }
@@ -169,6 +173,10 @@ const StyledBadge = styled(MuiBadge, {
           cssVars.motion.easing['standard-accelerate'],
       },
 
+      '& .MuiBadge-badge.bw-badge-indicator.bw-badge-collapsed': {
+        display: 'none',
+      },
+
       "[dir='rtl'] &": {
         '--badge-translate-inline': '-50%',
       },
@@ -211,12 +219,6 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(function Badg
   ref,
 ) {
   const descriptionId = React.useId();
-  const [mounted, setMounted] = React.useState(false);
-
-  React.useEffect(() => {
-    setMounted(true);
-  }, []);
-
   const anchored = children != null;
   const resolvedOverlap = anchored ? overlap ?? 'rectangular' : 'rectangular';
   const normalizedCount =
@@ -226,6 +228,67 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(function Badg
     variant === 'count' && normalizedCount === 0 && !showZero;
   const hidden = invisible || hiddenByCount;
   const resolvedColor = effectiveColor(variant, color);
+  const reducedMotion =
+    typeof window !== 'undefined' &&
+    typeof window.matchMedia === 'function' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const [mounted, setMounted] = React.useState(false);
+  const [standaloneHidden, setStandaloneHidden] = React.useState(hidden);
+  const [standaloneCollapsed, setStandaloneCollapsed] = React.useState(
+    !anchored && hidden,
+  );
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  React.useEffect(() => {
+    if (anchored) {
+      setStandaloneHidden(hidden);
+      setStandaloneCollapsed(false);
+      return undefined;
+    }
+
+    if (hidden) {
+      setStandaloneHidden(true);
+      if (reducedMotion) setStandaloneCollapsed(true);
+      return undefined;
+    }
+
+    if (!standaloneCollapsed) {
+      setStandaloneHidden(false);
+      return undefined;
+    }
+
+    setStandaloneCollapsed(false);
+    if (reducedMotion) {
+      setStandaloneHidden(false);
+      return undefined;
+    }
+
+    const frame = window.requestAnimationFrame(() => {
+      setStandaloneHidden(false);
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [anchored, hidden, reducedMotion]);
+
+  const renderedHidden = anchored ? hidden : hidden || standaloneHidden;
+  const renderedCollapsed =
+    !anchored && (standaloneCollapsed || (hidden && reducedMotion));
+
+  const handleIndicatorTransitionEnd = React.useCallback(
+    (event: React.TransitionEvent<HTMLSpanElement>) => {
+      if (
+        !anchored &&
+        hidden &&
+        event.target === event.currentTarget &&
+        event.propertyName === 'transform'
+      ) {
+        setStandaloneCollapsed(true);
+      }
+    },
+    [anchored, hidden],
+  );
 
   if (variant === 'count' && count == null) {
     warnOnce(
@@ -304,6 +367,7 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(function Badg
   const badgeClasses = [
     'bw-badge-indicator',
     variant === 'count' ? 'bw-text-data-sm' : '',
+    renderedCollapsed ? 'bw-badge-collapsed' : '',
   ]
     .filter(Boolean)
     .join(' ');
@@ -317,12 +381,17 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(function Badg
       badgeContent={badgeContent}
       max={normalizedMax}
       showZero={showZero}
-      invisible={hidden}
+      invisible={renderedHidden}
       overlap={resolvedOverlap}
       slotProps={{
         badge: {
           'aria-hidden': true,
           className: badgeClasses,
+          onTransitionEnd: handleIndicatorTransitionEnd,
+          style: {
+            display: renderedCollapsed ? 'none' : undefined,
+            transform: !anchored && renderedHidden ? 'scale(0)' : undefined,
+          },
         },
       }}
       role={!anchored && !hidden && label ? 'img' : undefined}

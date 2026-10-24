@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Fixed — Web Badge review round 1] — 2026-10-24
+### Fixed
+- Updated `count` × `warning` to use the contrast-safe `color-icon-role-warning` fill, collapsed hidden standalone badges after their exit transition (immediately for reduced motion and on an initially hidden mount), removed unreachable error/warning check-icon tokens, and replaced declaration-only coverage with behavioural anchor-layout, first-frame and click-preservation tests. Badge passes 18/18 tests; the full web suite passes 125/125.
+
 ## [Foundations — contrast pair for Badge warning count] — 2026-10-24
 ### Added
 - `2-foundations/scripts/contrast-pairs.json`: new pair `color-text-on-warning` on `color-icon-role-warning` (min 4.5:1, normal text) in the warning group: the Badge `count` text on its warning indicator fill (Badge plan 1.1, B3/B6). `npm run tokens`: 164/164 contrast pairs pass, 0 error(s) in both themes. No token values changed, so there is no Figma variable sync (`npm run sync`: Token source → Figma variables ✓ in sync).
