@@ -20,6 +20,7 @@
 
 | Gate | Decision | Notes |
 |---|---|---|
+| (unblocked) | Badge #19 merged (2026-10-24); `main` merged in (461e266, generated index.json rebuilt) | `npm run contract` refuses (Figma library index stale after Badge's contrast-pair change); Avatar contracts still current (docs:check ✓). User: implement web now from the current contract |
 | after-plan | Approve, no 2xl (2026-10-23) | Initials rule (2 Latin, 1 Arabic script) and Flutter BwBadge composition approved; sizes stay sm–xl. Implement after Badge 1.0 is merged |
 
 ## Questions raised
