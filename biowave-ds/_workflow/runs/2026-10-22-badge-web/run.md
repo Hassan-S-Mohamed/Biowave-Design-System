@@ -13,6 +13,9 @@
 | # | Step | Agent | Result | Checks | Commit | Prompt |
 |---|---|---|---|---|---|---|
 | prev | preview ×3 | codex | web, tablet, mobile sheets complete after retries (network disconnects and time limits while another session's Codex jobs ran; retried one at a time) — see the step logs | previews W/T/M ✓ | see git log | `*-preview-codex-*.prompt.md` |
+| 06 | implement | codex | stopped partway: Codex usage limit, no Handoff (partial code kept) | — | — | `06-implement-codex.prompt.md` |
+| 07 | implement | cursor | stopped at once: Cursor usage limit | — | — | `07-implement-cursor.prompt.md` |
+| 08 | implement | codex | done (2026-10-24): web Badge built from contract 1.0, continuing the partial step-06 code; C8 filled; Code Built | docs:check ✓ · typecheck ✓ · test:web ✓ 121/121 (orchestrator) | see git log | `08-implement-codex.prompt.md` |
 
 ## Gates
 

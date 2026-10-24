@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Code — Web Badge 1.0] — 2026-10-24
+### Added
+- Built and exported the web `Badge` on MUI Badge with count, dot and Check variants; contract colour fallbacks; tokenized dimensions, ring and enter/exit motion; logical rectangular/circular placement and standalone flow; RTL-safe counts and positioning; accessible descriptions; development warnings; and 14 Badge tests covering every allowed variant/colour across both themes and languages, fallbacks, motion, layout and axe.
+
 ## [Preview — Tablet Badge 1.0] — 2026-10-23
 ### Added
 - Added light/English and dark/Arabic RTL tablet Badge planning sheets covering count `1`, `9` and `99+`, dot and Check badge variants, every allowed colour, 48dp rectangular and circular anchor placement, standalone flow, exact dimension/ring callouts, planned states and bilingual accessibility copy; the preview README records resolved token values, generation prompts, visual checks and remaining raster precision caveats.

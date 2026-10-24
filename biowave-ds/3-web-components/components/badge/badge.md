@@ -15,7 +15,7 @@
 | Figma | **Biowave DS — Web Components** › `↳ Badge` · build: [Part D](#d--figma-build) |
 | Version | 1.0 · 2026-10-21 |
 | Plan | Finished |
-| Code | Planned |
+| Code | Built |
 | Figma build | Planned |
 | Review | — |
 | Source code | `src/components/badge/` — not built yet (the Executor creates it) |
@@ -472,9 +472,11 @@ Implement every item in B9, plus:
 
 | Field | Value |
 |---|---|
-| Agent | |
-| Date | |
-| Files changed | |
+| Agent | Codex (`workflow-implement`) |
+| Date | 2026-10-24 |
+| Built | Web Badge 1.0 on MUI Badge: count, dot and Check variants; seven contract colours with runtime fallbacks; rectangular/circular and standalone placement; tokenized ring, dimensions and enter/exit motion; RTL-safe placement/counts; accessible anchored and standalone labelling; development warnings; public exports. |
+| Files changed | `3-web-components/src/components/badge/Badge.tsx` · `3-web-components/src/components/badge/Badge.test.tsx` · `3-web-components/src/components/badge/index.ts` · `3-web-components/src/index.ts` · `3-web-components/components/badge/badge.md` · `3-web-components/README.md` · `CHANGELOG.md` |
+| Checks | `npm run component-tokens` ✓ · `npm run sync` ✓ READY · `npm run typecheck` ✓ · `npm run test:web` ✓ (121/121) · `npm run docs:check` ✓ |
 
 **Deviations:** none
 **Questions for the Planner:** none
