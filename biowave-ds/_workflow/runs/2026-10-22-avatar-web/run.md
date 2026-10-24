@@ -5,7 +5,7 @@
 | Unit | `avatar` on `web` (plan step covers web, tablet and mobile — Part A is shared) |
 | Unit file | `3-web-components/components/avatar/avatar.md` |
 | Branch | `ds/avatar-web` (from `main` @ 46be11a, worktree `/Users/hassansaid/Downloads/Biowave Design System-avatar-web`) |
-| Pull request | — |
+| Pull request | https://github.com/hassanSmohamed/Biowave-Design-System/pull/23 |
 | Skipped steps | figma (config › skip) |
 
 ## Steps
