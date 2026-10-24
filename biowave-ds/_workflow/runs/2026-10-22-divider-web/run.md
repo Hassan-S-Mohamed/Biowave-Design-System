@@ -5,7 +5,7 @@
 | Unit | `divider` on `web` (plan step covers web, tablet and mobile — Part A is shared) |
 | Unit file | `3-web-components/components/divider/divider.md` |
 | Branch | `ds/divider-web` (from `main` @ 46be11a, worktree `/Users/hassansaid/Downloads/Biowave Design System-divider-web`) |
-| Pull request | — |
+| Pull request | https://github.com/hassanSmohamed/Biowave-Design-System/pull/21 |
 | Skipped steps | figma (config › skip) |
 
 ## Steps
