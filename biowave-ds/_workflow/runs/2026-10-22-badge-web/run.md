@@ -21,6 +21,7 @@
 | 11 | plan (foundations) | claude (wf-planner subagent) | done (2026-10-24): contrast pair `color.text.on.warning` / `color.icon.role.warning` (4.5) added to `contrast-pairs.json`; no token values changed, Figma in sync | tokens ✓ 164/164 pairs, 0 errors · sync ✓ READY · docs:check ✓ | see git log | `11-plan-claude.prompt.md` |
 | 12 | fix | codex | stopped partway: Codex usage limit, no Handoff (partial `Badge.tsx` kept) | — | — | `12-fix-codex.prompt.md` |
 | 13 | fix | codex | done (2026-10-24): Fix round 1 — `warning` count fill `color-icon-role-warning`, hidden standalone badge takes no space after exit, unreachable icon token removed, 3 tests rewritten to check behaviour; C8 entry; Code Built | docs:check ✓ · typecheck ✓ · test:web ✓ 125/125 (orchestrator) | see git log | `13-fix-codex.prompt.md` |
+| 14 | review | claude (wf-reviewer subagent) | done (2026-10-24) · **Changes requested** — Round 2: AC-8 warning fill 3.24 / 12.20:1 (text 6.10 / 13.11:1), AC-10, AC-11 met; AC-9 normal paths collapse correctly (EN/AR, reduced motion, first paint). New: #1 🟡 a standalone badge shown and hidden again within ~1 frame (`count` 0 → 1 → 0) never gets `transitionend` and keeps a 23.46 px gap (collapse when no transition runs / handle `transitioncancel`, add a test); #2 🟢 anchor-box test lacks the no padding/border assertion | docs:check ✓ · typecheck ✓ · test:web ✓ 125/125 | see git log | `14-review-claude.prompt.md` |
 
 ## Gates
 

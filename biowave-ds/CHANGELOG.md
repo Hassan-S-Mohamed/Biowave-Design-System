@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Review — Web Badge round 2] — 2026-10-24
+### Changed
+- Reviewed web `Badge` after fix round 1 (round 2, `badge.md` › E3): **Changes requested**. AC-8 met: the `count` × `warning` fill is `color-icon-role-warning`, measured in headless Chrome at 3.24:1 (light) and 12.20:1 (dark) against the surface, with text at 6.10:1 and 13.11:1. AC-10 and AC-11 met; Round 1's measurements still hold. docs:check, typecheck and test:web (125/125) pass. AC-9 fails in one case: a collapsed standalone badge that is shown and hidden again within about one frame stays in the layout at scale 0, leaving a 23.46 px gap (🟡 #1, Executor), plus one 🟢 test nit. Code → `Changes requested`; Plan stays `Finished`.
+
 ## [Fixed — Web Badge review round 1] — 2026-10-24
 ### Fixed
 - Updated `count` × `warning` to use the contrast-safe `color-icon-role-warning` fill, collapsed hidden standalone badges after their exit transition (immediately for reduced motion and on an initially hidden mount), removed unreachable error/warning check-icon tokens, and replaced declaration-only coverage with behavioural anchor-layout, first-frame and click-preservation tests. Badge passes 18/18 tests; the full web suite passes 125/125.
