@@ -22,6 +22,7 @@
 | 12 | fix | codex | stopped partway: Codex usage limit, no Handoff (partial edits kept) | — | — | `12-fix-codex.prompt.md` |
 | 13 | fix | cursor | stopped at once: Cursor usage limit | — | — | `13-fix-cursor.prompt.md` |
 | 14 | fix | codex | done (2026-10-24): Fix round 1 — `component="li"` list styling reset (no bullet, 1 px line), EN/AR test; Arabic label padding from computed style; C8; Code Built | docs:check ✓ · typecheck ✓ · test:web ✓ 119/119 (orchestrator) | see git log | `14-fix-codex.prompt.md` |
+| 15 | review | claude (wf-reviewer subagent) | done (2026-10-24) · **Approved** — Round 2: #1 fixed (headless Chrome: unlabelled `li` divider in a `<ul>` 1 px, `display: block`, `list-style: none`, EN/AR × light/dark), #2 fixed (Arabic label padding 8 px from computed style), #3 closed by the Planner step; Round 1 measurements hold; axe 0. No findings | docs:check ✓ · typecheck ✓ · test:web ✓ 119/119 · sync ✓ | see git log | `15-review-claude.prompt.md` |
 
 ## Gates
 

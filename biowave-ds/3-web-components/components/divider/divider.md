@@ -15,9 +15,9 @@
 | Figma | **Biowave DS — Web Components** › `↳ Divider` · build: [Part D](#d--figma-build) |
 | Version | 1.1 · 2026-10-23 |
 | Plan | Finished |
-| Code | Built |
+| Code | Approved |
 | Figma build | Planned |
-| Review | Round 1 · 2026-10-24 · Changes requested |
+| Review | Round 2 · 2026-10-24 · Approved |
 | Source code | [`src/components/divider/`](../../src/components/divider/) |
 | Tokens | — (no component tokens: every value is a semantic token, P-04) |
 | Contracts | [`divider-contract.md`](divider-contract.md) · [`figma-divider-contract.md`](figma-divider-contract.md) — generated, never edited |
@@ -608,7 +608,87 @@ Component description: “Thin line that separates groups of content, with an op
 
 | Round | Date | Code verdict | Figma verdict |
 |---|---|---|---|
+| 2 | 2026-10-24 | **Approved** | not reviewed (Figma skipped in workflow config) |
 | 1 | 2026-10-24 | **Changes requested** | not reviewed |
+
+### E3 Round 2 — 2026-10-24
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 1.1 |
+| Spec version reviewed | 1.1 |
+| Reviewer | Claude |
+| Date | 2026-10-24 |
+| Verdict | **Approved** |
+
+Code reviewed: `git diff origin/main...HEAD -- 3-web-components/src` on `ds/divider-web` (HEAD `5a5dfcd`); since round 1 only `Divider.tsx:54, 59, 61` (unlabelled root `display: block`, `listStyle: 'none'`, `padding: spacing-none`; `display: flex` moved up from the labelled branch) and `Divider.test.tsx:196-199, 297-332` changed. Working tree clean apart from this step's prompt file.
+
+Commands run by the Reviewer (2026-10-24, load average 2.4–3.4):
+`npm run docs:check` ✅ · `npm run typecheck` ✅ · `npm run test:web` ✅ 119/119 on the first run (5.6 s, default timeouts; `Divider.test.tsx` 12/12) · `npm run sync` ✅ READY (exit 0).
+
+Real browser: my own headless Chrome (`--headless=new`, own profile, CDP on a private random port, not the shared pane), rendering the real `Divider` from `3-web-components/src` with the generated `tokens.css` inside `BiowaveProvider`, bundled with the repo's esbuild into my scratch folder outside the repo. One page per light / dark × `en` / `ar`, with a `<title>`, `<main>` and `<h1>` so axe's page rules do not fire. Measured computed styles, `Accessibility.getFullAXTree` and axe-core (wcag2a/aa, 21a/aa, 22aa, best-practice) on the whole page. I killed my Chrome by PID after each run and checked nothing of mine was left.
+
+| Measured | light · en | light · ar | dark · en | dark · ar | Spec |
+|---|---|---|---|---|---|
+| `component="li"` without label, in a plain `<ul>` between two items | **1px tall**, `display: block`, `list-style-type: none`, border only bottom 1px rgb(219), margin 0, padding 0, gap to the item above 0 | 1px, same | 1px, rgb(64) | 1px, rgb(64) | B2 ✅ (was 23 / 25px with a bullet in round 1) |
+| `component="li"` `inset="start"` `emphasis="strong"` in an `<ol>` | 1px, `margin-left` 16, rgb(189) | 1px, `margin-right` 16 | rgb(84) | rgb(84), `margin-right` 16 | B2/B5 ✅ |
+| `component="li"` with label | `display: flex`, no marker, 16px, label 12px/16px Inter rgb(112), padding 8/8 | 18px, 12px/18px IBM Plex Sans Arabic | rgb(189) | rgb(189), 18px | ✅ |
+| `<hr>` thickness | 1px, only `border-bottom` (horiz.); vertical only `border-right` | vertical only `border-left` (inline end in RTL) | as en | as ar | B2/B5 ✅ |
+| `subtle` · `default` · `strong` | rgb(237) · rgb(219) · rgb(189) | same | rgb(41) · rgb(64) · rgb(84) | same | B3 ✅ (same as round 1) |
+| Inset `none` · `start` · `both` (400px box) | 0 · `margin-left` 16 (384 wide) · 16/16 (368) | 0 · `margin-right` 16 · 16/16 | as en | as ar | B2/B5 ✅ |
+| Vertical in a 48px flex row | 1×48; `both` → margin-block 16, 1×16; `start` → falls back to margin 0, 1×48 | same, line on the left | same | same | B1/B2 ✅ |
+| Label `or` / `أو` (`div`) | 16px tall, 12px/16px Inter, rgb(112), wrapper padding 8/8; `inset="both"` → outer margins 16/16 | 18px, IBM Plex Sans Arabic, padding 8/8 | rgb(189) | rgb(189) | B2/B3 ✅ |
+
+Accessibility tree (identical in all four):
+- 11 visible `separator` nodes: 6 horizontal `<hr>` (orientation horizontal, no `aria-orientation` attribute), 2 labelled `<div role="separator">` named "or" / "أو", 3 vertical (orientation vertical, `aria-orientation="vertical"`).
+- `component="li"` (plain, inset, and labelled with `decorative={false}`) → `<li role="separator" aria-hidden="true">`, no `aria-label` / `aria-orientation`, not in the tree; the lists expose exactly their 5 real `listitem`s.
+- `decorative` plain and labelled → `aria-hidden="true"`, not in the tree, no `aria-label`.
+- No `tabindex` on any divider.
+- axe: **0 violations** in all four; `list`, `listitem`, `aria-allowed-role`, `aria-hidden-focus` and `color-contrast` pass.
+
+#### Round 1 findings
+
+| # | Status | Evidence |
+|---|---|---|
+| 1 🔴 `li` divider shows a bullet and a line box | **Fixed** | `Divider.tsx:54` `display: $labelled ? 'flex' : 'block'`, `:59` `listStyle: 'none'`, `:60-61` margin and padding `spacing-none`. Browser table above: 1px, no marker, no own space, in all four combinations. Test *renders an unlabelled list divider as only its line in English and Arabic* (`Divider.test.tsx:297`) asserts `display: block` and `list-style: none` in the styled rules and computed style, token padding and border width, and height parity with the `<hr>` |
+| 2 🟢 computed label padding test | **Fixed** | `Divider.test.tsx:196-199` reads `getComputedStyle(wrapper).paddingInline` under `locale: 'ar'` and asserts start and end both equal `dividerTokens.label.gap`; browser wrapper padding 8/8 in both directions |
+| 3 🟢 header Source code row | **Fixed** (Planner step) | Header row now links [`src/components/divider/`](../../src/components/divider/); F2 line 2026-10-24; CHANGELOG `[Plan — Web Divider 1.1 header fix]` |
+
+#### Acceptance criteria
+
+| AC | Result | Evidence (file:line / test name) |
+|---|---|---|
+| AC-1 Public API = B1; no extra MUI props; `component` only `hr` · `li` | ✅ | `Divider.tsx:14-26` props, defaults `:106-112`, root element `:139`, warnings + fallbacks `:120-136`; tests *uses the required root and separator semantics*, *warns once for invalid combinations and renders each fallback*; browser fallbacks above |
+| AC-2 Every B2–B3 value from the listed semantic token / text style; no raw values, no primitives | ✅ | `divider.tokens.ts:7-32`; `Divider.tsx:41-91` uses only the map (the new `padding` uses `dividerTokens.inset.none`); test *uses only semantic tokens and logical directional properties*; the `li` now meets B2 thickness and "never adds its own spacing" |
+| AC-3 Logical properties only (incl. label gap); RTL as B5 | ✅ | `Divider.tsx:45-49, 56-58, 65-67, 83`; start inset and vertical line flip in Arabic in the browser; tests *keeps start inset at the logical inline start in English and Arabic*, *centres English and Arabic labels…* (computed `paddingInline`) |
+| AC-4 Semantics per B6; axe clean incl. a list with `li` dividers | ✅ | `Divider.tsx:138, 149-152`; tests *renders list dividers as hidden li roots…*, *has no axe violations in both themes and languages*; browser AX tree and axe above (`<ul>` and `<ol>` with `li` dividers) |
+| AC-5 B9 + C6 tests exist and pass through `renderWithBiowave` at default timeouts; checks pass | ✅ | Every render through `renderWithBiowave`; no timeout arguments; `test:web` 119/119 first run; `typecheck`, `docs:check`, `sync` pass. Note: in jsdom the new height-parity assertion compares 0 with 0; the `display` / `list-style` assertions are what guard the fix, and the browser confirms the height |
+| AC-6 Exported from `src/index.ts`; README row + header Code; C8 + CHANGELOG filled | ✅ | `src/index.ts:22-29`; C8 Fix round 1 entry; CHANGELOG `[Fixed — Web Divider review round 1]` |
+
+#### Rule checks (AGENTS.md §2 + step prompt)
+
+| Rule | Result | Notes |
+|---|---|---|
+| No generated files edited | ✅ | Fix touched only `Divider.tsx` and `Divider.test.tsx` in `src/` |
+| Tokens only — no raw values, no primitives | ✅ | Source lint test passes |
+| RTL logical properties | ✅ | See AC-3 |
+| Both themes, both languages — and tested | ✅ | New `li` test runs `en` and `ar`; browser checked all four combinations |
+| WCAG 2.2 AA | ✅ | Not interactive, never focusable; axe 0 violations in jsdom and Chrome |
+| Tests via `renderWithBiowave`, default timeouts | ✅ | No cache, provider or timeout changes |
+| Stayed inside the contract (C5 files) | ✅ | |
+| `component="li"` always hidden (user-approved) | ✅ | `Divider.tsx:138`; browser: hidden with `decorative={false}` |
+
+#### Figma build (Part D)
+
+Skipped: Figma build is `Planned` and `figma` is skipped in `_workflow/config.json`.
+
+#### Findings
+
+None.
+
+#### Next step
+
+- Approved → Code `Approved` (header + README). The orchestrator can run the before-merge gate.
 
 ### E2 Round 1 — 2026-10-24
 
