@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Added — Web Tooltip 1.0] — 2026-10-24
+### Added
+- Implemented and exported the token-styled React + MUI `Tooltip` with logical RTL placement, label and persistent-description semantics, controlled and uncontrolled interaction, hoverable and Escape-dismissible behavior, reduced motion, disabled-anchor support and 26 tests across light/dark, English/Arabic, motion, placement and axe accessibility; all 133 web tests passed in three consecutive full runs.
+
 ## [Plan — Tooltip 1.0 (web, tablet, mobile)] — 2026-10-23
 ### Added
 - Added mobile Tooltip light/English and dark/Arabic RTL planning sheets covering logical top/bottom/start/end placement, label and description purposes, long-press and tap triggers, five states, 48 px touch targets, exact token callouts, 4 px anchor offset, and the 320 px two-line maximum-width specimen.

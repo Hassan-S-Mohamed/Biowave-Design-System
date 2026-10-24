@@ -14,6 +14,7 @@
 |---|---|---|---|---|---|---|
 | 01 | plan | claude (wf-planner subagent) | done (2026-10-23, resumed after a network error and the session limit) · Tooltip 1.0 on W/T/M: `placement` top/bottom/start/end (logical), `purpose` label/description, touch `trigger` long-press/tap; WCAG 1.4.13; web on MUI `Tooltip`, Icon button's B3.4 tokens/timings + max width `size-container-xxs`; Flutter `BwTooltip` on `RawTooltip` (plan raises pubspec Flutter min to ≥ 3.47.0 — not edited yet); no component tokens; Figma 2 variants (EN/AR), no missing keys. Icon button / Text field migration = follow-up | component-tokens ✓ · contract W/T/M ✓ · docs:build ✓ · docs:check ✓ · sync ✓ READY | see git log | `01-plan-claude.prompt.md` |
 | 02–06 | preview ×3 | codex | web, tablet, mobile sheets complete (first runs hit the time limit; tablet/mobile retried as 05/06, one at a time) | previews W/T/M ✓ | see git log | `0[2-6]-preview-codex-*.prompt.md` |
+| 07 | implement | codex | done (2026-10-24): web Tooltip from contract 1.0 (code, tests, export); C8; Code Built. Codex: test:web 133/133 ×3 | docs:check ✓ · typecheck ✓ · test:web ✓ 133/133 (orchestrator) | see git log | `07-implement-codex.prompt.md` |
 
 ## Gates
 

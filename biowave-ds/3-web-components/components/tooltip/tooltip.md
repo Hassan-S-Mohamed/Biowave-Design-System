@@ -15,7 +15,7 @@
 | Figma | **Biowave DS — Web Components** › `↳ Tooltip` · build: [Part D](#d--figma-build) |
 | Version | 1.0 · 2026-10-23 |
 | Plan | Finished |
-| Code | Planned |
+| Code | Built |
 | Figma build | Planned |
 | Review | — |
 | Source code | `src/components/tooltip/` — not built yet (the Executor creates it) |
@@ -403,9 +403,11 @@ Implement every item in B9, plus:
 
 | Field | Value |
 |---|---|
-| Agent | |
-| Date | |
-| Files changed | |
+| Agent | Codex |
+| Date | 2026-10-24 |
+| Built | Public React + MUI `Tooltip` with logical placement, label / description semantics, controlled and uncontrolled state, token-owned styling and motion, reduced motion, disabled anchors, warnings and package exports; 26 contract tests cover theme, locale, placement, interaction and accessibility. |
+| Files changed | `src/components/tooltip/Tooltip.tsx`; `src/components/tooltip/tooltip.tokens.ts`; `src/components/tooltip/Tooltip.test.tsx`; `src/components/tooltip/index.ts`; `src/index.ts`; `components/tooltip/tooltip.md`; `3-web-components/README.md`; `CHANGELOG.md` |
+| Checks | `npm run component-tokens` ✓; `npm run sync` ✓ READY; `npm run docs:check` ✓; `npm run typecheck` ✓; `npm run test:web` ✓ 133/133 in 3 consecutive full runs |
 
 **Deviations from the plan or spec** (with reason — the Planner updates the spec if accepted):
 - none
