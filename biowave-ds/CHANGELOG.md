@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Plan — Tablet Split button 2] — 2026-10-24
+### Changed
+- Split button (tablet) plan 2 fixes the Planner findings of review round 1 (Part E2 of `4-tablet-components/components/split-button/split-button.md`): #4 C3 / C5 now record the internal BwButton `segment` and BwIconButton `segment`, `focusNode`, `autofocus`, `statesController`, `iconTurns`, `iconRotationDuration`, `iconRotationCurve`, `expanded` (all `@internal`, defaults keep today's behaviour); #5 B2 maps `elevation-3` onto a decorated menu surface (`MenuStyle` transparent, `clipBehavior: Clip.none`) and lists every menu token, B3 lists the menu item states, B4 records chevron close timing and `MenuAnchor`'s built-in fade timing; #7 C5 authorises `4-tablet-components/test/goldens/split_button/`; #8 header "Source code" → `lib/src/components/split_button/bw_split_button.dart`. Plan → Finished (header + README); contract regenerated. Implementer findings #1–#3, #6, #9, #10 untouched.
+
 ## [Review — Tablet Split button round 1: Changes requested] — 2026-10-24
 ### Changed
 - Split button (tablet) review round 1: **Changes requested** — Part E2 of `4-tablet-components/components/split-button/split-button.md`. 🔴 #1 menu not end-aligned with the container (B5), 🔴 #2 arrow keys never reach menu items (B6); 🟡 #3 Tab does not collapse, #6 collapse duration `md` not `sm` (Implementer); 🟡 #4 BwIconButton internal params beyond `segment` not in C3/C5, #5 `elevation-3` mapping and menu tokens missing in tablet B2/§4.1, #7 goldens folder not authorised in C5 (Planner); 🟢 #8–#10. `segment` leaves BwButton / BwIconButton defaults and tests unchanged; gap and menu-width fixes are in code, tests not weakened. Plan → Open, Code → Changes requested (header + README). `docs:check` ✓, `flutter analyze` ✓, `flutter test` 160/160 ✓, `sync` READY.

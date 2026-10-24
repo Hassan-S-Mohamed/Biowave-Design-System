@@ -16,6 +16,7 @@
 | 01 | implement | codex | done (handoff) — orchestrator run: 7 test failures (Icons.*, SemanticsHandle, part gap, menu width) | docs:check ✓ · analyze ✓ · test ✗ | — | [prompt](01-implement-codex.prompt.md) |
 | 02 | implement | codex | done — 7 failures fixed | docs:check ✓ · analyze ✓ · test ✓ 160/160 (orchestrator) | (this commit) | [prompt](02-implement-codex.prompt.md) |
 | 03 | review | claude (wf-reviewer agent) | done — Round 1 Changes requested: 2 🔴 (menu position, menu keyboard), 5 🟡 (3 Planner), 3 🟢 | docs:check ✓ · analyze ✓ · test ✓ 160/160 · sync ✓ | (this commit) | [prompt](03-review-claude.prompt.md) |
+| 04 | plan | claude (wf-planner agent) | done — plan 2: #4 internal params in C3/C5, #5 menu tokens + elevation-3 mapping, #7 goldens in C5, #8 header; contracts regenerated | contract ✓ · docs:check ✓ | (this commit) | [prompt](04-plan-claude.prompt.md) |
 
 ## Gates
 
@@ -24,7 +25,7 @@
 
 ## Questions raised
 
-- none
+- Planner: finding #9 (shared `_borderRadius` helper) — should C5 list `bw_button_style.dart` so the helper can move there?
 
 ## Summary
 

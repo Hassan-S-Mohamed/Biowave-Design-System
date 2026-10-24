@@ -14,11 +14,11 @@
 | Import | `BwSplitButton` from `package:biowave_tablet/biowave_tablet.dart` |
 | Figma | **Biowave DS — Tablet Components** › `↳ Split Button` (page Typography mode `Tablet`) · [Part D](#d--figma-build) |
 | Version | 1.0 · 2026-10-16 |
-| Plan | Open |
+| Plan | Finished |
 | Code | Changes requested |
 | Figma build | Planned |
 | Review | Round 1 · 2026-10-24 · Changes requested |
-| Source code | `lib/src/components/split-button/` — not built yet (the Executor creates it) |
+| Source code | `lib/src/components/split_button/bw_split_button.dart` |
 | Tokens | — (no component tokens yet) |
 | Contracts | [`split-button-contract.md`](split-button-contract.md) · [`figma-split-button-contract.md`](figma-split-button-contract.md) — generated, never edited |
 | Docs page | [`split-button.html`](split-button.html) |
@@ -181,17 +181,46 @@ Each part has its own states, the same as [Button A5](../button/button.md#a5-sta
 
 ### B2 Dimensions
 
-Two parts with `BwSpacing.xxs` between; outer corners `radius-md` (`xl`: `radius-xl`), inner corners `radius-xs` via `BorderRadiusDirectional`; parts follow BwButton / BwIconButton B2. Menu: [Web B2](../../../3-web-components/components/split-button/split-button.md#b2-dimensions) tokens, via `MenuStyle`/`MenuItemButton` styles.
+Two parts with `spacing-xxs` (`BwSpacing.xxs`) between; outer corners `radius-md` (`xl`: `radius-xl`), inner corners `radius-xs` via `BorderRadiusDirectional`; parts follow BwButton / BwIconButton B2. Menu: the [Web B2](../../../3-web-components/components/split-button/split-button.md#b2-dimensions) tokens, mapped on Tablet as below.
+
+| Part | Property | Token | Tablet mapping |
+|---|---|---|---|
+| `menu` | offset from `container` | `spacing-xs` | `MenuAnchor.alignmentOffset` (vertical) |
+| `menu` | min-width | width of `container` | `MenuStyle.minimumSize` and item `minimumSize` |
+| `menu` | padding | `spacing-none` | `MenuStyle.padding` |
+| `menu` | background | `color-surface-raised` | the decorated surface (below) |
+| `menu` | radius | `radius-lg` | the decorated surface; `MenuStyle.shape` uses the same radius |
+| `menu` | elevation | `elevation-3` | the decorated surface: `boxShadow: context.bw.elevation.elevation3` |
+| `menu` | M3 surface (unused) | `color-background-transparent` | `MenuStyle.backgroundColor`, `shadowColor` and `surfaceTintColor` |
+| `menu` item | height | `size-control-height-md` | item `minimumSize` |
+| `menu` item | padding-inline | `spacing-control-padding-inline-md` | `EdgeInsetsDirectional` |
+| `menu` item | icon–label gap | `spacing-control-gap-md` | |
+| `menu` item | text style | `body-md` | `context.bw.text.bodyMd` |
+| `menu` item | focus ring width | `border-width-focus` | inner ring (B3); item corners square, clipped by the surface |
+
+**How `elevation-3` maps on Tablet.** `elevation-3` is a `List<BoxShadow>` (`context.bw.elevation.elevation3`, light and dark), and `MenuStyle` takes only a number (`elevation`) and a `shadowColor`, so the M3 surface is not used for the look: `MenuStyle.backgroundColor`, `shadowColor` and `surfaceTintColor` are `color-background-transparent`, and `MenuAnchor(clipBehavior: Clip.none)` so the shadow is not cut off. All `menuChildren` sit in one decorated surface — `DecoratedBox(BoxDecoration(color: color-surface-raised, borderRadius: radius-lg, boxShadow: elevation-3))` with a `ClipRRect` of `radius-lg` inside it, so item overlays follow the corners. No numeric M3 elevation is set.
 
 ### B3 Tokens by part and state
 
 [Web B3](../../../3-web-components/components/split-button/split-button.md#b3-tokens-by-part-and-state). Expanded trigger = Pressed tokens (`WidgetState.pressed` forced while the menu is open).
+
+Menu item tokens on Tablet (`MenuItemButton` style):
+
+| State | Text | Icon | Overlay | Ring |
+|---|---|---|---|---|
+| Rest | `color-text-neutral-default` | `color-icon-neutral-subtle` | `color-background-transparent` | — |
+| Hover (pointer) | `color-text-neutral-default` | `color-icon-neutral-subtle` | `color-overlay-hover` | — |
+| Pressed | `color-text-neutral-default` | `color-icon-neutral-subtle` | `color-overlay-pressed` | — |
+| Focus (keyboard) | `color-text-neutral-default` | `color-icon-neutral-subtle` | `color-overlay-hover` | `color-border-focus`, `border-width-focus`, inside the item edge |
+| Disabled | `color-text-neutral-disabled` | `color-icon-neutral-disabled` | `color-background-transparent` | — |
 
 Dark theme: same tokens. No exceptions.
 
 ### B4 States and transitions
 
 Same as the [Web B4](../../../3-web-components/components/split-button/split-button.md#b4-states-and-transitions) with Flutter durations (`BwDuration.*`) and easings (`BwEasing.*`). No hover in Tablet examples; hover code paths stay for pointer devices. Reduced motion: `context.bw.reduceMotion` → `BwDuration.instant`.
+
+Chevron: `motion-duration-md` + `motion-easing-standard-decelerate` on open, `motion-duration-sm` + `motion-easing-standard-accelerate` on close. Menu fade / scale: `MenuAnchor` has no duration or curve parameters, so it uses Flutter's built-in timing; `MenuAnchor(animated: !context.bw.reduceMotion)` turns it off under reduced motion.
 
 ### B5 RTL
 
@@ -248,7 +277,7 @@ Structure, properties, the Figma ↔ code mapping and Code Connect: [Part D](#d-
 | Component | Split button |
 | Platform | Tablet (Flutter + M3) |
 | Depends on | BwButton and BwIconButton **Built** |
-| Plan version | 1 · 2026-10-16 |
+| Plan version | 2 · 2026-10-24 (Review Round 1 findings 4, 5, 7, 8) |
 
 ### C1 Goal
 
@@ -260,7 +289,21 @@ In: B1–B6, B9. Out: anything not in the spec.
 
 ### C3 Approach
 
-Row of `BwButton` + `BwIconButton` with an internal `segment` parameter (start/end) that only changes `BorderRadiusDirectional`; `MenuAnchor` with `alignmentOffset` from `BwSpacing.xs`, anchored at the end; chevron `AnimatedRotation(duration: BwDuration.md)`.
+Row of `BwButton` + `BwIconButton`; `MenuAnchor` with `alignmentOffset` from `BwSpacing.xs`, anchored at the end; menu surface per B2 (decorated surface carrying `elevation-3`); chevron rotation per B4.
+
+Internal parameters on the approved button components. All are marked `@internal`, are hidden from `lib/biowave_tablet.dart`, and default to today's behaviour (no change for existing callers; existing button and icon-button tests and goldens must pass unchanged). No other change to these files is allowed.
+
+| File | Internal parameter | Type · default | Used for |
+|---|---|---|---|
+| `bw_button.dart` | `segment` | `BwButtonSegment?` (`start` · `end`) · `null` | Corner radii only (`BorderRadiusDirectional`, B2); `null` = today's radius |
+| `bw_icon_button.dart` | `segment` | `BwButtonSegment?` · `null` | Corner radii only (B2) |
+| `bw_icon_button.dart` | `focusNode` | `FocusNode?` · `null` | `MenuAnchor.childFocusNode`; focus returns to the trigger (B6) |
+| `bw_icon_button.dart` | `autofocus` | `bool` · `false` | Passed to the inner button |
+| `bw_icon_button.dart` | `statesController` | `WidgetStatesController?` · `null` | Forces `WidgetState.pressed` while the menu is open (B3 Expanded) |
+| `bw_icon_button.dart` | `iconTurns` | `double` · `0` | Chevron half turn when expanded (B4), through an `AnimatedRotation` round the glyph |
+| `bw_icon_button.dart` | `iconRotationDuration` | `Duration` · `BwDuration.instant` | Chevron duration (B4) |
+| `bw_icon_button.dart` | `iconRotationCurve` | `Curve` · `BwEasing.standard` | Chevron easing (B4) |
+| `bw_icon_button.dart` | `expanded` | `bool?` · `null` | `Semantics(expanded:)` on the trigger (B6); `null` = no expanded state |
 
 ### C4 Token gaps
 
@@ -271,9 +314,10 @@ None.
 ```
 4-tablet-components/lib/src/components/split_button/bw_split_button.dart  new
 4-tablet-components/test/split_button_test.dart                           new
-4-tablet-components/lib/src/components/button/bw_button.dart              change: internal `segment` (corner radii)
-4-tablet-components/lib/src/components/icon_button/bw_icon_button.dart    change: internal `segment`
-4-tablet-components/lib/biowave_tablet.dart                                        change: export
+4-tablet-components/test/goldens/split_button/                            new (generated goldens)
+4-tablet-components/lib/src/components/button/bw_button.dart              change: internal `segment` (corner radii) — C3
+4-tablet-components/lib/src/components/icon_button/bw_icon_button.dart    change: internal `segment`, `focusNode`, `autofocus`, `statesController`, `iconTurns`, `iconRotationDuration`, `iconRotationCurve`, `expanded` (+ `AnimatedRotation` round the glyph, `expanded` on its `Semantics`) — C3
+4-tablet-components/lib/biowave_tablet.dart                               change: export
 4-tablet-components/README.md                                             change: status row
 ```
 
@@ -494,4 +538,5 @@ None — version 1.0. Filled when the version is above 1.0; it feeds Figma doc p
 
 | Version | Date | Change | Breaking | Migration |
 |---|---|---|---|---|
+| 1.0 | 2026-10-24 | Tablet B2–B4 clarified for Review Round 1 (no new behaviour): menu tokens listed, `elevation-3` mapped onto a decorated menu surface, menu item states listed, chevron close timing and `MenuAnchor` built-in fade timing recorded. Plan 2: C3 / C5 record the internal BwButton / BwIconButton parameters; C5 adds the goldens folder | No | — |
 | 1.0 | 2026-10-16 | Initial | No | — |
