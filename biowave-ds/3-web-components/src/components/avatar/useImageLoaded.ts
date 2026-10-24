@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 
 export type AvatarImageState = 'loading' | 'loaded' | 'error';
 
@@ -7,39 +7,39 @@ interface ImageLoadState {
   status: AvatarImageState;
 }
 
-/** Probe an image before handing it to MUI so the fallback never disappears while loading. */
-export function useImageLoaded(src?: string): AvatarImageState {
+interface UseImageLoadedResult {
+  status: AvatarImageState;
+  onLoad: () => void;
+  onError: () => void;
+}
+
+/** Track the rendered image element without starting a separate eager request. */
+export function useImageLoaded(src?: string): UseImageLoadedResult {
   const normalizedSrc = src ?? '';
+  const currentSrc = useRef(normalizedSrc);
+  currentSrc.current = normalizedSrc;
   const [loadState, setLoadState] = useState<ImageLoadState>(() => ({
     src: normalizedSrc,
     status: normalizedSrc ? 'loading' : 'error',
   }));
 
-  useEffect(() => {
-    if (!normalizedSrc) {
-      setLoadState({ src: normalizedSrc, status: 'error' });
-      return;
-    }
-
-    let active = true;
-    const image = new Image();
-    setLoadState({ src: normalizedSrc, status: 'loading' });
-
-    image.onload = () => {
-      if (active) setLoadState({ src: normalizedSrc, status: 'loaded' });
-    };
-    image.onerror = () => {
-      if (active) setLoadState({ src: normalizedSrc, status: 'error' });
-    };
-    image.src = normalizedSrc;
-
-    return () => {
-      active = false;
-      image.onload = null;
-      image.onerror = null;
-    };
+  const setStatus = useCallback((status: AvatarImageState) => {
+    if (!normalizedSrc || currentSrc.current !== normalizedSrc) return;
+    setLoadState((current) =>
+      current.src === normalizedSrc && current.status === status
+        ? current
+        : { src: normalizedSrc, status },
+    );
   }, [normalizedSrc]);
 
-  if (loadState.src !== normalizedSrc) return normalizedSrc ? 'loading' : 'error';
-  return loadState.status;
+  const status =
+    loadState.src === normalizedSrc
+      ? loadState.status
+      : normalizedSrc
+        ? 'loading'
+        : 'error';
+  const onLoad = useCallback(() => setStatus('loaded'), [setStatus]);
+  const onError = useCallback(() => setStatus('error'), [setStatus]);
+
+  return { status, onLoad, onError };
 }

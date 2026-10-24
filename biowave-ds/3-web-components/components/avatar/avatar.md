@@ -15,7 +15,7 @@
 | Figma | **Biowave DS — Web Components** › `↳ Avatar` · build: [Part D](#d--figma-build) |
 | Version | 1.1 · 2026-10-24 |
 | Plan | Finished |
-| Code | Approved |
+| Code | Built |
 | Figma build | Planned |
 | Review | Round 1 · 2026-10-24 · Approved |
 | Source code | [`src/components/avatar/`](../../src/components/avatar/) |
@@ -483,6 +483,18 @@ Files the Executor may touch in this fix round: `3-web-components/src/components
 | Date | 2026-10-24 |
 | Files changed | `3-web-components/src/components/avatar/Avatar.tsx`; `avatarInitials.ts`; `useImageLoaded.ts`; `Avatar.test.tsx`; `index.ts`; `3-web-components/src/index.ts`; `3-web-components/README.md`; `3-web-components/components/avatar/avatar.md`; `CHANGELOG.md` |
 | Checks | `npm run typecheck` ✓; `npm run test:web` ✓ (166 tests); `npm run component-tokens` ✓; `npm run sync` ✓ (`READY`); `npm run docs:check` ✓ |
+
+**Deviations:** none
+**Questions for the Planner:** none
+
+#### Fix round 1 — 2026-10-24
+
+| Finding | What changed (`file:line`) | Test that proves it |
+|---|---|---|
+| #1 Lazy image | `Avatar.tsx:99-126, 163-172, 243-263`; `useImageLoaded.ts:17-44` — the container is positioned, the real lazy `img` owns its box and load/error lifecycle, loading stays hidden with `visibility`, errors remove it, cached completion is handled, stale callbacks are ignored, and no eager `new Image()` or MUI image path remains | `Avatar.test.tsx:140-204` — fires `load`/`error` on the rendered `img`, proves first-render lazy attributes, hidden-not-`display: none`, fallback transitions, stale-event isolation, empty/error removal, no `Image` construction, and already-complete success/failure |
+| #3 RTL assertion | `Avatar.test.tsx:328-352` — asserts the resolved `dir` context for `en` and `ar`, exact Badge `inset-inline-end` / `inset-block-start` placement, unset physical sides, and unmirrored content | `Avatar.test.tsx:328-352` — `keeps avatar content unmirrored and resolves Badge to the top-end edge in en/ar` |
+
+**Checks:** `npm run typecheck` ✓ (2.48 s); `npm run test:web` ✓ (220/220 tests, 13 files, 7.43 s, default timeouts); `npm run component-tokens` ✓ (web 3 files / 10 collections / 299 mode values; tablet and mobile 3 / 10 / 305 each); `npm run sync` ✓ (`READY`, 33 non-blocking Figma docs queued); `npm run docs:check` ✓ (33 component files)
 
 **Deviations:** none
 **Questions for the Planner:** none

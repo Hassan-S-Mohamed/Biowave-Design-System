@@ -1,4 +1,4 @@
-import { forwardRef, type ReactNode } from 'react';
+import { forwardRef, useCallback, type ReactNode } from 'react';
 import MuiAvatar from '@mui/material/Avatar';
 import { styled } from '@mui/material/styles';
 import { cssVars } from '@biowave/foundations';
@@ -96,6 +96,7 @@ const AvatarRoot = styled(MuiAvatar, {
   shouldForwardProp: (prop) =>
     prop !== 'avatarSize' && prop !== 'avatarShape' && prop !== 'avatarColor',
 })<StyledAvatarProps>(({ avatarSize, avatarShape, avatarColor }) => ({
+  position: 'relative',
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -111,10 +112,17 @@ const AvatarRoot = styled(MuiAvatar, {
   fontSize: 'inherit',
   lineHeight: 'inherit',
   '& .bw-avatar__image': {
+    position: 'absolute',
+    insetBlock: 0,
+    insetInline: 0,
     inlineSize: '100%',
     blockSize: '100%',
     objectFit: 'cover',
     objectPosition: 'center',
+    visibility: 'hidden',
+  },
+  '& .bw-avatar__image--loaded': {
+    visibility: 'visible',
   },
   '& .bw-avatar__initials': {
     color: initialsColors[avatarColor],
@@ -152,7 +160,16 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(function Avatar(
   ref,
 ) {
   const trimmedName = name?.trim() ?? '';
-  const imageState = useImageLoaded(src);
+  const normalizedSrc = src ?? '';
+  const { status: imageStatus, onLoad, onError } = useImageLoaded(normalizedSrc);
+  const handleImageRef = useCallback(
+    (image: HTMLImageElement | null) => {
+      if (!image?.complete) return;
+      if (image.naturalWidth > 0) onLoad();
+      else onError();
+    },
+    [onError, onLoad],
+  );
   const suppliedInitials = initials === undefined ? undefined : avatarGraphemes(initials);
   const renderedInitials =
     suppliedInitials === undefined
@@ -218,22 +235,32 @@ export const Avatar = forwardRef<HTMLDivElement, AvatarProps>(function Avatar(
       avatarShape={shape}
       avatarColor={color}
       variant={shape === 'circle' ? 'circular' : 'rounded'}
-      src={src && imageState === 'loaded' ? src : undefined}
       role={!decorative && trimmedName ? 'img' : undefined}
       aria-label={!decorative && trimmedName ? trimmedName : undefined}
       aria-hidden={decorative ? 'true' : undefined}
       aria-describedby={ariaDescribedby}
-      slotProps={{
-        img: {
-          className: 'bw-avatar__image',
-          alt: '',
-          loading: 'lazy',
-          decoding: 'async',
-          draggable: false,
-        },
-      }}
     >
-      {fallback}
+      {normalizedSrc && imageStatus !== 'error' ? (
+        <img
+          key={normalizedSrc}
+          ref={handleImageRef}
+          className={[
+            'bw-avatar__image',
+            imageStatus === 'loaded' && 'bw-avatar__image--loaded',
+          ]
+            .filter(Boolean)
+            .join(' ')}
+          data-avatar-part="image"
+          src={normalizedSrc}
+          loading="lazy"
+          decoding="async"
+          alt=""
+          draggable={false}
+          onLoad={onLoad}
+          onError={onError}
+        />
+      ) : null}
+      {imageStatus === 'loaded' ? null : fallback}
     </AvatarRoot>
   );
 

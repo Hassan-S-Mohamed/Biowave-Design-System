@@ -1,46 +1,26 @@
 import { createRef } from 'react';
-import { act, cleanup, screen } from '@testing-library/react';
+import { act, cleanup, fireEvent, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { cssVars } from '@biowave/foundations';
 import { axe } from 'vitest-axe';
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { renderWithBiowave } from '../../test/render';
 import { Avatar, type AvatarBadgeProps, type AvatarProps } from './Avatar';
 // @ts-expect-error — Vitest/Vite provides raw module imports at test runtime.
 import avatarSource from './Avatar.tsx?raw';
 import { avatarInitials } from './avatarInitials';
 
-class MockImage {
-  static instances: MockImage[] = [];
-
-  onload: ((event: Event) => void) | null = null;
-  onerror: ((event: Event) => void) | null = null;
-  src = '';
-
-  constructor() {
-    MockImage.instances.push(this);
-  }
-}
-
-const nativeImage = window.Image;
-
-beforeEach(() => {
-  MockImage.instances = [];
-  window.Image = MockImage as unknown as typeof Image;
-});
-
 afterEach(() => {
   cleanup();
-  window.Image = nativeImage;
   vi.restoreAllMocks();
 });
 
-function loadImage(image = MockImage.instances.at(-1)): void {
-  act(() => image?.onload?.(new Event('load')));
+function loadImage(image: HTMLImageElement): void {
+  act(() => fireEvent.load(image));
 }
 
-function failImage(image = MockImage.instances.at(-1)): void {
-  act(() => image?.onerror?.(new Event('error')));
+function failImage(image: HTMLImageElement): void {
+  act(() => fireEvent.error(image));
 }
 
 const sizes = {
@@ -158,35 +138,69 @@ describe.each([
 
 describe('content and initials', () => {
   it('keeps the fallback visible until an image loads and resets when src changes', () => {
+    const imageConstructor = vi.spyOn(window, 'Image');
     const { rerender } = renderWithBiowave(
       <Avatar name="Sara Ali" src="/sara.png" data-testid="avatar" />,
     );
 
-    expect(screen.getByText('SA')).toBeInTheDocument();
-    expect(screen.getByTestId('avatar').querySelector('img')).not.toBeInTheDocument();
-    expect(MockImage.instances).toHaveLength(1);
-
-    loadImage();
     const firstImage = screen.getByTestId('avatar').querySelector('img');
+    expect(firstImage).not.toBeNull();
+    expect(screen.getByText('SA')).toBeInTheDocument();
     expect(firstImage).toHaveAttribute('src', '/sara.png');
     expect(firstImage).toHaveAttribute('alt', '');
     expect(firstImage).toHaveAttribute('loading', 'lazy');
     expect(firstImage).toHaveAttribute('decoding', 'async');
     expect(firstImage).toHaveAttribute('draggable', 'false');
+    expect(getComputedStyle(firstImage!).visibility).toBe('hidden');
+    expect(getComputedStyle(firstImage!).display).not.toBe('none');
+    expect(imageConstructor).not.toHaveBeenCalled();
+
+    loadImage(firstImage!);
+    expect(screen.queryByText('SA')).not.toBeInTheDocument();
+    expect(getComputedStyle(firstImage!).visibility).toBe('visible');
 
     rerender(<Avatar name="Sara Ali" src="/new.png" data-testid="avatar" />);
+    const nextImage = screen.getByTestId('avatar').querySelector('img');
+    expect(nextImage).not.toBeNull();
+    expect(nextImage).not.toBe(firstImage);
+    expect(nextImage).toHaveAttribute('src', '/new.png');
+    expect(screen.getByText('SA')).toBeInTheDocument();
+    expect(getComputedStyle(nextImage!).visibility).toBe('hidden');
+
+    loadImage(firstImage!);
+    expect(screen.getByText('SA')).toBeInTheDocument();
+    expect(getComputedStyle(nextImage!).visibility).toBe('hidden');
+
+    failImage(nextImage!);
     expect(screen.getByText('SA')).toBeInTheDocument();
     expect(screen.getByTestId('avatar').querySelector('img')).not.toBeInTheDocument();
-    expect(MockImage.instances.length).toBeGreaterThanOrEqual(2);
 
-    failImage();
-    expect(screen.getByText('SA')).toBeInTheDocument();
-    expect(screen.getByTestId('avatar').querySelector('img')).not.toBeInTheDocument();
-
-    const instanceCount = MockImage.instances.length;
     rerender(<Avatar name="Sara Ali" src="" data-testid="avatar" />);
     expect(screen.getByText('SA')).toBeInTheDocument();
-    expect(MockImage.instances).toHaveLength(instanceCount);
+    expect(screen.getByTestId('avatar').querySelector('img')).not.toBeInTheDocument();
+    expect(imageConstructor).not.toHaveBeenCalled();
+  });
+
+  it.each([
+    ['loaded', 120, true],
+    ['failed', 0, false],
+  ] as const)('handles an already-complete %s image when its ref attaches', (_state, naturalWidth, remainsVisible) => {
+    vi.spyOn(HTMLImageElement.prototype, 'complete', 'get').mockReturnValue(true);
+    vi.spyOn(HTMLImageElement.prototype, 'naturalWidth', 'get').mockReturnValue(naturalWidth);
+
+    renderWithBiowave(
+      <Avatar name="Sara Ali" src="/cached.png" data-testid="avatar" />,
+    );
+
+    const image = screen.getByTestId('avatar').querySelector('img');
+    if (remainsVisible) {
+      expect(image).toBeInTheDocument();
+      expect(getComputedStyle(image!).visibility).toBe('visible');
+      expect(screen.queryByText('SA')).not.toBeInTheDocument();
+    } else {
+      expect(image).not.toBeInTheDocument();
+      expect(screen.getByText('SA')).toBeInTheDocument();
+    }
   });
 
   it('uses initials before the Icon fallback, and supports a custom Icon glyph', () => {
@@ -311,22 +325,30 @@ describe('accessibility and RTL', () => {
     expect(screen.getByRole('button', { name: 'Next' })).toHaveFocus();
   });
 
-  it('keeps avatar content unmirrored and lets Badge use the RTL top-end edge', () => {
+  it.each([
+    ['en', 'ltr'],
+    ['ar', 'rtl'],
+  ] as const)('keeps avatar content unmirrored and resolves Badge to the top-end edge in %s', (locale, direction) => {
     renderWithBiowave(
       <Avatar
         name="Sara Ali"
-        badge={{ variant: 'dot', color: 'success', label: 'متصل' }}
+        badge={{ variant: 'dot', color: 'success', label: locale === 'ar' ? 'متصل' : 'Online' }}
         data-testid="avatar"
       />,
-      { locale: 'ar' },
+      { locale },
     );
     const avatar = screen.getByTestId('avatar');
     const initials = avatar.querySelector('.bw-avatar__initials');
+    const badgeRoot = avatar.parentElement;
     const indicator = avatar.parentElement?.querySelector('.MuiBadge-badge');
+    expect(badgeRoot?.closest('[dir]')).toHaveAttribute('dir', direction);
     expect(getComputedStyle(avatar).transform).not.toContain('scaleX(-1)');
     expect(getComputedStyle(initials!).transform).not.toContain('scaleX(-1)');
-    expect(getComputedStyle(indicator!).insetInlineEnd).not.toBe('');
-    expect(getComputedStyle(indicator!).insetBlockStart).not.toBe('');
+    const indicatorStyle = getComputedStyle(indicator!);
+    expect(indicatorStyle.insetInlineEnd).toBe('14.6%');
+    expect(indicatorStyle.insetBlockStart).toBe('14.6%');
+    expect(indicatorStyle.left).toBe('');
+    expect(indicatorStyle.right).toBe('');
   });
 });
 

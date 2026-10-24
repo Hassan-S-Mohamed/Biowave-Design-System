@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Fixed — Web Avatar review round 1] — 2026-10-24
+### Fixed
+- Replaced the eager `new Image()` probe and MUI image path with the real first-render `<img loading="lazy">`, kept it box-preserving and hidden until its own load event, removed it after error, guarded stale events and cached completion, and retained the fallback throughout loading and failure. Avatar tests now fire events on that rendered image, prove no eager probe, and assert the Badge's exact logical top-end placement in both English and Arabic. The full web suite passes 220/220 at default timeouts.
+
 ## [Plan — Avatar 1.1 (web, tablet, mobile)] — 2026-10-24
 ### Changed
 - Avatar plan 1.0 → 1.1, answering the Planner nits of Web review round 1. **Web #1 (lazy loading):** B2 › image — Avatar renders the real `img` from the first render with `loading="lazy"`, `visibility: hidden` until its own `load` event (never `display: none`), removed on `error`; container `position: relative`. C3 › Load tracking drops the `new Image()` probe and MUI `src` / `slotProps.img`; `useImageLoaded(src)` tracks the `img`'s own events (stale events ignored, hydration `complete` check). B4 `src` change, B9 (content priority, lazy loading, `src` change, stronger RTL badge assertion for Executor nit #3), C5, C6 (fire `load` / `error` on the `img`), C7 AC-8 – AC-10 and a **Fix round 1 — Executor task list**. **Web #2:** header `Source code` links `src/components/avatar/`. **Tablet / mobile:** B2 › image note — the `ImageProvider` resolves only when the widget is built (lazy lists build visible rows only); no pre-fetch. Part A unchanged; no API or token change. Version 1.1 on all three; web Plan → Finished (header + README), Code stays Approved until the fix round; contracts and docs pages regenerated.
