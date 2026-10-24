@@ -12,6 +12,7 @@
 
 | # | Step | Agent | Result | Checks | Commit | Prompt |
 |---|---|---|---|---|---|---|
+| after-plan (plan 1.2) | Approve | Previews skipped (only end-button corners change). Fix round 1 waits until split-button merges on this platform; then merge main and reuse its `segment` API unchanged |
 | after-review (Round 1) | Approve | Planner (one pass for tablet + mobile, shared decisions) → after-plan gate → Fixer on Antigravity (Gemini) |
 | 01 | implement | antigravity | partial — stopped without Handoff; orchestrator run: 5 test failures | docs:check ✓ · analyze ✓ · test ✗ | — | [prompt](01-implement-antigravity.prompt.md) |
 | 02 | implement | antigravity | done — 5 failures fixed, goldens, C8, Code Built | docs:check ✓ · analyze ✓ · test ✓ 181/181 (orchestrator); light-ar golden checked by eye | (this commit) | [prompt](02-implement-antigravity.prompt.md) |
