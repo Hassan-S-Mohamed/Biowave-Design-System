@@ -15,10 +15,10 @@
 | Figma | **Biowave DS — Web Components** › `↳ Tooltip` · build: [Part D](#d--figma-build) |
 | Version | 1.1 · 2026-10-24 |
 | Plan | Finished |
-| Code | Changes requested |
+| Code | Built |
 | Figma build | Planned |
 | Review | Round 1 · 2026-10-24 · Changes requested |
-| Source code | `src/components/tooltip/` — not built yet (the Executor creates it) |
+| Source code | [`src/components/tooltip/`](../../src/components/tooltip/) |
 | Tokens | — (no component tokens: every value is an existing semantic token, P-04) |
 | Contracts | [`tooltip-contract.md`](tooltip-contract.md) · [`figma-tooltip-contract.md`](figma-tooltip-contract.md) — generated, never edited |
 | Docs page | [`tooltip.html`](tooltip.html) |
@@ -432,6 +432,20 @@ Files the Executor may touch in this fix round: `3-web-components/src/components
 
 **Questions for the Planner:**
 - none
+
+#### Fix round 1 — 2026-10-24
+
+| Finding | What changed (`file:line`) | Test that proves it |
+|---|---|---|
+| #1 · Offset inside the hover area | `3-web-components/src/components/tooltip/Tooltip.tsx:177` removes the Popper offset modifier; `:201` resets each resolved placement margin and applies `tooltipTokens.offset` only on the anchor-facing logical side. `tooltip.tokens.ts:10` now exposes the CSS-variable string. | `Tooltip.test.tsx:212` crosses the gap frame by frame for top and logical end in English and Arabic; `:252` is the no-Popper-hover negative control; `:384` verifies all four resolved sides in both directions and no offset modifier. |
+| #2 · One described-by owner during exit | `3-web-components/src/components/tooltip/Tooltip.tsx:33` composes MUI Fade's own `onExited`; `:88` and `:111` keep the hidden copy absent until that callback, then restore it. | `Tooltip.test.tsx:501` samples the id owner halfway through pointer-leave and Escape exit fades and after each exit. |
+| #3 · Source code header | `3-web-components/components/tooltip/tooltip.md:21` links the implemented source folder. | `npm run docs:check` validates component links and structure. |
+
+Checks: `npm run typecheck` ✓ (2.38 s); `npm run test:web` ✓ 146/146 in three consecutive full runs at default timeouts (5.63 s · 4.99 s · 5.04 s); `npm run component-tokens` ✓ (web/tablet/mobile, 0.12 s); `npm run sync` ✓ READY (0.19 s); `npm run docs:check` ✓ 21 component files (0.24 s).
+
+**Deviations:** none
+
+**Questions:** none
 
 ---
 

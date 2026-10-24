@@ -1,8 +1,8 @@
 import * as React from 'react';
-import Fade from '@mui/material/Fade';
+import Fade, { type FadeProps } from '@mui/material/Fade';
 import MuiTooltip from '@mui/material/Tooltip';
 import useMediaQuery from '@mui/material/useMediaQuery';
-import { base, biowaveVariants, useBiowave } from '@biowave/foundations';
+import { biowaveVariants, useBiowave } from '@biowave/foundations';
 import { visuallyHidden } from '../../internal/visuallyHidden';
 import { warnOnce } from '../../internal/warnOnce';
 import { tooltipTokens } from './tooltip.tokens';
@@ -29,6 +29,25 @@ interface TooltipChildProps {
   'aria-describedby'?: string;
   title?: string;
 }
+
+const TooltipTransitionExitedContext = React.createContext<(() => void) | undefined>(undefined);
+
+const TooltipFade = React.forwardRef<HTMLDivElement, FadeProps>(function TooltipFade(
+  { onExited, ...props },
+  ref,
+) {
+  const onBiowaveExited = React.useContext(TooltipTransitionExitedContext);
+  return (
+    <Fade
+      {...props}
+      ref={ref}
+      onExited={(node) => {
+        onExited?.(node);
+        onBiowaveExited?.();
+      }}
+    />
+  );
+});
 
 const physicalPlacements = {
   ltr: { top: 'top', bottom: 'bottom', start: 'left', end: 'right' },
@@ -66,6 +85,9 @@ export function Tooltip({
   const [internalOpen, setInternalOpen] = React.useState(false);
   const controlled = openProp !== undefined;
   const open = controlled ? openProp : internalOpen;
+  const tooltipExited = React.useRef(!open);
+  const [, refreshDescriptionCopy] = React.useReducer((value: boolean) => !value, false);
+  if (open) tooltipExited.current = false;
   const child = children as React.ReactElement<TooltipChildProps>;
   const childIsNamed = hasAccessibleName(child.props);
   const disabled = child.props.disabled === true;
@@ -86,6 +108,10 @@ export function Tooltip({
     },
     [controlled, onClose, open],
   );
+  const handleTooltipExited = React.useCallback(() => {
+    tooltipExited.current = true;
+    if (purpose === 'description') refreshDescriptionCopy();
+  }, [purpose]);
 
   if (title.trim().length === 0) {
     warnOnce('tooltip-empty-title', 'Tooltip needs text');
@@ -128,79 +154,92 @@ export function Tooltip({
       {accessibleChild}
     </span>
   ) : accessibleChild;
-
   return (
     <>
-      <MuiTooltip
-        id={descriptionId}
-        title={title}
-        describeChild={purpose === 'description' || childIsNamed}
-        disableFocusListener
-        open={open}
-        onOpen={requestOpen}
-        onClose={requestClose}
-        placement={physicalPlacement}
-        enterDelay={tooltipTokens.hoverDelay}
-        enterNextDelay={tooltipTokens.hoverDelay}
-        leaveDelay={tooltipTokens.leaveDelay}
-        slots={{ transition: Fade }}
-        slotProps={{
-          popper: {
-            sx: { zIndex: tooltipTokens.zIndex },
-            modifiers: [
-              {
-                name: 'offset',
-                options: { offset: [base.spacing.none, tooltipTokens.offset] },
-              },
-              {
-                name: 'preventOverflow',
-                options: { padding: tooltipTokens.viewportPadding },
-              },
-              {
-                name: 'flip',
-                options: {
-                  fallbackPlacements: [oppositePlacements[physicalPlacement]],
+      <TooltipTransitionExitedContext.Provider value={handleTooltipExited}>
+        <MuiTooltip
+          id={descriptionId}
+          title={title}
+          describeChild={purpose === 'description' || childIsNamed}
+          disableFocusListener
+          open={open}
+          onOpen={requestOpen}
+          onClose={requestClose}
+          placement={physicalPlacement}
+          enterDelay={tooltipTokens.hoverDelay}
+          enterNextDelay={tooltipTokens.hoverDelay}
+          leaveDelay={tooltipTokens.leaveDelay}
+          slots={{ transition: TooltipFade }}
+          slotProps={{
+            popper: {
+              sx: { zIndex: tooltipTokens.zIndex },
+              modifiers: [
+                {
+                  name: 'preventOverflow',
+                  options: { padding: tooltipTokens.viewportPadding },
                 },
+                {
+                  name: 'flip',
+                  options: {
+                    fallbackPlacements: [oppositePlacements[physicalPlacement]],
+                  },
+                },
+              ],
+            },
+            tooltip: {
+              className: 'bw-tooltip__container bw-tooltip__label',
+              sx: {
+                ...biowaveVariants.labelSm,
+                backgroundColor: tooltipTokens.background,
+                color: tooltipTokens.color,
+                borderRadius: tooltipTokens.radius,
+                paddingBlock: tooltipTokens.paddingBlock,
+                paddingInline: tooltipTokens.paddingInline,
+                maxWidth: tooltipTokens.maxWidth,
+                margin: '0',
+                '.MuiTooltip-popper[data-popper-placement*="top"] &': {
+                  margin: '0',
+                  marginBlockEnd: tooltipTokens.offset,
+                },
+                '.MuiTooltip-popper[data-popper-placement*="bottom"] &': {
+                  margin: '0',
+                  marginBlockStart: tooltipTokens.offset,
+                },
+                '.MuiTooltip-popper[data-popper-placement*="left"] &':
+                  direction === 'rtl'
+                    ? { margin: '0', marginInlineStart: tooltipTokens.offset }
+                    : { margin: '0', marginInlineEnd: tooltipTokens.offset },
+                '.MuiTooltip-popper[data-popper-placement*="right"] &':
+                  direction === 'rtl'
+                    ? { margin: '0', marginInlineEnd: tooltipTokens.offset }
+                    : { margin: '0', marginInlineStart: tooltipTokens.offset },
+                border: 'none',
+                boxShadow: 'none',
+                textAlign: 'start',
+                whiteSpace: 'normal',
+                overflowWrap: 'break-word',
               },
-            ],
-          },
-          tooltip: {
-            className: 'bw-tooltip__container bw-tooltip__label',
-            sx: {
-              ...biowaveVariants.labelSm,
-              backgroundColor: tooltipTokens.background,
-              color: tooltipTokens.color,
-              borderRadius: tooltipTokens.radius,
-              paddingBlock: tooltipTokens.paddingBlock,
-              paddingInline: tooltipTokens.paddingInline,
-              maxWidth: tooltipTokens.maxWidth,
-              margin: '0 !important',
-              border: 'none',
-              boxShadow: 'none',
-              textAlign: 'start',
-              whiteSpace: 'normal',
-              overflowWrap: 'break-word',
             },
-          },
-          transition: {
-            easing: {
-              enter: tooltipTokens.enterEasing,
-              exit: tooltipTokens.exitEasing,
+            transition: {
+              easing: {
+                enter: tooltipTokens.enterEasing,
+                exit: tooltipTokens.exitEasing,
+              },
+              timeout: {
+                enter: prefersReducedMotion
+                  ? tooltipTokens.instantDuration
+                  : tooltipTokens.enterDuration,
+                exit: prefersReducedMotion
+                  ? tooltipTokens.instantDuration
+                  : tooltipTokens.exitDuration,
+              },
             },
-            timeout: {
-              enter: prefersReducedMotion
-                ? tooltipTokens.instantDuration
-                : tooltipTokens.enterDuration,
-              exit: prefersReducedMotion
-                ? tooltipTokens.instantDuration
-                : tooltipTokens.exitDuration,
-            },
-          },
-        }}
-      >
-        {anchor}
-      </MuiTooltip>
-      {purpose === 'description' && !open ? (
+          }}
+        >
+          {anchor}
+        </MuiTooltip>
+      </TooltipTransitionExitedContext.Provider>
+      {purpose === 'description' && !open && tooltipExited.current ? (
         <span id={descriptionId} style={visuallyHidden}>
           {title}
         </span>

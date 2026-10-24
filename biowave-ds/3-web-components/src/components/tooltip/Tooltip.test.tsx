@@ -146,7 +146,7 @@ describe('Tooltip validation and token contract', () => {
       paddingBlock: cssVars.spacing.xs,
       paddingInline: cssVars.spacing.md,
       maxWidth: cssVars.size.container.xxs,
-      offset: base.spacing.xs,
+      offset: cssVars.spacing.xs,
       viewportPadding: base.spacing.md,
       zIndex: cssVars.layer.tooltip,
       hoverDelay: base.motion.duration['2xl'],
@@ -209,7 +209,66 @@ describe('Tooltip rendering and motion', () => {
     }
   }
 
-  it('delays hover, opens keyboard focus at once, remains hoverable, and closes on leave', () => {
+  for (const { placement, locale } of [
+    { placement: 'top', locale: 'en' },
+    { placement: 'end', locale: 'en' },
+    { placement: 'end', locale: 'ar' },
+  ] as const) {
+    it(`keeps ${placement} open while the pointer crosses the gap step by step in ${locale}`, () => {
+      vi.useFakeTimers();
+      mockLayout();
+      renderWithBiowave(
+        <Tooltip title="Edit device" placement={placement}>
+          <button type="button">Edit</button>
+        </Tooltip>,
+        { locale },
+      );
+      const button = screen.getByRole('button', { name: 'Edit device' });
+
+      fireEvent.mouseOver(button);
+      act(() => vi.advanceTimersByTime(tooltipTokens.hoverDelay));
+      const tooltip = screen.getByRole('tooltip');
+      const popper = tooltip.closest('.MuiTooltip-popper');
+      expect(popper).not.toBeNull();
+
+      fireEvent.mouseLeave(button);
+      fireEvent.mouseOver(popper as Element);
+      act(() => vi.advanceTimersToNextFrame());
+      for (const step of [2, 3, 4]) {
+        fireEvent.mouseMove(popper as Element, { clientX: step, clientY: step });
+        act(() => vi.advanceTimersToNextFrame());
+      }
+      fireEvent.mouseOver(tooltip);
+      act(() => vi.advanceTimersToNextFrame());
+      act(() =>
+        vi.advanceTimersByTime(tooltipTokens.exitDuration + tooltipTokens.hoverDelay),
+      );
+
+      expect(screen.getByRole('tooltip')).toBeInTheDocument();
+      expect(tooltipTransitionStyle()).not.toContain(tooltipTokens.exitEasing);
+    });
+  }
+
+  it('starts exiting when the pointer leaves the anchor without entering the popper', () => {
+    vi.useFakeTimers();
+    renderWithBiowave(
+      <Tooltip title="Edit device">
+        <button type="button">Edit</button>
+      </Tooltip>,
+    );
+    const button = screen.getByRole('button', { name: 'Edit device' });
+    fireEvent.mouseOver(button);
+    act(() => vi.advanceTimersByTime(tooltipTokens.hoverDelay));
+
+    fireEvent.mouseLeave(button);
+    act(() => vi.advanceTimersToNextFrame());
+    expect(screen.getByRole('tooltip')).toBeInTheDocument();
+    expect(tooltipTransitionStyle()).toContain(tooltipTokens.exitEasing);
+    act(() => vi.runAllTimers());
+    expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
+  });
+
+  it('delays hover, opens keyboard focus at once, and closes on leave and blur', () => {
     vi.useFakeTimers();
     renderWithBiowave(
       <Tooltip title="Edit device">
@@ -224,13 +283,7 @@ describe('Tooltip rendering and motion', () => {
     act(() => vi.advanceTimersByTime(1));
     expect(screen.getByRole('tooltip')).toHaveTextContent('Edit device');
 
-    const tooltip = screen.getByRole('tooltip');
     fireEvent.mouseLeave(button);
-    fireEvent.mouseOver(tooltip);
-    act(() => vi.advanceTimersByTime(tooltipTokens.leaveDelay));
-    expect(screen.getByRole('tooltip')).toBeInTheDocument();
-
-    fireEvent.mouseLeave(tooltip);
     act(() => vi.advanceTimersByTime(tooltipTokens.leaveDelay));
     act(() => vi.advanceTimersByTime(tooltipTokens.exitDuration));
     expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
@@ -296,7 +349,7 @@ describe('Tooltip rendering and motion', () => {
     fireEvent.focus(reducedButton);
     expect(tooltipTransitionStyle()).toContain(`${tooltipTokens.instantDuration}ms`);
     fireEvent.keyDown(document, { key: 'Escape' });
-    act(() => vi.advanceTimersByTime(tooltipTokens.instantDuration));
+    act(() => vi.runAllTimers());
     expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
   });
 });
@@ -324,6 +377,54 @@ describe('Tooltip placement', () => {
           ),
         );
         view.unmount();
+      });
+    }
+  }
+
+  const facingMargin = {
+    en: {
+      top: 'margin-block-end',
+      bottom: 'margin-block-start',
+      left: 'margin-inline-end',
+      right: 'margin-inline-start',
+    },
+    ar: {
+      top: 'margin-block-end',
+      bottom: 'margin-block-start',
+      left: 'margin-inline-start',
+      right: 'margin-inline-end',
+    },
+  } as const;
+
+  for (const locale of locales) {
+    for (const placement of ['top', 'bottom', 'start', 'end'] as TooltipPlacement[]) {
+      const resolvedPlacement = expected[locale][placement];
+      it(`keeps only the ${resolvedPlacement} anchor-facing margin in ${locale}`, async () => {
+        mockLayout();
+        renderWithBiowave(
+          <Tooltip title="Placement" placement={placement} open>
+            <button type="button" />
+          </Tooltip>,
+          { locale },
+        );
+        const tooltip = screen.getByRole('tooltip');
+        await waitFor(() =>
+          expect(tooltip).toHaveAttribute('data-popper-placement', resolvedPlacement),
+        );
+        const container = tooltip.querySelector('.bw-tooltip__container') as Element;
+        const containerRules = cssRulesFor(container, allCssRules());
+        const placementRule = containerRules
+          .split('\n')
+          .find((rule) =>
+            rule.includes(`[data-popper-placement*="${resolvedPlacement}"]`) &&
+            rule.includes(tooltipTokens.offset),
+          );
+
+        expect(placementRule).toMatch(/margin:\s*0(?:px)?/);
+        expect(placementRule).toContain(
+          `${facingMargin[locale][resolvedPlacement]}: ${tooltipTokens.offset}`,
+        );
+        expect(componentSource).not.toContain("name: 'offset'");
       });
     }
   }
@@ -395,6 +496,43 @@ describe('Tooltip accessibility and controlled mode', () => {
     fireEvent.blur(button);
     expect(onBlur).toHaveBeenCalledTimes(1);
     view.unmount();
+  });
+
+  it('keeps one description id through pointer-leave and Escape exit fades', () => {
+    vi.useFakeTimers();
+    renderWithBiowave(
+      <Tooltip title="We send shift reminders to this address." purpose="description">
+        <button type="button">Work email</button>
+      </Tooltip>,
+    );
+    const button = screen.getByRole('button', { name: 'Work email' });
+    const tooltipId = button.getAttribute('aria-describedby') as string;
+    const idOwners = () => document.querySelectorAll(`#${CSS.escape(tooltipId)}`);
+    expect(idOwners()).toHaveLength(1);
+
+    fireEvent.mouseOver(button);
+    act(() => vi.advanceTimersByTime(tooltipTokens.hoverDelay));
+    expect(screen.getByRole('tooltip')).toHaveAttribute('id', tooltipId);
+    expect(idOwners()).toHaveLength(1);
+    fireEvent.mouseLeave(button);
+    act(() => vi.advanceTimersByTime(tooltipTokens.exitDuration / 2));
+    expect(screen.getByRole('tooltip')).toHaveAttribute('id', tooltipId);
+    expect(idOwners()).toHaveLength(1);
+    act(() => vi.runAllTimers());
+    expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
+    expect(idOwners()).toHaveLength(1);
+
+    vi.spyOn(button, 'matches').mockImplementation((selector: string) => selector === ':focus-visible');
+    fireEvent.focus(button);
+    expect(screen.getByRole('tooltip')).toHaveAttribute('id', tooltipId);
+    expect(idOwners()).toHaveLength(1);
+    fireEvent.keyDown(document, { key: 'Escape' });
+    act(() => vi.advanceTimersByTime(tooltipTokens.exitDuration / 2));
+    expect(screen.getByRole('tooltip')).toHaveAttribute('id', tooltipId);
+    expect(idOwners()).toHaveLength(1);
+    act(() => vi.runAllTimers());
+    expect(screen.queryByRole('tooltip')).not.toBeInTheDocument();
+    expect(idOwners()).toHaveLength(1);
   });
 
   it('follows controlled open and forwards requests without internal timers overriding the prop', () => {

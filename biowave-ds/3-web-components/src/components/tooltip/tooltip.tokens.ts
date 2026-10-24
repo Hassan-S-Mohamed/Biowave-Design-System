@@ -7,7 +7,7 @@ export const tooltipTokens = {
   paddingBlock: cssVars.spacing.xs,
   paddingInline: cssVars.spacing.md,
   maxWidth: cssVars.size.container.xxs,
-  offset: base.spacing.xs,
+  offset: cssVars.spacing.xs,
   viewportPadding: base.spacing.md,
   zIndex: cssVars.layer.tooltip,
   hoverDelay: base.motion.duration['2xl'],
