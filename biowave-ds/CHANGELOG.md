@@ -13,6 +13,96 @@ Every change to the design system is logged here **in the same task**, newest fi
 ## [Mobile Text field — code implementation (1.1)] — 2026-10-24
 ### Added
 - Built `BwTextField`, `BwTextFieldAction`, and `BwTextFieldEndButton` for `biowave_mobile` (`lib/src/components/text_field/` + `test/text_field_test.dart` + 4 goldens in `test/goldens/text_field/`), with shared private field parts (`BwFieldLabel`, `BwFieldAddon`, `BwFieldAction`, `BwFieldSupporting`) and `buildBwTextFieldDecoration`, token-only states and sizes (`lg` with 48dp touch targets and 40dp in-outline trailing action box inset by `BwSpacing.xs`), grapheme-cluster counter enforcement, separate accessible semantics nodes for help/trailing/end actions, and full RTL/theme/golden test coverage.
+## [Review — Mobile Split button round 3: Approved] — 2026-10-24
+### Changed
+- Split button (mobile) review round 3: **Approved** — Part E4 of `5-mobile-components/components/split-button/split-button.md`. Round 2 #11–#13 fixed: shared `BwButtonStyle` `overlay()` equal to `main` again (focused + pressed standalone BwButton → transparent, probed), `bw_button_style.dart` differs from `main` only by `segmentBorderRadius`; menu item focus ring drawn once; `chevronHalfTurn` `@visibleForTesting`. No findings. Plan stays Finished; Code → Approved (header + README). `docs:check` ✓, `flutter analyze` ✓, `flutter test` 141/141 ✓.
+
+## [Fixed — Mobile Split button review round 2] — 2026-10-24
+### Fixed
+- Fixed Mobile `BwSplitButton` review round 2 findings:
+  - Restored `main` order in shared `overlay()` resolver of `lib/src/components/button/bw_button_style.dart` (`focused` wins and returns transparent) so that file differs from `main` only by `segmentBorderRadius` (#11).
+  - Removed duplicate menu item focus ring in `backgroundBuilder`, drawing it once via `side` in `lib/src/components/split_button/bw_split_button.dart` (#12).
+  - Marked `BwSplitButton.chevronHalfTurn` with `@visibleForTesting` in `lib/src/components/split_button/bw_split_button.dart` so it is not exported as public API (#13).
+  - Code status set to `Built` in `split-button.md` header and `5-mobile-components/README.md`.
+
+## [Review — Mobile Split button round 2: Changes requested] — 2026-10-24
+### Changed
+- Split button (mobile) review round 2: **Changes requested** — Part E3 of `5-mobile-components/components/split-button/split-button.md`. Round 1 #1–#10 all fixed (Tab / Shift+Tab close, internal `@internal` API with tablet names and `BwButtonSegment` hidden, shared `segmentBorderRadius`, decorated `elevation-3` menu surface, menu position LTR + RTL, arrows wrap, menu fade off under reduced motion — probed). Open: the shared `BwButtonStyle` `overlay()` order was changed outside C3, so focused + pressed BwButton / BwIconButton now show `overlayPressed` (#11 🟡, Executor); 2 🟢 nits (double item focus ring, public `chevronHalfTurn`). Plan stays Finished; Code → Changes requested (header + README). `docs:check` ✓, `flutter analyze` ✓, `flutter test` 141/141 ✓.
+
+## [Fixed — Mobile Split button review round 1] — 2026-10-24
+### Fixed
+- Fixed Mobile `BwSplitButton` review round 1 findings and implemented Plan 2:
+  - Handled Tab and Shift+Tab key events to close open menu and advance/restore focus (#1), with tests.
+  - Marked all internal parameters on `BwButton` (`segment`), `BwIconButton` (`segment`, `focusNode`, `autofocus`, `statesController`, `iconTurns`, `iconRotationDuration`, `iconRotationCurve`, `expanded`), and `BwButtonStyle.segmentBorderRadius` as `@internal`; hid `BwButtonSegment` from package public export (#3).
+  - Defined named `BwSplitButton.chevronHalfTurn = 0.5` constant for chevron rotation (#6).
+  - Extracted shared `BwButtonStyle.segmentBorderRadius(dimensions, segment)` helper in `bw_button_style.dart` reused by both buttons without copies (#7).
+  - Applied Plan 2 C3: reworked `BwIconButton` composite parameters to match contract §3, replaced `iconChild` with `AnimatedRotation` around glyph, and removed expanded-driven pressed state hack while keeping all existing button/icon-button tests passing.
+  - Applied Plan 2 B2/B3/B4/B6: decorated menu surface with `elevation-3` shadow (`DecoratedBox` + `ClipRRect`), transparent `MenuStyle(clipBehavior: Clip.none)`, chevron open `BwDuration.md` / close `BwDuration.sm`, menu `animated: !context.bw.reduceMotion`, and cyclic arrow key navigation.
+  - Regenerated all 4 goldens under `5-mobile-components/test/goldens/split_button/` per C5.
+
+## [Plan — Mobile Split button plan 2 (review round 1)] — 2026-10-24
+### Changed
+- Split button (mobile) plan 2 — Planner findings #2, #4, #5, #7, #8, #9, #10 of Review Round 1, mirroring tablet plan 2.1 (user-approved). B2: menu token table and `elevation-3` on a decorated surface (transparent `MenuStyle`, `Clip.none`). B3: menu item states. B4: chevron timing (open `md`, close `sm`), `MenuAnchor` built-in fade off under reduced motion. B6: menu arrows wrap, menu keys listed. C3 / C5: internal `BwButtonSegment` / `segment` (bw_button.dart), `segment` · `focusNode` · `autofocus` · `statesController` · `iconTurns` · `iconRotationDuration` · `iconRotationCurve` · `expanded` (bw_icon_button.dart), shared `BwButtonStyle.segmentBorderRadius(dimensions, segment)` (bw_button_style.dart) — all `@internal`, hidden from `biowave_mobile.dart`; goldens folder in C5. Header Source code corrected. Plan → Finished (header + README); contract regenerated.
+
+## [Review — Mobile Split button round 1: Changes requested] — 2026-10-24
+### Changed
+- Split button (mobile) review round 1: **Changes requested** — Part E2 of `5-mobile-components/components/split-button/split-button.md`. Menu sits under the container (LTR + RTL), items reachable by keyboard, chevron timing per B4. Open: Tab / Shift+Tab do not close the menu (#1), BwIconButton `focusNode` / `expanded` / `iconChild` not planned (#2, Planner) and public instead of internal (#3), `elevation-3` mapping and menu tokens missing from the plan (#4, Planner), goldens not in C5 (#5, Planner), half turn derived from unrelated tokens (#6), copied segment radius / focus-ring helper (#7, Planner); 3 🟢 plan nits. Plan → Open, Code → Changes requested (header + README). `docs:check` ✓, `flutter analyze` ✓, `flutter test` 139/139 ✓, `sync` READY.
+
+## [Mobile Split button — code implementation (1.0)] — 2026-10-24
+### Added
+- Built `BwSplitButton` and `BwSplitButtonOption` for `biowave_mobile` (`lib/src/components/split_button/bw_split_button.dart` + `test/split_button_test.dart` + 4 goldens in `test/goldens/split_button/`), composing `BwButton` (`primary-action`) and `BwIconButton` (`menu-trigger`) with internal `segment` parameter for directional corner radii, `MenuAnchor` for menu alternatives with `alignmentOffset`, accessible semantics container and trigger, token-driven styles, and reduced-motion handling.
+## [Review — Tablet Split button round 2: Approved] — 2026-10-24
+### Reviewed
+- Split button (tablet) review round 2: **Approved**. See Part E3 of `4-tablet-components/components/split-button/split-button.md`. Round 1 findings #1–#10 are all fixed. Re-probes pass: the menu opens end-aligned under the container in LTR and RTL with a `BwSpacing.xs` offset, and the keyboard reaches the menu items (ArrowDown/Up, Enter/Space, Esc, Tab). The BwButton / BwIconButton / `bw_button_style.dart` changes match C3 exactly, and the existing button and icon-button tests are unchanged. The four goldens were checked. Two optional 🟢 nits: #11 the menu jumps for one frame when it is wider than the container, #12 very long option labels are not capped to the screen width. Code → Approved (header + README). `docs:check` ✓, `flutter analyze` ✓, `flutter test` 168/168 ✓, `sync` READY.
+
+## [Fixed — Tablet Split button review round 1] — 2026-10-24
+### Fixed
+- Fixed Tablet `BwSplitButton` review round 1 findings and plan 2/2.1 items: #1 end-aligned menu under container in LTR/RTL with `BwSpacing.xs` vertical offset; #2 keyboard navigation for menu items (focus first/last, arrow keys move, Enter/Space selects); #3 Tab/Shift+Tab close open menu and advance/reverse focus; #6 chevron close duration `BwDuration.sm` with accelerate curve (open `BwDuration.md`, instant on reduced motion); #9 moved duplicated `_borderRadius` into shared `BwButtonStyle.segmentBorderRadius`; #10 asserted `tap` and `focus` semantics actions on primary button; applied plan 2 menu tokens with elevation-3 decorated surface (`MenuStyle` transparent, `Clip.none`), menu item state styles, and B9 PNG goldens (`light`/`dark` × `en`/`ar`) under `4-tablet-components/test/goldens/split_button/`. Code → Built.
+
+## [Plan — Tablet Split button 2.1] — 2026-10-24
+### Changed
+- Split button (tablet) plan 2.1 adds review round 1 finding #9 (user-approved): C5 authorises `4-tablet-components/lib/src/components/button/bw_button_style.dart` (change: shared segment radius helper, internal, used by BwButton and BwIconButton) and C3 lists it in the internal-parameters table; F2 row added. No new behaviour. Plan stays Finished; contract regenerated.
+
+## [Plan — Tablet Split button 2] — 2026-10-24
+### Changed
+- Split button (tablet) plan 2 fixes the Planner findings of review round 1 (Part E2 of `4-tablet-components/components/split-button/split-button.md`): #4 C3 / C5 now record the internal BwButton `segment` and BwIconButton `segment`, `focusNode`, `autofocus`, `statesController`, `iconTurns`, `iconRotationDuration`, `iconRotationCurve`, `expanded` (all `@internal`, defaults keep today's behaviour); #5 B2 maps `elevation-3` onto a decorated menu surface (`MenuStyle` transparent, `clipBehavior: Clip.none`) and lists every menu token, B3 lists the menu item states, B4 records chevron close timing and `MenuAnchor`'s built-in fade timing; #7 C5 authorises `4-tablet-components/test/goldens/split_button/`; #8 header "Source code" → `lib/src/components/split_button/bw_split_button.dart`. Plan → Finished (header + README); contract regenerated. Implementer findings #1–#3, #6, #9, #10 untouched.
+
+## [Review — Tablet Split button round 1: Changes requested] — 2026-10-24
+### Changed
+- Split button (tablet) review round 1: **Changes requested** — Part E2 of `4-tablet-components/components/split-button/split-button.md`. 🔴 #1 menu not end-aligned with the container (B5), 🔴 #2 arrow keys never reach menu items (B6); 🟡 #3 Tab does not collapse, #6 collapse duration `md` not `sm` (Implementer); 🟡 #4 BwIconButton internal params beyond `segment` not in C3/C5, #5 `elevation-3` mapping and menu tokens missing in tablet B2/§4.1, #7 goldens folder not authorised in C5 (Planner); 🟢 #8–#10. `segment` leaves BwButton / BwIconButton defaults and tests unchanged; gap and menu-width fixes are in code, tests not weakened. Plan → Open, Code → Changes requested (header + README). `docs:check` ✓, `flutter analyze` ✓, `flutter test` 160/160 ✓, `sync` READY.
+
+## [Fixed — Tablet Split button implementation checks] — 2026-10-24
+### Fixed
+- Replaced the split-button trigger's legacy Material icon with the shared rounded Symbol, made menu options at least as wide as the split-button container, corrected RTL/LTR gap coverage, and disposed semantics handles within each accessibility test. Code → Built; analysis, component-token, sync, and docs checks pass, while Flutter Test remains delegated to the orchestrator because the sandbox denies its loopback socket.
+
+## [Tablet Split button — implementation] — 2026-10-24
+### Added
+- Added the token-driven Flutter `BwSplitButton` composition, logical segment radii for `BwButton` / `BwIconButton`, keyboard and screen-reader menu interaction, RTL-aware layout, package export, and contract test coverage. Code → Built; analysis, component-token, sync, and docs checks pass, while Flutter Test remains not runnable in the sandbox because its loopback harness socket is denied and will be run by the orchestrator.
+## [Review — Web Link round 2: Approved] — 2026-10-24
+### Changed
+- Link (web) review round 2: **Approved** — Part E3 of `3-web-components/components/link/link.md`. Round 1 findings #1–#4 fixed; headless Chrome accessibility tree in light/dark × en/ar: external name = label + hidden suffix from content ("Contact support (opens in a new tab)", AR suffix, `externalLabel` override), consumer `aria-label` kept unchanged, disabled links not tabbable or click-focusable; dimensions, colours, focus ring and RTL unchanged from Round 1. One 🟢 nit (#5, test guard against a synthesized `aria-label`). Code → Approved (header + README). `docs:check` ✓, `typecheck` ✓, `test:web` 123/123 ✓.
+
+## [Fixed — Web Link review round 1] — 2026-10-24
+### Fixed
+- Fixed all four Executor findings from review round 1: external accessible names now come from the visible label plus the localized visually hidden suffix while consumer `aria-label` values pass through unchanged; disabled links no longer receive `tabIndex=-1`; empty and non-string label warnings use independently testable once-only keys; and the component header points to the built source. `docs:check` ✓, `typecheck` ✓, `test:web` 123/123 ✓ at default timeouts.
+
+## [Review — Web Link round 1: Changes requested] — 2026-10-24
+### Changed
+- Link (web) review round 1: **Changes requested** — Part E2 of `3-web-components/components/link/link.md`. Headless Chrome confirms B2–B5 in light/en and dark/ar (24 px target, action-sm|md|lg, 16/16/20 px icons, 1→2 px underline at 2 px offset, 2 px focus ring at 2 px offset, one RTL flip by the Icon). 🟡 #1: external links build their name with an `aria-label` on top of the B6 hidden span; 🟢 #2–4: disabled `tabIndex=-1`, non-string label warning test, stale `Source code` header field. Code → Changes requested (header + README). `docs:check` ✓, `typecheck` ✓, `test:web` 123/123 ✓.
+
+## [Added — Web Link 1.0] — 2026-10-24 — Implemented the token-only MUI Link wrapper, inline and standalone sizes, brand/neutral/inverse states, visited and disabled behavior, safe localized external links, app-router composition, RTL icon handling, public exports, and complete contract tests.
+
+## [Preview — Mobile Link 1.0] — 2026-10-23 — Added light/English and dark/Arabic RTL planning sheets covering inline and standalone options, five mobile states, all sizes, leading and mirrored external icons, 48 px touch targets and resolved shared-token callouts.
+
+## [Preview — Tablet Link 1.0] — 2026-10-23 — Added light/English and dark/Arabic RTL planning sheets covering inline and standalone options, five tablet states, all sizes, leading and mirrored external icons, 48 px touch targets and resolved shared-token callouts.
+
+## [Preview — Web Link 1.0] — 2026-10-22 — Added light/English and dark/Arabic RTL planning sheets covering the planned options, six states, resolved shared-token callouts and RTL mirroring.
+
+## [Plan — Link (web, tablet, mobile) 1.0] — 2026-10-21
+### Added
+- Link plan for Web, Tablet and Mobile (`<section>/components/link/link.md`, Parts A–D and F; Part A identical on all three except A8): inline and standalone links, `color` brand · neutral · inverse, `size` inherit · sm · md · lg, `underline` always · hover, optional leading icon, `external` (`open_in_new`, screen-reader suffix / hint), `show-visited` on web only. Web on MUI `Link`; Flutter `BwLink` (custom `InkWell` + text) and `BwLink.span` for inline links. Semantic tokens only — no `link.tokens.json` (P-04). Plan `Finished`.
+- Generated contracts `link-contract.md` · `figma-link-contract.md` and docs pages `link.html` for the three platforms; Link rows in the three section README Components tables.
+- Open: glyph `open_in_new` is not in `_sync/figma-icons.json` yet (`npm run sync:icons:plan` → read in Figma → `npm run sync:icons`, then regenerate the Figma contracts).
 
 ## [Review — Mobile Icon button round 3: Approved] — 2026-10-24
 ### Changed
@@ -37,6 +127,7 @@ Every change to the design system is logged here **in the same task**, newest fi
 ## [Mobile Icon button — code implementation (1.0)] — 2026-10-23
 ### Added
 - Built `BwIconButton` for `biowave_mobile` (`lib/src/components/icon_button/bw_icon_button.dart` + `test/icon_button_test.dart` + 4 goldens in `test/goldens/icon_button/`), sharing `BwButtonStyle.resolve`, `BwControlSize`, and `BwFocusRing`, with token-only selected state (`WidgetState.selected`), long-press M3 `Tooltip` styled with B3.4 tokens, loading spinner and single announcement, and a single accessible container node carrying the tap action and toggle state.
+
 ## [Review — Tablet Icon button round 2: Approved] — 2026-10-24
 ### Changed
 - Icon button (tablet) review round 2: **Approved** — Part E3 of `4-tablet-components/components/icon-button/icon-button.md`. Round 1 #1 fixed (`MergeSemantics` exposes one labelled button node with `tap` + `focus` when enabled, none when disabled; tap-target guidelines now meaningful), #2 fixed (plan 1.1 authorises `test/goldens/icon_button/`; four goldens added and checked by eye), #3 fixed (icon cross-fade), #4 and #5 fixed (header source path, C1 reference). 🟢 #6 nit: no icon-button test asserts reduced motion (Implementer, non-blocking). Code → Approved (header + README). `docs:check` ✓, `flutter analyze` ✓, `flutter test` 152/152 ✓.
@@ -56,6 +147,7 @@ Every change to the design system is logged here **in the same task**, newest fi
 ## [Tablet Icon button — implementation] — 2026-10-23
 - Round 3 disposes the icon-button semantics handle inside the test body before Flutter verifies that no handles remain active.
 - Added the token-driven Flutter `BwIconButton`, package export, and contract test coverage; fixed selected transitions to keep one `BwIcon` mounted and exposed the labelled toggle semantics outside the visual-only tooltip. Code is Built; analysis, component-token, sync, and docs checks pass, while Flutter Test remains not runnable in the sandbox because its loopback harness socket is denied and will be run by the orchestrator.
+
 ## [Review — Mobile Icon round 1: Approved] — 2026-10-23
 ### Changed
 - Icon (mobile) review round 1: **Approved** — Part E2 of `5-mobile-components/components/icon/icon.md`. AC-1…AC-5 met; 3 🟢 nits for the Executor (test name over-claims a button double-flip check, stale header `Source code` row, changelog entry format). Note: mobile `BwButton` still renders `Icon` directly, so the B9 button double-flip check moves to Button / Icon button (mobile). Review → Round 1 · Approved (header + README). `docs:check` ✓, `flutter analyze` ✓, `flutter test` 92/92 ✓.

@@ -1,8 +1,10 @@
 import 'package:biowave_foundations/biowave_foundations.dart';
+import 'package:flutter/foundation.dart' show internal;
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 
 import '../../common/bw_control_size.dart';
+import '../../common/bw_focus_ring.dart';
 import '../button/bw_button.dart';
 import '../button/bw_button_style.dart';
 
@@ -21,6 +23,14 @@ class BwIconButton extends StatefulWidget {
     this.tooltip = true,
     this.loading = false,
     this.loadingLabel,
+    this.focusNode,
+    this.autofocus = false,
+    this.statesController,
+    this.segment,
+    this.iconTurns = 0,
+    this.iconRotationDuration = BwDuration.instant,
+    this.iconRotationCurve = BwEasing.standard,
+    this.expanded,
     super.key,
   })  : assert(label != '', 'BwIconButton needs a label'),
         assert(
@@ -53,16 +63,52 @@ class BwIconButton extends StatefulWidget {
   final bool loading;
   final String? loadingLabel;
 
+  /// Used by package-owned composite controls that manage trigger focus.
+  @internal
+  final FocusNode? focusNode;
+
+  /// Used by package-owned composite controls that manage trigger focus.
+  @internal
+  final bool autofocus;
+
+  /// Used by package-owned composite controls to force interaction states.
+  @internal
+  final WidgetStatesController? statesController;
+
+  /// Used by package-owned controls that join buttons into one control.
+  @internal
+  final BwButtonSegment? segment;
+
+  /// Used by package-owned composite controls with animated glyphs.
+  @internal
+  final double iconTurns;
+
+  /// Used by package-owned composite controls with animated glyphs.
+  @internal
+  final Duration iconRotationDuration;
+
+  /// Used by package-owned composite controls with animated glyphs.
+  @internal
+  final Curve iconRotationCurve;
+
+  /// Used by package-owned menu triggers to expose expanded state.
+  @internal
+  final bool? expanded;
+
   @override
   State<BwIconButton> createState() => _BwIconButtonState();
 }
 
 class _BwIconButtonState extends State<BwIconButton> {
-  late final FocusNode _focusNode = FocusNode()..addListener(_handleFocusChange);
+  FocusNode? _internalFocusNode;
+
+  FocusNode get _focusNode =>
+      widget.focusNode ?? (_internalFocusNode ??= FocusNode());
 
   @override
   void initState() {
     super.initState();
+    _focusNode.addListener(_handleFocusChange);
     if (_announcesLoading) {
       _announceLoadingAfterFrame();
     }
@@ -71,6 +117,11 @@ class _BwIconButtonState extends State<BwIconButton> {
   @override
   void didUpdateWidget(BwIconButton oldWidget) {
     super.didUpdateWidget(oldWidget);
+    if (oldWidget.focusNode != widget.focusNode) {
+      (oldWidget.focusNode ?? _internalFocusNode)
+          ?.removeListener(_handleFocusChange);
+      _focusNode.addListener(_handleFocusChange);
+    }
     if (_announcesLoading && !oldWidget.loading) {
       _announceLoadingAfterFrame();
     }
@@ -78,9 +129,8 @@ class _BwIconButtonState extends State<BwIconButton> {
 
   @override
   void dispose() {
-    _focusNode
-      ..removeListener(_handleFocusChange)
-      ..dispose();
+    _focusNode.removeListener(_handleFocusChange);
+    _internalFocusNode?.dispose();
     super.dispose();
   }
 
@@ -130,13 +180,16 @@ class _BwIconButtonState extends State<BwIconButton> {
     final effectiveSelected = _effectiveToggle && widget.selected;
     final motionDuration =
         context.bw.reduceMotion ? BwDuration.instant : BwDuration.sm;
+    final focusRingKey = const ValueKey<String>('BwIconButton.focus-ring');
     final baseStyle = BwButtonStyle.resolve(
       context,
       _effectiveVariant,
       widget.color,
       widget.size,
-      focusRingKey: const ValueKey<String>('BwIconButton.focus-ring'),
+      focusRingKey: focusRingKey,
     );
+    final borderRadius =
+        BwButtonStyle.segmentBorderRadius(metrics, widget.segment);
     final baseBackground = baseStyle.backgroundColor!;
     final baseIcon = baseStyle.iconColor!;
     final baseSide = baseStyle.side;
@@ -174,6 +227,27 @@ class _BwIconButtonState extends State<BwIconButton> {
       side: _effectiveVariant == BwButtonVariant.outlined
           ? baseSide
           : const WidgetStatePropertyAll<BorderSide>(BorderSide.none),
+      shape: widget.segment == null
+          ? null
+          : WidgetStatePropertyAll<OutlinedBorder>(
+              RoundedRectangleBorder(borderRadius: borderRadius),
+            ),
+      backgroundBuilder: widget.segment == null
+          ? null
+          : (
+              BuildContext builderContext,
+              Set<WidgetState> states,
+              Widget? child,
+            ) =>
+              BwFocusRing(
+                focused: states.contains(WidgetState.focused),
+                borderRadius: borderRadius,
+                color: widget.color == BwButtonColor.inverse
+                    ? colors.borderInverse
+                    : colors.borderFocus,
+                ringKey: focusRingKey,
+                child: child ?? const SizedBox.shrink(),
+              ),
       padding: const WidgetStatePropertyAll<EdgeInsetsGeometry>(
         EdgeInsetsDirectional.zero,
       ),
@@ -193,15 +267,20 @@ class _BwIconButtonState extends State<BwIconButton> {
               dimension: metrics.iconSize,
               child: CircularProgressIndicator(color: resolvedIconColor),
             )
-          : Icon(
-              effectiveSelected ? widget.selectedIcon : widget.icon,
-              key: ValueKey<String>(
-                effectiveSelected
-                    ? 'BwIconButton.icon.selected'
-                    : 'BwIconButton.icon',
+          : AnimatedRotation(
+              turns: widget.iconTurns,
+              duration: widget.iconRotationDuration,
+              curve: widget.iconRotationCurve,
+              child: Icon(
+                effectiveSelected ? widget.selectedIcon : widget.icon,
+                key: ValueKey<String>(
+                  effectiveSelected
+                      ? 'BwIconButton.icon.selected'
+                      : 'BwIconButton.icon',
+                ),
+                fill: effectiveSelected ? BwIconAxes.fillSelected : null,
+                semanticLabel: null,
               ),
-              fill: effectiveSelected ? BwIconAxes.fillSelected : null,
-              semanticLabel: null,
             ),
     );
     final enabled = widget.onPressed != null;
@@ -211,6 +290,8 @@ class _BwIconButtonState extends State<BwIconButton> {
       BwButtonVariant.filled => IconButton.filled(
           onPressed: effectiveOnPressed,
           focusNode: _focusNode,
+          autofocus: widget.autofocus,
+          statesController: widget.statesController,
           style: style,
           isSelected: _effectiveToggle ? widget.selected : null,
           selectedIcon: visual,
@@ -219,6 +300,8 @@ class _BwIconButtonState extends State<BwIconButton> {
       BwButtonVariant.tonal => IconButton.filledTonal(
           onPressed: effectiveOnPressed,
           focusNode: _focusNode,
+          autofocus: widget.autofocus,
+          statesController: widget.statesController,
           style: style,
           isSelected: _effectiveToggle ? widget.selected : null,
           selectedIcon: visual,
@@ -227,6 +310,8 @@ class _BwIconButtonState extends State<BwIconButton> {
       BwButtonVariant.outlined => IconButton.outlined(
           onPressed: effectiveOnPressed,
           focusNode: _focusNode,
+          autofocus: widget.autofocus,
+          statesController: widget.statesController,
           style: style,
           isSelected: _effectiveToggle ? widget.selected : null,
           selectedIcon: visual,
@@ -235,6 +320,8 @@ class _BwIconButtonState extends State<BwIconButton> {
       BwButtonVariant.text => IconButton(
           onPressed: effectiveOnPressed,
           focusNode: _focusNode,
+          autofocus: widget.autofocus,
+          statesController: widget.statesController,
           style: style,
           isSelected: _effectiveToggle ? widget.selected : null,
           selectedIcon: visual,
@@ -279,6 +366,7 @@ class _BwIconButtonState extends State<BwIconButton> {
       focusable: enabled,
       focused: enabled && _focusNode.hasFocus,
       toggled: _effectiveToggle ? widget.selected : null,
+      expanded: widget.expanded,
       onTap: effectiveOnPressed,
       onFocus: enabled ? _focusNode.requestFocus : null,
       excludeSemantics: true,
