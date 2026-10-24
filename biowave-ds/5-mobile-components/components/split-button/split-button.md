@@ -15,9 +15,9 @@
 | Figma | **Biowave DS — Mobile Components** › `↳ Split Button` (page Typography mode `Mobile`) · [Part D](#d--figma-build) |
 | Version | 1.0 · 2026-10-16 |
 | Plan | Finished |
-| Code | Built |
+| Code | Approved |
 | Figma build | Planned |
-| Review | Round 2 · 2026-10-24 · Changes requested |
+| Review | Round 3 · 2026-10-24 · Approved |
 | Source code | `lib/src/components/split_button/bw_split_button.dart` |
 | Tokens | — (no component tokens yet) |
 | Contracts | [`split-button-contract.md`](split-button-contract.md) · [`figma-split-button-contract.md`](figma-split-button-contract.md) — generated, never edited |
@@ -484,8 +484,89 @@ Component description: one line from A1 + "Spec: 5-mobile-components/components/
 
 | Round | Date | Code verdict | Figma verdict |
 |---|---|---|---|
+| 3 | 2026-10-24 | Approved | not reviewed |
 | 2 | 2026-10-24 | Changes requested | not reviewed |
 | 1 | 2026-10-24 | Changes requested | not reviewed |
+
+### E4 Round 3 — 2026-10-24
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 2 · 2026-10-24 |
+| Spec version reviewed | 1.0 (F2 entry 2026-10-24) |
+| Reviewer | Claude |
+| Date | 2026-10-24 |
+| Commit reviewed | `8bec49c` (Fix round 2; branch `ds/split-button-mobile`, `git diff main...HEAD`; working tree clean before this review) |
+| Verdict | **Approved** (0 🔴, 0 🟡, 0 🟢 open) |
+
+Checks run by the Reviewer (not copied from C8):
+
+| Command | Result |
+|---|---|
+| `npm run docs:check` | ✓ 18 component files OK |
+| `cd 5-mobile-components && flutter analyze` | ✓ No issues found |
+| `cd 5-mobile-components && flutter test` | ✓ 141 tests, all passed (goldens compared, not updated) |
+
+Change since Round 2 (`git diff 50bc54a HEAD`): only `bw_button_style.dart` (overlay order), `bw_split_button.dart` (`@visibleForTesting`, `backgroundBuilder` removed), C8 Fix round 2, header / README Code status, CHANGELOG and run files. No test or golden changed; `button_test.dart` and `icon_button_test.dart` equal `main`.
+
+`git diff main -- 5-mobile-components/lib/src/components/button/bw_button_style.dart`: only `import 'package:flutter/foundation.dart' show internal;` and the `@internal static segmentBorderRadius(...)` helper (`:141-165`, doc comment + annotation + body). The `overlay()` resolver (`:64-77`) is byte-equal to `main` (filled · disabled · focused → transparent first). ✅ C3.
+
+Behaviour probes (a throw-away widget test, copied into `test/` only for the run and deleted after; `git status` clean afterwards; 4/4 passed):
+
+| Probe | Result |
+|---|---|
+| Standalone `BwButton` focused + pressed (tonal, outlined, text; brand) | ✅ `overlayColor.resolve({focused, pressed})` = `backgroundTransparent` (alpha 0), as on `main`; `{pressed}` alone = `overlayPressed` |
+| Keyboard-opened trigger keeps Expanded = Pressed (B3) | ✅ Tab ×2, Enter: trigger states `{pressed}` (focus moved into the menu), overlay = `overlayPressed` (outlined) |
+| Menu item focus ring drawn once (B3) | ✅ `MenuItemButton.style.backgroundBuilder == null`; `side` for `{focused}` = `borderFocus`, `border-width-focus` (2.0); no bordered `DecoratedBox` inside the item |
+| Option runs once, menu closes, focus back | ✅ ArrowDown + Enter → `[0, 1]`, no `MenuItemButton` left, trigger states `{focused}` (pressed cleared) |
+
+#### Round 2 findings
+
+| # | Status | Evidence |
+|---|---|---|
+| 11 | Fixed | `bw_button_style.dart:64-77` equal to `main`; diff vs `main` is only the helper + import (above); probe "Standalone `BwButton` focused + pressed"; test `expanded trigger forces WidgetState.pressed …` still passes, so the trigger did not need the old order (no Planner question) |
+| 12 | Fixed | `bw_split_button.dart:455-466` — ring only via `side`; `backgroundBuilder` removed; probe "Menu item focus ring drawn once" |
+| 13 | Fixed | `bw_split_button.dart:76-77` `@visibleForTesting static const double chevronHalfTurn = 0.5`; used only in the same file (`:353`) and in `split_button_test.dart:456`; analyze clean |
+
+#### Acceptance criteria
+
+| AC | Result | Evidence (file:line / test name) |
+|---|---|---|
+| AC-1 API = B1 (names, defaults, asserts) | ✅ | `bw_split_button.dart:14-73` (option, params, defaults, asserts), release fallbacks; group `BwSplitButton API`. `chevronHalfTurn` now `@visibleForTesting` (#13) |
+| AC-2 Values from tokens only; shared helpers reused, no copied styles | ✅ | Test `component source contains no raw visual values`; shared `segmentBorderRadius`; shared `BwButtonStyle.resolve` back to `main` (#11); menu surface tokens per B2 (test `… surface tokens and elevation-3`) |
+| AC-3 States/transitions; reduced motion | ✅ | Expanded = Pressed (probe; test `expanded trigger forces WidgetState.pressed …`); chevron timing (test `chevron rotates with B4 open/close durations and curves`); test `reduced motion makes chevron and menu item transitions instant` |
+| AC-4 RTL and a11y per B5–B6 | ✅ | Test `menu geometry and end alignment in en and ar`; `*-ar` goldens; tests `Tab and Shift+Tab close the open menu and move focus on`, `arrow keys wrap around enabled options in open menu`; semantics and tap-target tests; single item focus ring (#12) |
+| AC-5 analyze, test, sync pass | ✅ | Checks table above. `sync` not re-run: Fix round 2 touches no synced file; C8 reports `sync` READY |
+| AC-6 Exported; README status | ✅ | `lib/biowave_mobile.dart:12` (`hide BwButtonSegment`), `:15`; README row = header (`docs:check` ✓) |
+
+#### Rule checks (AGENTS.md §2 and workflow rules)
+
+| Rule | Result | Notes |
+|---|---|---|
+| 1 No generated files edited | ✅ | Fix round 2 touches no contract or generated file |
+| 2 No raw values | ✅ | Source scan test passes; `0.5` named constant per C3 |
+| 3 No primitives | ✅ | No `BwPalette` / `primitive.*` |
+| 4 RTL first | ✅ | Directional insets, radii and alignment |
+| 5 Both themes, both languages tested | ✅ | 4 goldens; token tests light + dark |
+| 6 Accessibility | ✅ | Probes + tests above |
+| 7 Stay inside the contract | ✅ | Button files differ from `main` only as C3 allows |
+| 8 One component per task | ✅ | Only this unit plus the C5 button files |
+| 9 Changelog | ✅ | `CHANGELOG.md` "Fixed — Mobile Split button review round 2" |
+| Role ownership | ✅ | Fixer wrote C8 Fix round 2, header Code and README Code only |
+
+#### Findings
+
+None.
+
+#### Notes (not findings)
+
+- The `BwFocusRing` `backgroundBuilder` is still repeated in `bw_button.dart` and `bw_icon_button.dart` (same as tablet `main`); allowed by C3.
+- The branch is based on `0127282`; `main` has moved on (`d6328c9`, `f555640`). Expect `CHANGELOG.md` conflicts at merge (orchestrator).
+- Figma build (Part D) not reviewed: `Figma build = Planned`.
+
+#### Next step
+
+- Before-merge gate (orchestrator). Plan stays `Finished`. Code → `Approved` (header + README).
 
 ### E3 Round 2 — 2026-10-24
 

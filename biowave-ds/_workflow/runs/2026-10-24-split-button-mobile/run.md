@@ -22,6 +22,7 @@
 | 05 | fix | antigravity (Gemini 3.8 Flash) | done — Fix round 1: Tab close, @internal + hidden export, half-turn constant, shared helper, params reworked to tablet's, plan-2 menu, goldens | docs:check ✓ · analyze ✓ · test ✓ 141/141 (orchestrator); dark-ar golden checked (no open-menu state shown) | (this commit) | [prompt](05-fix-antigravity.prompt.md) |
 | 06 | review | claude (wf-reviewer agent) | done — Round 2 Changes requested: #1–#10 fixed; new 🟡 #11 shared overlay() order changed, 🟢 #12 double focus ring, #13 public chevronHalfTurn | docs:check ✓ · analyze ✓ · test ✓ 141/141 | (this commit) | [prompt](06-review-claude.prompt.md) |
 | 07 | fix | antigravity (Gemini 3.8 Flash) | done — Fix round 2: overlay order restored (bw_button_style.dart differs from main only by segmentBorderRadius), single focus ring, private chevronHalfTurn | docs:check ✓ · analyze ✓ · test ✓ 141/141 (orchestrator) | (this commit) | [prompt](07-fix-antigravity.prompt.md) |
+| 08 | review | claude (wf-reviewer agent) | done — Round 3 Approved: #11–#13 fixed, no new findings | docs:check ✓ · analyze ✓ · test ✓ 141/141 | (this commit) | [prompt](08-review-claude.prompt.md) |
 
 ## Gates
 

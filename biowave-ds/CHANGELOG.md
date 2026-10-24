@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Review — Mobile Split button round 3: Approved] — 2026-10-24
+### Changed
+- Split button (mobile) review round 3: **Approved** — Part E4 of `5-mobile-components/components/split-button/split-button.md`. Round 2 #11–#13 fixed: shared `BwButtonStyle` `overlay()` equal to `main` again (focused + pressed standalone BwButton → transparent, probed), `bw_button_style.dart` differs from `main` only by `segmentBorderRadius`; menu item focus ring drawn once; `chevronHalfTurn` `@visibleForTesting`. No findings. Plan stays Finished; Code → Approved (header + README). `docs:check` ✓, `flutter analyze` ✓, `flutter test` 141/141 ✓.
+
 ## [Fixed — Mobile Split button review round 2] — 2026-10-24
 ### Fixed
 - Fixed Mobile `BwSplitButton` review round 2 findings:
