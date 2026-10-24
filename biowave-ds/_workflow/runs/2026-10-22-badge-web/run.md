@@ -5,7 +5,7 @@
 | Unit | `badge` on web, tablet and mobile (plan 1.0 from 2026-10-21, `_workflow/runs/2026-10-21-badge-web/`) |
 | Unit file | `3-web-components/components/badge/badge.md` |
 | Branch | `ds/badge-web`, worktree `/Users/hassansaid/Downloads/Biowave Design System-badge-web`; `main` @ 46be11a merged in |
-| Pull request | — |
+| Pull request | https://github.com/hassanSmohamed/Biowave-Design-System/pull/19 |
 | Skipped steps | figma (config › skip) |
 
 ## Steps
