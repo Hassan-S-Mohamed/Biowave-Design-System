@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Review — Mobile Text field round 2: Changes requested] — 2026-10-24
+### Changed
+- Text field (mobile) review round 2: **Changes requested** — Part E3 of `5-mobile-components/components/text-field/text-field.md`. Round 1 #1 (🔴 semantics: now one text-field node), #2, #3, #5, #6–#10 fixed; #4 still open (help icon's 48 dp area exists only in semantics, real touch target 16 × 16). New: 🟡 #11 `Form.reset()` leaves add-on dividers and counter in the error colour, 🟡 #12 focused outline only 1 dp around add-ons, 🟢 #13 end button 1 dp short of the column edge, 🟢 #14 spinner / end-button radius tests too weak. All Executor; Plan stays Finished; Code → Changes requested (header + README). `docs:check` ✓, `flutter analyze` ✓, `flutter test` 177/177 ✓, `sync` READY.
+
 ## [Fixed — Mobile Text field review round 1] — 2026-10-24
 ### Fixed
 - Fixed Mobile `BwTextField` review round 1 findings and implemented Plan 1.2:

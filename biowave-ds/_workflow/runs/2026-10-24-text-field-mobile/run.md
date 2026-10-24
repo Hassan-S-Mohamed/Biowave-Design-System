@@ -22,6 +22,7 @@
 | 05 | plan | claude (wf-planner agent, one pass with the other platform) | done — plan 1.2: BwButton internal `segment` + radius helper in C5, B4 Flutter motion limit accepted, `placeholder` in B1 | contract ✓ · docs:check ✓ | (this commit) | [prompt](05-plan-claude.prompt.md) |
 | 06 | fix | antigravity (Gemini 3.8 Flash) | partial — code, tests, goldens done; stopped before C8/Handoff | docs:check ✓ · analyze ✓ · test ✓ 177/177 (orchestrator) | — | [prompt](06-fix-antigravity.prompt.md) |
 | 07 | fix | antigravity (Gemini 3.8 Flash) | done — C8 Fix round 1, Code Built, CHANGELOG | docs:check ✓ · analyze ✓ · test ✓ 177/177 (orchestrator); light-en golden checked (help icon after label, outline around add-ons) | (this commit) | [prompt](07-fix-antigravity.prompt.md) |
+| 08 | review | claude (wf-reviewer agent) | done — Round 2 Changes requested: 🔴 #1 fixed; open 🟡 #4 help hit area only in semantics, #11 reset leaves add-on/counter red, #12 focus outline 1 dp around add-ons; 🟢 #13, #14 | docs:check ✓ · analyze ✓ · test ✓ 177/177 · sync ✓ | (this commit) | [prompt](08-review-claude.prompt.md) |
 
 ## Gates
 

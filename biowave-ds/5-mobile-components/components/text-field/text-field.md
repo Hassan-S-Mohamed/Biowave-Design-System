@@ -15,9 +15,9 @@
 | Figma | **Biowave DS — Mobile Components** › `↳ Text field` (page Typography mode `Mobile`) · build: [Part D](#d--figma-build) |
 | Version | 1.2 · 2026-10-24 (spec and code plan 1.2; guidelines unchanged, same as Web 1.1) |
 | Plan | Finished |
-| Code | Built |
+| Code | Changes requested |
 | Figma build | Planned |
-| Review | Round 1 · 2026-10-24 · Changes requested |
+| Review | Round 2 · 2026-10-24 · Changes requested |
 | Source code | [`lib/src/components/text_field/`](../../lib/src/components/text_field/) |
 | Tokens | [`text-field.tokens.json`](text-field.tokens.json) — extends the Web file (D-13) |
 | Contracts | [`text-field-contract.md`](text-field-contract.md) · [`figma-text-field-contract.md`](figma-text-field-contract.md) — generated, never edited |
@@ -642,6 +642,7 @@ Component description: “Enters or edits short and multiline text with persiste
 | Round | Date | Code verdict | Figma verdict |
 |---|---|---|---|
 | 1 | 2026-10-24 | Changes requested | not reviewed |
+| 2 | 2026-10-24 | Changes requested | not reviewed |
 
 ### E2 Round 1 — 2026-10-24
 
@@ -711,6 +712,96 @@ Extra evidence: semantics, help-row and add-on probes were run on a scratch copy
 #### Previous round
 
 None — first review.
+
+### E3 Round 2 — 2026-10-24
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 1.2 · 2026-10-24 |
+| Spec version reviewed | 1.2 |
+| Reviewer | Claude |
+| Date | 2026-10-24 |
+| Commit reviewed | `1318fda` (branch `ds/text-field-mobile`; `git diff main...HEAD`, `main` includes Split button mobile #18; working tree clean before this review) |
+| Verdict | **Changes requested** (0 🔴, 3 🟡, 2 🟢) |
+
+Checks run by the Reviewer (not copied from C8):
+
+| Command | Result |
+|---|---|
+| `npm run docs:check` | ✓ 21 component files OK |
+| `cd 5-mobile-components && flutter analyze` | ✓ No issues found |
+| `cd 5-mobile-components && flutter test` | ✓ 177 tests, all passed (goldens compared, not updated) |
+| `npm run sync` (AC-5) | ✓ READY for component work; `mobile text-field` code and Figma contracts current |
+
+Extra evidence: probes were run on a scratch copy of the package outside the repo (semantics tree dump, `tester.getRect`, real hit testing with `hitTestInView` + `tester.tapAt`, `Form.validate()` / `reset()`, a `RenderRepaintBoundary.toImage` pixel read of a focused field with an add-on, the spinner's nearest layer). Nothing in the worktree was added or changed by them. All four goldens in `test/goldens/text_field/` were inspected.
+
+**Re-probe of the 🔴 (#1).** One `isTextField` node. Probe (`requiredField`, `initialValue: 'abc'`, helper, help icon, `maxLength: 20` + counter, clear, end button): node label "Work email, required\n3/20", value "abc", actions focus + tap, `maxValueLength 20`, `currentValueLength 3`; helper "Use your work email" is its child node; "Clear Work email" is a separate button child; "More information about Work email" (48×48 semantics rect) and "Copy" are separate button nodes outside it. Error (ar): label "البريد, مطلوب", `validationResult: invalid`, error message child `isLiveRegion`.
+
+**Tablet lessons probed on Mobile.**
+
+| Tablet item | Mobile result |
+|---|---|
+| `Form.validate()` false while an error shows | ✓ `validate()` = false with a validator error and also with `errorText` set (`forceErrorText`) |
+| `Form.reset()` clears error text, border and semantic error | ⚠️ Text ✓, semantics ✓ (`validationResult: valid`), field outline ✓; **add-on dividers and counter stay in the error colour** — finding 11 |
+| Affix text never `hintText`, never read twice | ✓ `InputDecoration.hintText` = null with `prefixText: 'https://'`, `suffixText: 'SAR'`; affixes only in the semantics hint "https://, SAR"; add-ons `ExcludeSemantics` (`bw_field_addon.dart:48`) |
+| Layout height = control height; label gap = `BwSpacing.sm`; 48 dp tap target | Height 48 = `BwSize.controlHeightLg` ✓ (test `field and action use mobile size tokens`); label gap 6 = `BwSpacing.sm` with and without help ✓ (test `help icon 48dp hit area does not enlarge label-to-field gap`); **help icon real touch target is 16 × 16** — finding 4 (still open). Only `lg` exists on Mobile, so the Tablet `md` case does not apply |
+| No tokens as math constants | ✓ Only geometric uses: inner add-on radius `BwRadius.md - borderWidth`, add-on min height `controlHeightLg - 2 × borderWidth`, end-button overlap `±BwBorder.widthDefault` (`bw_field_addon.dart:29, 68`; `bw_text_field.dart:603-609`). No tokens in unrelated slots |
+| Loading end button paints its spinner; the test would catch an unpainted one | Painted ✓ (probe: nearest layer `OpacityLayer`, `attached = true`; uses `segment`, no painting-context interception). The test would **not** catch the Tablet bug — finding 14 |
+
+**Shared files.** End button: `BwButton(segment: BwButtonSegment.end)` (`bw_text_field.dart:610-620`), radius from the existing `BwButtonStyle.segmentBorderRadius` on `main` (`button/bw_button_style.dart:143`, `button/bw_button.dart:84`). `git diff main...HEAD` touches no file under `button/`, `icon/`, `icon_button/`, `split_button/`, `common/`, nor `test/button_test.dart`. `lib/biowave_mobile.dart` differs from `main` by the export line only (`:16`).
+
+**Goldens.** All four show the help icon right after the label with `BwSpacing.xs` (en right, ar left), prefix / suffix add-ons inside one outline with a divider, the end button "Copy" / "نسخ" with square inner corners and one seam line, error with icon, disabled, read-only. Not in the board: a focused or error field with add-ons (asked in Round 1 #5) — see finding 12. The end button's outer edge sits 1 dp inside the column edge (finding 13).
+
+#### Acceptance criteria
+
+| AC | Result | Evidence (file:line / test name) |
+|---|---|---|
+| AC-1 Public API matches B1 | ✅ | `bw_text_field.dart:45-170` (incl. `placeholder` `:57, 139` → `hintText` `:501`, now in B1); asserts `:90-127`; fallbacks unchanged. Tests `defaults match the contract`, `invalid combinations assert` |
+| AC-2 B2–B3 values from tokens; no raw values | ⚠️ | Decoration `bw_text_field_decoration.dart:22-123` = B3 (tests `border, fill, and text resolve in light/dark`, `read-only uses neutral fill and default border`); source-policy test ✓. But focused outline is 1 dp around add-ons instead of `border-width-focus` (finding 12); end-button composite 1 dp short (finding 13) |
+| AC-3 B4 transitions; reduced motion | ✅ | `BwFieldLabel` `bw_field_label.dart:49-50, 109-113`, `BwFieldAddon` `bw_field_addon.dart:45-46, 61-66, 85-87`, `BwFieldSupporting` `bw_field_supporting.dart:32-33, 38-40, 69-71`: `BwDuration.sm` + `BwEasing.standard`, `BwDuration.instant` under `context.bw.reduceMotion`. `InputDecorator` not forked or wrapped. Test `transitions honour motion tokens and reduced motion` |
+| AC-4 RTL (B5); semantics, focus, targets (B6) | ❌ | Semantics ✓ (re-probe above; tests `field and each action are separate labelled nodes`, `error and counter cases expose exactly one text-field node`). Tab order help → field → action → end button ✓ (`text_field_test.dart:596-630`). RTL ✓ (test `RTL mirrors layout but not neutral glyphs`, `*-ar` goldens). Disabled ✓. **Help icon touch target 16 × 16** (finding 4) |
+| AC-5 analyze, test, sync, docs:check | ✅ | Checks table above |
+| AC-6 Exported; README row = header | ✅ | `lib/biowave_mobile.dart:16`; README row equalled the header (`Built`) before this review |
+| AC-7 Trailing action inside outline; disabled with field; neutral icons in error | ✅ | Test `field and action use mobile size tokens` (40 box, `BwSpacing.xs` inset); `onPressed: null` when disabled `bw_text_field.dart:434, 446`; icons `iconNeutralMuted` in error `bw_text_field_decoration.dart:69-71` |
+| AC-8 Reuses BwButton, BwIconButton, BwFocusRing, BwControlSize; only the internal `segment` | ✅ | See "Shared files" above; `BwButtonSegment` stays hidden from the package export (`biowave_mobile.dart:12`); private field parts not exported |
+
+#### Rule checks (AGENTS.md §2 and workflow rules)
+
+| Rule | Result | Notes |
+|---|---|---|
+| 1 No generated files edited | ✅ | Contracts in the diff come from the plan step (`npm run contract`), not the Fixer |
+| 2–3 No raw values / no primitives | ✅ | Source-policy test passes; token derivations only geometric |
+| 4 RTL first | ✅ | Directional insets, radii and borders; end-button overlap mirrors by direction (`bw_text_field.dart:603-609`) |
+| 5 Both themes, both languages tested | ✅ | 4 goldens + render matrix |
+| 6 Accessibility | ❌ | Finding 4 (help icon touch target), finding 12 (thinner focus outline around add-ons) |
+| 7 Stay inside the contract | ✅ | Fix stays in contract §9 files |
+| 8 One component per task | ✅ | Round 1 #9 reverted; no shared file changed |
+| 9 Changelog | ✅ | `CHANGELOG.md` "Fixed — Mobile Text field review round 1" |
+
+#### Findings
+
+| # | Severity | File | Issue | Required change | Owner |
+|---|---|---|---|---|---|
+| 4 | 🟡 Should fix (still open) | `lib/src/components/text_field/bw_field_action.dart:51-142` (`BwFieldTargetBox`), `bw_field_label.dart:85-97, 102-139` | Layout is fixed (gap = `BwSpacing.sm`), but the 48 hit area exists only in semantics. `_RenderBwFieldTargetBox` lays its child out at 48 × 48 while its own size is 16 × 16; every ancestor (`Tooltip`, `CallbackShortcuts`, the label `Row`) checks `size.contains(position)` before it asks its children, so real touches reach the button only inside the 16 × 16 glyph. Probe (help glyph centre y 52): `hitTestInView` / `tester.tapAt` at dy −22, −14, −9, +9, +14, +22 → tooltip not shown; only dy 0 opens it. `androidTapTargetGuideline` passes because it reads the semantics rect. B2 / rule 6: 48 dp touch target, extended invisibly | Make real hit testing reach the help button in the whole 48 × 48 area without adding layout: e.g. override `hitTest` at an ancestor that contains the area (the `BwFieldLabel` / `BwTextField` render box, or a `Stack` with `clipBehavior: Clip.none` whose render box tests the overflow), giving the help area priority over the 6 dp of field outline it overlaps. Add a test that taps at the edges of the 48 square (`tester.tapAt(center ± 20)`) and expects the tooltip | Executor |
+| 11 | 🟡 Should fix | `lib/src/components/text_field/bw_text_field.dart:193-196, 349, 415, 507, 542-552`; `test/text_field_test.dart:748-829` | `_hasError` (add-on divider colour via `_borderColor`, counter colour via `hasError`) reads `FormFieldState.hasError` only when `_BwTextFieldState` rebuilds. `Form.reset()` rebuilds the `FormField`, not this state. Probe: `Form` + required validator + `prefixText` + counter → `validate()` (false ✓) → `reset()` → message gone, semantics `valid`, but the add-on divider stays `borderInputError` and the counter `textRoleError`. With `errorText` set, `reset()` clears the shown message (Flutter `forceErrorText`) while `_hasError` stays true from `widget.errorText`, so add-ons stay red with no message. The test named "… reset() clears error, border, and semantics" has no add-on and asserts no border or counter colour | Take every error colour from the `FormField`'s current error only (one source), and rebuild when it changes, including on reset (e.g. `TextFormField.onReset` → `setState`, or listen to the field state). Extend the test: add `prefixText` + counter, and after `validate()` and after `reset()` assert the add-on divider colour and counter colour (and the outline via the resolved border) | Executor |
+| 12 | 🟡 Should fix | `lib/src/components/text_field/bw_field_addon.dart:28, 53-59` | Add-ons are inset by `BwBorder.widthDefault` in every state, but the focused outline is `BwBorder.widthFocus` (2). The add-on paints over the inner 1 dp, so around add-ons the focus outline is 1 dp. Pixel probe, focused field with `suffixText`: top edge over the input = 2 rows of `borderFocus`, over the add-on = 1 row then add-on fill; same at the end edge. B2 / B6: focused outline = `border-width-focus`. Round 1 #5 asked for a focused + error golden with add-ons; none was added | Inset the add-on by the current outline width (focused → `BwBorder.widthFocus`, with the inner radius to match), and add focused and error fields with add-ons to the golden board (or a pixel / geometry test) | Executor |
+| 13 | 🟢 Nit | `lib/src/components/text_field/bw_text_field.dart:599-623` | The end button is moved toward the field by `Transform.translate` after layout, so its outer edge sits 1 dp inside the column edge. Probe, 360-wide (x 220–580): en button 501.8–579.0, ar 221.0–294.3, while other fields reach 580 / 220. Visible in the goldens ("Copy" ends at 746 vs 747) | Overlap without losing width: e.g. give the field a negative end offset / let the field extend by `BwBorder.widthDefault` under the button, so the composite fills the column exactly | Executor |
+| 14 | 🟢 Nit | `test/text_field_test.dart:831-894` | C6 end-button tests are weaker than C6 says. `loading end button paints its spinner` checks `renderObject.attached`, `debugNeedsPaint` and `paintBounds`; all three stay true if the spinner is painted into an orphan layer (the Tablet Round 1 bug). The radius test checks only `button.segment == end`, not the button's resolved shape radius | Assert the spinner's nearest layer is attached (walk up to the first `debugLayer`, as the Reviewer's probe does) and resolve the end button's shape (`ButtonStyle.shape` → `RoundedRectangleBorder.borderRadius.resolve(dir)`) to check square start corners and `BwRadius.md` end corners in en and ar | Executor |
+
+#### Previous round
+
+| # | Status | Evidence |
+|---|---|---|
+| 1 🔴 | Fixed | One `isTextField` node with name (+ required / مطلوب), value, helper/error/counter, focus + tap (re-probe above); `bw_text_field.dart:575-582` wrapper has no `container` / `textField` |
+| 2 🟡 | Fixed | `find.semantics.byPredicate(isTextField)` == 1 + `matchesSemantics` for helper, error, counter (`text_field_test.dart:522-555, 636-712`); full Tab order (`:596-630`); tooltip by real tap, Enter, Space, closed by Esc (`:403-442`) |
+| 3 🟡 | Fixed | `bw_field_label.dart:102-139` (`Flexible` label, `BwSpacing.xs`, help after it); all four goldens |
+| 4 🟡 | Still open | Layout part fixed (gap 6 with and without help, test `help icon 48dp hit area…`); the real touch target is 16 × 16 — see finding 4 above |
+| 5 🟡 | Fixed (focus width split out) | Add-ons inset inside the outline, divider in the state colour, outline visible in default and error (goldens, `bw_field_addon.dart:53-80`); focus outline width around add-ons → finding 12 |
+| 6 🟡 (Planner) | Fixed | Plan 1.2 B2 / C3 / C5; code uses the existing `segment` (`bw_text_field.dart:619`); field end corners square (`:461-469`, test `end button: resolved shape radius…`) |
+| 7 🟡 (Planner) | Fixed | Plan 1.2 B4 platform limit; Biowave parts use motion tokens (AC-3) |
+| 8 🟢 (Planner) | Fixed | B1 lists `placeholder` |
+| 9 🟢 | Fixed | `git diff main...HEAD -- lib/biowave_mobile.dart` = the export line only |
+| 10 🟢 | Fixed | No `labelStyle` in the decoration; no `String.fromCharCodes` in `text_field/` |
 
 ---
 
