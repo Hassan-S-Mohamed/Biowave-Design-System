@@ -27,6 +27,7 @@
 
 | Gate | Decision | Notes |
 |---|---|---|
+| before-merge | Latest `main` merged in; checks re-run (see commit); pushed, PR opened (2026-10-24) — merge decision pending | PR carries Avatar plan 1.1 (W/T/M) + the web build |
 | after-plan (1.1) | **Approve** (2026-10-24) | No new previews (no visual change). Fix round 1 with codex → review round 2 → before-merge |
 | before-merge | **Plan 1.1 first** (2026-10-24) | Planner: lazy-loading vs image probe (#1), header (#2), C7 fix list incl. Executor nit #3 (RTL test) → small fix → review → before-merge. `main` (Tooltip #22, Divider #21, library #20) merged in first |
 | (unblocked) | Badge #19 merged (2026-10-24); `main` merged in (461e266, generated index.json rebuilt) | `npm run contract` refuses (Figma library index stale after Badge's contrast-pair change); Avatar contracts still current (docs:check ✓). User: implement web now from the current contract |
