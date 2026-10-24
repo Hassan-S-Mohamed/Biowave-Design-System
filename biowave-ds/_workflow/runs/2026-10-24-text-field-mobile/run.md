@@ -12,6 +12,7 @@
 
 | # | Step | Agent | Result | Checks | Commit | Prompt |
 |---|---|---|---|---|---|---|
+| before fix | — | Split button (mobile) merged in #18; main merged into this branch (README, exports, CHANGELOG conflicts resolved); checks ✓ 171/171 |
 | after-plan (plan 1.2) | Approve | Previews skipped (only end-button corners change). Fix round 1 waits until split-button merges on this platform; then merge main and reuse its `segment` API unchanged |
 | after-review (Round 1) | Approve | Planner (one pass for tablet + mobile, shared decisions) → after-plan gate → Fixer on Antigravity (Gemini) |
 | 01 | implement | codex | failed — ChatGPT usage limit partway; lib compiles, test file has 22 analyzer errors; no C8/Handoff | docs:check ✓ · analyze ✗ | — | [prompt](01-implement-codex.prompt.md) |
