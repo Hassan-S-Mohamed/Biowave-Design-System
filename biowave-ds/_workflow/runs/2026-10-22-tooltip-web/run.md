@@ -26,6 +26,7 @@
 
 | Gate | Decision | Notes |
 |---|---|---|
+| before-merge | `main` (Badge #19, library #20, Divider #21) merged in (78376cd): docs:check ✓ · typecheck ✓ · test:web ✓ 195/195; pushed, PR opened (2026-10-24) — merge decision pending | PR carries Tooltip plan 1.1 (W/T/M, incl. the approved `RawTooltip` + Flutter ≥ 3.47 plan — pubspec not yet changed) + the web build. 🟢 follow-up: explicit `aria-label={undefined}` on a label anchor |
 | after-plan (1.1) | **Approve** (2026-10-24) | No new previews (no visual change). Fix round 1 with codex, then review round 2 |
 | after-review | **Approve** (2026-10-24) | Plan 1.1 for #1 (hover gap inside the hover area + step-by-step pointer test; check tablet/mobile for the same gap) → gate → fix round 1 (#1–#3) → review round 2 |
 | after-plan | **Approve** (2026-10-24) | Flutter `RawTooltip` + pubspec Flutter min ≥ 3.47.0 approved; touch display time = framework defaults; rich tooltips out of 1.0; Icon button migration changes (keyboard-focus only, 320 px) accepted. Next: implement web, then tablet, mobile |
