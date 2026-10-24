@@ -15,9 +15,9 @@
 | Figma | **Biowave DS — Mobile Components** › `↳ Icon Button` (page Typography mode `Mobile`) · [Part D](#d--figma-build) |
 | Version | 1.0 · 2026-10-16 |
 | Plan | Finished |
-| Code | Built |
+| Code | Approved |
 | Figma build | Planned |
-| Review | Round 2 · 2026-10-24 · Changes requested |
+| Review | Round 3 · 2026-10-24 · Approved |
 | Source code | [`lib/src/components/icon_button/bw_icon_button.dart`](../../lib/src/components/icon_button/bw_icon_button.dart) |
 | Tokens | — (no component tokens yet) |
 | Contracts | [`icon-button-contract.md`](icon-button-contract.md) · [`figma-icon-button-contract.md`](figma-icon-button-contract.md) — generated, never edited |
@@ -427,8 +427,77 @@ Component description: one line from A1 + "Spec: 5-mobile-components/components/
 
 | Round | Date | Code verdict | Figma verdict |
 |---|---|---|---|
+| 3 | 2026-10-24 | Approved | not reviewed |
 | 2 | 2026-10-24 | Changes requested | not reviewed |
 | 1 | 2026-10-23 | Changes requested | not reviewed |
+
+### E4 Round 3 — 2026-10-24
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 1 · 2026-10-16 |
+| Spec version reviewed | 1.0 |
+| Reviewer | Claude |
+| Date | 2026-10-24 |
+| Commit reviewed | `50d2e8d` (branch `ds/icon-button-mobile`; `git diff main...HEAD` for the unit, `git diff 9873fda HEAD` for the change since Round 2; working tree clean before this review) |
+| Verdict | **Approved** (0 🔴, 0 🟡, 0 🟢) |
+
+Checks run by the Reviewer (not copied from C8):
+
+| Command | Result |
+|---|---|
+| `npm run docs:check` | ✓ 18 component files OK |
+| `cd 5-mobile-components && flutter analyze` | ✓ No issues found |
+| `cd 5-mobile-components && flutter test` | ✓ 96 tests, all passed (goldens compared, not updated) |
+| `npm run sync` (AC-5) | ✓ READY for component work; `mobile icon-button` code and Figma contracts current; working tree unchanged |
+
+**What changed since Round 2** (`git diff 9873fda HEAD`): only `icon-button.md` (D11 duplicate removed, C8 Fix round 2 entry added, header Code `Changes requested` → `Built`), `5-mobile-components/README.md` (same status), `CHANGELOG.md` (Fix round 2 line) and run records. No change under `5-mobile-components/lib` or `5-mobile-components/test`, so the code approved in substance in Round 2 is unchanged.
+
+#### Round 2 findings
+
+| # | Status | Evidence |
+|---|---|---|
+| 4 (🟡) Duplicate Fix round 1 entry in D11 | ✅ Fixed | Part D (`### D1` … `## E`) is now byte-identical to `main` (`diff` of `git show main:./5-mobile-components/components/icon-button/icon-button.md` against the working file, Part D only: no differences). D11 (`icon-button.md:408-418`) is back to template content. The single Fix round 1 entry stays in C8 (`:319-325`); Fix round 2 is logged in C8 (`:327-331`); `CHANGELOG.md` "Fixed — Mobile Icon button review round 2" |
+| 1–3 (Round 1) | ✅ Still fixed | No code or test change since Round 2 (see above); test `label is read once and toggle state is exposed` passes |
+
+#### Acceptance criteria
+
+| AC | Result | Evidence (file:line / test name) |
+|---|---|---|
+| AC-1 API = B1 (names, defaults, asserts) | ✅ | Unchanged since Round 2: `bw_icon_button.dart:11-54`, asserts `:25-41`, release fallbacks `:95-106`. Test `defaults and invalid combinations assert` |
+| AC-2 Tokens only; shared helpers reused | ✅ | Unchanged: `BwButtonStyle.resolve` + `metrics` (`:129-139`), B3.2 selected branch (`:143-181`), B3.4 tooltip (`:244-271`). Tests `selected tokens resolve in light/dark`, `tooltip uses the tooltip tokens and can be disabled`, `component source contains no raw visual values` |
+| AC-3 States/transitions; reduced motion | ✅ | Unchanged: `BwDuration.sm` + `BwEasing.standard` (`:131-132,186-206`), reduced motion → `BwDuration.instant` (`:132,265-268`). Tests `selected glyph is filled and cross-fades from the outline`, `reduced motion makes state animation instant` |
+| AC-4 RTL and a11y per B5–B6 | ✅ | Unchanged: one labelled `Semantics` node with button, enabled, toggled, tap, focus state and `focus` action (`:273-286`); tooltip `excludeFromSemantics` (`:247`). Tests `label is read once and toggle state is exposed`, `directional icon mirrors and close does not`, `*-ar` goldens |
+| AC-5 analyze, test, sync pass | ✅ | Checks table above |
+| AC-6 Exported; README status | ✅ | `lib/biowave_mobile.dart:13`; README row equals the header (`docs:check` ✓) |
+
+#### Rule checks (AGENTS.md §2 and workflow rules)
+
+| Rule | Result | Notes |
+|---|---|---|
+| 1 No generated files edited | ✅ | Fix commit touches only `icon-button.md`, README, `CHANGELOG.md`, run records |
+| 2–3 No raw values / no primitives | ✅ | No code change |
+| 4 RTL first | ✅ | No code change |
+| 5 Both themes, both languages tested | ✅ | Goldens unchanged and pass |
+| 6 Accessibility | ✅ | No code change; Round 1 #1 still holds |
+| 7 Stay inside the contract | ✅ | C8 Deviations: none |
+| 8 One component per task | ✅ | Only this unit's files |
+| 9 Changelog | ✅ | `CHANGELOG.md` "Fixed — Mobile Icon button review round 2" |
+| Role ownership (AGENTS.md §1) | ✅ | Fix round 2 written in C8 only; Part E and Part D untouched (Part D equals `main`) |
+
+#### Findings
+
+None.
+
+#### Notes (not findings)
+
+- Tooltip fade easing note from Round 1 still applies (M3 `Tooltip` has no curve parameter); handled by the future Tooltip component.
+
+#### Next step
+
+- Code **Approved** (header + README). Plan stays `Finished`. Figma build stays `Planned`. Ready for the orchestrator's merge gate.
+
+---
 
 ### E3 Round 2 — 2026-10-24
 

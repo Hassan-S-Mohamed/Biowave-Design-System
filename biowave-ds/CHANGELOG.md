@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Review — Mobile Icon button round 3: Approved] — 2026-10-24
+### Changed
+- Icon button (mobile) review round 3: **Approved** — Part E4 of `5-mobile-components/components/icon-button/icon-button.md`. Round 2 #4 fixed (D11 / Part D equal to `main` again; Fix round 1 kept once in C8). No code or test change since Round 2. No findings. Plan stays Finished. Code → Approved (header + README). `docs:check` ✓, `flutter analyze` ✓, `flutter test` 96/96 ✓, `sync` READY.
+
 ## [Fixed — Mobile Icon button review round 2] — 2026-10-24
 ### Fixed
 - Removed the duplicate Mobile Icon button Fix round 1 entry from D11, retained the canonical copy in C8, added the Fix round 2 execution-log entry, and restored the code status to Built. No code changed.
