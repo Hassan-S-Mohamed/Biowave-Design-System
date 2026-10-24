@@ -15,9 +15,9 @@
 | Figma | **Biowave DS — Mobile Components** › `↳ Icon Button` (page Typography mode `Mobile`) · [Part D](#d--figma-build) |
 | Version | 1.0 · 2026-10-16 |
 | Plan | Finished |
-| Code | Built |
+| Code | Changes requested |
 | Figma build | Planned |
-| Review | Round 1 · 2026-10-23 · Changes requested |
+| Review | Round 2 · 2026-10-24 · Changes requested |
 | Source code | [`lib/src/components/icon_button/bw_icon_button.dart`](../../lib/src/components/icon_button/bw_icon_button.dart) |
 | Tokens | — (no component tokens yet) |
 | Contracts | [`icon-button-contract.md`](icon-button-contract.md) · [`figma-icon-button-contract.md`](figma-icon-button-contract.md) — generated, never edited |
@@ -429,7 +429,77 @@ Component description: one line from A1 + "Spec: 5-mobile-components/components/
 
 | Round | Date | Code verdict | Figma verdict |
 |---|---|---|---|
+| 2 | 2026-10-24 | Changes requested | not reviewed |
 | 1 | 2026-10-23 | Changes requested | not reviewed |
+
+### E3 Round 2 — 2026-10-24
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 1 · 2026-10-16 |
+| Spec version reviewed | 1.0 |
+| Reviewer | Claude |
+| Date | 2026-10-24 |
+| Commit reviewed | `fbe0202` (branch `ds/icon-button-mobile`, `git diff main...HEAD`; working tree clean before this review) |
+| Verdict | **Changes requested** (0 🔴, 1 🟡, 0 🟢) |
+
+Checks run by the Reviewer (not copied from C8):
+
+| Command | Result |
+|---|---|
+| `npm run docs:check` | ✓ 18 component files OK |
+| `cd 5-mobile-components && flutter analyze` | ✓ No issues found |
+| `cd 5-mobile-components && flutter test` | ✓ 96 tests, all passed (goldens compared, not updated) |
+| `npm run sync` (AC-5) | ✓ READY for component work; `mobile icon-button` code and Figma contracts current; working tree unchanged |
+
+#### Round 1 findings
+
+| # | Status | Evidence |
+|---|---|---|
+| 1 (🟡) Focus state and `focus` action lost | ✅ Fixed | A state-owned `FocusNode` (`bw_icon_button.dart:61`, listener + dispose `:79-91`) is passed to all four M3 constructors (`:213,221,229,237`). The single `Semantics` node (`:273-286`) now sets `focusable: enabled`, `focused: enabled && _focusNode.hasFocus`, `onFocus: _focusNode.requestFocus` next to `label`, `button`, `enabled`, `toggled`, `onTap`, and keeps `excludeSemantics: true`, so the label is still read once. Test `label is read once and toggle state is exposed` (`icon_button_test.dart:376-426`) now checks: before Tab `isFocused` false with `tap` and `focus` actions; after Tab `isFocused` true, `focus` present, exactly one node labelled `Unpin`; `tester.semantics.tap` calls `onPressed` once. Disabled (`onPressed: null`) is not focusable, as BwButton; loading keeps focus (test `loading keeps focus, blocks presses, and announces once`) |
+| 2 (🟢) Header `Source code` row stale | ✅ Fixed | `icon-button.md:21` links `lib/src/components/icon_button/bw_icon_button.dart` |
+| 3 (🟢) Unrelated `BwMobileTheme` reformat | ✅ Fixed | `git diff main...HEAD -- lib/biowave_mobile.dart` is now only the export line `:13` |
+
+#### Acceptance criteria
+
+| AC | Result | Evidence (file:line / test name) |
+|---|---|---|
+| AC-1 API = B1 (names, defaults, asserts) | ✅ | Unchanged from Round 1: `bw_icon_button.dart:11-54` params and defaults; asserts `:25-41`; release fallbacks `:95-106`. Test `defaults and invalid combinations assert` |
+| AC-2 Tokens only; shared helpers reused | ✅ | `BwButtonStyle.resolve` + `metrics` (`:129-139`), selected branch B3.2 tokens only (`:143-181`), tooltip B3.4 tokens (`:244-271`). The fix adds no visual values. Tests `selected tokens resolve in light/dark`, `tooltip uses the tooltip tokens and can be disabled`, `component source contains no raw visual values` |
+| AC-3 States/transitions; reduced motion | ✅ | `AnimatedSwitcher` `BwDuration.sm` + `BwEasing.standard` (`:131-132,186-206`); reduced motion → `BwDuration.instant` (`:132,265-268`). Tests `selected glyph is filled and cross-fades from the outline`, `reduced motion makes state animation instant` |
+| AC-4 RTL and a11y per B5–B6 | ✅ | RTL: test `directional icon mirrors and close does not`, `*-ar` goldens. Semantics: one labelled node with `button`, `enabled`, `toggled`, `tap`, and now focus state + `focus` action as BwButton (`:273-286`, finding 1 above); tooltip `excludeFromSemantics` (`:247`); targets (`sm`/`md` meet the Android tap target guideline); Enter/Space; focus ring tests |
+| AC-5 analyze, test, sync pass | ✅ | Checks table above |
+| AC-6 Exported; README status | ✅ | `lib/biowave_mobile.dart:13`; README row matches the header |
+
+#### Rule checks (AGENTS.md §2 and workflow rules)
+
+| Rule | Result | Notes |
+|---|---|---|
+| 1 No generated files edited | ✅ | Fix commit touches widget, test, barrel, README, `icon-button.md`, `CHANGELOG.md`, run records; no contract or docs HTML |
+| 2–3 No raw values / no primitives | ✅ | Fix adds only a `FocusNode` and semantics flags |
+| 4 RTL first | ✅ | No change; `EdgeInsetsDirectional` / `BorderRadiusDirectional` (`:177-179,251-259`) |
+| 5 Both themes, both languages tested | ✅ | Goldens unchanged and still pass |
+| 6 Accessibility | ✅ | Round 1 finding 1 fixed |
+| 7 Stay inside the contract | ✅ | Code matches C3; no deviations |
+| 8 One component per task | ✅ | Round 1 finding 3 fixed |
+| 9 Changelog | ✅ | `CHANGELOG.md` "Fixed — Mobile Icon button review round 1" |
+| Role ownership (AGENTS.md §1 table; workflow rule 2) | ⚠️ | The Fixer writes only a Fix round in **C8**. The same Fix round 1 entry is pasted into **D11** (Figma Agent execution log) — finding 4 |
+
+#### Findings
+
+| # | Severity | File | Issue | Required change | Owner |
+|---|---|---|---|---|---|
+| 4 | 🟡 Should fix | `5-mobile-components/components/icon-button/icon-button.md:414-422` | The Fix round 1 entry (identical to C8 `:319-327`) was pasted a second time into **D11 Execution log (filled by the Figma Agent)**. D11 is owned by the Figma Agent and is read by the Figma review; it now reports a code fix round for a Figma build that is still `Planned`. This breaks the role boundary (AGENTS.md §1: the Fixer writes "a Fix round N entry in C8") | Delete the duplicated `#### Fix round 1 — 2026-10-24 (Antigravity)` heading and table from D11, so D11 is back to its template content as on `main`. Keep the C8 entry. Log the change in `CHANGELOG.md` | Implementer |
+
+#### Notes (not findings)
+
+- Tooltip fade easing note from Round 1 still applies (M3 `Tooltip` has no curve parameter); handled by the future Tooltip component.
+
+#### Next step
+
+- Code **Changes requested**. Fix round 2: finding 4 only (doc clean-up, no code change). No Planner items; Plan stays `Finished`. The code itself is ready; after finding 4 is fixed, Round 3 only needs to confirm D11 and the checks.
+
+---
 
 ### E2 Round 1 — 2026-10-23
 

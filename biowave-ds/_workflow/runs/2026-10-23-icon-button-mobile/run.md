@@ -19,6 +19,7 @@
 | 04 | review | claude (wf-reviewer agent) | done — Round 1 Changes requested: 1 🟡 (focus state/action missing from semantics), 2 🟢; screen-reader tap verified working | docs:check ✓ · analyze ✓ · test ✓ 96/96 · sync ✓ | (this commit) | [prompt](04-review-claude.prompt.md) |
 | 05 | fix | codex | failed — ChatGPT usage limit, nothing changed | — | — | [prompt](05-fix-codex.prompt.md) |
 | 06 | fix | antigravity | done (session ended before Handoff was captured) — #1 focus semantics, #2 header, #3 theme revert; C8 Fix round 1 (also pasted by mistake into D11) | docs:check ✓ · analyze ✓ · test ✓ 96/96 (orchestrator) | (this commit) | [prompt](06-fix-antigravity.prompt.md) |
+| 07 | review | claude (wf-reviewer agent) | done — Round 2 Changes requested: #1–#3 closed; new 🟡 #4 duplicate Fix round entry in D11 | docs:check ✓ · analyze ✓ · test ✓ 96/96 · sync ✓ | (this commit) | [prompt](07-review-claude.prompt.md) |
 
 ## Gates
 
