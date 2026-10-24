@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Review — Web Badge round 3] — 2026-10-24
+### Changed
+- Reviewed web `Badge` after fix round 2 (round 3, `badge.md` › E4): **Approved**. Round 2 #1 fixed: in headless Chrome a collapsed standalone badge shown and hidden again at 0 ms, ~16 ms and every 4 ms step to 64 ms (light/en, dark/ar, `invisible` and `count` 1 → 0; 68 cases) now leaves no gap; `transitioncancel` handled; the normal exit still animates. #2 fixed (root padding/border asserted). AC-8 … AC-11 measurements still hold (warning fill 3.24 / 12.20:1). docs:check, typecheck and test:web (128/128) pass. Code → `Approved`; Plan stays `Finished`.
+
 ## [Fixed — Web Badge review round 2] — 2026-10-24
 ### Fixed
 - Fixed the standalone Badge re-hide race so 0 ms and one-frame show → hide updates collapse immediately when no exit transition can run, and canceled transform exits also collapse. Added 0 ms, 16 ms and `transitioncancel` regressions, plus computed zero-padding and zero-border assertions for the anchored Badge root; all existing first-paint, normal-exit and reduced-motion behaviour remains covered.

@@ -15,9 +15,9 @@
 | Figma | **Biowave DS — Web Components** › `↳ Badge` · build: [Part D](#d--figma-build) |
 | Version | 1.1 · 2026-10-24 |
 | Plan | Finished |
-| Code | Built |
+| Code | Approved |
 | Figma build | Planned |
-| Review | Round 2 · 2026-10-24 · Changes requested |
+| Review | Round 3 · 2026-10-24 · Approved |
 | Source code | [`src/components/badge/`](../../src/components/badge/) |
 | Tokens | — (no component tokens: every value is an existing semantic token, P-04) |
 | Contracts | [`badge-contract.md`](badge-contract.md) · [`figma-badge-contract.md`](figma-badge-contract.md) — generated, never edited |
@@ -679,8 +679,92 @@ Component description: "Marks an element with a count, a dot or a check (Check b
 
 | Round | Date | Code verdict | Figma verdict |
 |---|---|---|---|
+| 3 | 2026-10-24 | **Approved** | not reviewed |
 | 2 | 2026-10-24 | **Changes requested** | not reviewed |
 | 1 | 2026-10-24 | **Approved** | not reviewed |
+
+### E4 Round 3 — 2026-10-24
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 1.1 |
+| Spec version reviewed | 1.1 |
+| Reviewer | Claude |
+| Date | 2026-10-24 |
+| Verdict | **Approved** — Round 2 #1 is fixed: in a real headless browser a collapsed standalone badge shown and hidden again at 0 ms, ~16 ms (and every 4 ms step up to 64 ms, and after 1, 2 or 3 animation frames) now collapses to the no-badge width, in light/en and dark/ar, for both `invisible` and `count` 0 → 1 → 0. `transitioncancel` is handled. #2 is fixed. Round 2's AC-8 … AC-11 measurements still hold; nothing new broke |
+
+Commands run by the Reviewer on branch `ds/badge-web` at `9841923` (fix round 2 = latest commit; `git diff origin/main...HEAD -- 3-web-components/src` = the four C5 files only; fix commit touches `Badge.tsx`, `Badge.test.tsx`, C8, README, CHANGELOG, run record):
+`npm run docs:check` ✅ 21 component files · `npm run typecheck` ✅ (2 projects) · `npm run test:web` ✅ **128/128**, 9 files, 5.89 s, first run, default timeouts (load average 5.19). Badge alone: 21/21 in 2.2 s.
+Real browser: the same setup as Round 2 — my own headless Chrome 156 (`--headless=new`, CDP on a private port, not the shared pane) running the real `Badge` / `IconButton` / `Icon` from `3-web-components/src` in `BiowaveProvider` with the generated `tokens.css` + `icons.css`, served by a scratch Vite config outside the repo (private port), 1200 × 900, light/en and dark/ar, `prefers-reduced-motion` emulated as `no-preference` and `reduce`. Standalone widths measured on an `inline-block` line "Requests" + Badge vs the same line without a badge. Both processes (Vite, Chrome) were started by me and stopped by PID afterwards.
+
+#### Acceptance criteria
+
+| AC | Result | Evidence (file:line / test name) |
+|---|---|---|
+| AC-1 API = B1 | ✅ | No API change in fix round 2 (`Badge.tsx:205-241`); test *warns once for every invalid combination and renders each fallback* passes |
+| AC-2 Tokens only | ✅ | Fix adds no values (`Badge.tsx:231, 252-262, 301-320, 418`); guard test *contains no raw colors…* passes. Browser: count 20 × 20, dot 8 × 8, check 20 × 20 in both themes |
+| AC-3 B4 transitions; reduced motion | ✅ | The new "no running animation → collapse at once" path does not skip the normal exit: visible → hidden still scales 1 → 0.63 (~41–46 ms) → 0 (~107 ms) at `0.1s cubic-bezier(0.3,0,1,1)` and leaves the layout at ~128–141 ms; enter `0.2s cubic-bezier(0,0,0,1)` scale 0 → 1 by ~230 ms (en + ar). First visible paint `transform: none`, `getAnimations()` = 0. Reduce: `0s`, `display: none` on the first frame, back at once on show |
+| AC-4 RTL / a11y | ✅ | Anchored centre on the top-end corner: en (140, 184) = button right/top; ar (616, 188) = button left/top; circular (134.17, 189.83) vs 14.6 % point (134.16, 189.84). Standalone collapse in ar = reference (55.91 px). axe test passes in all 4 combos; 0 `tabindex` nodes inside the indicator |
+| AC-5 Tests + checks | ✅ | B9/C6 items covered (`Badge.test.tsx`); new tests *collapses a standalone re-hidden after 0 ms / 16 ms when no exit transition can run* (`:375-415`) and *collapses a hidden standalone when its transform exit is canceled* (`:417-428`); 3 checks pass above |
+| AC-6 Export + README | ✅ | `src/index.ts`, `src/components/badge/index.ts` unchanged; README row = header (set by this review) |
+| AC-7 Anchor untouched | ✅ | Browser: anchored IconButton 40 × 40 = plain 40 × 40, root 40 × 40 (en + ar); `elementFromPoint` in the indicator → BUTTON; ring `0 0 0 2px rgb(255,255,255)`, `pointer-events: none`, `z-index: 1`; Tab → `:focus-visible`, `outline: solid 2px rgb(37,68,113)`, offset 2 px. Test now also asserts root computed padding 0 and border-width 0 (`Badge.test.tsx:230, 254-255`) |
+| AC-8 `count` × `warning` fill | ✅ | Unchanged (`Badge.tsx:78-82`). Re-measured: **light** fill `rgb(217,116,36)` = `--bw-color-icon-role-warning` (≠ `background-warning-default` `rgb(255,148,53)`), vs `#FFFFFF` **3.24:1**, text `rgb(10,10,10)` **6.10:1**. **Dark** fill `rgb(255,200,143)`, vs `rgb(20,20,20)` **12.20:1**, text **13.11:1**. Lowest shape: light `count`×`warning` 3.24, dark `count`×`brand` 4.33; lowest text: light `error` 5.18, dark `brand` 4.65 — same as Round 2 |
+| AC-9 Hidden standalone takes no space | ✅ | `Badge.tsx:252-262` collapses at once when the badge was still hidden (`standaloneHidden`), when reduced motion is on, or when `getAnimations()` is empty; `:301-320` collapses on its own `transform` `transitioncancel`. Browser — the Round 2 race: collapsed → show → hide after d = 0, 16, 50, 100 ms → `display: none`, line 59.98 = reference (was 83.44, stuck). Sweep d = 0…64 ms in 4 ms steps × light/en + dark/ar × `invisible` + `count` 1 → 0: **0 failures** (68 cases). Hide after exactly 1, 2, 3 rAF: all `none`. visible → hide → show → hide in 10 / 60 ms steps: `none`. 20-step toggle burst every 7 ms ending visible → `flex` 83.44, then hide → `none` 59.98. Normal exit, `count` → 0, reduced motion, hidden on first render (`invisible` and `count={0}`): `display: none`, width = reference. Anchored hidden (incl. 0 → 3 → 0 in 5 ms): `display: flex`, no `bw-badge-collapsed`, root 40 × 40 |
+| AC-10 No unreachable icon tokens; behavioural tests | ✅ | Unchanged from Round 2 (`Badge.tsx:44-48, 78-82, 95-100`; `Badge.test.tsx:25-62, 158-159`); new tests check rendered class and computed `display`, not source text |
+| AC-11 C8 Fix round 1 entry | ✅ | C8 › *Fix round 1* unchanged; C8 › *Fix round 2 — 2026-10-24* also lists docs:check ✓ (21), typecheck ✓ (2 projects, 0 errors), test:web ✓ 128/128, Badge 21/21 — the same as my run |
+
+#### Rule checks (AGENTS.md §2)
+
+| Rule | Result | Notes |
+|---|---|---|
+| No generated files edited | ✅ | Fix commit: `Badge.tsx`, `Badge.test.tsx`, C8, README, CHANGELOG, run record |
+| No raw values / no primitives | ✅ | Guard test passes; fix adds logic only |
+| RTL first | ✅ | No placement change; ar collapse and placement measured above |
+| Both themes, both languages, tested | ✅ | Render matrix + axe light/dark × en/ar; race sweep run in light/en and dark/ar |
+| Accessibility WCAG 2.2 AA | ✅ | Contrast unchanged (≥ 3:1 shape, ≥ 4.5:1 text); reduced motion instant |
+| Tests via `renderWithBiowave`, default timeouts | ✅ | No timeout arguments; `requestAnimationFrame` / `cancelAnimationFrame` spies restored in `finally` |
+| Stayed inside the contract / one component | ✅ | Only the files listed for the fix round |
+| Changelog | ✅ | `CHANGELOG.md` › *Fixed — Web Badge review round 2* |
+
+#### Figma build (Part D)
+
+Skipped — Figma build is `Planned`.
+
+#### Probe evidence
+
+```
+Headless Chrome 156, 1200×900, real Badge in BiowaveProvider + tokens.css
+Re-hide race (collapsed → show → hide after d ms, settled 450–500 ms later)    Round 2 → Round 3
+  d=0    flex scale 0 w=83.44 (stuck)  →  none w=59.98/59.98 ✓
+  d=16   flex scale 0 w=83.44 (stuck)  →  none w=59.98/59.98 ✓
+  d=50, 100                            →  none 59.98 ✓
+  sweep d=0..64 step 4 × {light/en, dark/ar} × {invisible, count 1→0}: 68/68 none, w = reference
+  hide after 1/2/3 rAF (both locales, both triggers): none ✓
+  visible→hide→show→hide 10/60 ms steps: none 59.98 ✓ · 20× toggle burst every 7 ms: ends flex 83.44, then hide → none 59.98
+Normal standalone exit still animates
+  light/en  0ms m(1) · 41ms m(0.627) · 107ms m(0) flex 83.44 · 141ms none 59.98
+  dark/ar   0ms m(1) · 42ms m(0.628) · 109ms m(0) flex 77.02 · 142ms none 55.91
+  enter     0ms none · ~27ms flex m(0) · 228ms m(1)
+  reduce    hide: none at once · show: flex, transform none
+Contrast  light warning 217,116,36 3.24 / text 6.10 · dark 255,200,143 12.20 / 13.11
+Anchored  en (140,184) = btn top-right · ar (616,188) = btn top-left · circular Δ < 0.02 px
+          root 40×40 = plain 40×40 · hit → BUTTON · hidden after exit: flex, no collapse class
+```
+
+#### Previous round findings
+
+| Round 2 # | Status | Evidence |
+|---|---|---|
+| 1 (Executor, fast show → hide leaves a gap) | Fixed | `Badge.tsx:252-262, 301-320`; tests `Badge.test.tsx:375-428`; browser race probe above: 0 / 16 ms and the 68-case sweep all collapse to the reference width |
+| 2 (Executor, root padding/border assertion) | Fixed | `Badge.test.tsx:230, 254-255` assert computed root `padding` and `border-width` = 0 for both overlaps × en/ar |
+
+#### Findings
+
+None.
+
+#### Next step
+
+- Approved → Code `Approved` (header + README). Plan stays `Finished`. Figma build is still `Planned` and was not reviewed.
 
 ### E3 Round 2 — 2026-10-24
 
