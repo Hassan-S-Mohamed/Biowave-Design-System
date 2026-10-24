@@ -12,6 +12,7 @@
 
 | # | Step | Agent | Result | Checks | Commit | Prompt |
 |---|---|---|---|---|---|---|
+| after-review (Round 2) | Approve | Fix round 2 (last allowed) → Codex: #4 D11 clean-up |
 | after-review (Round 1) | Approve | Fix round 1 → Codex (fallback Antigravity) |
 | 01 | implement | cursor | failed — Cursor usage limit, no files changed | — | — | [prompt](01-implement-cursor.prompt.md) |
 | 02 | implement | codex | timeout (45 min), no Handoff — partial code; orchestrator run: 7 test failures, ~10 min test run | docs:check ✓ · analyze ✓ · test ✗ | — | [prompt](02-implement-codex.prompt.md) |
