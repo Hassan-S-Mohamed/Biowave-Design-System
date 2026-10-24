@@ -1,4 +1,4 @@
-<!-- GENERATED from text-field.md @ 9a8b6eb68f23f806 — do not edit; change the source and run: npm run contract -- tablet text-field -->
+<!-- GENERATED from text-field.md @ 1bf7dd747e4beb33 — do not edit; change the source and run: npm run contract -- tablet text-field -->
 # Text field · حقل نص — Tablet — code contract
 
 > **Everything you need to build Text field on Tablet, and nothing else.** Read this file only. Generated from [`text-field.md`](text-field.md) (Parts B and C). If something is unclear or impossible, stop and write it in [C8 Execution log → Questions](text-field.md#c8-execution-log-filled-by-the-executor) — never invent behaviour.
@@ -9,10 +9,10 @@
 | Platform | Tablet · Flutter + Material 3 |
 | Built on | M3 `TextFormField` with an outlined `InputDecoration` built only from Biowave tokens; static label above the field (never `labelText` / floating label) |
 | Import | `BwTextField` from `package:biowave_tablet/biowave_tablet.dart` |
-| Version | 1.1 · 2026-10-18 (first Tablet version; same guidelines version as Web 1.1) |
-| Source code | `lib/src/components/text_field/` — not built yet (the Executor creates it) |
+| Version | 1.2 · 2026-10-24 (spec and code plan 1.2; guidelines unchanged, same as Web 1.1) |
+| Source code | [`lib/src/components/text_field/`](../../lib/src/components/text_field/) |
 | Tokens | [`text-field.tokens.json`](text-field.tokens.json) |
-| Source | [`text-field.md`](text-field.md) @ `9a8b6eb68f23f806` |
+| Source | [`text-field.md`](text-field.md) @ `1bf7dd747e4beb33` |
 
 ## 1. What it is
 
@@ -55,6 +55,7 @@ A text field lets a user enter or edit text. It uses a static label above an out
 |---|---|---|---|---|---|
 | `label` | `String` | | | ✓ | Persistent visible and accessible name |
 | `hideLabel` | `bool` | | `false` | | Hides the visible label; the accessible name stays |
+| `placeholder` | `String?` | | | | Format hint shown while the field is empty (`InputDecoration.hintText`, B3 `placeholder`); never the accessible name (as Web B1) |
 | `size` | `BwControlSize` | `md` · `lg` (`sm` asserts, falls back to `md`) | `lg` | | A4.1 · A8 |
 | `controller` · `initialValue` | `TextEditingController?` · `String?` | | | | Controlled or uncontrolled value (`TextFormField` rules: not both) |
 | `onChanged` · `onSubmitted` · `onTap` | callbacks | | | | |
@@ -113,6 +114,7 @@ Shared for every size: radius `radius-md` · border `border-width-default` / foc
 - **Touch targets:** Hit area of an `md` field is padded to `BwLayout.tablet.minTarget` (48) by a transparent region that focuses the input; layout height stays `size-control-height-md`. `trailing-action`, `help-icon` and `end-button` keep a 48 hit area via `MaterialTapTargetSize.padded`, extended invisibly so layout does not change.
 - **Text scale:** label, value and supporting text scale with the system text scale; the field grows in height (`isDense: false`, `constraints` with a min height, never a fixed max) and never clips.
 - **Keyboard:** the field scrolls into view above the on-screen keyboard (`scrollPadding` = `EdgeInsets.all(BwSpacing.xl3)`).
+- **End button:** the field's end corners and the end button's start corners are square; the outer corners keep `radius-md`; the button overlaps the field by `border-width-default` so one border shows at the seam (as Web B2). The button's corners come from the internal `BwButton` `segment` (C3).
 
 Flutter access: `size-control-height-lg` → `BwSize.controlHeightLg` · `spacing-control-padding-inline-lg` → `BwSpacing.controlPaddingInlineLg` · `spacing-xs` → `BwSpacing.xs` · `radius-md` → `BwRadius.md` · `border-width-focus` → `BwBorder.widthFocus` · `body-lg` → `context.bw.text.bodyLg` · colours → `context.bw.colors.<camelCase>` (e.g. `borderInputDefault`) · `target-min` → `BwLayout.tablet.minTarget`.
 
@@ -188,7 +190,15 @@ The code token map must equal [`text-field.tokens.json`](text-field.tokens.json)
 
 ## 5. States and transitions
 
-Same as [Web B4](../../../3-web-components/components/text-field/text-field.md#b4-states-and-transitions) without pointer hover on touch. Durations `BwDuration.sm`, easing `BwEasing.standard`; reduced motion (`MediaQuery.disableAnimationsOf`) makes them instant.
+Same triggers as [Web B4](../../../3-web-components/components/text-field/text-field.md#b4-states-and-transitions); Hover only when a pointer is attached. On Flutter the transitions are split by who draws them:
+
+| Transition | Drawn by | Duration · easing | Reduced motion (`context.bw.reduceMotion`) |
+|---|---|---|---|
+| `field` border colour and width (focus, hover, error, disabled, read-only) · `supporting-text` helper ↔ error swap (with `error-icon`) | Flutter `InputDecorator` (built in) | Flutter's fixed internal duration and curve; the error line fades in with a short vertical slide. No API sets them | **Not applied** — platform limit, accepted |
+| Every transition inside the Biowave parts `BwFieldLabel`, `BwFieldAddon`, `BwFieldSupporting` (e.g. `label` colour, add-on background, text and divider colour) | Biowave | `BwDuration.sm` · `BwEasing.standard`; enabled ↔ disabled / read-only `BwDuration.instant` | `BwDuration.instant` |
+| Help tooltip · end button · trailing action | `Tooltip` · `BwButton` · `BwIconButton` | As their own B4 (the tooltip fade is Flutter's fixed one) | As their own B4 |
+
+Platform limit (accepted, as for the tooltip fade on Icon button): the `InputDecorator` transition is short and does not follow `BwDuration.sm` or reduced motion. Do not re-implement or fork `InputDecorator`, wrap it in `TickerMode`, or paint the border yourself to change it. The value, selection and focus are never reset by a visual transition.
 
 ## 6. RTL
 
@@ -258,8 +268,13 @@ BwTextField(label: 'البريد الإلكتروني للعمل', errorText: '�
 - Label row above the field (`BwFieldLabel`); `MergeSemantics` is **not** used across the field because it would swallow the inner buttons; name the field with `Semantics(label: …, textField: true)` and `ExcludeSemantics` on the visible label (verify with `matchesSemantics`).
 - Trailing action: `BwFieldAction` renders `BwIconButton(variant: text, color: neutral)` constrained to the B2 action box; `suffixIconConstraints` = box + `BwSpacing.xs` end inset; `materialTapTargetSize: padded`.
 - Add-ons: `BwFieldAddon` segments in `prefixIcon` / `suffixIcon` with `IntrinsicHeight`, add-on background/text tokens and a divider of `BwBorder.widthDefault` in the current border colour.
-- End button: `Row` of `Expanded(field)` + `BwButton`; the field's end corners and the button's start corners square via `BorderRadiusDirectional` resolved for the direction; overlap by `BwBorder.widthDefault` to share one border.
+- End button: `Row` of `Expanded(field)` + `BwButton(segment: BwButtonSegment.end)`, overlapped by `BwBorder.widthDefault` to share one border. The field's end corners are square through its `OutlineInputBorder` radius (`BorderRadiusDirectional.horizontal(start: Radius.circular(BwRadius.md))` resolved for the direction). The button's start corners are square through an internal `segment` on `BwButton` (the same mechanism as the Split button plan; if it already exists, reuse it unchanged):
+  - `enum BwButtonSegment { start, end }` is declared in `button/bw_button_style.dart`, which is not exported from `lib/biowave_tablet.dart`, so the parameter is package-private
+  - `BwButton` gets one optional named parameter `BwButtonSegment? segment` (default `null` = today's button, every corner `radius`); nothing else in its API, sizes, colours or behaviour changes
+  - One shared helper in `bw_button_style.dart`, `BwButtonStyle.borderRadius(metrics, segment)` → `BorderRadiusDirectional`: `null` → every corner `metrics.radius`; `end` → start corners `Radius.zero`, end corners `metrics.radius`; `start` → the mirror. The button `shape` (outline, ink and overlay) and its `BwFocusRing` radius both use it
+  - Not allowed: intercepting `PaintingContext` or `Canvas`, `ClipRRect` / `ClipPath` around the button, or a second button implementation
 - Error, helper and counter via `InputDecoration.error` / `helper` / `counter` widgets (`BwFieldSupporting`); built-in `counterText` suppressed.
+- Motion (B4): transitions inside `BwFieldLabel`, `BwFieldAddon` and `BwFieldSupporting` use `BwDuration.sm` + `BwEasing.standard` (enabled ↔ disabled / read-only `BwDuration.instant`) and `BwDuration.instant` when `context.bw.reduceMotion`. The `InputDecorator` border and helper ↔ error transition stays Flutter's built-in one (B4 platform limit).
 - `md` on Tablet: wrap the field in a `ConstrainedBox(minHeight: BwLayout.tablet.minTarget)` tap region that requests focus, without changing the visual height.
 - Icons (D-18): built-in glyphs `Symbols.close_rounded`, `Symbols.visibility_rounded` / `Symbols.visibility_off_rounded`, `Symbols.help_rounded`, `Symbols.error_rounded` from `material_symbols_icons`, `opticalSize` = the B2 icon size. Never `Icons.*`
 - Gotchas: M3 `InputDecorator` adds default `contentPadding`, `prefixIconConstraints` (48×48) and `hoverColor` — override all from tokens; `OutlineInputBorder` takes a non-directional `BorderRadius`, resolve the directional one first; `TextFormField` with `maxLength` adds its own counter unless `buildCounter`/`counterText` is suppressed; `visualDensity: VisualDensity.standard`.
@@ -277,6 +292,8 @@ None. `text-field.tokens.json` extends the Web file (same aliases, D-13).
 4-tablet-components/lib/src/components/text_field/bw_field_addon.dart              new (private)
 4-tablet-components/lib/src/components/text_field/bw_field_action.dart             new (private)
 4-tablet-components/lib/src/components/text_field/bw_field_supporting.dart         new (private)
+4-tablet-components/lib/src/components/button/bw_button_style.dart             change (internal): `BwButtonSegment` + `BwButtonStyle.borderRadius(metrics, segment)` (C3)
+4-tablet-components/lib/src/components/button/bw_button.dart                   change (internal): optional `segment` for `shape` and focus-ring radius; default unchanged (C3)
 4-tablet-components/lib/biowave_tablet.dart                                                  change: export bw_text_field.dart
 4-tablet-components/test/text_field_test.dart                                       new
 4-tablet-components/test/goldens/text_field/                                        new (generated goldens)
@@ -305,17 +322,20 @@ CHANGELOG.md                                                        change
 Implement every item in B9, plus:
 - [ ] `bw_text_field_decoration` unit test: resolved border, fill and text colours per `WidgetState` set equal the B3 tokens
 - [ ] Owned controller/focus node disposed; supplied ones never disposed
+- [ ] End button: the `BwButton` resolved `shape` radius has square start corners and `radius-md` end corners in `en` and `ar`; the field outline's end corners are square; a `loading: true` end button paints its spinner
+- [ ] `BwButton` without `segment` is unchanged: the existing Button tests and goldens pass without edits
+- [ ] Reduced motion: with `context.bw.reduceMotion` the Biowave parts' transitions use `BwDuration.instant`; without it `BwDuration.sm` + `BwEasing.standard`
 
 ## 11. Acceptance criteria (the Reviewer checks exactly these)
 
 - [ ] AC-1 Public API matches B1 (names, types, defaults, asserts, fallbacks)
 - [ ] AC-2 Every value in B2–B3 from the listed token; no raw values, no `BwPalette`
-- [ ] AC-3 B4 transitions; reduced motion respected
+- [ ] AC-3 B4: transitions inside the Biowave parts use `BwDuration.sm` + `BwEasing.standard`, and `BwDuration.instant` under `context.bw.reduceMotion` (C6 reduced-motion test); the `InputDecorator` border and helper ↔ error transition is Flutter's built-in one, not re-implemented or suppressed (accepted platform limit)
 - [ ] AC-4 RTL as B5; semantics, focus and targets as B6
 - [ ] AC-5 `cd 4-tablet-components && flutter analyze && flutter test` pass; `npm run sync` and `npm run docs:check` pass
 - [ ] AC-6 Exported from `lib/biowave_tablet.dart`; `4-tablet-components/README.md` row = header, `Built`
 - [ ] AC-7 Trailing action inside the outline at every size; disabled with the field; neutral icons in error (Web AD-1 … AD-6 do not occur)
-- [ ] AC-8 Reuses `BwButton`, `BwIconButton`, `BwFocusRing`, `BwControlSize`; private field parts not exported
+- [ ] AC-8 Reuses `BwButton`, `BwIconButton`, `BwFocusRing`, `BwControlSize`; private field parts not exported; the only `BwButton` change is the internal `segment` of C3 / C5 (`BwButtonSegment` not exported, default button unchanged)
 
 ## 12. Rules
 
