@@ -15,7 +15,7 @@
 | Figma | **Biowave DS — Tablet Components** › `↳ Text field` (page Typography mode `Tablet`) · build: [Part D](#d--figma-build) |
 | Version | 1.2 · 2026-10-24 (spec and code plan 1.2; guidelines unchanged, same as Web 1.1) |
 | Plan | Finished |
-| Code | Changes requested |
+| Code | Built |
 | Figma build | Planned |
 | Review | Round 3 · 2026-10-24 · Changes requested |
 | Source code | [`lib/src/components/text_field/`](../../lib/src/components/text_field/) |
@@ -572,6 +572,33 @@ Implement every item in B9, plus:
 - `npm run docs:check` ✓
 - `cd 4-tablet-components && flutter analyze` ✓ (No issues found)
 - `cd 4-tablet-components && flutter test` ✓ (204/204 passed)
+
+**Deviations from the plan or spec:**
+- none
+
+**Questions for the Planner:**
+- none
+
+#### Fix round 3 — 2026-10-24
+
+| Field | Value |
+|---|---|
+| Agent | Antigravity (Fixer) |
+| Date | 2026-10-24 |
+| Files changed | `4-tablet-components/lib/src/components/text_field/bw_field_action.dart`, `4-tablet-components/lib/src/components/text_field/bw_text_field.dart`, `4-tablet-components/lib/src/components/text_field/bw_text_field_decoration.dart`, `4-tablet-components/test/text_field_test.dart`, `4-tablet-components/components/text-field/text-field.md`, `4-tablet-components/README.md`, `CHANGELOG.md` |
+
+| Finding | What changed (`file:line`) | Test that proves it |
+|---|---|---|
+| #13 🟡 Real 48 dp hit area for `md` field | `bw_text_field.dart:780-794`, `:802-840`, `:843-904`, `:1035-1060`: moved `MouseRegion` inside `_BwFieldHitArea` so it does not drop hits outside 40 dp; wrapped row and column in `_BwFlex` (`hitTestPadding: 4 dp`); `_RenderBwFieldHitArea.hitTest` checks child first and claims the 4 dp band above/below only when `size.height < minTargetHeight` | `test/text_field_test.dart:1146-1159`: `tap on leading icon, prefix, suffix, or md hit area focuses the field` (`tapAt` 3 dp above and below md outline focuses field); `test/text_field_test.dart:1161-1184`: `tap 3 dp outside an lg outline does not focus the field` |
+| #16 🟡 Rebuild on validator error changes | `bw_text_field.dart:195`, `:608`, `:753-767`: tracked `_lastValidatorError` and triggered `setState` when the validator result changes during `validate()` or `reset()`, so `_hasError`, counter, and add-on border rebuild with B3 error tokens synchronously without post-frame delay | `test/text_field_test.dart:1479-1559`: `Form integration: a validator error gives the counter and add-on border the B3 error tokens; reset() returns them to default` |
+| #17 🟡 Tap recognizer for extended hit area; password toggle focus fix | `bw_text_field.dart:952-966`, `:1062-1067`: replaced pointer-up callback with `TapGestureRecognizer` registered on `PointerDownEvent` so drag/scroll gestures do not focus the field; `:328-343`: in `_handlePasswordToggle`, only re-request focus if the field already had focus | `test/text_field_test.dart:1186-1222`: `a scroll drag in a ListView that starts on a field leaves it unfocused`; `test/text_field_test.dart:1224-1249`: `tapping the password toggle does not focus the field` |
+| #15 🟢 Verify loading end-button spinner composited to root | `test/text_field_test.dart:1675-1705`: walked up from the spinner's `CustomPaint` repaint boundary layer (`debugLayer`) to verify `reachedRoot == true` against `tester.binding.renderViews.first.debugLayer`, proving the spinner is attached and painted in the root composited tree | `test/text_field_test.dart:1645-1707`: `end button: BwButton uses segment: BwButtonSegment.end; loading paints spinner` |
+| #18 🟢 Remove token fallback for `fontSize` | `bw_field_action.dart:46-47` and `bw_text_field_decoration.dart:601-602`: replaced `fontSize ?? BwSize.iconSm` with assertions (`assert(fontSize != null)`) and `fontSize!` | `test/text_field_test.dart:47-68`: `no raw colours, sizes or durations in the source`, `:900-943`: `BwTextField size scale and hit areas` |
+
+**Checks:**
+- `npm run docs:check` ✓
+- `cd 4-tablet-components && flutter analyze` ✓ (No issues found)
+- `cd 4-tablet-components && flutter test` ✓ (208/208 passed)
 
 **Deviations from the plan or spec:**
 - none

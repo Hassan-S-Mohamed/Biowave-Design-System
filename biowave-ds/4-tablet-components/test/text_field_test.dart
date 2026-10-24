@@ -1142,6 +1142,110 @@ void main() {
         await tester.pump();
         expect(focusNode.hasFocus, isTrue);
       }
+
+      final fieldTopLeft = tester.getTopLeft(_fieldInputDecorator());
+      focusNode.unfocus();
+      await tester.pump();
+      await tester.tapAt(fieldTopLeft + const Offset(20, -3));
+      await tester.pump();
+      expect(focusNode.hasFocus, isTrue, reason: 'tap 3 dp above md outline');
+
+      final fieldBottomLeft = tester.getBottomLeft(_fieldInputDecorator());
+      focusNode.unfocus();
+      await tester.pump();
+      await tester.tapAt(fieldBottomLeft + const Offset(20, 3));
+      await tester.pump();
+      expect(focusNode.hasFocus, isTrue, reason: 'tap 3 dp below md outline');
+    });
+
+    testWidgets('tap 3 dp outside an lg outline does not focus the field', (
+      tester,
+    ) async {
+      final focusNode = FocusNode();
+      addTearDown(focusNode.dispose);
+
+      await tester.pumpBw(
+        BwTextField(
+          label: 'Website',
+          size: BwControlSize.lg,
+          focusNode: focusNode,
+        ),
+      );
+
+      final fieldTopLeft = tester.getTopLeft(_fieldInputDecorator());
+      await tester.tapAt(fieldTopLeft + const Offset(20, -3));
+      await tester.pump();
+      expect(focusNode.hasFocus, isFalse, reason: 'tap 3 dp above lg outline');
+
+      final fieldBottomLeft = tester.getBottomLeft(_fieldInputDecorator());
+      await tester.tapAt(fieldBottomLeft + const Offset(20, 3));
+      await tester.pump();
+      expect(focusNode.hasFocus, isFalse, reason: 'tap 3 dp below lg outline');
+    });
+
+    testWidgets('a scroll drag in a ListView that starts on a field leaves it unfocused', (
+      tester,
+    ) async {
+      final focusNode = FocusNode();
+      addTearDown(focusNode.dispose);
+
+      await tester.pumpBw(
+        ListView(
+          children: [
+            BwTextField(
+              label: 'Website',
+              size: BwControlSize.md,
+              focusNode: focusNode,
+            ),
+            const SizedBox(height: 1000),
+          ],
+        ),
+      );
+
+      expect(focusNode.hasFocus, isFalse);
+
+      final fieldCenter = tester.getCenter(_fieldInputDecorator());
+      await tester.dragFrom(fieldCenter, const Offset(0, -100));
+      await tester.pumpAndSettle();
+
+      expect(focusNode.hasFocus, isFalse, reason: 'drag starting inside field leaves it unfocused');
+
+      // Scroll back down so field is visible
+      await tester.dragFrom(tester.getCenter(find.byType(ListView)), const Offset(0, 100));
+      await tester.pumpAndSettle();
+
+      final fieldTop = tester.getTopLeft(_fieldInputDecorator());
+      await tester.dragFrom(fieldTop + const Offset(50, -3), const Offset(0, -100));
+      await tester.pumpAndSettle();
+
+      expect(focusNode.hasFocus, isFalse, reason: 'drag starting in 4 dp band leaves it unfocused');
+    });
+
+    testWidgets('tapping the password toggle does not focus the field', (
+      tester,
+    ) async {
+      final focusNode = FocusNode();
+      addTearDown(focusNode.dispose);
+
+      await tester.pumpBw(
+        BwTextField(
+          label: 'Password',
+          obscureText: true,
+          focusNode: focusNode,
+        ),
+      );
+
+      expect(focusNode.hasFocus, isFalse);
+
+      final toggleFinder = find.byKey(
+        const ValueKey<String>('BwTextField.trailing-action'),
+      );
+      expect(toggleFinder, findsOneWidget);
+
+      await tester.tap(toggleFinder);
+      await tester.pump();
+
+      expect(focusNode.hasFocus, isFalse, reason: 'tapping password toggle does not focus field');
     });
 
     testWidgets('RTL: layout mirrored, icons not mirrored, LTR content isolated', (
@@ -1372,6 +1476,88 @@ void main() {
       },
     );
 
+    testWidgets(
+      'Form integration: a validator error gives the counter and add-on border the B3 error tokens; reset() returns them to default',
+      (tester) async {
+        final formKey = GlobalKey<FormState>();
+
+        await tester.pumpBw(
+          SizedBox(
+            width: 560,
+            child: Form(
+              key: formKey,
+              child: BwTextField(
+                label: 'Hourly rate',
+                suffixText: 'SAR',
+                maxLength: 10,
+                showCounter: true,
+                validator: (value) =>
+                    (value == null || value.isEmpty) ? 'Required' : null,
+              ),
+            ),
+          ),
+        );
+
+        final BuildContext context = tester.element(find.byType(BwTextField));
+        final expectedErrorBorder = BwTextFieldDecoration.stateTokens(
+          context,
+          BwTextFieldState.error,
+        ).border;
+        final expectedDefaultBorder = BwTextFieldDecoration.stateTokens(
+          context,
+          BwTextFieldState.defaultState,
+        ).border;
+        final errorCounterColor = BwTextFieldDecoration.stateTokens(
+          context,
+          BwTextFieldState.error,
+        ).counter;
+        final defaultCounterColor = BwTextFieldDecoration.stateTokens(
+          context,
+          BwTextFieldState.defaultState,
+        ).counter;
+
+        Color currentSuffixBorderColor() {
+          final addon = tester.widget<AnimatedContainer>(
+            find.byKey(const ValueKey<String>('BwTextField.suffix')),
+          );
+          final box = addon.decoration as BoxDecoration;
+          final border = box.border! as BorderDirectional;
+          return border.start.color;
+        }
+
+        Color currentCounterColor() {
+          final animatedStyle = tester.widget<AnimatedDefaultTextStyle>(
+            find.ancestor(
+              of: find.byKey(const ValueKey<String>('BwTextField.counter')),
+              matching: find.byType(AnimatedDefaultTextStyle),
+            ).first,
+          );
+          return animatedStyle.style.color!;
+        }
+
+        // Initially: counter and suffix addon use default tokens
+        expect(currentSuffixBorderColor(), expectedDefaultBorder);
+        expect(currentCounterColor(), defaultCounterColor);
+
+        // Validate -> validator fails -> counter and add-on border use B3 error tokens
+        final valid = formKey.currentState!.validate();
+        expect(valid, isFalse);
+        await tester.pumpAndSettle();
+
+        expect(find.text('Required'), findsOneWidget);
+        expect(currentSuffixBorderColor(), expectedErrorBorder);
+        expect(currentCounterColor(), errorCounterColor);
+
+        // Reset -> returns counter and add-on border to default tokens
+        formKey.currentState!.reset();
+        await tester.pumpAndSettle();
+
+        expect(find.text('Required'), findsNothing);
+        expect(currentSuffixBorderColor(), expectedDefaultBorder);
+        expect(currentCounterColor(), defaultCounterColor);
+      },
+    );
+
     testWidgets('Form integration: autovalidateMode.onUserInteraction', (
       tester,
     ) async {
@@ -1485,6 +1671,38 @@ void main() {
       expect(spinnerRender.attached, isTrue);
       expect(spinnerRender.debugNeedsPaint, isFalse);
       expect(spinnerRender.paintBounds.size, isNot(Size.zero));
+
+      final customPaints = find.descendant(
+        of: spinnerFinder,
+        matching: find.byType(CustomPaint),
+      );
+      RenderObject? current = tester.renderObjectList(customPaints).first;
+      Layer? boundaryLayer;
+      while (current != null) {
+        if (current.isRepaintBoundary && current.debugLayer != null) {
+          boundaryLayer = current.debugLayer;
+          break;
+        }
+        current = current.parent;
+      }
+      expect(boundaryLayer, isNotNull);
+      expect(boundaryLayer!.attached, isTrue);
+
+      final rootLayer = tester.binding.renderViews.first.debugLayer;
+      bool reachedRoot = false;
+      Layer? layer = boundaryLayer;
+      while (layer != null) {
+        if (layer == rootLayer) {
+          reachedRoot = true;
+          break;
+        }
+        layer = layer.parent;
+      }
+      expect(
+        reachedRoot,
+        isTrue,
+        reason: 'spinner must be composited into the root layer tree',
+      );
     });
 
     testWidgets('supporting-row start and counter end insets are consistent across all layouts', (

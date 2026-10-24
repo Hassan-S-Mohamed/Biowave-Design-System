@@ -598,8 +598,8 @@ abstract final class BwTextFieldDecoration {
         enabled: enabled,
         readOnly: readOnly,
       );
-      final lineHeight =
-          (style.fontSize ?? BwSize.iconSm) * (style.height ?? 1.0);
+      assert(style.fontSize != null, 'style.fontSize must be non-null');
+      final lineHeight = style.fontSize! * (style.height ?? 1.0);
       final computed = (metrics.height - lineHeight) / 2;
       blockPadding = computed > BwSpacing.none ? computed : BwSpacing.none;
     }

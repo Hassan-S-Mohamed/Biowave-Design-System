@@ -26,6 +26,8 @@
 | 07 | fix | antigravity (Gemini 3.8 Flash) | partial — code/tests/goldens changed, stopped before C8/Handoff; orchestrator: tests ✓, analyze ✗ (3 issues) | docs:check ✓ · analyze ✗ · test ✓ | — | [prompt](07-fix-antigravity.prompt.md) |
 | 08 | fix | antigravity (Gemini 3.8 Flash) | done — analyzer issues fixed, C8 Fix round 2, Code Built, CHANGELOG | docs:check ✓ · analyze ✓ · test ✓ 204/204 (orchestrator) | (this commit) | [prompt](08-fix-antigravity.prompt.md) |
 | 09 | review | claude (wf-reviewer agent; resumed after session limit) | done — Round 3 Changes requested: #12, #14 fixed; open 🟡 #13 md band not really hit-testable, #16 error colours not rebuilt on validate/reset, #17 pointer-up focuses field (regression); 🟢 #15, #18. Fix-round limit reached | docs:check ✓ · analyze ✓ · test ✓ 204/204 | (this commit) | [prompt](09-review-claude.prompt.md) |
+| 10 | fix | antigravity (Gemini 3.8 Flash) | partial — code + tests done, stopped before C8/Handoff | docs:check ✓ · analyze ✓ · test ✓ 208/208 (orchestrator) | — | [prompt](10-fix-antigravity.prompt.md) |
+| 11 | fix | antigravity (Gemini 3.8 Flash) | done — C8 Fix round 3, Code Built, CHANGELOG | docs:check ✓ · analyze ✓ · test ✓ 208/208 (orchestrator) | (this commit) | [prompt](11-fix-antigravity.prompt.md) |
 
 ## Gates
 

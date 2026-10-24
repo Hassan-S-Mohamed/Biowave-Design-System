@@ -1,6 +1,8 @@
 import 'package:biowave_foundations/biowave_foundations.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 
 import '../../common/bw_control_size.dart';
@@ -190,6 +192,7 @@ class _BwTextFieldState extends State<BwTextField> {
   FocusNode? _ownedFocusNode;
   bool _passwordVisible = false;
   bool _hovered = false;
+  String? _lastValidatorError;
 
   TextEditingController get _effectiveController =>
       widget.controller ?? _ownedController!;
@@ -324,17 +327,20 @@ class _BwTextFieldState extends State<BwTextField> {
 
   void _handlePasswordToggle() {
     if (!widget.enabled) return;
+    final hadFocus = _effectiveFocusNode.hasFocus;
     final selection = _effectiveController.selection;
     setState(() {
       _passwordVisible = !_passwordVisible;
     });
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) return;
-      _effectiveFocusNode.requestFocus();
-      if (selection.isValid) {
-        _effectiveController.selection = selection;
-      }
-    });
+    if (hadFocus) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        _effectiveFocusNode.requestFocus();
+        if (selection.isValid) {
+          _effectiveController.selection = selection;
+        }
+      });
+    }
   }
 
   String _resolvedClearLabel(BuildContext context) {
@@ -599,6 +605,7 @@ class _BwTextFieldState extends State<BwTextField> {
 
   @override
   Widget build(BuildContext context) {
+    _lastValidatorError = _formFieldKey.currentState?.errorText;
     final normalizedSize = _effectiveSize;
     final metrics = BwTextFieldDecoration.sizeMetrics(normalizedSize);
     final borderColor = _currentBorderColor(context);
@@ -743,7 +750,21 @@ class _BwTextFieldState extends State<BwTextField> {
       onTap: widget.onTap,
       autovalidateMode: widget.autovalidateMode,
       forceErrorText: !widget.enabled ? null : widget.errorText,
-      validator: widget.validator,
+      validator: (value) {
+        final error = widget.validator?.call(value);
+        if (mounted && error != _lastValidatorError) {
+          _lastValidatorError = error;
+          if (SchedulerBinding.instance.schedulerPhase ==
+              SchedulerPhase.persistentCallbacks) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (mounted) setState(() {});
+            });
+          } else {
+            setState(() {});
+          }
+        }
+        return error;
+      },
       errorBuilder: (context, errorText) =>
           offsetSupporting(
             BwFieldSupporting.buildError(
@@ -756,32 +777,34 @@ class _BwTextFieldState extends State<BwTextField> {
           const SizedBox.shrink(),
     );
 
-    textFormField = _BwFieldHitArea(
-      key: const ValueKey<String>('BwTextField.field'),
-      minTargetHeight: BwLayout.tablet.minTarget,
-      onTap: widget.enabled ? _focusField : null,
-      semanticLabel: () => _resolvedSemanticLabel(context),
-      semanticHint: affixHints.isEmpty ? null : affixHints.join(', '),
-      child: textFormField,
-    );
-
-    if (normalizedSize == BwControlSize.md && !widget.multiline) {
-      textFormField = KeyedSubtree(
-        key: const ValueKey<String>('BwTextField.md-hit-area'),
-        child: textFormField,
-      );
-    }
-
     Widget fieldRow = MouseRegion(
       onEnter: (_) => setState(() => _hovered = true),
       onExit: (_) => setState(() => _hovered = false),
       child: textFormField,
     );
 
+    fieldRow = _BwFieldHitArea(
+      key: const ValueKey<String>('BwTextField.field'),
+      minTargetHeight: BwLayout.tablet.minTarget,
+      onTap: widget.enabled ? _focusField : null,
+      semanticLabel: () => _resolvedSemanticLabel(context),
+      semanticHint: affixHints.isEmpty ? null : affixHints.join(', '),
+      child: fieldRow,
+    );
+
+    if (normalizedSize == BwControlSize.md && !widget.multiline) {
+      fieldRow = KeyedSubtree(
+        key: const ValueKey<String>('BwTextField.md-hit-area'),
+        child: fieldRow,
+      );
+    }
+
     if (endButton != null) {
-      fieldRow = Row(
+      fieldRow = _BwFlex(
         key: const ValueKey<String>('BwTextField.field-row'),
+        direction: Axis.horizontal,
         crossAxisAlignment: CrossAxisAlignment.start,
+        hitTestPadding: const EdgeInsets.symmetric(vertical: 4.0),
         children: [
           Expanded(child: fieldRow),
           Transform.translate(
@@ -795,9 +818,11 @@ class _BwTextFieldState extends State<BwTextField> {
       );
     }
 
-    return Column(
+    return _BwFlex(
+      direction: Axis.vertical,
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
+      hitTestPadding: const EdgeInsets.symmetric(vertical: 4.0),
       children: [
         BwFieldLabel(
           label: widget.label,
@@ -812,6 +837,69 @@ class _BwTextFieldState extends State<BwTextField> {
         fieldRow,
       ],
     );
+  }
+}
+
+class _BwFlex extends Flex {
+  const _BwFlex({
+    super.key,
+    required super.direction,
+    super.mainAxisSize,
+    super.crossAxisAlignment,
+    super.children,
+    this.hitTestPadding = EdgeInsets.zero,
+  });
+
+  final EdgeInsets hitTestPadding;
+
+  @override
+  RenderFlex createRenderObject(BuildContext context) {
+    return _RenderBwFlex(
+      direction: direction,
+      mainAxisSize: mainAxisSize,
+      crossAxisAlignment: crossAxisAlignment,
+      textDirection: getEffectiveTextDirection(context),
+      hitTestPadding: hitTestPadding,
+    );
+  }
+
+  @override
+  void updateRenderObject(
+    BuildContext context,
+    covariant _RenderBwFlex renderObject,
+  ) {
+    super.updateRenderObject(context, renderObject);
+    renderObject.hitTestPadding = hitTestPadding;
+  }
+}
+
+class _RenderBwFlex extends RenderFlex {
+  _RenderBwFlex({
+    required super.direction,
+    required super.mainAxisSize,
+    required super.crossAxisAlignment,
+    required super.textDirection,
+    required EdgeInsets hitTestPadding,
+  }) : _hitTestPadding = hitTestPadding;
+
+  EdgeInsets _hitTestPadding;
+  EdgeInsets get hitTestPadding => _hitTestPadding;
+  set hitTestPadding(EdgeInsets value) {
+    if (_hitTestPadding == value) return;
+    _hitTestPadding = value;
+  }
+
+  @override
+  bool hitTest(BoxHitTestResult result, {required Offset position}) {
+    final hitRect = hitTestPadding.inflateRect(Offset.zero & size);
+    if (hitRect.contains(position)) {
+      if (hitTestChildren(result, position: position) ||
+          hitTestSelf(position)) {
+        result.add(BoxHitTestEntry(this, position));
+        return true;
+      }
+    }
+    return false;
   }
 }
 
@@ -861,7 +949,21 @@ class _RenderBwFieldHitArea extends RenderShiftedBox {
   })  : _minTargetHeight = minTargetHeight,
         _semanticLabel = semanticLabel,
         _semanticHint = semanticHint,
-        super(null);
+        super(null) {
+    _tapRecognizer = TapGestureRecognizer()..onTap = _handleTap;
+  }
+
+  late final TapGestureRecognizer _tapRecognizer;
+
+  void _handleTap() {
+    onTap?.call();
+  }
+
+  @override
+  void dispose() {
+    _tapRecognizer.dispose();
+    super.dispose();
+  }
 
   double _minTargetHeight;
   double get minTargetHeight => _minTargetHeight;
@@ -933,33 +1035,34 @@ class _RenderBwFieldHitArea extends RenderShiftedBox {
   bool hitTest(BoxHitTestResult result, {required Offset position}) {
     final child = this.child;
     if (child == null) return false;
-    final targetRect = size.height >= _minTargetHeight
-        ? (Offset.zero & size)
-        : Rect.fromCenter(
-            center: size.center(Offset.zero),
-            width: size.width,
-            height: _minTargetHeight,
-          );
-    if (targetRect.contains(position)) {
-      final clamped = Offset(
-        position.dx.clamp(0.0, size.width).toDouble(),
-        position.dy.clamp(0.0, size.height).toDouble(),
+
+    // 1. Give child first opportunity to hit-test within its normal bounds
+    if (child.hitTest(result, position: position)) {
+      return true;
+    }
+
+    // 2. Only claim touches in the 4 dp band above/below for controls smaller than minTargetHeight
+    if (onTap != null && size.height < _minTargetHeight) {
+      final extraHeight = _minTargetHeight - size.height;
+      final halfBand = extraHeight / 2;
+      final targetRect = Rect.fromLTRB(
+        0.0,
+        -halfBand,
+        size.width,
+        size.height + halfBand,
       );
-      final hitChild = child.hitTest(result, position: clamped);
-      if (!hitChild && onTap != null) {
+      if (targetRect.contains(position)) {
         result.add(BoxHitTestEntry(this, position));
         return true;
       }
-      result.add(BoxHitTestEntry(this, position));
-      return true;
     }
     return false;
   }
 
   @override
   void handleEvent(PointerEvent event, BoxHitTestEntry entry) {
-    if (event is PointerUpEvent && onTap != null) {
-      onTap!();
+    if (event is PointerDownEvent) {
+      _tapRecognizer.addPointer(event);
     }
   }
 }

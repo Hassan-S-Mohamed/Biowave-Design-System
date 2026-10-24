@@ -43,8 +43,8 @@ class BwFieldAction extends StatelessWidget {
       normalized,
       enabled: true,
     );
-    final lineHeight =
-        (inputStyle.fontSize ?? BwSize.iconSm) * (inputStyle.height ?? 1.0);
+    assert(inputStyle.fontSize != null, 'inputStyle.fontSize must be non-null');
+    final lineHeight = inputStyle.fontSize! * (inputStyle.height ?? 1.0);
     final marginBlockStart = math.max(
       metrics.actionInset - metrics.gap,
       (lineHeight - metrics.actionBox) / 2,
