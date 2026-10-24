@@ -5,13 +5,14 @@
 | Unit | `split-button` on `mobile` |
 | Unit file | `5-mobile-components/components/split-button/split-button.md` |
 | Branch | `ds/split-button-mobile` (from `main` @ 0127282) |
-| Pull request | — |
+| Pull request | https://github.com/hassanSmohamed/Biowave-Design-System/pull/18 |
 | Skipped steps | figma (config › skip). Plan and preview were done in earlier runs (Plan Finished, contract current). |
 
 ## Steps
 
 | # | Step | Agent | Result | Checks | Commit | Prompt |
 |---|---|---|---|---|---|---|
+| before-merge | Approve | Squash-merge; text-field/mobile fix starts on top |
 | after-review (Round 2) | Approve | Fix round 2 (last allowed) → Antigravity (Gemini): #11, #12, #13 |
 | after-plan (plan 2) | Approve | Previews skipped; Fix round 1 → Antigravity (Gemini) |
 | after-review (Round 1) | Approve | Planner mirrors tablet plan 2.1 (same segment API names) for #2, #4, #5, #7–#10 → after-plan gate → Fixer #1, #3, #6, #7 on Antigravity (Gemini) |
@@ -34,5 +35,8 @@
 - none
 
 ## Summary
+
+BwSplitButton (mobile): built by Antigravity (write-up on Gemini), Round 1 Changes requested (Tab close, internal API, plan gaps), plan 2 mirroring tablet 2.1, Fix rounds 1–2 on Antigravity/Gemini, Round 3 Approved, merged.
+
 
 Wave 2 (depends on BwIconButton mobile, merged in #15). Run in parallel in its own worktree. Agent assigned by the user: antigravity.
