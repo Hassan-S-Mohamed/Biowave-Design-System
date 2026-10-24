@@ -21,6 +21,7 @@
 | 05 | fix | codex | failed — ChatGPT usage limit, nothing changed | — | — | [prompt](05-fix-codex.prompt.md) |
 | 06 | fix | antigravity | done (session ended before Handoff was captured) — #1 focus semantics, #2 header, #3 theme revert; C8 Fix round 1 (also pasted by mistake into D11) | docs:check ✓ · analyze ✓ · test ✓ 96/96 (orchestrator) | (this commit) | [prompt](06-fix-antigravity.prompt.md) |
 | 07 | review | claude (wf-reviewer agent) | done — Round 2 Changes requested: #1–#3 closed; new 🟡 #4 duplicate Fix round entry in D11 | docs:check ✓ · analyze ✓ · test ✓ 96/96 · sync ✓ | (this commit) | [prompt](07-review-claude.prompt.md) |
+| 08 | fix | codex | done — Fix round 2: #4 duplicate removed from D11 (D11 == main), C8 entry, Code Built | docs:check ✓ · analyze ✓ · test ✓ 96/96 (orchestrator) | (this commit) | [prompt](08-fix-codex.prompt.md) |
 
 ## Gates
 
