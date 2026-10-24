@@ -2,6 +2,12 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Preview — Mobile Divider 1.1] — 2026-10-24
+
+## [Preview — Tablet Divider 1.1] — 2026-10-24
+
+## [Preview — Web Divider 1.1] — 2026-10-24
+
 ## [Plan — Divider 1.1 (web, tablet, mobile)] — 2026-10-23
 ### Changed
 - Divider plan 1.0 → 1.1 on all three platforms (`3-web-components/components/divider/divider.md`, `4-tablet-components/…`, `5-mobile-components/…`; Part A identical except A8), answering the four 1.0 questions: (1) inset stays `spacing-xl` for `start` and `both` — A4.3/B2 note the List plan (Day 8) adds its own text-aligned inset, nothing added now; (2) new optional centred label on horizontal dividers, `showLabel` + `label` (“or” / “أو”): `caption-md`, `color-text-neutral-muted` (4.5:1 pairs already exist), `spacing-md` gap each side, line segments ≥ `spacing-xl`, wraps and never truncates; ignored with a warning / assert on vertical dividers and when the label is empty; Figma `Show label` (BOOLEAN) + `Label` (TEXT), still 18 variants; (3) web `decorative` stays default `false`; (4) new web `component` prop (`hr` default · `li`): `<li role="separator">` inside `<ul>` / `<ol>`, always `aria-hidden="true"` because axe-core 4.14's `list` rule rejects a visible separator child (checked); labelled web root is `<div role="separator" aria-label>`. B9/C6 tests, C7, D1–D10 and Part F updated. No component tokens (P-04). Plan stays Finished; contracts regenerated for web, tablet and mobile; `component-tokens` ✓, `docs:build` ✓, `docs:check` ✓.
