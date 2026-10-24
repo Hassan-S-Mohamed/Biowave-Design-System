@@ -10,7 +10,7 @@
 | Built on | M3 `IconButton` · `IconButton.filled` · `IconButton.filledTonal` · `IconButton.outlined` with a `ButtonStyle` from tokens; `isSelected` for toggles; `tooltip` → M3 `Tooltip` (long press) |
 | Import | `BwIconButton` from `package:biowave_mobile/biowave_mobile.dart` |
 | Version | 1.0 · 2026-10-16 |
-| Source code | `lib/src/components/icon-button/` — not built yet (the Executor creates it) |
+| Source code | [`lib/src/components/icon_button/bw_icon_button.dart`](../../lib/src/components/icon_button/bw_icon_button.dart) |
 | Tokens | — |
 | Source | [`icon-button.md`](icon-button.md) @ `efa3e3b6b9824426` |
 
