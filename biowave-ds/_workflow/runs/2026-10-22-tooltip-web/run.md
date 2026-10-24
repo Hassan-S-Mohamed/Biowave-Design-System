@@ -20,6 +20,7 @@
 | 10 | fix | codex | stopped partway: Codex usage limit, no Handoff (partial edits kept) | — | — | `10-fix-codex.prompt.md` |
 | 11 | fix | cursor | stopped at once: Cursor usage limit | — | — | `11-fix-cursor.prompt.md` |
 | 12 | fix | codex | done (2026-10-24): Fix round 1 — gap = tooltip margin facing the anchor (popper offset removed), step-by-step hover test + negative control, gap geometry, described-by id only after `Fade` exit, header; C8; Code Built. Codex: 146/146 ×3 | docs:check ✓ · typecheck ✓ · test:web ✓ 146/146 (orchestrator) | see git log | `12-fix-codex.prompt.md` |
+| 13 | review | claude (wf-reviewer subagent) | done (2026-10-24) · **Approved** — Round 2: #1 fixed (36 slow-pointer runs across the gap, every placement EN/AR + 4 flips, all stay open; visible gap 4 px), #2 fixed (one described-by id in every ~10 ms sample), #3 fixed; Round 1 measurements hold. New 🟢 Executor nit (pre-existing): `purpose="label"` child with explicit `aria-label={undefined}` gets no name — follow-up | docs:check ✓ · typecheck ✓ · test:web ✓ 146/146 ×3 | see git log | `13-review-claude.prompt.md` |
 
 ## Gates
 

@@ -15,9 +15,9 @@
 | Figma | **Biowave DS — Web Components** › `↳ Tooltip` · build: [Part D](#d--figma-build) |
 | Version | 1.1 · 2026-10-24 |
 | Plan | Finished |
-| Code | Built |
+| Code | Approved |
 | Figma build | Planned |
-| Review | Round 1 · 2026-10-24 · Changes requested |
+| Review | Round 2 · 2026-10-24 · Approved |
 | Source code | [`src/components/tooltip/`](../../src/components/tooltip/) |
 | Tokens | — (no component tokens: every value is an existing semantic token, P-04) |
 | Contracts | [`tooltip-contract.md`](tooltip-contract.md) · [`figma-tooltip-contract.md`](figma-tooltip-contract.md) — generated, never edited |
@@ -579,7 +579,92 @@ Component description: "Short text that names an icon-only control or adds a one
 
 | Round | Date | Code verdict | Figma verdict |
 |---|---|---|---|
+| 2 | 2026-10-24 | **Approved** | not reviewed |
 | 1 | 2026-10-24 | **Changes requested** | not reviewed |
+
+### E3 Round 2 — 2026-10-24
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 1.1 · 2026-10-24 |
+| Spec version reviewed | 1.1 |
+| Reviewer | Claude |
+| Date | 2026-10-24 |
+| Verdict | **Approved** |
+
+Commands run by the Reviewer on branch `ds/tooltip-web` at `ded292f` (fix round 1 = latest commit; `uptime` load 1.92):
+`npm run docs:check` ✅ 21 component files · `npm run typecheck` ✅ · `npm run test:web` ✅ **146/146**, 9 files, three consecutive full runs (5.82 s · 6.55 s · 6.37 s), default timeouts · `npm run component-tokens` ✅ web/tablet/mobile · `npm run sync` ✅ READY.
+Real browser: my own headless Chrome 156 (`--headless=new`, own profile, CDP port 47392, real `Input.dispatchMouseEvent` / `dispatchKeyEvent`), the real `Tooltip` from `3-web-components/src` inside `BiowaveProvider` with the generated `tokens.css`, served by a scratch Vite config outside the repo on port 47391; viewport 1024×768, anchor 40×40 at (400, 300) unless noted; `prefers-reduced-motion` emulated as `no-preference` and `reduce`. Both processes stopped by PID afterwards.
+
+All three Round 1 findings are fixed. The blocker is gone for a real pointer: moving 1, 2 and 4 px per 16 ms frame from the anchor centre across the gap onto the tooltip keeps it open in every placement, en and ar, and in four flipped cases (36/36 runs, opacity never below 1, still open 1.2 s after arrival). Every point inside the gap hit-tests to the popper element; the popper touches the anchor (0 px) and the visible gap is still 4 px (`spacing-xs`) on the anchor-facing side only. Exactly one element carries the described-by id at every sample. Every Round 1 measurement still holds. One new 🟢 nit, present since 1.0 and outside this fix round.
+
+#### Previous findings (Round 1)
+
+| # | Status | Evidence |
+|---|---|---|
+| 1 🔴 Not hoverable across the gap | **Fixed** | `Tooltip.tsx:173-188` no `offset` modifier; `:199-215` `margin: 0` plus `tooltipTokens.offset` only on the anchor-facing logical side per resolved `data-popper-placement` (RTL swaps inline start/end). Browser: en top/bottom/start/end → top/bottom/left/right, ar → top/bottom/right/left; computed margins e.g. top `0 0 4px 0`, en left `0 4px 0 0`, ar left `0 4px 0 0`, ar right `0 0 0 4px`; gap 4 px, popper-to-anchor 0 px, cross-axis Δ ≤ 0.2 px; `elementFromPoint` in the gap = popper in every run. Slow walk 1/2/4 px per frame: stays open, final opacity 1 — 24/24 normal placements + 12/12 flipped (en top at y=0 → bottom; en start at x=0 → right; ar start at x=984 → left; ar end at x=0 → right). Negative control: slow move away from the tooltip → gone within 300 ms. Tests *keeps top/end open while the pointer crosses the gap step by step in en/ar* (`Tooltip.test.tsx:217`), *starts exiting when the pointer leaves the anchor without entering the popper* (`:252`), *keeps only the … anchor-facing margin in …* ×8 (`:402`) |
+| 2 🟢 Two described-by elements during exit | **Fixed** | `Tooltip.tsx:33-50` composes `Fade` `onExited`; `:88-90, 111-114, 242-246` render the hidden copy only after the exit finished. Browser, `purpose="description"`, sampled every ~10 ms, en + ar, normal and reduced motion: id owner count = 1 in every sample — closed, entering, open, pointer-leave fade, Esc fade, keyboard open and blur. Test *keeps one description id through pointer-leave and Escape exit fades* (`Tooltip.test.tsx:501`) |
+| 3 🟢 Header `Source code` | **Fixed** | Header links [`src/components/tooltip/`](../../src/components/tooltip/); `docs:check` ✓ |
+
+#### Findings
+
+| # | Severity | File | Issue | Required change | Owner |
+|---|---|---|---|---|---|
+| 1 | 🟢 Nit | `Tooltip.tsx:128-136` | `purpose="label"` on a child that passes the key explicitly as undefined (`<button aria-label={maybeLabel}>` with `maybeLabel` undefined) loses the tooltip name: `hasAccessibleName` is false, but MUI spreads `children.props` after its own `aria-label`, so the `undefined` key wins. Measured: button name "◆" (its text), no `aria-label`, closed and open. Without the key it is named correctly. Unchanged since 1.0; not in this fix round's scope | In a follow-up, set `'aria-label': title` in the `cloneElement` for every unnamed `label` anchor (as the disabled branch already does), and add a test with `aria-label={undefined}` | Executor |
+
+#### Acceptance criteria
+
+| AC | Result | Evidence (file:line / test name) |
+|---|---|---|
+| AC-1 API = B1 | ✅ | `Tooltip.tsx:10-21` unchanged: `title`, `children`, `placement` (`top`), `purpose` (`label`), `open`, `onOpen`, `onClose`; MUI-only props set internally only. Fallbacks `:116-126` — *warns once and applies both invalid-combination fallbacks* |
+| AC-2 B2–B3 tokens; one offset source | ✅ | `tooltip.tokens.ts:3-20`; offset only `tooltipTokens.offset` (`cssVars.spacing.xs`). Browser, light/dark × en/ar: padding 4/8/4/8 px, radius 6 px, max-width 320 px = `--bw-size-container-xxs` (long text 320 × 56 en / 62 ar, no overflow), border none, shadow none, `text-align: start`, z-index 1600; light bg `rgb(20,20,20)` / fg `rgb(255,255,255)`, dark bg `rgb(255,255,255)` / fg `rgb(10,10,10)`, each equal to `var(--bw-color-surface-inverse)` / `var(--bw-color-text-neutral-inverse)`; en Inter 12/16 500, ar IBM Plex Sans Arabic 12/18 500. Tests *uses the complete visual token set in …* ×4, *maps every visual, spacing, layer, and motion value …* |
+| AC-3 B4 transitions; reduced motion | ✅ | Hover: closed at 496–499 ms, open at 517–532 ms (`motion-duration-2xl` 500), en + ar. Enter `opacity 0.2s cubic-bezier(0, 0, 0, 1)`, opacity 1 at ~175 ms; exit `opacity 0.1s cubic-bezier(0.3, 0, 1, 1)`, removed at 103 ms. Keyboard (Shift+Tab onto the anchor): `:focus-visible` true, open in ≤ 2 ms, persists 1.5 s; Esc closes in ~100 ms, focus stays on `#anchor`; Tab away closes, focus on `#other`. Mouse click: `:focus-visible` false, closed at 80 ms, opens after the hover delay (507–509 ms). Reduced motion: no duration (0 s) both ways, opacity 1 at first sample, removed at 1 ms, hover delay still 517–519 ms. Hoverable: Round 1 #1 above. Tests *delays hover, opens keyboard focus at once …*, *does not open at once for pointer focus and closes on Escape …*, *uses the specified enter and exit timing and instant reduced-motion timing* |
+| AC-4 RTL B5; a11y B6 | ✅ | Placement and flip as in Round 1 #1 above. Chrome AX tree, en + ar, closed and open: `label` → name "Edit device" / "تعديل الجهاز", no description, `aria-label` only; `description` → name "Work email", description = title, `aria-describedby` resolves to one element, no `title` attribute; disabled → button named by the title, `span.bw-tooltip__anchor` has no `aria-label` / `aria-describedby` / `title`. Tests *maps … in en/ar* ×8, *flips to the opposite side …*, *names label anchors exactly once …*, *keeps child handlers and description ids …*, axe ×4. See nit 1 |
+| AC-5 Tests and checks pass | ✅ | B9 and C6 items present, including the 1.1 step-by-step, negative-control, gap-geometry and exit-id tests; checks above, `test:web` 146/146 ×3 at default timeouts |
+| AC-6 Exported; README; nothing outside C5 | ✅ | `src/index.ts` exports unchanged; fix commit `ded292f` touches only `Tooltip.tsx`, `tooltip.tokens.ts`, `Tooltip.test.tsx`, the header + C8 of this file, the README row, `CHANGELOG.md` and run records. Icon button and Text field untouched |
+| AC-7 Hoverable with a real pointer; gap = margin; one source | ✅ | Round 1 #1 above: no `offset` modifier, anchor-facing margin `tooltipTokens.offset`, visible gap 4 px in all four placements en + ar and flipped, tests present and passing |
+| AC-8 One described-by element at every moment | ✅ | Round 1 #2 above |
+| AC-9 Header `Source code` link | ✅ | Round 1 #3 above |
+| AC-10 C8 Fix round 1; Code Built; README row | ✅ | C8 › *Fix round 1 — 2026-10-24* lists every command with real numbers (typecheck 2.38 s; `test:web` 146/146 ×3, 5.63 / 4.99 / 5.04 s; component-tokens; sync READY; docs:check); header `Code` was `Built` and the README row matched before this review |
+
+#### Rule checks (AGENTS.md §2)
+
+| Rule | Result | Notes |
+|---|---|---|
+| No generated files edited | ✅ | Fix commit touches no contract, `index.json`, HTML shell or generated code |
+| No raw values / no primitives | ✅ | Only `cssVars.*`, `base.*` semantic values and `biowaveVariants.labelSm`; `margin: '0'` is zero. Test *contains no raw colors, dimensions, durations, or font names and no test timeouts* |
+| RTL first | ✅ | `marginBlockStart/End`, `marginInlineStart/End`, `paddingBlock/Inline`, `textAlign: 'start'`; measured in ar |
+| Both themes, both languages, tested | ✅ | Render and axe matrices light/dark × en/ar; hover tests en + ar; all measured in the browser |
+| Accessibility WCAG 2.2 AA | ✅ | 1.4.13 dismissible (Esc), hoverable (slow pointer, every placement), persistent; contrast ≈ 18.4:1 light / 19.8:1 dark (values unchanged) |
+| Tests through `renderWithBiowave`, default timeouts | ✅ | No timeout arguments, shared test tooling untouched |
+| Stayed inside the contract | ✅ | C8 reports no deviations; code matches C3 › Offset and › Description id |
+| Changelog | ✅ | `CHANGELOG.md` › *Fixed — Web Tooltip review round 1* |
+
+#### Figma build (Part D)
+
+Skipped — Figma build is `Planned`.
+
+#### Probe evidence
+
+```
+Headless Chrome 156, anchor 40×40 at (400,300), commit ded292f
+  slow walk anchor → tooltip (1/2/4 px per 16 ms), wait 1.2 s after arrival
+    en top/bottom/start/end   → top/bottom/left/right   gap 4 · popper gap 0 · gap points = popper · min opacity 1 · final 1   (12/12)
+    ar top/bottom/start/end   → top/bottom/right/left   same                                                                   (12/12)
+    flipped  en top@y0→bottom · en start@x0→right · ar start@x984→left · ar end@x0→right   same                               (12/12)
+    negative slow move away   → gone < 300 ms
+  margins  top 0 0 4 0 · bottom 4 0 0 0 · en left 0 4 0 0 · en right 0 0 0 4 · ar left 0 4 0 0 · ar right 0 0 0 4
+  description id owners   1 in every ~10 ms sample: closed · entering · open · pointer-leave fade · Esc fade · focus · blur (en, ar, normal, reduced)
+  hover           closed @496–499 ms · open @517–532 ms
+  enter / exit    opacity 0.2s cubic-bezier(0,0,0,1) → 1 @~175 ms · opacity 0.1s cubic-bezier(0.3,0,1,1) removed @103 ms
+  reduced motion  no duration both ways · removed @1 ms · hover still 517–519 ms
+  keyboard        :focus-visible true · open @≤2 ms · Esc closed, focus #anchor · Tab → #other, closed
+  mouse click     :focus-visible false · closed @80 ms · open @507–509 ms
+  container       pad 4 8 4 8 · radius 6 · max-w 320 · z 1600 · en Inter 12/16 500 · ar IBM Plex Sans Arabic 12/18 500
+  names           label "Edit device" · description name "Work email" + desc = title · disabled button named, span unnamed
+```
+
+---
 
 ### E2 Round 1 — 2026-10-24
 

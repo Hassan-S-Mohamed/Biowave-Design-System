@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Review — Web Tooltip round 2: Approved] — 2026-10-24
+### Changed
+- Tooltip (web, plan 1.1) review round 2: **Approved** — Part E3 of `3-web-components/components/tooltip/tooltip.md`. Round 1 #1 fixed: in headless Chrome a pointer moving 1, 2 or 4 px per frame from the anchor across the gap keeps the tooltip open in every placement, en and ar, and when flipped (36/36); the gap hit-tests to the popper and the visible gap is still 4 px (`spacing-xs`). #2 fixed: exactly one described-by element in every sample, including both exit fades. #3 fixed (header link). Round 1 timings, keyboard-only focus open, Esc, reduced motion, sizes, colours and accessible names still hold. One 🟢 nit for a follow-up (an explicit `aria-label={undefined}` on a `label` child drops the name). Code → Approved, Review → Round 2 (header + README). `docs:check` ✓, `typecheck` ✓, `test:web` 146/146 ×3 ✓, `component-tokens` ✓, `sync` READY.
+
 ## [Fixed — Web Tooltip review round 1] — 2026-10-24
 ### Fixed
 - Moved the `spacing-xs` anchor gap into the interactive Popper as the tooltip's resolved-placement, anchor-facing logical margin; removed the Popper offset modifier; restored the closed description copy only after `Fade` exits so the described-by id has one owner; linked the source header; and added frame-by-frame hover, negative-control, eight-case gap-geometry and exit-fade id regressions. The full web suite passes 146/146 in three consecutive default-timeout runs.
