@@ -1,4 +1,5 @@
 import 'package:biowave_foundations/biowave_foundations.dart';
+import 'package:flutter/foundation.dart' show internal;
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 
@@ -10,6 +11,10 @@ import 'bw_button_style.dart';
 enum BwButtonVariant { filled, tonal, outlined, text }
 
 enum BwButtonColor { brand, secondary, neutral, error, inverse }
+
+/// Logical segment placement for package-owned composite controls.
+@internal
+enum BwButtonSegment { start, end }
 
 /// A token-driven Material 3 action button for tablet experiences.
 class BwButton extends StatelessWidget {
@@ -26,6 +31,7 @@ class BwButton extends StatelessWidget {
     this.loadingLabel,
     this.focusNode,
     this.autofocus = false,
+    this.segment,
     super.key,
   })  : assert(
           label.length > 0,
@@ -54,6 +60,10 @@ class BwButton extends StatelessWidget {
   final String? loadingLabel;
   final FocusNode? focusNode;
   final bool autofocus;
+
+  /// Used by package-owned controls that join buttons into one control.
+  @internal
+  final BwButtonSegment? segment;
 
   BwButtonVariant get _effectiveVariant {
     if (variant == BwButtonVariant.tonal &&
@@ -87,10 +97,12 @@ class BwButton extends StatelessWidget {
     final ringColor = color == BwButtonColor.inverse
         ? context.bw.colors.borderInverse
         : context.bw.colors.borderFocus;
-    final ringBorderRadius = BorderRadiusDirectional.all(
-      Radius.circular(dimensions.radius),
-    ).resolve(Directionality.of(context));
+    final borderRadius = BwButtonStyle.segmentBorderRadius(dimensions, segment);
+    final ringBorderRadius = borderRadius.resolve(Directionality.of(context));
     final style = baseStyle.copyWith(
+      shape: WidgetStatePropertyAll<OutlinedBorder>(
+        RoundedRectangleBorder(borderRadius: borderRadius),
+      ),
       backgroundBuilder: (context, states, child) {
         assert(child != null);
         return BwFocusRing(

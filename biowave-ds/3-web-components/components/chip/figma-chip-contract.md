@@ -1,7 +1,7 @@
-<!-- GENERATED from chip.md @ 9a663318585a6c0d — do not edit; change the source and run: npm run contract -- web chip -->
+<!-- GENERATED from chip.md @ e492699abf6bfca9 — do not edit; change the source and run: npm run contract -- web chip -->
 # Chip · شريحة — Web — Figma contract
 
-> **Everything the Figma Agent needs to build Chip in the Web Components file, with our variables and styles.** Read this file only. Generated from [`chip.md`](chip.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-18). Questions go to [D11 Execution log](chip.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
+> **Everything the Figma Agent needs to build Chip in the Web Components file, with our variables and styles.** Read this file only. Generated from [`chip.md`](chip.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-24). Questions go to [D11 Execution log](chip.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
 
 **Two phases, one review:** Phase 1 — build the component set (§7–§8). Phase 2 — as soon as Phase 1 is finished, the 12 documentation pages and the Components List card (§9).
 
@@ -12,7 +12,7 @@
 | Component | Chip · شريحة |
 | Platform | Web · React + MUI |
 | Version | 1.0 · 2026-10-23 |
-| Source | [`chip.md`](chip.md) @ `9a663318585a6c0d` |
+| Source | [`chip.md`](chip.md) @ `e492699abf6bfca9` |
 
 ## 1. Library connections in this file
 

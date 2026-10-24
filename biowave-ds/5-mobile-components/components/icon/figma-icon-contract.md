@@ -1,7 +1,7 @@
-<!-- GENERATED from icon.md @ 5dc8eb757bc14b34 — do not edit; change the source and run: npm run contract -- mobile icon -->
+<!-- GENERATED from icon.md @ 2b056eb0ad6c028b — do not edit; change the source and run: npm run contract -- mobile icon -->
 # Icon · أيقونة — Mobile — Figma contract
 
-> **Everything the Figma Agent needs to build Icon in the Mobile Components file, with our variables and styles.** Read this file only. Generated from [`icon.md`](icon.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-18). Questions go to [D11 Execution log](icon.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
+> **Everything the Figma Agent needs to build Icon in the Mobile Components file, with our variables and styles.** Read this file only. Generated from [`icon.md`](icon.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-24). Questions go to [D11 Execution log](icon.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
 
 **Two phases, one review:** Phase 1 — build the component set (§7–§8). Phase 2 — as soon as Phase 1 is finished, the 12 documentation pages and the Components List card (§9).
 
@@ -12,7 +12,7 @@
 | Component | Icon · أيقونة |
 | Platform | Mobile · Flutter + Material 3 |
 | Version | 1.0 · 2026-10-18 |
-| Source | [`icon.md`](icon.md) @ `5dc8eb757bc14b34` |
+| Source | [`icon.md`](icon.md) @ `2b056eb0ad6c028b` |
 
 ## 1. Library connections in this file
 
@@ -83,7 +83,6 @@ Library file **Google · Material Symbols** · key `RXlnhYgUKBBE6HveEr7e9C` — 
 |---|---|---|---|
 | `add` | `7d426edec81a6ef6e44ffdcc37eab6863c7943a7` | `d20bdb7a3a61cd1a31b9e9dddf5c46330cc9bbff` | `cbadf0df7af23f20cf573e9b3856c059d146c57d` |
 | `arrow_forward` | `90a6ad2ece86bb88d2f44286bd9efd3a60a5c815` | `48427bac81c0253cee4049d8ad243a4fb4da643d` | `1df1f77448d6e530948cc17302f5ae41c6fa453c` |
-| `push_pin` | `f1e809edda8007dffbdd448fff9cb97cb4e20dd1` | `4437341389767b81fdaf68b5442cefa86d97f1ae` | `c41709f31358d03a6bdb4bba1201c75f5f8227a6` |
 | `schedule` | `89f2818a7ab025b819eefea315fc7ca3a5191bc7` | `d75c497b23d5d4b9a36ebe79b61f86dc02b01d1e` | `9f684b8f34e33064a012a35fd954d41f7f3d6e69` |
 
 ## 7. Phase 1 — values (from Part B)

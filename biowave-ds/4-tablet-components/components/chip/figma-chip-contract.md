@@ -1,7 +1,7 @@
-<!-- GENERATED from chip.md @ dbfc7304322fb9f5 — do not edit; change the source and run: npm run contract -- tablet chip -->
+<!-- GENERATED from chip.md @ d2fb9fe93bf8aee9 — do not edit; change the source and run: npm run contract -- tablet chip -->
 # Chip · شريحة — Tablet — Figma contract
 
-> **Everything the Figma Agent needs to build Chip in the Tablet Components file, with our variables and styles.** Read this file only. Generated from [`chip.md`](chip.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-18). Questions go to [D11 Execution log](chip.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
+> **Everything the Figma Agent needs to build Chip in the Tablet Components file, with our variables and styles.** Read this file only. Generated from [`chip.md`](chip.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-24). Questions go to [D11 Execution log](chip.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
 
 **Two phases, one review:** Phase 1 — build the component set (§7–§8). Phase 2 — as soon as Phase 1 is finished, the 12 documentation pages and the Components List card (§9).
 
@@ -12,7 +12,7 @@
 | Component | Chip · شريحة |
 | Platform | Tablet · Flutter + Material 3 |
 | Version | 1.0 · 2026-10-23 |
-| Source | [`chip.md`](chip.md) @ `dbfc7304322fb9f5` |
+| Source | [`chip.md`](chip.md) @ `d2fb9fe93bf8aee9` |
 
 ## 1. Library connections in this file
 
