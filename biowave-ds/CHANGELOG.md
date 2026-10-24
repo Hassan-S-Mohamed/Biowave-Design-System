@@ -2,6 +2,33 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Review — Tablet Split button round 2: Approved] — 2026-10-24
+### Reviewed
+- Split button (tablet) review round 2: **Approved**. See Part E3 of `4-tablet-components/components/split-button/split-button.md`. Round 1 findings #1–#10 are all fixed. Re-probes pass: the menu opens end-aligned under the container in LTR and RTL with a `BwSpacing.xs` offset, and the keyboard reaches the menu items (ArrowDown/Up, Enter/Space, Esc, Tab). The BwButton / BwIconButton / `bw_button_style.dart` changes match C3 exactly, and the existing button and icon-button tests are unchanged. The four goldens were checked. Two optional 🟢 nits: #11 the menu jumps for one frame when it is wider than the container, #12 very long option labels are not capped to the screen width. Code → Approved (header + README). `docs:check` ✓, `flutter analyze` ✓, `flutter test` 168/168 ✓, `sync` READY.
+
+## [Fixed — Tablet Split button review round 1] — 2026-10-24
+### Fixed
+- Fixed Tablet `BwSplitButton` review round 1 findings and plan 2/2.1 items: #1 end-aligned menu under container in LTR/RTL with `BwSpacing.xs` vertical offset; #2 keyboard navigation for menu items (focus first/last, arrow keys move, Enter/Space selects); #3 Tab/Shift+Tab close open menu and advance/reverse focus; #6 chevron close duration `BwDuration.sm` with accelerate curve (open `BwDuration.md`, instant on reduced motion); #9 moved duplicated `_borderRadius` into shared `BwButtonStyle.segmentBorderRadius`; #10 asserted `tap` and `focus` semantics actions on primary button; applied plan 2 menu tokens with elevation-3 decorated surface (`MenuStyle` transparent, `Clip.none`), menu item state styles, and B9 PNG goldens (`light`/`dark` × `en`/`ar`) under `4-tablet-components/test/goldens/split_button/`. Code → Built.
+
+## [Plan — Tablet Split button 2.1] — 2026-10-24
+### Changed
+- Split button (tablet) plan 2.1 adds review round 1 finding #9 (user-approved): C5 authorises `4-tablet-components/lib/src/components/button/bw_button_style.dart` (change: shared segment radius helper, internal, used by BwButton and BwIconButton) and C3 lists it in the internal-parameters table; F2 row added. No new behaviour. Plan stays Finished; contract regenerated.
+
+## [Plan — Tablet Split button 2] — 2026-10-24
+### Changed
+- Split button (tablet) plan 2 fixes the Planner findings of review round 1 (Part E2 of `4-tablet-components/components/split-button/split-button.md`): #4 C3 / C5 now record the internal BwButton `segment` and BwIconButton `segment`, `focusNode`, `autofocus`, `statesController`, `iconTurns`, `iconRotationDuration`, `iconRotationCurve`, `expanded` (all `@internal`, defaults keep today's behaviour); #5 B2 maps `elevation-3` onto a decorated menu surface (`MenuStyle` transparent, `clipBehavior: Clip.none`) and lists every menu token, B3 lists the menu item states, B4 records chevron close timing and `MenuAnchor`'s built-in fade timing; #7 C5 authorises `4-tablet-components/test/goldens/split_button/`; #8 header "Source code" → `lib/src/components/split_button/bw_split_button.dart`. Plan → Finished (header + README); contract regenerated. Implementer findings #1–#3, #6, #9, #10 untouched.
+
+## [Review — Tablet Split button round 1: Changes requested] — 2026-10-24
+### Changed
+- Split button (tablet) review round 1: **Changes requested** — Part E2 of `4-tablet-components/components/split-button/split-button.md`. 🔴 #1 menu not end-aligned with the container (B5), 🔴 #2 arrow keys never reach menu items (B6); 🟡 #3 Tab does not collapse, #6 collapse duration `md` not `sm` (Implementer); 🟡 #4 BwIconButton internal params beyond `segment` not in C3/C5, #5 `elevation-3` mapping and menu tokens missing in tablet B2/§4.1, #7 goldens folder not authorised in C5 (Planner); 🟢 #8–#10. `segment` leaves BwButton / BwIconButton defaults and tests unchanged; gap and menu-width fixes are in code, tests not weakened. Plan → Open, Code → Changes requested (header + README). `docs:check` ✓, `flutter analyze` ✓, `flutter test` 160/160 ✓, `sync` READY.
+
+## [Fixed — Tablet Split button implementation checks] — 2026-10-24
+### Fixed
+- Replaced the split-button trigger's legacy Material icon with the shared rounded Symbol, made menu options at least as wide as the split-button container, corrected RTL/LTR gap coverage, and disposed semantics handles within each accessibility test. Code → Built; analysis, component-token, sync, and docs checks pass, while Flutter Test remains delegated to the orchestrator because the sandbox denies its loopback socket.
+
+## [Tablet Split button — implementation] — 2026-10-24
+### Added
+- Added the token-driven Flutter `BwSplitButton` composition, logical segment radii for `BwButton` / `BwIconButton`, keyboard and screen-reader menu interaction, RTL-aware layout, package export, and contract test coverage. Code → Built; analysis, component-token, sync, and docs checks pass, while Flutter Test remains not runnable in the sandbox because its loopback harness socket is denied and will be run by the orchestrator.
 ## [Review — Web Link round 2: Approved] — 2026-10-24
 ### Changed
 - Link (web) review round 2: **Approved** — Part E3 of `3-web-components/components/link/link.md`. Round 1 findings #1–#4 fixed; headless Chrome accessibility tree in light/dark × en/ar: external name = label + hidden suffix from content ("Contact support (opens in a new tab)", AR suffix, `externalLabel` override), consumer `aria-label` kept unchanged, disabled links not tabbable or click-focusable; dimensions, colours, focus ring and RTL unchanged from Round 1. One 🟢 nit (#5, test guard against a synthesized `aria-label`). Code → Approved (header + README). `docs:check` ✓, `typecheck` ✓, `test:web` 123/123 ✓.
