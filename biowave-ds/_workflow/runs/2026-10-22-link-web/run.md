@@ -24,6 +24,7 @@
 
 | Gate | Decision | Notes |
 |---|---|---|
+| before-merge | `main` (Icon mobile #13, Icon button tablet #14 / mobile #15) merged in (12471f4): docs:check ✓ · typecheck ✓ · test:web ✓ 123/123; pushed, PR opened (2026-10-24) — merge decision pending | PR carries Link plan 1.0 for W/T/M + the web build |
 | after-review | **Approve** (2026-10-24) | Fix round 1 (#1–#4) with codex, then review round 2. Spec gaps (external + disabled, disabled + `component`) wait for a later plan |
 | after-plan | **Approve** (2026-10-23) | Next: implement web + tablet; mobile after mobile Icon |
 
