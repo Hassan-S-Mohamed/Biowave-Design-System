@@ -19,6 +19,10 @@
 | 03 | review | claude (wf-reviewer agent) | done — Round 1 Changes requested: 2 🔴 (menu position, menu keyboard), 5 🟡 (3 Planner), 3 🟢 | docs:check ✓ · analyze ✓ · test ✓ 160/160 · sync ✓ | (this commit) | [prompt](03-review-claude.prompt.md) |
 | 04 | plan | claude (wf-planner agent) | done — plan 2: #4 internal params in C3/C5, #5 menu tokens + elevation-3 mapping, #7 goldens in C5, #8 header; contracts regenerated | contract ✓ · docs:check ✓ | (this commit) | [prompt](04-plan-claude.prompt.md) |
 | 05 | plan | claude (wf-planner agent) | done — plan 2.1: bw_button_style.dart in C5/C3 for #9 | contract ✓ · docs:check ✓ | (this commit) | [prompt](05-plan-claude.prompt.md) |
+| 06 | fix | codex | failed — ChatGPT usage limit, nothing changed | — | — | [prompt](06-fix-codex.prompt.md) |
+| 07 | fix | antigravity | partial — code + goldens done, stopped before C8/Handoff | docs:check ✓ · analyze ✓ · test ✓ 168/168 (orchestrator) | — | [prompt](07-fix-antigravity.prompt.md) |
+| 08 | fix | antigravity | failed — Antigravity quota reached (default model), nothing changed | — | — | [prompt](08-fix-antigravity.prompt.md) |
+| 09 | fix | antigravity (Gemini 3.8 Flash) | done — C8 Fix round 1, Code Built, CHANGELOG | docs:check ✓ · analyze ✓ · test ✓ 168/168 (orchestrator); light-ar golden checked by eye (menu under container, end-aligned) | (this commit) | [prompt](09-fix-antigravity.prompt.md) |
 
 ## Gates
 

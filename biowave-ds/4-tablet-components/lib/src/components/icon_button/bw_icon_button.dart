@@ -127,7 +127,7 @@ class BwIconButton extends StatelessWidget {
     final ringColor = color == BwButtonColor.inverse
         ? context.bw.colors.borderInverse
         : context.bw.colors.borderFocus;
-    final borderRadius = _borderRadius(dimensions);
+    final borderRadius = BwButtonStyle.segmentBorderRadius(dimensions, segment);
     final ringBorderRadius = borderRadius.resolve(Directionality.of(context));
     final style = baseStyle.copyWith(
       fixedSize: WidgetStatePropertyAll<Size>(Size.square(dimensions.height)),
@@ -307,27 +307,6 @@ class BwIconButton extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  BorderRadiusDirectional _borderRadius(BwButtonMetrics dimensions) {
-    final outerRadius = Radius.circular(dimensions.radius);
-    const innerRadius = Radius.circular(BwRadius.xs);
-
-    return switch (segment) {
-      null => BorderRadiusDirectional.all(outerRadius),
-      BwButtonSegment.start => BorderRadiusDirectional.only(
-          topStart: outerRadius,
-          bottomStart: outerRadius,
-          topEnd: innerRadius,
-          bottomEnd: innerRadius,
-        ),
-      BwButtonSegment.end => BorderRadiusDirectional.only(
-          topStart: innerRadius,
-          bottomStart: innerRadius,
-          topEnd: outerRadius,
-          bottomEnd: outerRadius,
-        ),
-    };
   }
 
   Color? _selectedBackground(BuildContext context, Set<WidgetState> states) {

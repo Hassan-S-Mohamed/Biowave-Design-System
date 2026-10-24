@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Fixed — Tablet Split button review round 1] — 2026-10-24
+### Fixed
+- Fixed Tablet `BwSplitButton` review round 1 findings and plan 2/2.1 items: #1 end-aligned menu under container in LTR/RTL with `BwSpacing.xs` vertical offset; #2 keyboard navigation for menu items (focus first/last, arrow keys move, Enter/Space selects); #3 Tab/Shift+Tab close open menu and advance/reverse focus; #6 chevron close duration `BwDuration.sm` with accelerate curve (open `BwDuration.md`, instant on reduced motion); #9 moved duplicated `_borderRadius` into shared `BwButtonStyle.segmentBorderRadius`; #10 asserted `tap` and `focus` semantics actions on primary button; applied plan 2 menu tokens with elevation-3 decorated surface (`MenuStyle` transparent, `Clip.none`), menu item state styles, and B9 PNG goldens (`light`/`dark` × `en`/`ar`) under `4-tablet-components/test/goldens/split_button/`. Code → Built.
+
 ## [Plan — Tablet Split button 2.1] — 2026-10-24
 ### Changed
 - Split button (tablet) plan 2.1 adds review round 1 finding #9 (user-approved): C5 authorises `4-tablet-components/lib/src/components/button/bw_button_style.dart` (change: shared segment radius helper, internal, used by BwButton and BwIconButton) and C3 lists it in the internal-parameters table; F2 row added. No new behaviour. Plan stays Finished; contract regenerated.
