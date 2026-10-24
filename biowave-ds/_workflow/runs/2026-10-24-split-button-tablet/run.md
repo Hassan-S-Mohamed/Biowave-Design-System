@@ -5,13 +5,14 @@
 | Unit | `split-button` on `tablet` |
 | Unit file | `4-tablet-components/components/split-button/split-button.md` |
 | Branch | `ds/split-button-tablet` (from `main` @ 71fcc21) |
-| Pull request | — |
+| Pull request | https://github.com/hassanSmohamed/Biowave-Design-System/pull/17 |
 | Skipped steps | figma (config › skip). Plan and preview were done in earlier runs (Plan Finished, contract current). |
 
 ## Steps
 
 | # | Step | Agent | Result | Checks | Commit | Prompt |
 |---|---|---|---|---|---|---|
+| before-merge | Approve | Squash-merge; 🟢 #11, #12 left for later. Text-field/tablet fix starts on top |
 | after-plan (plan 2) | Approve | Previews skipped (no previewer free; goldens come with the fix). #9: add `bw_button_style.dart` to C5 (Planner) so the shared segment-radius helper can live there. Fixer: Codex, else Antigravity |
 | after-review (Round 1) | Approve | Planner fixes #4, #5, #7, #8 → after-plan gate → Fixer #1, #2, #3, #6, #9, #10 + goldens |
 | 01 | implement | codex | done (handoff) — orchestrator run: 7 test failures (Icons.*, SemanticsHandle, part gap, menu width) | docs:check ✓ · analyze ✓ · test ✗ | — | [prompt](01-implement-codex.prompt.md) |
@@ -35,5 +36,8 @@
 - Planner: finding #9 (shared `_borderRadius` helper) — should C5 list `bw_button_style.dart` so the helper can move there? → User: yes.
 
 ## Summary
+
+BwSplitButton (tablet): Codex built it (2 passes), Round 1 Changes requested (menu position + keyboard 🔴, plan gaps), plan 2 / 2.1, Fix round 1 by Antigravity (Codex usage limit; Gemini for the write-up), Round 2 Approved, merged. Open: 🟢 #11, #12.
+
 
 Wave 2 (depends on BwIconButton tablet, merged in #14). Run in parallel in its own worktree. Agent assigned by the user: codex.
