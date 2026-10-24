@@ -13,6 +13,109 @@ Every change to the design system is logged here **in the same task**, newest fi
 - `_docs/live.tsx` still imported the `MaterialSymbol` test helper that icon/web deleted, so every live React preview (`npm start`) failed with a Vite import error. The demos now use the Biowave `Icon` from `3-web-components/src` (the directional arrow uses `directional` instead of the `bw-icon-directional` class).
 ### Added
 - `_docs/tsconfig.json` and `tsc -p _docs` in `npm run typecheck`, so a broken import in `live.tsx` now fails the typecheck.
+## [Review — Web Split button round 3: Approved] — 2026-10-21
+### Changed
+- Split button (web) review round 3: **Approved** — Part E4 of `3-web-components/components/split-button/split-button.md`. Round 2 #9 fixed (headless Chrome computed Paper `transition`: open `opacity`/`transform` 0.2s `standard-decelerate`, close 0.1s `standard-accelerate`, no delay) and #10 fixed (`prefers-reduced-motion: reduce` → 0 s, menu instant); Round 1 #1 still holds (menu end edge right in English, left in Arabic). 🟢 #11 nit: MUI Grow's `auto` timeout keeps the invisible backdrop ~240 ms after close — carried to the Menu component. Code → Approved (header + README). `docs:check` ✓, `typecheck` ✓, `test:web` 100/100 ✓, `sync` READY.
+
+## [Fixed — Web Split button review round 2] — 2026-10-21
+### Fixed
+- Fixed menu fade and scale so each uses the complete B4 open and close duration/easing pair, bypassing MUI Grow's shortened scale timing and exit delay; menu durations now remain CSS variables so the reduced-motion token rule makes them instant. Added independent opacity/transform enter/exit coverage and a reduced-motion variable regression test; the full web suite passes 100/100 in three consecutive runs.
+
+## [Review — Web Split button round 2: Changes requested] — 2026-10-21
+### Changed
+- Split button (web) review round 2: **Changes requested** — Part E3 of `3-web-components/components/split-button/split-button.md`. Round 1 #1 fixed (measured in Chromium: menu end edge on the right in English, left in Arabic, `transform-origin` top-end), #2/#5 fixed (`test:web` 97/97 at default timeouts), #4/#8 fixed, #6/#7 closed by plan 1.1. 🟡 #9: #3 partly open — the menu fade uses `motion-easing-standard` and the scale runs at ⅔ of the B4 duration (MUI Grow); 🟡 #10: menu durations are now JS numbers, so reduced motion no longer zeroes them. Code → Changes requested (header + README). `docs:check` ✓, `typecheck` ✓, `sync` READY.
+
+## [Fixed — Web Split button review round 1] — 2026-10-21
+### Fixed
+- Fixed logical end menu placement in English and Arabic, tokenized enter/exit motion, and the missing keyboard, loading-focus, radii, localization, `aria-controls`, and bilingual axe coverage; removed raised test timeouts. The configured web suite passes 97/97 in three consecutive runs.
+
+## [Preview — Web Split button 1.1] — 2026-10-21
+### Added
+- Added light/English and dark/Arabic RTL Split button planning sheets covering all allowed md variant/color combinations, independent half states, sm/md/lg sizes, loading, focus, disabled, and logical end-aligned open menus, with resolved token sheets and generation check notes.
+
+## [Plan — Web Split button 1.1] — 2026-10-21
+### Changed
+- Web `split-button.md` 1.0 → 1.1 (plan 1 → 1.1) answering Review round 1 Planner findings: #6 B5/C3 — MUI flips only its default menu origins in RTL, so the side is chosen from the text direction (`bottom-end` logical, physical right in LTR, left in RTL); #7 B6 — `aria-controls` only while the menu is open (the code's behaviour). C3 records that the shared per-test speedy Emotion cache from `ds/button-web` (PR #1) is on `main` and merged into this branch, so the fix round uses it and drops raised timeouts. C6 tests and C7 AC-7/AC-8 + Fix round 1 task list for Executor findings #1–#5, #8. Plan → Finished (header + README); Split button web contracts regenerated.
+
+## [Review — Web Split button round 1: Changes requested] — 2026-10-21
+### Changed
+- Split button (web) review round 1: **Changes requested** — Part E2 of `3-web-components/components/split-button/split-button.md`. AC-1, AC-2, AC-6 met; 🔴 menu anchored with physical `right` (wrong side in Arabic, B5) and `test:web` fails 81/87 in the full suite (tests still raise timeouts; the shared speedy Emotion cache is only on `ds/button-web`); 🟡 B4 close transition, test gaps (B9/B6, `ar`), raised timeouts; 🟢 Planner C3/B6 notes. Plan set to `Open`; Review status updated in the header and `3-web-components/README.md`. `docs:check` fails only on the pre-existing stale tablet/mobile button-group Figma contracts.
+
+## [Review — Web Icon button round 3: Approved] — 2026-10-21
+### Changed
+- Icon button (web) review round 3: **Approved** — Part E4 of `3-web-components/components/icon-button/icon-button.md`. Round 2 findings fixed: #10 render matrix split per theme × locale with CSS rules read once per render (slowest Icon button test 883 ms, was 3.7–4.4 s); #11 open-tooltip axe runs on `baseElement`. AC-1–AC-11 met; no new findings. `docs:check` ✅, `typecheck` ✅, `test:web` 3/3 full runs 96/96 at the default 5 s timeout. Code → `Approved` (header + `3-web-components/README.md`); Plan stays `Finished`.
+
+## [Fixed — Web Icon button review round 2] — 2026-10-21
+### Fixed
+- Fixed Icon button findings #10 and #11: the variant matrix now caches CSS rules once per render and runs as four theme/locale tests (slowest 798 ms), while the open-tooltip axe cases scan `baseElement` so the portalled tooltip is covered. `docs:check` and `typecheck` pass; three final full Web runs pass 96/96 at the default timeout.
+
+## [Review — Web Icon button round 2: Changes requested] — 2026-10-21
+### Changed
+- Icon button (web) review round 2: **Changes requested** — Part E3 of `3-web-components/components/icon-button/icon-button.md`. Round 1 findings #1–#9 all fixed (tooltip easing, 500 ms hover delay and instant reduced-motion timeouts, single accessible name, RTL mirroring measured in headless Chrome for light/en and dark/ar). AC-1–AC-4, AC-6, AC-8–AC-11 met; AC-5/AC-7 not: `test:web` 4 of 5 full runs green — the Icon button variant-matrix test takes 3.7–4.4 s and timed out once at the 5 s default (🟡 #10, re-scans every stylesheet per button). 🟢 #11: open-tooltip axe case skips the portalled tooltip. `docs:check` ✅, `typecheck` ✅. Code → `Changes requested` (header + `3-web-components/README.md`); Plan stays `Finished`.
+
+## [Fixed — Web Icon button review round 1] — 2026-10-21
+### Fixed
+- Fixed Icon button findings #1–#5, #7 and #9: deterministic token-timed tooltip tests, specified enter/exit easing and reduced-motion timeouts, a single accessible name for disabled tooltip anchors, complete rendered-token/fallback/theme/locale/state coverage under default timeouts, one numeric tooltip-offset source, and whitespace-only label validation. Typecheck, docs, sync and component-token checks pass; three full Web runs pass 93/93.
+
+## [Web Icon button — review round 1 Planner items, plan 1.1] — 2026-10-21
+### Changed
+- Icon button (web) re-plan, version 1.1: #8 B7 examples use the Biowave `Icon` (`<Icon name="…" />`, `filled`), D4 code values, a D4 **Icons used** line and the header Source code row updated; #6 Part C records the dependency on `ds/button-web` (PR #1, shared per-test speedy Emotion cache) — fix round 1 starts after the rebase and drops the raised timeouts. Executor findings #1–#5, #7, #9 folded into C3/C5/C6, C7 AC-7–AC-11 and a Fix round 1 task list. B1–B6 unchanged, no API change. Plan → `Finished` (header + `3-web-components/README.md`); contracts regenerated with the generator: `npm run contract -- web icon-button`, plus `tablet` / `mobile` `icon-button` (their Figma contracts inherit web D4 — hash and the two D4 code-value rows only). Detail: `3-web-components/components/icon-button/icon-button.md` › F0, F2.
+- Added the Icon button plan 1.1 web preview sheets for light/English and dark/Arabic RTL, covering the allowed variant/color matrix, six states, sm/md/lg sizes, toggles, tooltip, resolved token callouts, and RTL icon direction; the preview README records the remaining dark Text/Error arrow-direction warning after the retry limit.
+
+## [Review — Web Icon button round 1: Changes requested] — 2026-10-21
+### Changed
+- Icon button (web) review round 1: **Changes requested** — Part E2 of `3-web-components/components/icon-button/icon-button.md`. AC-1, AC-2, AC-6 met; AC-3 (tooltip easing / reduced motion), AC-4 (stray `aria-label` on the disabled tooltip anchor) and AC-5 (`test:web` red: flaky Esc tooltip test, raised timeouts, Button/SplitButton timeouts awaiting the `ds/button-web` speedy-cache merge) not met. 6 🟡, 3 🟢; typecheck ✅, sync ✅, icon-button tests 11/11 alone; `docs:check` fails only on the pre-existing stale button-group contracts. Plan → `Open` (Planner items #6, #8); review status updated in the header and `3-web-components/README.md`.
+
+## [Web Text field — review round 3] — 2026-10-21
+### Changed
+- Web `text-field.md` Part E Round 3 (E5): **Approved** — #9 fixed (Chromium at 980 and 1280 px, EN and AR: multiline action box 24/32/40 sits 4 px = `spacing-xs` inside the top edge and inline end at sm/md/lg; test asserts the `max(…)` rule for single-line and multiline), #10 fixed by plan 1.2; RTL prefix at inline start (right), suffix and end button at inline end (left), as B5 and the dark/AR preview. No new findings. `typecheck` ✓, `docs:check` only the 2 baseline `button-group` errors, `test:web` Text field 19/19 but red from host-load timeouts in untouched Button/Icon button/Split button tests (re-run at the before-merge gate). Code → Approved (header + README).
+
+## [Web Text field — fix round 2 (1.2)] — 2026-10-21
+### Fixed
+- Fixed finding #9 by keeping multiline trailing actions at least `spacing-xs` inside the top border with the token-only `max(action-inset − padding-block, (line-height − action-box) / 2)` rule, adding sm/md/lg coverage at 980 and 1280 px, and correcting C8 to identify the Biowave `Icon`; Text field tests pass 19/19 and the serial full Web suite passes 87/87.
+
+## [Web Text field — plan 1.2] — 2026-10-21
+### Changed
+- Added the plan 1.2 web Text field preview sheets for light/English and dark/Arabic RTL, covering sm/md/lg anatomy, six states, attachments, multiline examples, resolved token callouts, and the 4 px trailing-action top inset rule.
+- Web `text-field.md` plan 1.1 → 1.2 answering Round 2 Planner findings: #9 one multiline trailing-action rule in B2/C3 — `margin-block-start = max(action-inset − padding-block, (line-height − action-box) / 2)`, action box never closer than `spacing-xs` to the top border (resolved top offset `spacing-xs` at sm/md/lg, EN and AR); B9/C6 add a multiline case to the viewport test; C7 adds "Fix round 2 — Executor task list" (Web D3 not touched — Tablet/Mobile Figma contracts inherit it). #10 B7 examples and C3 Icons now use the Biowave `Icon` (`<Icon name="…" />`). Planner response added under E4. Plan → Finished (header + README); both Text field contracts regenerated.
+
+## [Web Text field — review round 2] — 2026-10-21
+### Changed
+- Web `text-field.md` Part E Round 2 (E4): **Changes requested** — Round 1 #1–#8 and AD-1 … AD-6 fixed (measured in Chromium at 980 and 1280 px: single-line action box 24/32/40 inset 4 px at sm/md/lg, disabled action and end button not focusable or clickable, `aria-*` on the input); `test:web` 87/87, `typecheck` ✓, `docs:check` only the 2 baseline `button-group` errors. New: #9 🟡 multiline action reaches the top border at md/lg (B2 inset vs first-line rule conflict, Planner → Executor), #10 🟢 C3/B7 still name MUI `Icon` (Planner). Plan → Open, Code → Changes requested (README + header).
+
+## [Review — Web Button round 3: Approved] — 2026-10-20
+- Round 2 findings #11–#13, #15–#17 fixed (#14 closed by the Planner); AC-11 … AC-15 met; `docs:check` ✅, `typecheck` ✅, `test:web` ✅ 79/79 in ≈ 6 s with the default timeout (slowest Button test 979 ms), `sync` ✅; `BiowaveProvider` default caches unchanged. Manual QA open: loading width and screen-reader announcement (EN/AR). `3-web-components/components/button/button.md` Part E4, header and `3-web-components/README.md` Review column updated.
+
+## [Fixed — Web Button review round 2] — 2026-10-20
+- Added fresh speedy Emotion caches per test with post-cleanup flushing; removed Button's raised timeouts; kept the loading live region mounted; stripped both true and false `mirrorInRtl` markers; and verified transition restoration after re-enable. The configured web suite passes 79/79.
+
+## [Plan — Web Button 1.2: shared test tooling fix] — 2026-10-19
+- Review round 2 Planner items: decided the `test:web` fix (#11) — a fresh **speedy** emotion cache per test, flushed after `cleanup()` (MUI `createRenderer` pattern + `@emotion/cache` `speedy`); Foundations gets `createBiowaveEmotionCaches()` and an optional `BiowaveProvider` `emotionCaches` prop (default unchanged). Planner probe, not committed: 73/77 in 2 m 32 s → 77/77 in 35 s with default timeouts. Folded #12, #13, #15–#17 into C3/C6/C7 (Fix round 1 task list). Regenerated stale `tablet` / `mobile` `button-group` Figma contracts with the generator (#14; hash only, body unchanged). Detail: `3-web-components/components/button/button.md` › E3 Planner response, F2.
+
+## [Review — Web Button round 2: Changes requested] — 2026-10-19
+- Round 1 findings 1–10 all fixed; `typecheck` ✅, `sync` ✅, Button 24/24 ✅; but `test:web` ❌ 73/77 both parallel and serial (emotion `<style>` tags pile up per test file and slow axe/user-event past 5 s; Planner owns the shared fix, #11), `docs:check` ❌ (stale tablet/mobile button-group Figma contracts, #14), live region mounted with its text (#13). Full record: `3-web-components/components/button/button.md` › E3.
+
+## [Tooling — update components from photos (agent-workflow-kit: Updater)] — 2026-10-20
+### Added
+- **Updater** role (`update-component` agent, `workflow-update` skill): send photos of a UI screen or a single component plus a prompt; it finds the existing component, compares the photos with its plan, snaps what it sees to existing semantic tokens, shows a diff and asks which rows and platforms (web, tablet, mobile) to apply. On a yes it saves the photos and a change request to `<section>/components/<name>/references/`, updates Parts A–D and F (Part A on all three platforms), sets Plan `Finished` and Code `Planned`, and regenerates the contracts. The orchestrator then runs preview → implement → review as usual; review rounds before the update no longer count.
+- `_workflow/inbox/`: drop photos here when you can't send a file path.
+- `_workflow/config.json`: `inputs.update`, `outputs.update`, `agents.update`, `update` settings; AGENTS.md: Updater role row.
+
+## [Tablet — Icon review round 2] — 2026-10-21
+### Changed
+- Icon (tablet) review round 2: **Approved** — Part E3 of `4-tablet-components/components/icon/icon.md`. AC-1…AC-5 met after the `main` merge and `BwIcon` adoption in `BwButton`: `flutter analyze` clean, `flutter test` 131/131; each guard pattern (`Icons.`, `CupertinoIcons.`, `IconData(`, raw `Icon(` outside `icon/`) proven by a planted probe (reverted); Button icons keep size, colour, keys and decorative semantics with a single RTL flip; Button golden diffs confined to sm/md icon glyphs (Symbols axes). Round 1 #2 fixed, #1 and #3 still open; 5 🟢 nits total (incl. guard misses non-`_rounded` `Symbols.*`). `docs:check` fails only on the pre-existing stale button-group contracts (accepted). Review status updated in the header and `4-tablet-components/README.md`.
+
+## [Tablet — Icon adoption in Button] — 2026-10-21
+### Changed
+- Adopted `BwIcon` in tablet `BwButton` for leading and trailing icons, extended `no_legacy_icons_test.dart` to prohibit Flutter `Icons.*`, `CupertinoIcons.*`, `IconData(` constructors and raw `Icon(` widgets outside `icon/` (proven via planted probes), added BwIcon RTL/semantics button tests, and regenerated Button goldens with `BwIconAxes` variable font metrics.
+
+## [Tablet — Icon review round 1] — 2026-10-20
+### Changed
+- Icon (tablet) review round 1: **Approved** — Part E2 of `4-tablet-components/components/icon/icon.md`. AC-1…AC-5 met; `flutter analyze` clean, `flutter test` 64/64; D-18 guard proven by a planted `Icons.add` probe (reverted); goldens show real Material Symbols Rounded glyphs. 3 🟢 nits (`filled: false` vs `IconTheme.fill`, guard misses `CupertinoIcons` / `IconData(`, stale "Source code" header row). `docs:check` fails only on the pre-existing stale button-group contracts (accepted). Code → `Approved`.
+
+## [Tablet — Icon] — 2026-10-20
+### Added
+- Tablet `BwIcon`, `BwIconSize` and `BwIconColor`: Google Material Symbols Rounded glyphs with semantic size/colour tokens, fill, single-flip RTL handling, decorative/labelled semantics, package export, full widget/golden coverage (with `MaterialSymbolsRounded` variable font loaded in tests and EN/AR localization delegates), and a package-wide guard against Flutter `Icons.*` (`flutter analyze` and all 64 `flutter test` cases passing). Code → `Built`.
 
 ## [Mobile Button — review round 2] — 2026-10-21
 ### Changed

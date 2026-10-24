@@ -361,28 +361,53 @@ describe('TextField rendering and semantics', () => {
 });
 
 describe('TextField managed actions and add-ons', () => {
-  it('sizes and insets the managed action for every field size at both review viewports', () => {
+  it('sizes and insets single-line and multiline actions at both review viewports', () => {
     const originalWidth = window.innerWidth;
 
     for (const viewport of [980, 1280]) {
       Object.defineProperty(window, 'innerWidth', { configurable: true, value: viewport });
       for (const size of sizes) {
-        const view = renderWithBiowave(
-          <TextField
-            label={`${viewport}-${size}`}
-            size={size}
-            action={{ icon: symbol('search'), label: `Search ${size}`, onClick: () => {} }}
-          />,
-        );
-        const action = screen.getByRole('button', { name: `Search ${size}` });
-        const field = view.container.querySelector('.bw-text-field__field');
-        const actionStyle = getComputedStyle(action);
+        for (const multiline of [false, true]) {
+          const mode = multiline ? 'multiline' : 'single-line';
+          const view = renderWithBiowave(
+            <TextField
+              label={`${viewport}-${size}-${mode}`}
+              size={size}
+              multiline={multiline}
+              action={{
+                icon: symbol('search'),
+                label: `Search ${viewport}-${size}-${mode}`,
+                onClick: () => {},
+              }}
+            />,
+          );
+          const action = screen.getByRole('button', {
+            name: `Search ${viewport}-${size}-${mode}`,
+          });
+          const field = view.container.querySelector('.bw-text-field__field');
+          const actionStyle = getComputedStyle(action);
+          const fieldStyle = getComputedStyle(field as Element);
+          const sizeTokens = textFieldSizeTokens[size];
 
-        expect(actionStyle.inlineSize).toBe(textFieldSizeTokens[size].actionBox);
-        expect(actionStyle.blockSize).toBe(textFieldSizeTokens[size].actionBox);
-        expect(allCssRules()).toContain(textFieldTargetToken);
-        expect(field).toBeInTheDocument();
-        view.unmount();
+          expect(actionStyle.inlineSize).toBe(sizeTokens.actionBox);
+          expect(actionStyle.blockSize).toBe(sizeTokens.actionBox);
+          expect(fieldStyle.paddingInlineEnd).toBe(sizeTokens.actionInset);
+          expect(allCssRules()).toContain(textFieldTargetToken);
+          expect(field).toBeInTheDocument();
+
+          if (multiline) {
+            const lineHeight = String(sizeTokens.inputTypography.lineHeight);
+            expect(fieldStyle.paddingBlock).toBe(sizeTokens.gap);
+            expect(actionStyle.marginBlockStart).toBe(
+              `max(calc(${sizeTokens.actionInset} - ${sizeTokens.gap}), calc((${lineHeight} - ${sizeTokens.actionBox}) / 2))`,
+            );
+          } else {
+            expect(actionStyle.alignSelf).toBe('center');
+            expect(actionStyle.marginBlockStart).toBe('');
+          }
+
+          view.unmount();
+        }
       }
     }
 
@@ -536,7 +561,7 @@ describe('TextField managed actions and add-ons', () => {
     }
   });
 
-  it('aligns multiline actions to the first line and keeps add-on text isolated in RTL', () => {
+  it('keeps multiline actions at least one action inset from the top and isolates add-on text in RTL', () => {
     const { container } = renderWithBiowave(
       <>
         <TextField
@@ -549,11 +574,17 @@ describe('TextField managed actions and add-ons', () => {
       { locale: 'ar' },
     );
     const action = screen.getByRole('button', { name: 'Search notes' });
+    const field = action.closest('.bw-text-field__field');
     const prefix = container.querySelector('.bw-text-field__prefix');
     const suffix = container.querySelector('.bw-text-field__suffix');
+    const sizeTokens = textFieldSizeTokens.md;
+    const lineHeight = String(sizeTokens.inputTypography.lineHeight);
 
     expect(getComputedStyle(action).alignSelf).toBe('flex-start');
-    expect(getComputedStyle(action).marginBlockStart).toContain('calc');
+    expect(getComputedStyle(field as Element).paddingBlock).toBe(sizeTokens.gap);
+    expect(getComputedStyle(action).marginBlockStart).toBe(
+      `max(calc(${sizeTokens.actionInset} - ${sizeTokens.gap}), calc((${lineHeight} - ${sizeTokens.actionBox}) / 2))`,
+    );
     expect(prefix).toHaveAttribute('dir', 'ltr');
     expect(suffix).toHaveAttribute('dir', 'ltr');
     expect(screen.getByText('0 / 20')).toHaveAttribute('dir', 'ltr');

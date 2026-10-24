@@ -13,12 +13,12 @@
 | Built on | MUI `IconButton` (native `<button>`), styled only from Biowave tokens (no ripple, no MUI colors). Tooltip: MUI `Tooltip` with the tokens in B3.4, until the Tooltip component (Day 4) replaces it |
 | Import | `import { IconButton } from '@biowave/web'` |
 | Figma | **Biowave DS — Web Components** › `↳ Icon Button` (legacy reference: Foundations `4310:3146`) · build: [Part D](#d--figma-build) |
-| Version | 1.0 · 2026-10-16 |
+| Version | 1.1 · 2026-10-21 |
 | Plan | Finished |
-| Code | Built |
+| Code | Approved |
 | Figma build | Planned |
-| Review | — |
-| Source code | `src/components/icon-button/` — not built yet (the Executor creates it) |
+| Review | Round 3 · 2026-10-21 · Approved |
+| Source code | [`src/components/icon-button/`](../../src/components/icon-button/) |
 | Tokens | — (no component tokens yet) |
 | Contracts | [`icon-button-contract.md`](icon-button-contract.md) · [`figma-icon-button-contract.md`](figma-icon-button-contract.md) — generated, never edited |
 | Docs page | [`icon-button.html`](icon-button.html) |
@@ -281,15 +281,17 @@ Reduced motion: instant; tooltip appears without fade.
 ### B7 Examples
 
 ```tsx
-import { IconButton } from '@biowave/web';
-import Icon from '@mui/material/Icon';   // until the Biowave Icon ships (D-18)
+import { IconButton, Icon } from '@biowave/web';   // Biowave Icon (D-18)
 
-<IconButton icon={<Icon baseClassName="material-symbols-rounded">edit</Icon>} label="Edit device" onClick={edit} />
-<IconButton toggle selected={pinned} icon={<Icon baseClassName="material-symbols-rounded">push_pin</Icon>} selectedIcon={<Icon baseClassName="material-symbols-rounded" sx={{ fontVariationSettings: "'FILL' 1" }}>push_pin</Icon>}
+<IconButton icon={<Icon name="edit" />} label="Edit device" onClick={edit} />
+<IconButton toggle selected={pinned} icon={<Icon name="push_pin" />} selectedIcon={<Icon name="push_pin" filled />}
             label={pinned ? 'Unpin' : 'Pin'} onClick={() => setPinned(!pinned)} />
+<IconButton icon={<Icon name="arrow_back" className="bw-icon-directional" />} label="Back" onClick={back} />
 // Arabic: same props, Arabic label
-<IconButton icon={<Icon baseClassName="material-symbols-rounded">edit</Icon>} label="تعديل الجهاز" onClick={edit} />
+<IconButton icon={<Icon name="edit" />} label="تعديل الجهاز" onClick={edit} />
 ```
+
+No `size` on the `Icon`: the Icon button sizes it (B2).
 
 ### B8 Figma
 
@@ -317,8 +319,8 @@ Structure, properties, the Figma ↔ code mapping and Code Connect: [Part D](#d-
 |---|---|
 | Component | Icon button |
 | Platform | Web (React + MUI) |
-| Depends on | **Button (web) Built** — reuses `button.tokens.ts`, `ButtonSpinner`, `warnOnce`, test setup |
-| Plan version | 1 · 2026-10-16 |
+| Depends on | **Button (web) Built** — reuses `button.tokens.ts`, `ButtonSpinner`, `warnOnce`, test setup · **(1.1) Button plan 1.2 test tooling** on `ds/button-web` (PR #1): shared per-test speedy Emotion cache in `src/test/render.tsx` + `setup.ts` (review finding 6). Fix round 1 starts only after `ds/icon-button-web` is rebased on it |
+| Plan version | 1.1 · 2026-10-21 |
 
 ### C1 Goal
 
@@ -326,7 +328,7 @@ Structure, properties, the Figma ↔ code mapping and Code Connect: [Part D](#d-
 
 ### C2 Scope
 
-In: B1–B6, B9. Out: Badge on icon button (composition later), the real Tooltip component (Day 4).
+In: B1–B6, B9; (1.1) review round 1 fixes — the Fix round 1 task list under C7. Out: Badge on icon button (composition later), the real Tooltip component (Day 4); any change to the shared test tooling, Button, Split button or Button group files.
 
 ### C3 Approach
 
@@ -335,6 +337,11 @@ In: B1–B6, B9. Out: Badge on icon button (composition later), the real Tooltip
 - Tooltip: MUI `Tooltip` with `title={label}`, `describeChild={false}`, `enterDelay={base.motion.duration['2xl']}` (numeric token from `@biowave/foundations` `base`; never a literal number), styled per B3.4 in `IconButtonTooltip.tsx` (private). Disable with `tooltip={false}`.
 - Spinner: reuse `../button/ButtonSpinner`.
 - Mirroring: same `bw-icon-directional` mechanism as Button.
+- **Tooltip motion (1.1, finding 2):** B4 easing on the transition slot — enter `cssVars.motion.easing['standard-decelerate']`, exit `cssVars.motion.easing['standard-accelerate']` (the theme's `transitions.easing.easeOut` / `easeIn` resolve to the same tokens). `timeout` and `enterDelay` are JS numbers, so CSS `prefers-reduced-motion` never reaches them: read `useMediaQuery('(prefers-reduced-motion: reduce)')` and, when it matches, use `base.motion.duration.instant` for the enter / exit timeouts (the tooltip appears without a fade). Hover delay and keyboard-focus behaviour are otherwise unchanged.
+- **Tooltip name (1.1, finding 3):** with `describeChild={false}` MUI puts `aria-label={title}` on the cloned child. When `disabled`, that child is the private `<span class="bw-icon-button__tooltip-anchor">`; give the span `aria-label={undefined}` (the child's own props win over MUI's) so only the `<button>` is named (B6).
+- **Tooltip offset (1.1, finding 7):** one source for B3.4's offset — the popper `offset` modifier reads a numeric `offset` entry in `iconButtonTooltipTokens` (from `base.spacing.xs`); no second read of `base.spacing.xs` in `IconButtonTooltip.tsx`, no unused entry.
+- **Label check (1.1, finding 9):** warn "IconButton needs a label" when `label.trim().length === 0` (whitespace-only labels too).
+- **Test tooling (1.1, finding 6):** render only through `renderWithBiowave` from `src/test/render.tsx`, which after the rebase gives each test a fresh speedy Emotion cache, reset in `setup.ts` after `cleanup()` (Button plan 1.2, C3 › Test tooling). Do not create an Emotion cache or `BiowaveProvider` in the test file; do not pass per-test timeouts; do not change `vitest.config.ts`. Tooltip tests use fake timers advanced by the token durations (`base.motion.duration.*`) inside `act`, never real-time waits.
 
 ### C4 Token gaps
 
@@ -350,11 +357,23 @@ None.
 3-web-components/src/components/icon-button/index.ts               new
 3-web-components/src/index.ts                                      change: export IconButton
 3-web-components/README.md                                         change: status row
+— (1.1) Fix round 1, review round 1 —
+3-web-components/src/components/icon-button/IconButton.tsx         change: trimmed-label warning (#9)
+3-web-components/src/components/icon-button/IconButtonTooltip.tsx  change: easing + reduced motion (#2), anchor aria-label (#3), offset source (#7)
+3-web-components/src/components/icon-button/iconButton.tokens.ts   change: numeric tooltip offset, no unused entry (#7)
+3-web-components/src/components/icon-button/IconButton.test.tsx    change: deterministic Esc test (#1), no raised timeouts (#4), B9 coverage (#5)
 ```
 
 ### C6 Tests
 
-B9.
+B9, plus (1.1):
+- [ ] Esc hides the tooltip deterministically: fake timers, `act(() => vi.advanceTimersByTime(base.motion.duration.sm))`, then assert the tooltip is gone (or the controlled `open` is false); tooltip-opening interactions wrapped in `act` (no `act()` warnings) (#1)
+- [ ] No timeout arguments in `IconButton.test.tsx`; every test passes under the 5 s default (#4)
+- [ ] Table-driven token assertions from the rendered CSS rules for every allowed `variant` × `color`, unselected (Button's table) and selected (B3.2: `text` and `outlined` × 5 colors, plus disabled-selected) (#5a, #5b)
+- [ ] Fallbacks assert the result, not only the warning: `tonal` + `neutral` / `inverse` renders `outlined` tokens; `toggle` with `filled` / `tonal` has no `aria-pressed`; whitespace-only `label` warns (#5c, #9)
+- [ ] axe in `en` and `ar`, light and dark, for enabled, disabled, loading and tooltip-on states — including `disabled` + tooltip on (no `aria-label` on the anchor span) (#3, #5d)
+- [ ] Tooltip easing: enter uses `motion-easing-standard-decelerate`, exit `motion-easing-standard-accelerate`; with `matchMedia('(prefers-reduced-motion: reduce)')` mocked to match, the timeouts are `motion-duration-instant` (#2, #5e)
+- [ ] Tooltip offset comes from `iconButtonTooltipTokens` (#7)
 
 ### C7 Acceptance criteria
 
@@ -364,6 +383,24 @@ B9.
 - [ ] AC-4 RTL B5; a11y B6 (single accessible name, `aria-pressed`)
 - [ ] AC-5 `npm run typecheck`, `npm run test:web`, `npm run sync` pass
 - [ ] AC-6 Exported; README status updated
+- [ ] AC-7 (1.1, findings 4, 6) Branch rebased on `ds/button-web` (PR #1) shared test tooling; `IconButton.test.tsx` has no raised timeouts; `npm run test:web` **as configured** passes with the default 5 s timeout, **3 full runs green**
+- [ ] AC-8 (1.1, findings 2, 3) Tooltip easing and reduced motion per C3 › Tooltip motion; disabled anchor span carries no `aria-label` (C3 › Tooltip name)
+- [ ] AC-9 (1.1, findings 1, 5) C6 (1.1) tests exist and pass
+- [ ] AC-10 (1.1, findings 7, 9) One source for the tooltip offset; whitespace-only label warns
+- [ ] AC-11 (1.1) C8 gets a "Fix round 1" entry listing every command with ✓/✗ and real numbers: `npm run typecheck`, `npm run test:web` ×3 (passed/total, duration), `npm run docs:check`, `npm run sync`; plus the slowest Icon button test time
+
+**Fix round 1 — Executor task list** (one list; nothing else is in scope):
+0. Precondition (#6): `ds/icon-button-web` is rebased on `ds/button-web` (PR #1) — or on `main` once PR #1 is merged — by the orchestrator before the round starts; the Executor does not switch branches. Check that `src/test/render.tsx` exports `resetTestEmotionCaches` and `src/test/setup.ts` calls it after `cleanup()`; if not, stop and report in C8 › Questions
+1. #1 Deterministic Esc tooltip test; tooltip interactions in `act` — `IconButton.test.tsx`
+2. #2 Tooltip easing + reduced-motion timeouts — `IconButtonTooltip.tsx` + test (C3 › Tooltip motion)
+3. #3 `aria-label={undefined}` on the disabled tooltip anchor — `IconButtonTooltip.tsx` + axe test with `disabled` + tooltip on, light/dark
+4. #4 Remove the raised timeouts (`IconButton.test.tsx:86` `30_000`, `:287` `20_000`); render only through `renderWithBiowave`
+5. #5 B9 gaps (a)–(e) — `IconButton.test.tsx` (C6 1.1)
+6. #7 One tooltip offset source — `iconButton.tokens.ts`, `IconButtonTooltip.tsx`
+7. #9 Warn on `label.trim().length === 0` — `IconButton.tsx` + test
+8. C8 "Fix round 1" entry (AC-11); one `CHANGELOG.md` entry
+
+Files the Executor may touch in this fix round: exactly the four (1.1) files in C5, C8 of this file and `CHANGELOG.md`. Not the shared test tooling, Button, Split button or Button group files.
 
 ---
 
@@ -377,6 +414,50 @@ B9.
 
 **Deviations:** none
 **Questions for the Planner:** `npm run docs:check` remains blocked by the repository-wide Doc Kit 1.2 change: 12 Figma contracts are stale, including this component's Figma contract. The code contract is current; no generated contract was edited by the Executor.
+
+#### Fix round 1 — 2026-10-21
+
+| Finding | What changed (`file:line`) | Test that proves it |
+|---|---|---|
+| #1 | `IconButton.test.tsx:191` uses fake timers and token durations for focus, Escape, exit, and hover interactions, all inside `act` | `has one accessible name and shows and hides its visual tooltip deterministically` |
+| #2 | `IconButtonTooltip.tsx:18,67` applies the specified enter/exit easing and instant reduced-motion timeouts; `iconButton.tokens.ts:87` owns the easing tokens | `uses the specified tooltip easing and token-owned offset`; `uses instant tooltip timeouts when reduced motion is requested` |
+| #3 | `IconButtonTooltip.tsx:22` explicitly removes `aria-label` from the disabled tooltip anchor | Four light/dark × en/ar axe cases at `IconButton.test.tsx:386`, each with a disabled open tooltip, pass with one button name |
+| #4 | `IconButton.test.tsx:105` uses only `renderWithBiowave`; both raised timeout arguments were removed | Icon button 15/15 under default timeouts; three full Web runs pass 93/93 |
+| #5 | `IconButton.test.tsx:105,147,317,386` adds rendered-rule assertions for every unselected and selected token combination, disabled-selected states, fallback results, whitespace validation, and the full theme/locale/state axe matrix | `renders every supported variant…`; `uses every selected…`; `warns and applies…`; four `has no axe violations…` cases |
+| #7 | `iconButton.tokens.ts:80` owns the numeric tooltip offset; `IconButtonTooltip.tsx:49` consumes that entry without a second `base.spacing.xs` read | `uses the specified tooltip easing and token-owned offset` |
+| #9 | `IconButton.tsx:291` validates `label.trim().length` | `warns and applies the specified fallbacks` passes with a whitespace-only label |
+
+**Checks:**
+- `npm run typecheck` ✓
+- `npm run test:web` run 1 ✓ — 93/93, Vitest 8.96 s (wall 9.67 s)
+- `npm run test:web` run 2 ✓ — 93/93, Vitest 6.27 s (wall 6.86 s)
+- `npm run test:web` run 3 ✓ — 93/93, Vitest 5.94 s (wall 6.46 s)
+- Slowest Icon button test ✓ — 4.372 s, `renders every supported variant, color, and size with its unselected tokens in both themes and languages`
+- `npm run docs:check` ✓ — 18 component files OK
+- `npm run component-tokens` ✓ — web/tablet/mobile in sync
+- `npm run sync` ✓ — READY
+
+**Deviations:** none
+**Questions for the Planner:** none
+
+#### Fix round 2 — 2026-10-21
+
+| Finding | What changed (`file:line`) | Test that proves it |
+|---|---|---|
+| #10 | `IconButton.test.tsx:107-146` splits the render matrix into one test per theme × locale, reads `allCssRules()` once per render, and passes the cached rules to every `cssRulesFor` call | Four `renders every supported variant…` cases pass in 210–798 ms across the three final full-suite runs |
+| #11 | `IconButton.test.tsx:395-423` runs the open-tooltip axe check on `baseElement`, including the portalled tooltip; the page-level `region` rule is disabled for the isolated component harness | Four light/dark × en/ar `has no axe violations…` cases pass with the disabled tooltip open in the portal |
+
+**Checks:**
+- `npm run docs:check` ✓ — 18 component files OK
+- `npm run typecheck` ✓
+- Initial diagnostic `npm run test:web` ✗ — 92/96, Vitest 7.33 s; changing the axe scope exposed only the page-level `region` rule on the isolated portalled tooltip, then the harness rule was disabled
+- `npm run test:web` final run 1 ✓ — 96/96, Vitest 9.95 s; slowest Icon button test 680 ms (`light/en` render matrix)
+- `npm run test:web` final run 2 ✓ — 96/96, Vitest 10.99 s; slowest Icon button test 761 ms (`light/en` render matrix)
+- `npm run test:web` final run 3 ✓ — 96/96, Vitest 8.93 s; slowest Icon button test 798 ms (`light/en` render matrix)
+- `npm run sync` ✓ — READY (preflight)
+
+**Deviations:** none
+**Questions for the Planner:** none
 
 ---
 
@@ -428,9 +509,11 @@ Icon Button              ↔ centered · width = height {B2} · padding 0
 | `Size` | VARIANT | `SM` · `MD` · `LG` | `MD` | `size` | |
 | `Toggle` | VARIANT | `Off` · `On` | `Off` | `toggle` | |
 | `Selected` | VARIANT | `False` · `True` | `False` | `selected` | only with `Toggle=On` |
-| `Icon` | INSTANCE_SWAP | Google · Material Symbols (Rounded) | `edit` | `icon` | `<Icon baseClassName="material-symbols-rounded">{glyph}</Icon>` |
-| `Selected icon` | INSTANCE_SWAP | Google · Material Symbols (Rounded, Fill=Filled) | `edit` | `selectedIcon` | same glyph with class `bw-icon-fill` |
+| `Icon` | INSTANCE_SWAP | Google · Material Symbols (Rounded) | `edit` | `icon` | `<Icon name="{glyph}" />` |
+| `Selected icon` | INSTANCE_SWAP | Google · Material Symbols (Rounded, Fill=Filled) | `edit` | `selectedIcon` | `<Icon name="{glyph}" filled />` |
 | `Tooltip label` | TEXT | | `Edit device` | `label` | |
+
+**Icons used:** `edit` (default `Icon` / `Selected icon`) · `push_pin` (toggle example, B7)
 
 ### D5 Variants to generate
 
@@ -503,7 +586,226 @@ Component description: "Starts an action shown as an icon. Always has a label. S
 
 | Round | Date | Code verdict | Figma verdict |
 |---|---|---|---|
-| — | — | not reviewed | not reviewed |
+| 3 | 2026-10-21 | **Approved** | not reviewed |
+| 2 | 2026-10-21 | **Changes requested** | not reviewed |
+| 1 | 2026-10-21 | **Changes requested** | not reviewed |
+
+### E4 Round 3 — 2026-10-21
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 1.1 |
+| Spec version reviewed | 1.1 |
+| Reviewer | Claude |
+| Date | 2026-10-21 |
+| Verdict | **Approved** |
+
+Code reviewed: `git diff main...HEAD -- 3-web-components/src` (four icon-button files); fix round 2 (`e9bfce6`) touches only `IconButton.test.tsx` (+15 / −13). No source file changed, so the Round 2 browser measurements (B4 tooltip timing and easing, reduced motion, B3.4 tooltip tokens, B5 RTL, B6 single name) still hold and were not repeated. No diff in `src/test/*`, other components, generated files or `_sync`. The uncommitted `_docs/live.tsx`, `_docs/tsconfig.json`, `package.json` and CHANGELOG "Docs — live previews on the Biowave Icon" changes belong to another session and were not reviewed or touched.
+
+Commands run by the Reviewer (2026-10-21, this machine, load average ≈ 10 with other suites running):
+`npm run docs:check` ✅ 18 component files OK · `npm run typecheck` ✅ (includes `tsc -p _docs`) · `npm run test:web` three full runs, as configured, default 5 s timeout: ✅ 96/96 (10.20 s) · ✅ 96/96 (8.49 s) · ✅ 96/96 (6.19 s). `IconButton.test.tsx` 18/18 in 3 122 / 3 231 / 2 223 ms. Render-matrix tests per run — light/en 883 / 843 / 578 ms, light/ar 405 / 625 / 313 ms, dark/en 317 / < 300 / < 300 ms, dark/ar 368 / < 300 / < 300 ms (Vitest lists only tests ≥ 300 ms); the four axe cases stay under 300 ms. Slowest Icon button test 883 ms = 18 % of the default budget (Round 2: 3.7–4.4 s). The two `IconButtonTooltip` `act()` warnings per run still come from `ButtonGroup.test.tsx` and `SplitButton.test.tsx` (outside this unit, as in Round 2).
+
+#### Round 2 findings
+
+| # | Status | Evidence |
+|---|---|---|
+| 10 | Fixed | `IconButton.test.tsx:107-146`: one `it` per theme × locale; `allCssRules()` read once per render (`:133`) and passed to `cssRulesFor(button, rules)` (`:137`). Slowest case 883 ms across three full runs (target "well under 2 s" ✅); no timeout argument in the file (`grep timeout` finds only a test title, `:234`) |
+| 11 | Fixed | `IconButton.test.tsx:394, 414-420`: `axe(baseElement, …)` after the tooltip is asserted open (`:409`), so the portalled tooltip is scanned; only `color-contrast` (jsdom) and `region` (page-level landmark rule, not meaningful for an isolated component harness) are disabled. Passes in all four light/dark × en/ar cases |
+
+#### Acceptance criteria
+
+| AC | Result | Evidence (file:line / test name) |
+|---|---|---|
+| AC-1 API = B1 | ✅ | Source unchanged since Round 2 |
+| AC-2 Unselected from Button's table; selected from B3.2 | ✅ | Source unchanged; *renders every supported variant… in {theme}/{locale}* ×4 (`:109`), *uses every selected toggle token map…* (`:148`) |
+| AC-3 Transitions B4; reduced motion | ✅ | Source unchanged; Round 2 browser table; tests `:214`, `:234` |
+| AC-4 RTL B5; a11y B6 | ✅ | Source unchanged; axe now covers the open tooltip (`:414`) |
+| AC-5 typecheck, test:web, sync pass | ✅ | typecheck ✅; `test:web` 3/3 full runs 96/96; sync READY per C8 › Fix round 2 preflight (no token or generated-file change since) |
+| AC-6 Exported; README status | ✅ | Unchanged (`src/index.ts`); README row updated by this review |
+| AC-7 Shared tooling; no raised timeouts; 3 full runs green at 5 s | ✅ | No timeout arguments; Reviewer 3/3 full runs green, slowest Icon button test 883 ms |
+| AC-8 Tooltip easing + reduced motion; no anchor `aria-label` | ✅ | Source unchanged; `:404` asserts the anchor has no `aria-label` |
+| AC-9 C6 (1.1) tests exist and pass | ✅ | 18/18 in `IconButton.test.tsx` in every run |
+| AC-10 One offset source; whitespace label warns | ✅ | Source unchanged |
+| AC-11 C8 Fix round entry with real numbers | ✅ | C8 › Fix round 2: docs:check, typecheck, the failed diagnostic run, three final runs 96/96 with durations, slowest test, sync |
+
+#### Rule checks (AGENTS.md §2 + step prompt)
+
+| Rule | Result | Notes |
+|---|---|---|
+| No generated files edited | ✅ | Fix round 2 changed only `IconButton.test.tsx` (+ C8, README, CHANGELOG, run record) |
+| Tokens only — no raw values, no primitives | ✅ | No source change; lint test passes |
+| RTL logical properties | ✅ | No source change |
+| Both themes, both languages, tested | ✅ | Render matrix and axe each run per light/dark × en/ar |
+| WCAG 2.2 AA | ✅ | axe green on `baseElement` with the tooltip open, disabled and loading states |
+| Default test timeouts | ✅ | No timeout arguments; slowest test 18 % of the 5 s default |
+| No edits to `src/test/*` or other components | ✅ | `git diff main...HEAD --stat -- 3-web-components/src` = icon-button files only |
+
+#### Figma build (Part D)
+
+Skipped — Figma build is `Planned`.
+
+#### Findings
+
+None. No new 🔴, 🟡 or 🟢 finding.
+
+#### Next step
+
+- Approved → Code `Approved` (header + `3-web-components/README.md`); Plan stays `Finished`. Orchestrator: merge gate for `ds/icon-button-web`; Figma build remains `Planned`.
+
+### E3 Round 2 — 2026-10-21
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 1.1 |
+| Spec version reviewed | 1.1 |
+| Reviewer | Claude |
+| Date | 2026-10-21 |
+| Verdict | **Changes requested** |
+
+Code reviewed: `git diff main...HEAD -- 3-web-components/src` = fix round 1 (`836dc9f`): `IconButton.tsx` (1 line), `IconButtonTooltip.tsx`, `iconButton.tokens.ts`, `IconButton.test.tsx`. The branch contains `main` (merge `161782b`), which has the Button round-3 shared test tooling (`a4343ac`): `src/test/render.tsx:21` exports `resetTestEmotionCaches`, `src/test/setup.ts:28` calls it. No diff in `src/test/*`, other components, generated files or `_sync`.
+
+Commands run by the Reviewer (2026-10-21, this machine; two other worktrees were running suites at the same time, load average up to 15.8):
+`npm run docs:check` ✅ 18 component files OK · `npm run typecheck` ✅ · `npm run test:web` five full runs: ✅ 93/93 (6.67 s) · ❌ 92/93 (9.43 s) · ✅ 93/93 (6.09 s) · ✅ 93/93 · ✅ 93/93. The one failure is in this unit's own file: `IconButton rendering and tokens › renders every supported variant, color, and size with its unselected tokens in both themes and languages` — "Test timed out in 5000ms". In the green runs the same test takes 3 736–4 002 ms (C8 reports 4 372 ms), i.e. 75–88 % of the default budget (finding 10). No `act()` warning comes from `IconButton.test.tsx`; the two remaining `IconButtonTooltip` `act()` warnings per run come from `ButtonGroup.test.tsx` and `SplitButton.test.tsx` (outside this unit, not a finding here).
+
+**Browser measurement** (headless Chrome via CDP, real Tab / Esc / mouse input, the real `IconButton` from `3-web-components/src` in a scratch harness outside the repo; `_docs/live.tsx` could not be used — it failed on a missing test helper, which a separate, uncommitted docs change in this checkout is fixing). Tokens: `motion-duration-2xl` 500 ms, `md` 200 ms, `sm` 100 ms, `instant` 0 ms.
+
+| Measured | light / en | dark / ar | light / en, reduced motion | dark / ar, reduced motion | Spec |
+|---|---|---|---|---|---|
+| Keyboard focus → tooltip in DOM | 26 ms | 21 ms | 18 ms | 20 ms | immediately (B4) ✅ |
+| Hover → tooltip in DOM | 517 ms | 518 ms | 510 ms | 512 ms | after `motion-duration-2xl` (B4) ✅ |
+| Enter transition (inline style) | `opacity 200ms var(--bw-motion-easing-standard-decelerate)` | same | `opacity 0ms …decelerate` | same | `md` + `standard-decelerate`; reduced = instant ✅ |
+| Exit transition | `opacity 100ms var(--bw-motion-easing-standard-accelerate)` | same | `opacity 0ms …accelerate` | same | `sm` + `standard-accelerate`; reduced = instant ✅ |
+| Esc → tooltip removed | 110 ms | 109 ms | 12 ms | 15 ms | ✅ |
+| Pointer leave → removed | 114 ms | 105 ms | 14 ms | 10 ms | ✅ |
+| Tooltip bg · text | #141414 · #FFFFFF | #FFFFFF · #0A0A0A | | | `color-surface-inverse` · `color-text-neutral-inverse` per theme ✅ |
+| Tooltip radius · padding · offset | 6 px · 4 / 8 px · 4 px above, centred (Δ 0.2 px) | same | | | `radius-sm` · `spacing-xs` / `spacing-md` · `spacing-xs`, placement top (B3.4, B5) ✅ |
+| Focus ring | 2 px solid, offset 2 px | same (dark focus colour) | | | B3.3 / AGENTS §2.6 ✅ |
+| Button size (md) | 40 × 40 | 40 × 40 | | | `size-control-height-md` square ✅ |
+| Row order (left px) | 80 → 272 | 780 → 588 (mirrored) | | | RTL ✅ |
+| `arrow_forward` (directional) transform | none | `matrix(-1, 0, 0, 1, 0, 0)` | | | mirrors in RTL only (B5) ✅ |
+| `close` transform | none | none | | | never mirrors (B5) ✅ |
+| Disabled anchor `span` `aria-label` | absent | absent | | | B6 / C3 › Tooltip name ✅ |
+| Button `aria-describedby` / `title` | none / none | none / none | | | single name (B6) ✅ |
+
+#### Round 1 findings
+
+| # | Status | Evidence |
+|---|---|---|
+| 1 | Fixed | `IconButton.test.tsx:191-212` fake timers, every interaction in `act`, Esc advanced by `base.motion.duration.sm`; no `act()` warning from this file in five runs |
+| 2 | Fixed | `IconButtonTooltip.tsx:18, 68-79`, `iconButton.tokens.ts:87-88`; tests *uses the specified tooltip easing…* (`:214`), *uses instant tooltip timeouts when reduced motion is requested* (`:233`); browser table above |
+| 3 | Fixed | `IconButtonTooltip.tsx:23`; test `:403-405` in all four theme × locale axe cases; browser: anchor has no `aria-label` |
+| 4 | Fixed (but see 10) | No timeout argument in `IconButton.test.tsx`; renders only through `renderWithBiowave` (`:15`); no Emotion cache / provider in the file |
+| 5 | Fixed | (a) `:107-145` per-button size + Button-table tokens, light/dark × en/ar; (b) `:147-180` text/outlined × 5 colours × enabled/disabled selected; (c) `:317-362` fallback results asserted (outlined tokens, no `aria-pressed`); (d) `:386-422` axe light/dark × en/ar with enabled, disabled + tooltip open, loading (see nit 11); (e) `:233` |
+| 6 | Fixed (plan 1.1) | C header › Depends on; branch contains the `main` merge with the shared speedy cache (`src/test/render.tsx:21`, `setup.ts:28`) |
+| 7 | Fixed | `iconButton.tokens.ts:86` numeric `offset`; `IconButtonTooltip.tsx:53` only reader; test `:228-230` |
+| 8 | Fixed (plan 1.1) | B7 uses `Icon` from `@biowave/web`; header Source code row points to `src/components/icon-button/` |
+| 9 | Fixed | `IconButton.tsx:291`; test `:344, 360` |
+
+#### Acceptance criteria
+
+| AC | Result | Evidence (file:line / test name) |
+|---|---|---|
+| AC-1 API = B1 | ✅ | Unchanged since round 1; whitespace label now warns (`IconButton.tsx:291`) |
+| AC-2 Unselected from Button's table; selected from B3.2 | ✅ | Unchanged code; now proven per combination by `:107` and `:147` |
+| AC-3 Transitions B4; reduced motion | ✅ | `IconButtonTooltip.tsx:68-79`; browser table (easing, 500 ms hover delay, instant under reduced motion) |
+| AC-4 RTL B5; a11y B6 | ✅ | Browser: mirrored order, directional icon flipped, `close` not; single name, no anchor `aria-label`; test *mirrors only directional icon wrappers in RTL* |
+| AC-5 typecheck, test:web, sync pass | ❌ | typecheck ✅; `test:web` 4 of 5 green — one timeout in this unit's own test (finding 10) |
+| AC-6 Exported; README status | ✅ | Unchanged (`src/index.ts`); README row updated by each step |
+| AC-7 Rebased on shared tooling; no raised timeouts; 3 full runs green at 5 s | ❌ | Tooling ✅, no raised timeouts ✅; Reviewer runs: 1 of 5 red by the 5 s default in `IconButton.test.tsx:107` (finding 10) |
+| AC-8 Tooltip easing + reduced motion; no anchor `aria-label` | ✅ | `IconButtonTooltip.tsx:18, 23, 68-79`; browser table |
+| AC-9 C6 (1.1) tests exist and pass | ✅ | `:191`, `:107`, `:147`, `:317`, `:386-422`, `:214`, `:233`, `:228` |
+| AC-10 One offset source; whitespace label warns | ✅ | `iconButton.tokens.ts:86`, `IconButtonTooltip.tsx:53`; `IconButton.tsx:291` |
+| AC-11 C8 Fix round 1 with real numbers | ✅ | C8 › Fix round 1: typecheck, three runs 93/93 with durations, slowest test 4.372 s, docs:check, sync |
+
+#### Rule checks (AGENTS.md §2 + step prompt)
+
+| Rule | Result | Notes |
+|---|---|---|
+| No generated files edited | ✅ | Diff limited to the four C5 (1.1) files in `src`; contracts regenerated by the Planner's generator run |
+| Tokens only — no raw values, no primitives | ✅ | `cssVars.motion.easing.*`, `base.motion.duration.*`, `base.spacing.*`; lint test `:182` passes |
+| RTL logical properties | ✅ | No new physical properties; browser RTL measurement above |
+| Both themes, both languages, tested | ✅ | Tests `:107` and `:386-422` loop light/dark × en/ar; browser checked light/en and dark/ar |
+| WCAG 2.2 AA | ✅ | Focus ring 2 px / 2 px offset, keyboard (`:298`), target 40 px md, reduced motion honoured; axe green (nit 11 on axe scope) |
+| Biowave `Icon`, no `@mui/icons-material` | ✅ | `grep` finds no `@mui/icons-material` in the unit; tests use `Icon` from `../icon` |
+| Default test timeouts | ⚠️ | No timeout arguments ✅, but one test sits at 75–88 % of the default and timed out once (finding 10) |
+| No edits to `src/test/*` or other components | ✅ | `git diff main...HEAD --stat -- 3-web-components/src` = icon-button files only |
+
+#### Figma build (Part D)
+
+Skipped — Figma build is `Planned`.
+
+#### Findings
+
+| # | Severity | File | Issue | Required change | Owner |
+|---|---|---|---|---|---|
+| 10 | 🟡 Should fix | `IconButton.test.tsx:53, 107-145` | *renders every supported variant, color, and size…* takes 3.7–4.4 s of the 5 s default and timed out in 1 of 5 full Reviewer runs (AC-7 asks for 3 full runs green). Cause: `cssRulesFor(element, cssText = allCssRules())` re-serialises every stylesheet for each of the 54 buttons × 4 theme/locale renders (216 full scans) | Read `allCssRules()` once per render and pass it to `cssRulesFor(button, rules)`; optionally split the loop into one `it` per theme × locale. Target: the test well under 2 s; `test:web` 3 full runs green. No timeout arguments |
+| 11 | 🟢 Nit | `IconButton.test.tsx:413-419` | The "open-tooltip" axe case runs `axe(container)`, but MUI portals the tooltip to `document.body`, so the open tooltip itself is not scanned | Run axe on `baseElement` (or `document.body`) for that case |
+
+#### Next step
+
+- Changes requested → Executor (fix round 2): 🟡 #10, 🟢 #11; append a "Fix round 2" entry to C8 with three full `test:web` runs and the slowest Icon button test time. No Planner items; Plan stays `Finished`.
+
+### E2 Round 1 — 2026-10-21
+
+| Field | Value |
+|---|---|
+| Plan version reviewed | 1 |
+| Spec version reviewed | 1.0 |
+| Reviewer | Claude |
+| Date | 2026-10-21 |
+| Verdict | **Changes requested** |
+
+Code reviewed as it is on `main` (branch `ds/icon-button-web` has no diff against `main`): `3-web-components/src/components/icon-button/` (`IconButton.tsx`, `IconButtonTooltip.tsx`, `iconButton.tokens.ts`, `IconButton.test.tsx`, `index.ts`) and `src/index.ts:31-35`.
+
+Commands run by the Reviewer (2026-10-21, on the user's machine):
+`npm run typecheck` ✅ · `npm run sync` ✅ READY (exit 0) · `npm run test:web -- src/components/icon-button` ✅ 11/11 (alone) · `npm run test:web` ❌ three full runs: 85/87, 81/87, 84/87 — Button and SplitButton axe/keyboard tests time out in every run (outside this unit); `IconButton › has one accessible name and shows its visual tooltip…` failed in 1 of 3 full runs (finding 1) · `npm run docs:check` ❌ 2 errors, both the pre-existing stale tablet/mobile **button-group** Figma contracts (not this unit; accepted in earlier rounds).
+
+#### Acceptance criteria
+
+| AC | Result | Evidence (file:line / test name) |
+|---|---|---|
+| AC-1 API = B1 (names, defaults, fallbacks) | ✅ | `IconButton.tsx:27-44` props; defaults `:239-250` (`text`, `neutral`, `md`, `tooltip` true, `type` button); fallbacks + `warnOnce` `:259-293`; test *warns and applies the specified fallbacks* (warnings only — finding 5) |
+| AC-2 Unselected from Button's table; selected from B3.2 | ✅ | `IconButton.tsx:9-19, 231` imports `resolveButtonTokens` / `buttonSizeTokens` (no copied values); `iconButton.tokens.ts:33-79` = B3.2 row for row (inverse icon `color-icon-role-brand`, neutral border `color-border-strong`, disabled row); test *uses square size tokens and the selected toggle token map* |
+| AC-3 Transitions B4; reduced motion | ❌ | Toggle background + icon cross-fade use `motion-duration-sm` / `standard` (`IconButton.tsx:97-102, 157`) ✅. Tooltip fade uses the wrong easing and does not honour reduced motion (finding 2) |
+| AC-4 RTL B5; a11y B6 | ⚠️ | Mirroring scoped to the wrapper `IconButton.tsx:169-171`, test *mirrors only directional icon wrappers in RTL* ✅; single name `aria-label` + icons `aria-hidden` `:317, 323` ✅; `aria-pressed` `:318` ✅; status region outside the button `:338-342` ✅. Disabled tooltip anchor gets a stray `aria-label` (finding 3) |
+| AC-5 typecheck, test:web, sync pass | ❌ | typecheck ✅, sync ✅; `test:web` red (findings 1, 6); unit tests still raise timeouts (finding 4) |
+| AC-6 Exported; README status updated | ✅ | `src/index.ts:31-35`; `3-web-components/README.md:49` Code = Built |
+
+#### Rule checks (AGENTS.md §2 + step prompt)
+
+| Rule | Result | Notes |
+|---|---|---|
+| No generated files edited | ✅ | No diff against `main`; `git status` clean apart from the run folder |
+| Tokens only — no raw values, no primitives | ✅ | `cssVars.*` / `base.*` only; lint test *contains no raw colors, dimensions, durations, or font names* passes. Unused `offset` token (finding 7) |
+| RTL logical properties | ✅ | `inlineSize`, `blockSize`, `borderStartStartRadius…`, `paddingInline`/`paddingBlock` (tooltip) |
+| Both themes, both languages, tested | ⚠️ | Rendered in light/dark × en/ar, but only the button count is asserted; axe runs only in `en` (finding 5) |
+| WCAG 2.2 AA | ⚠️ | Keyboard ✅ (*uses a native disabled button and activates with keyboard input*), focus ring = Button focus tokens `:122-125` ✅, target `sm` 32 ≥ 24 ✅. Finding 3 |
+| Biowave `Icon` per D-18, no `@mui/icons-material` | ✅ | No `@mui/icons-material` import in the unit; tests use `Icon` from `../icon`; `noLegacyIcons.test.ts` passes. Spec B7 still shows `@mui/material/Icon` (finding 8) |
+| Default test timeouts (Button round-2 pattern) | ❌ | `IconButton.test.tsx:86` `30_000`, `:287` `20_000` (finding 4) |
+| Stayed inside the contract (C5 files) | ✅ | Exactly the C5 files; `segment` / `InternalIconButton` is an internal SplitButton hook, not public (`index.ts` exports only `IconButton` + types) |
+
+#### Figma build (Part D)
+
+Skipped — Figma build is `Planned` and `figma` is skipped in `_workflow/config.json`.
+
+#### Findings
+
+| # | Severity | File | Issue | Required change | Owner |
+|---|---|---|---|---|---|
+| 1 | 🟡 Should fix | `IconButton.test.tsx:138-139` | Flaky: *has one accessible name and shows its visual tooltip on hover and focus* failed in 1 of 3 full `test:web` runs — after `Escape` the tooltip popper was still in the DOM when `waitFor`'s default 1 s ran out (real timers, exit `Fade` under suite load). The same tooltip state also triggers `act()` warnings from `IconButtonTooltip` in SplitButton / ButtonGroup tests | Make the Esc assertion deterministic (fake timers + `act(() => vi.advanceTimersByTime(...))` with the token duration, or assert the controlled `open` state / `aria-hidden`); wrap tooltip-opening interactions in `act`. Run `test:web` 3× green |
+| 2 | 🟡 Should fix | `IconButtonTooltip.tsx:42-68` | B4: tooltip enter must use `motion-easing-standard-decelerate`, exit `motion-easing-standard-accelerate`; MUI `Fade` defaults to `easeInOut` = `standard` (rendered `transition: opacity 200ms cubic-bezier(0.2,0,0,1)`). B4 reduced motion "tooltip appears without fade": `timeout` and `enterDelay` are JS numbers from `base`, so `prefers-reduced-motion` (which only zeroes the CSS variables) never applies | Pass `easing: { enter: theme.transitions.easing.easeOut, exit: theme.transitions.easing.easeIn }` on the transition slot; when `useMediaQuery('(prefers-reduced-motion: reduce)')` is true use `base.motion.duration.instant` for the timeouts. Test both (mock `matchMedia`) |
+| 3 | 🟡 Should fix | `IconButtonTooltip.tsx:19-21` · MUI `Tooltip.js:488-490` | With `describeChild={false}` MUI spreads `aria-label={title}` onto the cloned child. When `disabled`, that child is the private `<span class="bw-icon-button__tooltip-anchor">`, so a generic `span` carries `aria-label` (ARIA 1.2 prohibited on `generic`; axe `aria-prohibited-attr`). Not caught because every axe test sets `tooltip={false}` | Give the anchor span an explicit `aria-label={undefined}` (the child's own props override MUI's) so only the button is named; add an axe test with `disabled` + tooltip on, light/dark |
+| 4 | 🟡 Should fix | `IconButton.test.tsx:86, 287` | Tests still raise their own timeouts (`30_000`, `20_000`); axe tests take ~5.5 s each alone. Button fixed this in round 2 with a shared per-test speedy Emotion cache and default timeouts — but that fix (`e8dc43b`, `src/test/render.tsx`) is on `ds/button-web`, not on `main`, so this branch can't use it yet | After finding 6 lands, use the shared speedy cache from `src/test/render.tsx` and remove both timeout arguments; keep per-test runtime under the 5 s default |
+| 5 | 🟡 Should fix | `IconButton.test.tsx:56-123, 217-238, 262-289` | B9 gaps: (a) the variant × color × size × theme × locale test only counts buttons — no per-part token assertion, and unselected tokens are never checked; (b) selected tokens checked only for `outlined`/`brand` (not `text`, other colors, disabled-selected); (c) fallbacks: warnings asserted, but not the result (tonal+neutral renders outlined tokens; `toggle` with `filled` has no `aria-pressed`); (d) axe only `en`, only enabled, only tooltip off; (e) no reduced-motion test | Add table-driven assertions for every allowed variant × color (selected and unselected, incl. disabled) from the rendered CSS rules; assert fallback rendering; run axe in `ar` and with disabled / loading / tooltip-on states; add the reduced-motion test from #2 |
+| 6 | 🟡 Should fix | `Button.test.tsx:592` · `SplitButton.test.tsx:149, 255` (outside this unit) | AC-5 needs `npm run test:web` green, but on `main` (and this branch) Button and SplitButton tests time out in every full run (3/87, 6/87, 2/87 failures). The fix exists only on the unmerged `ds/button-web` branch | Sequence: merge `ds/button-web` (shared speedy cache) to `main`, rebase `ds/icon-button-web`, then the Executor applies #4. Record the dependency in C (Depends on) |
+| 7 | 🟢 Nit | `iconButton.tokens.ts:86` · `IconButtonTooltip.tsx:49` | `iconButtonTooltipTokens.offset` is defined but unused; the popper offset reads `base.spacing.xs` directly, so B3.4's offset lives in two places | Use one source (e.g. a numeric `offset` in the tooltip token map) or remove the unused entry |
+| 8 | 🟢 Nit | `icon-button.md` B7 · header | B7 imports `@mui/material/Icon` "until the Biowave Icon ships (D-18)" — it has shipped; examples should use `<Icon name="edit" />` from `@biowave/web`. Header "Source code — not built yet (the Executor creates it)" is stale | Update B7 and the Source code header row |
+| 9 | 🟢 Nit | `IconButton.tsx:291` | Only `label.length === 0` warns; a whitespace-only label gives an empty accessible name silently | Warn on `label.trim().length === 0` |
+
+#### Next step
+
+- Changes requested → Planner: #6 (dependency on `ds/button-web` merge), #8; set Plan `Finished` and regenerate the contract if A–D change.
+- Executor (fix round 1, after the rebase): 🟡 #1–#5, 🟢 #7, #9; append a Fix round entry to C8.
 
 ---
 
@@ -512,6 +814,8 @@ Component description: "Starts an action shown as an icon. Always has a label. S
 > Changes to this component on this platform.
 
 ### F0 Changes from previous version
+
+1.1 — review round 1 Planner items: B7 uses the Biowave `Icon` (`<Icon name="…" />`); fix round 1 depends on the shared per-test speedy Emotion cache from `ds/button-web` (PR #1); C3/C5/C6/C7 carry the Fix round 1 task list (tooltip easing and reduced motion, disabled-anchor name, offset source, trimmed-label warning, deterministic and complete tests, no raised timeouts). No API change.
 
 1.0 — initial Web implementation: MUI IconButton composition, shared Button visual tokens, selected-toggle tokens, tokenized tooltip, loading state, RTL icon handling, public exports and contract tests. No API change from the initial spec.
 
@@ -526,3 +830,4 @@ Component description: "Starts an action shown as an icon. Always has a label. S
 | Version | Date | Change | Breaking | Migration |
 |---|---|---|---|---|
 | 1.0 | 2026-10-16 | Initial | No | — |
+| 1.1 | 2026-10-21 | Review round 1 Planner items: #8 B7 examples use the Biowave `Icon` (`<Icon name>`, `filled`), D4 code values, a D4 **Icons used** line and the header Source code updated; #6 C dependency on `ds/button-web` (PR #1) shared speedy Emotion cache, raised timeouts dropped. Executor findings #1–#5, #7, #9 folded into C3/C5/C6, C7 AC-7–AC-11 and the Fix round 1 task list. B1–B6 unchanged | No | — |

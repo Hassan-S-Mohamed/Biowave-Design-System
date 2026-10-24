@@ -17,3 +17,7 @@ _sync/.verify/
 
 # agent workflow — run.md and *.prompt.md are committed; raw agent output (*.log) is ignored above
 _workflow/.local/
+
+# update-component inbox — photos are temporary; kept copies live in each component's references/
+_workflow/inbox/*
+!_workflow/inbox/README.md
