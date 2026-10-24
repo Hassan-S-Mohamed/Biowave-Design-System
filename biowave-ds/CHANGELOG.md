@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Plan — Mobile Split button plan 2 (review round 1)] — 2026-10-24
+### Changed
+- Split button (mobile) plan 2 — Planner findings #2, #4, #5, #7, #8, #9, #10 of Review Round 1, mirroring tablet plan 2.1 (user-approved). B2: menu token table and `elevation-3` on a decorated surface (transparent `MenuStyle`, `Clip.none`). B3: menu item states. B4: chevron timing (open `md`, close `sm`), `MenuAnchor` built-in fade off under reduced motion. B6: menu arrows wrap, menu keys listed. C3 / C5: internal `BwButtonSegment` / `segment` (bw_button.dart), `segment` · `focusNode` · `autofocus` · `statesController` · `iconTurns` · `iconRotationDuration` · `iconRotationCurve` · `expanded` (bw_icon_button.dart), shared `BwButtonStyle.segmentBorderRadius(dimensions, segment)` (bw_button_style.dart) — all `@internal`, hidden from `biowave_mobile.dart`; goldens folder in C5. Header Source code corrected. Plan → Finished (header + README); contract regenerated.
+
 ## [Review — Mobile Split button round 1: Changes requested] — 2026-10-24
 ### Changed
 - Split button (mobile) review round 1: **Changes requested** — Part E2 of `5-mobile-components/components/split-button/split-button.md`. Menu sits under the container (LTR + RTL), items reachable by keyboard, chevron timing per B4. Open: Tab / Shift+Tab do not close the menu (#1), BwIconButton `focusNode` / `expanded` / `iconChild` not planned (#2, Planner) and public instead of internal (#3), `elevation-3` mapping and menu tokens missing from the plan (#4, Planner), goldens not in C5 (#5, Planner), half turn derived from unrelated tokens (#6), copied segment radius / focus-ring helper (#7, Planner); 3 🟢 plan nits. Plan → Open, Code → Changes requested (header + README). `docs:check` ✓, `flutter analyze` ✓, `flutter test` 139/139 ✓, `sync` READY.
