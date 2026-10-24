@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Foundations — contrast pair for Badge warning count] — 2026-10-24
+### Added
+- `2-foundations/scripts/contrast-pairs.json`: new pair `color-text-on-warning` on `color-icon-role-warning` (min 4.5:1, normal text) in the warning group: the Badge `count` text on its warning indicator fill (Badge plan 1.1, B3/B6). `npm run tokens`: 164/164 contrast pairs pass, 0 error(s) in both themes. No token values changed, so there is no Figma variable sync (`npm run sync`: Token source → Figma variables ✓ in sync).
+
 ## [Plan — Badge (web, tablet, mobile) 1.1] — 2026-10-24
 ### Changed
 - Badge plan 1.0 → 1.1 for web review round 1 Planner nits (`badge.md` › E2 Planner response, F0–F2 on all three platforms). #1: `count` × `warning` indicator fill is now `color-icon-role-warning` (3.24:1 light · 12.20:1 dark on `color-surface-default`; text `color-text-on-warning` 6.10:1 · 13.11:1) instead of `color-background-warning-default` (2.20:1 light) — A4.2 and A9 (all three platforms), B3, B6, B9, C3, D updated; `warning` stays `count` only. #2: a hidden standalone badge takes no space after its exit transition (A5, B1, B2, B4, B9). #3: web header links `src/components/badge/`. Web C7 gains AC-8…AC-11 and a Fix round 1 Executor task list (#1, #2 plus Executor nits #4 unreachable icon token, #5 behavioural tests). No new tokens, no API change.
