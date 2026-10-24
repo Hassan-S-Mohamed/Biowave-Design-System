@@ -2,6 +2,44 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Review — Web Divider round 2: Approved] — 2026-10-24
+### Changed
+- Divider (web) review round 2: **Approved**, no findings. See Part E3 of `3-web-components/components/divider/divider.md`. Round 1 #1 fixed: in headless Chrome (light/dark × en/ar) an unlabelled `component="li"` divider in a plain `<ul>` is 1px tall, `display: block`, `list-style-type: none`, no own margin or padding. #2 fixed (computed Arabic label `paddingInline` test); #3 fixed by the Planner step. Round 1 measurements still hold (thickness, emphasis colours, insets + RTL, vertical, label, AX tree); axe 0 violations. Code → Approved (header + README). `docs:check` ✓, `typecheck` ✓, `test:web` 119/119 ✓, `sync` READY.
+
+## [Fixed — Web Divider review round 1] — 2026-10-24
+### Fixed
+- Reset unlabelled `component="li"` Divider roots to block layout with no list marker or own margin/padding, so they render with the same tokenized one-line height and border as the default `hr` in English and Arabic. Added regression coverage for the list style, rendered height/border, and computed Arabic inline label padding. `docs:check` ✓; `typecheck` ✓; `test:web` 119/119 ✓ at default timeouts.
+
+## [Plan — Web Divider 1.1 header fix] — 2026-10-24
+### Changed
+- Divider (web) answering Review round 1 Planner finding #3: header **Source code** row in `3-web-components/components/divider/divider.md` now links the built folder [`src/components/divider/`](3-web-components/src/components/divider/); Part F2 line added. No spec change (Executor findings #1–#2 keep their E2 fixes). Plan Open → Finished (header + `3-web-components/README.md`); Code stays Changes requested; web Divider contract regenerated.
+
+## [Review — Web Divider round 1: Changes requested] — 2026-10-24
+### Changed
+- Divider (web) review round 1: **Changes requested**. See Part E2 of `3-web-components/components/divider/divider.md`. Checked in headless Chrome (light/dark × en/ar): thickness, the three emphasis colours, insets (start flips in RTL), vertical stretch and fallbacks, label metrics and wrapping all match the tokens; the AX tree matches B6; axe has 0 violations, including a `<ul>` with `li` dividers. 🔴 #1: an unlabelled `component="li"` keeps `list-style: disc`, so it shows a bullet and is 23/25px tall (Executor). 🟢 #2: computed-padding test for the Arabic label (Executor). 🟢 #3: stale Source code header row (Planner). Plan → Open, Code → Changes requested (header + README). `docs:check` ✓, `typecheck` ✓, `sync` READY, `test:web` 118/118 in runs 2–5 (run 1 117/118 under load).
+
+## [Added — Web Divider 1.1] — 2026-10-24
+### Added
+- Built and exported the token-styled web `Divider` with horizontal and vertical orientations, three emphasis levels, logical start/both insets, optional centred labels, decorative and list semantics, development warnings with specified fallbacks, and forwarded root refs/data attributes. Added 11 table-driven tests covering both themes and languages, RTL/logical CSS, tokens, labels, semantics, invalid combinations, axe, and three consecutive 118/118 full-suite runs at default timeouts.
+
+## [Preview — Mobile Divider 1.1] — 2026-10-24
+
+## [Preview — Tablet Divider 1.1] — 2026-10-24
+
+## [Preview — Web Divider 1.1] — 2026-10-24
+
+## [Plan — Divider 1.1 (web, tablet, mobile)] — 2026-10-23
+### Changed
+- Divider plan 1.0 → 1.1 on all three platforms (`3-web-components/components/divider/divider.md`, `4-tablet-components/…`, `5-mobile-components/…`; Part A identical except A8), answering the four 1.0 questions: (1) inset stays `spacing-xl` for `start` and `both` — A4.3/B2 note the List plan (Day 8) adds its own text-aligned inset, nothing added now; (2) new optional centred label on horizontal dividers, `showLabel` + `label` (“or” / “أو”): `caption-md`, `color-text-neutral-muted` (4.5:1 pairs already exist), `spacing-md` gap each side, line segments ≥ `spacing-xl`, wraps and never truncates; ignored with a warning / assert on vertical dividers and when the label is empty; Figma `Show label` (BOOLEAN) + `Label` (TEXT), still 18 variants; (3) web `decorative` stays default `false`; (4) new web `component` prop (`hr` default · `li`): `<li role="separator">` inside `<ul>` / `<ol>`, always `aria-hidden="true"` because axe-core 4.14's `list` rule rejects a visible separator child (checked); labelled web root is `<div role="separator" aria-label>`. B9/C6 tests, C7, D1–D10 and Part F updated. No component tokens (P-04). Plan stays Finished; contracts regenerated for web, tablet and mobile; `component-tokens` ✓, `docs:build` ✓, `docs:check` ✓.
+
+## [Preview — Tablet Divider 1.0] — 2026-10-23
+
+## [Preview — Web Divider 1.0 blocked: image service unavailable] — 2026-10-23
+
+## [Plan — Divider 1.0 (web, tablet, mobile)] — 2026-10-22
+### Added
+- New component **Divider** (Day 3) planned on all three platforms: `3-web-components/components/divider/divider.md`, `4-tablet-components/components/divider/divider.md`, `5-mobile-components/components/divider/divider.md` (Parts A–D and F; Part A identical except A8). Options `orientation` (horizontal · vertical), `emphasis` (subtle · default · strong → `color-border-subtle` · `color-border-default` · `color-border-strong`), `inset` (none · start · both, `spacing-xl`; start is horizontal only), web-only `decorative`; line `border-width-default`. Base MUI `Divider` (`<hr>`, logical borders and margins) / M3 `Divider` + `VerticalDivider` as `BwDivider`. No component tokens (P-04: semantic tokens fit), no icons, no text on the divider in 1.0. Web C6 tests render only through the shared `renderWithBiowave` at default timeouts. Figma: 18 variants (Orientation × Emphasis × Inset, `Direction=RTL` only for Horizontal · Start), bound directly to Foundations variables. Plan → Finished, Code / Figma build → Planned (headers + the three section READMEs); contracts and docs pages generated.
+
 ## [Sync — Figma library index re-read] — 2026-10-24
 ### Changed
 - `_sync/figma-library.json` re-read from Figma (Foundations variables + styles, Doc Kit components, reach from the Web Components file) after the Badge contrast-pair change made the index stale (token source hash). Keys, names, scopes and styles unchanged; the only content change is the Web code syntax now filled in on 296 Foundations variables (set in Figma since the 2026-10-18 read). Variables dump rebuilt from the previous index and proven identical to Figma's semantic variables by a fingerprint over all 318 rows (primitives stay out, as before). `npm run contract -- --all` regenerated 24 Figma contracts (code syntax) and 4 code contracts (header Source code catch-up). `docs:check` ✓, `sync` ✓ READY, library index fresh.
