@@ -144,14 +144,14 @@ void main() {
             );
             expect(
               style.iconColor!.resolve(disabledSelectedStates),
-              colors.iconNeutralDisabled,
+              colors.iconDisabled,
             );
             expect(
               style.overlayColor!.resolve(<WidgetState>{
                 WidgetState.selected,
                 WidgetState.hovered,
               }),
-              colors.overlayHover,
+              colors.overlayHovered,
             );
             expect(
               style.overlayColor!.resolve(<WidgetState>{
@@ -451,7 +451,7 @@ void main() {
         decoration.borderRadius,
         const BorderRadiusDirectional.all(Radius.circular(BwRadius.sm)),
       );
-      expect(tooltip.textStyle!.color, colors.textNeutralInverse);
+      expect(tooltip.textStyle!.color, colors.textInverse);
 
       await tester.longPress(find.byType(IconButton));
       await tester.pump();
@@ -789,7 +789,7 @@ Color _selectedBackground(BwColors colors, BwButtonColor color) =>
 Color _selectedIcon(BwColors colors, BwButtonColor color) => switch (color) {
       BwButtonColor.brand => colors.iconRoleBrand,
       BwButtonColor.secondary => colors.iconRoleSecondary,
-      BwButtonColor.neutral => colors.iconNeutralDefault,
+      BwButtonColor.neutral => colors.iconDefault,
       BwButtonColor.error => colors.iconRoleError,
       BwButtonColor.inverse => colors.iconRoleBrand,
     };

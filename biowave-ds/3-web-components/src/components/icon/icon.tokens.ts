@@ -26,10 +26,10 @@ export const iconSizeTokens = {
 
 /** Component token map — must equal `icon.tokens.json` aliases. */
 export const iconColorTokens = {
-  default: cssVars.color.icon.neutral.default,
-  subtle: cssVars.color.icon.neutral.subtle,
-  muted: cssVars.color.icon.neutral.muted,
-  inverse: cssVars.color.icon.neutral.inverse,
+  default: cssVars.color.icon.default,
+  subtle: cssVars.color.icon.subtle,
+  muted: cssVars.color.icon.subtlest,
+  inverse: cssVars.color.icon.inverse,
   brand: cssVars.color.icon.role.brand,
   secondary: cssVars.color.icon.role.secondary,
   success: cssVars.color.icon.role.success,

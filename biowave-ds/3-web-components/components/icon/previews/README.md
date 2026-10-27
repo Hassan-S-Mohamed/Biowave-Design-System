@@ -8,13 +8,13 @@ These images are planning sketches. `icon.md` remains the source of truth.
 |---|---|---|
 | `color-surface-page` | `#F7F7F7` | `#0A0A0A` |
 | `color-surface-inverse` | `#141414` | `#FFFFFF` |
-| `color-text-neutral-default` (the `currentColor` sample) | `#0A0A0A` | `#F7F7F7` |
-| `color-text-neutral-subtle` | `#292929` | `#DBDBDB` |
+| `color-text-default` (the `currentColor` sample) | `#0A0A0A` | `#F7F7F7` |
+| `color-text-subtle` | `#292929` | `#DBDBDB` |
 | `color-border-subtle` | `#EDEDED` | `#292929` |
-| `color-icon-neutral-default` | `#0A0A0A` | `#F7F7F7` |
-| `color-icon-neutral-subtle` | `#292929` | `#DBDBDB` |
-| `color-icon-neutral-muted` | `#707070` | `#BDBDBD` |
-| `color-icon-neutral-inverse` | `#FFFFFF` | `#0A0A0A` |
+| `color-icon-default` | `#0A0A0A` | `#F7F7F7` |
+| `color-icon-subtle` | `#292929` | `#DBDBDB` |
+| `color-icon-subtlest` | `#707070` | `#BDBDBD` |
+| `color-icon-inverse` | `#FFFFFF` | `#0A0A0A` |
 | `color-icon-role-brand` | `#193351` | `#90A3BC` |
 | `color-icon-role-secondary` | `#0C5F79` | `#90C3D5` |
 | `color-icon-role-success` | `#268751` | `#8DD4AE` |

@@ -91,7 +91,7 @@ MaterialApp(
   darkTheme: BwMobileTheme.dark(locale),
   locale: locale,               // Locale('ar') → RTL automatically
 );
-// In widgets: context.bw.colors.textNeutralDefault, context.bw.text.bodyMd, BwSpacing.md
+// In widgets: context.bw.colors.textDefault, context.bw.text.bodyMd, BwSpacing.md
 ```
 
 ## Status

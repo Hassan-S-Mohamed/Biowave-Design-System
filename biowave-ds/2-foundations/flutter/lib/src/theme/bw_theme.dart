@@ -54,8 +54,8 @@ abstract final class BwTheme {
       errorContainer: colors.backgroundErrorSubtle,
       onErrorContainer: colors.textRoleError,
       surface: colors.surfaceDefault,
-      onSurface: colors.textNeutralDefault,
-      onSurfaceVariant: colors.textNeutralMuted,
+      onSurface: colors.textDefault,
+      onSurfaceVariant: colors.textSubtlest,
       surfaceDim: colors.surfacePage,
       surfaceBright: colors.surfaceRaised,
       surfaceContainerLowest: colors.surfaceDefault,
@@ -66,7 +66,7 @@ abstract final class BwTheme {
       outline: colors.borderInputDefault,
       outlineVariant: colors.borderDefault,
       inverseSurface: colors.surfaceInverse,
-      onInverseSurface: colors.textNeutralInverse,
+      onInverseSurface: colors.textInverse,
       inversePrimary: isDark ? BwColors.light.backgroundBrandDefault : BwColors.dark.backgroundBrandDefault,
       shadow: colors.shadowAmbient,
       scrim: colors.overlayBackdrop,
@@ -88,7 +88,7 @@ abstract final class BwTheme {
       labelLarge: text.actionMd,
       labelMedium: text.labelMd,
       labelSmall: text.labelSm,
-    ).apply(bodyColor: colors.textNeutralDefault, displayColor: colors.textNeutralDefault);
+    ).apply(bodyColor: colors.textDefault, displayColor: colors.textDefault);
 
     return ThemeData(
       useMaterial3: true,
@@ -101,14 +101,14 @@ abstract final class BwTheme {
       dividerColor: colors.borderDefault,
       focusColor: colors.overlayBrand,
       hoverColor: colors.overlaySubtle,
-      disabledColor: colors.textNeutralDisabled,
+      disabledColor: colors.textDisabled,
       materialTapTargetSize: MaterialTapTargetSize.padded,
       visualDensity: VisualDensity.standard,
       // D-18: Material Symbols Rounded defaults; components override size per their spec.
       iconTheme: IconThemeData(
         size: BwSize.iconLg,
         opticalSize: BwSize.iconLg,
-        color: colors.iconNeutralDefault,
+        color: colors.iconDefault,
         fill: BwIconAxes.fill,
         weight: BwIconAxes.weight,
         grade: BwIconAxes.grade,
@@ -118,7 +118,7 @@ abstract final class BwTheme {
   }
 }
 
-/// Short access to Biowave theme extensions: `context.bw.colors.textNeutralDefault`.
+/// Short access to Biowave theme extensions: `context.bw.colors.textDefault`.
 extension BwContext on BuildContext {
   BwThemeAccess get bw => BwThemeAccess(this);
 }

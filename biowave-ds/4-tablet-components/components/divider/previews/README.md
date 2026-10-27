@@ -8,8 +8,8 @@ These planning sheets cover every valid visible option combination in the sole `
 |---|---:|---:|
 | `color-surface-page` | `#F7F7F7` | `#0A0A0A` |
 | `color-surface-default` | `#FFFFFF` | `#141414` |
-| `color-text-neutral-default` | `#0A0A0A` | `#F7F7F7` |
-| `color-text-neutral-muted` | `#707070` | `#BDBDBD` |
+| `color-text-default` | `#0A0A0A` | `#F7F7F7` |
+| `color-text-subtlest` | `#707070` | `#BDBDBD` |
 | `color-border-subtle` | `#EDEDED` | `#292929` |
 | `color-border-default` | `#DBDBDB` | `#404040` |
 | `color-border-strong` | `#BDBDBD` | `#545454` |

@@ -8,7 +8,7 @@ Planning sketches for Tooltip 1.0. The plan remains the source of truth. The Ico
 |---|---|---|
 | `color-surface-page` | `#F7F7F7` | `#0A0A0A` |
 | `color-surface-inverse` | `#141414` | `#FFFFFF` |
-| `color-text-neutral-inverse` | `#FFFFFF` | `#0A0A0A` |
+| `color-text-inverse` | `#FFFFFF` | `#0A0A0A` |
 | `spacing-xs` — block padding and anchor offset | `4px` | `4px` |
 | `spacing-md` — inline padding and viewport edge minimum | `8px` | `8px` |
 | `radius-sm` | `6px` | `6px` |

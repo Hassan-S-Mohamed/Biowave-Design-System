@@ -2,6 +2,31 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Foundations — Semantic colour tokens 2.0] — 2026-10-27
+### Changed
+- **Surface vs Background documented and tagged.** New section *Surface vs Background — read this first* in `guidelines/colors.md`. Every surface description starts with `[Surface · static, no states]`, every background description with `[Background · interactive, has states]`; usage descriptions name the components per platform. Group descriptions updated.
+- **State rename `hover` → `hovered`** everywhere (Hassan's decision, one naming pattern for the whole system): `background-*-hover`, `link-hover`, `border-input-hover`, `overlay-hover`.
+- **Background:** `transparent` is now a group (`default` · `hovered` · `pressed` · `disabled`). `base` gains `subtle` (n100 / n800) and `subtlest` (n50 / n950). Every colour role (brand, secondary, success, error, warning, info) has `default · subtle · subtlest · hovered · pressed · disabled`: `subtle` = 100 light / 900 dark, `subtlest` = 50 light / 950 dark. `neutral` kept as a role for the grey filled button (`default · hovered · pressed · disabled`). All `*-disabled` fills = n100 / n800 (were n300 / n700: white label measured 1.88:1).
+- **Text / icon:** `neutral` level removed — `text-default · subtle · subtlest · inverse · disabled` (same for `icon-*`). `text-subtlest` = n600 / n300, merging `muted` and `placeholder` (n500 measured 4.23:1 on a subtle input fill). `text-disabled` dark n500 (n600 measured 1.92:1). Role text that failed on its tonal fill darkened: `text-role-error` error.800, `text-role-warning` warning.900. **Icons now mirror text** (names and values); `icon-role-*` were 600/700 steps (error 3.48:1, warning 3.03:1 on page).
+- **Badge (web code, all three specs):** `count` × `warning` label `color-text-on-warning` → `color-text-inverse` on the `color-icon-role-warning` fill (the darker role icon made dark text fail).
+- `contrast-pairs.json`: +41 pairs (neutral text on every surface/base fill, role text/icon on its subtle and subtlest fills, `on-*` on default/hovered/pressed, neutral and inverse controls). 246/246 checks pass.
+- Component specs, tokens.json files, web/Flutter code, tests, templates, docs viewer CSS and README updated to the new names. Code contracts and Figma contracts are regenerated after the Foundations library is re-read (new keys).
+
+### Migration map
+| Old | New |
+|---|---|
+| `color-background-transparent` | `color-background-transparent-default` |
+| `color-background-{role}-hover` | `color-background-{role}-hovered` |
+| `color-background-neutral-subtle` | `color-background-base-subtlest` |
+| `color-text-neutral-{default,subtle,inverse,disabled}` | `color-text-{default,subtle,inverse,disabled}` |
+| `color-text-neutral-muted` · `color-text-neutral-placeholder` | `color-text-subtlest` |
+| `color-icon-neutral-{default,subtle,inverse,disabled}` | `color-icon-{default,subtle,inverse,disabled}` |
+| `color-icon-neutral-muted` | `color-icon-subtlest` |
+| `color-link-hover` · `color-border-input-hover` · `color-overlay-hover` | `…-hovered` |
+
+### Found (not changed)
+- `warning.500` and `warning.600` primitives are almost identical (8.99 vs 8.53:1 with dark text), so the warning `hovered` fill barely shows. Regenerate `warning.600` darker in a later primitives pass.
+
 ## [Review — Web Avatar round 2] — 2026-10-24
 ### Changed
 - Reviewed web `Avatar` (round 2, `avatar.md` › E3): **Approved**. In headless Chrome with a server-side request log, a photo 6000 px below the fold is not requested until it is scrolled near. Initials show while the hidden `img` loads. A 404 removes the `img`. A `src` change returns to loading. A cached photo shows synchronously with no fallback frame. `new Image()` was never called. Round 1 measurements still hold (sizes 32/40/48/56, radii, B3 colours, `SA` / `س`, Badge top-end with top-left in RTL, roles, not focusable). The RTL test now asserts direction and placement in en and ar. docs:check, typecheck and test:web (220/220) pass. All three Round 1 findings fixed; 1 new Executor nit (stale-event test step). Code → `Approved`; Plan stays `Finished`.

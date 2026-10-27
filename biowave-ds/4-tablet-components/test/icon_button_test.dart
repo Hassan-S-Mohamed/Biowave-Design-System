@@ -222,7 +222,7 @@ void main() {
           final expectedIcon = switch (color) {
             BwButtonColor.brand => colors.iconRoleBrand,
             BwButtonColor.secondary => colors.iconRoleSecondary,
-            BwButtonColor.neutral => colors.iconNeutralDefault,
+            BwButtonColor.neutral => colors.iconDefault,
             BwButtonColor.error => colors.iconRoleError,
             BwButtonColor.inverse => colors.iconRoleBrand,
           };
@@ -443,7 +443,7 @@ void main() {
       expect(tooltip.excludeFromSemantics, isTrue);
       expect(theme.data.waitDuration, BwDuration.xl2);
       expect(theme.data.verticalOffset, BwSpacing.xs);
-      expect(theme.data.textStyle!.color, context.bw.colors.textNeutralInverse);
+      expect(theme.data.textStyle!.color, context.bw.colors.textInverse);
     });
 
     testWidgets(

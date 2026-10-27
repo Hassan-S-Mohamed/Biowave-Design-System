@@ -299,9 +299,9 @@ No component tokens — every value is an existing semantic token (P-04); `badge
 | `brand` | `color-background-brand-default` | `color-text-on-brand` | `color-icon-on-brand` |
 | `secondary` | `color-background-secondary-default` | `color-text-on-secondary` | `color-icon-on-secondary` |
 | `success` | `color-background-success-default` | `color-text-on-success` | `color-icon-on-success` |
-| `warning` | `color-icon-role-warning` | `color-text-on-warning` | — (not allowed) |
+| `warning` | `color-icon-role-warning` | `color-text-inverse` | — (not allowed) |
 | `info` | `color-background-info-default` | `color-text-on-info` | `color-icon-on-info` |
-| `neutral` | `color-surface-inverse` | `color-text-neutral-inverse` | `color-icon-neutral-inverse` |
+| `neutral` | `color-surface-inverse` | `color-text-inverse` | `color-icon-inverse` |
 
 | Part | Property | Token |
 |---|---|---|
@@ -433,7 +433,7 @@ Structure, properties, the Figma ↔ code mapping and Code Connect: [Part D](#d-
 ### C3 Approach
 
 - Base: `@mui/material/Badge` wrapped by `styled(MuiBadge)` in `Badge.tsx`. Map props: `count` → `badgeContent` (only for `variant="count"`), `variant` `count`/`check` → MUI `standard`, `dot` → MUI `dot`; `max`, `showZero`, `invisible` passed through (MUI computes `99+` and the zero-hidden state — wrap the rendered content in `<bdi dir="ltr">` via `badgeContent`). For `check`, `badgeContent` = `<Icon name="check" />` (no `size`; the indicator sets `font-size` to `size-icon-sm`).
-- Styles from `cssVars` only (`cssVars.size.icon.md`, `cssVars.spacing.xs`, `cssVars.spacing.md`, `cssVars.radius.full`, `cssVars.border.width.strong`, `cssVars.color.*`, `cssVars.motion.*`, `cssVars.layer.raised`), applied to the MUI `badge` slot. One `switch` from `color` to the B3 tokens; `neutral` uses `color.surface.inverse` / `color.text.neutral.inverse` / `color.icon.neutral.inverse`; `warning` uses `color.icon.role.warning` / `color.text.on.warning` (1.1). `error` and `warning` have no `check-icon` token (B3 “—”): the map gives them none (`icon` optional in the map type), so no unlisted token sits in the component.
+- Styles from `cssVars` only (`cssVars.size.icon.md`, `cssVars.spacing.xs`, `cssVars.spacing.md`, `cssVars.radius.full`, `cssVars.border.width.strong`, `cssVars.color.*`, `cssVars.motion.*`, `cssVars.layer.raised`), applied to the MUI `badge` slot. One `switch` from `color` to the B3 tokens; `neutral` uses `color.surface.inverse` / `color.text.inverse` / `color.icon.inverse`; `warning` uses `color.icon.role.warning` / `color.text.inverse` (1.2, colour tokens 2026-10-27). `error` and `warning` have no `check-icon` token (B3 “—”): the map gives them none (`icon` optional in the map type), so no unlisted token sits in the component.
 - Placement: override MUI's `anchorOrigin` styles completely — set `top`/`right`/`transform` to `unset` and use `inset-block-start` / `inset-inline-end` plus `transform: translate(50%, -50%)`, and `[dir='rtl'] &` → `translate(-50%, -50%)` (B5). Visibility combines with the translation: hidden = `translate(…) scale(0)`, visible = `translate(…) scale(1)`, `transform-origin: center`.
 - Transitions: replace MUI's `theme.transitions` on the `badge` slot with `transform` timed by B4 — `motion-duration-md` + `motion-easing-standard-decelerate` when becoming visible, `motion-duration-sm` + `motion-easing-standard-accelerate` when hiding (set the transition on the `.MuiBadge-invisible` state for the exit). No transition on first paint.
 - Standalone (no `children`): add class `bw-badge-standalone`; the `badge` slot becomes `position: static`, no transform, no ring.

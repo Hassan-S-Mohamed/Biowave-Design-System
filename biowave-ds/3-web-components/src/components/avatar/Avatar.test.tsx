@@ -54,8 +54,8 @@ const iconSizeTokens = {
 const colorTokens = {
   neutral: {
     background: cssVars.color.background.neutral.default,
-    initials: cssVars.color.text.neutral.subtle,
-    icon: cssVars.color.icon.neutral.subtle,
+    initials: cssVars.color.text.subtle,
+    icon: cssVars.color.icon.subtle,
   },
   brand: {
     background: cssVars.color.background.brand.subtle,

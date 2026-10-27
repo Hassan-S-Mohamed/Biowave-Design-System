@@ -84,22 +84,22 @@ describe('Link token contract', () => {
     expect(linkColorTokens).toEqual({
       brand: {
         default: 'var(--bw-color-link-default)',
-        hover: 'var(--bw-color-link-hover)',
+        hover: 'var(--bw-color-link-hovered)',
         pressed: 'var(--bw-color-link-pressed)',
         visited: 'var(--bw-color-link-visited)',
-        disabled: 'var(--bw-color-text-neutral-disabled)',
+        disabled: 'var(--bw-color-text-disabled)',
       },
       neutral: {
-        default: 'var(--bw-color-text-neutral-default)',
-        hover: 'var(--bw-color-text-neutral-default)',
-        pressed: 'var(--bw-color-text-neutral-default)',
-        disabled: 'var(--bw-color-text-neutral-disabled)',
+        default: 'var(--bw-color-text-default)',
+        hover: 'var(--bw-color-text-default)',
+        pressed: 'var(--bw-color-text-default)',
+        disabled: 'var(--bw-color-text-disabled)',
       },
       inverse: {
-        default: 'var(--bw-color-text-neutral-inverse)',
-        hover: 'var(--bw-color-text-neutral-inverse)',
-        pressed: 'var(--bw-color-text-neutral-inverse)',
-        disabled: 'var(--bw-color-text-neutral-disabled)',
+        default: 'var(--bw-color-text-inverse)',
+        hover: 'var(--bw-color-text-inverse)',
+        pressed: 'var(--bw-color-text-inverse)',
+        disabled: 'var(--bw-color-text-disabled)',
       },
     });
     expect(linkLayoutTokens).toEqual({

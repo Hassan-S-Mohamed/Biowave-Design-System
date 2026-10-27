@@ -28,7 +28,7 @@
 | [Content](guidelines/content.md) | Sentence case, verb-first buttons, no "!", "…" for progress, errors = what happened + how to fix. MSA Arabic, no left/right in copy, +20–30% length. |
 | [Spacing](guidelines/spacing.md) | 4px base: none 0, xxs 2, xs 4, sm 6, md 8, lg 12, xl 16, 2xl 20, 3xl 24, 4xl 32, 5xl 40, 6xl 48, 7xl 64, 8xl 80, 9xl 96, 10xl 128, 11xl 160. Use gap; logical directions. |
 | [Grid](guidelines/grid.md) | Web ≥1200: 12 col / 24 gutter / 40 margin. Tablet 600–1199: 8 / 24 / 24. Mobile <600: 6 / 8 / 16. App bar 72/64/64. Sidebars start/end 248 (0 on mobile). |
-| [Colors](guidelines/colors.md) | Primary navy #193351, secondary teal #0C5F79. Groups: surface, background (+states), text, icon, border, link, overlay. Roles: brand, secondary, success, warning, error, info, neutral. Warning uses dark text. |
+| [Colors](guidelines/colors.md) | Primary navy #193351, secondary teal #0C5F79. Groups: **surface** (static containers, no states) vs **background** (interactive fills with states), text, icon (mirrors text), border, link, overlay. Roles: brand, secondary, success, warning, error, info, neutral. Emphasis default · subtle · subtlest; states hovered · pressed · disabled. Warning uses dark text. |
 | [Typography](guidelines/typography.md) | Inter (en), IBM Plex Sans Arabic (ar). Roles: display, heading, title, body, label, caption, action, data. Body 14 web / 16 touch. Arabic: taller line heights, letter-spacing 0. |
 | [Motion](guidelines/motion.md) | Material 3: xs 50, sm 100, md 200, lg 300, xl 400, 2xl 500 ms. Easing standard / emphasized (decelerate in, accelerate out). Reduced motion → 0. |
 | [Icons](guidelines/icons.md) | Google Material Symbols Rounded (D-18): web `material-symbols` font, Flutter `material_symbols_icons`. Sizes xs 12 … 3xl 48; default 20 web, 24 touch. Mirror directional icons in RTL only. |
@@ -47,7 +47,7 @@
 | Card | `--bw-color-surface-default` + `--bw-color-border-default` + `--bw-radius-2xl` | `colors.surfaceDefault`, `BwRadius.xl2` |
 | Primary button fill / label | `--bw-color-background-brand-default` / `--bw-color-text-on-brand` | `colors.backgroundBrandDefault` / `colors.textOnBrand` |
 | Body text | `.bw-text-body-md` · `<Typography variant="bodyMd">` | `context.bw.text.bodyMd` |
-| Secondary text | `--bw-color-text-neutral-muted` | `colors.textNeutralMuted` |
+| Secondary text | `--bw-color-text-subtlest` | `colors.textSubtlest` |
 | Input border | `--bw-color-border-input-default` | `colors.borderInputDefault` |
 | Focus ring | `--bw-color-border-focus`, `--bw-border-width-focus`, `--bw-border-focus-offset` | `colors.borderFocus`, `BwBorder.widthFocus` |
 | Gap 8 / padding 16 | `--bw-spacing-md` / `--bw-spacing-xl` | `BwSpacing.md` / `BwSpacing.xl` |

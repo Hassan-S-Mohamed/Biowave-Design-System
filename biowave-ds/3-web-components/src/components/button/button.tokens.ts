@@ -30,12 +30,12 @@ export interface ButtonVisualTokens {
 }
 
 const disabledBackground = cssVars.color.background.neutral.disabled;
-const transparentBackground = cssVars.color.background.transparent;
-const disabledLabel = cssVars.color.text.neutral.disabled;
-const disabledIcon = cssVars.color.icon.neutral.disabled;
+const transparentBackground = cssVars.color.background.transparent.default;
+const disabledLabel = cssVars.color.text.disabled;
+const disabledIcon = cssVars.color.icon.disabled;
 const disabledBorder = cssVars.color.border.disabled;
 const stateLayer = {
-  hover: cssVars.color.overlay.hover,
+  hover: cssVars.color.overlay.hovered,
   pressed: cssVars.color.overlay.pressed,
 } as const;
 
@@ -77,35 +77,35 @@ export const buttonTokens = {
   filled: {
     brand: filled(
       cssVars.color.background.brand.default,
-      cssVars.color.background.brand.hover,
+      cssVars.color.background.brand.hovered,
       cssVars.color.background.brand.pressed,
       cssVars.color.text.on.brand,
       cssVars.color.icon.on.brand,
     ),
     secondary: filled(
       cssVars.color.background.secondary.default,
-      cssVars.color.background.secondary.hover,
+      cssVars.color.background.secondary.hovered,
       cssVars.color.background.secondary.pressed,
       cssVars.color.text.on.secondary,
       cssVars.color.icon.on.secondary,
     ),
     neutral: filled(
       cssVars.color.background.neutral.default,
-      cssVars.color.background.neutral.hover,
+      cssVars.color.background.neutral.hovered,
       cssVars.color.background.neutral.pressed,
-      cssVars.color.text.neutral.default,
-      cssVars.color.icon.neutral.default,
+      cssVars.color.text.default,
+      cssVars.color.icon.default,
     ),
     error: filled(
       cssVars.color.background.error.default,
-      cssVars.color.background.error.hover,
+      cssVars.color.background.error.hovered,
       cssVars.color.background.error.pressed,
       cssVars.color.text.on.error,
       cssVars.color.icon.on.error,
     ),
     inverse: filled(
       cssVars.color.background.inverse.default,
-      cssVars.color.background.inverse.hover,
+      cssVars.color.background.inverse.hovered,
       cssVars.color.background.inverse.pressed,
       cssVars.color.text.role.brand,
       cssVars.color.icon.role.brand,
@@ -149,8 +149,8 @@ export const buttonTokens = {
     neutral: layered(
       transparentBackground,
       transparentBackground,
-      cssVars.color.text.neutral.default,
-      cssVars.color.icon.neutral.default,
+      cssVars.color.text.default,
+      cssVars.color.icon.default,
       cssVars.color.border.strong,
     ),
     error: layered(
@@ -184,8 +184,8 @@ export const buttonTokens = {
     neutral: layered(
       transparentBackground,
       transparentBackground,
-      cssVars.color.text.neutral.default,
-      cssVars.color.icon.neutral.default,
+      cssVars.color.text.default,
+      cssVars.color.icon.default,
     ),
     error: layered(
       transparentBackground,

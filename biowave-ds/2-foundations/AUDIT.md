@@ -129,3 +129,19 @@ Applied to the Figma file **Design System** (`AyFaSmfDUlTax3GpKhRdHI`) with vari
 | Effect styles | `Elevation/1…4`, `Shadow/Control`, `Focus/Ring` bound to `1. Themes › color/shadow/*` (switch with Light/Dark); `Focus Ring/Neutral` → `_deprecated/` |
 
 Still to do by hand in Figma: re-bind components that use `_deprecated/*` variables, remove theme pinning from button variants (B-14), then delete the deprecated items.
+
+## 7. Semantic colour tokens 2.0 — 27 Oct 2026
+
+Renamed in place in Figma (variable IDs and keys kept, so every binding in the component files keeps working). Full table in `CHANGELOG.md` › *Foundations — Semantic colour tokens 2.0*.
+
+| Old (code / Figma) | New |
+|---|---|
+| `color-background-transparent` · `color/background/transparent` | `color-background-transparent-default` (+ `hovered`, `pressed`, `disabled` new) |
+| `color-background-{role}-hover` · `color/background/primary/*` | `color-background-{role}-hovered` · `color/background/brand/*` |
+| `color-background-neutral-subtle` | `color-background-base-subtlest` |
+| `color-text-neutral-*` · `color/text/muted` | `color-text-*` · `color/text/subtlest` |
+| `color-text-neutral-placeholder` | `color-text-subtlest` — Figma: `_deprecated/color/text/placeholder`, aliased to `color/text/subtlest` |
+| `color-icon-neutral-*` (incl. `muted`) | `color-icon-*` (`muted` → `subtlest`) |
+| `color-link-hover` · `color-border-input-hover` · `color-overlay-hover` | `…-hovered` |
+
+Found and fixed: the dark values of `color/surface/page · default · subtle · raised` had been changed by hand in Figma (aliases neutral 800 · 600 · 600 · 700, against code 950 · 900 · 800 · 800). Restored to the token source.

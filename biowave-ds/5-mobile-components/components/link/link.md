@@ -297,9 +297,9 @@ Layout rules: `BwLink` is a `Row(mainAxisSize: MainAxisSize.min)` centred inside
 
 | `color` | Default | Hover (pointer) | Pressed | Disabled |
 |---|---|---|---|---|
-| `brand` | `color-link-default` | `color-link-hover` | `color-link-pressed` | `color-text-neutral-disabled` |
-| `neutral` | `color-text-neutral-default` | `color-text-neutral-default` | `color-text-neutral-default` | `color-text-neutral-disabled` |
-| `inverse` | `color-text-neutral-inverse` | `color-text-neutral-inverse` | `color-text-neutral-inverse` | `color-text-neutral-disabled` |
+| `brand` | `color-link-default` | `color-link-hovered` | `color-link-pressed` | `color-text-disabled` |
+| `neutral` | `color-text-default` | `color-text-default` | `color-text-default` | `color-text-disabled` |
+| `inverse` | `color-text-inverse` | `color-text-inverse` | `color-text-inverse` | `color-text-disabled` |
 
 | Part | `underline` | Default | Hover | Pressed | Focus | Disabled |
 |---|---|---|---|---|---|---|
@@ -436,7 +436,7 @@ Structure, properties, the Figma ↔ code mapping and Code Connect: [Part D](#d-
 
 ### C4 Token gaps
 
-None. All tokens exist in Foundations (`color-link-*`, `color-text-neutral-default` · `-inverse` · `-disabled`, `color-border-focus` · `-inverse`, `border-width-*`, `border-focus-offset`, `radius-xs`, `spacing-xs`, `size-icon-sm` · `-md`, `target-min`, `action-*`, `motion-*`). No component tokens (P-04).
+None. All tokens exist in Foundations (`color-link-*`, `color-text-default` · `-inverse` · `-disabled`, `color-border-focus` · `-inverse`, `border-width-*`, `border-focus-offset`, `radius-xs`, `spacing-xs`, `size-icon-sm` · `-md`, `target-min`, `action-*`, `motion-*`). No component tokens (P-04).
 
 ### C5 Files to create / change
 

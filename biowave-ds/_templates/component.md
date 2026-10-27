@@ -230,10 +230,10 @@ Every visual value of the component. If a value is missing from foundations, sto
 
 | Part | Property | Default | Hover | Pressed | Focus | Selected | Disabled |
 |---|---|---|---|---|---|---|---|
-| `container` | background | `color-background-neutral-default` | `color-background-neutral-hover` | `color-background-neutral-pressed` | — | | `color-background-neutral-disabled` |
+| `container` | background | `color-background-neutral-default` | `color-background-neutral-hovered` | `color-background-neutral-pressed` | — | | `color-background-neutral-disabled` |
 | `container` | border | | | | `color-border-focus` | `color-border-brand` | |
 | `container` | elevation | `elevation-0` | `elevation-1` | | | | |
-| `title` | color | `color-text-neutral-default` | | | | | `color-text-neutral-disabled` |
+| `title` | color | `color-text-default` | | | | | `color-text-disabled` |
 
 Dark theme: same tokens (values switch automatically). List exceptions only.
 
@@ -403,7 +403,7 @@ Implement every item in B9, plus:
 0. **Component tokens only (D-13, strict).** This file may hold exactly one kind of local variable: this component's `<Component> / <Group>` collections. Never create a local primitive or semantic variable or any other collection, never copy or detach a library variable, never create a local text / effect / colour / grid style. `figma-read-tokens.js` lint must report 0 before Phase 1 and after each phase.
    **Library first.** Semantic variables, text/effect styles, icons and the Doc Kit come from the published **Biowave DS — Foundations** library. The only local variables allowed are this component's **component tokens** (`<Component> / <Group>` collections created by the sync tooling from `{name}.tokens.json`; each aliases a Foundations semantic variable). **Bind component layers to the component tokens** and select the option with the collection's explicit variable mode (e.g. `Button / Filled` = `brand`). Never create variables or styles by hand. Tablet/Mobile pages set the Typography variable mode to `Tablet`/`Mobile`.
 1. **Every value is bound.** Fills, strokes, radius, padding, gap, width/height → variables; text → text styles; shadows/focus → effect styles. No raw hex / px.
-2. **Token → variable name:** replace `-` between segments with `/` — `color-background-brand-hover` → `1. Themes › color/background/brand/hover`; `spacing-md` → `spacing/md`; `radius-md` → `radius/md`; `border-width-focus` → `border/width/focus`.
+2. **Token → variable name:** replace `-` between segments with `/` — `color-background-brand-hovered` → `1. Themes › color/background/brand/hovered`; `spacing-md` → `spacing/md`; `radius-md` → `radius/md`; `border-width-focus` → `border/width/focus`.
    Text styles: `{Web|Tablet|Mobile}/{style}`. Effect styles: `Elevation/1…4`, `Focus/Ring`, `Shadow/Control`.
 3. **Never** bind `_Primitive/*` or `_deprecated/*`.
 4. **Layer names = anatomy part names** (A2), kebab-case. No `Frame 12`, no `Group`.

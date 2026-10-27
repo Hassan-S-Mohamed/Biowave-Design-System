@@ -18,7 +18,7 @@ abstract final class BwButtonStyle {
   }) {
     final colors = context.bw.colors;
     final metrics = BwButtonStyle.metrics(context, size);
-    final transparent = colors.backgroundTransparent;
+    final transparent = colors.backgroundTransparentDefault;
 
     Color background(Set<WidgetState> states) {
       if (states.contains(WidgetState.disabled)) {
@@ -45,7 +45,7 @@ abstract final class BwButtonStyle {
 
     Color foreground(Set<WidgetState> states) {
       if (states.contains(WidgetState.disabled)) {
-        return colors.textNeutralDisabled;
+        return colors.textDisabled;
       }
       return variant == BwButtonVariant.filled
           ? _filledForeground(colors, color)
@@ -54,7 +54,7 @@ abstract final class BwButtonStyle {
 
     Color icon(Set<WidgetState> states) {
       if (states.contains(WidgetState.disabled)) {
-        return colors.iconNeutralDisabled;
+        return colors.iconDisabled;
       }
       return variant == BwButtonVariant.filled
           ? _filledIcon(colors, color)
@@ -71,7 +71,7 @@ abstract final class BwButtonStyle {
         return colors.overlayPressed;
       }
       if (states.contains(WidgetState.hovered)) {
-        return colors.overlayHover;
+        return colors.overlayHovered;
       }
       return transparent;
     }
@@ -214,11 +214,11 @@ abstract final class BwButtonStyle {
 
   static Color _filledHover(BwColors colors, BwButtonColor color) =>
       switch (color) {
-        BwButtonColor.brand => colors.backgroundBrandHover,
-        BwButtonColor.secondary => colors.backgroundSecondaryHover,
-        BwButtonColor.neutral => colors.backgroundNeutralHover,
-        BwButtonColor.error => colors.backgroundErrorHover,
-        BwButtonColor.inverse => colors.backgroundInverseHover,
+        BwButtonColor.brand => colors.backgroundBrandHovered,
+        BwButtonColor.secondary => colors.backgroundSecondaryHovered,
+        BwButtonColor.neutral => colors.backgroundNeutralHovered,
+        BwButtonColor.error => colors.backgroundErrorHovered,
+        BwButtonColor.inverse => colors.backgroundInverseHovered,
       };
 
   static Color _filledPressed(BwColors colors, BwButtonColor color) =>
@@ -237,7 +237,7 @@ abstract final class BwButtonStyle {
         BwButtonColor.error => colors.backgroundErrorSubtle,
         BwButtonColor.neutral ||
         BwButtonColor.inverse =>
-          colors.backgroundTransparent,
+          colors.backgroundTransparentDefault,
       };
 
   static Color _filledForeground(BwColors colors, BwButtonColor color) =>
@@ -245,7 +245,7 @@ abstract final class BwButtonStyle {
         BwButtonColor.brand => colors.textOnBrand,
         BwButtonColor.secondary => colors.textOnSecondary,
         BwButtonColor.error => colors.textOnError,
-        BwButtonColor.neutral => colors.textNeutralDefault,
+        BwButtonColor.neutral => colors.textDefault,
         BwButtonColor.inverse => colors.textRoleBrand,
       };
 
@@ -254,7 +254,7 @@ abstract final class BwButtonStyle {
         BwButtonColor.brand => colors.iconOnBrand,
         BwButtonColor.secondary => colors.iconOnSecondary,
         BwButtonColor.error => colors.iconOnError,
-        BwButtonColor.neutral => colors.iconNeutralDefault,
+        BwButtonColor.neutral => colors.iconDefault,
         BwButtonColor.inverse => colors.iconRoleBrand,
       };
 
@@ -263,7 +263,7 @@ abstract final class BwButtonStyle {
         BwButtonColor.brand => colors.textRoleBrand,
         BwButtonColor.secondary => colors.textRoleSecondary,
         BwButtonColor.error => colors.textRoleError,
-        BwButtonColor.neutral => colors.textNeutralDefault,
+        BwButtonColor.neutral => colors.textDefault,
         BwButtonColor.inverse => colors.textOnBrand,
       };
 
@@ -272,7 +272,7 @@ abstract final class BwButtonStyle {
         BwButtonColor.brand => colors.iconRoleBrand,
         BwButtonColor.secondary => colors.iconRoleSecondary,
         BwButtonColor.error => colors.iconRoleError,
-        BwButtonColor.neutral => colors.iconNeutralDefault,
+        BwButtonColor.neutral => colors.iconDefault,
         BwButtonColor.inverse => colors.iconOnBrand,
       };
 

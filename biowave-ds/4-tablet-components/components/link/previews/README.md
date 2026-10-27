@@ -11,12 +11,12 @@ There is no `link.tokens.json`: Link uses shared semantic tokens only. `Visited`
 | `color-surface-page` | `#F7F7F7` | `#0A0A0A` |
 | `color-surface-default` | `#FFFFFF` | `#141414` |
 | `color-surface-inverse` | `#141414` | `#FFFFFF` |
-| `color-text-neutral-default` | `#0A0A0A` | `#F7F7F7` |
-| `color-text-neutral-muted` | `#707070` | `#BDBDBD` |
-| `color-text-neutral-disabled` | `#969696` | `#545454` |
-| `color-text-neutral-inverse` | `#FFFFFF` | `#0A0A0A` |
+| `color-text-default` | `#0A0A0A` | `#F7F7F7` |
+| `color-text-subtlest` | `#707070` | `#BDBDBD` |
+| `color-text-disabled` | `#969696` | `#545454` |
+| `color-text-inverse` | `#FFFFFF` | `#0A0A0A` |
 | `color-link-default` | `#2559D4` | `#6D9CE8` |
-| `color-link-hover` | `#1D48AD` | `#9CBCF2` |
+| `color-link-hovered` | `#1D48AD` | `#9CBCF2` |
 | `color-link-pressed` | `#153786` | `#CBDCFA` |
 | `color-border-focus` | `#254471` | `#90A3BC` |
 | `color-border-inverse` | `#FFFFFF` | `#0A0A0A` |

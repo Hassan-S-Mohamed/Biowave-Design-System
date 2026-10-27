@@ -235,10 +235,10 @@ Layout rules: `display: inline-flex`, `flex: none`, `inline-size`/`block-size`/`
 | `color` | `glyph` colour |
 |---|---|
 | — | `currentColor` (inherits) |
-| `default` | `color-icon-neutral-default` |
-| `subtle` | `color-icon-neutral-subtle` |
-| `muted` | `color-icon-neutral-muted` |
-| `inverse` | `color-icon-neutral-inverse` |
+| `default` | `color-icon-default` |
+| `subtle` | `color-icon-subtle` |
+| `muted` | `color-icon-subtlest` |
+| `inverse` | `color-icon-inverse` |
 | `brand` | `color-icon-role-brand` |
 | `secondary` | `color-icon-role-secondary` |
 | `success` | `color-icon-role-success` |

@@ -8,8 +8,8 @@ Planning sketches for Badge plan 1.0. The plan remains the source of truth.
 |---|---:|---:|
 | `color.surface.page` | `#F7F7F7` | `#0A0A0A` |
 | `color.surface.default` | `#FFFFFF` | `#141414` |
-| `color.text.neutral.default` | `#0A0A0A` | `#F7F7F7` |
-| `color.text.neutral.muted` | `#707070` | `#BDBDBD` |
+| `color.text.default` | `#0A0A0A` | `#F7F7F7` |
+| `color.text.subtlest` | `#707070` | `#BDBDBD` |
 | `color.border.default` | `#DBDBDB` | `#404040` |
 | `color.background.error.default` | `#D42222` | `#FF7676` |
 | `color.background.brand.default` | `#193351` | `#607D9F` |
@@ -24,12 +24,12 @@ Planning sketches for Badge plan 1.0. The plan remains the source of truth.
 | `color.text.on.success` | `#FFFFFF` | `#0A0A0A` |
 | `color.text.on.warning` | `#0A0A0A` | `#0A0A0A` |
 | `color.text.on.info` | `#FFFFFF` | `#0A0A0A` |
-| `color.text.neutral.inverse` | `#FFFFFF` | `#0A0A0A` |
+| `color.text.inverse` | `#FFFFFF` | `#0A0A0A` |
 | `color.icon.on.brand` | `#FFFFFF` | `#0A0A0A` |
 | `color.icon.on.secondary` | `#FFFFFF` | `#0A0A0A` |
 | `color.icon.on.success` | `#FFFFFF` | `#0A0A0A` |
 | `color.icon.on.info` | `#FFFFFF` | `#0A0A0A` |
-| `color.icon.neutral.inverse` | `#FFFFFF` | `#0A0A0A` |
+| `color.icon.inverse` | `#FFFFFF` | `#0A0A0A` |
 | `color.border.inverse` | `#FFFFFF` | `#0A0A0A` |
 | `spacing.xs` | `4px` | `4px` |
 | `spacing.md` | `8px` | `8px` |

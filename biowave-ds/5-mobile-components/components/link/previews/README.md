@@ -6,14 +6,14 @@ Plan 1.0 preview sheet for the Flutter Material 3 mobile Link. The plan defines 
 
 | Token | Value (light) | Value (dark) |
 |---|---|---|
-| `color-background-neutral-subtle` | `#F7F7F7` | `#141414` |
+| `color-background-base-subtlest` | `#F7F7F7` | `#141414` |
 | `color-background-brand-default` | `#193351` | `#607D9F` |
 | `color-link-default` | `#2559D4` | `#6D9CE8` |
-| `color-link-hover` | `#1D48AD` | `#9CBCF2` |
+| `color-link-hovered` | `#1D48AD` | `#9CBCF2` |
 | `color-link-pressed` | `#153786` | `#CBDCFA` |
-| `color-text-neutral-default` | `#0A0A0A` | `#F7F7F7` |
-| `color-text-neutral-disabled` | `#969696` | `#545454` |
-| `color-text-neutral-inverse` | `#FFFFFF` | `#0A0A0A` |
+| `color-text-default` | `#0A0A0A` | `#F7F7F7` |
+| `color-text-disabled` | `#969696` | `#545454` |
+| `color-text-inverse` | `#FFFFFF` | `#0A0A0A` |
 | `color-border-focus` | `#254471` | `#90A3BC` |
 | `color-border-inverse` | `#FFFFFF` | `#0A0A0A` |
 | `border-width-default` | `1px` | `1px` |
@@ -39,7 +39,7 @@ Use case: ui-mockup
 Asset type: flat UI component specification sheet for a Flutter Material 3 mobile design system
 Primary request: Draw the Link component from plan 1.0 as a precise, readable light-theme English specification sheet. This is a component inventory, not a phone screen.
 
-Canvas: flat solid #F7F7F7 `color-background-neutral-subtle` page background, landscape, at most 1600px wide. No device frame. Use crisp vector-like UI rendering and ample whitespace.
+Canvas: flat solid #F7F7F7 `color-background-base-subtlest` page background, landscape, at most 1600px wide. No device frame. Use crisp vector-like UI rendering and ample whitespace.
 
 Layout: a grid. Put the five state captions across the top, verbatim: "Default", "Hover", "Pressed", "Focus", "Disabled". Put these option captions above the rows: "Inline · inherit · brand · always", "Standalone · sm · brand · always", "Standalone · md · brand · hover underline", "Standalone · md · leading mail · brand · always", "Standalone · md · external · brand · always", "Standalone · lg · neutral · always", "Standalone · md · inverse · always". Render every row in every state column. Also show a compact anatomy/detail strip for label, leading icon, underline, open_in_new external icon, and focus ring. No visited column: visited is web-only.
 
@@ -69,7 +69,7 @@ Use case: ui-mockup
 Asset type: flat UI component specification sheet for a Flutter Material 3 mobile design system
 Primary request: Draw the Link component from plan 1.0 as a precise, readable dark-theme Arabic specification sheet. This is a component inventory, not a phone screen.
 
-Canvas: flat solid #141414 `color-background-neutral-subtle` page background, landscape, at most 1600px wide. No device frame. Use crisp vector-like UI rendering and ample whitespace. The whole layout and all Arabic text run right-to-left.
+Canvas: flat solid #141414 `color-background-base-subtlest` page background, landscape, at most 1600px wide. No device frame. Use crisp vector-like UI rendering and ample whitespace. The whole layout and all Arabic text run right-to-left.
 
 Layout: a mirrored RTL grid. Put the five Arabic state captions across the top in RTL order, verbatim: "الافتراضي", "تحويم", "مضغوط", "تركيز", "معطّل". Put these option captions above the rows: "مضمّن · موروث · علامة تجارية · دائم", "مستقل · صغير · علامة تجارية · دائم", "مستقل · متوسط · علامة تجارية · تسطير عند التفاعل", "مستقل · متوسط · أيقونة بريد بادئة · علامة تجارية · دائم", "مستقل · متوسط · خارجي · علامة تجارية · دائم", "مستقل · كبير · محايد · دائم", "مستقل · متوسط · معكوس · دائم". Render every row in every state column. Also show a compact mirrored anatomy/detail strip for label, leading icon, underline, open_in_new external icon, and focus ring. No visited column: visited is web-only.
 

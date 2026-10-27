@@ -62,7 +62,7 @@ const noTonal = ['neutral', 'inverse'];
 function Row({ title, children, column }: { title: string; children: React.ReactNode; column?: boolean }) {
   return (
     <section style={{ display: 'grid', gap: 'var(--bw-spacing-sm)' }}>
-      <h3 style={{ margin: 0, font: 'inherit', fontSize: 'var(--bw-font-size-label-sm)', fontWeight: 600, color: 'var(--bw-color-text-neutral-muted)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>{title}</h3>
+      <h3 style={{ margin: 0, font: 'inherit', fontSize: 'var(--bw-font-size-label-sm)', fontWeight: 600, color: 'var(--bw-color-text-subtlest)', textTransform: 'uppercase', letterSpacing: '0.04em' }}>{title}</h3>
       <div style={{ display: 'flex', flexDirection: column ? 'column' : 'row', flexWrap: 'wrap', gap: 'var(--bw-spacing-md)', alignItems: column ? 'stretch' : 'center' }}>{children}</div>
     </section>
   );

@@ -22,13 +22,13 @@ function palette(name: ThemeName): PaletteOptions {
     error: role('error'),
     warning: role('warning'),
     info: role('info'),
-    text: { primary: c.text.neutral.default, secondary: c.text.neutral.muted, disabled: c.text.neutral.disabled },
+    text: { primary: c.text.default, secondary: c.text.subtlest, disabled: c.text.disabled },
     background: { default: c.surface.page, paper: c.surface.default },
     divider: c.border.default,
     action: {
       hover: c.overlay.subtle,
       selected: c.overlay.brand,
-      disabled: c.text.neutral.disabled,
+      disabled: c.text.disabled,
       disabledBackground: c.background.base.disabled,
       focus: c.overlay.brand,
     },
@@ -137,7 +137,7 @@ export function createBiowaveTheme({ direction = 'ltr' }: CreateBiowaveThemeOpti
     components: {
       MuiCssBaseline: {
         styleOverrides: {
-          body: { backgroundColor: cssVars.color.surface.page, color: cssVars.color.text.neutral.default },
+          body: { backgroundColor: cssVars.color.surface.page, color: cssVars.color.text.default },
         },
       },
       MuiButtonBase: { defaultProps: { disableRipple: false } },

@@ -147,17 +147,17 @@ void main() {
                 BwButtonColor.error => colors.backgroundErrorSubtle,
                 BwButtonColor.neutral ||
                 BwButtonColor.inverse =>
-                  colors.backgroundTransparent,
+                  colors.backgroundTransparentDefault,
               },
             BwButtonVariant.outlined ||
             BwButtonVariant.text =>
-              colors.backgroundTransparent,
+              colors.backgroundTransparentDefault,
           };
           final expectedForeground = switch (variant) {
             BwButtonVariant.filled => switch (color) {
                 BwButtonColor.brand => colors.textOnBrand,
                 BwButtonColor.secondary => colors.textOnSecondary,
-                BwButtonColor.neutral => colors.textNeutralDefault,
+                BwButtonColor.neutral => colors.textDefault,
                 BwButtonColor.error => colors.textOnError,
                 BwButtonColor.inverse => colors.textRoleBrand,
               },
@@ -167,7 +167,7 @@ void main() {
               switch (color) {
                 BwButtonColor.brand => colors.textRoleBrand,
                 BwButtonColor.secondary => colors.textRoleSecondary,
-                BwButtonColor.neutral => colors.textNeutralDefault,
+                BwButtonColor.neutral => colors.textDefault,
                 BwButtonColor.error => colors.textRoleError,
                 BwButtonColor.inverse => colors.textOnBrand,
               },
@@ -176,7 +176,7 @@ void main() {
             BwButtonVariant.filled => switch (color) {
                 BwButtonColor.brand => colors.iconOnBrand,
                 BwButtonColor.secondary => colors.iconOnSecondary,
-                BwButtonColor.neutral => colors.iconNeutralDefault,
+                BwButtonColor.neutral => colors.iconDefault,
                 BwButtonColor.error => colors.iconOnError,
                 BwButtonColor.inverse => colors.iconRoleBrand,
               },
@@ -186,7 +186,7 @@ void main() {
               switch (color) {
                 BwButtonColor.brand => colors.iconRoleBrand,
                 BwButtonColor.secondary => colors.iconRoleSecondary,
-                BwButtonColor.neutral => colors.iconNeutralDefault,
+                BwButtonColor.neutral => colors.iconDefault,
                 BwButtonColor.error => colors.iconRoleError,
                 BwButtonColor.inverse => colors.iconOnBrand,
               },
@@ -200,7 +200,7 @@ void main() {
             style.backgroundColor!.resolve(const {WidgetState.disabled}),
             isFilled || isTonal
                 ? colors.backgroundNeutralDisabled
-                : colors.backgroundTransparent,
+                : colors.backgroundTransparentDefault,
           );
           expect(
             style.foregroundColor!.resolve(const <WidgetState>{}),
@@ -208,7 +208,7 @@ void main() {
           );
           expect(
             style.foregroundColor!.resolve(const {WidgetState.disabled}),
-            colors.textNeutralDisabled,
+            colors.textDisabled,
           );
           expect(
             style.iconColor!.resolve(const <WidgetState>{}),
@@ -216,7 +216,7 @@ void main() {
           );
           expect(
             style.iconColor!.resolve(const {WidgetState.disabled}),
-            colors.iconNeutralDisabled,
+            colors.iconDisabled,
           );
 
           final hoverBackground = style.backgroundColor!.resolve(
@@ -229,11 +229,11 @@ void main() {
             expect(
               hoverBackground,
               switch (color) {
-                BwButtonColor.brand => colors.backgroundBrandHover,
-                BwButtonColor.secondary => colors.backgroundSecondaryHover,
-                BwButtonColor.neutral => colors.backgroundNeutralHover,
-                BwButtonColor.error => colors.backgroundErrorHover,
-                BwButtonColor.inverse => colors.backgroundInverseHover,
+                BwButtonColor.brand => colors.backgroundBrandHovered,
+                BwButtonColor.secondary => colors.backgroundSecondaryHovered,
+                BwButtonColor.neutral => colors.backgroundNeutralHovered,
+                BwButtonColor.error => colors.backgroundErrorHovered,
+                BwButtonColor.inverse => colors.backgroundInverseHovered,
               },
             );
             expect(
@@ -253,15 +253,15 @@ void main() {
 
           expect(
             style.overlayColor!.resolve(const {WidgetState.hovered}),
-            isFilled ? colors.backgroundTransparent : colors.overlayHover,
+            isFilled ? colors.backgroundTransparentDefault : colors.overlayHovered,
           );
           expect(
             style.overlayColor!.resolve(const {WidgetState.pressed}),
-            isFilled ? colors.backgroundTransparent : colors.overlayPressed,
+            isFilled ? colors.backgroundTransparentDefault : colors.overlayPressed,
           );
           expect(
             style.overlayColor!.resolve(const {WidgetState.focused}),
-            colors.backgroundTransparent,
+            colors.backgroundTransparentDefault,
           );
 
           final side = style.side!.resolve(const <WidgetState>{})!;
@@ -678,7 +678,7 @@ void main() {
                 builder: (context) => ColoredBox(
                   color: color == BwButtonColor.inverse
                       ? context.bw.colors.backgroundBrandDefault
-                      : context.bw.colors.backgroundTransparent,
+                      : context.bw.colors.backgroundTransparentDefault,
                   child: BwButton(
                     label: 'Clock in',
                     variant: variant,
@@ -851,7 +851,7 @@ class _ButtonGoldenMatrix extends StatelessWidget {
               ColoredBox(
                 color: color == BwButtonColor.inverse
                     ? context.bw.colors.backgroundBrandDefault
-                    : context.bw.colors.backgroundTransparent,
+                    : context.bw.colors.backgroundTransparentDefault,
                 child: Padding(
                   padding: const EdgeInsets.all(8),
                   child: BwButton(

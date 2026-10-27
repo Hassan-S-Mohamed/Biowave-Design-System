@@ -9,7 +9,7 @@ Plan 1.0 visual check for Flutter Material 3 mobile. The plan remains the source
 | `color-surface-page` | `#F7F7F7` | `#0A0A0A` |
 | `color-surface-default` (neutral anchor) | `#FFFFFF` | `#141414` |
 | `color-border-default` (neutral anchor) | `#DBDBDB` | `#404040` |
-| `color-text-neutral-default` (captions) | `#0A0A0A` | `#F7F7F7` |
+| `color-text-default` (captions) | `#0A0A0A` | `#F7F7F7` |
 | `color-border-inverse` (anchored ring) | `#FFFFFF` | `#0A0A0A` |
 | `color-background-error-default` | `#D42222` | `#FF7676` |
 | `color-text-on-error` | `#FFFFFF` | `#0A0A0A` |
@@ -24,7 +24,7 @@ Plan 1.0 visual check for Flutter Material 3 mobile. The plan remains the source
 | `color-background-info-default` | `#2559D4` | `#6D9CE8` |
 | `color-text-on-info` / `color-icon-on-info` | `#FFFFFF` | `#0A0A0A` |
 | `color-surface-inverse` (neutral badge) | `#141414` | `#FFFFFF` |
-| `color-text-neutral-inverse` / `color-icon-neutral-inverse` | `#FFFFFF` | `#0A0A0A` |
+| `color-text-inverse` / `color-icon-inverse` | `#FFFFFF` | `#0A0A0A` |
 | `target-min` (anchor touch target) | `48dp` | `48dp` |
 | `size-icon-md` (count/check height and minimum width) | `20dp` | `20dp` |
 | `spacing-md` (dot diameter) | `8dp` | `8dp` |

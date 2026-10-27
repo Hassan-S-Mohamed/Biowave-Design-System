@@ -26,7 +26,7 @@ export const dividerTokens = {
   },
   label: {
     typography: biowaveVariants.captionMd,
-    color: cssVars.color.text.neutral.muted,
+    color: cssVars.color.text.subtlest,
     gap: cssVars.spacing.md,
     minimumSegmentLength: cssVars.spacing.xl,
   },

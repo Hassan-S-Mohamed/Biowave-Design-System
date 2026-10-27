@@ -282,7 +282,7 @@ Identical to [Web B3](../../../3-web-components/components/avatar/avatar.md#b3-t
 
 | `color` | `container` background | `initials` colour | `fallback-icon` colour |
 |---|---|---|---|
-| `neutral` | `color-background-neutral-default` → `backgroundNeutralDefault` | `color-text-neutral-subtle` → `textNeutralSubtle` | `color-icon-neutral-subtle` → `iconNeutralSubtle` |
+| `neutral` | `color-background-neutral-default` → `backgroundNeutralDefault` | `color-text-subtle` → `textSubtle` | `color-icon-subtle` → `iconSubtle` |
 | `brand` | `color-background-brand-subtle` → `backgroundBrandSubtle` | `color-text-role-brand` → `textRoleBrand` | `color-icon-role-brand` → `iconRoleBrand` |
 | `secondary` | `color-background-secondary-subtle` → `backgroundSecondarySubtle` | `color-text-role-secondary` → `textRoleSecondary` | `color-icon-role-secondary` → `iconRoleSecondary` |
 

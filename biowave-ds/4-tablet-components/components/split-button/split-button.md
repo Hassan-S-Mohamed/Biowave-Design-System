@@ -191,14 +191,14 @@ Two parts with `spacing-xxs` (`BwSpacing.xxs`) between; outer corners `radius-md
 | `menu` | background | `color-surface-raised` | the decorated surface (below) |
 | `menu` | radius | `radius-lg` | the decorated surface; `MenuStyle.shape` uses the same radius |
 | `menu` | elevation | `elevation-3` | the decorated surface: `boxShadow: context.bw.elevation.elevation3` |
-| `menu` | M3 surface (unused) | `color-background-transparent` | `MenuStyle.backgroundColor`, `shadowColor` and `surfaceTintColor` |
+| `menu` | M3 surface (unused) | `color-background-transparent-default` | `MenuStyle.backgroundColor`, `shadowColor` and `surfaceTintColor` |
 | `menu` item | height | `size-control-height-md` | item `minimumSize` |
 | `menu` item | padding-inline | `spacing-control-padding-inline-md` | `EdgeInsetsDirectional` |
 | `menu` item | icon–label gap | `spacing-control-gap-md` | |
 | `menu` item | text style | `body-md` | `context.bw.text.bodyMd` |
 | `menu` item | focus ring width | `border-width-focus` | inner ring (B3); item corners square, clipped by the surface |
 
-**How `elevation-3` maps on Tablet.** `elevation-3` is a `List<BoxShadow>` (`context.bw.elevation.elevation3`, light and dark), and `MenuStyle` takes only a number (`elevation`) and a `shadowColor`, so the M3 surface is not used for the look: `MenuStyle.backgroundColor`, `shadowColor` and `surfaceTintColor` are `color-background-transparent`, and `MenuAnchor(clipBehavior: Clip.none)` so the shadow is not cut off. All `menuChildren` sit in one decorated surface — `DecoratedBox(BoxDecoration(color: color-surface-raised, borderRadius: radius-lg, boxShadow: elevation-3))` with a `ClipRRect` of `radius-lg` inside it, so item overlays follow the corners. No numeric M3 elevation is set.
+**How `elevation-3` maps on Tablet.** `elevation-3` is a `List<BoxShadow>` (`context.bw.elevation.elevation3`, light and dark), and `MenuStyle` takes only a number (`elevation`) and a `shadowColor`, so the M3 surface is not used for the look: `MenuStyle.backgroundColor`, `shadowColor` and `surfaceTintColor` are `color-background-transparent-default`, and `MenuAnchor(clipBehavior: Clip.none)` so the shadow is not cut off. All `menuChildren` sit in one decorated surface — `DecoratedBox(BoxDecoration(color: color-surface-raised, borderRadius: radius-lg, boxShadow: elevation-3))` with a `ClipRRect` of `radius-lg` inside it, so item overlays follow the corners. No numeric M3 elevation is set.
 
 ### B3 Tokens by part and state
 
@@ -208,11 +208,11 @@ Menu item tokens on Tablet (`MenuItemButton` style):
 
 | State | Text | Icon | Overlay | Ring |
 |---|---|---|---|---|
-| Rest | `color-text-neutral-default` | `color-icon-neutral-subtle` | `color-background-transparent` | — |
-| Hover (pointer) | `color-text-neutral-default` | `color-icon-neutral-subtle` | `color-overlay-hover` | — |
-| Pressed | `color-text-neutral-default` | `color-icon-neutral-subtle` | `color-overlay-pressed` | — |
-| Focus (keyboard) | `color-text-neutral-default` | `color-icon-neutral-subtle` | `color-overlay-hover` | `color-border-focus`, `border-width-focus`, inside the item edge |
-| Disabled | `color-text-neutral-disabled` | `color-icon-neutral-disabled` | `color-background-transparent` | — |
+| Rest | `color-text-default` | `color-icon-subtle` | `color-background-transparent-default` | — |
+| Hover (pointer) | `color-text-default` | `color-icon-subtle` | `color-overlay-hovered` | — |
+| Pressed | `color-text-default` | `color-icon-subtle` | `color-overlay-pressed` | — |
+| Focus (keyboard) | `color-text-default` | `color-icon-subtle` | `color-overlay-hovered` | `color-border-focus`, `border-width-focus`, inside the item edge |
+| Disabled | `color-text-disabled` | `color-icon-disabled` | `color-background-transparent-default` | — |
 
 Dark theme: same tokens. No exceptions.
 
@@ -364,7 +364,7 @@ B9, plus earlier button-family tests still pass.
 | #7 (🟡 Goldens authorised by Plan 2) | Added B9 visual matrix golden tests and generated PNG goldens (`light-en.png`, `light-ar.png`, `dark-en.png`, `dark-ar.png`) under `test/goldens/split_button/` covering variant × color × size, closed and open states, LTR and RTL (`test/split_button_test.dart:761-956`). | `test/split_button_test.dart:764-814` (`B9 matrix light/en`, `B9 matrix light/ar`, `B9 matrix dark/en`, `B9 matrix dark/ar`). |
 | #9 (🟢 Copied `_borderRadius` moved to shared helper per Plan 2.1) | Added shared `@internal static BorderRadiusDirectional segmentBorderRadius` in `bw_button_style.dart`, removed duplicate `_borderRadius` from `bw_button.dart` and `bw_icon_button.dart`, and invoked the shared helper in both (`lib/src/components/button/bw_button_style.dart:124-148`, `lib/src/components/button/bw_button.dart:100`, `lib/src/components/icon_button/bw_icon_button.dart:130`). | `test/split_button_test.dart:109-194` (`renders every allowed variant, color, size, theme, and direction`), `test/button_test.dart`, and `test/icon_button_test.dart`. |
 | #10 (🟢 Primary semantics node tap and focus actions) | Asserted `hasTapAction: true` and `hasFocusAction: true` on the primary button semantics node (`test/split_button_test.dart:348-349`). | `test/split_button_test.dart:329-411` (`semantic actions expose two focus stops and expanded state`). |
-| Menu item states (Plan 2) | In `_menuItemStyle`, styled menu items using token-resolved colors for default/disabled text (`textNeutralDefault` / `textNeutralDisabled`) and icons (`iconNeutralSubtle` / `iconNeutralDisabled`), state overlays (`overlayPressed`, `overlayHover`), focus ring border (`borderFocus`, `widthFocus`), and control dimensions (`bodyMd`, `controlHeightMd`, `controlPaddingInlineMd`) (`lib/src/components/split_button/bw_split_button.dart:308-364`). | `test/split_button_test.dart:613-643` (`selects one option once and restores trigger focus`), `test/split_button_test.dart:444-511` (`keyboard navigates menu items with arrows and selects with Enter and Space`), and `test/split_button_test.dart:761-956` (golden matrix). |
+| Menu item states (Plan 2) | In `_menuItemStyle`, styled menu items using token-resolved colors for default/disabled text (`textDefault` / `textDisabled`) and icons (`iconSubtle` / `iconDisabled`), state overlays (`overlayPressed`, `overlayHovered`), focus ring border (`borderFocus`, `widthFocus`), and control dimensions (`bodyMd`, `controlHeightMd`, `controlPaddingInlineMd`) (`lib/src/components/split_button/bw_split_button.dart:308-364`). | `test/split_button_test.dart:613-643` (`selects one option once and restores trigger focus`), `test/split_button_test.dart:444-511` (`keyboard navigates menu items with arrows and selects with Enter and Space`), and `test/split_button_test.dart:761-956` (golden matrix). |
 
 - **Files changed:** `4-tablet-components/lib/src/components/split_button/bw_split_button.dart`, `4-tablet-components/lib/src/components/button/bw_button.dart`, `4-tablet-components/lib/src/components/button/bw_button_style.dart`, `4-tablet-components/lib/src/components/icon_button/bw_icon_button.dart`, `4-tablet-components/test/split_button_test.dart`, `4-tablet-components/test/goldens/split_button/light-en.png`, `4-tablet-components/test/goldens/split_button/light-ar.png`, `4-tablet-components/test/goldens/split_button/dark-en.png`, `4-tablet-components/test/goldens/split_button/dark-ar.png`, `4-tablet-components/components/split-button/split-button.md`, `4-tablet-components/README.md`, `CHANGELOG.md`
 - **Checks:** `npm run docs:check` ✓ · `cd 4-tablet-components && flutter analyze && flutter test` ✓

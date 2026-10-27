@@ -295,9 +295,9 @@ Layout rules:
 
 | `color` | Default | Hover | Pressed | Visited (`showVisited`) | Disabled |
 |---|---|---|---|---|---|
-| `brand` | `color-link-default` | `color-link-hover` | `color-link-pressed` | `color-link-visited` | `color-text-neutral-disabled` |
-| `neutral` | `color-text-neutral-default` | `color-text-neutral-default` | `color-text-neutral-default` | — | `color-text-neutral-disabled` |
-| `inverse` | `color-text-neutral-inverse` | `color-text-neutral-inverse` | `color-text-neutral-inverse` | — | `color-text-neutral-disabled` |
+| `brand` | `color-link-default` | `color-link-hovered` | `color-link-pressed` | `color-link-visited` | `color-text-disabled` |
+| `neutral` | `color-text-default` | `color-text-default` | `color-text-default` | — | `color-text-disabled` |
+| `inverse` | `color-text-inverse` | `color-text-inverse` | `color-text-inverse` | — | `color-text-disabled` |
 
 | Part | `underline` | Default | Hover | Pressed | Focus | Disabled |
 |---|---|---|---|---|---|---|
@@ -453,7 +453,7 @@ Structure, properties, the Figma ↔ code mapping and Code Connect: [Part D](#d-
 
 ### C4 Token gaps
 
-None. All tokens exist in Foundations: `color-link-default` · `-hover` · `-pressed` · `-visited`, `color-text-neutral-default` · `-inverse` · `-disabled`, `color-border-focus` · `-inverse`, `border-width-default` · `-strong` · `-focus`, `border-focus-offset`, `radius-xs`, `spacing-xs` · `-xxs`, `size-icon-sm` · `-md`, `target-min`, `action-sm|md|lg`, `motion-duration-*`, `motion-easing-standard`. No component tokens (P-04).
+None. All tokens exist in Foundations: `color-link-default` · `-hover` · `-pressed` · `-visited`, `color-text-default` · `-inverse` · `-disabled`, `color-border-focus` · `-inverse`, `border-width-default` · `-strong` · `-focus`, `border-focus-offset`, `radius-xs`, `spacing-xs` · `-xxs`, `size-icon-sm` · `-md`, `target-min`, `action-sm|md|lg`, `motion-duration-*`, `motion-easing-standard`. No component tokens (P-04).
 
 ### C5 Files to create / change
 
@@ -537,7 +537,7 @@ Fix checks: `npm run docs:check` ✓; `npm run typecheck` ✓; `npm run test:web
 
 0. **Library first, no component tokens (P-04).** Link has no `link.tokens.json`, so this file gets **no** `Link / …` collection. Bind layers directly to the Foundations variables listed in the contract (§3) by key — this is intended, not a gap; do not ask for component tokens in D11. Never create, copy or detach variables or styles. Lint (`figma-read-tokens.js`) must report 0.
 1. **Every value is bound.** Fills, gap, min height, radius → variables; text → text styles `Web/en/action/{sm|md|lg}` and `Web/ar/action/{sm|md|lg}`; focus → effect styles `Focus/Ring` and `Focus/Ring Inverse`. No raw hex / px. **Only literals allowed:** the label's underline thickness and offset (Figma text decoration cannot be bound to variables) — set them to the B2 / B3 values and list them in the QA report.
-2. **Token → variable name:** replace `-` between segments with `/` — `color-link-hover` → `1. Themes › color/link/hover`; `spacing-xs` → `3. Spacing › spacing/xs`; `radius-xs` → `2. Radius › radius/xs`; `target-min` → `7. Grid & Layout › target/min`.
+2. **Token → variable name:** replace `-` between segments with `/` — `color-link-hovered` → `1. Themes › color/link/hovered`; `spacing-xs` → `3. Spacing › spacing/xs`; `radius-xs` → `2. Radius › radius/xs`; `target-min` → `7. Grid & Layout › target/min`.
 3. **Never** bind `_Primitive/*` or `_deprecated/*`.
 4. **Layer names = anatomy part names** (A2): the component frame is the link root; children `leading-icon`, `label`, `external-icon`. The underline is the label's text decoration, not a layer.
 5. Auto layout everywhere. No absolute positioning.
@@ -702,7 +702,7 @@ Component description: "Takes people to another page or resource. Spec: 3-web-co
 | Standalone block size | `target-min` (24 px) | sm · md · lg 24 · 24 · 24 px (en); AR lg 26 px (`action-lg` AR line height 26, above the minimum) |
 | Gap · icons | `spacing-xs` · `size-icon-sm` | 4 px · 16 px |
 | Underline (`always`) rest → hover | `border-width-default` → `-strong`, offset `spacing-xxs`, label only | 1 px → 2 px, offset 2 px, root `none`, hidden span `none` (md and inline) |
-| Colours | `color-link-*`, disabled `color-text-neutral-disabled` | light `rgb(37,89,212)` → hover `rgb(29,72,173)`, disabled `rgb(150,150,150)`; dark `rgb(109,156,232)`, disabled `rgb(84,84,84)` — same as Round 1 |
+| Colours | `color-link-*`, disabled `color-text-disabled` | light `rgb(37,89,212)` → hover `rgb(29,72,173)`, disabled `rgb(150,150,150)`; dark `rgb(109,156,232)`, disabled `rgb(84,84,84)` — same as Round 1 |
 | Focus (`:focus-visible` by Tab) | 2 px solid `color-border-focus`, offset 2 px, radius `radius-xs` | light `rgb(37,68,113)`, dark `rgb(144,163,188)`; 2 px solid, offset 2 px, radius 4 px |
 | RTL (dark/ar, light/ar) | leading icon at inline start; `open_in_new` flipped once by the Icon; `mail` not flipped | leading x 1400, label x 1296, external x 1276; external glyph `matrix(-1,0,0,1,0,0)`, wrapper `none`, `mail` `none`; LTR glyph `none` |
 

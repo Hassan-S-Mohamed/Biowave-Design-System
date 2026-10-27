@@ -288,9 +288,9 @@ Identical to [Web B3](../../../3-web-components/components/badge/badge.md#b3-tok
 | `brand` | `color-background-brand-default` → `backgroundBrandDefault` | `color-text-on-brand` → `textOnBrand` | `color-icon-on-brand` → `iconOnBrand` |
 | `secondary` | `color-background-secondary-default` → `backgroundSecondaryDefault` | `color-text-on-secondary` → `textOnSecondary` | `color-icon-on-secondary` → `iconOnSecondary` |
 | `success` | `color-background-success-default` → `backgroundSuccessDefault` | `color-text-on-success` → `textOnSuccess` | `color-icon-on-success` → `iconOnSuccess` |
-| `warning` | `color-icon-role-warning` → `iconRoleWarning` | `color-text-on-warning` → `textOnWarning` | — |
+| `warning` | `color-icon-role-warning` → `iconRoleWarning` | `color-text-inverse` → `textInverse` | — |
 | `info` | `color-background-info-default` → `backgroundInfoDefault` | `color-text-on-info` → `textOnInfo` | `color-icon-on-info` → `iconOnInfo` |
-| `neutral` | `color-surface-inverse` → `surfaceInverse` | `color-text-neutral-inverse` → `textNeutralInverse` | `color-icon-neutral-inverse` → `iconNeutralInverse` |
+| `neutral` | `color-surface-inverse` → `surfaceInverse` | `color-text-inverse` → `textInverse` | `color-icon-inverse` → `iconInverse` |
 
 | Part | Property | Token → Flutter |
 |---|---|---|

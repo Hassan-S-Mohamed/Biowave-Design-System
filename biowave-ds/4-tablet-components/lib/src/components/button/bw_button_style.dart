@@ -90,7 +90,7 @@ abstract final class BwButtonStyle {
       ),
       elevation: const WidgetStatePropertyAll<double>(0),
       shadowColor: WidgetStatePropertyAll<Color>(
-        tokens.colors.backgroundTransparent,
+        tokens.colors.backgroundTransparentDefault,
       ),
       splashFactory: NoSplash.splashFactory,
       visualDensity: VisualDensity.standard,
@@ -154,8 +154,8 @@ abstract final class BwButtonStyle {
   ) {
     final colors = context.bw.colors;
     final disabledBackground = colors.backgroundNeutralDisabled;
-    final disabledForeground = colors.textNeutralDisabled;
-    final disabledIcon = colors.iconNeutralDisabled;
+    final disabledForeground = colors.textDisabled;
+    final disabledIcon = colors.iconDisabled;
 
     switch (variant) {
       case BwButtonVariant.filled:
@@ -168,11 +168,11 @@ abstract final class BwButtonStyle {
             BwButtonColor.inverse => colors.backgroundInverseDefault,
           },
           backgroundHover: switch (color) {
-            BwButtonColor.brand => colors.backgroundBrandHover,
-            BwButtonColor.secondary => colors.backgroundSecondaryHover,
-            BwButtonColor.neutral => colors.backgroundNeutralHover,
-            BwButtonColor.error => colors.backgroundErrorHover,
-            BwButtonColor.inverse => colors.backgroundInverseHover,
+            BwButtonColor.brand => colors.backgroundBrandHovered,
+            BwButtonColor.secondary => colors.backgroundSecondaryHovered,
+            BwButtonColor.neutral => colors.backgroundNeutralHovered,
+            BwButtonColor.error => colors.backgroundErrorHovered,
+            BwButtonColor.inverse => colors.backgroundInverseHovered,
           },
           backgroundPressed: switch (color) {
             BwButtonColor.brand => colors.backgroundBrandPressed,
@@ -185,7 +185,7 @@ abstract final class BwButtonStyle {
           foreground: switch (color) {
             BwButtonColor.brand => colors.textOnBrand,
             BwButtonColor.secondary => colors.textOnSecondary,
-            BwButtonColor.neutral => colors.textNeutralDefault,
+            BwButtonColor.neutral => colors.textDefault,
             BwButtonColor.error => colors.textOnError,
             BwButtonColor.inverse => colors.textRoleBrand,
           },
@@ -193,14 +193,14 @@ abstract final class BwButtonStyle {
           icon: switch (color) {
             BwButtonColor.brand => colors.iconOnBrand,
             BwButtonColor.secondary => colors.iconOnSecondary,
-            BwButtonColor.neutral => colors.iconNeutralDefault,
+            BwButtonColor.neutral => colors.iconDefault,
             BwButtonColor.error => colors.iconOnError,
             BwButtonColor.inverse => colors.iconRoleBrand,
           },
           iconDisabled: disabledIcon,
-          overlayDefault: colors.backgroundTransparent,
-          overlayHover: colors.backgroundTransparent,
-          overlayPressed: colors.backgroundTransparent,
+          overlayDefault: colors.backgroundTransparentDefault,
+          overlayHovered: colors.backgroundTransparentDefault,
+          overlayPressed: colors.backgroundTransparentDefault,
         );
       case BwButtonVariant.tonal:
         return _ButtonPalette(
@@ -210,7 +210,7 @@ abstract final class BwButtonStyle {
             BwButtonColor.error => colors.backgroundErrorSubtle,
             BwButtonColor.neutral ||
             BwButtonColor.inverse =>
-              colors.backgroundTransparent,
+              colors.backgroundTransparentDefault,
           },
           backgroundDisabled: disabledBackground,
           foreground: switch (color) {
@@ -219,7 +219,7 @@ abstract final class BwButtonStyle {
             BwButtonColor.error => colors.textRoleError,
             BwButtonColor.neutral ||
             BwButtonColor.inverse =>
-              colors.textNeutralDefault,
+              colors.textDefault,
           },
           foregroundDisabled: disabledForeground,
           icon: switch (color) {
@@ -228,22 +228,22 @@ abstract final class BwButtonStyle {
             BwButtonColor.error => colors.iconRoleError,
             BwButtonColor.neutral ||
             BwButtonColor.inverse =>
-              colors.iconNeutralDefault,
+              colors.iconDefault,
           },
           iconDisabled: disabledIcon,
-          overlayDefault: colors.backgroundTransparent,
-          overlayHover: colors.overlayHover,
+          overlayDefault: colors.backgroundTransparentDefault,
+          overlayHovered: colors.overlayHovered,
           overlayPressed: colors.overlayPressed,
         );
       case BwButtonVariant.outlined:
       case BwButtonVariant.text:
         return _ButtonPalette(
-          backgroundDefault: colors.backgroundTransparent,
-          backgroundDisabled: colors.backgroundTransparent,
+          backgroundDefault: colors.backgroundTransparentDefault,
+          backgroundDisabled: colors.backgroundTransparentDefault,
           foreground: switch (color) {
             BwButtonColor.brand => colors.textRoleBrand,
             BwButtonColor.secondary => colors.textRoleSecondary,
-            BwButtonColor.neutral => colors.textNeutralDefault,
+            BwButtonColor.neutral => colors.textDefault,
             BwButtonColor.error => colors.textRoleError,
             BwButtonColor.inverse => colors.textOnBrand,
           },
@@ -251,13 +251,13 @@ abstract final class BwButtonStyle {
           icon: switch (color) {
             BwButtonColor.brand => colors.iconRoleBrand,
             BwButtonColor.secondary => colors.iconRoleSecondary,
-            BwButtonColor.neutral => colors.iconNeutralDefault,
+            BwButtonColor.neutral => colors.iconDefault,
             BwButtonColor.error => colors.iconRoleError,
             BwButtonColor.inverse => colors.iconOnBrand,
           },
           iconDisabled: disabledIcon,
-          overlayDefault: colors.backgroundTransparent,
-          overlayHover: colors.overlayHover,
+          overlayDefault: colors.backgroundTransparentDefault,
+          overlayHovered: colors.overlayHovered,
           overlayPressed: colors.overlayPressed,
           borderDefault: variant == BwButtonVariant.outlined
               ? switch (color) {
@@ -285,7 +285,7 @@ final class _ButtonPalette {
     required this.icon,
     required this.iconDisabled,
     required this.overlayDefault,
-    required this.overlayHover,
+    required this.overlayHovered,
     required this.overlayPressed,
     this.backgroundHover,
     this.backgroundPressed,
@@ -302,7 +302,7 @@ final class _ButtonPalette {
   final Color icon;
   final Color iconDisabled;
   final Color overlayDefault;
-  final Color overlayHover;
+  final Color overlayHovered;
   final Color overlayPressed;
   final Color? borderDefault;
   final Color? borderDisabled;
@@ -324,7 +324,7 @@ final class _ButtonPalette {
       return overlayDefault;
     }
     if (states.contains(WidgetState.pressed)) return overlayPressed;
-    if (states.contains(WidgetState.hovered)) return overlayHover;
+    if (states.contains(WidgetState.hovered)) return overlayHovered;
     return overlayDefault;
   }
 

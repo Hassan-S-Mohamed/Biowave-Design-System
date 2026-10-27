@@ -42,12 +42,12 @@ const StyledMenuItem = styled(MuiMenuItem)(() => ({
   minBlockSize: cssVars.size.control.height.md,
   paddingInline: cssVars.spacing.control['padding-inline'].md,
   gap: cssVars.spacing.control.gap.md,
-  color: cssVars.color.text.neutral.default,
+  color: cssVars.color.text.default,
   backgroundColor: cssVars.color.surface.raised,
   backgroundImage: 'none',
   '&:hover': {
     backgroundColor: cssVars.color.surface.raised,
-    backgroundImage: stateLayer(cssVars.color.overlay.hover),
+    backgroundImage: stateLayer(cssVars.color.overlay.hovered),
   },
   '&:active': {
     backgroundColor: cssVars.color.surface.raised,
@@ -55,11 +55,11 @@ const StyledMenuItem = styled(MuiMenuItem)(() => ({
   },
   '&:focus-visible, &.Mui-focusVisible': {
     backgroundColor: cssVars.color.surface.raised,
-    backgroundImage: stateLayer(cssVars.color.overlay.hover),
+    backgroundImage: stateLayer(cssVars.color.overlay.hovered),
     boxShadow: `inset 0 0 0 ${cssVars.border.width.focus} ${cssVars.color.border.focus}`,
   },
   '&.Mui-disabled': {
-    color: cssVars.color.text.neutral.disabled,
+    color: cssVars.color.text.disabled,
   },
   '& .bw-split-button-menu__icon': {
     display: 'inline-flex',
@@ -68,7 +68,7 @@ const StyledMenuItem = styled(MuiMenuItem)(() => ({
     inlineSize: cssVars.size.icon.md,
     blockSize: cssVars.size.icon.md,
     fontSize: cssVars.size.icon.md,
-    color: cssVars.color.icon.neutral.subtle,
+    color: cssVars.color.icon.subtle,
   },
   '& .bw-split-button-menu__icon > *': {
     inlineSize: '100%',

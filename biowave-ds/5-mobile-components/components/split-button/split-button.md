@@ -191,14 +191,14 @@ Two parts with `spacing-xxs` (`BwSpacing.xxs`) between; outer corners `radius-md
 | `menu` | background | `color-surface-raised` | the decorated surface (below) |
 | `menu` | radius | `radius-lg` | the decorated surface; `MenuStyle.shape` uses the same radius |
 | `menu` | elevation | `elevation-3` | the decorated surface: `boxShadow: context.bw.elevation.elevation3` |
-| `menu` | M3 surface (unused) | `color-background-transparent` | `MenuStyle.backgroundColor`, `shadowColor` and `surfaceTintColor` |
+| `menu` | M3 surface (unused) | `color-background-transparent-default` | `MenuStyle.backgroundColor`, `shadowColor` and `surfaceTintColor` |
 | `menu` item | height | `size-control-height-md` | item `minimumSize` |
 | `menu` item | padding-inline | `spacing-control-padding-inline-md` | `EdgeInsetsDirectional` |
 | `menu` item | icon–label gap | `spacing-control-gap-md` | |
 | `menu` item | text style | `body-md` | `context.bw.text.bodyMd` |
 | `menu` item | focus ring width | `border-width-focus` | inner ring (B3); item corners square, clipped by the surface |
 
-**How `elevation-3` maps on Mobile.** `elevation-3` is a `List<BoxShadow>` (`context.bw.elevation.elevation3`, light and dark), and `MenuStyle` takes only a number (`elevation`) and a `shadowColor`, so the M3 surface is not used for the look: `MenuStyle.backgroundColor`, `shadowColor` and `surfaceTintColor` are `color-background-transparent`, and `MenuAnchor(clipBehavior: Clip.none)` so the shadow is not cut off. All `menuChildren` sit in one decorated surface — `DecoratedBox(BoxDecoration(color: color-surface-raised, borderRadius: radius-lg, boxShadow: elevation-3))` with a `ClipRRect` of `radius-lg` inside it, so item overlays follow the corners. No numeric M3 elevation is set (never derived from a shadow offset).
+**How `elevation-3` maps on Mobile.** `elevation-3` is a `List<BoxShadow>` (`context.bw.elevation.elevation3`, light and dark), and `MenuStyle` takes only a number (`elevation`) and a `shadowColor`, so the M3 surface is not used for the look: `MenuStyle.backgroundColor`, `shadowColor` and `surfaceTintColor` are `color-background-transparent-default`, and `MenuAnchor(clipBehavior: Clip.none)` so the shadow is not cut off. All `menuChildren` sit in one decorated surface — `DecoratedBox(BoxDecoration(color: color-surface-raised, borderRadius: radius-lg, boxShadow: elevation-3))` with a `ClipRRect` of `radius-lg` inside it, so item overlays follow the corners. No numeric M3 elevation is set (never derived from a shadow offset).
 
 ### B3 Tokens by part and state
 
@@ -208,11 +208,11 @@ Menu item tokens on Mobile (`MenuItemButton` style):
 
 | State | Text | Icon | Overlay | Ring |
 |---|---|---|---|---|
-| Rest | `color-text-neutral-default` | `color-icon-neutral-subtle` | `color-background-transparent` | — |
-| Hover (pointer) | `color-text-neutral-default` | `color-icon-neutral-subtle` | `color-overlay-hover` | — |
-| Pressed | `color-text-neutral-default` | `color-icon-neutral-subtle` | `color-overlay-pressed` | — |
-| Focus (keyboard) | `color-text-neutral-default` | `color-icon-neutral-subtle` | `color-overlay-hover` | `color-border-focus`, `border-width-focus`, inside the item edge |
-| Disabled | `color-text-neutral-disabled` | `color-icon-neutral-disabled` | `color-background-transparent` | — |
+| Rest | `color-text-default` | `color-icon-subtle` | `color-background-transparent-default` | — |
+| Hover (pointer) | `color-text-default` | `color-icon-subtle` | `color-overlay-hovered` | — |
+| Pressed | `color-text-default` | `color-icon-subtle` | `color-overlay-pressed` | — |
+| Focus (keyboard) | `color-text-default` | `color-icon-subtle` | `color-overlay-hovered` | `color-border-focus`, `border-width-focus`, inside the item edge |
+| Disabled | `color-text-disabled` | `color-icon-disabled` | `color-background-transparent-default` | — |
 
 Dark theme: same tokens. No exceptions.
 
@@ -515,7 +515,7 @@ Behaviour probes (a throw-away widget test, copied into `test/` only for the run
 
 | Probe | Result |
 |---|---|
-| Standalone `BwButton` focused + pressed (tonal, outlined, text; brand) | ✅ `overlayColor.resolve({focused, pressed})` = `backgroundTransparent` (alpha 0), as on `main`; `{pressed}` alone = `overlayPressed` |
+| Standalone `BwButton` focused + pressed (tonal, outlined, text; brand) | ✅ `overlayColor.resolve({focused, pressed})` = `backgroundTransparentDefault` (alpha 0), as on `main`; `{pressed}` alone = `overlayPressed` |
 | Keyboard-opened trigger keeps Expanded = Pressed (B3) | ✅ Tab ×2, Enter: trigger states `{pressed}` (focus moved into the menu), overlay = `overlayPressed` (outlined) |
 | Menu item focus ring drawn once (B3) | ✅ `MenuItemButton.style.backgroundBuilder == null`; `side` for `{focused}` = `borderFocus`, `border-width-focus` (2.0); no bordered `DecoratedBox` inside the item |
 | Option runs once, menu closes, focus back | ✅ ArrowDown + Enter → `[0, 1]`, no `MenuItemButton` left, trigger states `{focused}` (pressed cleared) |

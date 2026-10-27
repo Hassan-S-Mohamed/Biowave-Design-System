@@ -187,7 +187,7 @@ The only text on a divider is the optional label: one or two connecting words be
 - The line is decorative for contrast purposes; it is not a control boundary and does not need 3:1 (`2-foundations/guidelines/border.md`)
 - Dividers are never focusable and never interactive
 - A divider that marks a real break may be announced as a separator where the platform supports it (A8); one that only repeats existing structure is hidden from screen readers
-- The label is text, so it meets 4.5:1 on every surface (`color-text-neutral-muted`) and is read by screen readers where the platform reads it (A8); it never holds information that is not clear from the content around it
+- The label is text, so it meets 4.5:1 on every surface (`color-text-subtlest`) and is read by screen readers where the platform reads it (A8); it never holds information that is not clear from the content around it
 
 ### A10 Related components
 
@@ -287,10 +287,10 @@ Inset `start` stays one fixed `spacing-xl` (A4.3). Known follow-up: the List pla
 | `line` (with label) | minimum segment length | `spacing-xl` | same | same |
 | `container` | inset | `spacing-xl` · `spacing-none` | same | same |
 | `label` | text style | `caption-md` (`biowaveVariants.captionMd`; the family and line height follow the language) | same | same |
-| `label` | colour | `color-text-neutral-muted` | same | same |
+| `label` | colour | `color-text-subtlest` | same | same |
 | `label` | gap to each segment | `spacing-md` | same | same |
 
-The label does not change with `emphasis`. No interactive states. Dark theme: same tokens (values switch automatically). The line is decorative (`2-foundations/guidelines/border.md`) — no contrast requirement. The label is text: `color-text-neutral-muted` already meets 4.5:1 on `color-surface-default`, `-page`, `-subtle` and `-raised` in both themes (pairs exist in `contrast-pairs.json`; none to add).
+The label does not change with `emphasis`. No interactive states. Dark theme: same tokens (values switch automatically). The line is decorative (`2-foundations/guidelines/border.md`) — no contrast requirement. The label is text: `color-text-subtlest` already meets 4.5:1 on `color-surface-default`, `-page`, `-subtle` and `-raised` in both themes (pairs exist in `contrast-pairs.json`; none to add).
 
 ### B4 States and transitions
 
@@ -369,7 +369,7 @@ Structure, properties, the Figma ↔ code mapping and Code Connect: [Part D](#d-
 - [ ] Inset: `start` → `margin-inline-start` = `spacing-xl`; `both` → `margin-inline` (horizontal) / `margin-block` (vertical) = `spacing-xl`; `none` → no margin
 - [ ] RTL: in `en` and `ar` the Divider's own styled rules (`divider.tokens.ts` values) use only logical properties (`margin-inline-start`, `margin-inline`, `margin-block`, `padding-inline`, `border-block-end-width`, `border-inline-end-width`) — no physical `left` / `right` margin, padding or border in them or in the source; the computed inline-start margin is `spacing-xl` with `inset="start"` in both directions
 - [ ] Vertical divider stretches to the height of a flex row (`align-self: stretch`)
-- [ ] Label: `showLabel` + `label="or"` (en) / `"أو"` (ar) renders the text centred between two line segments; label text style `caption-md`, colour `color-text-neutral-muted`, `padding-inline` `spacing-md`, segment colour per `emphasis` and minimum length `spacing-xl` — all from `divider.tokens.ts`, light + dark; with `inset` the margins apply to the outer ends
+- [ ] Label: `showLabel` + `label="or"` (en) / `"أو"` (ar) renders the text centred between two line segments; label text style `caption-md`, colour `color-text-subtlest`, `padding-inline` `spacing-md`, segment colour per `emphasis` and minimum length `spacing-xl` — all from `divider.tokens.ts`, light + dark; with `inset` the margins apply to the outer ends
 - [ ] Label off: `showLabel={false}` with a `label` renders the plain `<hr>` and no text
 - [ ] Semantics: horizontal `<hr>` with role `separator`; vertical has `aria-orientation="vertical"`; labelled divider is `<div role="separator" aria-label="or">` with the visible text inside; `decorative` sets `aria-hidden="true"` (and no `aria-label`); never focusable
 - [ ] `component="li"`: renders `<li role="separator" aria-hidden="true">` (with and without a label, and with `decorative={false}`), no `<hr>` inside; a `<ul>` with `<li>` items and `component="li"` dividers is valid markup
@@ -405,9 +405,9 @@ Structure, properties, the Figma ↔ code mapping and Code Connect: [Part D](#d-
 ### C3 Approach
 
 - Base: `styled(MuiDivider)` with `shouldForwardProp` that drops the Biowave props. Map: `orientation` → MUI `orientation`; vertical → MUI `flexItem` always; MUI `variant` stays `fullWidth` (Biowave `inset` replaces `inset`/`middle`, because MUI's inset value is a fixed physical-looking left margin, not a token).
-- Styles from `divider.tokens.ts` (`cssVars.color.border.{subtle|default|strong}`, `cssVars.border.width.default`, `cssVars.spacing.xl`, `cssVars.spacing.md`, `cssVars.spacing.none`, `cssVars.color.text.neutral.muted`, `biowaveVariants.captionMd`): reset MUI's border (`border-width: 0`, `border-style: solid`), then horizontal `border-block-end-width`, vertical `border-inline-end-width`; `border-color` per `emphasis`; `margin: 0` plus the B2 logical inset margins.
+- Styles from `divider.tokens.ts` (`cssVars.color.border.{subtle|default|strong}`, `cssVars.border.width.default`, `cssVars.spacing.xl`, `cssVars.spacing.md`, `cssVars.spacing.none`, `cssVars.color.text.subtlest`, `biowaveVariants.captionMd`): reset MUI's border (`border-width: 0`, `border-style: solid`), then horizontal `border-block-end-width`, vertical `border-inline-end-width`; `border-color` per `emphasis`; `margin: 0` plus the B2 logical inset margins.
 - Gotcha: MUI's own styles use `borderBottomWidth` / `borderRightWidth`; the reset must override them so only the logical border remains (stylis RTL would otherwise flip a physical right border — harmless visually but against rule 4).
-- **Label:** only when `orientation="horizontal"`, `showLabel` and a non-empty `label`. Pass the text as MUI `children` (MUI then renders the line as `::before` / `::after` and wraps the text in `.MuiDivider-wrapper`). Gotchas: MUI's `withChildren` styles use `border-top` and physical `padding-left` / `padding-right` (`calc(8px * 1.2)`) and fixed `width` on the pseudo elements — override them: pseudo elements `flex: 1 0 spacing-xl`, `width: auto`, `border-width: 0`, `border-block-end-width: border-width-default`, `border-style: solid`, `border-color` per `emphasis`; wrapper `padding-inline: spacing-md`, `padding-block: 0`, `caption-md` typography, `color-text-neutral-muted`, `text-align: center`, `flex: 0 1 auto`, `white-space: normal`; root `display: flex`, `align-items: center`, no own border (`border-width: 0` on the root when labelled). Do not use MUI `textAlign`.
+- **Label:** only when `orientation="horizontal"`, `showLabel` and a non-empty `label`. Pass the text as MUI `children` (MUI then renders the line as `::before` / `::after` and wraps the text in `.MuiDivider-wrapper`). Gotchas: MUI's `withChildren` styles use `border-top` and physical `padding-left` / `padding-right` (`calc(8px * 1.2)`) and fixed `width` on the pseudo elements — override them: pseudo elements `flex: 1 0 spacing-xl`, `width: auto`, `border-width: 0`, `border-block-end-width: border-width-default`, `border-style: solid`, `border-color` per `emphasis`; wrapper `padding-inline: spacing-md`, `padding-block: 0`, `caption-md` typography, `color-text-subtlest`, `text-align: center`, `flex: 0 1 auto`, `white-space: normal`; root `display: flex`, `align-items: center`, no own border (`border-width: 0` on the root when labelled). Do not use MUI `textAlign`.
 - **Root element (B1):** pass MUI `component` = `'li'` when `component="li"`; otherwise `'div'` when labelled, `'hr'` when not. MUI sets `role="separator"` for non-`hr` roots — keep it.
 - Semantics per B6: `decorative` → `aria-hidden="true"`; vertical non-decorative → `aria-orientation="vertical"` on the `<hr>`; labelled non-decorative → `aria-label={label}`; `component="li"` → always `aria-hidden="true"` and no `aria-label` / `aria-orientation`.
 - Invalid combinations per B1 with the shared `warnOnce` helper used by Button.
@@ -415,7 +415,7 @@ Structure, properties, the Figma ↔ code mapping and Code Connect: [Part D](#d-
 
 ### C4 Token gaps
 
-None — `color-border-subtle`, `color-border-default`, `color-border-strong`, `border-width-default`, `spacing-xl`, `spacing-md`, `spacing-none`, `color-text-neutral-muted` and the `caption-md` text style exist.
+None — `color-border-subtle`, `color-border-default`, `color-border-strong`, `border-width-default`, `spacing-xl`, `spacing-md`, `spacing-none`, `color-text-subtlest` and the `caption-md` text style exist.
 
 ### C5 Files to create / change
 
@@ -492,7 +492,7 @@ Questions: none.
 ### D1 Rules for this build
 
 0. **No component tokens** — this component has no `Divider / *` collection. Bind directly to the Foundations library variables (keys in the contract). Never create local variables or styles; `figma-read-tokens.js` lint must report 0 before Phase 1 and after each phase.
-1. Every value is bound: line stroke colour → `color/border/{subtle|default|strong}`; stroke weight → `border/width/default`; inset padding → `spacing/xl` (or `spacing/none`); label gap → `spacing/md`; label fill → `color/text/neutral/muted`; label text style → `Web/{en|ar}/caption/md` (published Foundations text styles). No raw numbers.
+1. Every value is bound: line stroke colour → `color/border/{subtle|default|strong}`; stroke weight → `border/width/default`; inset padding → `spacing/xl` (or `spacing/none`); label gap → `spacing/md`; label fill → `color/text/subtlest`; label text style → `Web/{en|ar}/caption/md` (published Foundations text styles). No raw numbers.
 2. Never bind `_Primitive/*` or `_deprecated/*`.
 3. Layer names = A2 part names (`container`, `line`, `label`). With a label the line is two layers, both named `line`.
 4. Auto layout on every frame; no absolute positioning.
@@ -516,7 +516,7 @@ container        ↔ horizontal · width FILL when placed · height HUG
 ├── line         frame · width FILL (min width {spacing/xl}) · height HUG (no children)
 │                  bottom stroke only: weight {B3 border-width-default}, colour {B3 per Emphasis}
 │                  strokes included in layout = on (the frame is exactly one stroke thick)
-├── label        T `Web/{en|ar}/caption/md` · fill {color/text/neutral/muted} · width HUG · align center
+├── label        T `Web/{en|ar}/caption/md` · fill {color/text/subtlest} · width HUG · align center
 │                  BOOLEAN `Show label` (visibility) · TEXT `Label` (characters) · default “or”
 └── line         second segment, same as the first · visibility bound to `Show label`
 
@@ -713,7 +713,7 @@ Real browser: my own headless Chrome 156 (`--headless=new`, driven over CDP on a
 | `subtle` · `default` · `strong` colour | rgb(237) · rgb(219) · rgb(189) | same | rgb(41) · rgb(64) · rgb(84) | same | = `color-border-*` resolved per theme, B3 ✅ |
 | Inset `none` · `start` · `both` (400px box) | 0 · margin-left 16 · margin 16/16 | 0 · margin-**right** 16 · 16/16 | as en | as ar | `spacing-xl` = 16px, start flips, B2/B5 ✅ |
 | Vertical in a 48px flex row | 1×48, `align-self: stretch`; `both` → margin-block 16, 1×16; `start` → falls back to 0 margin | same, line on the left | same | same | B1/B2 ✅ |
-| Label `or` / `أو` | 12px / 16px Inter, weight 400, rgb(112), padding 8/8, container 16px tall, label centred (label centre 216 = box centre) | 12px / 18px IBM Plex Sans Arabic, container 18px | rgb(189) | rgb(189), 18px | `caption-md` per language, `color-text-neutral-muted`, gap `spacing-md`, B2/B3 ✅ |
+| Label `or` / `أو` | 12px / 16px Inter, weight 400, rgb(112), padding 8/8, container 16px tall, label centred (label centre 216 = box centre) | 12px / 18px IBM Plex Sans Arabic, container 18px | rgb(189) | rgb(189), 18px | `caption-md` per language, `color-text-subtlest`, gap `spacing-md`, B2/B3 ✅ |
 | Segments | `::before`/`::after` `flex: 1 0 16px`, 1px block-end border in the emphasis colour; label + `inset="both"` → outer margins 16/16 | same | same | same | B2 ✅ |
 | Long label in a 200px box | wraps to 3 lines, `text-align: center`, each segment exactly 16px, not truncated | 3 lines, segments 16px | same | same | B2 ✅ |
 | Label on vertical | plain `<hr aria-orientation="vertical">`, no text | same | same | same | B1 ✅ |
@@ -747,7 +747,7 @@ Accessibility tree (all four combinations):
 | Tokens only — no raw values, no primitives | ✅ | Source lint test passes; no `primitive.*` / `base.*` in the unit |
 | RTL logical properties | ✅ | See AC-3; in the browser the start inset and the vertical line flip in Arabic |
 | Both themes, both languages — and tested | ✅ | Every layout × emphasis and the label rendered in light/dark × en/ar (*renders every valid layout…*, *centres English and Arabic labels…*); the browser confirms per-theme colours and per-language label metrics |
-| WCAG 2.2 AA | ✅ | Not interactive, never focusable; label `color-text-neutral-muted` (B3 pairs); axe 0 violations in jsdom and in Chrome |
+| WCAG 2.2 AA | ✅ | Not interactive, never focusable; label `color-text-subtlest` (B3 pairs); axe 0 violations in jsdom and in Chrome |
 | Tests via `renderWithBiowave`, default timeouts | ✅ | No Emotion cache or provider in the test file, no timeout arguments, `vitest.config.ts` untouched |
 | Stayed inside the contract (C5 files) | ✅ | Exactly the C5 files |
 | `component="li"` always hidden (user-approved) | ✅ | `Divider.tsx:136`; tested with `decorative={false}` |
@@ -777,7 +777,7 @@ Skipped: Figma build is `Planned` and `figma` is skipped in `_workflow/config.js
 
 ### F0 Changes from previous version
 
-1.1 — a horizontal divider can show a short centred label (“or” / “أو”) with `showLabel` + `label`: `caption-md`, `color-text-neutral-muted`, `spacing-md` gap on each side, line segments at least `spacing-xl` long; never on vertical dividers. New web `component` prop (`hr` default, `li` for dividers directly inside a list → `<li role="separator" aria-hidden="true">`). Inset `start` stays `spacing-xl` (the List plan, Day 8, adds its own text-aligned inset). Figma: new `Show label` (BOOLEAN) and `Label` (TEXT) properties; still 18 variants. No breaking change — existing dividers look and behave the same.
+1.1 — a horizontal divider can show a short centred label (“or” / “أو”) with `showLabel` + `label`: `caption-md`, `color-text-subtlest`, `spacing-md` gap on each side, line segments at least `spacing-xl` long; never on vertical dividers. New web `component` prop (`hr` default, `li` for dividers directly inside a list → `<li role="separator" aria-hidden="true">`). Inset `start` stays `spacing-xl` (the List plan, Day 8, adds its own text-aligned inset). Figma: new `Show label` (BOOLEAN) and `Label` (TEXT) properties; still 18 variants. No breaking change — existing dividers look and behave the same.
 
 1.0 — initial version; no previous version.
 

@@ -12,37 +12,37 @@ All values below are resolved from `2-foundations/dist/tokens.json` for the web 
 | `color-surface-raised` | `#FFFFFF` | `#292929` |
 | `elevation-3` | `0px 8px 24px 0px rgb(7 19 35 / 12%)` | `0px 8px 24px 0px rgb(0 0 0 / 30%)` |
 | `color-background-brand-default` | `#193351` | `#607D9F` |
-| `color-background-brand-hover` | `#132843` | `#90A3BC` |
+| `color-background-brand-hovered` | `#132843` | `#90A3BC` |
 | `color-background-brand-pressed` | `#0D1E33` | `#BEC9D9` |
 | `color-background-brand-subtle` | `#E8ECF2` | `#071323` |
 | `color-background-secondary-default` | `#0C5F79` | `#5DA8C2` |
-| `color-background-secondary-hover` | `#094E65` | `#90C3D5` |
+| `color-background-secondary-hovered` | `#094E65` | `#90C3D5` |
 | `color-background-secondary-pressed` | `#063C4E` | `#C0DDE8` |
 | `color-background-secondary-subtle` | `#E8F4F8` | `#032A37` |
 | `color-background-neutral-default` | `#EDEDED` | `#292929` |
-| `color-background-neutral-hover` | `#DBDBDB` | `#404040` |
+| `color-background-neutral-hovered` | `#DBDBDB` | `#404040` |
 | `color-background-neutral-pressed` | `#BDBDBD` | `#545454` |
 | `color-background-neutral-disabled` | `#EDEDED` | `#292929` |
-| `color-background-transparent` | `#54545400` | `#54545400` |
+| `color-background-transparent-default` | `#54545400` | `#54545400` |
 | `color-text-on-brand` | `#FFFFFF` | `#0A0A0A` |
 | `color-text-on-secondary` | `#FFFFFF` | `#0A0A0A` |
 | `color-text-role-brand` | `#132843` | `#90A3BC` |
 | `color-text-role-secondary` | `#094E65` | `#90C3D5` |
-| `color-text-neutral-default` | `#0A0A0A` | `#F7F7F7` |
-| `color-text-neutral-disabled` | `#969696` | `#545454` |
+| `color-text-default` | `#0A0A0A` | `#F7F7F7` |
+| `color-text-disabled` | `#969696` | `#545454` |
 | `color-icon-on-brand` | `#FFFFFF` | `#0A0A0A` |
 | `color-icon-on-secondary` | `#FFFFFF` | `#0A0A0A` |
 | `color-icon-role-brand` | `#193351` | `#90A3BC` |
 | `color-icon-role-secondary` | `#0C5F79` | `#90C3D5` |
-| `color-icon-neutral-default` | `#0A0A0A` | `#F7F7F7` |
-| `color-icon-neutral-disabled` | `#969696` | `#545454` |
-| `color-icon-neutral-subtle` | `#292929` | `#DBDBDB` |
+| `color-icon-default` | `#0A0A0A` | `#F7F7F7` |
+| `color-icon-disabled` | `#969696` | `#545454` |
+| `color-icon-subtle` | `#292929` | `#DBDBDB` |
 | `color-border-brand` | `#607D9F` | `#254471` |
 | `color-border-secondary` | `#5DA8C2` | `#1A7596` |
 | `color-border-strong` | `#BDBDBD` | `#545454` |
 | `color-border-disabled` | `#DBDBDB` | `#404040` |
 | `color-border-focus` | `#254471` | `#90A3BC` |
-| `color-overlay-hover` | `#5454541A` | `#54545466` |
+| `color-overlay-hovered` | `#5454541A` | `#54545466` |
 | `color-overlay-pressed` | `#54545433` | `#54545499` |
 | `spacing-xxs` (between halves) | `2px` | `2px` |
 | `spacing-xs` (menu offset) | `4px` | `4px` |

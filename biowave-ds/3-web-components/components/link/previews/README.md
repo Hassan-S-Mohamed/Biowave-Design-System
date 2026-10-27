@@ -9,12 +9,12 @@ These flat planning sheets sketch the Link options and states before implementat
 | `color-surface-page` | `#F7F7F7` | `#0A0A0A` |
 | `color-surface-inverse` | `#141414` | `#FFFFFF` |
 | `color-link-default` | `#2559D4` | `#6D9CE8` |
-| `color-link-hover` | `#1D48AD` | `#9CBCF2` |
+| `color-link-hovered` | `#1D48AD` | `#9CBCF2` |
 | `color-link-pressed` | `#153786` | `#CBDCFA` |
 | `color-link-visited` | `#1D48AD` | `#9CBCF2` |
-| `color-text-neutral-default` | `#0A0A0A` | `#F7F7F7` |
-| `color-text-neutral-disabled` | `#969696` | `#545454` |
-| `color-text-neutral-inverse` | `#FFFFFF` | `#0A0A0A` |
+| `color-text-default` | `#0A0A0A` | `#F7F7F7` |
+| `color-text-disabled` | `#969696` | `#545454` |
+| `color-text-inverse` | `#FFFFFF` | `#0A0A0A` |
 | `color-border-focus` | `#254471` | `#90A3BC` |
 | `color-border-inverse` | `#FFFFFF` | `#0A0A0A` |
 | `font-family-en` | `Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif` | same |

@@ -366,18 +366,18 @@ Layout rules:
 
 | State | `field` background | `field` border | Border width | `label` · `input` | `placeholder` | icons | `prefix`/`suffix` bg · text | `supporting-text` · `counter` | `error-icon` |
 |---|---|---|---|---|---|---|---|---|---|
-| Default | `color-background-base-default` | `color-border-input-default` | `border-width-default` | `color-text-neutral-default` | `color-text-neutral-placeholder` | `color-icon-neutral-muted` | `color-background-neutral-default` · `color-text-neutral-subtle` | `color-text-neutral-muted` | — |
-| Hover | same | `color-border-input-hover` | same | same | same | same | same | same | — |
-| Focus | same | `color-border-focus` | `border-width-focus` | same | same | `color-icon-neutral-default` | same | same | — |
-| Error | same | `color-border-input-error` | `border-width-default` (focused: `border-width-focus`) | same | same | `color-icon-neutral-muted` (unchanged) | same | `color-text-role-error` | `color-icon-role-error` |
-| Disabled | `color-background-base-disabled` | `color-border-disabled` | `border-width-default` | `color-text-neutral-disabled` | `color-text-neutral-disabled` | `color-icon-neutral-disabled` | `color-background-base-disabled` · `color-text-neutral-disabled` | `color-text-neutral-disabled` | — |
-| Read-only | `color-background-neutral-subtle` | `color-border-default` | `border-width-default` (focused: `border-width-focus`) | `color-text-neutral-default` | `color-text-neutral-placeholder` | `color-icon-neutral-muted` | same as Default | `color-text-neutral-muted` | — |
+| Default | `color-background-base-default` | `color-border-input-default` | `border-width-default` | `color-text-default` | `color-text-subtlest` | `color-icon-subtlest` | `color-background-neutral-default` · `color-text-subtle` | `color-text-subtlest` | — |
+| Hover | same | `color-border-input-hovered` | same | same | same | same | same | same | — |
+| Focus | same | `color-border-focus` | `border-width-focus` | same | same | `color-icon-default` | same | same | — |
+| Error | same | `color-border-input-error` | `border-width-default` (focused: `border-width-focus`) | same | same | `color-icon-subtlest` (unchanged) | same | `color-text-role-error` | `color-icon-role-error` |
+| Disabled | `color-background-base-disabled` | `color-border-disabled` | `border-width-default` | `color-text-disabled` | `color-text-disabled` | `color-icon-disabled` | `color-background-base-disabled` · `color-text-disabled` | `color-text-disabled` | — |
+| Read-only | `color-background-base-subtlest` | `color-border-default` | `border-width-default` (focused: `border-width-focus`) | `color-text-default` | `color-text-subtlest` | `color-icon-subtlest` | same as Default | `color-text-subtlest` | — |
 
 - Add-on divider = the field border token of the current state.
-- `required-indicator` uses `color-text-role-error`, `color-text-neutral-disabled` when disabled.
+- `required-indicator` uses `color-text-role-error`, `color-text-disabled` when disabled.
 - Trailing action and help icon: Icon button `text` · `neutral` tokens (Icon button spec); end button: Button `outlined` · `neutral`.
 - Error priority is Disabled → Error → Focus → Hover → Default; an error that receives focus keeps the error colour and changes to `border-width-focus`.
-- Read-only uses a lighter border (`color-border-default`) so it differs from an editable field in both themes; `color-background-neutral-subtle` equals the base background in dark mode, so the border carries the difference. Dark theme uses the same token names and switches values automatically.
+- Read-only uses a lighter border (`color-border-default`) so it differs from an editable field in both themes; `color-background-base-subtlest` equals the base background in dark mode, so the border carries the difference. Dark theme uses the same token names and switches values automatically.
 
 ### B4 States and transitions
 
@@ -1062,7 +1062,7 @@ Planner items from E2 closed in spec 1.1: **#2** read-only border `color-border-
 | # | Severity | File / section | Issue | Required change | Owner |
 |---|---|---|---|---|---|
 | 1 | 🔴 Blocker (gate) | all `figma-*-contract.md` | `docs:check` fails: every Figma contract is stale since Doc Kit 1.2 changed `figma-doc-kit.md`. Not caused by Text field, but AC-9 cannot pass | Run `_sync/figma-read-library.js` in Foundations (picks up the Doc Kit keys) → `npm run sync:library` → `npm run contract -- --all` → `docs:check` green | Planner |
-| 2 | 🟡 Should fix | B3 · read-only | Read-only can't be seen in dark mode: `color-background-neutral-subtle` = `color-background-base-default` (both `#141414`). In light mode it is 1.07:1 against white | Pick a read-only cue that differs in both themes, e.g. `color-background-base-disabled`-like surface is wrong (looks disabled) — recommend `color-border-subtle` border + no background change, or a new semantic `color-background-input-read-only` with distinct light/dark values. Update B3, tokens.json, A5 | Planner |
+| 2 | 🟡 Should fix | B3 · read-only | Read-only can't be seen in dark mode: `color-background-base-subtlest` = `color-background-base-default` (both `#141414`). In light mode it is 1.07:1 against white | Pick a read-only cue that differs in both themes, e.g. `color-background-base-disabled`-like surface is wrong (looks disabled) — recommend `color-border-subtle` border + no background change, or a new semantic `color-background-input-read-only` with distinct light/dark values. Update B3, tokens.json, A5 | Planner |
 | 3 | 🟡 Should fix | B1 · `TextField.tsx` (`...rootProps`) | `aria-*` props go to the root `FormControl` `div`. `aria-label`, `aria-labelledby`, `aria-errormessage`, `aria-required` then do nothing for the input. Only `aria-describedby` is routed correctly | Spec: input-related `aria-*` are forwarded to the native input; root gets `className` and `data-*` only. Code: route them through `inputProps`; add a test with `aria-errormessage` | Planner (B1) → Executor |
 | 4 | 🟡 Should fix | `FieldLabel.tsx` `RequiredIndicator` | The `*` always uses `default.required` (error colour) even when the field is disabled; the token map already defines `disabled.required` | Pass `disabled` to the indicator and use `textFieldStateTokens.disabled.required` | Executor |
 | 5 | 🟢 Nit | B2 · multiline | Multiline block padding uses `spacing-control-gap-*`, which B2 doesn't name. Fine as a value, but undocumented | Add "multiline padding-block = `spacing-control-gap-*`" to B2 and the tokens | Planner |

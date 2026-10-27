@@ -47,7 +47,7 @@ const colorTokens: Record<
   },
   warning: {
     background: cssVars.color.icon.role.warning,
-    foreground: cssVars.color.text.on.warning,
+    foreground: cssVars.color.text.inverse,
   },
   info: {
     background: cssVars.color.background.info.default,
@@ -56,8 +56,8 @@ const colorTokens: Record<
   },
   neutral: {
     background: cssVars.color.surface.inverse,
-    foreground: cssVars.color.text.neutral.inverse,
-    icon: cssVars.color.icon.neutral.inverse,
+    foreground: cssVars.color.text.inverse,
+    icon: cssVars.color.icon.inverse,
   },
 };
 
@@ -150,7 +150,7 @@ describe('Badge visual contract', () => {
 
     expect(indicator).toHaveStyle({
       backgroundColor: cssVars.color.icon.role.warning,
-      color: cssVars.color.text.on.warning,
+      color: cssVars.color.text.inverse,
     });
     expect(indicator).not.toHaveStyle({
       backgroundColor: cssVars.color.background.warning.default,

@@ -8,8 +8,8 @@ Planning sketches for the light/English and dark/Arabic mobile Divider. The comp
 |---|---|---|
 | `color-surface-page` | `#F7F7F7` | `#0A0A0A` |
 | `color-surface-default` | `#FFFFFF` | `#141414` |
-| `color-text-neutral-default` | `#0A0A0A` | `#F7F7F7` |
-| `color-text-neutral-muted` | `#707070` | `#BDBDBD` |
+| `color-text-default` | `#0A0A0A` | `#F7F7F7` |
+| `color-text-subtlest` | `#707070` | `#BDBDBD` |
 | `color-border-subtle` | `#EDEDED` | `#292929` |
 | `color-border-default` | `#DBDBDB` | `#404040` |
 | `color-border-strong` | `#BDBDBD` | `#545454` |
@@ -44,7 +44,7 @@ Layout: use three sections on a clean grid, with the only state captioned “Def
 
 Exact values: every divider is exactly 1 px thick. subtle = #EDEDED; default = #DBDBDB; strong = #BDBDBD. Inset none = 0 px at both ends. Horizontal start = 16 px on the left leading edge and 0 px on the right. Horizontal both = 16 px at both ends. Vertical none = 0 px top and bottom. Vertical both = 16 px top and bottom. The label gap is 8 px on each side. Each label line segment remains at least 16 px long. Add compact dimension callouts beside representative specimens: “1 px”, “16 px”, “8 px” and “48 px min”.
 
-Typography: context text uses Inter, 16 px, weight 400, 24 px line height, 0 px letter spacing, #0A0A0A. Divider labels and spec captions use Inter, 12 px, weight 400, 18 px line height, 0 px letter spacing, color-text-neutral-muted #707070. The two segments around a label are equal. The long label wraps and is never clipped or ellipsized.
+Typography: context text uses Inter, 16 px, weight 400, 24 px line height, 0 px letter spacing, #0A0A0A. Divider labels and spec captions use Inter, 12 px, weight 400, 18 px line height, 0 px letter spacing, color-text-subtlest #707070. The two segments around a label are equal. The long label wraps and is never clipped or ellipsized.
 
 Direction: left-to-right. The start inset appears only on the left.
 
@@ -67,7 +67,7 @@ Layout: mirror the full sheet right-to-left and use three sections on a clean gr
 
 Exact values: every divider is exactly 1 px thick. subtle = #292929; default = #404040; strong = #545454. Inset none = 0 px at both ends. Horizontal start = 16 px on the right leading edge and 0 px on the left, visibly mirrored from English. Horizontal both = 16 px at both ends. Vertical none = 0 px top and bottom. Vertical both = 16 px top and bottom. The label gap is 8 px on each side. Each label line segment remains at least 16 px long. Add compact dimension callouts beside representative specimens: “1 px”, “16 px”, “8 px” and “48 px min”.
 
-Typography: Arabic context text uses IBM Plex Sans Arabic, 16 px, weight 400, 26 px line height, 0 px letter spacing, #F7F7F7. Divider labels and Arabic spec captions use IBM Plex Sans Arabic, 12 px, weight 400, 20 px line height, 0 px letter spacing, color-text-neutral-muted #BDBDBD. Arabic letters are joined and read right-to-left. The two segments around a label are equal. The long label wraps and is never clipped or ellipsized.
+Typography: Arabic context text uses IBM Plex Sans Arabic, 16 px, weight 400, 26 px line height, 0 px letter spacing, #F7F7F7. Divider labels and Arabic spec captions use IBM Plex Sans Arabic, 12 px, weight 400, 20 px line height, 0 px letter spacing, color-text-subtlest #BDBDBD. Arabic letters are joined and read right-to-left. The two segments around a label are equal. The long label wraps and is never clipped or ellipsized.
 
 Direction: fully right-to-left. Only horizontal/start has a one-sided inset, and it is on the right. Do not mirror non-directional marks.
 

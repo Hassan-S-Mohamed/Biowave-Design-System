@@ -8,11 +8,11 @@ Planning sketches for Avatar 1.0 on Flutter Material 3 mobile. The component pla
 |---|---:|---:|
 | `color-surface-page` | `#F7F7F7` | `#0A0A0A` |
 | `color-surface-default` | `#FFFFFF` | `#141414` |
-| `color-text-neutral-default` | `#0A0A0A` | `#F7F7F7` |
+| `color-text-default` | `#0A0A0A` | `#F7F7F7` |
 | `color-border-subtle` | `#EDEDED` | `#292929` |
 | `color-background-neutral-default` | `#EDEDED` | `#292929` |
-| `color-text-neutral-subtle` | `#292929` | `#DBDBDB` |
-| `color-icon-neutral-subtle` | `#292929` | `#DBDBDB` |
+| `color-text-subtle` | `#292929` | `#DBDBDB` |
+| `color-icon-subtle` | `#292929` | `#DBDBDB` |
 | `color-background-brand-subtle` | `#E8ECF2` | `#071323` |
 | `color-text-role-brand` | `#132843` | `#90A3BC` |
 | `color-icon-role-brand` | `#193351` | `#90A3BC` |

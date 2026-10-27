@@ -151,83 +151,92 @@ export const themes = {
         inverse: "#141414"
       },
       background: {
-        transparent: "#54545400",
+        transparent: {
+          default: "#54545400",
+          hovered: "#5454541A",
+          pressed: "#54545433",
+          disabled: "#54545400"
+        },
         base: {
           default: "#FFFFFF",
-          hover: "#EDEDED",
+          subtle: "#EDEDED",
+          subtlest: "#F7F7F7",
+          hovered: "#EDEDED",
           pressed: "#DBDBDB",
           disabled: "#EDEDED"
         },
         inverse: {
           default: "#FFFFFF",
-          hover: "#EDEDED",
+          hovered: "#EDEDED",
           pressed: "#DBDBDB"
         },
         neutral: {
           default: "#EDEDED",
-          subtle: "#F7F7F7",
-          hover: "#DBDBDB",
+          hovered: "#DBDBDB",
           pressed: "#BDBDBD",
           disabled: "#EDEDED"
         },
         brand: {
           default: "#193351",
-          subtle: "#E8ECF2",
-          hover: "#132843",
+          subtle: "#BEC9D9",
+          subtlest: "#E8ECF2",
+          hovered: "#132843",
           pressed: "#0D1E33",
-          disabled: "#BDBDBD"
+          disabled: "#EDEDED"
         },
         secondary: {
           default: "#0C5F79",
-          subtle: "#E8F4F8",
-          hover: "#094E65",
+          subtle: "#C0DDE8",
+          subtlest: "#E8F4F8",
+          hovered: "#094E65",
           pressed: "#063C4E",
-          disabled: "#BDBDBD"
+          disabled: "#EDEDED"
         },
         success: {
           default: "#1E6D41",
-          subtle: "#E9F7EF",
-          hover: "#165331",
+          subtle: "#C1E8D2",
+          subtlest: "#E9F7EF",
+          hovered: "#165331",
           pressed: "#0E3921",
-          disabled: "#BDBDBD"
+          disabled: "#EDEDED"
         },
         error: {
           default: "#D42222",
-          subtle: "#FEF0EE",
-          hover: "#A31A1A",
+          subtle: "#FECFCF",
+          subtlest: "#FEF0EE",
+          hovered: "#A31A1A",
           pressed: "#721212",
-          disabled: "#BDBDBD"
+          disabled: "#EDEDED"
         },
         warning: {
           default: "#FF9435",
-          subtle: "#FFF3E8",
-          hover: "#FF8C32",
+          subtle: "#FFE0C0",
+          subtlest: "#FFF3E8",
+          hovered: "#FF8C32",
           pressed: "#D97424",
-          disabled: "#BDBDBD"
+          disabled: "#EDEDED"
         },
         info: {
           default: "#2559D4",
-          subtle: "#EEF4FF",
-          hover: "#1D48AD",
+          subtle: "#CBDCFA",
+          subtlest: "#EEF4FF",
+          hovered: "#1D48AD",
           pressed: "#153786",
-          disabled: "#BDBDBD"
+          disabled: "#EDEDED"
         }
       },
       text: {
-        neutral: {
-          default: "#0A0A0A",
-          subtle: "#292929",
-          muted: "#707070",
-          placeholder: "#707070",
-          disabled: "#969696",
-          inverse: "#FFFFFF"
-        },
+        default: "#0A0A0A",
+        subtle: "#292929",
+        subtlest: "#545454",
+        inverse: "#FFFFFF",
+        disabled: "#969696",
         role: {
           brand: "#132843",
           secondary: "#094E65",
           success: "#1E6D41",
-          error: "#D42222",
-          warning: "#A85A1A",
+          error: "#A31A1A",
+          warning: "#773F12",
           info: "#1D48AD"
         },
         on: {
@@ -240,20 +249,18 @@ export const themes = {
         }
       },
       icon: {
-        neutral: {
-          default: "#0A0A0A",
-          subtle: "#292929",
-          muted: "#707070",
-          disabled: "#969696",
-          inverse: "#FFFFFF"
-        },
+        default: "#0A0A0A",
+        subtle: "#292929",
+        subtlest: "#545454",
+        inverse: "#FFFFFF",
+        disabled: "#969696",
         role: {
-          brand: "#193351",
-          secondary: "#0C5F79",
-          success: "#268751",
-          error: "#FF2B2B",
-          warning: "#D97424",
-          info: "#2559D4"
+          brand: "#132843",
+          secondary: "#094E65",
+          success: "#1E6D41",
+          error: "#A31A1A",
+          warning: "#773F12",
+          info: "#1D48AD"
         },
         on: {
           brand: "#FFFFFF",
@@ -278,16 +285,16 @@ export const themes = {
         inverse: "#FFFFFF",
         input: {
           default: "#707070",
-          hover: "#404040",
-          error: "#D42222"
+          error: "#D42222",
+          hovered: "#404040"
         },
         focus: "#254471"
       },
       link: {
         default: "#2559D4",
-        hover: "#1D48AD",
         pressed: "#153786",
-        visited: "#1D48AD"
+        visited: "#1D48AD",
+        hovered: "#1D48AD"
       },
       overlay: {
         backdrop: "#54545499",
@@ -299,8 +306,8 @@ export const themes = {
         error: "#FF2B2B33",
         warning: "#FF8C3233",
         info: "#2559D433",
-        hover: "#5454541A",
-        pressed: "#54545433"
+        pressed: "#54545433",
+        hovered: "#5454541A"
       },
       shadow: {
         ambient: "#071323"
@@ -327,77 +334,86 @@ export const themes = {
         inverse: "#FFFFFF"
       },
       background: {
-        transparent: "#54545400",
+        transparent: {
+          default: "#54545400",
+          hovered: "#54545466",
+          pressed: "#54545499",
+          disabled: "#54545400"
+        },
         base: {
           default: "#141414",
-          hover: "#404040",
+          subtle: "#292929",
+          subtlest: "#0A0A0A",
+          hovered: "#404040",
           pressed: "#545454",
           disabled: "#292929"
         },
         inverse: {
           default: "#0A0A0A",
-          hover: "#141414",
+          hovered: "#141414",
           pressed: "#292929"
         },
         neutral: {
           default: "#292929",
-          subtle: "#141414",
-          hover: "#404040",
+          hovered: "#404040",
           pressed: "#545454",
           disabled: "#292929"
         },
         brand: {
           default: "#607D9F",
           subtle: "#071323",
-          hover: "#90A3BC",
+          subtlest: "#030A14",
+          hovered: "#90A3BC",
           pressed: "#BEC9D9",
-          disabled: "#404040"
+          disabled: "#292929"
         },
         secondary: {
           default: "#5DA8C2",
           subtle: "#032A37",
-          hover: "#90C3D5",
+          subtlest: "#011820",
+          hovered: "#90C3D5",
           pressed: "#C0DDE8",
-          disabled: "#404040"
+          disabled: "#292929"
         },
         success: {
           default: "#55BE87",
           subtle: "#0E3921",
-          hover: "#8DD4AE",
+          subtlest: "#071F12",
+          hovered: "#8DD4AE",
           pressed: "#C1E8D2",
-          disabled: "#404040"
+          disabled: "#292929"
         },
         error: {
           default: "#FF7676",
           subtle: "#721212",
-          hover: "#FEA3A3",
+          subtlest: "#420A0A",
+          hovered: "#FEA3A3",
           pressed: "#FECFCF",
-          disabled: "#404040"
+          disabled: "#292929"
         },
         warning: {
           default: "#FFB05E",
           subtle: "#773F12",
-          hover: "#FFC88F",
+          subtlest: "#4A2609",
+          hovered: "#FFC88F",
           pressed: "#FFE0C0",
-          disabled: "#404040"
+          disabled: "#292929"
         },
         info: {
           default: "#6D9CE8",
           subtle: "#0E265F",
-          hover: "#9CBCF2",
+          subtlest: "#081638",
+          hovered: "#9CBCF2",
           pressed: "#CBDCFA",
-          disabled: "#404040"
+          disabled: "#292929"
         }
       },
       text: {
-        neutral: {
-          default: "#F7F7F7",
-          subtle: "#DBDBDB",
-          muted: "#BDBDBD",
-          placeholder: "#969696",
-          disabled: "#545454",
-          inverse: "#0A0A0A"
-        },
+        default: "#F7F7F7",
+        subtle: "#DBDBDB",
+        subtlest: "#BDBDBD",
+        inverse: "#0A0A0A",
+        disabled: "#707070",
         role: {
           brand: "#90A3BC",
           secondary: "#90C3D5",
@@ -416,13 +432,11 @@ export const themes = {
         }
       },
       icon: {
-        neutral: {
-          default: "#F7F7F7",
-          subtle: "#DBDBDB",
-          muted: "#BDBDBD",
-          disabled: "#545454",
-          inverse: "#0A0A0A"
-        },
+        default: "#F7F7F7",
+        subtle: "#DBDBDB",
+        subtlest: "#BDBDBD",
+        inverse: "#0A0A0A",
+        disabled: "#707070",
         role: {
           brand: "#90A3BC",
           secondary: "#90C3D5",
@@ -454,16 +468,16 @@ export const themes = {
         inverse: "#0A0A0A",
         input: {
           default: "#969696",
-          hover: "#BDBDBD",
-          error: "#FF7676"
+          error: "#FF7676",
+          hovered: "#BDBDBD"
         },
         focus: "#90A3BC"
       },
       link: {
         default: "#6D9CE8",
-        hover: "#9CBCF2",
         pressed: "#CBDCFA",
-        visited: "#9CBCF2"
+        visited: "#9CBCF2",
+        hovered: "#9CBCF2"
       },
       overlay: {
         backdrop: "#545454B3",
@@ -475,8 +489,8 @@ export const themes = {
         error: "#FF2B2B4D",
         warning: "#FF8C324D",
         info: "#2559D44D",
-        hover: "#54545466",
-        pressed: "#54545499"
+        pressed: "#54545499",
+        hovered: "#54545466"
       },
       shadow: {
         ambient: "#000000"
@@ -1233,77 +1247,86 @@ export const cssVars = {
       inverse: "var(--bw-color-surface-inverse)"
     },
     background: {
-      transparent: "var(--bw-color-background-transparent)",
+      transparent: {
+        default: "var(--bw-color-background-transparent-default)",
+        hovered: "var(--bw-color-background-transparent-hovered)",
+        pressed: "var(--bw-color-background-transparent-pressed)",
+        disabled: "var(--bw-color-background-transparent-disabled)"
+      },
       base: {
         default: "var(--bw-color-background-base-default)",
-        hover: "var(--bw-color-background-base-hover)",
+        subtle: "var(--bw-color-background-base-subtle)",
+        subtlest: "var(--bw-color-background-base-subtlest)",
+        hovered: "var(--bw-color-background-base-hovered)",
         pressed: "var(--bw-color-background-base-pressed)",
         disabled: "var(--bw-color-background-base-disabled)"
       },
       inverse: {
         default: "var(--bw-color-background-inverse-default)",
-        hover: "var(--bw-color-background-inverse-hover)",
+        hovered: "var(--bw-color-background-inverse-hovered)",
         pressed: "var(--bw-color-background-inverse-pressed)"
       },
       neutral: {
         default: "var(--bw-color-background-neutral-default)",
-        subtle: "var(--bw-color-background-neutral-subtle)",
-        hover: "var(--bw-color-background-neutral-hover)",
+        hovered: "var(--bw-color-background-neutral-hovered)",
         pressed: "var(--bw-color-background-neutral-pressed)",
         disabled: "var(--bw-color-background-neutral-disabled)"
       },
       brand: {
         default: "var(--bw-color-background-brand-default)",
         subtle: "var(--bw-color-background-brand-subtle)",
-        hover: "var(--bw-color-background-brand-hover)",
+        subtlest: "var(--bw-color-background-brand-subtlest)",
+        hovered: "var(--bw-color-background-brand-hovered)",
         pressed: "var(--bw-color-background-brand-pressed)",
         disabled: "var(--bw-color-background-brand-disabled)"
       },
       secondary: {
         default: "var(--bw-color-background-secondary-default)",
         subtle: "var(--bw-color-background-secondary-subtle)",
-        hover: "var(--bw-color-background-secondary-hover)",
+        subtlest: "var(--bw-color-background-secondary-subtlest)",
+        hovered: "var(--bw-color-background-secondary-hovered)",
         pressed: "var(--bw-color-background-secondary-pressed)",
         disabled: "var(--bw-color-background-secondary-disabled)"
       },
       success: {
         default: "var(--bw-color-background-success-default)",
         subtle: "var(--bw-color-background-success-subtle)",
-        hover: "var(--bw-color-background-success-hover)",
+        subtlest: "var(--bw-color-background-success-subtlest)",
+        hovered: "var(--bw-color-background-success-hovered)",
         pressed: "var(--bw-color-background-success-pressed)",
         disabled: "var(--bw-color-background-success-disabled)"
       },
       error: {
         default: "var(--bw-color-background-error-default)",
         subtle: "var(--bw-color-background-error-subtle)",
-        hover: "var(--bw-color-background-error-hover)",
+        subtlest: "var(--bw-color-background-error-subtlest)",
+        hovered: "var(--bw-color-background-error-hovered)",
         pressed: "var(--bw-color-background-error-pressed)",
         disabled: "var(--bw-color-background-error-disabled)"
       },
       warning: {
         default: "var(--bw-color-background-warning-default)",
         subtle: "var(--bw-color-background-warning-subtle)",
-        hover: "var(--bw-color-background-warning-hover)",
+        subtlest: "var(--bw-color-background-warning-subtlest)",
+        hovered: "var(--bw-color-background-warning-hovered)",
         pressed: "var(--bw-color-background-warning-pressed)",
         disabled: "var(--bw-color-background-warning-disabled)"
       },
       info: {
         default: "var(--bw-color-background-info-default)",
         subtle: "var(--bw-color-background-info-subtle)",
-        hover: "var(--bw-color-background-info-hover)",
+        subtlest: "var(--bw-color-background-info-subtlest)",
+        hovered: "var(--bw-color-background-info-hovered)",
         pressed: "var(--bw-color-background-info-pressed)",
         disabled: "var(--bw-color-background-info-disabled)"
       }
     },
     text: {
-      neutral: {
-        default: "var(--bw-color-text-neutral-default)",
-        subtle: "var(--bw-color-text-neutral-subtle)",
-        muted: "var(--bw-color-text-neutral-muted)",
-        placeholder: "var(--bw-color-text-neutral-placeholder)",
-        disabled: "var(--bw-color-text-neutral-disabled)",
-        inverse: "var(--bw-color-text-neutral-inverse)"
-      },
+      default: "var(--bw-color-text-default)",
+      subtle: "var(--bw-color-text-subtle)",
+      subtlest: "var(--bw-color-text-subtlest)",
+      inverse: "var(--bw-color-text-inverse)",
+      disabled: "var(--bw-color-text-disabled)",
       role: {
         brand: "var(--bw-color-text-role-brand)",
         secondary: "var(--bw-color-text-role-secondary)",
@@ -1322,13 +1345,11 @@ export const cssVars = {
       }
     },
     icon: {
-      neutral: {
-        default: "var(--bw-color-icon-neutral-default)",
-        subtle: "var(--bw-color-icon-neutral-subtle)",
-        muted: "var(--bw-color-icon-neutral-muted)",
-        disabled: "var(--bw-color-icon-neutral-disabled)",
-        inverse: "var(--bw-color-icon-neutral-inverse)"
-      },
+      default: "var(--bw-color-icon-default)",
+      subtle: "var(--bw-color-icon-subtle)",
+      subtlest: "var(--bw-color-icon-subtlest)",
+      inverse: "var(--bw-color-icon-inverse)",
+      disabled: "var(--bw-color-icon-disabled)",
       role: {
         brand: "var(--bw-color-icon-role-brand)",
         secondary: "var(--bw-color-icon-role-secondary)",
@@ -1360,16 +1381,16 @@ export const cssVars = {
       inverse: "var(--bw-color-border-inverse)",
       input: {
         default: "var(--bw-color-border-input-default)",
-        hover: "var(--bw-color-border-input-hover)",
-        error: "var(--bw-color-border-input-error)"
+        error: "var(--bw-color-border-input-error)",
+        hovered: "var(--bw-color-border-input-hovered)"
       },
       focus: "var(--bw-color-border-focus)"
     },
     link: {
       default: "var(--bw-color-link-default)",
-      hover: "var(--bw-color-link-hover)",
       pressed: "var(--bw-color-link-pressed)",
-      visited: "var(--bw-color-link-visited)"
+      visited: "var(--bw-color-link-visited)",
+      hovered: "var(--bw-color-link-hovered)"
     },
     overlay: {
       backdrop: "var(--bw-color-overlay-backdrop)",
@@ -1381,8 +1402,8 @@ export const cssVars = {
       error: "var(--bw-color-overlay-error)",
       warning: "var(--bw-color-overlay-warning)",
       info: "var(--bw-color-overlay-info)",
-      hover: "var(--bw-color-overlay-hover)",
-      pressed: "var(--bw-color-overlay-pressed)"
+      pressed: "var(--bw-color-overlay-pressed)",
+      hovered: "var(--bw-color-overlay-hovered)"
     },
     shadow: {
       ambient: "var(--bw-color-shadow-ambient)"

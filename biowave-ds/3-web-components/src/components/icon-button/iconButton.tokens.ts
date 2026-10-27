@@ -5,9 +5,9 @@ type ToggleVariant = Extract<ButtonVariant, 'outlined' | 'text'>;
 
 const disabledBackground = cssVars.color.background.neutral.disabled;
 const disabledBorder = cssVars.color.border.disabled;
-const disabledIcon = cssVars.color.icon.neutral.disabled;
+const disabledIcon = cssVars.color.icon.disabled;
 const stateLayer = {
-  hover: cssVars.color.overlay.hover,
+  hover: cssVars.color.overlay.hovered,
   pressed: cssVars.color.overlay.pressed,
 } as const;
 
@@ -39,7 +39,7 @@ const selectedBackgrounds = {
 const selectedIcons = {
   brand: cssVars.color.icon.role.brand,
   secondary: cssVars.color.icon.role.secondary,
-  neutral: cssVars.color.icon.neutral.default,
+  neutral: cssVars.color.icon.default,
   error: cssVars.color.icon.role.error,
   inverse: cssVars.color.icon.role.brand,
 } as const;
@@ -79,7 +79,7 @@ export const iconButtonSelectedTokens = {
 
 export const iconButtonTooltipTokens = {
   background: cssVars.color.surface.inverse,
-  color: cssVars.color.text.neutral.inverse,
+  color: cssVars.color.text.inverse,
   radius: cssVars.radius.sm,
   paddingBlock: cssVars.spacing.xs,
   paddingInline: cssVars.spacing.md,

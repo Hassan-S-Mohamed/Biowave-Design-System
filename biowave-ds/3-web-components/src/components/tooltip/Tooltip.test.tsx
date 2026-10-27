@@ -141,7 +141,7 @@ describe('Tooltip validation and token contract', () => {
   it('maps every visual, spacing, layer, and motion value to the specified token', () => {
     expect(tooltipTokens).toEqual({
       background: cssVars.color.surface.inverse,
-      color: cssVars.color.text.neutral.inverse,
+      color: cssVars.color.text.inverse,
       radius: cssVars.radius.sm,
       paddingBlock: cssVars.spacing.xs,
       paddingInline: cssVars.spacing.md,

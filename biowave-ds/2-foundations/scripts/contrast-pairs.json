@@ -2,25 +2,25 @@
   "description": "Foreground/background pairs that must meet WCAG 2.2 AA in every theme. Add a pair whenever a component introduces a new combination.",
   "pairs": [
     {
-      "fg": "color.text.neutral.default",
+      "fg": "color.text.default",
       "bg": "color.surface.default",
       "min": 4.5,
       "note": "WCAG 1.4.3 text"
     },
     {
-      "fg": "color.text.neutral.subtle",
+      "fg": "color.text.subtle",
       "bg": "color.surface.default",
       "min": 4.5,
       "note": "WCAG 1.4.3 text"
     },
     {
-      "fg": "color.text.neutral.muted",
+      "fg": "color.text.subtlest",
       "bg": "color.surface.default",
       "min": 4.5,
       "note": "WCAG 1.4.3 text"
     },
     {
-      "fg": "color.text.neutral.placeholder",
+      "fg": "color.text.subtlest",
       "bg": "color.surface.default",
       "min": 4.5,
       "note": "WCAG 1.4.3 text"
@@ -32,7 +32,7 @@
       "note": "WCAG 1.4.3 link text"
     },
     {
-      "fg": "color.icon.neutral.muted",
+      "fg": "color.icon.subtlest",
       "bg": "color.surface.default",
       "min": 3,
       "note": "WCAG 1.4.11 meaningful icon"
@@ -50,25 +50,25 @@
       "note": "WCAG 1.4.11 / 2.4.13 focus indicator"
     },
     {
-      "fg": "color.text.neutral.default",
+      "fg": "color.text.default",
       "bg": "color.surface.page",
       "min": 4.5,
       "note": "WCAG 1.4.3 text"
     },
     {
-      "fg": "color.text.neutral.subtle",
+      "fg": "color.text.subtle",
       "bg": "color.surface.page",
       "min": 4.5,
       "note": "WCAG 1.4.3 text"
     },
     {
-      "fg": "color.text.neutral.muted",
+      "fg": "color.text.subtlest",
       "bg": "color.surface.page",
       "min": 4.5,
       "note": "WCAG 1.4.3 text"
     },
     {
-      "fg": "color.text.neutral.placeholder",
+      "fg": "color.text.subtlest",
       "bg": "color.surface.page",
       "min": 4.5,
       "note": "WCAG 1.4.3 text"
@@ -80,7 +80,7 @@
       "note": "WCAG 1.4.3 link text"
     },
     {
-      "fg": "color.icon.neutral.muted",
+      "fg": "color.icon.subtlest",
       "bg": "color.surface.page",
       "min": 3,
       "note": "WCAG 1.4.11 meaningful icon"
@@ -98,25 +98,25 @@
       "note": "WCAG 1.4.11 / 2.4.13 focus indicator"
     },
     {
-      "fg": "color.text.neutral.default",
+      "fg": "color.text.default",
       "bg": "color.surface.subtle",
       "min": 4.5,
       "note": "WCAG 1.4.3 text"
     },
     {
-      "fg": "color.text.neutral.subtle",
+      "fg": "color.text.subtle",
       "bg": "color.surface.subtle",
       "min": 4.5,
       "note": "WCAG 1.4.3 text"
     },
     {
-      "fg": "color.text.neutral.muted",
+      "fg": "color.text.subtlest",
       "bg": "color.surface.subtle",
       "min": 4.5,
       "note": "WCAG 1.4.3 text"
     },
     {
-      "fg": "color.text.neutral.placeholder",
+      "fg": "color.text.subtlest",
       "bg": "color.surface.subtle",
       "min": 4.5,
       "note": "WCAG 1.4.3 text"
@@ -128,7 +128,7 @@
       "note": "WCAG 1.4.3 link text"
     },
     {
-      "fg": "color.icon.neutral.muted",
+      "fg": "color.icon.subtlest",
       "bg": "color.surface.subtle",
       "min": 3,
       "note": "WCAG 1.4.11 meaningful icon"
@@ -146,25 +146,25 @@
       "note": "WCAG 1.4.11 / 2.4.13 focus indicator"
     },
     {
-      "fg": "color.text.neutral.default",
+      "fg": "color.text.default",
       "bg": "color.surface.raised",
       "min": 4.5,
       "note": "WCAG 1.4.3 text"
     },
     {
-      "fg": "color.text.neutral.subtle",
+      "fg": "color.text.subtle",
       "bg": "color.surface.raised",
       "min": 4.5,
       "note": "WCAG 1.4.3 text"
     },
     {
-      "fg": "color.text.neutral.muted",
+      "fg": "color.text.subtlest",
       "bg": "color.surface.raised",
       "min": 4.5,
       "note": "WCAG 1.4.3 text"
     },
     {
-      "fg": "color.text.neutral.placeholder",
+      "fg": "color.text.subtlest",
       "bg": "color.surface.raised",
       "min": 4.5,
       "note": "WCAG 1.4.3 text"
@@ -176,7 +176,7 @@
       "note": "WCAG 1.4.3 link text"
     },
     {
-      "fg": "color.icon.neutral.muted",
+      "fg": "color.icon.subtlest",
       "bg": "color.surface.raised",
       "min": 3,
       "note": "WCAG 1.4.11 meaningful icon"
@@ -219,7 +219,7 @@
     },
     {
       "fg": "color.text.on.brand",
-      "bg": "color.background.brand.hover",
+      "bg": "color.background.brand.hovered",
       "min": 4.5,
       "note": "label on filled control"
     },
@@ -261,7 +261,7 @@
     },
     {
       "fg": "color.text.on.secondary",
-      "bg": "color.background.secondary.hover",
+      "bg": "color.background.secondary.hovered",
       "min": 4.5,
       "note": "label on filled control"
     },
@@ -303,7 +303,7 @@
     },
     {
       "fg": "color.text.on.success",
-      "bg": "color.background.success.hover",
+      "bg": "color.background.success.hovered",
       "min": 4.5,
       "note": "label on filled control"
     },
@@ -345,7 +345,7 @@
     },
     {
       "fg": "color.text.on.error",
-      "bg": "color.background.error.hover",
+      "bg": "color.background.error.hovered",
       "min": 4.5,
       "note": "label on filled control"
     },
@@ -387,7 +387,7 @@
     },
     {
       "fg": "color.text.on.warning",
-      "bg": "color.background.warning.hover",
+      "bg": "color.background.warning.hovered",
       "min": 4.5,
       "note": "label on filled control"
     },
@@ -404,7 +404,7 @@
       "note": "icon on filled control"
     },
     {
-      "fg": "color.text.on.warning",
+      "fg": "color.text.inverse",
       "bg": "color.icon.role.warning",
       "min": 4.5,
       "note": "Badge count text on warning indicator fill"
@@ -435,7 +435,7 @@
     },
     {
       "fg": "color.text.on.info",
-      "bg": "color.background.info.hover",
+      "bg": "color.background.info.hovered",
       "min": 4.5,
       "note": "label on filled control"
     },
@@ -452,13 +452,13 @@
       "note": "icon on filled control"
     },
     {
-      "fg": "color.text.neutral.inverse",
+      "fg": "color.text.inverse",
       "bg": "color.surface.inverse",
       "min": 4.5,
       "note": "tooltip/snackbar"
     },
     {
-      "fg": "color.text.neutral.default",
+      "fg": "color.text.default",
       "bg": "color.background.neutral.default",
       "min": 4.5,
       "note": "neutral fill"
@@ -482,16 +482,262 @@
       "note": "Inverse outline / focus ring on brand surface (1.4.11)"
     },
     {
-      "fg": "color.text.neutral.default",
+      "fg": "color.text.default",
       "bg": "color.background.neutral.pressed",
       "min": 4.5,
       "note": "Filled neutral button label, pressed"
     },
     {
       "fg": "color.text.role.brand",
-      "bg": "color.background.inverse.hover",
+      "bg": "color.background.inverse.hovered",
       "min": 4.5,
       "note": "Inverse filled button label, hover"
+    },
+    {
+      "fg": "color.text.default",
+      "bg": "color.background.base.default",
+      "min": 4.5,
+      "note": "neutral text on neutral fill (2026-10-27)"
+    },
+    {
+      "fg": "color.text.subtle",
+      "bg": "color.background.base.default",
+      "min": 4.5,
+      "note": "neutral text on neutral fill (2026-10-27)"
+    },
+    {
+      "fg": "color.text.subtlest",
+      "bg": "color.background.base.default",
+      "min": 4.5,
+      "note": "neutral text on neutral fill (2026-10-27)"
+    },
+    {
+      "fg": "color.icon.subtlest",
+      "bg": "color.background.base.default",
+      "min": 3,
+      "note": "meaningful icon on neutral fill (2026-10-27)"
+    },
+    {
+      "fg": "color.text.default",
+      "bg": "color.background.base.subtle",
+      "min": 4.5,
+      "note": "neutral text on neutral fill (2026-10-27)"
+    },
+    {
+      "fg": "color.text.subtle",
+      "bg": "color.background.base.subtle",
+      "min": 4.5,
+      "note": "neutral text on neutral fill (2026-10-27)"
+    },
+    {
+      "fg": "color.text.subtlest",
+      "bg": "color.background.base.subtle",
+      "min": 4.5,
+      "note": "neutral text on neutral fill (2026-10-27)"
+    },
+    {
+      "fg": "color.icon.subtlest",
+      "bg": "color.background.base.subtle",
+      "min": 3,
+      "note": "meaningful icon on neutral fill (2026-10-27)"
+    },
+    {
+      "fg": "color.text.default",
+      "bg": "color.background.base.subtlest",
+      "min": 4.5,
+      "note": "neutral text on neutral fill (2026-10-27)"
+    },
+    {
+      "fg": "color.text.subtle",
+      "bg": "color.background.base.subtlest",
+      "min": 4.5,
+      "note": "neutral text on neutral fill (2026-10-27)"
+    },
+    {
+      "fg": "color.text.subtlest",
+      "bg": "color.background.base.subtlest",
+      "min": 4.5,
+      "note": "neutral text on neutral fill (2026-10-27)"
+    },
+    {
+      "fg": "color.icon.subtlest",
+      "bg": "color.background.base.subtlest",
+      "min": 3,
+      "note": "meaningful icon on neutral fill (2026-10-27)"
+    },
+    {
+      "fg": "color.text.default",
+      "bg": "color.background.base.hovered",
+      "min": 4.5,
+      "note": "neutral text on neutral fill (2026-10-27)"
+    },
+    {
+      "fg": "color.text.subtle",
+      "bg": "color.background.base.hovered",
+      "min": 4.5,
+      "note": "neutral text on neutral fill (2026-10-27)"
+    },
+    {
+      "fg": "color.text.subtlest",
+      "bg": "color.background.base.hovered",
+      "min": 4.5,
+      "note": "neutral text on neutral fill (2026-10-27)"
+    },
+    {
+      "fg": "color.icon.subtlest",
+      "bg": "color.background.base.hovered",
+      "min": 3,
+      "note": "meaningful icon on neutral fill (2026-10-27)"
+    },
+    {
+      "fg": "color.icon.role.brand",
+      "bg": "color.background.brand.subtle",
+      "min": 3,
+      "note": "role icon on its tonal fill (2026-10-27)"
+    },
+    {
+      "fg": "color.text.role.brand",
+      "bg": "color.background.brand.subtlest",
+      "min": 4.5,
+      "note": "role text on its tonal fill (2026-10-27)"
+    },
+    {
+      "fg": "color.icon.role.brand",
+      "bg": "color.background.brand.subtlest",
+      "min": 3,
+      "note": "role icon on its tonal fill (2026-10-27)"
+    },
+    {
+      "fg": "color.text.role.brand",
+      "bg": "color.surface.page",
+      "min": 4.5,
+      "note": "role text on surface (2026-10-27)"
+    },
+    {
+      "fg": "color.icon.role.secondary",
+      "bg": "color.background.secondary.subtle",
+      "min": 3,
+      "note": "role icon on its tonal fill (2026-10-27)"
+    },
+    {
+      "fg": "color.text.role.secondary",
+      "bg": "color.background.secondary.subtlest",
+      "min": 4.5,
+      "note": "role text on its tonal fill (2026-10-27)"
+    },
+    {
+      "fg": "color.icon.role.secondary",
+      "bg": "color.background.secondary.subtlest",
+      "min": 3,
+      "note": "role icon on its tonal fill (2026-10-27)"
+    },
+    {
+      "fg": "color.text.role.secondary",
+      "bg": "color.surface.page",
+      "min": 4.5,
+      "note": "role text on surface (2026-10-27)"
+    },
+    {
+      "fg": "color.icon.role.success",
+      "bg": "color.background.success.subtle",
+      "min": 3,
+      "note": "role icon on its tonal fill (2026-10-27)"
+    },
+    {
+      "fg": "color.text.role.success",
+      "bg": "color.background.success.subtlest",
+      "min": 4.5,
+      "note": "role text on its tonal fill (2026-10-27)"
+    },
+    {
+      "fg": "color.icon.role.success",
+      "bg": "color.background.success.subtlest",
+      "min": 3,
+      "note": "role icon on its tonal fill (2026-10-27)"
+    },
+    {
+      "fg": "color.text.role.success",
+      "bg": "color.surface.page",
+      "min": 4.5,
+      "note": "role text on surface (2026-10-27)"
+    },
+    {
+      "fg": "color.icon.role.error",
+      "bg": "color.background.error.subtle",
+      "min": 3,
+      "note": "role icon on its tonal fill (2026-10-27)"
+    },
+    {
+      "fg": "color.text.role.error",
+      "bg": "color.background.error.subtlest",
+      "min": 4.5,
+      "note": "role text on its tonal fill (2026-10-27)"
+    },
+    {
+      "fg": "color.icon.role.error",
+      "bg": "color.background.error.subtlest",
+      "min": 3,
+      "note": "role icon on its tonal fill (2026-10-27)"
+    },
+    {
+      "fg": "color.text.role.error",
+      "bg": "color.surface.page",
+      "min": 4.5,
+      "note": "role text on surface (2026-10-27)"
+    },
+    {
+      "fg": "color.icon.role.warning",
+      "bg": "color.background.warning.subtle",
+      "min": 3,
+      "note": "role icon on its tonal fill (2026-10-27)"
+    },
+    {
+      "fg": "color.text.role.warning",
+      "bg": "color.background.warning.subtlest",
+      "min": 4.5,
+      "note": "role text on its tonal fill (2026-10-27)"
+    },
+    {
+      "fg": "color.icon.role.warning",
+      "bg": "color.background.warning.subtlest",
+      "min": 3,
+      "note": "role icon on its tonal fill (2026-10-27)"
+    },
+    {
+      "fg": "color.text.role.warning",
+      "bg": "color.surface.page",
+      "min": 4.5,
+      "note": "role text on surface (2026-10-27)"
+    },
+    {
+      "fg": "color.icon.role.info",
+      "bg": "color.background.info.subtle",
+      "min": 3,
+      "note": "role icon on its tonal fill (2026-10-27)"
+    },
+    {
+      "fg": "color.text.role.info",
+      "bg": "color.background.info.subtlest",
+      "min": 4.5,
+      "note": "role text on its tonal fill (2026-10-27)"
+    },
+    {
+      "fg": "color.icon.role.info",
+      "bg": "color.background.info.subtlest",
+      "min": 3,
+      "note": "role icon on its tonal fill (2026-10-27)"
+    },
+    {
+      "fg": "color.text.role.info",
+      "bg": "color.surface.page",
+      "min": 4.5,
+      "note": "role text on surface (2026-10-27)"
+    },
+    {
+      "fg": "color.text.default",
+      "bg": "color.background.neutral.hovered",
+      "min": 4.5,
+      "note": "label on neutral filled control (2026-10-27)"
     }
   ]
 }

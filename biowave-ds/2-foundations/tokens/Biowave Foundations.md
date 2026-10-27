@@ -44,7 +44,7 @@ Components use only these. Each swatch shows its light and dark value and the pr
 
 ### background
 
-`background-transparent`
+`background-transparent-default`
 
 ☀ #54545400 · neutral.alpha.0☾ #54545400 · neutral.alpha.0
 
@@ -52,7 +52,7 @@ Components use only these. Each swatch shows its light and dark value and the pr
 
 ☀ #FFFFFF · neutral.0☾ #141414 · neutral.900
 
-`background-base-hover`
+`background-base-hovered`
 
 ☀ #EDEDED · neutral.100☾ #404040 · neutral.700
 
@@ -68,11 +68,11 @@ Components use only these. Each swatch shows its light and dark value and the pr
 
 ☀ #EDEDED · neutral.100☾ #292929 · neutral.800
 
-`background-neutral-subtle`
+`background-base-subtlest`
 
 ☀ #F7F7F7 · neutral.50☾ #141414 · neutral.900
 
-`background-neutral-hover`
+`background-neutral-hovered`
 
 ☀ #DBDBDB · neutral.200☾ #404040 · neutral.700
 
@@ -92,7 +92,7 @@ Components use only these. Each swatch shows its light and dark value and the pr
 
 ☀ #E8ECF2 · primary.50☾ #071323 · primary.900
 
-`background-brand-hover`
+`background-brand-hovered`
 
 ☀ #132843 · primary.700☾ #90A3BC · primary.200
 
@@ -112,7 +112,7 @@ Components use only these. Each swatch shows its light and dark value and the pr
 
 ☀ #E8F4F8 · secondary.50☾ #032A37 · secondary.900
 
-`background-secondary-hover`
+`background-secondary-hovered`
 
 ☀ #094E65 · secondary.700☾ #90C3D5 · secondary.200
 
@@ -132,7 +132,7 @@ Components use only these. Each swatch shows its light and dark value and the pr
 
 ☀ #E9F7EF · success.50☾ #0E3921 · success.900
 
-`background-success-hover`
+`background-success-hovered`
 
 ☀ #165331 · success.800☾ #8DD4AE · success.200
 
@@ -152,7 +152,7 @@ Components use only these. Each swatch shows its light and dark value and the pr
 
 ☀ #FEF0EE · error.50☾ #721212 · error.900
 
-`background-error-hover`
+`background-error-hovered`
 
 ☀ #A31A1A · error.800☾ #FEA3A3 · error.200
 
@@ -172,7 +172,7 @@ Components use only these. Each swatch shows its light and dark value and the pr
 
 ☀ #FFF3E8 · warning.50☾ #773F12 · warning.900
 
-`background-warning-hover`
+`background-warning-hovered`
 
 ☀ #FF8C32 · warning.600☾ #FFC88F · warning.200
 
@@ -192,7 +192,7 @@ Components use only these. Each swatch shows its light and dark value and the pr
 
 ☀ #EEF4FF · info.50☾ #0E265F · info.900
 
-`background-info-hover`
+`background-info-hovered`
 
 ☀ #1D48AD · info.700☾ #9CBCF2 · info.200
 
@@ -208,7 +208,7 @@ Components use only these. Each swatch shows its light and dark value and the pr
 
 Aa
 
-`text-neutral-default`
+`text-default`
 
 ☀ #0A0A0A · neutral.950☾ #F7F7F7 · neutral.50
 
@@ -216,7 +216,7 @@ contrast ☀ 19.80 · ☾ 17.20
 
 Aa
 
-`text-neutral-subtle`
+`text-subtle`
 
 ☀ #292929 · neutral.800☾ #DBDBDB · neutral.200
 
@@ -224,7 +224,7 @@ contrast ☀ 14.55 · ☾ 13.31
 
 Aa
 
-`text-neutral-muted`
+`text-subtlest`
 
 ☀ #707070 · neutral.500☾ #BDBDBD · neutral.300
 
@@ -232,7 +232,7 @@ contrast ☀ 4.95 · ☾ 9.81
 
 Aa
 
-`text-neutral-placeholder`
+`text-subtlest`
 
 ☀ #707070 · neutral.500☾ #969696 · neutral.400
 
@@ -240,7 +240,7 @@ contrast ☀ 4.95 · ☾ 6.23
 
 Aa
 
-`text-neutral-disabled`
+`text-disabled`
 
 ☀ #969696 · neutral.400☾ #545454 · neutral.600
 
@@ -248,7 +248,7 @@ contrast ☀ 2.96 · ☾ 2.43
 
 Aa
 
-`text-neutral-inverse`
+`text-inverse`
 
 ☀ #FFFFFF · neutral.0☾ #0A0A0A · neutral.950
 
@@ -354,7 +354,7 @@ contrast ☀ 6.07 · ☾ 7.14
 
 Aa
 
-`icon-neutral-default`
+`icon-default`
 
 ☀ #0A0A0A · neutral.950☾ #F7F7F7 · neutral.50
 
@@ -362,7 +362,7 @@ contrast ☀ 19.80 · ☾ 17.20
 
 Aa
 
-`icon-neutral-subtle`
+`icon-subtle`
 
 ☀ #292929 · neutral.800☾ #DBDBDB · neutral.200
 
@@ -370,7 +370,7 @@ contrast ☀ 14.55 · ☾ 13.31
 
 Aa
 
-`icon-neutral-muted`
+`icon-subtlest`
 
 ☀ #707070 · neutral.500☾ #BDBDBD · neutral.300
 
@@ -378,7 +378,7 @@ contrast ☀ 4.95 · ☾ 9.81
 
 Aa
 
-`icon-neutral-disabled`
+`icon-disabled`
 
 ☀ #969696 · neutral.400☾ #545454 · neutral.600
 
@@ -386,7 +386,7 @@ contrast ☀ 2.96 · ☾ 2.43
 
 Aa
 
-`icon-neutral-inverse`
+`icon-inverse`
 
 ☀ #FFFFFF · neutral.0☾ #0A0A0A · neutral.950
 

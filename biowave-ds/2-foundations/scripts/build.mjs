@@ -247,7 +247,7 @@ ${THEMES.map((th) => `  static const ${th} = BwElevation(\n${themeTokens(th).fil
 const typeIds = roles.map((r) => ({ r, id: dartId(r.split('-')) }));
 dart += `
 /// Type scale for one platform + locale. Read with \`BwTextStyles.of(context)\`.
-/// Colors are not set here: apply \`BwColors\` (e.g. style.copyWith(color: colors.textNeutralDefault)).
+/// Colors are not set here: apply \`BwColors\` (e.g. style.copyWith(color: colors.textDefault)).
 @immutable
 class BwTextStyles extends ThemeExtension<BwTextStyles> {
   const BwTextStyles({${typeIds.map((x) => `required this.${x.id}`).join(', ')}});

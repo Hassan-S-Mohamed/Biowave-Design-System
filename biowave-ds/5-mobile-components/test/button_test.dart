@@ -129,7 +129,7 @@ void main() {
               variant == BwButtonVariant.filled ||
                       variant == BwButtonVariant.tonal
                   ? colors.backgroundNeutralDisabled
-                  : colors.backgroundTransparent,
+                  : colors.backgroundTransparentDefault,
               reason: '$variant $color disabled background',
             );
             expect(
@@ -139,7 +139,7 @@ void main() {
             );
             expect(
               foreground.resolve(<WidgetState>{WidgetState.disabled}),
-              colors.textNeutralDisabled,
+              colors.textDisabled,
             );
             expect(
               icon.resolve(<WidgetState>{}),
@@ -148,23 +148,23 @@ void main() {
             );
             expect(
               icon.resolve(<WidgetState>{WidgetState.disabled}),
-              colors.iconNeutralDisabled,
+              colors.iconDisabled,
             );
             expect(
               overlay.resolve(<WidgetState>{WidgetState.hovered}),
               variant == BwButtonVariant.filled
-                  ? colors.backgroundTransparent
-                  : colors.overlayHover,
+                  ? colors.backgroundTransparentDefault
+                  : colors.overlayHovered,
             );
             expect(
               overlay.resolve(<WidgetState>{WidgetState.pressed}),
               variant == BwButtonVariant.filled
-                  ? colors.backgroundTransparent
+                  ? colors.backgroundTransparentDefault
                   : colors.overlayPressed,
             );
             expect(
               overlay.resolve(<WidgetState>{WidgetState.focused}),
-              colors.backgroundTransparent,
+              colors.backgroundTransparentDefault,
             );
 
             if (variant == BwButtonVariant.outlined) {
@@ -803,7 +803,7 @@ Color _background(
   bool pressed = false,
 }) {
   if (variant == BwButtonVariant.outlined || variant == BwButtonVariant.text) {
-    return colors.backgroundTransparent;
+    return colors.backgroundTransparentDefault;
   }
   if (variant == BwButtonVariant.tonal) {
     return switch (color) {
@@ -812,7 +812,7 @@ Color _background(
       BwButtonColor.error => colors.backgroundErrorSubtle,
       BwButtonColor.neutral ||
       BwButtonColor.inverse =>
-        colors.backgroundTransparent,
+        colors.backgroundTransparentDefault,
     };
   }
   if (pressed) {
@@ -826,11 +826,11 @@ Color _background(
   }
   if (hovered) {
     return switch (color) {
-      BwButtonColor.brand => colors.backgroundBrandHover,
-      BwButtonColor.secondary => colors.backgroundSecondaryHover,
-      BwButtonColor.neutral => colors.backgroundNeutralHover,
-      BwButtonColor.error => colors.backgroundErrorHover,
-      BwButtonColor.inverse => colors.backgroundInverseHover,
+      BwButtonColor.brand => colors.backgroundBrandHovered,
+      BwButtonColor.secondary => colors.backgroundSecondaryHovered,
+      BwButtonColor.neutral => colors.backgroundNeutralHovered,
+      BwButtonColor.error => colors.backgroundErrorHovered,
+      BwButtonColor.inverse => colors.backgroundInverseHovered,
     };
   }
   return switch (color) {
@@ -851,7 +851,7 @@ Color _foreground(
     return switch (color) {
       BwButtonColor.brand => colors.textOnBrand,
       BwButtonColor.secondary => colors.textOnSecondary,
-      BwButtonColor.neutral => colors.textNeutralDefault,
+      BwButtonColor.neutral => colors.textDefault,
       BwButtonColor.error => colors.textOnError,
       BwButtonColor.inverse => colors.textRoleBrand,
     };
@@ -859,7 +859,7 @@ Color _foreground(
   return switch (color) {
     BwButtonColor.brand => colors.textRoleBrand,
     BwButtonColor.secondary => colors.textRoleSecondary,
-    BwButtonColor.neutral => colors.textNeutralDefault,
+    BwButtonColor.neutral => colors.textDefault,
     BwButtonColor.error => colors.textRoleError,
     BwButtonColor.inverse => colors.textOnBrand,
   };
@@ -870,7 +870,7 @@ Color _icon(BwColors colors, BwButtonVariant variant, BwButtonColor color) {
     return switch (color) {
       BwButtonColor.brand => colors.iconOnBrand,
       BwButtonColor.secondary => colors.iconOnSecondary,
-      BwButtonColor.neutral => colors.iconNeutralDefault,
+      BwButtonColor.neutral => colors.iconDefault,
       BwButtonColor.error => colors.iconOnError,
       BwButtonColor.inverse => colors.iconRoleBrand,
     };
@@ -878,7 +878,7 @@ Color _icon(BwColors colors, BwButtonVariant variant, BwButtonColor color) {
   return switch (color) {
     BwButtonColor.brand => colors.iconRoleBrand,
     BwButtonColor.secondary => colors.iconRoleSecondary,
-    BwButtonColor.neutral => colors.iconNeutralDefault,
+    BwButtonColor.neutral => colors.iconDefault,
     BwButtonColor.error => colors.iconRoleError,
     BwButtonColor.inverse => colors.iconOnBrand,
   };

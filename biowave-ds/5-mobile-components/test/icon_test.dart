@@ -240,10 +240,10 @@ void main() {
           );
 
           final expectedColors = <BwIconColor, Color>{
-            BwIconColor.defaultColor: themeColors.iconNeutralDefault,
-            BwIconColor.subtle: themeColors.iconNeutralSubtle,
-            BwIconColor.muted: themeColors.iconNeutralMuted,
-            BwIconColor.inverse: themeColors.iconNeutralInverse,
+            BwIconColor.defaultColor: themeColors.iconDefault,
+            BwIconColor.subtle: themeColors.iconSubtle,
+            BwIconColor.muted: themeColors.iconSubtlest,
+            BwIconColor.inverse: themeColors.iconInverse,
             BwIconColor.brand: themeColors.iconRoleBrand,
             BwIconColor.secondary: themeColors.iconRoleSecondary,
             BwIconColor.success: themeColors.iconRoleSuccess,
@@ -476,10 +476,10 @@ void main() {
       }
 
       const codeColorTokens = <BwIconColor, (String, String)>{
-        BwIconColor.defaultColor: ('default', '{color.icon.neutral.default}'),
-        BwIconColor.subtle: ('subtle', '{color.icon.neutral.subtle}'),
-        BwIconColor.muted: ('muted', '{color.icon.neutral.muted}'),
-        BwIconColor.inverse: ('inverse', '{color.icon.neutral.inverse}'),
+        BwIconColor.defaultColor: ('default', '{color.icon.default}'),
+        BwIconColor.subtle: ('subtle', '{color.icon.subtle}'),
+        BwIconColor.muted: ('muted', '{color.icon.subtlest}'),
+        BwIconColor.inverse: ('inverse', '{color.icon.inverse}'),
         BwIconColor.brand: ('brand', '{color.icon.role.brand}'),
         BwIconColor.secondary: ('secondary', '{color.icon.role.secondary}'),
         BwIconColor.success: ('success', '{color.icon.role.success}'),

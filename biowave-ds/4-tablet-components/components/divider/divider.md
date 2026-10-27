@@ -186,7 +186,7 @@ The only text on a divider is the optional label: one or two connecting words be
 - The line is decorative for contrast purposes; it is not a control boundary and does not need 3:1 (`2-foundations/guidelines/border.md`)
 - Dividers are never focusable and never interactive
 - A divider that marks a real break may be announced as a separator where the platform supports it (A8); one that only repeats existing structure is hidden from screen readers
-- The label is text, so it meets 4.5:1 on every surface (`color-text-neutral-muted`) and is read by screen readers where the platform reads it (A8); it never holds information that is not clear from the content around it
+- The label is text, so it meets 4.5:1 on every surface (`color-text-subtlest`) and is read by screen readers where the platform reads it (A8); it never holds information that is not clear from the content around it
 
 ### A10 Related components
 
@@ -257,7 +257,7 @@ Width `border-width-default` → `BwBorder.widthDefault`; inset `spacing-xl` →
 | Part | Property | Token → Flutter |
 |---|---|---|
 | `label` | text style | `caption-md` → `context.bw.text.captionMd` (family and line height follow the locale) |
-| `label` | colour | `color-text-neutral-muted` → `context.bw.colors.textNeutralMuted` (4.5:1 on every surface, pairs already in `contrast-pairs.json`) |
+| `label` | colour | `color-text-subtlest` → `context.bw.colors.textSubtlest` (4.5:1 on every surface, pairs already in `contrast-pairs.json`) |
 | `label` | gap to each segment | `spacing-md` → `BwSpacing.md` |
 | `line` (with label) | minimum segment length | `spacing-xl` → `BwSpacing.xl` |
 
@@ -313,7 +313,7 @@ IntrinsicHeight(
 - [ ] Vertical divider fills the height of a bounded row
 - [ ] `orientation: vertical` + `inset: start` throws the B1 assertion in debug
 - [ ] Semantics: the divider adds no node (`tester.getSemantics` / `SemanticsTester` finds nothing for it)
-- [ ] Label: `showLabel: true` + `label: 'or'` (en) / `'أو'` (ar) renders one centred `Text` between two segments; text style = `context.bw.text.captionMd`, colour = `context.bw.colors.textNeutralMuted`, gap = `BwSpacing.md` on each side, each segment ≥ `BwSpacing.xl` and coloured per `emphasis`, light + dark; with `inset` the space is at the outer ends
+- [ ] Label: `showLabel: true` + `label: 'or'` (en) / `'أو'` (ar) renders one centred `Text` between two segments; text style = `context.bw.text.captionMd`, colour = `context.bw.colors.textSubtlest`, gap = `BwSpacing.md` on each side, each segment ≥ `BwSpacing.xl` and coloured per `emphasis`, light + dark; with `inset` the space is at the outer ends
 - [ ] Label RTL: in `ar` the label is centred and the gaps are equal on both sides (`tester.getRect`)
 - [ ] Long label in a narrow parent wraps, stays centred, is never ellipsised, and both segments stay `BwSpacing.xl` long; no overflow error
 - [ ] `showLabel: false` with a `label` renders only the line and no `Text`
@@ -348,13 +348,13 @@ IntrinsicHeight(
 ### C3 Approach
 
 - `BwDivider` is a `StatelessWidget`. Resolve colour from `context.bw.colors` per `emphasis` and inset from `BwSpacing` per `inset`, then build `Divider(height:, thickness:, indent:, endIndent:, color:)` or `VerticalDivider(width:, thickness:, indent:, endIndent:, color:)` with the B2 values. Always pass every value explicitly so the M3 defaults (16 dp height, `DividerTheme`) never apply.
-- Label (horizontal, `showLabel` and a non-empty `label` only): `LayoutBuilder` → `Padding(EdgeInsetsDirectional.only(start:, end:))` with the B2 inset → `Row(crossAxisAlignment: CrossAxisAlignment.center)` of `Expanded(segment)`, the label, `Expanded(segment)`. Label = `ConstrainedBox(maxWidth: max(0, maxWidth − 2 × BwSpacing.xl))` → `Padding(EdgeInsetsDirectional.symmetric(horizontal: BwSpacing.md))` → `Text(label, style: context.bw.text.captionMd.copyWith(color: context.bw.colors.textNeutralMuted), textAlign: TextAlign.center, softWrap: true)`. Segment = `Divider` with every value passed explicitly (B2). Never `Padding` with physical `EdgeInsets`.
+- Label (horizontal, `showLabel` and a non-empty `label` only): `LayoutBuilder` → `Padding(EdgeInsetsDirectional.only(start:, end:))` with the B2 inset → `Row(crossAxisAlignment: CrossAxisAlignment.center)` of `Expanded(segment)`, the label, `Expanded(segment)`. Label = `ConstrainedBox(maxWidth: max(0, maxWidth − 2 × BwSpacing.xl))` → `Padding(EdgeInsetsDirectional.symmetric(horizontal: BwSpacing.md))` → `Text(label, style: context.bw.text.captionMd.copyWith(color: context.bw.colors.textSubtlest), textAlign: TextAlign.center, softWrap: true)`. Segment = `Divider` with every value passed explicitly (B2). Never `Padding` with physical `EdgeInsets`.
 - Invalid combinations: `assert` with the B1 messages; then use `BwDividerInset.none` / render without the label.
 - Gotchas: `VerticalDivider` takes its height from the parent's constraints — document in the dartdoc that the row must bound its height (B2). `Divider.indent` is directional; do not add `Padding` with physical insets.
 
 ### C4 Token gaps
 
-None — `color-border-subtle`, `color-border-default`, `color-border-strong`, `border-width-default`, `spacing-xl`, `spacing-md`, `spacing-none`, `color-text-neutral-muted` and the `caption-md` text style exist.
+None — `color-border-subtle`, `color-border-default`, `color-border-strong`, `border-width-default`, `spacing-xl`, `spacing-md`, `spacing-none`, `color-text-subtlest` and the `caption-md` text style exist.
 
 ### C5 Files to create / change
 
@@ -490,7 +490,7 @@ Component description: “Thin line that separates groups of content, with an op
 
 ### F0 Changes from previous version
 
-1.1 — a horizontal divider can show a short centred label (“or” / “أو”) with `showLabel` + `label`: `caption-md`, `color-text-neutral-muted`, `spacing-md` gap on each side, line segments at least `spacing-xl` long; never on vertical dividers. The label is read as plain text; the line is still never announced. Inset `start` stays `spacing-xl` (the List plan, Day 8, adds its own text-aligned inset). Figma: new `Show label` (BOOLEAN) and `Label` (TEXT) properties; still 18 variants. No breaking change — existing dividers look and behave the same.
+1.1 — a horizontal divider can show a short centred label (“or” / “أو”) with `showLabel` + `label`: `caption-md`, `color-text-subtlest`, `spacing-md` gap on each side, line segments at least `spacing-xl` long; never on vertical dividers. The label is read as plain text; the line is still never announced. Inset `start` stays `spacing-xl` (the List plan, Day 8, adds its own text-aligned inset). Figma: new `Show label` (BOOLEAN) and `Label` (TEXT) properties; still 18 variants. No breaking change — existing dividers look and behave the same.
 
 1.0 — initial version; no previous version.
 

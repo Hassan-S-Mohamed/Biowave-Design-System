@@ -1,308 +1,412 @@
 {
   "color": {
     "surface": {
-      "$description": "Container surfaces (not interactive). Elevation order: page < default < raised.",
+      "$description": "Static containers with no states (page, card, panel, modal, menu, tooltip). The user interacts with what is inside them, never with the surface itself. Elevation order: page < default < raised.",
       "page": {
         "$value": "{primitive.color.neutral.50}",
-        "$description": "App canvas behind all content."
+        "$description": "[Surface · static, no states] App canvas behind all content (Web page, Flutter Scaffold). Lowest emphasis. Users never interact with it; interactive elements on it use background tokens."
       },
       "default": {
         "$value": "{primitive.color.neutral.0}",
-        "$description": "Cards, panels, tables, containers."
+        "$description": "[Surface · static, no states] Container for grouped content: Card, Panel, Data table container, Side navigation, each split-view pane on Tablet/Foldable. If the whole container is clickable, use background/base instead."
       },
       "subtle": {
         "$value": "{primitive.color.neutral.50}",
-        "$description": "Low-emphasis blocks inside pages or cards."
+        "$description": "[Surface · static, no states] Low-emphasis static block inside a page or card: page header band, grouped section, documentation home card. Not clickable; a clickable block uses background/base."
       },
       "raised": {
         "$value": "{primitive.color.neutral.0}",
-        "$description": "Floating layers: modals, menus, popovers, drawers. Pair with an elevation token."
+        "$description": "[Surface · static, no states] Floating container above the page: Modal, Dialog, Menu, Popover, Drawer, Bottom sheet. Always pair with an elevation token. Menu items inside it use background tokens."
       },
       "inverse": {
         "$value": "{primitive.color.neutral.900}",
-        "$description": "Opposite-theme surface (e.g. tooltip, snackbar)."
+        "$description": "[Surface · static, no states] Opposite-theme container: Tooltip and Snackbar body. Text and icons on it use text/inverse and icon/inverse. For a clickable element on a dark area, use background/inverse."
       }
     },
     "background": {
-      "$description": "Interactive fills with states. Pair each with the matching text.on.* / icon.on.* token.",
+      "$description": "Fills of interactive elements that have states (default, hovered, pressed, disabled): buttons, inputs, chips, table/list rows, toggles, tabs. Never use for static containers; use surface. Pair each fill with the matching text/on/* and icon/on/* token.",
       "transparent": {
-        "$value": "{primitive.color.neutral.alpha.0}",
-        "$description": "Transparent fill for ghost controls."
-      },
-      "base": {
-        "$description": "Plain control fill (outline/ghost controls, list rows).",
         "default": {
-          "$value": "{primitive.color.neutral.0}"
+          "$value": "{primitive.color.neutral.alpha.0}",
+          "$description": "[Background · interactive, has states] No fill at rest. For Text button, standard Icon button, ghost Tab, link-style List item. Never use for containers."
         },
-        "hover": {
-          "$value": "{primitive.color.neutral.100}"
+        "hovered": {
+          "$value": "{primitive.color.neutral.alpha.10}",
+          "$description": "[Background · interactive, has states] Hover fill of transparent elements (Web pointer only)."
         },
         "pressed": {
-          "$value": "{primitive.color.neutral.200}"
+          "$value": "{primitive.color.neutral.alpha.20}",
+          "$description": "[Background · interactive, has states] Pressed fill of transparent elements; the pressed/ripple state on Tablet and Mobile."
         },
         "disabled": {
-          "$value": "{primitive.color.neutral.100}"
+          "$value": "{primitive.color.neutral.alpha.0}",
+          "$description": "[Background · interactive, has states] Disabled transparent element. Stays transparent; show the disabled state with text/disabled and icon/disabled. No hover or press effect."
+        }
+      },
+      "base": {
+        "default": {
+          "$value": "{primitive.color.neutral.0}",
+          "$description": "[Background · interactive, has states] Default neutral fill of interactive elements: Outlined button, Text field, Select, Search, Checkbox/Radio box, clickable Card, Table row, List item. For a non-clickable card use surface/default."
+        },
+        "subtle": {
+          "$value": "{primitive.color.neutral.100}",
+          "$description": "[Background · interactive, has states] Low-emphasis neutral fill, a step darker than default: Filled text field, Neutral chip/tag, Segmented control track, Toggle track (off). For hover/press on it, layer overlay/hovered or overlay/pressed."
+        },
+        "subtlest": {
+          "$value": "{primitive.color.neutral.50}",
+          "$description": "[Background · interactive, has states] Lowest-emphasis neutral fill, almost invisible: Zebra table rows, Read-only field, Code block. Not a container; for static grouping use a surface token."
+        },
+        "hovered": {
+          "$value": "{primitive.color.neutral.100}",
+          "$description": "[Background · interactive, has states] Hover fill for base/default elements: Table row, List item, Menu item, Outlined button (Web pointer only)."
+        },
+        "pressed": {
+          "$value": "{primitive.color.neutral.200}",
+          "$description": "[Background · interactive, has states] Pressed fill for base/default elements: Table row, List item, Menu item."
+        },
+        "disabled": {
+          "$value": "{primitive.color.neutral.100}",
+          "$description": "[Background · interactive, has states] Fill of disabled base elements: Text field, Select, Outlined button. No hover or press effect when disabled."
         }
       },
       "inverse": {
-        "$description": "Filled control placed on brand or inverse surfaces (e.g. navy side navigation, hero banner). Label: color.text.role.brand.",
         "default": {
-          "$value": "{primitive.color.neutral.0}"
+          "$value": "{primitive.color.neutral.0}",
+          "$description": "[Background · interactive, has states] Fill of a clickable element placed on a dark or brand area: button on the navy Side navigation, brand App bar, hero banner. Label uses text/role/brand. For a Tooltip/Snackbar body use surface/inverse."
         },
-        "hover": {
-          "$value": "{primitive.color.neutral.100}"
+        "hovered": {
+          "$value": "{primitive.color.neutral.100}",
+          "$description": "[Background · interactive, has states] Hover fill of background/inverse elements (Web pointer only)."
         },
         "pressed": {
-          "$value": "{primitive.color.neutral.200}"
+          "$value": "{primitive.color.neutral.200}",
+          "$description": "[Background · interactive, has states] Pressed fill of background/inverse elements."
         }
       },
       "neutral": {
         "default": {
-          "$value": "{primitive.color.neutral.100}"
+          "$value": "{primitive.color.neutral.100}",
+          "$description": "[Background · interactive, has states] Bold neutral fill of an interactive element: Filled button (neutral colour), neutral Icon button. Text and icons on it use text/default and icon/default."
         },
-        "subtle": {
-          "$value": "{primitive.color.neutral.50}"
-        },
-        "hover": {
-          "$value": "{primitive.color.neutral.200}"
+        "hovered": {
+          "$value": "{primitive.color.neutral.200}",
+          "$description": "[Background · interactive, has states] Hover fill of neutral/default elements (Web pointer only)."
         },
         "pressed": {
-          "$value": "{primitive.color.neutral.300}"
+          "$value": "{primitive.color.neutral.300}",
+          "$description": "[Background · interactive, has states] Pressed fill of neutral/default elements."
         },
         "disabled": {
-          "$value": "{primitive.color.neutral.100}"
+          "$value": "{primitive.color.neutral.100}",
+          "$description": "[Background · interactive, has states] Fill of a disabled neutral element. Label uses text/disabled. No hover or press effect."
         }
       },
       "brand": {
         "default": {
-          "$value": "{primitive.color.primary.600}"
+          "$value": "{primitive.color.primary.600}",
+          "$description": "[Background · interactive, has states] Bold brand fill of an interactive element: Filled button, Split button, FAB, checked Checkbox/Radio, Toggle on, Progress bar. Text and icons on it use text/on/brand and icon/on/brand. Primary actions and selection."
         },
         "subtle": {
-          "$value": "{primitive.color.primary.50}"
+          "$value": "{primitive.color.primary.100}",
+          "$description": "[Background · interactive, has states] Tonal brand fill: brand Chip/Tag, Lozenge, Tonal button. Text on it uses text/role/brand. Primary actions and selection."
         },
-        "hover": {
-          "$value": "{primitive.color.primary.700}"
+        "subtlest": {
+          "$value": "{primitive.color.primary.50}",
+          "$description": "[Background · interactive, has states] Lightest brand tint: brand Alert/Banner, selected/highlighted row. Text on it uses text/role/brand or text/default. Primary actions and selection."
+        },
+        "hovered": {
+          "$value": "{primitive.color.primary.700}",
+          "$description": "[Background · interactive, has states] Hover fill of brand/default elements (Web pointer only)."
         },
         "pressed": {
-          "$value": "{primitive.color.primary.800}"
+          "$value": "{primitive.color.primary.800}",
+          "$description": "[Background · interactive, has states] Pressed fill of brand/default elements."
         },
         "disabled": {
-          "$value": "{primitive.color.neutral.300}"
+          "$value": "{primitive.color.neutral.100}",
+          "$description": "[Background · interactive, has states] Fill of a disabled brand element. Neutral, so the role colour disappears. Label uses text/disabled. No hover or press effect."
         }
       },
       "secondary": {
         "default": {
-          "$value": "{primitive.color.secondary.600}"
+          "$value": "{primitive.color.secondary.600}",
+          "$description": "[Background · interactive, has states] Bold secondary fill of an interactive element: Secondary filled button, accent Badge. Text and icons on it use text/on/secondary and icon/on/secondary. Supporting actions and accents."
         },
         "subtle": {
-          "$value": "{primitive.color.secondary.50}"
+          "$value": "{primitive.color.secondary.100}",
+          "$description": "[Background · interactive, has states] Tonal secondary fill: secondary Chip/Tag, Lozenge, Tonal button. Text on it uses text/role/secondary. Supporting actions and accents."
         },
-        "hover": {
-          "$value": "{primitive.color.secondary.700}"
+        "subtlest": {
+          "$value": "{primitive.color.secondary.50}",
+          "$description": "[Background · interactive, has states] Lightest secondary tint: secondary Alert/Banner, selected/highlighted row. Text on it uses text/role/secondary or text/default. Supporting actions and accents."
+        },
+        "hovered": {
+          "$value": "{primitive.color.secondary.700}",
+          "$description": "[Background · interactive, has states] Hover fill of secondary/default elements (Web pointer only)."
         },
         "pressed": {
-          "$value": "{primitive.color.secondary.800}"
+          "$value": "{primitive.color.secondary.800}",
+          "$description": "[Background · interactive, has states] Pressed fill of secondary/default elements."
         },
         "disabled": {
-          "$value": "{primitive.color.neutral.300}"
+          "$value": "{primitive.color.neutral.100}",
+          "$description": "[Background · interactive, has states] Fill of a disabled secondary element. Neutral, so the role colour disappears. Label uses text/disabled. No hover or press effect."
         }
       },
       "success": {
         "default": {
-          "$value": "{primitive.color.success.700}"
+          "$value": "{primitive.color.success.700}",
+          "$description": "[Background · interactive, has states] Bold success fill of an interactive element: Confirm/Approve button, Success badge, Online status dot. Text and icons on it use text/on/success and icon/on/success. Positive results, completed states, confirmations."
         },
         "subtle": {
-          "$value": "{primitive.color.success.50}"
+          "$value": "{primitive.color.success.100}",
+          "$description": "[Background · interactive, has states] Tonal success fill: success Chip/Tag, Lozenge, Tonal button. Text on it uses text/role/success. Positive results, completed states, confirmations."
         },
-        "hover": {
-          "$value": "{primitive.color.success.800}"
+        "subtlest": {
+          "$value": "{primitive.color.success.50}",
+          "$description": "[Background · interactive, has states] Lightest success tint: success Alert/Banner, selected/highlighted row. Text on it uses text/role/success or text/default. Positive results, completed states, confirmations."
+        },
+        "hovered": {
+          "$value": "{primitive.color.success.800}",
+          "$description": "[Background · interactive, has states] Hover fill of success/default elements (Web pointer only)."
         },
         "pressed": {
-          "$value": "{primitive.color.success.900}"
+          "$value": "{primitive.color.success.900}",
+          "$description": "[Background · interactive, has states] Pressed fill of success/default elements."
         },
         "disabled": {
-          "$value": "{primitive.color.neutral.300}"
+          "$value": "{primitive.color.neutral.100}",
+          "$description": "[Background · interactive, has states] Fill of a disabled success element. Neutral, so the role colour disappears. Label uses text/disabled. No hover or press effect."
         }
       },
       "error": {
         "default": {
-          "$value": "{primitive.color.error.700}"
+          "$value": "{primitive.color.error.700}",
+          "$description": "[Background · interactive, has states] Bold error fill of an interactive element: Destructive button (Delete user/device), Error badge, Count badge. Text and icons on it use text/on/error and icon/on/error. Errors, failures and destructive actions."
         },
         "subtle": {
-          "$value": "{primitive.color.error.50}"
+          "$value": "{primitive.color.error.100}",
+          "$description": "[Background · interactive, has states] Tonal error fill: error Chip/Tag, Lozenge, Tonal button. Text on it uses text/role/error. Errors, failures and destructive actions."
         },
-        "hover": {
-          "$value": "{primitive.color.error.800}"
+        "subtlest": {
+          "$value": "{primitive.color.error.50}",
+          "$description": "[Background · interactive, has states] Lightest error tint: error Alert/Banner, selected/highlighted row. Text on it uses text/role/error or text/default. Errors, failures and destructive actions."
+        },
+        "hovered": {
+          "$value": "{primitive.color.error.800}",
+          "$description": "[Background · interactive, has states] Hover fill of error/default elements (Web pointer only)."
         },
         "pressed": {
-          "$value": "{primitive.color.error.900}"
+          "$value": "{primitive.color.error.900}",
+          "$description": "[Background · interactive, has states] Pressed fill of error/default elements."
         },
         "disabled": {
-          "$value": "{primitive.color.neutral.300}"
+          "$value": "{primitive.color.neutral.100}",
+          "$description": "[Background · interactive, has states] Fill of a disabled error element. Neutral, so the role colour disappears. Label uses text/disabled. No hover or press effect."
         }
       },
       "warning": {
         "default": {
-          "$value": "{primitive.color.warning.500}"
+          "$value": "{primitive.color.warning.500}",
+          "$description": "[Background · interactive, has states] Bold warning fill of an interactive element: Warning button, Warning badge (always dark text). Text and icons on it use text/on/warning and icon/on/warning. Alerts, potential risks, actions that need attention."
         },
         "subtle": {
-          "$value": "{primitive.color.warning.50}"
+          "$value": "{primitive.color.warning.100}",
+          "$description": "[Background · interactive, has states] Tonal warning fill: warning Chip/Tag, Lozenge, Tonal button. Text on it uses text/role/warning. Alerts, potential risks, actions that need attention."
         },
-        "hover": {
-          "$value": "{primitive.color.warning.600}"
+        "subtlest": {
+          "$value": "{primitive.color.warning.50}",
+          "$description": "[Background · interactive, has states] Lightest warning tint: warning Alert/Banner, selected/highlighted row. Text on it uses text/role/warning or text/default. Alerts, potential risks, actions that need attention."
+        },
+        "hovered": {
+          "$value": "{primitive.color.warning.600}",
+          "$description": "[Background · interactive, has states] Hover fill of warning/default elements (Web pointer only)."
         },
         "pressed": {
-          "$value": "{primitive.color.warning.700}"
+          "$value": "{primitive.color.warning.700}",
+          "$description": "[Background · interactive, has states] Pressed fill of warning/default elements."
         },
         "disabled": {
-          "$value": "{primitive.color.neutral.300}"
+          "$value": "{primitive.color.neutral.100}",
+          "$description": "[Background · interactive, has states] Fill of a disabled warning element. Neutral, so the role colour disappears. Label uses text/disabled. No hover or press effect."
         }
       },
       "info": {
         "default": {
-          "$value": "{primitive.color.info.600}"
+          "$value": "{primitive.color.info.600}",
+          "$description": "[Background · interactive, has states] Bold info fill of an interactive element: Info badge, In-progress step, Sync indicator. Text and icons on it use text/on/info and icon/on/info. Guidance, information, in-progress states."
         },
         "subtle": {
-          "$value": "{primitive.color.info.50}"
+          "$value": "{primitive.color.info.100}",
+          "$description": "[Background · interactive, has states] Tonal info fill: info Chip/Tag, Lozenge, Tonal button. Text on it uses text/role/info. Guidance, information, in-progress states."
         },
-        "hover": {
-          "$value": "{primitive.color.info.700}"
+        "subtlest": {
+          "$value": "{primitive.color.info.50}",
+          "$description": "[Background · interactive, has states] Lightest info tint: info Alert/Banner, selected/highlighted row. Text on it uses text/role/info or text/default. Guidance, information, in-progress states."
+        },
+        "hovered": {
+          "$value": "{primitive.color.info.700}",
+          "$description": "[Background · interactive, has states] Hover fill of info/default elements (Web pointer only)."
         },
         "pressed": {
-          "$value": "{primitive.color.info.800}"
+          "$value": "{primitive.color.info.800}",
+          "$description": "[Background · interactive, has states] Pressed fill of info/default elements."
         },
         "disabled": {
-          "$value": "{primitive.color.neutral.300}"
+          "$value": "{primitive.color.neutral.100}",
+          "$description": "[Background · interactive, has states] Fill of a disabled info element. Neutral, so the role colour disappears. Label uses text/disabled. No hover or press effect."
         }
       }
     },
     "text": {
-      "neutral": {
-        "default": {
-          "$value": "{primitive.color.neutral.950}",
-          "$description": "Primary text: titles, body, values."
-        },
-        "subtle": {
-          "$value": "{primitive.color.neutral.800}",
-          "$description": "Secondary text. (Renamed from text/neutral/neutral.)"
-        },
-        "muted": {
-          "$value": "{primitive.color.neutral.500}",
-          "$description": "Supporting text: helper, meta, timestamps. Meets 4.5:1 on surface.default and surface.page."
-        },
-        "placeholder": {
-          "$value": "{primitive.color.neutral.500}",
-          "$description": "Input placeholder. FIX: was neutral/200 (1.38:1)."
-        },
-        "disabled": {
-          "$value": "{primitive.color.neutral.400}",
-          "$description": "Disabled text (exempt from contrast, must look different from muted)."
-        },
-        "inverse": {
-          "$value": "{primitive.color.neutral.0}",
-          "$description": "Text on surface.inverse."
-        }
+      "default": {
+        "$value": "{primitive.color.neutral.950}",
+        "$description": "Primary text: body, headings, Button label (outlined/text), Table cell values, Input value."
+      },
+      "subtle": {
+        "$value": "{primitive.color.neutral.800}",
+        "$description": "Secondary text: Side-nav / Navigation bar items, Input labels, Subheadings, subtle Button links, Table headers."
+      },
+      "subtlest": {
+        "$value": "{primitive.color.neutral.600}",
+        "$description": "Tertiary text: Placeholder, Helper text, Metadata, Timestamps, Breadcrumbs, Captions. Meets 4.5:1 on every surface and base fill."
+      },
+      "inverse": {
+        "$value": "{primitive.color.neutral.0}",
+        "$description": "Text on surface/inverse: Tooltip and Snackbar."
+      },
+      "disabled": {
+        "$value": "{primitive.color.neutral.400}",
+        "$description": "Disabled Button label, Input value/label, Menu item. Exempt from contrast but must stay readable."
       },
       "role": {
+        "$description": "Coloured text on neutral surfaces and on the matching background/{role}/subtle and subtlest fills.",
         "brand": {
-          "$value": "{primitive.color.primary.700}"
+          "$value": "{primitive.color.primary.700}",
+          "$description": "Active Tab label, active Side-nav item, selected Chip label, label on background/inverse."
         },
         "secondary": {
-          "$value": "{primitive.color.secondary.700}"
+          "$value": "{primitive.color.secondary.700}",
+          "$description": "Secondary accent text, secondary Chip label."
         },
         "success": {
-          "$value": "{primitive.color.success.700}"
+          "$value": "{primitive.color.success.700}",
+          "$description": "Input success message, success Chip/Alert text, \"Online\" status label."
         },
         "error": {
-          "$value": "{primitive.color.error.700}"
+          "$value": "{primitive.color.error.800}",
+          "$description": "Input error message, error Chip/Alert text, required asterisk."
         },
         "warning": {
-          "$value": "{primitive.color.warning.800}"
+          "$value": "{primitive.color.warning.900}",
+          "$description": "Warning Chip/Lozenge text, Warning Alert text."
         },
         "info": {
-          "$value": "{primitive.color.info.700}"
-        },
-        "$description": "Colored text on neutral surfaces (status text, emphasis)."
+          "$value": "{primitive.color.info.700}",
+          "$description": "Info Alert text, in-progress / workflow status label."
+        }
       },
       "on": {
-        "$description": "Text placed on background.{role}.default.",
+        "$description": "Text colour placed on top of background/{role}/default, hovered and pressed fills. Always pair with that fill; never use on surfaces.",
         "brand": {
-          "$value": "{primitive.color.neutral.0}"
+          "$value": "{primitive.color.neutral.0}",
+          "$description": "Text colour placed on background/brand/default, hovered and pressed fills. Always pair with that fill; never use on surfaces."
         },
         "secondary": {
-          "$value": "{primitive.color.neutral.0}"
+          "$value": "{primitive.color.neutral.0}",
+          "$description": "Text colour placed on background/secondary/default, hovered and pressed fills. Always pair with that fill; never use on surfaces."
         },
         "success": {
-          "$value": "{primitive.color.neutral.0}"
+          "$value": "{primitive.color.neutral.0}",
+          "$description": "Text colour placed on background/success/default, hovered and pressed fills. Always pair with that fill; never use on surfaces."
         },
         "error": {
-          "$value": "{primitive.color.neutral.0}"
+          "$value": "{primitive.color.neutral.0}",
+          "$description": "Text colour placed on background/error/default, hovered and pressed fills. Always pair with that fill; never use on surfaces."
         },
         "warning": {
-          "$value": "{primitive.color.neutral.950}"
+          "$value": "{primitive.color.neutral.950}",
+          "$description": "Text colour placed on background/warning/default, hovered and pressed fills. Always pair with that fill; never use on surfaces."
         },
         "info": {
-          "$value": "{primitive.color.neutral.0}"
+          "$value": "{primitive.color.neutral.0}",
+          "$description": "Text colour placed on background/info/default, hovered and pressed fills. Always pair with that fill; never use on surfaces."
         }
       }
     },
     "icon": {
-      "neutral": {
-        "default": {
-          "$value": "{primitive.color.neutral.950}"
-        },
-        "subtle": {
-          "$value": "{primitive.color.neutral.800}"
-        },
-        "muted": {
-          "$value": "{primitive.color.neutral.500}",
-          "$description": "FIX: was neutral/400 (2.96:1, below 3:1 for meaningful icons)."
-        },
-        "disabled": {
-          "$value": "{primitive.color.neutral.400}"
-        },
-        "inverse": {
-          "$value": "{primitive.color.neutral.0}"
-        }
+      "default": {
+        "$value": "{primitive.color.neutral.950}",
+        "$description": "Icons in Icon button, Toolbar, Table actions, Input trailing icon."
+      },
+      "subtle": {
+        "$value": "{primitive.color.neutral.800}",
+        "$description": "Side-nav / Navigation bar icons, Input leading icon, Menu item icons."
+      },
+      "subtlest": {
+        "$value": "{primitive.color.neutral.600}",
+        "$description": "Breadcrumb chevrons, Metadata icons, Helper/info hint icon."
+      },
+      "inverse": {
+        "$value": "{primitive.color.neutral.0}",
+        "$description": "Icons inside Tooltip and Snackbar (on surface/inverse)."
+      },
+      "disabled": {
+        "$value": "{primitive.color.neutral.400}",
+        "$description": "Icons in disabled Button, Icon button, Input, Menu item."
       },
       "role": {
+        "$description": "Coloured icon on neutral surfaces and on the matching background/{role}/subtle and subtlest fills.",
         "brand": {
-          "$value": "{primitive.color.primary.600}"
+          "$value": "{primitive.color.primary.700}",
+          "$description": "Active Side-nav / Navigation bar icon, selected Tab icon."
         },
         "secondary": {
-          "$value": "{primitive.color.secondary.600}"
+          "$value": "{primitive.color.secondary.700}",
+          "$description": "Secondary accent icons."
         },
         "success": {
-          "$value": "{primitive.color.success.600}"
+          "$value": "{primitive.color.success.700}",
+          "$description": "Success Alert icon, check icon, Online status icon."
         },
         "error": {
-          "$value": "{primitive.color.error.600}"
+          "$value": "{primitive.color.error.800}",
+          "$description": "Error Alert icon, Input error icon, offline device icon."
         },
         "warning": {
-          "$value": "{primitive.color.warning.700}"
+          "$value": "{primitive.color.warning.900}",
+          "$description": "Warning Alert icon, pending status icon."
         },
         "info": {
-          "$value": "{primitive.color.info.600}"
+          "$value": "{primitive.color.info.700}",
+          "$description": "Info Alert icon, sync / in-progress icon."
         }
       },
       "on": {
+        "$description": "Icon colour placed on top of background/{role}/default, hovered and pressed fills. Always pair with that fill; never use on surfaces.",
         "brand": {
-          "$value": "{primitive.color.neutral.0}"
+          "$value": "{primitive.color.neutral.0}",
+          "$description": "Icon colour placed on background/brand/default, hovered and pressed fills. Always pair with that fill; never use on surfaces."
         },
         "secondary": {
-          "$value": "{primitive.color.neutral.0}"
+          "$value": "{primitive.color.neutral.0}",
+          "$description": "Icon colour placed on background/secondary/default, hovered and pressed fills. Always pair with that fill; never use on surfaces."
         },
         "success": {
-          "$value": "{primitive.color.neutral.0}"
+          "$value": "{primitive.color.neutral.0}",
+          "$description": "Icon colour placed on background/success/default, hovered and pressed fills. Always pair with that fill; never use on surfaces."
         },
         "error": {
-          "$value": "{primitive.color.neutral.0}"
+          "$value": "{primitive.color.neutral.0}",
+          "$description": "Icon colour placed on background/error/default, hovered and pressed fills. Always pair with that fill; never use on surfaces."
         },
         "warning": {
-          "$value": "{primitive.color.neutral.950}"
+          "$value": "{primitive.color.neutral.950}",
+          "$description": "Icon colour placed on background/warning/default, hovered and pressed fills. Always pair with that fill; never use on surfaces."
         },
         "info": {
-          "$value": "{primitive.color.neutral.0}"
+          "$value": "{primitive.color.neutral.0}",
+          "$description": "Icon colour placed on background/info/default, hovered and pressed fills. Always pair with that fill; never use on surfaces."
         }
       }
     },
@@ -347,11 +451,11 @@
         "default": {
           "$value": "{primitive.color.neutral.500}"
         },
-        "hover": {
-          "$value": "{primitive.color.neutral.700}"
-        },
         "error": {
           "$value": "{primitive.color.error.700}"
+        },
+        "hovered": {
+          "$value": "{primitive.color.neutral.700}"
         }
       },
       "focus": {
@@ -363,13 +467,13 @@
       "default": {
         "$value": "{primitive.color.info.600}"
       },
-      "hover": {
-        "$value": "{primitive.color.info.700}"
-      },
       "pressed": {
         "$value": "{primitive.color.info.800}"
       },
       "visited": {
+        "$value": "{primitive.color.info.700}"
+      },
+      "hovered": {
         "$value": "{primitive.color.info.700}"
       }
     },
@@ -404,13 +508,13 @@
       "info": {
         "$value": "{primitive.color.info.alpha.20}"
       },
-      "hover": {
-        "$value": "{primitive.color.neutral.alpha.10}",
-        "$description": "State layer over a non-filled control (tonal, outlined, text) on hover. Placed above the control's own fill."
-      },
       "pressed": {
         "$value": "{primitive.color.neutral.alpha.20}",
         "$description": "State layer over a non-filled control on press."
+      },
+      "hovered": {
+        "$value": "{primitive.color.neutral.alpha.10}",
+        "$description": "State layer over a non-filled control (tonal, outlined, text) on hover. Placed above the control's own fill."
       }
     },
     "shadow": {

@@ -213,10 +213,10 @@ Identical to [Web B3](../../../3-web-components/components/icon/icon.md#b3-token
 
 | Colour | Token → Flutter |
 |---|---|
-| `BwIconColor.defaultColor` | `color-icon-neutral-default` → `context.bw.colors.iconNeutralDefault` |
-| `BwIconColor.subtle` | `color-icon-neutral-subtle` → `context.bw.colors.iconNeutralSubtle` |
-| `BwIconColor.muted` | `color-icon-neutral-muted` → `context.bw.colors.iconNeutralMuted` |
-| `BwIconColor.inverse` | `color-icon-neutral-inverse` → `context.bw.colors.iconNeutralInverse` |
+| `BwIconColor.defaultColor` | `color-icon-default` → `context.bw.colors.iconDefault` |
+| `BwIconColor.subtle` | `color-icon-subtle` → `context.bw.colors.iconSubtle` |
+| `BwIconColor.muted` | `color-icon-subtlest` → `context.bw.colors.iconSubtlest` |
+| `BwIconColor.inverse` | `color-icon-inverse` → `context.bw.colors.iconInverse` |
 | `BwIconColor.brand` | `color-icon-role-brand` → `context.bw.colors.iconRoleBrand` |
 | `BwIconColor.secondary` | `color-icon-role-secondary` → `context.bw.colors.iconRoleSecondary` |
 | `BwIconColor.success` | `color-icon-role-success` → `context.bw.colors.iconRoleSuccess` |

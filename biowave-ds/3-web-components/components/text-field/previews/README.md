@@ -12,22 +12,22 @@ All dimensions are web pixels. Typography rows use the English value first and t
 | `color-background-base-default` | `#FFFFFF` | `#141414` |
 | `color-background-base-disabled` | `#EDEDED` | `#292929` |
 | `color-background-neutral-default` | `#EDEDED` | `#292929` |
-| `color-background-neutral-subtle` | `#F7F7F7` | `#141414` |
+| `color-background-base-subtlest` | `#F7F7F7` | `#141414` |
 | `color-border-input-default` | `#707070` | `#969696` |
-| `color-border-input-hover` | `#404040` | `#BDBDBD` |
+| `color-border-input-hovered` | `#404040` | `#BDBDBD` |
 | `color-border-focus` | `#254471` | `#90A3BC` |
 | `color-border-input-error` | `#D42222` | `#FF7676` |
 | `color-border-disabled` | `#DBDBDB` | `#404040` |
 | `color-border-default` | `#DBDBDB` | `#404040` |
-| `color-text-neutral-default` | `#0A0A0A` | `#F7F7F7` |
-| `color-text-neutral-placeholder` | `#707070` | `#969696` |
-| `color-text-neutral-muted` | `#707070` | `#BDBDBD` |
-| `color-text-neutral-disabled` | `#969696` | `#545454` |
-| `color-text-neutral-subtle` | `#292929` | `#DBDBDB` |
+| `color-text-default` | `#0A0A0A` | `#F7F7F7` |
+| `color-text-subtlest` | `#707070` | `#969696` |
+| `color-text-subtlest` | `#707070` | `#BDBDBD` |
+| `color-text-disabled` | `#969696` | `#545454` |
+| `color-text-subtle` | `#292929` | `#DBDBDB` |
 | `color-text-role-error` | `#D42222` | `#FEA3A3` |
-| `color-icon-neutral-muted` | `#707070` | `#BDBDBD` |
-| `color-icon-neutral-default` | `#0A0A0A` | `#F7F7F7` |
-| `color-icon-neutral-disabled` | `#969696` | `#545454` |
+| `color-icon-subtlest` | `#707070` | `#BDBDBD` |
+| `color-icon-default` | `#0A0A0A` | `#F7F7F7` |
+| `color-icon-disabled` | `#969696` | `#545454` |
 | `color-icon-role-error` | `#FF2B2B` | `#FEA3A3` |
 | `size-control-height-sm / md / lg` | `32 / 40 / 48 px` | `32 / 40 / 48 px` |
 | `spacing-control-padding-inline-sm / md / lg` | `8 / 12 / 16 px` | `8 / 12 / 16 px` |

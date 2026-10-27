@@ -483,10 +483,10 @@ Future<void> _pumpGolden(WidgetTester tester, Widget child) {
 }
 
 Color _resolveColor(BuildContext context, BwIconColor color) => switch (color) {
-      BwIconColor.defaultColor => context.bw.colors.iconNeutralDefault,
-      BwIconColor.subtle => context.bw.colors.iconNeutralSubtle,
-      BwIconColor.muted => context.bw.colors.iconNeutralMuted,
-      BwIconColor.inverse => context.bw.colors.iconNeutralInverse,
+      BwIconColor.defaultColor => context.bw.colors.iconDefault,
+      BwIconColor.subtle => context.bw.colors.iconSubtle,
+      BwIconColor.muted => context.bw.colors.iconSubtlest,
+      BwIconColor.inverse => context.bw.colors.iconInverse,
       BwIconColor.brand => context.bw.colors.iconRoleBrand,
       BwIconColor.secondary => context.bw.colors.iconRoleSecondary,
       BwIconColor.success => context.bw.colors.iconRoleSuccess,

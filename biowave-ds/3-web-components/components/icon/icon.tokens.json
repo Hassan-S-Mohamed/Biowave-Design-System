@@ -54,22 +54,22 @@
       },
       "default": {
         "color": {
-          "$value": "{color.icon.neutral.default}"
+          "$value": "{color.icon.default}"
         }
       },
       "subtle": {
         "color": {
-          "$value": "{color.icon.neutral.subtle}"
+          "$value": "{color.icon.subtle}"
         }
       },
       "muted": {
         "color": {
-          "$value": "{color.icon.neutral.muted}"
+          "$value": "{color.icon.subtlest}"
         }
       },
       "inverse": {
         "color": {
-          "$value": "{color.icon.neutral.inverse}"
+          "$value": "{color.icon.inverse}"
         }
       },
       "brand": {

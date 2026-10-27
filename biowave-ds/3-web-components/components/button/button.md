@@ -298,30 +298,30 @@ Token names are written without the `color-` prefix where the column header says
 #### 3.1 `filled`
 | `color` | `container` background · Default / Hover / Pressed | `label` · `spinner` | `leading/trailing-icon` |
 |---|---|---|---|
-| `brand` | `color-background-brand-default` / `color-background-brand-hover` / `color-background-brand-pressed` | `color-text-on-brand` | `color-icon-on-brand` |
-| `secondary` | `color-background-secondary-default` / `color-background-secondary-hover` / `color-background-secondary-pressed` | `color-text-on-secondary` | `color-icon-on-secondary` |
-| `error` | `color-background-error-default` / `color-background-error-hover` / `color-background-error-pressed` | `color-text-on-error` | `color-icon-on-error` |
-| `neutral` | `color-background-neutral-default` / `color-background-neutral-hover` / `color-background-neutral-pressed` | `color-text-neutral-default` | `color-icon-neutral-default` |
-| `inverse` | `color-background-inverse-default` / `color-background-inverse-hover` / `color-background-inverse-pressed` | `color-text-role-brand` | `color-icon-role-brand` |
-| Disabled (all) | `color-background-neutral-disabled` | `color-text-neutral-disabled` | `color-icon-neutral-disabled` |
+| `brand` | `color-background-brand-default` / `color-background-brand-hovered` / `color-background-brand-pressed` | `color-text-on-brand` | `color-icon-on-brand` |
+| `secondary` | `color-background-secondary-default` / `color-background-secondary-hovered` / `color-background-secondary-pressed` | `color-text-on-secondary` | `color-icon-on-secondary` |
+| `error` | `color-background-error-default` / `color-background-error-hovered` / `color-background-error-pressed` | `color-text-on-error` | `color-icon-on-error` |
+| `neutral` | `color-background-neutral-default` / `color-background-neutral-hovered` / `color-background-neutral-pressed` | `color-text-default` | `color-icon-default` |
+| `inverse` | `color-background-inverse-default` / `color-background-inverse-hovered` / `color-background-inverse-pressed` | `color-text-role-brand` | `color-icon-role-brand` |
+| Disabled (all) | `color-background-neutral-disabled` | `color-text-disabled` | `color-icon-disabled` |
 
 #### 3.2 `tonal`
 | `color` | `container` background | State layer · Hover / Pressed | `label` · `spinner` | icons |
 |---|---|---|---|---|
-| `brand` | `color-background-brand-subtle` | `color-overlay-hover` / `color-overlay-pressed` | `color-text-role-brand` | `color-icon-role-brand` |
+| `brand` | `color-background-brand-subtle` | `color-overlay-hovered` / `color-overlay-pressed` | `color-text-role-brand` | `color-icon-role-brand` |
 | `secondary` | `color-background-secondary-subtle` | same | `color-text-role-secondary` | `color-icon-role-secondary` |
 | `error` | `color-background-error-subtle` | same | `color-text-role-error` | `color-icon-role-error` |
-| Disabled (all) | `color-background-neutral-disabled` | — | `color-text-neutral-disabled` | `color-icon-neutral-disabled` |
+| Disabled (all) | `color-background-neutral-disabled` | — | `color-text-disabled` | `color-icon-disabled` |
 
 #### 3.3 `outlined`
 | `color` | `container` background | `container` border | State layer · Hover / Pressed | `label` · `spinner` | icons |
 |---|---|---|---|---|---|
-| `brand` | `color-background-transparent` | `color-border-brand` | `color-overlay-hover` / `color-overlay-pressed` | `color-text-role-brand` | `color-icon-role-brand` |
+| `brand` | `color-background-transparent-default` | `color-border-brand` | `color-overlay-hovered` / `color-overlay-pressed` | `color-text-role-brand` | `color-icon-role-brand` |
 | `secondary` | same | `color-border-secondary` | same | `color-text-role-secondary` | `color-icon-role-secondary` |
 | `error` | same | `color-border-error` | same | `color-text-role-error` | `color-icon-role-error` |
-| `neutral` | same | `color-border-strong` | same | `color-text-neutral-default` | `color-icon-neutral-default` |
+| `neutral` | same | `color-border-strong` | same | `color-text-default` | `color-icon-default` |
 | `inverse` | same | `color-border-inverse` | same | `color-text-on-brand` | `color-icon-on-brand` |
-| Disabled (all) | same | `color-border-disabled` | — | `color-text-neutral-disabled` | `color-icon-neutral-disabled` |
+| Disabled (all) | same | `color-border-disabled` | — | `color-text-disabled` | `color-icon-disabled` |
 
 #### 3.4 `text`
 Same as `outlined` without the border.
@@ -332,7 +332,7 @@ Same as `outlined` without the border.
 | `focus-ring` | color | `color-border-focus` (`inverse`: `color-border-inverse`) |
 | `focus-ring` | width · offset | `border-width-focus` · `border-focus-offset` |
 
-The **state layer** is a second fill painted above the container fill (web: `background-image: linear-gradient(var(--bw-color-overlay-hover), var(--bw-color-overlay-hover))`). Filled buttons never use a state layer; they switch to the solid `-hover`/`-pressed` tokens.
+The **state layer** is a second fill painted above the container fill (web: `background-image: linear-gradient(var(--bw-color-overlay-hovered), var(--bw-color-overlay-hovered))`). Filled buttons never use a state layer; they switch to the solid `-hover`/`-pressed` tokens.
 
 Dark theme: same tokens, values switch automatically. No exceptions.
 
@@ -476,7 +476,7 @@ Structure, properties, the Figma ↔ code mapping and Code Connect: [Part D](#d-
 
 ### C4 Token gaps
 
-None. Added on 2026-10-16 before this plan (Foundations 1.1.0): `size-control-height-*`, `spacing-control-padding-inline-*`, `spacing-control-gap-*`, `color-background-inverse-*`, `color-border-inverse`, `color-overlay-hover`, `color-overlay-pressed`.
+None. Added on 2026-10-16 before this plan (Foundations 1.1.0): `size-control-height-*`, `spacing-control-padding-inline-*`, `spacing-control-gap-*`, `color-background-inverse-*`, `color-border-inverse`, `color-overlay-hovered`, `color-overlay-pressed`.
 
 ### C5 Files to create / change
 
@@ -631,7 +631,7 @@ Slowest Button tests in the full suite: render matrix 1.001 s; axe light 625 ms;
 
 0. **Library first, component tokens only (D-13).** Text styles, effect styles (`Focus/Ring`, `Focus/Ring Inverse`) and icons come from the published library **Biowave DS — Foundations**. Visual values bind to the **Button component tokens** already in this file (created from [`button.tokens.json`](button.tokens.json) by the sync tooling): `Button / Size` (modes `sm`·`md`·`lg`), `Button / Filled` · `Button / Tonal` · `Button / Outlined` · `Button / Text` (modes = colors), `Button / Focus`. Each variant sets the explicit mode of its collections (e.g. `Variant=Filled, Color=Brand, Size=MD` → `Button / Filled`=`brand`, `Button / Size`=`md`). **Never create variables or styles** in this file; if a value is missing, stop and ask the Planner (it is added to `button.tokens.json` → synced).
 1. **Every value is bound.** Fills, strokes, radius, padding, gap, height → variables; text → text styles; focus → effect style. No raw hex / px. Opacity 0 for the hidden label in Loading is the only literal allowed.
-2. **Spec token → component token:** B3 table and `button.tokens.json` name the same semantic tokens; bind the component token that aliases it (`container/default`, `label/default`, `state-layer/hover`, `border/default`, `height`, `padding-inline`, `gap`, `icon`, `radius`, `border-width`, `Button / Focus › color`). Semantic variables are never bound directly. For reference, spec names map to Foundations variables as: `-` between segments becomes `/`: `color-background-brand-hover` → `1. Themes › color/background/brand/hover`; `size-control-height-md` → `4. Size › size/control/height/md`; `spacing-control-gap-md` → `3. Spacing › spacing/control/gap/md`; `radius-md` → `2. Radius › radius/md`; `border-width-default` → `9. Border › border/width/default`.
+2. **Spec token → component token:** B3 table and `button.tokens.json` name the same semantic tokens; bind the component token that aliases it (`container/default`, `label/default`, `state-layer/hover`, `border/default`, `height`, `padding-inline`, `gap`, `icon`, `radius`, `border-width`, `Button / Focus › color`). Semantic variables are never bound directly. For reference, spec names map to Foundations variables as: `-` between segments becomes `/`: `color-background-brand-hovered` → `1. Themes › color/background/brand/hovered`; `size-control-height-md` → `4. Size › size/control/height/md`; `spacing-control-gap-md` → `3. Spacing › spacing/control/gap/md`; `radius-md` → `2. Radius › radius/md`; `border-width-default` → `9. Border › border/width/default`.
    Text styles: `Web/en/action/{sm|md|lg}` and `Web/ar/action/{sm|md|lg}` (they are bound to the Typography variables, so Tablet/Mobile scale comes from the variable mode, not from a different style). Effect: `Focus/Ring`.
 3. **Never** bind `_Primitive/*`, `_deprecated/*` or the old `Button size` collection.
 4. **Layer names = anatomy part names** (A2): `container` is the component itself, children `leading-icon`, `label`, `trailing-icon`, `spinner`, `state-layer`.

@@ -79,13 +79,13 @@ const backgrounds: Record<AvatarColor, string> = {
 };
 
 const initialsColors: Record<AvatarColor, string> = {
-  neutral: cssVars.color.text.neutral.subtle,
+  neutral: cssVars.color.text.subtle,
   brand: cssVars.color.text.role.brand,
   secondary: cssVars.color.text.role.secondary,
 };
 
 const iconColors: Record<AvatarColor, string> = {
-  neutral: cssVars.color.icon.neutral.subtle,
+  neutral: cssVars.color.icon.subtle,
   brand: cssVars.color.icon.role.brand,
   secondary: cssVars.color.icon.role.secondary,
 };

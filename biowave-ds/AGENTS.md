@@ -83,11 +83,11 @@ npm run contract -- <plat> <name>   ──►   Code Executor: <name>-contract.m
 
 | Thing | Convention | Example |
 |---|---|---|
-| Token path (JSON) | dot-separated, lowercase, kebab inside a segment | `color.background.brand.hover` |
-| Token name in docs | kebab-case | `color-background-brand-hover` |
-| CSS variable | `--bw-` + kebab | `--bw-color-background-brand-hover` |
-| TS access | object path | `cssVars.color.background.brand.hover` |
-| Dart access | camelCase without category | `context.bw.colors.backgroundBrandHover`, `BwSpacing.md`, `BwRadius.xl2` |
+| Token path (JSON) | dot-separated, lowercase, kebab inside a segment | `color.background.brand.hovered` |
+| Token name in docs | kebab-case | `color-background-brand-hovered` |
+| CSS variable | `--bw-` + kebab | `--bw-color-background-brand-hovered` |
+| TS access | object path | `cssVars.color.background.brand.hovered` |
+| Dart access | camelCase without category | `context.bw.colors.backgroundBrandHovered`, `BwSpacing.md`, `BwRadius.xl2` |
 | React component | PascalCase, no `Bw` prefix on web | `Button`, `TextField` |
 | Flutter widget | `Bw` + PascalCase | `BwButton` |
 | Component folder / file | kebab-case, same name twice | `components/text-field/text-field.md` |

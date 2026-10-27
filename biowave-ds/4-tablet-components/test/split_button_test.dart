@@ -284,15 +284,15 @@ void main() {
         expect(menuAnchor.clipBehavior, Clip.none);
         expect(
           menuAnchor.style!.backgroundColor!.resolve(const <WidgetState>{}),
-          colors.backgroundTransparent,
+          colors.backgroundTransparentDefault,
         );
         expect(
           menuAnchor.style!.shadowColor!.resolve(const <WidgetState>{}),
-          colors.backgroundTransparent,
+          colors.backgroundTransparentDefault,
         );
         expect(
           menuAnchor.style!.surfaceTintColor!.resolve(const <WidgetState>{}),
-          colors.backgroundTransparent,
+          colors.backgroundTransparentDefault,
         );
         expect(menuAnchor.style!.elevation, isNull);
 

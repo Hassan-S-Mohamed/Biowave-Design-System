@@ -8,9 +8,9 @@ Plan 1.0 preview sheet for Flutter Material 3 mobile. The plan remains the sourc
 |---|---:|---:|
 | `color-surface-page` | `#F7F7F7` | `#0A0A0A` |
 | `color-surface-inverse` | `#141414` | `#FFFFFF` |
-| `color-text-neutral-inverse` | `#FFFFFF` | `#0A0A0A` |
-| `color-text-neutral-default` | `#0A0A0A` | `#F7F7F7` |
-| `color-icon-neutral-default` | `#0A0A0A` | `#F7F7F7` |
+| `color-text-inverse` | `#FFFFFF` | `#0A0A0A` |
+| `color-text-default` | `#0A0A0A` | `#F7F7F7` |
+| `color-icon-default` | `#0A0A0A` | `#F7F7F7` |
 | `spacing-xs` | `4 px` | `4 px` |
 | `spacing-md` | `8 px` | `8 px` |
 | `radius-sm` | `6 px` | `6 px` |

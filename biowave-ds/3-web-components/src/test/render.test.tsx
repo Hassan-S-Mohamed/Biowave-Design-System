@@ -5,7 +5,7 @@ import { describe, expect, it } from 'vitest';
 import { renderWithBiowave } from './render';
 
 const CacheProbe = styled('div')({
-  color: cssVars.color.text.neutral.default,
+  color: cssVars.color.text.default,
 });
 
 function biowaveStyleTags(): HTMLStyleElement[] {
@@ -23,7 +23,7 @@ describe('renderWithBiowave emotion cache lifecycle', () => {
     renderWithBiowave(<CacheProbe>First cache</CacheProbe>);
 
     expect(biowaveStyleTags().length).toBeGreaterThan(0);
-    expect(biowaveCssRules()).toContain(cssVars.color.text.neutral.default);
+    expect(biowaveCssRules()).toContain(cssVars.color.text.default);
   });
 
   it('starts fresh after cleanup and re-inserts styles into the new cache', () => {
@@ -32,6 +32,6 @@ describe('renderWithBiowave emotion cache lifecycle', () => {
     renderWithBiowave(<CacheProbe>Fresh cache</CacheProbe>);
 
     expect(biowaveStyleTags().length).toBeGreaterThan(0);
-    expect(biowaveCssRules()).toContain(cssVars.color.text.neutral.default);
+    expect(biowaveCssRules()).toContain(cssVars.color.text.default);
   });
 });

@@ -124,22 +124,22 @@
           "$value": "{border.width.default}"
         },
         "label": {
-          "$value": "{color.text.neutral.default}"
+          "$value": "{color.text.default}"
         },
         "input": {
-          "$value": "{color.text.neutral.default}"
+          "$value": "{color.text.default}"
         },
         "placeholder": {
-          "$value": "{color.text.neutral.placeholder}"
+          "$value": "{color.text.subtlest}"
         },
         "icon": {
-          "$value": "{color.icon.neutral.muted}"
+          "$value": "{color.icon.subtlest}"
         },
         "supporting": {
-          "$value": "{color.text.neutral.muted}"
+          "$value": "{color.text.subtlest}"
         },
         "counter": {
-          "$value": "{color.text.neutral.muted}"
+          "$value": "{color.text.subtlest}"
         },
         "required": {
           "$value": "{color.text.role.error}"
@@ -148,7 +148,7 @@
           "$value": "{color.background.neutral.default}"
         },
         "addon-text": {
-          "$value": "{color.text.neutral.subtle}"
+          "$value": "{color.text.subtle}"
         },
         "error-icon": {
           "$value": "{color.icon.role.error}"
@@ -159,28 +159,28 @@
           "$value": "{color.background.base.default}"
         },
         "border": {
-          "$value": "{color.border.input.hover}"
+          "$value": "{color.border.input.hovered}"
         },
         "border-width": {
           "$value": "{border.width.default}"
         },
         "label": {
-          "$value": "{color.text.neutral.default}"
+          "$value": "{color.text.default}"
         },
         "input": {
-          "$value": "{color.text.neutral.default}"
+          "$value": "{color.text.default}"
         },
         "placeholder": {
-          "$value": "{color.text.neutral.placeholder}"
+          "$value": "{color.text.subtlest}"
         },
         "icon": {
-          "$value": "{color.icon.neutral.muted}"
+          "$value": "{color.icon.subtlest}"
         },
         "supporting": {
-          "$value": "{color.text.neutral.muted}"
+          "$value": "{color.text.subtlest}"
         },
         "counter": {
-          "$value": "{color.text.neutral.muted}"
+          "$value": "{color.text.subtlest}"
         },
         "required": {
           "$value": "{color.text.role.error}"
@@ -189,7 +189,7 @@
           "$value": "{color.background.neutral.default}"
         },
         "addon-text": {
-          "$value": "{color.text.neutral.subtle}"
+          "$value": "{color.text.subtle}"
         },
         "error-icon": {
           "$value": "{color.icon.role.error}"
@@ -206,22 +206,22 @@
           "$value": "{border.width.focus}"
         },
         "label": {
-          "$value": "{color.text.neutral.default}"
+          "$value": "{color.text.default}"
         },
         "input": {
-          "$value": "{color.text.neutral.default}"
+          "$value": "{color.text.default}"
         },
         "placeholder": {
-          "$value": "{color.text.neutral.placeholder}"
+          "$value": "{color.text.subtlest}"
         },
         "icon": {
-          "$value": "{color.icon.neutral.default}"
+          "$value": "{color.icon.default}"
         },
         "supporting": {
-          "$value": "{color.text.neutral.muted}"
+          "$value": "{color.text.subtlest}"
         },
         "counter": {
-          "$value": "{color.text.neutral.muted}"
+          "$value": "{color.text.subtlest}"
         },
         "required": {
           "$value": "{color.text.role.error}"
@@ -230,7 +230,7 @@
           "$value": "{color.background.neutral.default}"
         },
         "addon-text": {
-          "$value": "{color.text.neutral.subtle}"
+          "$value": "{color.text.subtle}"
         },
         "error-icon": {
           "$value": "{color.icon.role.error}"
@@ -247,16 +247,16 @@
           "$value": "{border.width.default}"
         },
         "label": {
-          "$value": "{color.text.neutral.default}"
+          "$value": "{color.text.default}"
         },
         "input": {
-          "$value": "{color.text.neutral.default}"
+          "$value": "{color.text.default}"
         },
         "placeholder": {
-          "$value": "{color.text.neutral.placeholder}"
+          "$value": "{color.text.subtlest}"
         },
         "icon": {
-          "$value": "{color.icon.neutral.muted}"
+          "$value": "{color.icon.subtlest}"
         },
         "supporting": {
           "$value": "{color.text.role.error}"
@@ -271,7 +271,7 @@
           "$value": "{color.background.neutral.default}"
         },
         "addon-text": {
-          "$value": "{color.text.neutral.subtle}"
+          "$value": "{color.text.subtle}"
         },
         "error-icon": {
           "$value": "{color.icon.role.error}"
@@ -288,39 +288,39 @@
           "$value": "{border.width.default}"
         },
         "label": {
-          "$value": "{color.text.neutral.disabled}"
+          "$value": "{color.text.disabled}"
         },
         "input": {
-          "$value": "{color.text.neutral.disabled}"
+          "$value": "{color.text.disabled}"
         },
         "placeholder": {
-          "$value": "{color.text.neutral.disabled}"
+          "$value": "{color.text.disabled}"
         },
         "icon": {
-          "$value": "{color.icon.neutral.disabled}"
+          "$value": "{color.icon.disabled}"
         },
         "supporting": {
-          "$value": "{color.text.neutral.disabled}"
+          "$value": "{color.text.disabled}"
         },
         "counter": {
-          "$value": "{color.text.neutral.disabled}"
+          "$value": "{color.text.disabled}"
         },
         "required": {
-          "$value": "{color.text.neutral.disabled}"
+          "$value": "{color.text.disabled}"
         },
         "addon-background": {
           "$value": "{color.background.base.disabled}"
         },
         "addon-text": {
-          "$value": "{color.text.neutral.disabled}"
+          "$value": "{color.text.disabled}"
         },
         "error-icon": {
-          "$value": "{color.icon.neutral.disabled}"
+          "$value": "{color.icon.disabled}"
         }
       },
       "read-only": {
         "background": {
-          "$value": "{color.background.neutral.subtle}"
+          "$value": "{color.background.base.subtlest}"
         },
         "border": {
           "$value": "{color.border.default}"
@@ -329,22 +329,22 @@
           "$value": "{border.width.default}"
         },
         "label": {
-          "$value": "{color.text.neutral.default}"
+          "$value": "{color.text.default}"
         },
         "input": {
-          "$value": "{color.text.neutral.default}"
+          "$value": "{color.text.default}"
         },
         "placeholder": {
-          "$value": "{color.text.neutral.placeholder}"
+          "$value": "{color.text.subtlest}"
         },
         "icon": {
-          "$value": "{color.icon.neutral.muted}"
+          "$value": "{color.icon.subtlest}"
         },
         "supporting": {
-          "$value": "{color.text.neutral.muted}"
+          "$value": "{color.text.subtlest}"
         },
         "counter": {
-          "$value": "{color.text.neutral.muted}"
+          "$value": "{color.text.subtlest}"
         },
         "required": {
           "$value": "{color.text.role.error}"
@@ -353,7 +353,7 @@
           "$value": "{color.background.neutral.default}"
         },
         "addon-text": {
-          "$value": "{color.text.neutral.subtle}"
+          "$value": "{color.text.subtle}"
         },
         "error-icon": {
           "$value": "{color.icon.role.error}"

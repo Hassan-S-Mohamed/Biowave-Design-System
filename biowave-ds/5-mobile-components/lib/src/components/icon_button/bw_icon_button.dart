@@ -214,12 +214,12 @@ class _BwIconButtonState extends State<BwIconButton> {
           return baseIcon.resolve(states);
         }
         if (states.contains(WidgetState.disabled)) {
-          return colors.iconNeutralDisabled;
+          return colors.iconDisabled;
         }
         return switch (widget.color) {
           BwButtonColor.brand => colors.iconRoleBrand,
           BwButtonColor.secondary => colors.iconRoleSecondary,
-          BwButtonColor.neutral => colors.iconNeutralDefault,
+          BwButtonColor.neutral => colors.iconDefault,
           BwButtonColor.error => colors.iconRoleError,
           BwButtonColor.inverse => colors.iconRoleBrand,
         };
@@ -346,7 +346,7 @@ class _BwIconButtonState extends State<BwIconButton> {
               ),
             ),
             textStyle: context.bw.text.labelSm.copyWith(
-              color: colors.textNeutralInverse,
+              color: colors.textInverse,
             ),
             waitDuration: BwDuration.xl2,
             showDuration:

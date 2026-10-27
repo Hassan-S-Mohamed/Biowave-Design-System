@@ -9,10 +9,10 @@ Planning sketches for Tooltip 1.0 on Flutter Material 3 tablet. The plan remains
 | `color-surface-page` | `#F7F7F7` | `#0A0A0A` |
 | `color-surface-default` (staging anchors only) | `#FFFFFF` | `#141414` |
 | `color-surface-inverse` | `#141414` | `#FFFFFF` |
-| `color-text-neutral-default` (sheet captions / labelled anchor) | `#0A0A0A` | `#F7F7F7` |
-| `color-text-neutral-muted` (sheet secondary captions) | `#707070` | `#BDBDBD` |
-| `color-text-neutral-inverse` | `#FFFFFF` | `#0A0A0A` |
-| `color-icon-neutral-default` (staging anchors only) | `#0A0A0A` | `#F7F7F7` |
+| `color-text-default` (sheet captions / labelled anchor) | `#0A0A0A` | `#F7F7F7` |
+| `color-text-subtlest` (sheet secondary captions) | `#707070` | `#BDBDBD` |
+| `color-text-inverse` | `#FFFFFF` | `#0A0A0A` |
+| `color-icon-default` (staging anchors only) | `#0A0A0A` | `#F7F7F7` |
 | `color-border-default` (staging anchors only) | `#DBDBDB` | `#404040` |
 | `color-border-focus` (focused staging anchor only) | `#254471` | `#90A3BC` |
 | `spacing-xs` | `4 px` | `4 px` |

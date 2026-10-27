@@ -38,10 +38,10 @@ enum BwIconColor {
 
   /// Resolves this icon colour role from the active [BwColors] theme extension.
   Color resolve(BwColors colors) => switch (this) {
-        BwIconColor.defaultColor => colors.iconNeutralDefault,
-        BwIconColor.subtle => colors.iconNeutralSubtle,
-        BwIconColor.muted => colors.iconNeutralMuted,
-        BwIconColor.inverse => colors.iconNeutralInverse,
+        BwIconColor.defaultColor => colors.iconDefault,
+        BwIconColor.subtle => colors.iconSubtle,
+        BwIconColor.muted => colors.iconSubtlest,
+        BwIconColor.inverse => colors.iconInverse,
         BwIconColor.brand => colors.iconRoleBrand,
         BwIconColor.secondary => colors.iconRoleSecondary,
         BwIconColor.success => colors.iconRoleSuccess,
@@ -95,7 +95,7 @@ class BwIcon extends StatelessWidget {
     final resolvedSize = size?.dimension ?? iconTheme.size ?? BwSize.iconLg;
     final resolvedColor = color?.resolve(context.bw.colors) ??
         iconTheme.color ??
-        context.bw.colors.iconNeutralDefault;
+        context.bw.colors.iconDefault;
     final resolvedFill = filled ? BwIconAxes.fillSelected : BwIconAxes.fill;
 
     // Pass textDirection: TextDirection.ltr to the inner Icon so Flutter's built-in

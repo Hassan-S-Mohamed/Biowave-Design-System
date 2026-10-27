@@ -179,13 +179,13 @@ class _BwSplitButtonState extends State<BwSplitButton> {
         style: MenuStyle(
           alignment: AlignmentDirectional.bottomStart,
           backgroundColor: WidgetStatePropertyAll<Color>(
-            colors.backgroundTransparent,
+            colors.backgroundTransparentDefault,
           ),
           shadowColor: WidgetStatePropertyAll<Color>(
-            colors.backgroundTransparent,
+            colors.backgroundTransparentDefault,
           ),
           surfaceTintColor: WidgetStatePropertyAll<Color>(
-            colors.backgroundTransparent,
+            colors.backgroundTransparentDefault,
           ),
           minimumSize: WidgetStatePropertyAll<Size>(
             Size(_containerWidth ?? BwSpacing.none, BwSpacing.none),
@@ -327,13 +327,13 @@ class _BwSplitButtonState extends State<BwSplitButton> {
       textStyle: WidgetStatePropertyAll<TextStyle>(context.bw.text.bodyMd),
       foregroundColor: WidgetStateProperty.resolveWith<Color>(
         (states) => states.contains(WidgetState.disabled)
-            ? colors.textNeutralDisabled
-            : colors.textNeutralDefault,
+            ? colors.textDisabled
+            : colors.textDefault,
       ),
       iconColor: WidgetStateProperty.resolveWith<Color>(
         (states) => states.contains(WidgetState.disabled)
-            ? colors.iconNeutralDisabled
-            : colors.iconNeutralSubtle,
+            ? colors.iconDisabled
+            : colors.iconSubtle,
       ),
       overlayColor: WidgetStateProperty.resolveWith<Color>((states) {
         if (states.contains(WidgetState.pressed)) {
@@ -341,9 +341,9 @@ class _BwSplitButtonState extends State<BwSplitButton> {
         }
         if (states.contains(WidgetState.hovered) ||
             states.contains(WidgetState.focused)) {
-          return colors.overlayHover;
+          return colors.overlayHovered;
         }
-        return colors.backgroundTransparent;
+        return colors.backgroundTransparentDefault;
       }),
       backgroundBuilder: (context, states, child) {
         assert(child != null);

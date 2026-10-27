@@ -288,7 +288,7 @@ No component tokens — every value is an existing semantic token (P-04); `avata
 
 | `color` | `container` background | `initials` colour | `fallback-icon` colour |
 |---|---|---|---|
-| `neutral` | `color-background-neutral-default` | `color-text-neutral-subtle` | `color-icon-neutral-subtle` |
+| `neutral` | `color-background-neutral-default` | `color-text-subtle` | `color-icon-subtle` |
 | `brand` | `color-background-brand-subtle` | `color-text-role-brand` | `color-icon-role-brand` |
 | `secondary` | `color-background-secondary-subtle` | `color-text-role-secondary` | `color-icon-role-secondary` |
 

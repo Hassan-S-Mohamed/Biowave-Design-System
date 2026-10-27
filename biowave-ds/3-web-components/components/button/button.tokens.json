@@ -83,7 +83,7 @@
             "$value": "{color.background.brand.default}"
           },
           "hover": {
-            "$value": "{color.background.brand.hover}"
+            "$value": "{color.background.brand.hovered}"
           },
           "pressed": {
             "$value": "{color.background.brand.pressed}"
@@ -97,7 +97,7 @@
             "$value": "{color.text.on.brand}"
           },
           "disabled": {
-            "$value": "{color.text.neutral.disabled}"
+            "$value": "{color.text.disabled}"
           }
         },
         "icon": {
@@ -105,7 +105,7 @@
             "$value": "{color.icon.on.brand}"
           },
           "disabled": {
-            "$value": "{color.icon.neutral.disabled}"
+            "$value": "{color.icon.disabled}"
           }
         }
       },
@@ -115,7 +115,7 @@
             "$value": "{color.background.secondary.default}"
           },
           "hover": {
-            "$value": "{color.background.secondary.hover}"
+            "$value": "{color.background.secondary.hovered}"
           },
           "pressed": {
             "$value": "{color.background.secondary.pressed}"
@@ -129,7 +129,7 @@
             "$value": "{color.text.on.secondary}"
           },
           "disabled": {
-            "$value": "{color.text.neutral.disabled}"
+            "$value": "{color.text.disabled}"
           }
         },
         "icon": {
@@ -137,7 +137,7 @@
             "$value": "{color.icon.on.secondary}"
           },
           "disabled": {
-            "$value": "{color.icon.neutral.disabled}"
+            "$value": "{color.icon.disabled}"
           }
         }
       },
@@ -147,7 +147,7 @@
             "$value": "{color.background.error.default}"
           },
           "hover": {
-            "$value": "{color.background.error.hover}"
+            "$value": "{color.background.error.hovered}"
           },
           "pressed": {
             "$value": "{color.background.error.pressed}"
@@ -161,7 +161,7 @@
             "$value": "{color.text.on.error}"
           },
           "disabled": {
-            "$value": "{color.text.neutral.disabled}"
+            "$value": "{color.text.disabled}"
           }
         },
         "icon": {
@@ -169,7 +169,7 @@
             "$value": "{color.icon.on.error}"
           },
           "disabled": {
-            "$value": "{color.icon.neutral.disabled}"
+            "$value": "{color.icon.disabled}"
           }
         }
       },
@@ -179,7 +179,7 @@
             "$value": "{color.background.neutral.default}"
           },
           "hover": {
-            "$value": "{color.background.neutral.hover}"
+            "$value": "{color.background.neutral.hovered}"
           },
           "pressed": {
             "$value": "{color.background.neutral.pressed}"
@@ -190,18 +190,18 @@
         },
         "label": {
           "default": {
-            "$value": "{color.text.neutral.default}"
+            "$value": "{color.text.default}"
           },
           "disabled": {
-            "$value": "{color.text.neutral.disabled}"
+            "$value": "{color.text.disabled}"
           }
         },
         "icon": {
           "default": {
-            "$value": "{color.icon.neutral.default}"
+            "$value": "{color.icon.default}"
           },
           "disabled": {
-            "$value": "{color.icon.neutral.disabled}"
+            "$value": "{color.icon.disabled}"
           }
         }
       },
@@ -211,7 +211,7 @@
             "$value": "{color.background.inverse.default}"
           },
           "hover": {
-            "$value": "{color.background.inverse.hover}"
+            "$value": "{color.background.inverse.hovered}"
           },
           "pressed": {
             "$value": "{color.background.inverse.pressed}"
@@ -225,7 +225,7 @@
             "$value": "{color.text.role.brand}"
           },
           "disabled": {
-            "$value": "{color.text.neutral.disabled}"
+            "$value": "{color.text.disabled}"
           }
         },
         "icon": {
@@ -233,7 +233,7 @@
             "$value": "{color.icon.role.brand}"
           },
           "disabled": {
-            "$value": "{color.icon.neutral.disabled}"
+            "$value": "{color.icon.disabled}"
           }
         }
       }
@@ -256,7 +256,7 @@
         },
         "state-layer": {
           "hover": {
-            "$value": "{color.overlay.hover}"
+            "$value": "{color.overlay.hovered}"
           },
           "pressed": {
             "$value": "{color.overlay.pressed}"
@@ -267,7 +267,7 @@
             "$value": "{color.text.role.brand}"
           },
           "disabled": {
-            "$value": "{color.text.neutral.disabled}"
+            "$value": "{color.text.disabled}"
           }
         },
         "icon": {
@@ -275,7 +275,7 @@
             "$value": "{color.icon.role.brand}"
           },
           "disabled": {
-            "$value": "{color.icon.neutral.disabled}"
+            "$value": "{color.icon.disabled}"
           }
         }
       },
@@ -290,7 +290,7 @@
         },
         "state-layer": {
           "hover": {
-            "$value": "{color.overlay.hover}"
+            "$value": "{color.overlay.hovered}"
           },
           "pressed": {
             "$value": "{color.overlay.pressed}"
@@ -301,7 +301,7 @@
             "$value": "{color.text.role.secondary}"
           },
           "disabled": {
-            "$value": "{color.text.neutral.disabled}"
+            "$value": "{color.text.disabled}"
           }
         },
         "icon": {
@@ -309,7 +309,7 @@
             "$value": "{color.icon.role.secondary}"
           },
           "disabled": {
-            "$value": "{color.icon.neutral.disabled}"
+            "$value": "{color.icon.disabled}"
           }
         }
       },
@@ -324,7 +324,7 @@
         },
         "state-layer": {
           "hover": {
-            "$value": "{color.overlay.hover}"
+            "$value": "{color.overlay.hovered}"
           },
           "pressed": {
             "$value": "{color.overlay.pressed}"
@@ -335,7 +335,7 @@
             "$value": "{color.text.role.error}"
           },
           "disabled": {
-            "$value": "{color.text.neutral.disabled}"
+            "$value": "{color.text.disabled}"
           }
         },
         "icon": {
@@ -343,7 +343,7 @@
             "$value": "{color.icon.role.error}"
           },
           "disabled": {
-            "$value": "{color.icon.neutral.disabled}"
+            "$value": "{color.icon.disabled}"
           }
         }
       }
@@ -358,10 +358,10 @@
       "brand": {
         "container": {
           "default": {
-            "$value": "{color.background.transparent}"
+            "$value": "{color.background.transparent.default}"
           },
           "disabled": {
-            "$value": "{color.background.transparent}"
+            "$value": "{color.background.transparent.default}"
           }
         },
         "border": {
@@ -374,7 +374,7 @@
         },
         "state-layer": {
           "hover": {
-            "$value": "{color.overlay.hover}"
+            "$value": "{color.overlay.hovered}"
           },
           "pressed": {
             "$value": "{color.overlay.pressed}"
@@ -385,7 +385,7 @@
             "$value": "{color.text.role.brand}"
           },
           "disabled": {
-            "$value": "{color.text.neutral.disabled}"
+            "$value": "{color.text.disabled}"
           }
         },
         "icon": {
@@ -393,17 +393,17 @@
             "$value": "{color.icon.role.brand}"
           },
           "disabled": {
-            "$value": "{color.icon.neutral.disabled}"
+            "$value": "{color.icon.disabled}"
           }
         }
       },
       "secondary": {
         "container": {
           "default": {
-            "$value": "{color.background.transparent}"
+            "$value": "{color.background.transparent.default}"
           },
           "disabled": {
-            "$value": "{color.background.transparent}"
+            "$value": "{color.background.transparent.default}"
           }
         },
         "border": {
@@ -416,7 +416,7 @@
         },
         "state-layer": {
           "hover": {
-            "$value": "{color.overlay.hover}"
+            "$value": "{color.overlay.hovered}"
           },
           "pressed": {
             "$value": "{color.overlay.pressed}"
@@ -427,7 +427,7 @@
             "$value": "{color.text.role.secondary}"
           },
           "disabled": {
-            "$value": "{color.text.neutral.disabled}"
+            "$value": "{color.text.disabled}"
           }
         },
         "icon": {
@@ -435,17 +435,17 @@
             "$value": "{color.icon.role.secondary}"
           },
           "disabled": {
-            "$value": "{color.icon.neutral.disabled}"
+            "$value": "{color.icon.disabled}"
           }
         }
       },
       "error": {
         "container": {
           "default": {
-            "$value": "{color.background.transparent}"
+            "$value": "{color.background.transparent.default}"
           },
           "disabled": {
-            "$value": "{color.background.transparent}"
+            "$value": "{color.background.transparent.default}"
           }
         },
         "border": {
@@ -458,7 +458,7 @@
         },
         "state-layer": {
           "hover": {
-            "$value": "{color.overlay.hover}"
+            "$value": "{color.overlay.hovered}"
           },
           "pressed": {
             "$value": "{color.overlay.pressed}"
@@ -469,7 +469,7 @@
             "$value": "{color.text.role.error}"
           },
           "disabled": {
-            "$value": "{color.text.neutral.disabled}"
+            "$value": "{color.text.disabled}"
           }
         },
         "icon": {
@@ -477,17 +477,17 @@
             "$value": "{color.icon.role.error}"
           },
           "disabled": {
-            "$value": "{color.icon.neutral.disabled}"
+            "$value": "{color.icon.disabled}"
           }
         }
       },
       "neutral": {
         "container": {
           "default": {
-            "$value": "{color.background.transparent}"
+            "$value": "{color.background.transparent.default}"
           },
           "disabled": {
-            "$value": "{color.background.transparent}"
+            "$value": "{color.background.transparent.default}"
           }
         },
         "border": {
@@ -500,7 +500,7 @@
         },
         "state-layer": {
           "hover": {
-            "$value": "{color.overlay.hover}"
+            "$value": "{color.overlay.hovered}"
           },
           "pressed": {
             "$value": "{color.overlay.pressed}"
@@ -508,28 +508,28 @@
         },
         "label": {
           "default": {
-            "$value": "{color.text.neutral.default}"
+            "$value": "{color.text.default}"
           },
           "disabled": {
-            "$value": "{color.text.neutral.disabled}"
+            "$value": "{color.text.disabled}"
           }
         },
         "icon": {
           "default": {
-            "$value": "{color.icon.neutral.default}"
+            "$value": "{color.icon.default}"
           },
           "disabled": {
-            "$value": "{color.icon.neutral.disabled}"
+            "$value": "{color.icon.disabled}"
           }
         }
       },
       "inverse": {
         "container": {
           "default": {
-            "$value": "{color.background.transparent}"
+            "$value": "{color.background.transparent.default}"
           },
           "disabled": {
-            "$value": "{color.background.transparent}"
+            "$value": "{color.background.transparent.default}"
           }
         },
         "border": {
@@ -542,7 +542,7 @@
         },
         "state-layer": {
           "hover": {
-            "$value": "{color.overlay.hover}"
+            "$value": "{color.overlay.hovered}"
           },
           "pressed": {
             "$value": "{color.overlay.pressed}"
@@ -553,7 +553,7 @@
             "$value": "{color.text.on.brand}"
           },
           "disabled": {
-            "$value": "{color.text.neutral.disabled}"
+            "$value": "{color.text.disabled}"
           }
         },
         "icon": {
@@ -561,7 +561,7 @@
             "$value": "{color.icon.on.brand}"
           },
           "disabled": {
-            "$value": "{color.icon.neutral.disabled}"
+            "$value": "{color.icon.disabled}"
           }
         }
       }
@@ -576,15 +576,15 @@
       "brand": {
         "container": {
           "default": {
-            "$value": "{color.background.transparent}"
+            "$value": "{color.background.transparent.default}"
           },
           "disabled": {
-            "$value": "{color.background.transparent}"
+            "$value": "{color.background.transparent.default}"
           }
         },
         "state-layer": {
           "hover": {
-            "$value": "{color.overlay.hover}"
+            "$value": "{color.overlay.hovered}"
           },
           "pressed": {
             "$value": "{color.overlay.pressed}"
@@ -595,7 +595,7 @@
             "$value": "{color.text.role.brand}"
           },
           "disabled": {
-            "$value": "{color.text.neutral.disabled}"
+            "$value": "{color.text.disabled}"
           }
         },
         "icon": {
@@ -603,22 +603,22 @@
             "$value": "{color.icon.role.brand}"
           },
           "disabled": {
-            "$value": "{color.icon.neutral.disabled}"
+            "$value": "{color.icon.disabled}"
           }
         }
       },
       "secondary": {
         "container": {
           "default": {
-            "$value": "{color.background.transparent}"
+            "$value": "{color.background.transparent.default}"
           },
           "disabled": {
-            "$value": "{color.background.transparent}"
+            "$value": "{color.background.transparent.default}"
           }
         },
         "state-layer": {
           "hover": {
-            "$value": "{color.overlay.hover}"
+            "$value": "{color.overlay.hovered}"
           },
           "pressed": {
             "$value": "{color.overlay.pressed}"
@@ -629,7 +629,7 @@
             "$value": "{color.text.role.secondary}"
           },
           "disabled": {
-            "$value": "{color.text.neutral.disabled}"
+            "$value": "{color.text.disabled}"
           }
         },
         "icon": {
@@ -637,22 +637,22 @@
             "$value": "{color.icon.role.secondary}"
           },
           "disabled": {
-            "$value": "{color.icon.neutral.disabled}"
+            "$value": "{color.icon.disabled}"
           }
         }
       },
       "error": {
         "container": {
           "default": {
-            "$value": "{color.background.transparent}"
+            "$value": "{color.background.transparent.default}"
           },
           "disabled": {
-            "$value": "{color.background.transparent}"
+            "$value": "{color.background.transparent.default}"
           }
         },
         "state-layer": {
           "hover": {
-            "$value": "{color.overlay.hover}"
+            "$value": "{color.overlay.hovered}"
           },
           "pressed": {
             "$value": "{color.overlay.pressed}"
@@ -663,7 +663,7 @@
             "$value": "{color.text.role.error}"
           },
           "disabled": {
-            "$value": "{color.text.neutral.disabled}"
+            "$value": "{color.text.disabled}"
           }
         },
         "icon": {
@@ -671,22 +671,22 @@
             "$value": "{color.icon.role.error}"
           },
           "disabled": {
-            "$value": "{color.icon.neutral.disabled}"
+            "$value": "{color.icon.disabled}"
           }
         }
       },
       "neutral": {
         "container": {
           "default": {
-            "$value": "{color.background.transparent}"
+            "$value": "{color.background.transparent.default}"
           },
           "disabled": {
-            "$value": "{color.background.transparent}"
+            "$value": "{color.background.transparent.default}"
           }
         },
         "state-layer": {
           "hover": {
-            "$value": "{color.overlay.hover}"
+            "$value": "{color.overlay.hovered}"
           },
           "pressed": {
             "$value": "{color.overlay.pressed}"
@@ -694,33 +694,33 @@
         },
         "label": {
           "default": {
-            "$value": "{color.text.neutral.default}"
+            "$value": "{color.text.default}"
           },
           "disabled": {
-            "$value": "{color.text.neutral.disabled}"
+            "$value": "{color.text.disabled}"
           }
         },
         "icon": {
           "default": {
-            "$value": "{color.icon.neutral.default}"
+            "$value": "{color.icon.default}"
           },
           "disabled": {
-            "$value": "{color.icon.neutral.disabled}"
+            "$value": "{color.icon.disabled}"
           }
         }
       },
       "inverse": {
         "container": {
           "default": {
-            "$value": "{color.background.transparent}"
+            "$value": "{color.background.transparent.default}"
           },
           "disabled": {
-            "$value": "{color.background.transparent}"
+            "$value": "{color.background.transparent.default}"
           }
         },
         "state-layer": {
           "hover": {
-            "$value": "{color.overlay.hover}"
+            "$value": "{color.overlay.hovered}"
           },
           "pressed": {
             "$value": "{color.overlay.pressed}"
@@ -731,7 +731,7 @@
             "$value": "{color.text.on.brand}"
           },
           "disabled": {
-            "$value": "{color.text.neutral.disabled}"
+            "$value": "{color.text.disabled}"
           }
         },
         "icon": {
@@ -739,7 +739,7 @@
             "$value": "{color.icon.on.brand}"
           },
           "disabled": {
-            "$value": "{color.icon.neutral.disabled}"
+            "$value": "{color.icon.disabled}"
           }
         }
       }

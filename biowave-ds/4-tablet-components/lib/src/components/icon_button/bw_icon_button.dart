@@ -272,7 +272,7 @@ class BwIconButton extends StatelessWidget {
             ),
           ),
           textStyle: context.bw.text.labelSm.copyWith(
-            color: context.bw.colors.textNeutralInverse,
+            color: context.bw.colors.textInverse,
           ),
           padding: const EdgeInsetsDirectional.symmetric(
             horizontal: BwSpacing.md,
@@ -328,12 +328,12 @@ class BwIconButton extends StatelessWidget {
     if (!states.contains(WidgetState.selected)) return null;
     final colors = context.bw.colors;
     if (states.contains(WidgetState.disabled)) {
-      return colors.iconNeutralDisabled;
+      return colors.iconDisabled;
     }
     return switch (color) {
       BwButtonColor.brand => colors.iconRoleBrand,
       BwButtonColor.secondary => colors.iconRoleSecondary,
-      BwButtonColor.neutral => colors.iconNeutralDefault,
+      BwButtonColor.neutral => colors.iconDefault,
       BwButtonColor.error => colors.iconRoleError,
       BwButtonColor.inverse => colors.iconRoleBrand,
     };

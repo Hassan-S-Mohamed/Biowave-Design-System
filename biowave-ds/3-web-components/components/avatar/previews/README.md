@@ -7,11 +7,11 @@ These two flat UI specification sheets are planning sketches. The source of trut
 | Token | Value (light) | Value (dark) |
 |---|---:|---:|
 | `color-background-base-default` | `#FFFFFF` | `#141414` |
-| `color-text-neutral-default` (sheet headings) | `#0A0A0A` | `#F7F7F7` |
-| `color-text-neutral-subtle` (sheet notes; neutral initials) | `#292929` | `#DBDBDB` |
+| `color-text-default` (sheet headings) | `#0A0A0A` | `#F7F7F7` |
+| `color-text-subtle` (sheet notes; neutral initials) | `#292929` | `#DBDBDB` |
 | `color-border-subtle` (sheet dividers) | `#EDEDED` | `#292929` |
 | `color-background-neutral-default` | `#EDEDED` | `#292929` |
-| `color-icon-neutral-subtle` | `#292929` | `#DBDBDB` |
+| `color-icon-subtle` | `#292929` | `#DBDBDB` |
 | `color-background-brand-subtle` | `#E8ECF2` | `#071323` |
 | `color-text-role-brand` | `#132843` | `#90A3BC` |
 | `color-icon-role-brand` | `#193351` | `#90A3BC` |

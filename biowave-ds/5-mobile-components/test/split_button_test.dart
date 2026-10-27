@@ -334,15 +334,15 @@ void main() {
             final menuStyle = menuAnchor.style!;
             expect(
               menuStyle.backgroundColor!.resolve(<WidgetState>{}),
-              colors.backgroundTransparent,
+              colors.backgroundTransparentDefault,
             );
             expect(
               menuStyle.shadowColor!.resolve(<WidgetState>{}),
-              colors.backgroundTransparent,
+              colors.backgroundTransparentDefault,
             );
             expect(
               menuStyle.surfaceTintColor!.resolve(<WidgetState>{}),
-              colors.backgroundTransparent,
+              colors.backgroundTransparentDefault,
             );
             final menuShape = menuStyle.shape!.resolve(<WidgetState>{})!
                 as RoundedRectangleBorder;
@@ -381,27 +381,27 @@ void main() {
             );
             expect(
               itemStyle.foregroundColor!.resolve(<WidgetState>{}),
-              colors.textNeutralDefault,
+              colors.textDefault,
             );
             expect(
               itemStyle.foregroundColor!.resolve(<WidgetState>{
                 WidgetState.disabled,
               }),
-              colors.textNeutralDisabled,
+              colors.textDisabled,
             );
             expect(
               itemStyle.iconColor!.resolve(<WidgetState>{}),
-              colors.iconNeutralSubtle,
+              colors.iconSubtle,
             );
             expect(
               itemStyle.iconColor!.resolve(<WidgetState>{WidgetState.disabled}),
-              colors.iconNeutralDisabled,
+              colors.iconDisabled,
             );
             expect(
               itemStyle.overlayColor!.resolve(<WidgetState>{
                 WidgetState.hovered,
               }),
-              colors.overlayHover,
+              colors.overlayHovered,
             );
             expect(
               itemStyle.overlayColor!.resolve(<WidgetState>{
@@ -413,7 +413,7 @@ void main() {
               itemStyle.overlayColor!.resolve(<WidgetState>{
                 WidgetState.focused,
               }),
-              colors.overlayHover,
+              colors.overlayHovered,
             );
             expect(
               itemStyle.side!.resolve(<WidgetState>{WidgetState.focused}),

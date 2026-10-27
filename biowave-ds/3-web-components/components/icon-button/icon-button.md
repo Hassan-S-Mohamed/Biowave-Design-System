@@ -223,12 +223,12 @@ Exactly [Button B3.1–B3.5](../button/button.md#b3-tokens-by-part-and-state) fo
 #### 3.2 Selected (`toggle` + `selected`, text and outlined only)
 | `color` | `container` background | State layer · Hover / Pressed | `icon` | `container` border (outlined) |
 |---|---|---|---|---|
-| `brand` | `color-background-brand-subtle` | `color-overlay-hover` / `color-overlay-pressed` | `color-icon-role-brand` | `color-border-brand` |
+| `brand` | `color-background-brand-subtle` | `color-overlay-hovered` / `color-overlay-pressed` | `color-icon-role-brand` | `color-border-brand` |
 | `secondary` | `color-background-secondary-subtle` | same | `color-icon-role-secondary` | `color-border-secondary` |
 | `error` | `color-background-error-subtle` | same | `color-icon-role-error` | `color-border-error` |
-| `neutral` | `color-background-neutral-default` | same | `color-icon-neutral-default` | `color-border-strong` |
+| `neutral` | `color-background-neutral-default` | same | `color-icon-default` | `color-border-strong` |
 | `inverse` | `color-background-inverse-default` | same | `color-icon-role-brand` | `color-border-inverse` |
-| Disabled | `color-background-neutral-disabled` | — | `color-icon-neutral-disabled` | `color-border-disabled` |
+| Disabled | `color-background-neutral-disabled` | — | `color-icon-disabled` | `color-border-disabled` |
 
 #### 3.3 Focus
 As Button B3.5 (`inverse` uses `color-border-inverse`).
@@ -236,7 +236,7 @@ As Button B3.5 (`inverse` uses `color-border-inverse`).
 #### 3.4 Tooltip (temporary, until Tooltip component)
 | Part | Property | Token |
 |---|---|---|
-| `tooltip` | background · text | `color-surface-inverse` · `color-text-neutral-inverse` |
+| `tooltip` | background · text | `color-surface-inverse` · `color-text-inverse` |
 | `tooltip` | text style · radius | `label-sm` · `radius-sm` |
 | `tooltip` | padding-block · padding-inline | `spacing-xs` · `spacing-md` |
 | `tooltip` | offset from button | `spacing-xs` |
@@ -677,7 +677,7 @@ Commands run by the Reviewer (2026-10-21, this machine; two other worktrees were
 | Exit transition | `opacity 100ms var(--bw-motion-easing-standard-accelerate)` | same | `opacity 0ms …accelerate` | same | `sm` + `standard-accelerate`; reduced = instant ✅ |
 | Esc → tooltip removed | 110 ms | 109 ms | 12 ms | 15 ms | ✅ |
 | Pointer leave → removed | 114 ms | 105 ms | 14 ms | 10 ms | ✅ |
-| Tooltip bg · text | #141414 · #FFFFFF | #FFFFFF · #0A0A0A | | | `color-surface-inverse` · `color-text-neutral-inverse` per theme ✅ |
+| Tooltip bg · text | #141414 · #FFFFFF | #FFFFFF · #0A0A0A | | | `color-surface-inverse` · `color-text-inverse` per theme ✅ |
 | Tooltip radius · padding · offset | 6 px · 4 / 8 px · 4 px above, centred (Δ 0.2 px) | same | | | `radius-sm` · `spacing-xs` / `spacing-md` · `spacing-xs`, placement top (B3.4, B5) ✅ |
 | Focus ring | 2 px solid, offset 2 px | same (dark focus colour) | | | B3.3 / AGENTS §2.6 ✅ |
 | Button size (md) | 40 × 40 | 40 × 40 | | | `size-control-height-md` square ✅ |

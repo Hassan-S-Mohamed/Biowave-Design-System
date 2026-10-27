@@ -7,9 +7,9 @@ These images are a review sketch. The plan remains the source of truth. Values b
 | Token | Value (light) | Value (dark) |
 |---|---:|---:|
 | `color.surface.page` | `#F7F7F7` | `#0A0A0A` |
-| `color.background.transparent` | `#54545400` | `#54545400` |
+| `color.background.transparent.default` | `#54545400` | `#54545400` |
 | `color.background.brand.default` | `#193351` | `#607D9F` |
-| `color.background.brand.hover` | `#132843` | `#90A3BC` |
+| `color.background.brand.hovered` | `#132843` | `#90A3BC` |
 | `color.background.brand.pressed` | `#0D1E33` | `#BEC9D9` |
 | `color.background.brand.subtle` | `#E8ECF2` | `#071323` |
 | `color.background.secondary.default` | `#0C5F79` | `#5DA8C2` |
@@ -32,8 +32,8 @@ These images are a review sketch. The plan remains the source of truth. Values b
 | `color.text.role.brand` | `#132843` | `#90A3BC` |
 | `color.text.role.secondary` | `#094E65` | `#90C3D5` |
 | `color.text.role.error` | `#D42222` | `#FEA3A3` |
-| `color.text.neutral.default` | `#0A0A0A` | `#F7F7F7` |
-| `color.text.neutral.disabled` | `#969696` | `#545454` |
+| `color.text.default` | `#0A0A0A` | `#F7F7F7` |
+| `color.text.disabled` | `#969696` | `#545454` |
 | `color.icon.on.brand` | `#FFFFFF` | `#0A0A0A` |
 | `size.control.height.sm` | `32px` | `32px` |
 | `size.control.height.md` | `40px` | `40px` |

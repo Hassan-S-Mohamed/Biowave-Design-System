@@ -9,8 +9,8 @@ Planning sketches for Badge 1.0. The plan remains the source of truth.
 | `color-surface-page` | `#F7F7F7` | `#0A0A0A` |
 | `color-surface-default` | `#FFFFFF` | `#141414` |
 | `color-surface-raised` | `#FFFFFF` | `#292929` |
-| `color-text-neutral-default` | `#0A0A0A` | `#F7F7F7` |
-| `color-icon-neutral-default` | `#0A0A0A` | `#F7F7F7` |
+| `color-text-default` | `#0A0A0A` | `#F7F7F7` |
+| `color-icon-default` | `#0A0A0A` | `#F7F7F7` |
 | `color-border-subtle` | `#EDEDED` | `#292929` |
 | `color-background-error-default` | `#D42222` | `#FF7676` |
 | `color-text-on-error` | `#FFFFFF` | `#0A0A0A` |
@@ -25,7 +25,7 @@ Planning sketches for Badge 1.0. The plan remains the source of truth.
 | `color-background-info-default` | `#2559D4` | `#6D9CE8` |
 | `color-text-on-info` / `color-icon-on-info` | `#FFFFFF` | `#0A0A0A` |
 | `color-surface-inverse` | `#141414` | `#FFFFFF` |
-| `color-text-neutral-inverse` / `color-icon-neutral-inverse` | `#FFFFFF` | `#0A0A0A` |
+| `color-text-inverse` / `color-icon-inverse` | `#FFFFFF` | `#0A0A0A` |
 | `color-border-inverse` (anchored ring) | `#FFFFFF` | `#0A0A0A` |
 | `size-icon-md` (count/check height and minimum width) | `20dp` | `20dp` |
 | `spacing-md` (dot diameter) | `8dp` | `8dp` |

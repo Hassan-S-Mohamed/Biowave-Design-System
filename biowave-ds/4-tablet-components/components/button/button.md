@@ -291,7 +291,7 @@ Identical to the [Web B3](../../../3-web-components/components/button/button.md#
 | Spec part / state | `ButtonStyle` field |
 |---|---|
 | `container` background (Default · Hover · Pressed · Disabled) | `backgroundColor` `WidgetStateProperty` |
-| state layer (tonal · outlined · text) | `overlayColor`: hovered → `overlayHover`, pressed → `overlayPressed`, focused → transparent; filled → always transparent |
+| state layer (tonal · outlined · text) | `overlayColor`: hovered → `overlayHovered`, pressed → `overlayPressed`, focused → transparent; filled → always transparent |
 | `container` border (outlined) | `side` `WidgetStateProperty` (`BorderSide(width: BwBorder.widthDefault, color: …)`) |
 | `label` · `spinner` | `foregroundColor` |
 | icons | `iconColor` |
@@ -736,7 +736,7 @@ Extra evidence: a throw-away probe test run against a scratch copy of the packag
 | AC | Result | Evidence (file:line / test name) |
 |---|---|---|
 | AC-1 API matches B1 | ✅ (with finding 2) | `bw_button.dart:9-55` names, types, defaults match B1; asserts `:29-42` (empty label message matches B1); fallbacks `:57-66` (tonal neutral/inverse → outlined, trailing dropped). Tests `asserts every invalid combination`, `uses the documented defaults and M3 variant`. Finding 2: `loading: true` + `onPressed: null` turns a disabled button into an enabled one |
-| AC-2 Values from tokens, no raw values / `BwPalette` | ✅ | `bw_button_style.dart:26-55` (B2 heights, padding, gap, icon size, radius incl. `xl` → `BwRadius.xl`), `:57-121`, palettes `:123-249` match Web B3 3.1–3.4 token for token; disabled per variant matches; `shadowColor` uses `backgroundTransparent`. No `Color(0x`, numeric insets, `Duration(milliseconds:` or `BwPalette` in `lib/` (test `component source contains no prohibited raw values`) |
+| AC-2 Values from tokens, no raw values / `BwPalette` | ✅ | `bw_button_style.dart:26-55` (B2 heights, padding, gap, icon size, radius incl. `xl` → `BwRadius.xl`), `:57-121`, palettes `:123-249` match Web B3 3.1–3.4 token for token; disabled per variant matches; `shadowColor` uses `backgroundTransparentDefault`. No `Color(0x`, numeric insets, `Duration(milliseconds:` or `BwPalette` in `lib/` (test `component source contains no prohibited raw values`) |
 | AC-3 B4 transitions, reduced motion | ❌ | `animationDuration` `bw_button_style.dart:69-70` and `AnimatedSwitcher` `bw_button.dart:79-80,129-130` honour `context.bw.reduceMotion` ✓. But the focus ring animates in with `BwDuration.sm` (`bw_button.dart:188` → `bw_focus_ring.dart:67-69`); B4 (Web table) says Any → Focus is `motion-duration-instant` — finding 3. Reduced-motion test only checks `ButtonStyle.animationDuration` (`honours reduced motion`) |
 | AC-4 RTL as B5; a11y as B6 | ❌ | RTL ✓: `EdgeInsetsDirectional` `bw_button_style.dart:102-104`, `BorderRadiusDirectional` `:107`, no `Transform` on icons, `ar` goldens mirror order. Loading ✓: keeps focus and blocks presses (`bw_button.dart:85`), announces once via `SemanticsService.sendAnnouncement` post-frame (`:229-251`), semantics label/value (`:194-204`); test `loading blocks presses, keeps size and focus, and announces once`. Keyboard-only ring ✓ (`bw_focus_ring.dart:30-32`, test `focus ring appears only in keyboard highlight mode`). **Focus ring geometry ✗** — finding 1 |
 | AC-5 Tests pass; sync passes | ✅ | See checks table above |

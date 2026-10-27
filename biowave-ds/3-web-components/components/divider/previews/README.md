@@ -11,7 +11,7 @@ These images are planning sketches. The component plan remains the source of tru
 | `color-border-subtle` | `#EDEDED` | `#292929` |
 | `color-border-default` | `#DBDBDB` | `#404040` |
 | `color-border-strong` | `#BDBDBD` | `#545454` |
-| `color-text-neutral-muted` | `#707070` | `#BDBDBD` |
+| `color-text-subtlest` | `#707070` | `#BDBDBD` |
 | `border-width-default` | `1px` | `1px` |
 | `spacing-none` | `0px` | `0px` |
 | `spacing-md` | `8px` | `8px` |
@@ -47,7 +47,7 @@ Exact values, visibly annotate each part beside the example it styles:
 - horizontal inset both: spacing-xl 16px at both inline ends.
 - vertical inset both: spacing-xl 16px at top and bottom; vertical none is 0px.
 - label gap: spacing-md 8px on each side of the text.
-- label color: color-text-neutral-muted #707070.
+- label color: color-text-subtlest #707070.
 - label typography: caption-md, Inter, 12px, weight 400, 16px line height.
 
 Text: Render technical captions exactly as quoted and render the labels exactly “or” and “or continue with”, all English left-to-right. No additional prose.
@@ -80,7 +80,7 @@ Exact values, visibly annotate each part beside the example it styles:
 - horizontal inset both: spacing-xl 16px at both inline ends.
 - vertical inset both: spacing-xl 16px at top and bottom; vertical none is 0px.
 - label gap: spacing-md 8px on each side of the text.
-- label color: color-text-neutral-muted #BDBDBD.
+- label color: color-text-subtlest #BDBDBD.
 - label typography: caption-md, IBM Plex Sans Arabic, 12px, weight 400, 18px line height.
 
 Text: Render technical property/value captions exactly as quoted. Render the Arabic labels exactly “أو” and “أو تابع باستخدام”, right-to-left. Do not transliterate or alter the Arabic. No additional prose.

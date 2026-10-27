@@ -12,26 +12,26 @@ export interface LinkVisualTokens {
   disabled: string;
 }
 
-const disabledColor = cssVars.color.text.neutral.disabled;
+const disabledColor = cssVars.color.text.disabled;
 
 export const linkColorTokens = {
   brand: {
     default: cssVars.color.link.default,
-    hover: cssVars.color.link.hover,
+    hover: cssVars.color.link.hovered,
     pressed: cssVars.color.link.pressed,
     visited: cssVars.color.link.visited,
     disabled: disabledColor,
   },
   neutral: {
-    default: cssVars.color.text.neutral.default,
-    hover: cssVars.color.text.neutral.default,
-    pressed: cssVars.color.text.neutral.default,
+    default: cssVars.color.text.default,
+    hover: cssVars.color.text.default,
+    pressed: cssVars.color.text.default,
     disabled: disabledColor,
   },
   inverse: {
-    default: cssVars.color.text.neutral.inverse,
-    hover: cssVars.color.text.neutral.inverse,
-    pressed: cssVars.color.text.neutral.inverse,
+    default: cssVars.color.text.inverse,
+    hover: cssVars.color.text.inverse,
+    pressed: cssVars.color.text.inverse,
     disabled: disabledColor,
   },
 } as const satisfies Record<LinkColor, LinkVisualTokens>;
