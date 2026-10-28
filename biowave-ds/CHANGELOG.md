@@ -2,6 +2,15 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Sync — Web Components typography migration] — 2026-10-28
+### Changed (Figma, Web Components file only)
+- 921 text layers that held old versions of the Biowave styles (same keys) now use the current `{role}/{size}` styles; no visual change.
+- Link variants: `Web/ar/action/md · lg` (168 layers) → `action/md · lg`; their 168 components get the `Web · AR` mode of `5. Typography` (verified: IBM Plex Sans Arabic Medium 16).
+- Legacy kit styles mapped to the nearest Biowave style: `Text sm/Medium` → `label/lg` (240), `Text sm/Regular` → `body/md` (42), `Text md/Regular` → `body/lg` (52), `Text xs/Medium` → `label/sm` (20), `Display xl/Medium` → `display/lg` (24, now smaller than the old 60/72), `Button/Button-3 Medium` → `action/md` (29), `Body S` → `body/sm` (14), `Input M` → `body/lg` (8); 21 stale instance overrides refreshed.
+- All 13 pages default to `Web · EN`.
+### Left as is
+- ~2,700 text layers without a style: documentation text (Montserrat) and raw Inter/IBM Plex text, plus ~100 layers inside remote instances. The Figma Agent replaces them when it rebuilds from the contracts. With this, no component file uses the `Web/ar/*` styles, so `_deprecated · 6. Typography (AR)` can be unpublished.
+
 ## [Sync — Typography published: library index and contracts] — 2026-10-28
 ### Changed
 - Library index refreshed after the Foundations publish: 287 variables (`5. Typography` 59 with new keys), 23 text styles (`{role}/{size}`); reachable from the component files: 287. The deprecated AR collection is no longer published.
