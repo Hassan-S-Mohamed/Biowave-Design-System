@@ -1,4 +1,4 @@
-<!-- GENERATED from tooltip.md @ 54864120e47e1b96 — do not edit; change the source and run: npm run contract -- web tooltip -->
+<!-- GENERATED from tooltip.md @ 1787f07b8d9b2656 — do not edit; change the source and run: npm run contract -- web tooltip -->
 # Tooltip · تلميح — Web — Figma contract
 
 > **Everything the Figma Agent needs to build Tooltip in the Web Components file, with our variables and styles.** Read this file only. Generated from [`tooltip.md`](tooltip.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-28). Questions go to [D11 Execution log](tooltip.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
@@ -12,7 +12,7 @@
 | Component | Tooltip · تلميح |
 | Platform | Web · React + MUI |
 | Version | 1.1 · 2026-10-24 |
-| Source | [`tooltip.md`](tooltip.md) @ `54864120e47e1b96` |
+| Source | [`tooltip.md`](tooltip.md) @ `1787f07b8d9b2656` |
 
 ## 1. Library connections in this file
 

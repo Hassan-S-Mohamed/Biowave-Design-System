@@ -1,4 +1,4 @@
-<!-- GENERATED from badge.md @ 176976cf3b8b007e — do not edit; change the source and run: npm run contract -- tablet badge -->
+<!-- GENERATED from badge.md @ fe16f955ca80f97b — do not edit; change the source and run: npm run contract -- tablet badge -->
 # Badge · شارة — Tablet — Figma contract
 
 > **Everything the Figma Agent needs to build Badge in the Tablet Components file, with our variables and styles.** Read this file only. Generated from [`badge.md`](badge.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-28). Questions go to [D11 Execution log](badge.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
@@ -12,7 +12,7 @@
 | Component | Badge · شارة |
 | Platform | Tablet · Flutter + Material 3 |
 | Version | 1.1 · 2026-10-24 |
-| Source | [`badge.md`](badge.md) @ `176976cf3b8b007e` |
+| Source | [`badge.md`](badge.md) @ `fe16f955ca80f97b` |
 
 ## 1. Library connections in this file
 
@@ -40,7 +40,7 @@ None yet — this component has no component tokens. Bind to the Foundations var
 
 | Token | Figma variable | Key | Type | Scopes | Used by |
 |---|---|---|---|---|---|
-| `border-width-strong` | 9. Border › `border/width/strong` | `71439086700175c98e9cdf1952de74427c72063e` | FLOAT | STROKE_FLOAT | spec |
+| `border-width-strong` | 7. Border › `border/width/strong` | `71439086700175c98e9cdf1952de74427c72063e` | FLOAT | STROKE_FLOAT | spec |
 | `color-background-brand-default` | 1. Themes › `color/background/brand/default` | `bdd7bfecb9dd5c41ac657e880d4d2efe36909e3f` | COLOR | FRAME_FILL, SHAPE_FILL | spec |
 | `color-background-error-default` | 1. Themes › `color/background/error/default` | `00642d9524f1bc7c3550f2b6fc75ef70393d6b56` | COLOR | FRAME_FILL, SHAPE_FILL | spec |
 | `color-background-info-default` | 1. Themes › `color/background/info/default` | `4fbd67301596273d3c752d213b6caea59cda5cee` | COLOR | FRAME_FILL, SHAPE_FILL | spec |
@@ -67,7 +67,7 @@ None yet — this component has no component tokens. Bind to the Foundations var
 | `size-icon-sm` | 4. Size › `size/icon/sm` | `2aa4b1f12a5ed0745f9a8b3251dc1fd9f7dd3476` | FLOAT | WIDTH_HEIGHT | spec |
 | `spacing-md` | 3. Spacing › `spacing/md` | `58c93e3cec1b6ba603371a027483e101adcef4f0` | FLOAT | WIDTH_HEIGHT, GAP | spec |
 | `spacing-xs` | 3. Spacing › `spacing/xs` | `9ea993d003d5368c5100b038d51c7c8f3e95c115` | FLOAT | WIDTH_HEIGHT, GAP | spec |
-| `target-min` | 7. Grid & Layout › `target/min` | `db23ec2826d3bfa3e600e5a82801e0c7d37ba298` | FLOAT | WIDTH_HEIGHT | spec |
+| `target-min` | 6. Grid & Layout › `target/min` | `db23ec2826d3bfa3e600e5a82801e0c7d37ba298` | FLOAT | WIDTH_HEIGHT | spec |
 
 ## 4. Text styles used (keys)
 
@@ -258,7 +258,7 @@ The Tablet Part D refers to these Web sections; they are copied here so you read
 
 0. **Library first; no component tokens (D-13).** Badge has no `badge.tokens.json` (B3: every value is a semantic token). Bind directly to the **Biowave DS — Foundations** library variables listed in the contract; never create local variables, collections or styles. Text style `data/sm`; the check glyph is the **Icon** set in this file.
 1. **Every value is bound.** Fill, stroke colour and weight, radius, padding, height, min width → variables; text → text style. No raw hex / px.
-2. **Token → variable:** `-` between segments becomes `/`: `color-background-error-default` → `1. Themes › color/background/error/default`; `color-surface-inverse` → `1. Themes › color/surface/inverse`; `color-icon-role-warning` → `1. Themes › color/icon/role/warning` (the `Warning` fill, B3); `size-icon-md` → `4. Size › size/icon/md`; `spacing-xs` → `3. Spacing › spacing/xs`; `spacing-md` → `3. Spacing › spacing/md`; `radius-full` → `2. Radius › radius/full`; `border-width-strong` → `9. Border › border/width/strong`; `color-border-inverse` → `1. Themes › color/border/inverse`.
+2. **Token → variable:** `-` between segments becomes `/`: `color-background-error-default` → `1. Themes › color/background/error/default`; `color-surface-inverse` → `1. Themes › color/surface/inverse`; `color-icon-role-warning` → `1. Themes › color/icon/role/warning` (the `Warning` fill, B3); `size-icon-md` → `4. Size › size/icon/md`; `spacing-xs` → `3. Spacing › spacing/xs`; `spacing-md` → `3. Spacing › spacing/md`; `radius-full` → `2. Radius › radius/full`; `border-width-strong` → `7. Border › border/width/strong`; `color-border-inverse` → `1. Themes › color/border/inverse`.
 3. **Never** bind `_Primitive/*` or `_deprecated/*`.
 4. **Layer names = anatomy part names** (A2): the component itself is `indicator`; children `count`, `check-icon`. The `ring` is the indicator's outside stroke. `anchor` exists only in documentation examples.
 5. Auto layout on the component. Absolute positioning only in documentation examples, where the badge instance is placed on an anchor's top-end corner (B2 placement).

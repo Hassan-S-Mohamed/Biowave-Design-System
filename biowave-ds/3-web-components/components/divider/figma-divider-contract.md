@@ -1,4 +1,4 @@
-<!-- GENERATED from divider.md @ 6e5903fbd691184e — do not edit; change the source and run: npm run contract -- web divider -->
+<!-- GENERATED from divider.md @ 948660e23480223b — do not edit; change the source and run: npm run contract -- web divider -->
 # Divider · فاصل — Web — Figma contract
 
 > **Everything the Figma Agent needs to build Divider in the Web Components file, with our variables and styles.** Read this file only. Generated from [`divider.md`](divider.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-28). Questions go to [D11 Execution log](divider.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
@@ -12,7 +12,7 @@
 | Component | Divider · فاصل |
 | Platform | Web · React + MUI |
 | Version | 1.1 · 2026-10-23 |
-| Source | [`divider.md`](divider.md) @ `6e5903fbd691184e` |
+| Source | [`divider.md`](divider.md) @ `948660e23480223b` |
 
 ## 1. Library connections in this file
 
@@ -40,7 +40,7 @@ None yet — this component has no component tokens. Bind to the Foundations var
 
 | Token | Figma variable | Key | Type | Scopes | Used by |
 |---|---|---|---|---|---|
-| `border-width-default` | 9. Border › `border/width/default` | `9b62f24ecdfc438789ce3fa296e725ac14b1e08f` | FLOAT | STROKE_FLOAT | spec |
+| `border-width-default` | 7. Border › `border/width/default` | `9b62f24ecdfc438789ce3fa296e725ac14b1e08f` | FLOAT | STROKE_FLOAT | spec |
 | `color-border-default` | 1. Themes › `color/border/default` | `ad520e82898707a0d3112a12f6f9439566c6d6c4` | COLOR | STROKE_COLOR | spec |
 | `color-border-strong` | 1. Themes › `color/border/strong` | `a12934eff6a447ebe30a4507b223c76e583e2701` | COLOR | STROKE_COLOR | spec |
 | `color-border-subtle` | 1. Themes › `color/border/subtle` | `07f3e9a3d1ca641c7f05d37bf2e4383e4a8e6112` | COLOR | STROKE_COLOR | spec |

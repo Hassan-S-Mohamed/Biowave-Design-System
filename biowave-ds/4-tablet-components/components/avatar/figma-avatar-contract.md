@@ -1,4 +1,4 @@
-<!-- GENERATED from avatar.md @ ceb2f2e295d889c6 — do not edit; change the source and run: npm run contract -- tablet avatar -->
+<!-- GENERATED from avatar.md @ bb9f88b90d6d3a88 — do not edit; change the source and run: npm run contract -- tablet avatar -->
 # Avatar · صورة رمزية — Tablet — Figma contract
 
 > **Everything the Figma Agent needs to build Avatar in the Tablet Components file, with our variables and styles.** Read this file only. Generated from [`avatar.md`](avatar.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-28). Questions go to [D11 Execution log](avatar.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
@@ -12,7 +12,7 @@
 | Component | Avatar · صورة رمزية |
 | Platform | Tablet · Flutter + Material 3 |
 | Version | 1.1 · 2026-10-24 |
-| Source | [`avatar.md`](avatar.md) @ `ceb2f2e295d889c6` |
+| Source | [`avatar.md`](avatar.md) @ `bb9f88b90d6d3a88` |
 
 ## 1. Library connections in this file
 
@@ -62,7 +62,7 @@ None yet — this component has no component tokens. Bind to the Foundations var
 | `size-icon-md` | 4. Size › `size/icon/md` | `eb459c673e6ca16e3c81b240f04b467717953a9a` | FLOAT | WIDTH_HEIGHT | spec |
 | `size-icon-sm` | 4. Size › `size/icon/sm` | `2aa4b1f12a5ed0745f9a8b3251dc1fd9f7dd3476` | FLOAT | WIDTH_HEIGHT | spec |
 | `size-icon-xl` | 4. Size › `size/icon/xl` | `06927be084b4fad4d4203a7fe7b6922e446d1c84` | FLOAT | WIDTH_HEIGHT | spec |
-| `target-min` | 7. Grid & Layout › `target/min` | `db23ec2826d3bfa3e600e5a82801e0c7d37ba298` | FLOAT | WIDTH_HEIGHT | spec |
+| `target-min` | 6. Grid & Layout › `target/min` | `db23ec2826d3bfa3e600e5a82801e0c7d37ba298` | FLOAT | WIDTH_HEIGHT | spec |
 
 ## 4. Text styles used (keys)
 

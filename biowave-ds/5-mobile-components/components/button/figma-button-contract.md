@@ -1,4 +1,4 @@
-<!-- GENERATED from button.md @ 8cf89676c8cae46c — do not edit; change the source and run: npm run contract -- mobile button -->
+<!-- GENERATED from button.md @ e48e6e361d83e4ef — do not edit; change the source and run: npm run contract -- mobile button -->
 # Button · زر — Mobile — Figma contract
 
 > **Everything the Figma Agent needs to build Button in the Mobile Components file, with our variables and styles.** Read this file only. Generated from [`button.md`](button.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-28). Questions go to [D11 Execution log](button.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
@@ -12,7 +12,7 @@
 | Component | Button · زر |
 | Platform | Mobile · Flutter + Material 3 |
 | Version | 1.1 · 2026-10-20 |
-| Source | [`button.md`](button.md) @ `8cf89676c8cae46c` |
+| Source | [`button.md`](button.md) @ `e48e6e361d83e4ef` |
 
 ## 1. Library connections in this file
 
@@ -43,7 +43,7 @@ Already in this file, created by the sync tooling from [`button.tokens.json`](bu
 | Button / Size | sm · md · lg · xl | `gap` | sm → 3. Spacing › `spacing/control/gap/sm`<br>md → 3. Spacing › `spacing/control/gap/md`<br>lg → 3. Spacing › `spacing/control/gap/lg`<br>xl → 3. Spacing › `spacing/control/gap/xl` |
 | Button / Size | sm · md · lg · xl | `icon` | sm → 4. Size › `size/icon/sm`<br>md → 4. Size › `size/icon/md`<br>lg → 4. Size › `size/icon/lg`<br>xl → 4. Size › `size/icon/lg` |
 | Button / Size | sm · md · lg · xl | `radius` | sm → 2. Radius › `radius/md`<br>md → 2. Radius › `radius/md`<br>lg → 2. Radius › `radius/md`<br>xl → 2. Radius › `radius/xl` |
-| Button / Size | sm · md · lg · xl | `border-width` | sm → 9. Border › `border/width/default`<br>md → 9. Border › `border/width/default`<br>lg → 9. Border › `border/width/default`<br>xl → 9. Border › `border/width/default` |
+| Button / Size | sm · md · lg · xl | `border-width` | sm → 7. Border › `border/width/default`<br>md → 7. Border › `border/width/default`<br>lg → 7. Border › `border/width/default`<br>xl → 7. Border › `border/width/default` |
 | Button / Filled | brand · secondary · error · neutral · inverse | `container/default` | brand → 1. Themes › `color/background/brand/default`<br>secondary → 1. Themes › `color/background/secondary/default`<br>error → 1. Themes › `color/background/error/default`<br>neutral → 1. Themes › `color/background/neutral/default`<br>inverse → 1. Themes › `color/background/inverse/default` |
 | Button / Filled | brand · secondary · error · neutral · inverse | `container/hover` | brand → 1. Themes › `color/background/brand/hovered`<br>secondary → 1. Themes › `color/background/secondary/hovered`<br>error → 1. Themes › `color/background/error/hovered`<br>neutral → 1. Themes › `color/background/neutral/hovered`<br>inverse → 1. Themes › `color/background/inverse/hovered` |
 | Button / Filled | brand · secondary · error · neutral · inverse | `container/pressed` | brand → 1. Themes › `color/background/brand/pressed`<br>secondary → 1. Themes › `color/background/secondary/pressed`<br>error → 1. Themes › `color/background/error/pressed`<br>neutral → 1. Themes › `color/background/neutral/pressed`<br>inverse → 1. Themes › `color/background/inverse/pressed` |
@@ -84,9 +84,9 @@ Already in this file, created by the sync tooling from [`button.tokens.json`](bu
 
 | Token | Figma variable | Key | Type | Scopes | Used by |
 |---|---|---|---|---|---|
-| `border-focus-offset` | 9. Border › `border/focus/offset` | `b90b6264cf3202aa473578d22cb211167afe775d` | FLOAT | GAP | spec |
-| `border-width-default` | 9. Border › `border/width/default` | `9b62f24ecdfc438789ce3fa296e725ac14b1e08f` | FLOAT | STROKE_FLOAT | spec, component token |
-| `border-width-focus` | 9. Border › `border/width/focus` | `d660bcb01777958134799fe11a99a63aaf1fbfca` | FLOAT | STROKE_FLOAT | spec |
+| `border-focus-offset` | 7. Border › `border/focus/offset` | `b90b6264cf3202aa473578d22cb211167afe775d` | FLOAT | GAP | spec |
+| `border-width-default` | 7. Border › `border/width/default` | `9b62f24ecdfc438789ce3fa296e725ac14b1e08f` | FLOAT | STROKE_FLOAT | spec, component token |
+| `border-width-focus` | 7. Border › `border/width/focus` | `d660bcb01777958134799fe11a99a63aaf1fbfca` | FLOAT | STROKE_FLOAT | spec |
 | `color-background-brand-default` | 1. Themes › `color/background/brand/default` | `bdd7bfecb9dd5c41ac657e880d4d2efe36909e3f` | COLOR | FRAME_FILL, SHAPE_FILL | component token |
 | `color-background-brand-hovered` | 1. Themes › `color/background/brand/hovered` | `8c4a115738de9afc5cc82e97aa2aa38763e937ed` | COLOR | FRAME_FILL, SHAPE_FILL | spec, component token |
 | `color-background-brand-pressed` | 1. Themes › `color/background/brand/pressed` | `53e9e1b8df7612fbd2878471501d6b72fd3b12be` | COLOR | FRAME_FILL, SHAPE_FILL | component token |
@@ -149,7 +149,7 @@ Already in this file, created by the sync tooling from [`button.tokens.json`](bu
 | `spacing-control-padding-inline-md` | 3. Spacing › `spacing/control/padding-inline/md` | `ece071c90fd7557c56f2a8918944c46d2672718e` | FLOAT | WIDTH_HEIGHT, GAP | component token |
 | `spacing-control-padding-inline-sm` | 3. Spacing › `spacing/control/padding-inline/sm` | `fb323143873973f1548553562791a9983936aa5a` | FLOAT | WIDTH_HEIGHT, GAP | spec, component token |
 | `spacing-control-padding-inline-xl` | 3. Spacing › `spacing/control/padding-inline/xl` | `ed8f5014d16f8f8fc9a858fdcfed85c7ef2ecd2f` | FLOAT | WIDTH_HEIGHT, GAP | component token |
-| `target-min` | 7. Grid & Layout › `target/min` | `db23ec2826d3bfa3e600e5a82801e0c7d37ba298` | FLOAT | WIDTH_HEIGHT | spec |
+| `target-min` | 6. Grid & Layout › `target/min` | `db23ec2826d3bfa3e600e5a82801e0c7d37ba298` | FLOAT | WIDTH_HEIGHT | spec |
 
 Code-only tokens (no Figma variable by design — motion, layers): `motion-duration-instant` · `motion-duration-sm` · `motion-duration-xs`. Use them only as written values in prototype settings and docs.
 
@@ -343,7 +343,7 @@ The Mobile Part D refers to these Web sections; they are copied here so you read
 
 0. **Library first, component tokens only (D-13).** Text styles and icons come from the published library **Biowave DS — Foundations**. Visual values bind to the **Button component tokens** already in this file (created from [`button.tokens.json`](button.tokens.json) by the sync tooling): `Button / Size` (modes `sm`·`md`·`lg`), `Button / Filled` · `Button / Tonal` · `Button / Outlined` · `Button / Text` (modes = colors), `Button / Focus`. Each variant sets the explicit mode of its collections (e.g. `Variant=Filled, Color=Brand, Size=MD` → `Button / Filled`=`brand`, `Button / Size`=`md`). **Never create variables or styles** in this file; if a value is missing, stop and ask the Planner (it is added to `button.tokens.json` → synced).
 1. **Every value is bound.** Fills, strokes, radius, padding, gap, height → variables; text → text styles; focus → effect style. No raw hex / px. Opacity 0 for the hidden label in Loading is the only literal allowed.
-2. **Spec token → component token:** B3 table and `button.tokens.json` name the same semantic tokens; bind the component token that aliases it (`container/default`, `label/default`, `state-layer/hover`, `border/default`, `height`, `padding-inline`, `gap`, `icon`, `radius`, `border-width`, `Button / Focus › color`). Semantic variables are never bound directly. For reference, spec names map to Foundations variables as: `-` between segments becomes `/`: `color-background-brand-hovered` → `1. Themes › color/background/brand/hovered`; `size-control-height-md` → `4. Size › size/control/height/md`; `spacing-control-gap-md` → `3. Spacing › spacing/control/gap/md`; `radius-md` → `2. Radius › radius/md`; `border-width-default` → `9. Border › border/width/default`.
+2. **Spec token → component token:** B3 table and `button.tokens.json` name the same semantic tokens; bind the component token that aliases it (`container/default`, `label/default`, `state-layer/hover`, `border/default`, `height`, `padding-inline`, `gap`, `icon`, `radius`, `border-width`, `Button / Focus › color`). Semantic variables are never bound directly. For reference, spec names map to Foundations variables as: `-` between segments becomes `/`: `color-background-brand-hovered` → `1. Themes › color/background/brand/hovered`; `size-control-height-md` → `4. Size › size/control/height/md`; `spacing-control-gap-md` → `3. Spacing › spacing/control/gap/md`; `radius-md` → `2. Radius › radius/md`; `border-width-default` → `7. Border › border/width/default`.
    Text styles: `action/{sm|md|lg}` (they are bound to the Typography variables, so Tablet/Mobile scale comes from the variable mode, not from a different style). Focus: the `Focus ring` layer (border.md › Figma focus ring: stroke `color/border/focus`, `color/border/inverse` on Inverse) — no effect style; borders and rings are never shadows.
 3. **Never** bind `_Primitive/*`, `_deprecated/*` or the old `Button size` collection.
 4. **Layer names = anatomy part names** (A2): `container` is the component itself, children `leading-icon`, `label`, `trailing-icon`, `spinner`, `state-layer`.

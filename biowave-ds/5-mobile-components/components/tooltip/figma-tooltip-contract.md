@@ -1,4 +1,4 @@
-<!-- GENERATED from tooltip.md @ 647c871baf66f99e — do not edit; change the source and run: npm run contract -- mobile tooltip -->
+<!-- GENERATED from tooltip.md @ 16f68c50971974aa — do not edit; change the source and run: npm run contract -- mobile tooltip -->
 # Tooltip · تلميح — Mobile — Figma contract
 
 > **Everything the Figma Agent needs to build Tooltip in the Mobile Components file, with our variables and styles.** Read this file only. Generated from [`tooltip.md`](tooltip.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-28). Questions go to [D11 Execution log](tooltip.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
@@ -12,7 +12,7 @@
 | Component | Tooltip · تلميح |
 | Platform | Mobile · Flutter + Material 3 |
 | Version | 1.1 · 2026-10-24 |
-| Source | [`tooltip.md`](tooltip.md) @ `647c871baf66f99e` |
+| Source | [`tooltip.md`](tooltip.md) @ `16f68c50971974aa` |
 
 ## 1. Library connections in this file
 

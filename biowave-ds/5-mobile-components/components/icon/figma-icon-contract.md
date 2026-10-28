@@ -1,4 +1,4 @@
-<!-- GENERATED from icon.md @ 710b8e3e9ed205af — do not edit; change the source and run: npm run contract -- mobile icon -->
+<!-- GENERATED from icon.md @ 05a82affaafac49e — do not edit; change the source and run: npm run contract -- mobile icon -->
 # Icon · أيقونة — Mobile — Figma contract
 
 > **Everything the Figma Agent needs to build Icon in the Mobile Components file, with our variables and styles.** Read this file only. Generated from [`icon.md`](icon.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-28). Questions go to [D11 Execution log](icon.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
@@ -12,7 +12,7 @@
 | Component | Icon · أيقونة |
 | Platform | Mobile · Flutter + Material 3 |
 | Version | 1.0 · 2026-10-18 |
-| Source | [`icon.md`](icon.md) @ `710b8e3e9ed205af` |
+| Source | [`icon.md`](icon.md) @ `05a82affaafac49e` |
 
 ## 1. Library connections in this file
 

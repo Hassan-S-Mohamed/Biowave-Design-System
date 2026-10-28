@@ -1,4 +1,4 @@
-<!-- GENERATED from icon.md @ 2bd139653adaf9ca — do not edit; change the source and run: npm run contract -- web icon -->
+<!-- GENERATED from icon.md @ 03b3072462b97b56 — do not edit; change the source and run: npm run contract -- web icon -->
 # Icon · أيقونة — Web — Figma contract
 
 > **Everything the Figma Agent needs to build Icon in the Web Components file, with our variables and styles.** Read this file only. Generated from [`icon.md`](icon.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-28). Questions go to [D11 Execution log](icon.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
@@ -12,7 +12,7 @@
 | Component | Icon · أيقونة |
 | Platform | Web · React + MUI |
 | Version | 1.1 · 2026-10-20 |
-| Source | [`icon.md`](icon.md) @ `2bd139653adaf9ca` |
+| Source | [`icon.md`](icon.md) @ `03b3072462b97b56` |
 
 ## 1. Library connections in this file
 

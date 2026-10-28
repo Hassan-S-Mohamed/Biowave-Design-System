@@ -1,4 +1,4 @@
-<!-- GENERATED from button-group.md @ bc47e6c13487a2cc — do not edit; change the source and run: npm run contract -- web button-group -->
+<!-- GENERATED from button-group.md @ 8db962ca90c8b33d — do not edit; change the source and run: npm run contract -- web button-group -->
 # Button group · مجموعة أزرار — Web — Figma contract
 
 > **Everything the Figma Agent needs to build Button group in the Web Components file, with our variables and styles.** Read this file only. Generated from [`button-group.md`](button-group.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-28). Questions go to [D11 Execution log](button-group.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
@@ -12,7 +12,7 @@
 | Component | Button group · مجموعة أزرار |
 | Platform | Web · React + MUI |
 | Version | 1.0 · 2026-10-16 |
-| Source | [`button-group.md`](button-group.md) @ `bc47e6c13487a2cc` |
+| Source | [`button-group.md`](button-group.md) @ `8db962ca90c8b33d` |
 
 ## 1. Library connections in this file
 

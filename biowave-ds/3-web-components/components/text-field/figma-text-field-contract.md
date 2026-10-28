@@ -1,4 +1,4 @@
-<!-- GENERATED from text-field.md @ b78f453e65a34bc1 — do not edit; change the source and run: npm run contract -- web text-field -->
+<!-- GENERATED from text-field.md @ 5692e31c54d25e3a — do not edit; change the source and run: npm run contract -- web text-field -->
 # Text field · حقل نص — Web — Figma contract
 
 > **Everything the Figma Agent needs to build Text field in the Web Components file, with our variables and styles.** Read this file only. Generated from [`text-field.md`](text-field.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-28). Questions go to [D11 Execution log](text-field.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
@@ -12,7 +12,7 @@
 | Component | Text field · حقل نص |
 | Platform | Web · React + MUI |
 | Version | 1.2 · 2026-10-21 |
-| Source | [`text-field.md`](text-field.md) @ `b78f453e65a34bc1` |
+| Source | [`text-field.md`](text-field.md) @ `5692e31c54d25e3a` |
 
 ## 1. Library connections in this file
 
@@ -45,12 +45,12 @@ Already in this file, created by the sync tooling from [`text-field.tokens.json`
 | Text field / Size | sm · md · lg | `supporting-gap` | sm → 3. Spacing › `spacing/xs`<br>md → 3. Spacing › `spacing/xs`<br>lg → 3. Spacing › `spacing/xs` |
 | Text field / Size | sm · md · lg | `icon` | sm → 4. Size › `size/icon/sm`<br>md → 4. Size › `size/icon/md`<br>lg → 4. Size › `size/icon/lg` |
 | Text field / Size | sm · md · lg | `radius` | sm → 2. Radius › `radius/md`<br>md → 2. Radius › `radius/md`<br>lg → 2. Radius › `radius/md` |
-| Text field / Size | sm · md · lg | `border-width` | sm → 9. Border › `border/width/default`<br>md → 9. Border › `border/width/default`<br>lg → 9. Border › `border/width/default` |
+| Text field / Size | sm · md · lg | `border-width` | sm → 7. Border › `border/width/default`<br>md → 7. Border › `border/width/default`<br>lg → 7. Border › `border/width/default` |
 | Text field / Size | sm · md · lg | `action-box` | sm → 4. Size › `size/icon/lg`<br>md → 4. Size › `size/control/height/sm`<br>lg → 4. Size › `size/control/height/md` |
 | Text field / Size | sm · md · lg | `action-inset` | sm → 3. Spacing › `spacing/xs`<br>md → 3. Spacing › `spacing/xs`<br>lg → 3. Spacing › `spacing/xs` |
 | Text field / State | default · hover · focus · error · disabled · read-only | `background` | default → 1. Themes › `color/background/base/default`<br>hover → 1. Themes › `color/background/base/hovered`<br>focus → 1. Themes › `color/background/base/default`<br>error → 1. Themes › `color/background/base/default`<br>disabled → 1. Themes › `color/background/disabled`<br>read-only → 1. Themes › `color/background/base/subtlest` |
 | Text field / State | default · hover · focus · error · disabled · read-only | `border` | default → 1. Themes › `color/border/bold`<br>hover → 1. Themes › `color/border/bold`<br>focus → 1. Themes › `color/border/focus`<br>error → 1. Themes › `color/border/error`<br>disabled → 1. Themes › `color/border/disabled`<br>read-only → 1. Themes › `color/border/default` |
-| Text field / State | default · hover · focus · error · disabled · read-only | `border-width` | default → 9. Border › `border/width/default`<br>hover → 9. Border › `border/width/default`<br>focus → 9. Border › `border/width/focus`<br>error → 9. Border › `border/width/default`<br>disabled → 9. Border › `border/width/default`<br>read-only → 9. Border › `border/width/default` |
+| Text field / State | default · hover · focus · error · disabled · read-only | `border-width` | default → 7. Border › `border/width/default`<br>hover → 7. Border › `border/width/default`<br>focus → 7. Border › `border/width/focus`<br>error → 7. Border › `border/width/default`<br>disabled → 7. Border › `border/width/default`<br>read-only → 7. Border › `border/width/default` |
 | Text field / State | default · hover · focus · error · disabled · read-only | `label` | default → 1. Themes › `color/text/default`<br>hover → 1. Themes › `color/text/default`<br>focus → 1. Themes › `color/text/default`<br>error → 1. Themes › `color/text/default`<br>disabled → 1. Themes › `color/text/disabled`<br>read-only → 1. Themes › `color/text/default` |
 | Text field / State | default · hover · focus · error · disabled · read-only | `input` | default → 1. Themes › `color/text/default`<br>hover → 1. Themes › `color/text/default`<br>focus → 1. Themes › `color/text/default`<br>error → 1. Themes › `color/text/default`<br>disabled → 1. Themes › `color/text/disabled`<br>read-only → 1. Themes › `color/text/default` |
 | Text field / State | default · hover · focus · error · disabled · read-only | `placeholder` | default → 1. Themes › `color/text/subtlest`<br>hover → 1. Themes › `color/text/subtlest`<br>focus → 1. Themes › `color/text/subtlest`<br>error → 1. Themes › `color/text/subtlest`<br>disabled → 1. Themes › `color/text/disabled`<br>read-only → 1. Themes › `color/text/subtlest` |
@@ -66,8 +66,8 @@ Already in this file, created by the sync tooling from [`text-field.tokens.json`
 
 | Token | Figma variable | Key | Type | Scopes | Used by |
 |---|---|---|---|---|---|
-| `border-width-default` | 9. Border › `border/width/default` | `9b62f24ecdfc438789ce3fa296e725ac14b1e08f` | FLOAT | STROKE_FLOAT | spec, component token |
-| `border-width-focus` | 9. Border › `border/width/focus` | `d660bcb01777958134799fe11a99a63aaf1fbfca` | FLOAT | STROKE_FLOAT | spec, component token |
+| `border-width-default` | 7. Border › `border/width/default` | `9b62f24ecdfc438789ce3fa296e725ac14b1e08f` | FLOAT | STROKE_FLOAT | spec, component token |
+| `border-width-focus` | 7. Border › `border/width/focus` | `d660bcb01777958134799fe11a99a63aaf1fbfca` | FLOAT | STROKE_FLOAT | spec, component token |
 | `color-background-base-default` | 1. Themes › `color/background/base/default` | `82c8830a9ba9a3837c6d6f261cc1b43e8b6a9c08` | COLOR | FRAME_FILL, SHAPE_FILL | spec, component token |
 | `color-background-base-hovered` | 1. Themes › `color/background/base/hovered` | `748ab6c7d3faeb25b160aa79b60eeadf0dba10a6` | COLOR | FRAME_FILL, SHAPE_FILL | spec, component token |
 | `color-background-base-subtlest` | 1. Themes › `color/background/base/subtlest` | `99e507c57d0911a93c3305a2454046b2b28d3acb` | COLOR | FRAME_FILL, SHAPE_FILL | spec, component token |
@@ -103,7 +103,7 @@ Already in this file, created by the sync tooling from [`text-field.tokens.json`
 | `spacing-sm` | 3. Spacing › `spacing/sm` | `8332b62aa90dea8417383c59a11eee680e0f1db5` | FLOAT | WIDTH_HEIGHT, GAP | spec, component token |
 | `spacing-xl` | 3. Spacing › `spacing/xl` | `5fa0c2ce8ae034e9696038d2704e520fd8383e55` | FLOAT | WIDTH_HEIGHT, GAP | spec |
 | `spacing-xs` | 3. Spacing › `spacing/xs` | `9ea993d003d5368c5100b038d51c7c8f3e95c115` | FLOAT | WIDTH_HEIGHT, GAP | spec, component token |
-| `target-min` | 7. Grid & Layout › `target/min` | `db23ec2826d3bfa3e600e5a82801e0c7d37ba298` | FLOAT | WIDTH_HEIGHT | spec |
+| `target-min` | 6. Grid & Layout › `target/min` | `db23ec2826d3bfa3e600e5a82801e0c7d37ba298` | FLOAT | WIDTH_HEIGHT | spec |
 
 Code-only tokens (no Figma variable by design — motion, layers): `motion-duration-instant` · `motion-duration-sm` · `motion-easing-standard`. Use them only as written values in prototype settings and docs.
 

@@ -1,4 +1,4 @@
-<!-- GENERATED from button-group.md @ bb8d30040d37d1db — do not edit; change the source and run: npm run contract -- tablet button-group -->
+<!-- GENERATED from button-group.md @ 27417efe6c084ee3 — do not edit; change the source and run: npm run contract -- tablet button-group -->
 # Button group · مجموعة أزرار — Tablet — Figma contract
 
 > **Everything the Figma Agent needs to build Button group in the Tablet Components file, with our variables and styles.** Read this file only. Generated from [`button-group.md`](button-group.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-28). Questions go to [D11 Execution log](button-group.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
@@ -12,7 +12,7 @@
 | Component | Button group · مجموعة أزرار |
 | Platform | Tablet · Flutter + Material 3 |
 | Version | 1.0 · 2026-10-16 |
-| Source | [`button-group.md`](button-group.md) @ `bb8d30040d37d1db` |
+| Source | [`button-group.md`](button-group.md) @ `27417efe6c084ee3` |
 
 ## 1. Library connections in this file
 
@@ -40,7 +40,7 @@ None yet — this component has no component tokens. Bind to the Foundations var
 
 | Token | Figma variable | Key | Type | Scopes | Used by |
 |---|---|---|---|---|---|
-| `target-min` | 7. Grid & Layout › `target/min` | `db23ec2826d3bfa3e600e5a82801e0c7d37ba298` | FLOAT | WIDTH_HEIGHT | spec |
+| `target-min` | 6. Grid & Layout › `target/min` | `db23ec2826d3bfa3e600e5a82801e0c7d37ba298` | FLOAT | WIDTH_HEIGHT | spec |
 
 ## 4. Text styles used (keys)
 
