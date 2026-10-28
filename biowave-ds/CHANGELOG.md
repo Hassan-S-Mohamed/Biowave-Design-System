@@ -2,6 +2,12 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Sync — Collections renumbered] — 2026-10-28
+### Changed
+- Foundations collections renumbered in Figma after the AR typography collection was deleted: `7. Grid & Layout` → `6. Grid & Layout`, `9. Border` → `7. Border` (variable IDs and keys unchanged). Sync tooling (`figma-map.mjs`, `component-tokens.mjs`, `sync.mjs`, `figma-read.js`) and the badge/link/button specs updated. Figma variables verified (16/16) and marked synced.
+### Pending
+- Publish the Foundations library and accept the update in the Web/Tablet/Mobile files; then verify component tokens, re-read the library index and regenerate contracts.
+
 ## [Sync — Deprecated AR typography unpublished] — 2026-10-28
 ### Changed
 - `_deprecated · 6. Typography (AR)` unpublished from the Foundations library (no component file uses `Web/ar/*` styles). Library index reach: 7 collections, 287 variables (unchanged). Figma contracts regenerated; `docs:check` OK, `npm run sync` READY.

@@ -191,7 +191,7 @@ function verify(files) {
     if (v.vals.__hidden && e.collection !== '_Primitive') { console.log(`HIDDEN from publishing (component files cannot use it)  ${e.collection} › ${e.name}`); bad++; }
     for (const [m, val] of Object.entries(e.modes)) if (!sameValue(val, v.vals[m])) { console.log(`DIFF  ${e.collection} › ${e.name} [${m}]  code ${val}  figma ${v.vals[m]}`); bad++; }
   }
-  const extra = live.filter((v) => !used.has(`${v.collection}::${v.name}`) && ['1. Themes', '2. Radius', '3. Spacing', '4. Size', '7. Grid & Layout', '9. Border'].includes(v.collection));
+  const extra = live.filter((v) => !used.has(`${v.collection}::${v.name}`) && ['1. Themes', '2. Radius', '3. Spacing', '4. Size', '6. Grid & Layout', '7. Border'].includes(v.collection));
   extra.forEach((v) => console.log(`FIGMA ONLY (not in code)  ${v.collection} › ${v.name}`));
   console.log(`\nverified ${checked} variable(s) in ${collections.size} collection(s): ${bad ? `✗ ${bad} difference(s)` : '✓ all match the token source'}${extra.length ? ` · ${extra.length} Figma-only variable(s) listed above` : ''}`);
   return bad === 0;

@@ -84,8 +84,8 @@ export function expectedFigma(T = readJson(P.tokensJson)) {
     [/^radius\./, '2. Radius', 'Values', ['CORNER_RADIUS'], () => undefined, 'BwRadius'],
     [/^spacing\./, '3. Spacing', 'Values', ['GAP', 'WIDTH_HEIGHT'], () => 'group:Spacing/', 'BwSpacing'],
     [/^size\./, '4. Size', 'Value', ['WIDTH_HEIGHT'], () => 'group:Spacing/', 'BwSize'],
-    [/^border\.width\./, '9. Border', 'Value', ['STROKE_FLOAT'], () => undefined, 'BwBorder'],
-    [/^border\.focus\./, '9. Border', 'Value', ['GAP'], () => undefined, 'BwBorder'],
+    [/^border\.width\./, '7. Border', 'Value', ['STROKE_FLOAT'], () => undefined, 'BwBorder'],
+    [/^border\.focus\./, '7. Border', 'Value', ['GAP'], () => undefined, 'BwBorder'],
   ];
   for (const [p, t] of Object.entries(T.base)) {
     const s = single.find(([re]) => re.test(p));
@@ -123,13 +123,13 @@ export function expectedFigma(T = readJson(P.tokensJson)) {
     modes: perMode((x) => T.platform[x.plat][`font.letter-spacing.${x.lang}.${k}`] ?? T.platform[x.plat][`font.letter-spacing.${x.lang}.default`]),
     hint: perMode((x) => `Typography/Letter Spacing/${(T.platform[x.plat][`font.letter-spacing.${x.lang}.${k}`] ?? 0) === 0 ? 'none' : 'tight'}`) });
 
-  // ---- 7. Grid & Layout
+  // ---- 6. Grid & Layout
   const platformKeys = [...new Set(Object.values(PLATFORM_MODES).flatMap((k) => Object.keys(T.platform[k])))];
   for (const p of platformKeys) {
     if (!/^(grid|layout|breakpoint|target)\./.test(p)) continue;
     // a key missing on a platform (e.g. breakpoint.max on web = open-ended) is not checked for that mode
     const scopes = /^(layout|target)\./.test(p) ? ['WIDTH_HEIGHT'] : [];
-    add({ collection: '7. Grid & Layout', name: p.split('.').join('/'), web: kebab(p), type: 'FLOAT', scopes, hint: {},
+    add({ collection: '6. Grid & Layout', name: p.split('.').join('/'), web: kebab(p), type: 'FLOAT', scopes, hint: {},
       modes: Object.fromEntries(Object.entries(PLATFORM_MODES).filter(([, k]) => T.platform[k][p] !== undefined).map(([md, k]) => [md, T.platform[k][p]])) });
   }
 

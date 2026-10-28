@@ -8,7 +8,7 @@ import { ROOT, walk, sha, readJson } from './lib.mjs';
 import { expectedFigma } from './figma-map.mjs';
 
 export const SECTION = { web: '3-web-components', tablet: '4-tablet-components', mobile: '5-mobile-components' };
-const SEMANTIC_COLLECTIONS = ['1. Themes', '2. Radius', '3. Spacing', '4. Size', '5. Typography', '7. Grid & Layout', '9. Border'];
+const SEMANTIC_COLLECTIONS = ['1. Themes', '2. Radius', '3. Spacing', '4. Size', '5. Typography', '6. Grid & Layout', '7. Border'];
 const isObj = (v) => v && typeof v === 'object' && !Array.isArray(v);
 const merge = (a, b) => { const o = { ...a }; for (const [k, v] of Object.entries(b)) o[k] = isObj(v) && isObj(o[k]) ? merge(o[k], v) : v; return o; };
 

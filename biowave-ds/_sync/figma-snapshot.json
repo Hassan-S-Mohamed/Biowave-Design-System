@@ -1,5 +1,5 @@
 {
-  "syncedAt": "2026-10-28T13:29:14.059Z",
+  "syncedAt": "2026-10-28T14:53:17.800Z",
   "fileKey": "AyFaSmfDUlTax3GpKhRdHI",
   "sourceHash": "d83c1f66b59b01e6",
   "tokens": {
@@ -727,19 +727,19 @@
     "2. Radius::radius-full": {
       "Values": 9999
     },
-    "9. Border::border-width-none": {
+    "7. Border::border-width-none": {
       "Value": 0
     },
-    "9. Border::border-width-default": {
+    "7. Border::border-width-default": {
       "Value": 1
     },
-    "9. Border::border-width-strong": {
+    "7. Border::border-width-strong": {
       "Value": 2
     },
-    "9. Border::border-width-focus": {
+    "7. Border::border-width-focus": {
       "Value": 2
     },
-    "9. Border::border-focus-offset": {
+    "7. Border::border-focus-offset": {
       "Value": 2
     },
     "4. Size::size-container-xxs": {
@@ -1280,57 +1280,57 @@
       "Mobile · EN": 0,
       "Mobile · AR": 0
     },
-    "7. Grid & Layout::breakpoint-min": {
+    "6. Grid & Layout::breakpoint-min": {
       "Web": 1200,
       "Tablet": 600,
       "Mobile": 0
     },
-    "7. Grid & Layout::grid-columns": {
+    "6. Grid & Layout::grid-columns": {
       "Web": 12,
       "Tablet": 8,
       "Mobile": 6
     },
-    "7. Grid & Layout::grid-gutter": {
+    "6. Grid & Layout::grid-gutter": {
       "Web": 24,
       "Tablet": 24,
       "Mobile": 8
     },
-    "7. Grid & Layout::grid-margin-full": {
+    "6. Grid & Layout::grid-margin-full": {
       "Web": 40,
       "Tablet": 24,
       "Mobile": 16
     },
-    "7. Grid & Layout::grid-margin-sidebar": {
+    "6. Grid & Layout::grid-margin-sidebar": {
       "Web": 24,
       "Tablet": 24,
       "Mobile": 16
     },
-    "7. Grid & Layout::layout-height-app-bar": {
+    "6. Grid & Layout::layout-height-app-bar": {
       "Web": 72,
       "Tablet": 64,
       "Mobile": 64
     },
-    "7. Grid & Layout::layout-height-system-status": {
+    "6. Grid & Layout::layout-height-system-status": {
       "Web": 40,
       "Tablet": 40,
       "Mobile": 40
     },
-    "7. Grid & Layout::layout-width-sidebar-start": {
+    "6. Grid & Layout::layout-width-sidebar-start": {
       "Web": 248,
       "Tablet": 248,
       "Mobile": 0
     },
-    "7. Grid & Layout::layout-width-sidebar-end": {
+    "6. Grid & Layout::layout-width-sidebar-end": {
       "Web": 248,
       "Tablet": 248,
       "Mobile": 0
     },
-    "7. Grid & Layout::target-min": {
+    "6. Grid & Layout::target-min": {
       "Web": 24,
       "Tablet": 48,
       "Mobile": 48
     },
-    "7. Grid & Layout::breakpoint-max": {
+    "6. Grid & Layout::breakpoint-max": {
       "Tablet": 1199,
       "Mobile": 599
     },
