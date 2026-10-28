@@ -1,7 +1,7 @@
 {
-  "syncedAt": "2026-10-28T12:46:15.423Z",
+  "syncedAt": "2026-10-28T13:29:14.059Z",
   "fileKey": "AyFaSmfDUlTax3GpKhRdHI",
-  "sourceHash": "3750c1a3798c9ddd",
+  "sourceHash": "d83c1f66b59b01e6",
   "tokens": {
     "1. Themes::color-surface-page": {
       "Light": "#F7F7F7",
@@ -1193,76 +1193,76 @@
       "Mobile · AR": 18
     },
     "5. Typography::font-weight-display": {
-      "Web · EN": "Semi Bold",
-      "Web · AR": "SemiBold",
-      "Tablet · EN": "Semi Bold",
-      "Tablet · AR": "SemiBold",
-      "Mobile · EN": "Semi Bold",
-      "Mobile · AR": "SemiBold"
+      "Web · EN": 600,
+      "Web · AR": 600,
+      "Tablet · EN": 600,
+      "Tablet · AR": 600,
+      "Mobile · EN": 600,
+      "Mobile · AR": 600
     },
     "5. Typography::font-weight-heading": {
-      "Web · EN": "Semi Bold",
-      "Web · AR": "SemiBold",
-      "Tablet · EN": "Semi Bold",
-      "Tablet · AR": "SemiBold",
-      "Mobile · EN": "Semi Bold",
-      "Mobile · AR": "SemiBold"
+      "Web · EN": 600,
+      "Web · AR": 600,
+      "Tablet · EN": 600,
+      "Tablet · AR": 600,
+      "Mobile · EN": 600,
+      "Mobile · AR": 600
     },
     "5. Typography::font-weight-title": {
-      "Web · EN": "Medium",
-      "Web · AR": "Medium",
-      "Tablet · EN": "Medium",
-      "Tablet · AR": "Medium",
-      "Mobile · EN": "Medium",
-      "Mobile · AR": "Medium"
+      "Web · EN": 500,
+      "Web · AR": 500,
+      "Tablet · EN": 500,
+      "Tablet · AR": 500,
+      "Mobile · EN": 500,
+      "Mobile · AR": 500
     },
     "5. Typography::font-weight-body": {
-      "Web · EN": "Regular",
-      "Web · AR": "Regular",
-      "Tablet · EN": "Regular",
-      "Tablet · AR": "Regular",
-      "Mobile · EN": "Regular",
-      "Mobile · AR": "Regular"
+      "Web · EN": 400,
+      "Web · AR": 400,
+      "Tablet · EN": 400,
+      "Tablet · AR": 400,
+      "Mobile · EN": 400,
+      "Mobile · AR": 400
     },
     "5. Typography::font-weight-label": {
-      "Web · EN": "Medium",
-      "Web · AR": "Medium",
-      "Tablet · EN": "Medium",
-      "Tablet · AR": "Medium",
-      "Mobile · EN": "Medium",
-      "Mobile · AR": "Medium"
+      "Web · EN": 500,
+      "Web · AR": 500,
+      "Tablet · EN": 500,
+      "Tablet · AR": 500,
+      "Mobile · EN": 500,
+      "Mobile · AR": 500
     },
     "5. Typography::font-weight-caption": {
-      "Web · EN": "Regular",
-      "Web · AR": "Regular",
-      "Tablet · EN": "Regular",
-      "Tablet · AR": "Regular",
-      "Mobile · EN": "Regular",
-      "Mobile · AR": "Regular"
+      "Web · EN": 400,
+      "Web · AR": 400,
+      "Tablet · EN": 400,
+      "Tablet · AR": 400,
+      "Mobile · EN": 400,
+      "Mobile · AR": 400
     },
     "5. Typography::font-weight-action": {
-      "Web · EN": "Medium",
-      "Web · AR": "Medium",
-      "Tablet · EN": "Medium",
-      "Tablet · AR": "Medium",
-      "Mobile · EN": "Medium",
-      "Mobile · AR": "Medium"
+      "Web · EN": 500,
+      "Web · AR": 500,
+      "Tablet · EN": 500,
+      "Tablet · AR": 500,
+      "Mobile · EN": 500,
+      "Mobile · AR": 500
     },
     "5. Typography::font-weight-data": {
-      "Web · EN": "Medium",
-      "Web · AR": "Medium",
-      "Tablet · EN": "Medium",
-      "Tablet · AR": "Medium",
-      "Mobile · EN": "Medium",
-      "Mobile · AR": "Medium"
+      "Web · EN": 500,
+      "Web · AR": 500,
+      "Tablet · EN": 500,
+      "Tablet · AR": 500,
+      "Mobile · EN": 500,
+      "Mobile · AR": 500
     },
     "5. Typography::font-weight-code": {
-      "Web · EN": "Regular",
-      "Web · AR": "Regular",
-      "Tablet · EN": "Regular",
-      "Tablet · AR": "Regular",
-      "Mobile · EN": "Regular",
-      "Mobile · AR": "Regular"
+      "Web · EN": 400,
+      "Web · AR": 400,
+      "Tablet · EN": 400,
+      "Tablet · AR": 400,
+      "Mobile · EN": 400,
+      "Mobile · AR": 400
     },
     "5. Typography::font-letter-spacing-display": {
       "Web · EN": -0.16,
@@ -1333,6 +1333,129 @@
     "7. Grid & Layout::breakpoint-max": {
       "Tablet": 1199,
       "Mobile": 599
+    },
+    "_Primitive::Typography/Font Family/EN": {
+      "Values": "Inter"
+    },
+    "_Primitive::Typography/Font Family/AR": {
+      "Values": "IBM Plex Sans Arabic"
+    },
+    "_Primitive::Typography/Font Family/Mono": {
+      "Values": "JetBrains Mono"
+    },
+    "_Primitive::Typography/Weight/400": {
+      "Values": 400
+    },
+    "_Primitive::Typography/Weight/500": {
+      "Values": 500
+    },
+    "_Primitive::Typography/Weight/600": {
+      "Values": 600
+    },
+    "_Primitive::Typography/Size/11": {
+      "Values": 11
+    },
+    "_Primitive::Typography/Size/12": {
+      "Values": 12
+    },
+    "_Primitive::Typography/Size/13": {
+      "Values": 13
+    },
+    "_Primitive::Typography/Size/14": {
+      "Values": 14
+    },
+    "_Primitive::Typography/Size/16": {
+      "Values": 16
+    },
+    "_Primitive::Typography/Size/18": {
+      "Values": 18
+    },
+    "_Primitive::Typography/Size/20": {
+      "Values": 20
+    },
+    "_Primitive::Typography/Size/22": {
+      "Values": 22
+    },
+    "_Primitive::Typography/Size/24": {
+      "Values": 24
+    },
+    "_Primitive::Typography/Size/26": {
+      "Values": 26
+    },
+    "_Primitive::Typography/Size/28": {
+      "Values": 28
+    },
+    "_Primitive::Typography/Size/30": {
+      "Values": 30
+    },
+    "_Primitive::Typography/Size/32": {
+      "Values": 32
+    },
+    "_Primitive::Typography/Size/34": {
+      "Values": 34
+    },
+    "_Primitive::Typography/Size/36": {
+      "Values": 36
+    },
+    "_Primitive::Typography/Size/40": {
+      "Values": 40
+    },
+    "_Primitive::Typography/Line Height/16": {
+      "Values": 16
+    },
+    "_Primitive::Typography/Line Height/18": {
+      "Values": 18
+    },
+    "_Primitive::Typography/Line Height/20": {
+      "Values": 20
+    },
+    "_Primitive::Typography/Line Height/22": {
+      "Values": 22
+    },
+    "_Primitive::Typography/Line Height/24": {
+      "Values": 24
+    },
+    "_Primitive::Typography/Line Height/26": {
+      "Values": 26
+    },
+    "_Primitive::Typography/Line Height/28": {
+      "Values": 28
+    },
+    "_Primitive::Typography/Line Height/30": {
+      "Values": 30
+    },
+    "_Primitive::Typography/Line Height/32": {
+      "Values": 32
+    },
+    "_Primitive::Typography/Line Height/34": {
+      "Values": 34
+    },
+    "_Primitive::Typography/Line Height/36": {
+      "Values": 36
+    },
+    "_Primitive::Typography/Line Height/38": {
+      "Values": 38
+    },
+    "_Primitive::Typography/Line Height/40": {
+      "Values": 40
+    },
+    "_Primitive::Typography/Line Height/42": {
+      "Values": 42
+    },
+    "_Primitive::Typography/Line Height/44": {
+      "Values": 44
+    },
+    "_Primitive::Typography/Line Height/48": {
+      "Values": 48
+    },
+    "_Primitive::Typography/Line Height/50": {
+      "Values": 50
+    },
+    "_Primitive::Typography/Letter Spacing/none": {
+      "Values": 0
+    },
+    "_Primitive::Typography/Letter Spacing/tight": {
+      "Values": -0.16
     },
     "_Primitive::Colors/primary/50": {
       "Values": "#E8ECF2"

@@ -2,6 +2,13 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Foundations — Typography primitives] — 2026-10-28
+### Changed
+- **Every typography value points to a primitive.** New flat primitive scales (no platform or language in the name): `font.size.{11…40}`, `font.line-height.{16…50}`, `font.letter-spacing.none · tight`; platform tokens (web/tablet/mobile) now alias them instead of holding numbers (generated CSS/Dart unchanged). Figma `_Primitive`: `Typography/Size/{n}`, `Line Height/{n}`, `Weight/{400|500|600}`, `Letter Spacing/none · tight`, `Font Family/EN · AR · Mono`; all 312 `5. Typography` mode values alias them (action keeps its alias to label/title). 97 old platform/language-scoped primitives (`Typography/Size/Web/14`, `Line Height/Mobile/ar/26` …) and the string weights → `_deprecated/`.
+- **Weights are numeric.** `font/weight/{role}` recreated as FLOAT (FONT_WEIGHT scope) aliasing `Typography/Weight/{n}`; the 23 text styles now bind **font weight** instead of font style, so one primitive serves Inter (`Semi Bold`), IBM Plex Sans Arabic (`SemiBold`) and JetBrains Mono. Old string variables → `_deprecated/font/weight/*`. Verified in Web · EN, Tablet · AR and Mobile · AR.
+- **Three weights only:** 400 / 500 / 600. `primitive.font.weight.bold` (700) removed (unused); italics deprecated in Figma; web font setup 400/500/600. Inline emphasis = 600.
+- `typography.md`: primitives section and weight rule.
+
 ## [Foundations — Typography 2.0] — 2026-10-28
 ### Changed
 - **Figma: one typography collection.** `5. Typography (EN)` converted in place into **`5. Typography`** with six modes `Web · EN`, `Web · AR`, `Tablet · EN`, `Tablet · AR`, `Mobile · EN`, `Mobile · AR` (existing modes renamed, IDs kept; AR values copied in). Variables renamed to the code paths: `font/family/default`, `font/family/mono`, `font/size/{role}/{size}`, `font/line-height/{role}/{size}`, `font/weight/{role}`, `font/letter-spacing/display · default` (new; display was a raw −0.16). Scopes and WEB code syntax set.

@@ -47,8 +47,229 @@
         "semibold": {
           "$value": 600
         },
-        "bold": {
-          "$value": 700
+        "$description": "The three weights Biowave uses: 400 body/caption/code, 500 title/label/action/data, 600 display/heading. No 700, no italics (inline emphasis = 600)."
+      },
+      "size": {
+        "$type": "dimension",
+        "$description": "Raw font-size scale (px). Platform tokens alias these; never use directly in components.",
+        "11": {
+          "$value": {
+            "value": 11,
+            "unit": "px"
+          }
+        },
+        "12": {
+          "$value": {
+            "value": 12,
+            "unit": "px"
+          }
+        },
+        "13": {
+          "$value": {
+            "value": 13,
+            "unit": "px"
+          }
+        },
+        "14": {
+          "$value": {
+            "value": 14,
+            "unit": "px"
+          }
+        },
+        "16": {
+          "$value": {
+            "value": 16,
+            "unit": "px"
+          }
+        },
+        "18": {
+          "$value": {
+            "value": 18,
+            "unit": "px"
+          }
+        },
+        "20": {
+          "$value": {
+            "value": 20,
+            "unit": "px"
+          }
+        },
+        "22": {
+          "$value": {
+            "value": 22,
+            "unit": "px"
+          }
+        },
+        "24": {
+          "$value": {
+            "value": 24,
+            "unit": "px"
+          }
+        },
+        "26": {
+          "$value": {
+            "value": 26,
+            "unit": "px"
+          }
+        },
+        "28": {
+          "$value": {
+            "value": 28,
+            "unit": "px"
+          }
+        },
+        "30": {
+          "$value": {
+            "value": 30,
+            "unit": "px"
+          }
+        },
+        "32": {
+          "$value": {
+            "value": 32,
+            "unit": "px"
+          }
+        },
+        "34": {
+          "$value": {
+            "value": 34,
+            "unit": "px"
+          }
+        },
+        "36": {
+          "$value": {
+            "value": 36,
+            "unit": "px"
+          }
+        },
+        "40": {
+          "$value": {
+            "value": 40,
+            "unit": "px"
+          }
+        }
+      },
+      "line-height": {
+        "$type": "dimension",
+        "$description": "Raw line-height scale (px). Platform tokens alias these per language.",
+        "16": {
+          "$value": {
+            "value": 16,
+            "unit": "px"
+          }
+        },
+        "18": {
+          "$value": {
+            "value": 18,
+            "unit": "px"
+          }
+        },
+        "20": {
+          "$value": {
+            "value": 20,
+            "unit": "px"
+          }
+        },
+        "22": {
+          "$value": {
+            "value": 22,
+            "unit": "px"
+          }
+        },
+        "24": {
+          "$value": {
+            "value": 24,
+            "unit": "px"
+          }
+        },
+        "26": {
+          "$value": {
+            "value": 26,
+            "unit": "px"
+          }
+        },
+        "28": {
+          "$value": {
+            "value": 28,
+            "unit": "px"
+          }
+        },
+        "30": {
+          "$value": {
+            "value": 30,
+            "unit": "px"
+          }
+        },
+        "32": {
+          "$value": {
+            "value": 32,
+            "unit": "px"
+          }
+        },
+        "34": {
+          "$value": {
+            "value": 34,
+            "unit": "px"
+          }
+        },
+        "36": {
+          "$value": {
+            "value": 36,
+            "unit": "px"
+          }
+        },
+        "38": {
+          "$value": {
+            "value": 38,
+            "unit": "px"
+          }
+        },
+        "40": {
+          "$value": {
+            "value": 40,
+            "unit": "px"
+          }
+        },
+        "42": {
+          "$value": {
+            "value": 42,
+            "unit": "px"
+          }
+        },
+        "44": {
+          "$value": {
+            "value": 44,
+            "unit": "px"
+          }
+        },
+        "48": {
+          "$value": {
+            "value": 48,
+            "unit": "px"
+          }
+        },
+        "50": {
+          "$value": {
+            "value": 50,
+            "unit": "px"
+          }
+        }
+      },
+      "letter-spacing": {
+        "$type": "dimension",
+        "$description": "Raw letter-spacing values (px).",
+        "none": {
+          "$value": {
+            "value": 0,
+            "unit": "px"
+          }
+        },
+        "tight": {
+          "$value": {
+            "value": -0.16,
+            "unit": "px"
+          },
+          "$description": "Large Latin text (display)."
         }
       }
     }

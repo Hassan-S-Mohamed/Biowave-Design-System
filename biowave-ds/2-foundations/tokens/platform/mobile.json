@@ -23,133 +23,73 @@
         "$description": "Font sizes (shared by EN and AR).",
         "display": {
           "lg": {
-            "$type": "dimension",
-            "$value": {
-              "value": 36,
-              "unit": "px"
-            },
+            "$value": "{primitive.font.size.36}",
             "$description": "Rare, very large hero title. Use for onboarding splash or major report covers on web; high-emphasis screens on tablet; onboarding or hero-style screens on mobile. Not for normal pages."
           },
           "md": {
-            "$type": "dimension",
-            "$value": {
-              "value": 32,
-              "unit": "px"
-            },
+            "$value": "{primitive.font.size.32}",
             "$description": "Large feature title used when Display.lg is too dominant. Web: featured report titles. Tablet: large feature screens. Mobile: important entry screens."
           }
         },
         "heading": {
           "lg": {
-            "$type": "dimension",
-            "$value": {
-              "value": 28,
-              "unit": "px"
-            },
+            "$value": "{primitive.font.size.28}",
             "$description": "Default page title across web, tablet, and mobile. Use at the top of any standard page."
           },
           "md": {
-            "$type": "dimension",
-            "$value": {
-              "value": 24,
-              "unit": "px"
-            },
+            "$value": "{primitive.font.size.24}",
             "$description": "Heading for a major section within a page, on web, tablet, and mobile."
           },
           "sm": {
-            "$type": "dimension",
-            "$value": {
-              "value": 20,
-              "unit": "px"
-            },
+            "$value": "{primitive.font.size.20}",
             "$description": "Subsection heading nested under a section heading, on web, tablet, and mobile."
           }
         },
         "title": {
           "lg": {
-            "$type": "dimension",
-            "$value": {
-              "value": 18,
-              "unit": "px"
-            },
+            "$value": "{primitive.font.size.18}",
             "$description": "Title for a card, panel, or surface — not a full page. Used on web, tablet, and mobile."
           },
           "md": {
-            "$type": "dimension",
-            "$value": {
-              "value": 16,
-              "unit": "px"
-            },
+            "$value": "{primitive.font.size.16}",
             "$description": "Compact title inside a dense surface (e.g. sidebar widget on web, compact list/card on tablet and mobile)."
           }
         },
         "body": {
           "lg": {
-            "$type": "dimension",
-            "$value": {
-              "value": 18,
-              "unit": "px"
-            },
+            "$value": "{primitive.font.size.18}",
             "$description": "Long-form readable text — empty-state copy, important descriptions on web; comfortable long-reading content on tablet (extra line-height); prominent readable text on mobile."
           },
           "md": {
-            "$type": "dimension",
-            "$value": {
-              "value": 16,
-              "unit": "px"
-            },
+            "$value": "{primitive.font.size.16}",
             "$description": "Default paragraph or dashboard text size on web, tablet, and mobile."
           },
           "sm": {
-            "$type": "dimension",
-            "$value": {
-              "value": 14,
-              "unit": "px"
-            },
+            "$value": "{primitive.font.size.14}",
             "$description": "Secondary, less prominent body copy on web, tablet, and mobile."
           }
         },
         "label": {
           "lg": {
-            "$type": "dimension",
-            "$value": {
-              "value": 16,
-              "unit": "px"
-            },
+            "$value": "{primitive.font.size.16}",
             "$description": "Prominent form label or strong UI label, used on web, tablet, and mobile."
           },
           "md": {
-            "$type": "dimension",
-            "$value": {
-              "value": 14,
-              "unit": "px"
-            },
+            "$value": "{primitive.font.size.14}",
             "$description": "Standard compact UI label, used on web, tablet, and mobile."
           },
           "sm": {
-            "$type": "dimension",
-            "$value": {
-              "value": 12,
-              "unit": "px"
-            },
+            "$value": "{primitive.font.size.12}",
             "$description": "Smallest label size — dense metadata in tight spaces, on web, tablet, and mobile."
           }
         },
         "caption": {
           "md": {
-            "$type": "dimension",
-            "$value": {
-              "value": 12,
-              "unit": "px"
-            },
+            "$value": "{primitive.font.size.12}",
             "$description": "Helper text, hints, or low-emphasis notes below an input or section. Used on web, tablet, and mobile — the smallest readable text on tablet/mobile (do not go below this on those platforms)."
           },
           "sm": {
-            "$type": "dimension",
-            "$value": {
-              "value": 12,
-              "unit": "px"
-            },
+            "$value": "{primitive.font.size.12}",
             "$description": "Web only. Rare, extremely dense metadata where 12px is still too large. Use sparingly. Not used on tablet or mobile — those platforms have no value smaller than Caption.md."
           }
         },
@@ -169,45 +109,25 @@
         },
         "data": {
           "lg": {
-            "$type": "dimension",
-            "$value": {
-              "value": 24,
-              "unit": "px"
-            },
+            "$value": "{primitive.font.size.24}",
             "$description": "Important metric or dashboard value that needs visual weight, on web, tablet, and mobile."
           },
           "md": {
-            "$type": "dimension",
-            "$value": {
-              "value": 16,
-              "unit": "px"
-            },
+            "$value": "{primitive.font.size.16}",
             "$description": "Everyday numeric values — dates, times, counts — on web, tablet, and mobile."
           },
           "sm": {
-            "$type": "dimension",
-            "$value": {
-              "value": 13,
-              "unit": "px"
-            },
+            "$value": "{primitive.font.size.13}",
             "$description": "Small, secondary numeric values, e.g. count badges, on web, tablet, and mobile."
           }
         },
         "code": {
           "md": {
-            "$type": "dimension",
-            "$value": {
-              "value": 14,
-              "unit": "px"
-            },
+            "$value": "{primitive.font.size.14}",
             "$description": "Serial numbers, device IDs, API keys, codes in tables and detail panels (monospace, JetBrains Mono). Latin characters only."
           },
           "sm": {
-            "$type": "dimension",
-            "$value": {
-              "value": 12,
-              "unit": "px"
-            },
+            "$value": "{primitive.font.size.12}",
             "$description": "Small monospace: inline IDs in captions, table cells in dense lists."
           }
         }
@@ -216,119 +136,59 @@
         "en": {
           "display": {
             "lg": {
-              "$type": "dimension",
-              "$value": {
-                "value": 44,
-                "unit": "px"
-              }
+              "$value": "{primitive.font.line-height.44}"
             },
             "md": {
-              "$type": "dimension",
-              "$value": {
-                "value": 40,
-                "unit": "px"
-              }
+              "$value": "{primitive.font.line-height.40}"
             }
           },
           "heading": {
             "lg": {
-              "$type": "dimension",
-              "$value": {
-                "value": 36,
-                "unit": "px"
-              }
+              "$value": "{primitive.font.line-height.36}"
             },
             "md": {
-              "$type": "dimension",
-              "$value": {
-                "value": 32,
-                "unit": "px"
-              }
+              "$value": "{primitive.font.line-height.32}"
             },
             "sm": {
-              "$type": "dimension",
-              "$value": {
-                "value": 28,
-                "unit": "px"
-              }
+              "$value": "{primitive.font.line-height.28}"
             }
           },
           "title": {
             "lg": {
-              "$type": "dimension",
-              "$value": {
-                "value": 28,
-                "unit": "px"
-              }
+              "$value": "{primitive.font.line-height.28}"
             },
             "md": {
-              "$type": "dimension",
-              "$value": {
-                "value": 24,
-                "unit": "px"
-              }
+              "$value": "{primitive.font.line-height.24}"
             }
           },
           "body": {
             "lg": {
-              "$type": "dimension",
-              "$value": {
-                "value": 28,
-                "unit": "px"
-              }
+              "$value": "{primitive.font.line-height.28}"
             },
             "md": {
-              "$type": "dimension",
-              "$value": {
-                "value": 24,
-                "unit": "px"
-              }
+              "$value": "{primitive.font.line-height.24}"
             },
             "sm": {
-              "$type": "dimension",
-              "$value": {
-                "value": 22,
-                "unit": "px"
-              }
+              "$value": "{primitive.font.line-height.22}"
             }
           },
           "label": {
             "lg": {
-              "$type": "dimension",
-              "$value": {
-                "value": 24,
-                "unit": "px"
-              }
+              "$value": "{primitive.font.line-height.24}"
             },
             "md": {
-              "$type": "dimension",
-              "$value": {
-                "value": 20,
-                "unit": "px"
-              }
+              "$value": "{primitive.font.line-height.20}"
             },
             "sm": {
-              "$type": "dimension",
-              "$value": {
-                "value": 16,
-                "unit": "px"
-              }
+              "$value": "{primitive.font.line-height.16}"
             }
           },
           "caption": {
             "md": {
-              "$type": "dimension",
-              "$value": {
-                "value": 18,
-                "unit": "px"
-              }
+              "$value": "{primitive.font.line-height.18}"
             },
             "sm": {
-              "$type": "dimension",
-              "$value": {
-                "value": 18,
-                "unit": "px"
-              }
+              "$value": "{primitive.font.line-height.18}"
             }
           },
           "action": {
@@ -344,160 +204,80 @@
           },
           "data": {
             "lg": {
-              "$type": "dimension",
-              "$value": {
-                "value": 32,
-                "unit": "px"
-              }
+              "$value": "{primitive.font.line-height.32}"
             },
             "md": {
-              "$type": "dimension",
-              "$value": {
-                "value": 24,
-                "unit": "px"
-              }
+              "$value": "{primitive.font.line-height.24}"
             },
             "sm": {
-              "$type": "dimension",
-              "$value": {
-                "value": 18,
-                "unit": "px"
-              }
+              "$value": "{primitive.font.line-height.18}"
             }
           },
           "code": {
             "md": {
-              "$type": "dimension",
-              "$value": {
-                "value": 22,
-                "unit": "px"
-              }
+              "$value": "{primitive.font.line-height.22}"
             },
             "sm": {
-              "$type": "dimension",
-              "$value": {
-                "value": 18,
-                "unit": "px"
-              }
+              "$value": "{primitive.font.line-height.18}"
             }
           }
         },
         "ar": {
           "display": {
             "lg": {
-              "$type": "dimension",
-              "$value": {
-                "value": 48,
-                "unit": "px"
-              }
+              "$value": "{primitive.font.line-height.48}"
             },
             "md": {
-              "$type": "dimension",
-              "$value": {
-                "value": 44,
-                "unit": "px"
-              }
+              "$value": "{primitive.font.line-height.44}"
             }
           },
           "heading": {
             "lg": {
-              "$type": "dimension",
-              "$value": {
-                "value": 40,
-                "unit": "px"
-              }
+              "$value": "{primitive.font.line-height.40}"
             },
             "md": {
-              "$type": "dimension",
-              "$value": {
-                "value": 34,
-                "unit": "px"
-              }
+              "$value": "{primitive.font.line-height.34}"
             },
             "sm": {
-              "$type": "dimension",
-              "$value": {
-                "value": 30,
-                "unit": "px"
-              }
+              "$value": "{primitive.font.line-height.30}"
             }
           },
           "title": {
             "lg": {
-              "$type": "dimension",
-              "$value": {
-                "value": 30,
-                "unit": "px"
-              }
+              "$value": "{primitive.font.line-height.30}"
             },
             "md": {
-              "$type": "dimension",
-              "$value": {
-                "value": 26,
-                "unit": "px"
-              }
+              "$value": "{primitive.font.line-height.26}"
             }
           },
           "body": {
             "lg": {
-              "$type": "dimension",
-              "$value": {
-                "value": 30,
-                "unit": "px"
-              }
+              "$value": "{primitive.font.line-height.30}"
             },
             "md": {
-              "$type": "dimension",
-              "$value": {
-                "value": 26,
-                "unit": "px"
-              }
+              "$value": "{primitive.font.line-height.26}"
             },
             "sm": {
-              "$type": "dimension",
-              "$value": {
-                "value": 24,
-                "unit": "px"
-              }
+              "$value": "{primitive.font.line-height.24}"
             }
           },
           "label": {
             "lg": {
-              "$type": "dimension",
-              "$value": {
-                "value": 26,
-                "unit": "px"
-              }
+              "$value": "{primitive.font.line-height.26}"
             },
             "md": {
-              "$type": "dimension",
-              "$value": {
-                "value": 22,
-                "unit": "px"
-              }
+              "$value": "{primitive.font.line-height.22}"
             },
             "sm": {
-              "$type": "dimension",
-              "$value": {
-                "value": 18,
-                "unit": "px"
-              }
+              "$value": "{primitive.font.line-height.18}"
             }
           },
           "caption": {
             "md": {
-              "$type": "dimension",
-              "$value": {
-                "value": 20,
-                "unit": "px"
-              }
+              "$value": "{primitive.font.line-height.20}"
             },
             "sm": {
-              "$type": "dimension",
-              "$value": {
-                "value": 20,
-                "unit": "px"
-              }
+              "$value": "{primitive.font.line-height.20}"
             }
           },
           "action": {
@@ -513,41 +293,21 @@
           },
           "data": {
             "lg": {
-              "$type": "dimension",
-              "$value": {
-                "value": 34,
-                "unit": "px"
-              }
+              "$value": "{primitive.font.line-height.34}"
             },
             "md": {
-              "$type": "dimension",
-              "$value": {
-                "value": 26,
-                "unit": "px"
-              }
+              "$value": "{primitive.font.line-height.26}"
             },
             "sm": {
-              "$type": "dimension",
-              "$value": {
-                "value": 20,
-                "unit": "px"
-              }
+              "$value": "{primitive.font.line-height.20}"
             }
           },
           "code": {
             "md": {
-              "$type": "dimension",
-              "$value": {
-                "value": 22,
-                "unit": "px"
-              }
+              "$value": "{primitive.font.line-height.22}"
             },
             "sm": {
-              "$type": "dimension",
-              "$value": {
-                "value": 18,
-                "unit": "px"
-              }
+              "$value": "{primitive.font.line-height.18}"
             }
           }
         }
@@ -595,28 +355,16 @@
       "letter-spacing": {
         "en": {
           "display": {
-            "$type": "dimension",
-            "$value": {
-              "value": -0.16,
-              "unit": "px"
-            },
+            "$value": "{primitive.font.letter-spacing.tight}",
             "$description": "Slight negative tracking for large Latin text."
           },
           "default": {
-            "$type": "dimension",
-            "$value": {
-              "value": 0,
-              "unit": "px"
-            }
+            "$value": "{primitive.font.letter-spacing.none}"
           }
         },
         "ar": {
           "default": {
-            "$type": "dimension",
-            "$value": {
-              "value": 0,
-              "unit": "px"
-            },
+            "$value": "{primitive.font.letter-spacing.none}",
             "$description": "Arabic is a connected script: letter-spacing must always be 0."
           }
         }

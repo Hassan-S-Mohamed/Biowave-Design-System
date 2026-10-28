@@ -26,10 +26,24 @@ platform tokens (web / tablet / mobile)          → size, line height (en · ar
 | `font/family/mono` | `--bw-font-family-mono` | JetBrains Mono (all modes) — `code` role only |
 | `font/size/{role}/{size}` | `--bw-font-size-{role}-{size}` | Size per platform (same for EN and AR) |
 | `font/line-height/{role}/{size}` | `--bw-font-line-height-{role}-{size}` | Line height per platform and language (AR taller) |
-| `font/weight/{role}` | `--bw-font-weight-{role}` | Role weight (Figma: font style name per family) |
+| `font/weight/{role}` | `--bw-font-weight-{role}` | Role weight as a number (400 · 500 · 600), bound to the style's **font weight**, so one value works for Inter, IBM Plex Sans Arabic and JetBrains Mono |
 | `font/letter-spacing/display` · `default` | `--bw-font-letter-spacing-*` | −0.16px for Latin display, 0 everywhere else |
 
 `action` variables are **aliases**: `action/lg` = `title/lg`, `action/md` = `label/lg`, `action/sm` = `label/md` (size, line height and weight). They never drift; the role name stays so components say what the text is for.
+
+## Primitives — every value points to one
+
+Platform tokens (code) and the `5. Typography` variables (Figma) never hold a raw number: each one aliases a primitive. Primitives are a single raw scale — no platform or language in the name; platform and language live in the semantic layer (platform files in code, modes in Figma).
+
+| Primitive (Figma `_Primitive` · code `primitive.font.*`) | Values |
+|---|---|
+| `Typography/Size/{n}` · `font.size.{n}` | 11 · 12 · 13 · 14 · 16 · 18 · 20 · 22 · 24 · 26 · 28 · 30 · 32 · 34 · 36 · 40 |
+| `Typography/Line Height/{n}` · `font.line-height.{n}` | 16 · 18 · 20 · 22 · 24 · 26 · 28 · 30 · 32 · 34 · 36 · 38 · 40 · 42 · 44 · 48 · 50 |
+| `Typography/Weight/{n}` · `font.weight.*` | 400 regular · 500 medium · 600 semibold |
+| `Typography/Letter Spacing/*` · `font.letter-spacing.*` | none 0 · tight −0.16 |
+| `Typography/Font Family/*` · `font.family.*` | EN Inter · AR IBM Plex Sans Arabic · Mono JetBrains Mono |
+
+**Three weights only.** 400 body · caption · code; 500 title · label · action · data; 600 display · heading. No 700 and no italics (Arabic has none). Inline emphasis (`<strong>`) uses 600. A new size or line height is added to the primitive scale first, then referenced.
 
 ## Roles
 
@@ -99,5 +113,5 @@ Notes:
 | Figma | Text style `body/md` + frame mode of `5. Typography` |
 
 ## Fonts setup
-- Web: self-host via `@fontsource/inter`, `@fontsource/ibm-plex-sans-arabic` (400/500/600/700) and `@fontsource/jetbrains-mono` (400).
+- Web: self-host via `@fontsource/inter`, `@fontsource/ibm-plex-sans-arabic` (400/500/600 only — no 700, no italics) and `@fontsource/jetbrains-mono` (400).
 - Flutter: add the font files to the app's `pubspec.yaml` with family names exactly `Inter`, `IBM Plex Sans Arabic` and `JetBrains Mono` (`BwFontFamily.en/ar/mono`). All three fonts are SIL OFL licensed.
