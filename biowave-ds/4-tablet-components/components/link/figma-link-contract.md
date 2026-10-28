@@ -1,4 +1,4 @@
-<!-- GENERATED from link.md @ c64d3d304a62f2a3 — do not edit; change the source and run: npm run contract -- tablet link -->
+<!-- GENERATED from link.md @ 1f1d5e90ac016b9a — do not edit; change the source and run: npm run contract -- tablet link -->
 # Link · رابط — Tablet — Figma contract
 
 > **Everything the Figma Agent needs to build Link in the Tablet Components file, with our variables and styles.** Read this file only. Generated from [`link.md`](link.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-28). Questions go to [D11 Execution log](link.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
@@ -12,7 +12,7 @@
 | Component | Link · رابط |
 | Platform | Tablet · Flutter + Material 3 |
 | Version | 1.0 · 2026-10-21 |
-| Source | [`link.md`](link.md) @ `c64d3d304a62f2a3` |
+| Source | [`link.md`](link.md) @ `1f1d5e90ac016b9a` |
 
 ## 1. Library connections in this file
 
@@ -21,7 +21,7 @@
 | Library | **Biowave DS — Foundations** · library key `lk-e00b31b21f924b36eeea820da99c4b306c460986c83e894f415a1c194ba5a2e670f3142c2fccca81280a80bcaee6a87bc47c9a9505d186d7b693aa9805ad7031` |
 | Library file | Foundations · key `AyFaSmfDUlTax3GpKhRdHI` |
 | Doc Kit library (Phase 2) | **Annotation (Biowave Doc Kit)** · file key `cBPWg6YZNqK8UIzgMQIpXl` — must be enabled in this file (Assets → Libraries) |
-| Enabled here | ✓ verified from a component file: 8 collections, 287 variables reachable |
+| Enabled here | ✓ verified from a component file: 7 collections, 287 variables reachable |
 
 Import by key — never search by name, never copy:
 

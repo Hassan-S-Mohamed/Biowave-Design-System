@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Sync — Deprecated AR typography unpublished] — 2026-10-28
+### Changed
+- `_deprecated · 6. Typography (AR)` unpublished from the Foundations library (no component file uses `Web/ar/*` styles). Library index reach: 7 collections, 287 variables (unchanged). Figma contracts regenerated; `docs:check` OK, `npm run sync` READY.
+
 ## [Sync — Web Components typography migration] — 2026-10-28
 ### Changed (Figma, Web Components file only)
 - 921 text layers that held old versions of the Biowave styles (same keys) now use the current `{role}/{size}` styles; no visual change.
