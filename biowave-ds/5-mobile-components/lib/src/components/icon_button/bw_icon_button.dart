@@ -199,7 +199,7 @@ class _BwIconButtonState extends State<BwIconButton> {
           return baseBackground.resolve(states);
         }
         if (states.contains(WidgetState.disabled)) {
-          return colors.backgroundNeutralDisabled;
+          return colors.backgroundDisabled;
         }
         return switch (widget.color) {
           BwButtonColor.brand => colors.backgroundBrandSubtle,

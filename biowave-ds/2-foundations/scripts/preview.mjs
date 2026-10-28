@@ -175,7 +175,7 @@ th { font-size: var(--bw-font-size-label-sm); color: ${v('color.text.subtlest')}
 .cols { margin: 16px 0 0; }
 .cols figcaption { font-size: var(--bw-font-size-caption-md); color: ${v('color.text.subtlest')}; margin-bottom: 6px; }
 .cols-frame { display: grid; grid-auto-flow: column; grid-auto-columns: 1fr; height: 56px; background: ${v('color.surface.default')}; border: 1px solid ${v('color.border.default')}; border-radius: ${v('radius.md')}; padding-block: 6px; max-width: 100%; }
-.cols-frame span { background: ${v('color.overlay.error')}; border-radius: 2px; }
+.cols-frame span { background: ${v('color.background.error.subtle')}; border-radius: 2px; }
 .track { position: relative; height: 12px; background: ${v('color.background.neutral.default')}; border-radius: 99px; }
 .ball { position: absolute; inset-inline-start: 0; top: 0; width: 12px; height: 12px; border-radius: 50%; background: ${v('color.background.brand.default')}; transition-property: inset-inline-start; transition-duration: 900ms; }
 .row:hover .ball { inset-inline-start: calc(100% - 12px); }

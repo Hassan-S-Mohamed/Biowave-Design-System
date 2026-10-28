@@ -28,19 +28,15 @@
       "transparent": {
         "default": {
           "$value": "{primitive.color.neutral.alpha.0}",
-          "$description": "[Background · interactive, has states] No fill at rest. For Text button, standard Icon button, ghost Tab, link-style List item. Never use for containers."
+          "$description": "[Background · interactive, has states] No fill at rest. For Text button, standard Icon button, ghost Tab, link-style List item. Also the fill of a disabled transparent element (show the disabled state with text/disabled and icon/disabled). Never use for containers."
         },
         "hovered": {
           "$value": "{primitive.color.neutral.alpha.40}",
-          "$description": "[Background · interactive, has states] Hover fill of transparent elements (Web pointer only)."
+          "$description": "[Background · interactive, has states] Hover fill of transparent elements (Web pointer only). Also the hover state layer placed above a tonal (subtle/subtlest) or outlined control."
         },
         "pressed": {
           "$value": "{primitive.color.neutral.alpha.60}",
-          "$description": "[Background · interactive, has states] Pressed fill of transparent elements; the pressed/ripple state on Tablet and Mobile."
-        },
-        "disabled": {
-          "$value": "{primitive.color.neutral.alpha.0}",
-          "$description": "[Background · interactive, has states] Disabled transparent element. Stays transparent; show the disabled state with text/disabled and icon/disabled. No hover or press effect."
+          "$description": "[Background · interactive, has states] Pressed fill of transparent elements and the pressed/ripple state layer above tonal or outlined controls (Tablet and Mobile ripple)."
         }
       },
       "base": {
@@ -50,7 +46,7 @@
         },
         "subtle": {
           "$value": "{primitive.color.neutral.800}",
-          "$description": "[Background · interactive, has states] Low-emphasis neutral fill, a step darker than default: Filled text field, Neutral chip/tag, Segmented control track, Toggle track (off). For hover/press on it, layer overlay/hovered or overlay/pressed."
+          "$description": "[Background · interactive, has states] Low-emphasis neutral fill, a step darker than default: Filled text field, Neutral chip/tag, Segmented control track, Toggle track (off). For hover/press on it, layer background/transparent/hovered or pressed."
         },
         "subtlest": {
           "$value": "{primitive.color.neutral.950}",
@@ -63,10 +59,6 @@
         "pressed": {
           "$value": "{primitive.color.neutral.600}",
           "$description": "[Background · interactive, has states] Pressed fill for base/default elements: Table row, List item, Menu item."
-        },
-        "disabled": {
-          "$value": "{primitive.color.neutral.800}",
-          "$description": "[Background · interactive, has states] Fill of disabled base elements: Text field, Select, Outlined button. No hover or press effect when disabled."
         }
       },
       "inverse": {
@@ -95,10 +87,20 @@
         "pressed": {
           "$value": "{primitive.color.neutral.600}",
           "$description": "[Background · interactive, has states] Pressed fill of neutral/default elements."
+        }
+      },
+      "selected": {
+        "default": {
+          "$value": "{primitive.color.primary.600}",
+          "$description": "[Background · interactive, has states] Selected item at rest: selected Table row, List item, Menu item, active Side-nav item, selected Tab, selected Chip, selected Card. Text on it: text/default or text/role/brand; icons: icon/default or icon/role/brand. Always pair with a non-colour indicator (check, bar, bold label)."
         },
-        "disabled": {
-          "$value": "{primitive.color.neutral.800}",
-          "$description": "[Background · interactive, has states] Fill of a disabled neutral element. Label uses text/disabled. No hover or press effect."
+        "hovered": {
+          "$value": "{primitive.color.primary.500}",
+          "$description": "[Background · interactive, has states] Hover fill of a selected item (Web pointer only)."
+        },
+        "pressed": {
+          "$value": "{primitive.color.primary.400}",
+          "$description": "[Background · interactive, has states] Pressed fill of a selected item."
         }
       },
       "brand": {
@@ -112,7 +114,7 @@
         },
         "subtlest": {
           "$value": "{primitive.color.primary.950}",
-          "$description": "[Background · interactive, has states] Lightest brand tint: brand Alert/Banner, selected/highlighted row. Text on it uses text/role/brand or text/default. Primary actions and selection."
+          "$description": "[Background · interactive, has states] Lightest brand tint: brand Alert/Banner, highlighted (not selected) row; selection uses background/selected. Text on it uses text/role/brand or text/default. Primary actions and selection."
         },
         "hovered": {
           "$value": "{primitive.color.primary.200}",
@@ -121,10 +123,6 @@
         "pressed": {
           "$value": "{primitive.color.primary.100}",
           "$description": "[Background · interactive, has states] Pressed fill of brand/default elements."
-        },
-        "disabled": {
-          "$value": "{primitive.color.neutral.800}",
-          "$description": "[Background · interactive, has states] Fill of a disabled brand element. Neutral, so the role colour disappears. Label uses text/disabled. No hover or press effect."
         }
       },
       "secondary": {
@@ -138,7 +136,7 @@
         },
         "subtlest": {
           "$value": "{primitive.color.secondary.950}",
-          "$description": "[Background · interactive, has states] Lightest secondary tint: secondary Alert/Banner, selected/highlighted row. Text on it uses text/role/secondary or text/default. Supporting actions and accents."
+          "$description": "[Background · interactive, has states] Lightest secondary tint: secondary Alert/Banner, highlighted (not selected) row; selection uses background/selected. Text on it uses text/role/secondary or text/default. Supporting actions and accents."
         },
         "hovered": {
           "$value": "{primitive.color.secondary.200}",
@@ -147,10 +145,78 @@
         "pressed": {
           "$value": "{primitive.color.secondary.100}",
           "$description": "[Background · interactive, has states] Pressed fill of secondary/default elements."
+        }
+      },
+      "accent": {
+        "default": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.9843,
+              0.5725,
+              0.2353
+            ],
+            "alpha": 1,
+            "hex": "#FB923C"
+          },
+          "$description": "[Background · interactive, has states] Bold accent fill (orange, separate from warning): highlight actions, promotional badge, feature callout, chart/illustration accent. Text and icons on it use text/on/accent and icon/on/accent. Material 3 tertiary."
         },
-        "disabled": {
-          "$value": "{primitive.color.neutral.800}",
-          "$description": "[Background · interactive, has states] Fill of a disabled secondary element. Neutral, so the role colour disappears. Label uses text/disabled. No hover or press effect."
+        "subtle": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.4863,
+              0.1765,
+              0.0706
+            ],
+            "alpha": 1,
+            "hex": "#7C2D12"
+          },
+          "$description": "[Background · interactive, has states] Tonal accent fill: accent Chip/Tag, Tonal button. Text on it uses text/role/accent. Material 3 tertiaryContainer."
+        },
+        "subtlest": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.2627,
+              0.0784,
+              0.0275
+            ],
+            "alpha": 1,
+            "hex": "#431407"
+          },
+          "$description": "[Background · interactive, has states] Lightest accent tint: highlight banner, new-feature row. Text on it uses text/role/accent or text/default."
+        },
+        "hovered": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.9922,
+              0.7294,
+              0.4549
+            ],
+            "alpha": 1,
+            "hex": "#FDBA74"
+          },
+          "$description": "[Background · interactive, has states] Hover fill of accent/default elements (Web pointer only)."
+        },
+        "pressed": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.9961,
+              0.8431,
+              0.6667
+            ],
+            "alpha": 1,
+            "hex": "#FED7AA"
+          },
+          "$description": "[Background · interactive, has states] Pressed fill of accent/default elements."
         }
       },
       "success": {
@@ -164,7 +230,7 @@
         },
         "subtlest": {
           "$value": "{primitive.color.success.950}",
-          "$description": "[Background · interactive, has states] Lightest success tint: success Alert/Banner, selected/highlighted row. Text on it uses text/role/success or text/default. Positive results, completed states, confirmations."
+          "$description": "[Background · interactive, has states] Lightest success tint: success Alert/Banner, highlighted (not selected) row; selection uses background/selected. Text on it uses text/role/success or text/default. Positive results, completed states, confirmations."
         },
         "hovered": {
           "$value": "{primitive.color.success.200}",
@@ -173,10 +239,6 @@
         "pressed": {
           "$value": "{primitive.color.success.100}",
           "$description": "[Background · interactive, has states] Pressed fill of success/default elements."
-        },
-        "disabled": {
-          "$value": "{primitive.color.neutral.800}",
-          "$description": "[Background · interactive, has states] Fill of a disabled success element. Neutral, so the role colour disappears. Label uses text/disabled. No hover or press effect."
         }
       },
       "error": {
@@ -190,7 +252,7 @@
         },
         "subtlest": {
           "$value": "{primitive.color.error.950}",
-          "$description": "[Background · interactive, has states] Lightest error tint: error Alert/Banner, selected/highlighted row. Text on it uses text/role/error or text/default. Errors, failures and destructive actions."
+          "$description": "[Background · interactive, has states] Lightest error tint: error Alert/Banner, highlighted (not selected) row; selection uses background/selected. Text on it uses text/role/error or text/default. Errors, failures and destructive actions."
         },
         "hovered": {
           "$value": "{primitive.color.error.200}",
@@ -199,10 +261,6 @@
         "pressed": {
           "$value": "{primitive.color.error.100}",
           "$description": "[Background · interactive, has states] Pressed fill of error/default elements."
-        },
-        "disabled": {
-          "$value": "{primitive.color.neutral.800}",
-          "$description": "[Background · interactive, has states] Fill of a disabled error element. Neutral, so the role colour disappears. Label uses text/disabled. No hover or press effect."
         }
       },
       "warning": {
@@ -216,7 +274,7 @@
         },
         "subtlest": {
           "$value": "{primitive.color.warning.950}",
-          "$description": "[Background · interactive, has states] Lightest warning tint: warning Alert/Banner, selected/highlighted row. Text on it uses text/role/warning or text/default. Alerts, potential risks, actions that need attention."
+          "$description": "[Background · interactive, has states] Lightest warning tint: warning Alert/Banner, highlighted (not selected) row; selection uses background/selected. Text on it uses text/role/warning or text/default. Alerts, potential risks, actions that need attention."
         },
         "hovered": {
           "$value": "{primitive.color.warning.200}",
@@ -225,10 +283,6 @@
         "pressed": {
           "$value": "{primitive.color.warning.100}",
           "$description": "[Background · interactive, has states] Pressed fill of warning/default elements."
-        },
-        "disabled": {
-          "$value": "{primitive.color.neutral.800}",
-          "$description": "[Background · interactive, has states] Fill of a disabled warning element. Neutral, so the role colour disappears. Label uses text/disabled. No hover or press effect."
         }
       },
       "info": {
@@ -242,7 +296,7 @@
         },
         "subtlest": {
           "$value": "{primitive.color.info.950}",
-          "$description": "[Background · interactive, has states] Lightest info tint: info Alert/Banner, selected/highlighted row. Text on it uses text/role/info or text/default. Guidance, information, in-progress states."
+          "$description": "[Background · interactive, has states] Lightest info tint: info Alert/Banner, highlighted (not selected) row; selection uses background/selected. Text on it uses text/role/info or text/default. Guidance, information, in-progress states."
         },
         "hovered": {
           "$value": "{primitive.color.info.200}",
@@ -251,11 +305,11 @@
         "pressed": {
           "$value": "{primitive.color.info.100}",
           "$description": "[Background · interactive, has states] Pressed fill of info/default elements."
-        },
-        "disabled": {
-          "$value": "{primitive.color.neutral.800}",
-          "$description": "[Background · interactive, has states] Fill of a disabled info element. Neutral, so the role colour disappears. Label uses text/disabled. No hover or press effect."
         }
+      },
+      "disabled": {
+        "$value": "{primitive.color.neutral.800}",
+        "$description": "[Background · interactive, has states] Fill of any disabled control that has a fill: Filled/Tonal button (every colour), Text field, Select, checked Checkbox/Toggle. Transparent controls stay background/transparent/default. Label uses text/disabled. No hover or press effect."
       }
     },
     "text": {
@@ -282,12 +336,26 @@
       "role": {
         "$description": "Coloured text on neutral surfaces and on the matching background/{role}/subtle and subtlest fills.",
         "brand": {
-          "$value": "{primitive.color.primary.200}",
+          "$value": "{primitive.color.primary.100}",
           "$description": "Active Tab label, active Side-nav item, selected Chip label, label on background/inverse."
         },
         "secondary": {
           "$value": "{primitive.color.secondary.200}",
           "$description": "Secondary accent text, secondary Chip label."
+        },
+        "accent": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.9961,
+              0.8431,
+              0.6667
+            ],
+            "alpha": 1,
+            "hex": "#FED7AA"
+          },
+          "$description": "Accent text on neutral surfaces and on background/accent/subtle and subtlest: highlight label, feature callout."
         },
         "success": {
           "$value": "{primitive.color.success.200}",
@@ -315,6 +383,10 @@
         "secondary": {
           "$value": "{primitive.color.neutral.950}",
           "$description": "Text colour placed on background/secondary/default, hovered and pressed fills. Always pair with that fill; never use on surfaces."
+        },
+        "accent": {
+          "$value": "{primitive.color.neutral.950}",
+          "$description": "Text colour placed on background/accent/default, hovered and pressed fills. Always pair with that fill; never use on surfaces."
         },
         "success": {
           "$value": "{primitive.color.neutral.950}",
@@ -358,12 +430,26 @@
       "role": {
         "$description": "Coloured icon on neutral surfaces and on the matching background/{role}/subtle and subtlest fills.",
         "brand": {
-          "$value": "{primitive.color.primary.200}",
+          "$value": "{primitive.color.primary.100}",
           "$description": "Active Side-nav / Navigation bar icon, selected Tab icon."
         },
         "secondary": {
           "$value": "{primitive.color.secondary.200}",
           "$description": "Secondary accent icons."
+        },
+        "accent": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.9961,
+              0.8431,
+              0.6667
+            ],
+            "alpha": 1,
+            "hex": "#FED7AA"
+          },
+          "$description": "Accent icon: highlight, new-feature marker."
         },
         "success": {
           "$value": "{primitive.color.success.200}",
@@ -392,6 +478,10 @@
           "$value": "{primitive.color.neutral.950}",
           "$description": "Icon colour placed on background/secondary/default, hovered and pressed fills. Always pair with that fill; never use on surfaces."
         },
+        "accent": {
+          "$value": "{primitive.color.neutral.950}",
+          "$description": "Icon colour placed on background/accent/default, hovered and pressed fills. Always pair with that fill; never use on surfaces."
+        },
         "success": {
           "$value": "{primitive.color.neutral.950}",
           "$description": "Icon colour placed on background/success/default, hovered and pressed fills. Always pair with that fill; never use on surfaces."
@@ -411,116 +501,536 @@
       }
     },
     "border": {
+      "$description": "Lines that separate or outline. Decorative borders (default, subtle, strong) may be low contrast; boundaries that identify a control or a state (bold, focus, roles) meet 3:1 (WCAG 1.4.11). Components take their border colour from these tokens.",
       "default": {
         "$value": "{primitive.color.neutral.700}",
-        "$description": "Decorative separation: cards, tables, dividers. Not for control boundaries."
+        "$description": "Decorative separation: Card and Panel outline, Table grid, Divider. Low contrast by design; not for control boundaries."
       },
       "subtle": {
-        "$value": "{primitive.color.neutral.800}"
+        "$value": "{primitive.color.neutral.800}",
+        "$description": "Quietest separation: grouped rows, inner dividers inside a card."
       },
       "strong": {
-        "$value": "{primitive.color.neutral.600}"
+        "$value": "{primitive.color.neutral.600}",
+        "$description": "Emphasised decorative line: strong Divider, Outlined button outline (the label identifies the button), selected neutral Icon button outline."
+      },
+      "bold": {
+        "$value": "{primitive.color.neutral.400}",
+        "$description": "Boundary that identifies a control (≥ 3:1): Text field, Select, Checkbox, Radio, Switch track outline, unselected Segmented control. Hover keeps this border and changes the fill to background/base/hovered."
       },
       "disabled": {
-        "$value": "{primitive.color.neutral.700}"
-      },
-      "brand": {
-        "$value": "{primitive.color.primary.500}"
-      },
-      "secondary": {
-        "$value": "{primitive.color.secondary.500}"
-      },
-      "success": {
-        "$value": "{primitive.color.success.500}"
-      },
-      "error": {
-        "$value": "{primitive.color.error.500}"
-      },
-      "warning": {
-        "$value": "{primitive.color.warning.500}"
-      },
-      "info": {
-        "$value": "{primitive.color.info.500}"
-      },
-      "inverse": {
-        "$value": "{primitive.color.neutral.950}",
-        "$description": "Outlines and focus ring of controls placed on brand or inverse surfaces."
-      },
-      "input": {
-        "$description": "Boundaries of controls that need 3:1 (inputs, checkboxes, outline icon buttons). Merges form/default, control-accessible, icon-button/outline.",
-        "default": {
-          "$value": "{primitive.color.neutral.400}"
-        },
-        "error": {
-          "$value": "{primitive.color.error.300}"
-        },
-        "hovered": {
-          "$value": "{primitive.color.neutral.300}"
-        }
+        "$value": "{primitive.color.neutral.700}",
+        "$description": "Outline of a disabled control."
       },
       "focus": {
         "$value": "{primitive.color.primary.200}",
-        "$description": "Keyboard focus ring. FIX: was primary/200 (2.58:1 on white, below 3:1)."
+        "$description": "Keyboard focus ring (2px, 2px offset) on every focusable element. ≥ 3:1 against surfaces."
+      },
+      "inverse": {
+        "$value": "{primitive.color.neutral.950}",
+        "$description": "Outline and focus ring of controls placed on brand or inverse areas (navy Side navigation, brand App bar), where border/focus would disappear."
+      },
+      "brand": {
+        "$value": "{primitive.color.primary.300}",
+        "$description": "Selected outline (selected Icon button, selected Card), brand emphasis. ≥ 3:1 against surfaces."
+      },
+      "secondary": {
+        "$value": "{primitive.color.secondary.300}",
+        "$description": "Secondary accent outline. ≥ 3:1 against surfaces."
+      },
+      "accent": {
+        "$type": "color",
+        "$value": {
+          "colorSpace": "srgb",
+          "components": [
+            0.9843,
+            0.5725,
+            0.2353
+          ],
+          "alpha": 1,
+          "hex": "#FB923C"
+        },
+        "$description": "Accent outline: highlight card, feature callout. ≥ 3:1 against surfaces."
+      },
+      "success": {
+        "$value": "{primitive.color.success.300}",
+        "$description": "Success Alert/Banner outline, valid field. ≥ 3:1 against surfaces."
+      },
+      "error": {
+        "$value": "{primitive.color.error.300}",
+        "$description": "Error outline: invalid Text field/Select, error Alert/Banner, destructive confirmation. ≥ 3:1 against surfaces."
+      },
+      "warning": {
+        "$value": "{primitive.color.warning.300}",
+        "$description": "Warning Alert/Banner outline. ≥ 3:1 against surfaces."
+      },
+      "info": {
+        "$value": "{primitive.color.info.300}",
+        "$description": "Info Alert/Banner outline. ≥ 3:1 against surfaces."
       }
     },
     "link": {
+      "$description": "Text links. Always underlined or otherwise distinct from body text, not colour alone (WCAG 1.4.1).",
       "default": {
-        "$value": "{primitive.color.info.300}"
-      },
-      "pressed": {
-        "$value": "{primitive.color.info.100}"
-      },
-      "visited": {
-        "$value": "{primitive.color.info.200}"
+        "$value": "{primitive.color.info.300}",
+        "$description": "Link at rest: inline links in body text, Breadcrumb links, \"Learn more\"."
       },
       "hovered": {
-        "$value": "{primitive.color.info.200}"
+        "$value": "{primitive.color.info.200}",
+        "$description": "Link on pointer hover (Web)."
+      },
+      "pressed": {
+        "$value": "{primitive.color.info.100}",
+        "$description": "Link while pressed / active."
+      },
+      "visited": {
+        "$value": "{primitive.color.error.300}",
+        "$description": "Link the user has already opened. Biowave has no purple ramp, so visited uses error 700 / 300. Only where revisits matter (help, docs); app navigation links do not use it."
       }
     },
     "overlay": {
-      "backdrop": {
+      "$description": "Dimming layer only.",
+      "default": {
         "$value": "{primitive.color.neutral.alpha.70}",
-        "$description": "Behind modals and blocking drawers."
-      },
-      "scrim": {
-        "$value": "{primitive.color.neutral.alpha.40}",
-        "$description": "Non-blocking dimming."
-      },
-      "subtle": {
-        "$value": "{primitive.color.neutral.alpha.20}",
-        "$description": "Quiet hover/selected layer."
-      },
-      "brand": {
-        "$value": "{primitive.color.primary.alpha.30}"
-      },
-      "secondary": {
-        "$value": "{primitive.color.secondary.alpha.30}"
-      },
-      "success": {
-        "$value": "{primitive.color.success.alpha.30}"
-      },
-      "error": {
-        "$value": "{primitive.color.error.alpha.30}"
-      },
-      "warning": {
-        "$value": "{primitive.color.warning.alpha.30}"
-      },
-      "info": {
-        "$value": "{primitive.color.info.alpha.30}"
-      },
-      "pressed": {
-        "$value": "{primitive.color.neutral.alpha.60}",
-        "$description": "State layer over a non-filled control on press."
-      },
-      "hovered": {
-        "$value": "{primitive.color.neutral.alpha.40}",
-        "$description": "State layer over a non-filled control (tonal, outlined, text) on hover. Placed above the control's own fill."
+        "$description": "Dimming layer behind blocking layers: Modal, Dialog, blocking Drawer, Bottom sheet, side Panel. Not a fill and not a state layer (states use background/transparent/hovered and pressed; selection uses background/selected)."
       }
     },
     "shadow": {
       "$description": "Shadow colors used inside elevation tokens only.",
       "ambient": {
-        "$value": "{primitive.color.black}"
+        "$value": "{primitive.color.black}",
+        "$description": "Base colour of elevation shadows (navy tint in light, black in dark). Used inside elevation tokens and Figma effect styles only."
+      }
+    },
+    "data": {
+      "$description": "Data visualisation and categorical identity. Fixed order, never cycled; a 9th series folds into \"Other\". Validated with the dataviz six checks (lightness band, chroma ≥ 0.10, CVD ΔE ≥ 8 adjacent, normal-vision ΔE ≥ 15, ≥ 3:1 on surface/default and surface/page). Text never uses these colours; use text tokens.",
+      "categorical": {
+        "1": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.3059,
+              0.5373,
+              0.8
+            ],
+            "alpha": 1,
+            "hex": "#4E89CC"
+          },
+          "$description": "Series 1 (brand blue): line, bar, area, pie slice, legend swatch. ≥ 3:1 on surfaces. Scatter, bubble and map charts use slots 1–3 only."
+        },
+        "2": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.7137,
+              0.5451,
+              0.0863
+            ],
+            "alpha": 1,
+            "hex": "#B68B16"
+          },
+          "$description": "Series 2 (gold): line, bar, area, pie slice, legend swatch. ≥ 3:1 on surfaces. Scatter, bubble and map charts use slots 1–3 only."
+        },
+        "3": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.7412,
+              0.3725,
+              0.4118
+            ],
+            "alpha": 1,
+            "hex": "#BD5F69"
+          },
+          "$description": "Series 3 (rose): line, bar, area, pie slice, legend swatch. ≥ 3:1 on surfaces. Scatter, bubble and map charts use slots 1–3 only."
+        },
+        "4": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.1294,
+              0.5765,
+              0.7255
+            ],
+            "alpha": 1,
+            "hex": "#2193B9"
+          },
+          "$description": "Series 4 (teal, secondary hue): line, bar, area, pie slice, legend swatch. ≥ 3:1 on surfaces. Scatter, bubble and map charts use slots 1–3 only."
+        },
+        "5": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.8549,
+              0.3922,
+              0.2078
+            ],
+            "alpha": 1,
+            "hex": "#DA6435"
+          },
+          "$description": "Series 5 (orange): line, bar, area, pie slice, legend swatch. ≥ 3:1 on surfaces. Scatter, bubble and map charts use slots 1–3 only."
+        },
+        "6": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.5255,
+              0.451,
+              0.851
+            ],
+            "alpha": 1,
+            "hex": "#8673D9"
+          },
+          "$description": "Series 6 (violet): line, bar, area, pie slice, legend swatch. ≥ 3:1 on surfaces. Scatter, bubble and map charts use slots 1–3 only."
+        },
+        "7": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.7922,
+              0.3686,
+              0.5882
+            ],
+            "alpha": 1,
+            "hex": "#CA5E96"
+          },
+          "$description": "Series 7 (magenta): line, bar, area, pie slice, legend swatch. ≥ 3:1 on surfaces. Scatter, bubble and map charts use slots 1–3 only."
+        },
+        "8": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.4549,
+              0.5765,
+              0.1922
+            ],
+            "alpha": 1,
+            "hex": "#749331"
+          },
+          "$description": "Series 8 (olive): line, bar, area, pie slice, legend swatch. ≥ 3:1 on surfaces. Scatter, bubble and map charts use slots 1–3 only."
+        }
+      },
+      "sequential": {
+        "1": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.2118,
+              0.3765,
+              0.5608
+            ],
+            "alpha": 1,
+            "hex": "#36608F"
+          },
+          "$description": "Magnitude step 1 of 5 (brand blue, low): heatmap cell, choropleth, intensity scale. One hue, ordered; never for categories."
+        },
+        "2": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.3255,
+              0.4902,
+              0.6824
+            ],
+            "alpha": 1,
+            "hex": "#537DAE"
+          },
+          "$description": "Magnitude step 2 of 5 (brand blue, mid): heatmap cell, choropleth, intensity scale. One hue, ordered; never for categories."
+        },
+        "3": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.4392,
+              0.6118,
+              0.8118
+            ],
+            "alpha": 1,
+            "hex": "#709CCF"
+          },
+          "$description": "Magnitude step 3 of 5 (brand blue, mid): heatmap cell, choropleth, intensity scale. One hue, ordered; never for categories."
+        },
+        "4": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.5569,
+              0.7333,
+              0.9412
+            ],
+            "alpha": 1,
+            "hex": "#8EBBF0"
+          },
+          "$description": "Magnitude step 4 of 5 (brand blue, mid): heatmap cell, choropleth, intensity scale. One hue, ordered; never for categories."
+        },
+        "5": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [
+              0.6824,
+              0.8627,
+              1.0
+            ],
+            "alpha": 1,
+            "hex": "#AEDCFF"
+          },
+          "$description": "Magnitude step 5 of 5 (brand blue, high): heatmap cell, choropleth, intensity scale. One hue, ordered; never for categories."
+        }
+      },
+      "tag": {
+        "1": {
+          "background": {
+            "$type": "color",
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [
+                0.098,
+                0.1922,
+                0.3059
+              ],
+              "alpha": 1,
+              "hex": "#19314E"
+            },
+            "$description": "Categorical tag / avatar fill 1 (brand blue): user-defined Tag, Label, Avatar initials, department or group colour. Same order as data/categorical."
+          },
+          "text": {
+            "$type": "color",
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [
+                0.7059,
+                0.8471,
+                1.0
+              ],
+              "alpha": 1,
+              "hex": "#B4D8FF"
+            },
+            "$description": "Label and icon on data/tag/1/background (≥ 4.5:1)."
+          }
+        },
+        "2": {
+          "background": {
+            "$type": "color",
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [
+                0.2431,
+                0.1765,
+                0.0157
+              ],
+              "alpha": 1,
+              "hex": "#3E2D04"
+            },
+            "$description": "Categorical tag / avatar fill 2 (gold): user-defined Tag, Label, Avatar initials, department or group colour. Same order as data/categorical."
+          },
+          "text": {
+            "$type": "color",
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [
+                0.9137,
+                0.8196,
+                0.6275
+              ],
+              "alpha": 1,
+              "hex": "#E9D1A0"
+            },
+            "$description": "Label and icon on data/tag/2/background (≥ 4.5:1)."
+          }
+        },
+        "3": {
+          "background": {
+            "$type": "color",
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [
+                0.2902,
+                0.1333,
+                0.149
+              ],
+              "alpha": 1,
+              "hex": "#4A2226"
+            },
+            "$description": "Categorical tag / avatar fill 3 (rose): user-defined Tag, Label, Avatar initials, department or group colour. Same order as data/categorical."
+          },
+          "text": {
+            "$type": "color",
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [
+                1.0,
+                0.7608,
+                0.7725
+              ],
+              "alpha": 1,
+              "hex": "#FFC2C5"
+            },
+            "$description": "Label and icon on data/tag/3/background (≥ 4.5:1)."
+          }
+        },
+        "4": {
+          "background": {
+            "$type": "color",
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [
+                0.0,
+                0.2118,
+                0.2784
+              ],
+              "alpha": 1,
+              "hex": "#003647"
+            },
+            "$description": "Categorical tag / avatar fill 4 (teal, secondary hue): user-defined Tag, Label, Avatar initials, department or group colour. Same order as data/categorical."
+          },
+          "text": {
+            "$type": "color",
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [
+                0.6392,
+                0.8706,
+                0.9725
+              ],
+              "alpha": 1,
+              "hex": "#A3DEF8"
+            },
+            "$description": "Label and icon on data/tag/4/background (≥ 4.5:1)."
+          }
+        },
+        "5": {
+          "background": {
+            "$type": "color",
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [
+                0.2863,
+                0.1451,
+                0.0902
+              ],
+              "alpha": 1,
+              "hex": "#492517"
+            },
+            "$description": "Categorical tag / avatar fill 5 (orange): user-defined Tag, Label, Avatar initials, department or group colour. Same order as data/categorical."
+          },
+          "text": {
+            "$type": "color",
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [
+                0.9922,
+                0.7765,
+                0.6941
+              ],
+              "alpha": 1,
+              "hex": "#FDC6B1"
+            },
+            "$description": "Label and icon on data/tag/5/background (≥ 4.5:1)."
+          }
+        },
+        "6": {
+          "background": {
+            "$type": "color",
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [
+                0.1882,
+                0.1647,
+                0.298
+              ],
+              "alpha": 1,
+              "hex": "#302A4C"
+            },
+            "$description": "Categorical tag / avatar fill 6 (violet): user-defined Tag, Label, Avatar initials, department or group colour. Same order as data/categorical."
+          },
+          "text": {
+            "$type": "color",
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [
+                0.8275,
+                0.8039,
+                1.0
+              ],
+              "alpha": 1,
+              "hex": "#D3CDFF"
+            },
+            "$description": "Label and icon on data/tag/6/background (≥ 4.5:1)."
+          }
+        },
+        "7": {
+          "background": {
+            "$type": "color",
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [
+                0.2784,
+                0.1373,
+                0.2078
+              ],
+              "alpha": 1,
+              "hex": "#472335"
+            },
+            "$description": "Categorical tag / avatar fill 7 (magenta): user-defined Tag, Label, Avatar initials, department or group colour. Same order as data/categorical."
+          },
+          "text": {
+            "$type": "color",
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [
+                0.9765,
+                0.7608,
+                0.8588
+              ],
+              "alpha": 1,
+              "hex": "#F9C2DB"
+            },
+            "$description": "Label and icon on data/tag/7/background (≥ 4.5:1)."
+          }
+        },
+        "8": {
+          "background": {
+            "$type": "color",
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [
+                0.1608,
+                0.2078,
+                0.0627
+              ],
+              "alpha": 1,
+              "hex": "#293510"
+            },
+            "$description": "Categorical tag / avatar fill 8 (olive): user-defined Tag, Label, Avatar initials, department or group colour. Same order as data/categorical."
+          },
+          "text": {
+            "$type": "color",
+            "$value": {
+              "colorSpace": "srgb",
+              "components": [
+                0.7922,
+                0.8667,
+                0.6706
+              ],
+              "alpha": 1,
+              "hex": "#CADDAB"
+            },
+            "$description": "Label and icon on data/tag/8/background (≥ 4.5:1)."
+          }
+        }
       }
     }
   }

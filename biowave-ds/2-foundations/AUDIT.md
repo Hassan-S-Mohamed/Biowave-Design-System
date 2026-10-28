@@ -145,3 +145,9 @@ Renamed in place in Figma (variable IDs and keys kept, so every binding in the c
 | `color-link-hover` · `color-border-input-hover` · `color-overlay-hover` | `…-hovered` |
 
 Found and fixed: the dark values of `color/surface/page · default · subtle · raised` had been changed by hand in Figma (aliases neutral 800 · 600 · 600 · 700, against code 950 · 900 · 800 · 800). Restored to the token source.
+
+## 8. Semantic colour tokens 2.1 — 28 Oct 2026
+
+Renamed in place in Figma: `color/overlay/backdrop` → `color/overlay/default`, `color/border/input/default` → `color/border/bold`, `color/background/base/disabled` → `color/background/disabled`. Moved to `_deprecated/` and aliased to the replacement (bindings keep their colour): every other `*/disabled`, `border/input/error · hovered`, `overlay/hovered · pressed · subtle · scrim · brand`; role overlays have no replacement. Full map in `CHANGELOG.md` › *Semantic colour tokens 2.1*.
+
+Raw hex (no primitive yet, by decision): accent role and the `color/data/*` group. Promote to primitive ramps when the brand palette is next revised.

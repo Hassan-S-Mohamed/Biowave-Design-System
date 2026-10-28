@@ -303,20 +303,20 @@ Token names are written without the `color-` prefix where the column header says
 | `error` | `color-background-error-default` / `color-background-error-hovered` / `color-background-error-pressed` | `color-text-on-error` | `color-icon-on-error` |
 | `neutral` | `color-background-neutral-default` / `color-background-neutral-hovered` / `color-background-neutral-pressed` | `color-text-default` | `color-icon-default` |
 | `inverse` | `color-background-inverse-default` / `color-background-inverse-hovered` / `color-background-inverse-pressed` | `color-text-role-brand` | `color-icon-role-brand` |
-| Disabled (all) | `color-background-neutral-disabled` | `color-text-disabled` | `color-icon-disabled` |
+| Disabled (all) | `color-background-disabled` | `color-text-disabled` | `color-icon-disabled` |
 
 #### 3.2 `tonal`
 | `color` | `container` background | State layer · Hover / Pressed | `label` · `spinner` | icons |
 |---|---|---|---|---|
-| `brand` | `color-background-brand-subtle` | `color-overlay-hovered` / `color-overlay-pressed` | `color-text-role-brand` | `color-icon-role-brand` |
+| `brand` | `color-background-brand-subtle` | `color-background-transparent-hovered` / `color-background-transparent-pressed` | `color-text-role-brand` | `color-icon-role-brand` |
 | `secondary` | `color-background-secondary-subtle` | same | `color-text-role-secondary` | `color-icon-role-secondary` |
 | `error` | `color-background-error-subtle` | same | `color-text-role-error` | `color-icon-role-error` |
-| Disabled (all) | `color-background-neutral-disabled` | — | `color-text-disabled` | `color-icon-disabled` |
+| Disabled (all) | `color-background-disabled` | — | `color-text-disabled` | `color-icon-disabled` |
 
 #### 3.3 `outlined`
 | `color` | `container` background | `container` border | State layer · Hover / Pressed | `label` · `spinner` | icons |
 |---|---|---|---|---|---|
-| `brand` | `color-background-transparent-default` | `color-border-brand` | `color-overlay-hovered` / `color-overlay-pressed` | `color-text-role-brand` | `color-icon-role-brand` |
+| `brand` | `color-background-transparent-default` | `color-border-brand` | `color-background-transparent-hovered` / `color-background-transparent-pressed` | `color-text-role-brand` | `color-icon-role-brand` |
 | `secondary` | same | `color-border-secondary` | same | `color-text-role-secondary` | `color-icon-role-secondary` |
 | `error` | same | `color-border-error` | same | `color-text-role-error` | `color-icon-role-error` |
 | `neutral` | same | `color-border-strong` | same | `color-text-default` | `color-icon-default` |
@@ -332,7 +332,7 @@ Same as `outlined` without the border.
 | `focus-ring` | color | `color-border-focus` (`inverse`: `color-border-inverse`) |
 | `focus-ring` | width · offset | `border-width-focus` · `border-focus-offset` |
 
-The **state layer** is a second fill painted above the container fill (web: `background-image: linear-gradient(var(--bw-color-overlay-hovered), var(--bw-color-overlay-hovered))`). Filled buttons never use a state layer; they switch to the solid `-hover`/`-pressed` tokens.
+The **state layer** is a second fill painted above the container fill (web: `background-image: linear-gradient(var(--bw-color-background-transparent-hovered), var(--bw-color-background-transparent-hovered))`). Filled buttons never use a state layer; they switch to the solid `-hover`/`-pressed` tokens.
 
 Dark theme: same tokens, values switch automatically. No exceptions.
 
@@ -476,7 +476,7 @@ Structure, properties, the Figma ↔ code mapping and Code Connect: [Part D](#d-
 
 ### C4 Token gaps
 
-None. Added on 2026-10-16 before this plan (Foundations 1.1.0): `size-control-height-*`, `spacing-control-padding-inline-*`, `spacing-control-gap-*`, `color-background-inverse-*`, `color-border-inverse`, `color-overlay-hovered`, `color-overlay-pressed`.
+None. Added on 2026-10-16 before this plan (Foundations 1.1.0): `size-control-height-*`, `spacing-control-padding-inline-*`, `spacing-control-gap-*`, `color-background-inverse-*`, `color-border-inverse`, `color-background-transparent-hovered`, `color-background-transparent-pressed`.
 
 ### C5 Files to create / change
 

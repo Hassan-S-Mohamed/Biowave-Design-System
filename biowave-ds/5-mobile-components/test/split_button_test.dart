@@ -323,7 +323,7 @@ void main() {
                 triggerStyle.overlayColor!.resolve(
                   triggerButton.statesController!.value,
                 ),
-                colors.overlayPressed,
+                colors.backgroundTransparentPressed,
               );
             }
 
@@ -401,19 +401,19 @@ void main() {
               itemStyle.overlayColor!.resolve(<WidgetState>{
                 WidgetState.hovered,
               }),
-              colors.overlayHovered,
+              colors.backgroundTransparentHovered,
             );
             expect(
               itemStyle.overlayColor!.resolve(<WidgetState>{
                 WidgetState.pressed,
               }),
-              colors.overlayPressed,
+              colors.backgroundTransparentPressed,
             );
             expect(
               itemStyle.overlayColor!.resolve(<WidgetState>{
                 WidgetState.focused,
               }),
-              colors.overlayHovered,
+              colors.backgroundTransparentHovered,
             );
             expect(
               itemStyle.side!.resolve(<WidgetState>{WidgetState.focused}),

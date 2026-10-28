@@ -347,6 +347,7 @@ describe('TextField rendering and semantics', () => {
 
     expect(rules).toContain(':hover:not(.Mui-disabled):not(.Mui-focused):not(.Mui-error)');
     expect(rules).toContain(textFieldStateTokens.hover.border);
+    expect(rules).toContain(textFieldStateTokens.hover.background);
     expect(rules).toContain('.Mui-focused.Mui-error');
     expect(rules).toContain(textFieldStateTokens.focus.borderWidth);
     expect(rules).toContain(textFieldStateTokens.error.border);

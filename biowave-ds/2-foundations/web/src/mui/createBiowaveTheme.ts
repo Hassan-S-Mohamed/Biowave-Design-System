@@ -26,11 +26,12 @@ function palette(name: ThemeName): PaletteOptions {
     background: { default: c.surface.page, paper: c.surface.default },
     divider: c.border.default,
     action: {
-      hover: c.overlay.subtle,
-      selected: c.overlay.brand,
+      // state layers = background/transparent/*, selection = background/selected/* (same tokens as Figma and Flutter)
+      hover: c.background.transparent.hovered,
+      selected: c.background.selected.default,
       disabled: c.text.disabled,
-      disabledBackground: c.background.base.disabled,
-      focus: c.overlay.brand,
+      disabledBackground: c.background.disabled,
+      focus: c.background.transparent.pressed,
     },
   };
 }

@@ -209,9 +209,9 @@ Menu item tokens on Mobile (`MenuItemButton` style):
 | State | Text | Icon | Overlay | Ring |
 |---|---|---|---|---|
 | Rest | `color-text-default` | `color-icon-subtle` | `color-background-transparent-default` | — |
-| Hover (pointer) | `color-text-default` | `color-icon-subtle` | `color-overlay-hovered` | — |
-| Pressed | `color-text-default` | `color-icon-subtle` | `color-overlay-pressed` | — |
-| Focus (keyboard) | `color-text-default` | `color-icon-subtle` | `color-overlay-hovered` | `color-border-focus`, `border-width-focus`, inside the item edge |
+| Hover (pointer) | `color-text-default` | `color-icon-subtle` | `color-background-transparent-hovered` | — |
+| Pressed | `color-text-default` | `color-icon-subtle` | `color-background-transparent-pressed` | — |
+| Focus (keyboard) | `color-text-default` | `color-icon-subtle` | `color-background-transparent-hovered` | `color-border-focus`, `border-width-focus`, inside the item edge |
 | Disabled | `color-text-disabled` | `color-icon-disabled` | `color-background-transparent-default` | — |
 
 Dark theme: same tokens. No exceptions.
@@ -515,8 +515,8 @@ Behaviour probes (a throw-away widget test, copied into `test/` only for the run
 
 | Probe | Result |
 |---|---|
-| Standalone `BwButton` focused + pressed (tonal, outlined, text; brand) | ✅ `overlayColor.resolve({focused, pressed})` = `backgroundTransparentDefault` (alpha 0), as on `main`; `{pressed}` alone = `overlayPressed` |
-| Keyboard-opened trigger keeps Expanded = Pressed (B3) | ✅ Tab ×2, Enter: trigger states `{pressed}` (focus moved into the menu), overlay = `overlayPressed` (outlined) |
+| Standalone `BwButton` focused + pressed (tonal, outlined, text; brand) | ✅ `overlayColor.resolve({focused, pressed})` = `backgroundTransparentDefault` (alpha 0), as on `main`; `{pressed}` alone = `backgroundTransparentPressed` |
+| Keyboard-opened trigger keeps Expanded = Pressed (B3) | ✅ Tab ×2, Enter: trigger states `{pressed}` (focus moved into the menu), overlay = `backgroundTransparentPressed` (outlined) |
 | Menu item focus ring drawn once (B3) | ✅ `MenuItemButton.style.backgroundBuilder == null`; `side` for `{focused}` = `borderFocus`, `border-width-focus` (2.0); no bordered `DecoratedBox` inside the item |
 | Option runs once, menu closes, focus back | ✅ ArrowDown + Enter → `[0, 1]`, no `MenuItemButton` left, trigger states `{focused}` (pressed cleared) |
 
@@ -596,7 +596,7 @@ Behaviour probes (a throw-away widget test, copied into `test/` only for the run
 | Keyboard reach | ✅ Tab ×2 → Space opens, focus on option 0; ArrowUp wraps to the last option, ArrowDown wraps back to the first (B6); ArrowDown + Enter runs option 1 exactly once (`[0, 1, 0]`), menu closes, focus returns to `menu-trigger` |
 | Decorated `elevation-3` surface | ✅ Surface `DecoratedBox` color = `surfaceRaised`, `boxShadow` = `context.bw.elevation.elevation3`, radius `radius-lg`, `ClipRRect` inside; `MenuAnchor.clipBehavior = Clip.none`; `MenuStyle.elevation` not set. The M3 menu `Material` keeps its default elevation 3.0 but with transparent color and transparent `shadowColor`, so it paints nothing (B2: no numeric elevation set by the code) |
 | Menu fade under reduced motion | ✅ `animated: true` without reduced motion — `FadeTransition` opacity 0.064 → 0.32 → 1.0 over the first frames; with `disableAnimations` `MenuAnchor.animated == false` and every opacity is 1.0 on the first frame (B4) |
-| Shared button style, focused + pressed | ❌ Standalone `BwButton(variant: outlined)`: `overlayColor.resolve({focused, pressed})` = `overlayPressed` (on `main` = transparent) — finding 11 |
+| Shared button style, focused + pressed | ❌ Standalone `BwButton(variant: outlined)`: `overlayColor.resolve({focused, pressed})` = `backgroundTransparentPressed` (on `main` = transparent) — finding 11 |
 
 Changes to the approved button components (`git diff main...HEAD -- lib/src/components/button lib/src/components/icon_button lib/biowave_mobile.dart`), checked against C3:
 - `bw_button.dart`: `@internal enum BwButtonSegment { start, end }` (`:15-16`), `@internal final BwButtonSegment? segment` (`:64-65`, default `null`); with `segment != null` the shape and the `BwFocusRing` builder use `BwButtonStyle.segmentBorderRadius` (`:84-106`); `segment == null` keeps `baseStyle`. ✅ Same names as tablet.
@@ -652,7 +652,7 @@ Goldens vs B9: the four goldens in `test/goldens/split_button/` cover allowed `v
 
 | # | Severity | File | Issue | Required change | Owner |
 |---|---|---|---|---|---|
-| 11 | 🟡 Should fix | `lib/src/components/button/bw_button_style.dart:64-78` | The shared `overlay()` resolver now returns `overlayPressed` for `{focused, pressed}`; on `main` `focused` wins and returns transparent. This changes the approved BwButton / BwIconButton for every caller (tonal · outlined · text pressed while keyboard-focused; probe above), against Button B3 "focused → transparent", against C3 "No other change to these files is allowed", and unlike tablet `main` (focused first). It is not in C8 Fix round 1 (the CHANGELOG line says the pressed hack was "removed") | Restore the `main` order in `overlay()` so `bw_button_style.dart` differs from `main` only by `segmentBorderRadius`. If a split-button test then fails because the trigger is focused while expanded, do not change the shared style: stop and write it in C8 → Questions for the Planner | Executor |
+| 11 | 🟡 Should fix | `lib/src/components/button/bw_button_style.dart:64-78` | The shared `overlay()` resolver now returns `backgroundTransparentPressed` for `{focused, pressed}`; on `main` `focused` wins and returns transparent. This changes the approved BwButton / BwIconButton for every caller (tonal · outlined · text pressed while keyboard-focused; probe above), against Button B3 "focused → transparent", against C3 "No other change to these files is allowed", and unlike tablet `main` (focused first). It is not in C8 Fix round 1 (the CHANGELOG line says the pressed hack was "removed") | Restore the `main` order in `overlay()` so `bw_button_style.dart` differs from `main` only by `segmentBorderRadius`. If a split-button test then fails because the trigger is focused while expanded, do not change the shared style: stop and write it in C8 → Questions for the Planner | Executor |
 | 12 | 🟢 Nit | `lib/src/components/split_button/bw_split_button.dart:457-480` | The menu item focus ring is drawn twice: once by `side` (merged into the item shape) and again by a `DecoratedBox` border in `backgroundBuilder`, same width, color and place | Keep one of the two (B3: one ring inside the item edge) | Executor |
 | 13 | 🟢 Nit | `lib/src/components/split_button/bw_split_button.dart:76` | `BwSplitButton.chevronHalfTurn` is a public static, so it joins the exported API, which B1 does not list (C3 asks only for "a named constant in `bw_split_button.dart`") | Make it private (for example a top-level `const _chevronHalfTurn`) or `@visibleForTesting` | Executor |
 

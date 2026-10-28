@@ -14,7 +14,9 @@ Border = width token + color token. Widths are new in v1.0.
 |---|---|---|
 | Cards, tables, dividers | `color-border-default` / `subtle` | decorative |
 | Section separation | `color-border-strong` | decorative |
-| Inputs, checkboxes, outline buttons | `color-border-input-default` → `hover` → `error` | ≥ 3:1 (WCAG 1.4.11) |
+| Inputs, checkboxes, radios, selects | `color-border-bold` (hover keeps it and changes the fill to `color-background-base-hovered`) → `color-border-error` when invalid | ≥ 3:1 (WCAG 1.4.11) |
+| Outline buttons | `color-border-strong` (the label identifies the button) | decorative |
+| Selected / state outlines | `color-border-brand`, role borders | ≥ 3:1 |
 | Status outlines | `color-border-{role}` | decorative (pair with text/icon) |
 | Keyboard focus | `color-border-focus` | ≥ 3:1 |
 

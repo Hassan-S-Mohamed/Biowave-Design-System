@@ -128,7 +128,7 @@ void main() {
               background.resolve(<WidgetState>{WidgetState.disabled}),
               variant == BwButtonVariant.filled ||
                       variant == BwButtonVariant.tonal
-                  ? colors.backgroundNeutralDisabled
+                  ? colors.backgroundDisabled
                   : colors.backgroundTransparentDefault,
               reason: '$variant $color disabled background',
             );
@@ -154,13 +154,13 @@ void main() {
               overlay.resolve(<WidgetState>{WidgetState.hovered}),
               variant == BwButtonVariant.filled
                   ? colors.backgroundTransparentDefault
-                  : colors.overlayHovered,
+                  : colors.backgroundTransparentHovered,
             );
             expect(
               overlay.resolve(<WidgetState>{WidgetState.pressed}),
               variant == BwButtonVariant.filled
                   ? colors.backgroundTransparentDefault
-                  : colors.overlayPressed,
+                  : colors.backgroundTransparentPressed,
             );
             expect(
               overlay.resolve(<WidgetState>{WidgetState.focused}),

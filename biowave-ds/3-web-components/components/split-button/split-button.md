@@ -207,7 +207,7 @@ Each part has its own states, the same as [Button A5](../button/button.md#a5-sta
 
 - `primary-action`: [Button B3](../button/button.md#b3-tokens-by-part-and-state) for the same `variant` × `color`.
 - `menu-trigger`: [Icon button B3.1](../icon-button/icon-button.md#31-unselected); **Expanded** = its Pressed tokens.
-- `menu` item: hover `color-overlay-hovered`, pressed `color-overlay-pressed`, focus (keyboard) `color-overlay-hovered` + `color-border-focus` inner ring, disabled `color-text-disabled`; icon `color-icon-subtle`.
+- `menu` item: hover `color-background-transparent-hovered`, pressed `color-background-transparent-pressed`, focus (keyboard) `color-background-transparent-hovered` + `color-border-focus` inner ring, disabled `color-text-disabled`; icon `color-icon-subtle`.
 
 ### B4 States and transitions
 

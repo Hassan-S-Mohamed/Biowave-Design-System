@@ -27,6 +27,11 @@ function colorScopes(p) {
   if (g === 'icon') return ['SHAPE_FILL', 'STROKE_COLOR'];
   if (g === 'border') return ['STROKE_COLOR'];
   if (g === 'external') return ['SHAPE_FILL'];
+  if (g === 'data') {
+    if (p.endsWith('.text')) return ['TEXT_FILL', 'SHAPE_FILL'];
+    if (p.endsWith('.background')) return ['FRAME_FILL', 'SHAPE_FILL'];
+    return ['FRAME_FILL', 'SHAPE_FILL', 'STROKE_COLOR'];
+  }
   if (g === 'shadow') return ['EFFECT_COLOR'];
   return [];
 }

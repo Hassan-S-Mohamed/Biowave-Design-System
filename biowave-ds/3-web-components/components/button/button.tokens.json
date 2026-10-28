@@ -89,7 +89,7 @@
             "$value": "{color.background.brand.pressed}"
           },
           "disabled": {
-            "$value": "{color.background.neutral.disabled}"
+            "$value": "{color.background.disabled}"
           }
         },
         "label": {
@@ -121,7 +121,7 @@
             "$value": "{color.background.secondary.pressed}"
           },
           "disabled": {
-            "$value": "{color.background.neutral.disabled}"
+            "$value": "{color.background.disabled}"
           }
         },
         "label": {
@@ -153,7 +153,7 @@
             "$value": "{color.background.error.pressed}"
           },
           "disabled": {
-            "$value": "{color.background.neutral.disabled}"
+            "$value": "{color.background.disabled}"
           }
         },
         "label": {
@@ -185,7 +185,7 @@
             "$value": "{color.background.neutral.pressed}"
           },
           "disabled": {
-            "$value": "{color.background.neutral.disabled}"
+            "$value": "{color.background.disabled}"
           }
         },
         "label": {
@@ -217,7 +217,7 @@
             "$value": "{color.background.inverse.pressed}"
           },
           "disabled": {
-            "$value": "{color.background.neutral.disabled}"
+            "$value": "{color.background.disabled}"
           }
         },
         "label": {
@@ -251,15 +251,15 @@
             "$value": "{color.background.brand.subtle}"
           },
           "disabled": {
-            "$value": "{color.background.neutral.disabled}"
+            "$value": "{color.background.disabled}"
           }
         },
         "state-layer": {
           "hover": {
-            "$value": "{color.overlay.hovered}"
+            "$value": "{color.background.transparent.hovered}"
           },
           "pressed": {
-            "$value": "{color.overlay.pressed}"
+            "$value": "{color.background.transparent.pressed}"
           }
         },
         "label": {
@@ -285,15 +285,15 @@
             "$value": "{color.background.secondary.subtle}"
           },
           "disabled": {
-            "$value": "{color.background.neutral.disabled}"
+            "$value": "{color.background.disabled}"
           }
         },
         "state-layer": {
           "hover": {
-            "$value": "{color.overlay.hovered}"
+            "$value": "{color.background.transparent.hovered}"
           },
           "pressed": {
-            "$value": "{color.overlay.pressed}"
+            "$value": "{color.background.transparent.pressed}"
           }
         },
         "label": {
@@ -319,15 +319,15 @@
             "$value": "{color.background.error.subtle}"
           },
           "disabled": {
-            "$value": "{color.background.neutral.disabled}"
+            "$value": "{color.background.disabled}"
           }
         },
         "state-layer": {
           "hover": {
-            "$value": "{color.overlay.hovered}"
+            "$value": "{color.background.transparent.hovered}"
           },
           "pressed": {
-            "$value": "{color.overlay.pressed}"
+            "$value": "{color.background.transparent.pressed}"
           }
         },
         "label": {
@@ -374,10 +374,10 @@
         },
         "state-layer": {
           "hover": {
-            "$value": "{color.overlay.hovered}"
+            "$value": "{color.background.transparent.hovered}"
           },
           "pressed": {
-            "$value": "{color.overlay.pressed}"
+            "$value": "{color.background.transparent.pressed}"
           }
         },
         "label": {
@@ -416,10 +416,10 @@
         },
         "state-layer": {
           "hover": {
-            "$value": "{color.overlay.hovered}"
+            "$value": "{color.background.transparent.hovered}"
           },
           "pressed": {
-            "$value": "{color.overlay.pressed}"
+            "$value": "{color.background.transparent.pressed}"
           }
         },
         "label": {
@@ -458,10 +458,10 @@
         },
         "state-layer": {
           "hover": {
-            "$value": "{color.overlay.hovered}"
+            "$value": "{color.background.transparent.hovered}"
           },
           "pressed": {
-            "$value": "{color.overlay.pressed}"
+            "$value": "{color.background.transparent.pressed}"
           }
         },
         "label": {
@@ -500,10 +500,10 @@
         },
         "state-layer": {
           "hover": {
-            "$value": "{color.overlay.hovered}"
+            "$value": "{color.background.transparent.hovered}"
           },
           "pressed": {
-            "$value": "{color.overlay.pressed}"
+            "$value": "{color.background.transparent.pressed}"
           }
         },
         "label": {
@@ -542,10 +542,10 @@
         },
         "state-layer": {
           "hover": {
-            "$value": "{color.overlay.hovered}"
+            "$value": "{color.background.transparent.hovered}"
           },
           "pressed": {
-            "$value": "{color.overlay.pressed}"
+            "$value": "{color.background.transparent.pressed}"
           }
         },
         "label": {
@@ -584,10 +584,10 @@
         },
         "state-layer": {
           "hover": {
-            "$value": "{color.overlay.hovered}"
+            "$value": "{color.background.transparent.hovered}"
           },
           "pressed": {
-            "$value": "{color.overlay.pressed}"
+            "$value": "{color.background.transparent.pressed}"
           }
         },
         "label": {
@@ -618,10 +618,10 @@
         },
         "state-layer": {
           "hover": {
-            "$value": "{color.overlay.hovered}"
+            "$value": "{color.background.transparent.hovered}"
           },
           "pressed": {
-            "$value": "{color.overlay.pressed}"
+            "$value": "{color.background.transparent.pressed}"
           }
         },
         "label": {
@@ -652,10 +652,10 @@
         },
         "state-layer": {
           "hover": {
-            "$value": "{color.overlay.hovered}"
+            "$value": "{color.background.transparent.hovered}"
           },
           "pressed": {
-            "$value": "{color.overlay.pressed}"
+            "$value": "{color.background.transparent.pressed}"
           }
         },
         "label": {
@@ -686,10 +686,10 @@
         },
         "state-layer": {
           "hover": {
-            "$value": "{color.overlay.hovered}"
+            "$value": "{color.background.transparent.hovered}"
           },
           "pressed": {
-            "$value": "{color.overlay.pressed}"
+            "$value": "{color.background.transparent.pressed}"
           }
         },
         "label": {
@@ -720,10 +720,10 @@
         },
         "state-layer": {
           "hover": {
-            "$value": "{color.overlay.hovered}"
+            "$value": "{color.background.transparent.hovered}"
           },
           "pressed": {
-            "$value": "{color.overlay.pressed}"
+            "$value": "{color.background.transparent.pressed}"
           }
         },
         "label": {

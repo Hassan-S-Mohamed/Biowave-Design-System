@@ -1,7 +1,7 @@
 {
-  "syncedAt": "2026-10-27T14:16:03.507Z",
+  "syncedAt": "2026-10-28T09:20:57.038Z",
   "fileKey": "AyFaSmfDUlTax3GpKhRdHI",
-  "sourceHash": "64a925308dd77417",
+  "sourceHash": "3f390fadb0505e90",
   "tokens": {
     "1. Themes::color-surface-page": {
       "Light": "#F7F7F7",
@@ -35,10 +35,6 @@
       "Light": "#54545433",
       "Dark": "#54545499"
     },
-    "1. Themes::color-background-transparent-disabled": {
-      "Light": "#54545400",
-      "Dark": "#54545400"
-    },
     "1. Themes::color-background-base-default": {
       "Light": "#FFFFFF",
       "Dark": "#141414"
@@ -58,10 +54,6 @@
     "1. Themes::color-background-base-pressed": {
       "Light": "#DBDBDB",
       "Dark": "#545454"
-    },
-    "1. Themes::color-background-base-disabled": {
-      "Light": "#EDEDED",
-      "Dark": "#292929"
     },
     "1. Themes::color-background-inverse-default": {
       "Light": "#FFFFFF",
@@ -87,9 +79,17 @@
       "Light": "#BDBDBD",
       "Dark": "#545454"
     },
-    "1. Themes::color-background-neutral-disabled": {
-      "Light": "#EDEDED",
-      "Dark": "#292929"
+    "1. Themes::color-background-selected-default": {
+      "Light": "#E8ECF2",
+      "Dark": "#193351"
+    },
+    "1. Themes::color-background-selected-hovered": {
+      "Light": "#BEC9D9",
+      "Dark": "#254471"
+    },
+    "1. Themes::color-background-selected-pressed": {
+      "Light": "#90A3BC",
+      "Dark": "#3D5E88"
     },
     "1. Themes::color-background-brand-default": {
       "Light": "#193351",
@@ -111,10 +111,6 @@
       "Light": "#0D1E33",
       "Dark": "#BEC9D9"
     },
-    "1. Themes::color-background-brand-disabled": {
-      "Light": "#EDEDED",
-      "Dark": "#292929"
-    },
     "1. Themes::color-background-secondary-default": {
       "Light": "#0C5F79",
       "Dark": "#5DA8C2"
@@ -135,9 +131,25 @@
       "Light": "#063C4E",
       "Dark": "#C0DDE8"
     },
-    "1. Themes::color-background-secondary-disabled": {
-      "Light": "#EDEDED",
-      "Dark": "#292929"
+    "1. Themes::color-background-accent-default": {
+      "Light": "#C2410C",
+      "Dark": "#FB923C"
+    },
+    "1. Themes::color-background-accent-subtle": {
+      "Light": "#FFEDD5",
+      "Dark": "#7C2D12"
+    },
+    "1. Themes::color-background-accent-subtlest": {
+      "Light": "#FFF7ED",
+      "Dark": "#431407"
+    },
+    "1. Themes::color-background-accent-hovered": {
+      "Light": "#9A3412",
+      "Dark": "#FDBA74"
+    },
+    "1. Themes::color-background-accent-pressed": {
+      "Light": "#7C2D12",
+      "Dark": "#FED7AA"
     },
     "1. Themes::color-background-success-default": {
       "Light": "#1E6D41",
@@ -159,10 +171,6 @@
       "Light": "#0E3921",
       "Dark": "#C1E8D2"
     },
-    "1. Themes::color-background-success-disabled": {
-      "Light": "#EDEDED",
-      "Dark": "#292929"
-    },
     "1. Themes::color-background-error-default": {
       "Light": "#D42222",
       "Dark": "#FF7676"
@@ -182,10 +190,6 @@
     "1. Themes::color-background-error-pressed": {
       "Light": "#721212",
       "Dark": "#FECFCF"
-    },
-    "1. Themes::color-background-error-disabled": {
-      "Light": "#EDEDED",
-      "Dark": "#292929"
     },
     "1. Themes::color-background-warning-default": {
       "Light": "#FF9435",
@@ -207,10 +211,6 @@
       "Light": "#D97424",
       "Dark": "#FFE0C0"
     },
-    "1. Themes::color-background-warning-disabled": {
-      "Light": "#EDEDED",
-      "Dark": "#292929"
-    },
     "1. Themes::color-background-info-default": {
       "Light": "#2559D4",
       "Dark": "#6D9CE8"
@@ -231,7 +231,7 @@
       "Light": "#153786",
       "Dark": "#CBDCFA"
     },
-    "1. Themes::color-background-info-disabled": {
+    "1. Themes::color-background-disabled": {
       "Light": "#EDEDED",
       "Dark": "#292929"
     },
@@ -257,11 +257,15 @@
     },
     "1. Themes::color-text-role-brand": {
       "Light": "#132843",
-      "Dark": "#90A3BC"
+      "Dark": "#BEC9D9"
     },
     "1. Themes::color-text-role-secondary": {
       "Light": "#094E65",
       "Dark": "#90C3D5"
+    },
+    "1. Themes::color-text-role-accent": {
+      "Light": "#9A3412",
+      "Dark": "#FED7AA"
     },
     "1. Themes::color-text-role-success": {
       "Light": "#1E6D41",
@@ -284,6 +288,10 @@
       "Dark": "#0A0A0A"
     },
     "1. Themes::color-text-on-secondary": {
+      "Light": "#FFFFFF",
+      "Dark": "#0A0A0A"
+    },
+    "1. Themes::color-text-on-accent": {
       "Light": "#FFFFFF",
       "Dark": "#0A0A0A"
     },
@@ -325,11 +333,15 @@
     },
     "1. Themes::color-icon-role-brand": {
       "Light": "#132843",
-      "Dark": "#90A3BC"
+      "Dark": "#BEC9D9"
     },
     "1. Themes::color-icon-role-secondary": {
       "Light": "#094E65",
       "Dark": "#90C3D5"
+    },
+    "1. Themes::color-icon-role-accent": {
+      "Light": "#9A3412",
+      "Dark": "#FED7AA"
     },
     "1. Themes::color-icon-role-success": {
       "Light": "#1E6D41",
@@ -352,6 +364,10 @@
       "Dark": "#0A0A0A"
     },
     "1. Themes::color-icon-on-secondary": {
+      "Light": "#FFFFFF",
+      "Dark": "#0A0A0A"
+    },
+    "1. Themes::color-icon-on-accent": {
       "Light": "#FFFFFF",
       "Dark": "#0A0A0A"
     },
@@ -383,117 +399,189 @@
       "Light": "#BDBDBD",
       "Dark": "#545454"
     },
-    "1. Themes::color-border-disabled": {
-      "Light": "#DBDBDB",
-      "Dark": "#404040"
-    },
-    "1. Themes::color-border-brand": {
-      "Light": "#607D9F",
-      "Dark": "#254471"
-    },
-    "1. Themes::color-border-secondary": {
-      "Light": "#5DA8C2",
-      "Dark": "#1A7596"
-    },
-    "1. Themes::color-border-success": {
-      "Light": "#55BE87",
-      "Dark": "#2D9860"
-    },
-    "1. Themes::color-border-error": {
-      "Light": "#FF7676",
-      "Dark": "#FF3B3B"
-    },
-    "1. Themes::color-border-warning": {
-      "Light": "#FFB05E",
-      "Dark": "#FF9435"
-    },
-    "1. Themes::color-border-info": {
-      "Light": "#6D9CE8",
-      "Dark": "#336CD9"
-    },
-    "1. Themes::color-border-inverse": {
-      "Light": "#FFFFFF",
-      "Dark": "#0A0A0A"
-    },
-    "1. Themes::color-border-input-default": {
+    "1. Themes::color-border-bold": {
       "Light": "#707070",
       "Dark": "#969696"
     },
-    "1. Themes::color-border-input-error": {
-      "Light": "#D42222",
-      "Dark": "#FF7676"
-    },
-    "1. Themes::color-border-input-hovered": {
-      "Light": "#404040",
-      "Dark": "#BDBDBD"
+    "1. Themes::color-border-disabled": {
+      "Light": "#DBDBDB",
+      "Dark": "#404040"
     },
     "1. Themes::color-border-focus": {
       "Light": "#254471",
       "Dark": "#90A3BC"
     },
+    "1. Themes::color-border-inverse": {
+      "Light": "#FFFFFF",
+      "Dark": "#0A0A0A"
+    },
+    "1. Themes::color-border-brand": {
+      "Light": "#254471",
+      "Dark": "#607D9F"
+    },
+    "1. Themes::color-border-secondary": {
+      "Light": "#1A7596",
+      "Dark": "#5DA8C2"
+    },
+    "1. Themes::color-border-accent": {
+      "Light": "#C2410C",
+      "Dark": "#FB923C"
+    },
+    "1. Themes::color-border-success": {
+      "Light": "#268751",
+      "Dark": "#55BE87"
+    },
+    "1. Themes::color-border-error": {
+      "Light": "#D42222",
+      "Dark": "#FF7676"
+    },
+    "1. Themes::color-border-warning": {
+      "Light": "#D97424",
+      "Dark": "#FFB05E"
+    },
+    "1. Themes::color-border-info": {
+      "Light": "#2559D4",
+      "Dark": "#6D9CE8"
+    },
     "1. Themes::color-link-default": {
       "Light": "#2559D4",
       "Dark": "#6D9CE8"
+    },
+    "1. Themes::color-link-hovered": {
+      "Light": "#1D48AD",
+      "Dark": "#9CBCF2"
     },
     "1. Themes::color-link-pressed": {
       "Light": "#153786",
       "Dark": "#CBDCFA"
     },
     "1. Themes::color-link-visited": {
-      "Light": "#1D48AD",
-      "Dark": "#9CBCF2"
+      "Light": "#D42222",
+      "Dark": "#FF7676"
     },
-    "1. Themes::color-link-hovered": {
-      "Light": "#1D48AD",
-      "Dark": "#9CBCF2"
-    },
-    "1. Themes::color-overlay-backdrop": {
+    "1. Themes::color-overlay-default": {
       "Light": "#54545499",
       "Dark": "#545454B3"
-    },
-    "1. Themes::color-overlay-scrim": {
-      "Light": "#5454544D",
-      "Dark": "#54545466"
-    },
-    "1. Themes::color-overlay-subtle": {
-      "Light": "#5454541A",
-      "Dark": "#54545433"
-    },
-    "1. Themes::color-overlay-brand": {
-      "Light": "#19335133",
-      "Dark": "#1933514D"
-    },
-    "1. Themes::color-overlay-secondary": {
-      "Light": "#0C5F7933",
-      "Dark": "#0C5F794D"
-    },
-    "1. Themes::color-overlay-success": {
-      "Light": "#26875133",
-      "Dark": "#2687514D"
-    },
-    "1. Themes::color-overlay-error": {
-      "Light": "#FF2B2B33",
-      "Dark": "#FF2B2B4D"
-    },
-    "1. Themes::color-overlay-warning": {
-      "Light": "#FF8C3233",
-      "Dark": "#FF8C324D"
-    },
-    "1. Themes::color-overlay-info": {
-      "Light": "#2559D433",
-      "Dark": "#2559D44D"
-    },
-    "1. Themes::color-overlay-pressed": {
-      "Light": "#54545433",
-      "Dark": "#54545499"
-    },
-    "1. Themes::color-overlay-hovered": {
-      "Light": "#5454541A",
-      "Dark": "#54545466"
     },
     "1. Themes::color-shadow-ambient": {
       "Light": "#071323",
       "Dark": "#000000"
+    },
+    "1. Themes::color-data-categorical-1": {
+      "Light": "#3065A0",
+      "Dark": "#4E89CC"
+    },
+    "1. Themes::color-data-categorical-2": {
+      "Light": "#B48500",
+      "Dark": "#B68B16"
+    },
+    "1. Themes::color-data-categorical-3": {
+      "Light": "#A8545D",
+      "Dark": "#BD5F69"
+    },
+    "1. Themes::color-data-categorical-4": {
+      "Light": "#0587AC",
+      "Dark": "#2193B9"
+    },
+    "1. Themes::color-data-categorical-5": {
+      "Light": "#DE602C",
+      "Dark": "#DA6435"
+    },
+    "1. Themes::color-data-categorical-6": {
+      "Light": "#6B50C2",
+      "Dark": "#8673D9"
+    },
+    "1. Themes::color-data-categorical-7": {
+      "Light": "#CA5794",
+      "Dark": "#CA5E96"
+    },
+    "1. Themes::color-data-categorical-8": {
+      "Light": "#6F8D2A",
+      "Dark": "#749331"
+    },
+    "1. Themes::color-data-sequential-1": {
+      "Light": "#7DAEE9",
+      "Dark": "#36608F"
+    },
+    "1. Themes::color-data-sequential-2": {
+      "Light": "#6091C9",
+      "Dark": "#537DAE"
+    },
+    "1. Themes::color-data-sequential-3": {
+      "Light": "#4574AA",
+      "Dark": "#709CCF"
+    },
+    "1. Themes::color-data-sequential-4": {
+      "Light": "#29588D",
+      "Dark": "#8EBBF0"
+    },
+    "1. Themes::color-data-sequential-5": {
+      "Light": "#0C3E70",
+      "Dark": "#AEDCFF"
+    },
+    "1. Themes::color-data-tag-1-background": {
+      "Light": "#DDEFFF",
+      "Dark": "#19314E"
+    },
+    "1. Themes::color-data-tag-1-text": {
+      "Light": "#184E87",
+      "Dark": "#B4D8FF"
+    },
+    "1. Themes::color-data-tag-2-background": {
+      "Light": "#F8ECD3",
+      "Dark": "#3E2D04"
+    },
+    "1. Themes::color-data-tag-2-text": {
+      "Light": "#684600",
+      "Dark": "#E9D1A0"
+    },
+    "1. Themes::color-data-tag-3-background": {
+      "Light": "#FFE4E5",
+      "Dark": "#4A2226"
+    },
+    "1. Themes::color-data-tag-3-text": {
+      "Light": "#7E2E39",
+      "Dark": "#FFC2C5"
+    },
+    "1. Themes::color-data-tag-4-background": {
+      "Light": "#D5F2FF",
+      "Dark": "#003647"
+    },
+    "1. Themes::color-data-tag-4-text": {
+      "Light": "#00577A",
+      "Dark": "#A3DEF8"
+    },
+    "1. Themes::color-data-tag-5-background": {
+      "Light": "#FFE6DB",
+      "Dark": "#492517"
+    },
+    "1. Themes::color-data-tag-5-text": {
+      "Light": "#7D3416",
+      "Dark": "#FDC6B1"
+    },
+    "1. Themes::color-data-tag-6-background": {
+      "Light": "#ECE9FF",
+      "Dark": "#302A4C"
+    },
+    "1. Themes::color-data-tag-6-text": {
+      "Light": "#4D4084",
+      "Dark": "#D3CDFF"
+    },
+    "1. Themes::color-data-tag-7-background": {
+      "Light": "#FFE4F0",
+      "Dark": "#472335"
+    },
+    "1. Themes::color-data-tag-7-text": {
+      "Light": "#772F55",
+      "Dark": "#F9C2DB"
+    },
+    "1. Themes::color-data-tag-8-background": {
+      "Light": "#E7F1D8",
+      "Dark": "#293510"
+    },
+    "1. Themes::color-data-tag-8-text": {
+      "Light": "#3F5700",
+      "Dark": "#CADDAB"
     },
     "1. Themes::color-external-payment-red": {
       "Light": "#ED0006",

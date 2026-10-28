@@ -341,56 +341,56 @@ class BwColors extends ThemeExtension<BwColors> {
     required this.backgroundTransparentDefault,
     required this.backgroundTransparentHovered,
     required this.backgroundTransparentPressed,
-    required this.backgroundTransparentDisabled,
     required this.backgroundBaseDefault,
     required this.backgroundBaseSubtle,
     required this.backgroundBaseSubtlest,
     required this.backgroundBaseHovered,
     required this.backgroundBasePressed,
-    required this.backgroundBaseDisabled,
     required this.backgroundInverseDefault,
     required this.backgroundInverseHovered,
     required this.backgroundInversePressed,
     required this.backgroundNeutralDefault,
     required this.backgroundNeutralHovered,
     required this.backgroundNeutralPressed,
-    required this.backgroundNeutralDisabled,
+    required this.backgroundSelectedDefault,
+    required this.backgroundSelectedHovered,
+    required this.backgroundSelectedPressed,
     required this.backgroundBrandDefault,
     required this.backgroundBrandSubtle,
     required this.backgroundBrandSubtlest,
     required this.backgroundBrandHovered,
     required this.backgroundBrandPressed,
-    required this.backgroundBrandDisabled,
     required this.backgroundSecondaryDefault,
     required this.backgroundSecondarySubtle,
     required this.backgroundSecondarySubtlest,
     required this.backgroundSecondaryHovered,
     required this.backgroundSecondaryPressed,
-    required this.backgroundSecondaryDisabled,
+    required this.backgroundAccentDefault,
+    required this.backgroundAccentSubtle,
+    required this.backgroundAccentSubtlest,
+    required this.backgroundAccentHovered,
+    required this.backgroundAccentPressed,
     required this.backgroundSuccessDefault,
     required this.backgroundSuccessSubtle,
     required this.backgroundSuccessSubtlest,
     required this.backgroundSuccessHovered,
     required this.backgroundSuccessPressed,
-    required this.backgroundSuccessDisabled,
     required this.backgroundErrorDefault,
     required this.backgroundErrorSubtle,
     required this.backgroundErrorSubtlest,
     required this.backgroundErrorHovered,
     required this.backgroundErrorPressed,
-    required this.backgroundErrorDisabled,
     required this.backgroundWarningDefault,
     required this.backgroundWarningSubtle,
     required this.backgroundWarningSubtlest,
     required this.backgroundWarningHovered,
     required this.backgroundWarningPressed,
-    required this.backgroundWarningDisabled,
     required this.backgroundInfoDefault,
     required this.backgroundInfoSubtle,
     required this.backgroundInfoSubtlest,
     required this.backgroundInfoHovered,
     required this.backgroundInfoPressed,
-    required this.backgroundInfoDisabled,
+    required this.backgroundDisabled,
     required this.textDefault,
     required this.textSubtle,
     required this.textSubtlest,
@@ -398,12 +398,14 @@ class BwColors extends ThemeExtension<BwColors> {
     required this.textDisabled,
     required this.textRoleBrand,
     required this.textRoleSecondary,
+    required this.textRoleAccent,
     required this.textRoleSuccess,
     required this.textRoleError,
     required this.textRoleWarning,
     required this.textRoleInfo,
     required this.textOnBrand,
     required this.textOnSecondary,
+    required this.textOnAccent,
     required this.textOnSuccess,
     required this.textOnError,
     required this.textOnWarning,
@@ -415,12 +417,14 @@ class BwColors extends ThemeExtension<BwColors> {
     required this.iconDisabled,
     required this.iconRoleBrand,
     required this.iconRoleSecondary,
+    required this.iconRoleAccent,
     required this.iconRoleSuccess,
     required this.iconRoleError,
     required this.iconRoleWarning,
     required this.iconRoleInfo,
     required this.iconOnBrand,
     required this.iconOnSecondary,
+    required this.iconOnAccent,
     required this.iconOnSuccess,
     required this.iconOnError,
     required this.iconOnWarning,
@@ -428,34 +432,52 @@ class BwColors extends ThemeExtension<BwColors> {
     required this.borderDefault,
     required this.borderSubtle,
     required this.borderStrong,
+    required this.borderBold,
     required this.borderDisabled,
+    required this.borderFocus,
+    required this.borderInverse,
     required this.borderBrand,
     required this.borderSecondary,
+    required this.borderAccent,
     required this.borderSuccess,
     required this.borderError,
     required this.borderWarning,
     required this.borderInfo,
-    required this.borderInverse,
-    required this.borderInputDefault,
-    required this.borderInputError,
-    required this.borderInputHovered,
-    required this.borderFocus,
     required this.linkDefault,
+    required this.linkHovered,
     required this.linkPressed,
     required this.linkVisited,
-    required this.linkHovered,
-    required this.overlayBackdrop,
-    required this.overlayScrim,
-    required this.overlaySubtle,
-    required this.overlayBrand,
-    required this.overlaySecondary,
-    required this.overlaySuccess,
-    required this.overlayError,
-    required this.overlayWarning,
-    required this.overlayInfo,
-    required this.overlayPressed,
-    required this.overlayHovered,
+    required this.overlayDefault,
     required this.shadowAmbient,
+    required this.dataCategorical1,
+    required this.dataCategorical2,
+    required this.dataCategorical3,
+    required this.dataCategorical4,
+    required this.dataCategorical5,
+    required this.dataCategorical6,
+    required this.dataCategorical7,
+    required this.dataCategorical8,
+    required this.dataSequential1,
+    required this.dataSequential2,
+    required this.dataSequential3,
+    required this.dataSequential4,
+    required this.dataSequential5,
+    required this.dataTag1Background,
+    required this.dataTag1Text,
+    required this.dataTag2Background,
+    required this.dataTag2Text,
+    required this.dataTag3Background,
+    required this.dataTag3Text,
+    required this.dataTag4Background,
+    required this.dataTag4Text,
+    required this.dataTag5Background,
+    required this.dataTag5Text,
+    required this.dataTag6Background,
+    required this.dataTag6Text,
+    required this.dataTag7Background,
+    required this.dataTag7Text,
+    required this.dataTag8Background,
+    required this.dataTag8Text,
   });
 
   /// [Surface · static, no states] App canvas behind all content (Web page, Flutter Scaffold). Lowest emphasis. Users never interact with it; interactive elements on it use background tokens.
@@ -468,17 +490,15 @@ class BwColors extends ThemeExtension<BwColors> {
   final Color surfaceRaised;
   /// [Surface · static, no states] Opposite-theme container: Tooltip and Snackbar body. Text and icons on it use text/inverse and icon/inverse. For a clickable element on a dark area, use background/inverse.
   final Color surfaceInverse;
-  /// [Background · interactive, has states] No fill at rest. For Text button, standard Icon button, ghost Tab, link-style List item. Never use for containers.
+  /// [Background · interactive, has states] No fill at rest. For Text button, standard Icon button, ghost Tab, link-style List item. Also the fill of a disabled transparent element (show the disabled state with text/disabled and icon/disabled). Never use for containers.
   final Color backgroundTransparentDefault;
-  /// [Background · interactive, has states] Hover fill of transparent elements (Web pointer only).
+  /// [Background · interactive, has states] Hover fill of transparent elements (Web pointer only). Also the hover state layer placed above a tonal (subtle/subtlest) or outlined control.
   final Color backgroundTransparentHovered;
-  /// [Background · interactive, has states] Pressed fill of transparent elements; the pressed/ripple state on Tablet and Mobile.
+  /// [Background · interactive, has states] Pressed fill of transparent elements and the pressed/ripple state layer above tonal or outlined controls (Tablet and Mobile ripple).
   final Color backgroundTransparentPressed;
-  /// [Background · interactive, has states] Disabled transparent element. Stays transparent; show the disabled state with text/disabled and icon/disabled. No hover or press effect.
-  final Color backgroundTransparentDisabled;
   /// [Background · interactive, has states] Default neutral fill of interactive elements: Outlined button, Text field, Select, Search, Checkbox/Radio box, clickable Card, Table row, List item. For a non-clickable card use surface/default.
   final Color backgroundBaseDefault;
-  /// [Background · interactive, has states] Low-emphasis neutral fill, a step darker than default: Filled text field, Neutral chip/tag, Segmented control track, Toggle track (off). For hover/press on it, layer overlay/hovered or overlay/pressed.
+  /// [Background · interactive, has states] Low-emphasis neutral fill, a step darker than default: Filled text field, Neutral chip/tag, Segmented control track, Toggle track (off). For hover/press on it, layer background/transparent/hovered or pressed.
   final Color backgroundBaseSubtle;
   /// [Background · interactive, has states] Lowest-emphasis neutral fill, almost invisible: Zebra table rows, Read-only field, Code block. Not a container; for static grouping use a surface token.
   final Color backgroundBaseSubtlest;
@@ -486,8 +506,6 @@ class BwColors extends ThemeExtension<BwColors> {
   final Color backgroundBaseHovered;
   /// [Background · interactive, has states] Pressed fill for base/default elements: Table row, List item, Menu item.
   final Color backgroundBasePressed;
-  /// [Background · interactive, has states] Fill of disabled base elements: Text field, Select, Outlined button. No hover or press effect when disabled.
-  final Color backgroundBaseDisabled;
   /// [Background · interactive, has states] Fill of a clickable element placed on a dark or brand area: button on the navy Side navigation, brand App bar, hero banner. Label uses text/role/brand. For a Tooltip/Snackbar body use surface/inverse.
   final Color backgroundInverseDefault;
   /// [Background · interactive, has states] Hover fill of background/inverse elements (Web pointer only).
@@ -500,80 +518,84 @@ class BwColors extends ThemeExtension<BwColors> {
   final Color backgroundNeutralHovered;
   /// [Background · interactive, has states] Pressed fill of neutral/default elements.
   final Color backgroundNeutralPressed;
-  /// [Background · interactive, has states] Fill of a disabled neutral element. Label uses text/disabled. No hover or press effect.
-  final Color backgroundNeutralDisabled;
+  /// [Background · interactive, has states] Selected item at rest: selected Table row, List item, Menu item, active Side-nav item, selected Tab, selected Chip, selected Card. Text on it: text/default or text/role/brand; icons: icon/default or icon/role/brand. Always pair with a non-colour indicator (check, bar, bold label).
+  final Color backgroundSelectedDefault;
+  /// [Background · interactive, has states] Hover fill of a selected item (Web pointer only).
+  final Color backgroundSelectedHovered;
+  /// [Background · interactive, has states] Pressed fill of a selected item.
+  final Color backgroundSelectedPressed;
   /// [Background · interactive, has states] Bold brand fill of an interactive element: Filled button, Split button, FAB, checked Checkbox/Radio, Toggle on, Progress bar. Text and icons on it use text/on/brand and icon/on/brand. Primary actions and selection.
   final Color backgroundBrandDefault;
   /// [Background · interactive, has states] Tonal brand fill: brand Chip/Tag, Lozenge, Tonal button. Text on it uses text/role/brand. Primary actions and selection.
   final Color backgroundBrandSubtle;
-  /// [Background · interactive, has states] Lightest brand tint: brand Alert/Banner, selected/highlighted row. Text on it uses text/role/brand or text/default. Primary actions and selection.
+  /// [Background · interactive, has states] Lightest brand tint: brand Alert/Banner, highlighted (not selected) row; selection uses background/selected. Text on it uses text/role/brand or text/default. Primary actions and selection.
   final Color backgroundBrandSubtlest;
   /// [Background · interactive, has states] Hover fill of brand/default elements (Web pointer only).
   final Color backgroundBrandHovered;
   /// [Background · interactive, has states] Pressed fill of brand/default elements.
   final Color backgroundBrandPressed;
-  /// [Background · interactive, has states] Fill of a disabled brand element. Neutral, so the role colour disappears. Label uses text/disabled. No hover or press effect.
-  final Color backgroundBrandDisabled;
   /// [Background · interactive, has states] Bold secondary fill of an interactive element: Secondary filled button, accent Badge. Text and icons on it use text/on/secondary and icon/on/secondary. Supporting actions and accents.
   final Color backgroundSecondaryDefault;
   /// [Background · interactive, has states] Tonal secondary fill: secondary Chip/Tag, Lozenge, Tonal button. Text on it uses text/role/secondary. Supporting actions and accents.
   final Color backgroundSecondarySubtle;
-  /// [Background · interactive, has states] Lightest secondary tint: secondary Alert/Banner, selected/highlighted row. Text on it uses text/role/secondary or text/default. Supporting actions and accents.
+  /// [Background · interactive, has states] Lightest secondary tint: secondary Alert/Banner, highlighted (not selected) row; selection uses background/selected. Text on it uses text/role/secondary or text/default. Supporting actions and accents.
   final Color backgroundSecondarySubtlest;
   /// [Background · interactive, has states] Hover fill of secondary/default elements (Web pointer only).
   final Color backgroundSecondaryHovered;
   /// [Background · interactive, has states] Pressed fill of secondary/default elements.
   final Color backgroundSecondaryPressed;
-  /// [Background · interactive, has states] Fill of a disabled secondary element. Neutral, so the role colour disappears. Label uses text/disabled. No hover or press effect.
-  final Color backgroundSecondaryDisabled;
+  /// [Background · interactive, has states] Bold accent fill (orange, separate from warning): highlight actions, promotional badge, feature callout, chart/illustration accent. Text and icons on it use text/on/accent and icon/on/accent. Material 3 tertiary.
+  final Color backgroundAccentDefault;
+  /// [Background · interactive, has states] Tonal accent fill: accent Chip/Tag, Tonal button. Text on it uses text/role/accent. Material 3 tertiaryContainer.
+  final Color backgroundAccentSubtle;
+  /// [Background · interactive, has states] Lightest accent tint: highlight banner, new-feature row. Text on it uses text/role/accent or text/default.
+  final Color backgroundAccentSubtlest;
+  /// [Background · interactive, has states] Hover fill of accent/default elements (Web pointer only).
+  final Color backgroundAccentHovered;
+  /// [Background · interactive, has states] Pressed fill of accent/default elements.
+  final Color backgroundAccentPressed;
   /// [Background · interactive, has states] Bold success fill of an interactive element: Confirm/Approve button, Success badge, Online status dot. Text and icons on it use text/on/success and icon/on/success. Positive results, completed states, confirmations.
   final Color backgroundSuccessDefault;
   /// [Background · interactive, has states] Tonal success fill: success Chip/Tag, Lozenge, Tonal button. Text on it uses text/role/success. Positive results, completed states, confirmations.
   final Color backgroundSuccessSubtle;
-  /// [Background · interactive, has states] Lightest success tint: success Alert/Banner, selected/highlighted row. Text on it uses text/role/success or text/default. Positive results, completed states, confirmations.
+  /// [Background · interactive, has states] Lightest success tint: success Alert/Banner, highlighted (not selected) row; selection uses background/selected. Text on it uses text/role/success or text/default. Positive results, completed states, confirmations.
   final Color backgroundSuccessSubtlest;
   /// [Background · interactive, has states] Hover fill of success/default elements (Web pointer only).
   final Color backgroundSuccessHovered;
   /// [Background · interactive, has states] Pressed fill of success/default elements.
   final Color backgroundSuccessPressed;
-  /// [Background · interactive, has states] Fill of a disabled success element. Neutral, so the role colour disappears. Label uses text/disabled. No hover or press effect.
-  final Color backgroundSuccessDisabled;
   /// [Background · interactive, has states] Bold error fill of an interactive element: Destructive button (Delete user/device), Error badge, Count badge. Text and icons on it use text/on/error and icon/on/error. Errors, failures and destructive actions.
   final Color backgroundErrorDefault;
   /// [Background · interactive, has states] Tonal error fill: error Chip/Tag, Lozenge, Tonal button. Text on it uses text/role/error. Errors, failures and destructive actions.
   final Color backgroundErrorSubtle;
-  /// [Background · interactive, has states] Lightest error tint: error Alert/Banner, selected/highlighted row. Text on it uses text/role/error or text/default. Errors, failures and destructive actions.
+  /// [Background · interactive, has states] Lightest error tint: error Alert/Banner, highlighted (not selected) row; selection uses background/selected. Text on it uses text/role/error or text/default. Errors, failures and destructive actions.
   final Color backgroundErrorSubtlest;
   /// [Background · interactive, has states] Hover fill of error/default elements (Web pointer only).
   final Color backgroundErrorHovered;
   /// [Background · interactive, has states] Pressed fill of error/default elements.
   final Color backgroundErrorPressed;
-  /// [Background · interactive, has states] Fill of a disabled error element. Neutral, so the role colour disappears. Label uses text/disabled. No hover or press effect.
-  final Color backgroundErrorDisabled;
   /// [Background · interactive, has states] Bold warning fill of an interactive element: Warning button, Warning badge (always dark text). Text and icons on it use text/on/warning and icon/on/warning. Alerts, potential risks, actions that need attention.
   final Color backgroundWarningDefault;
   /// [Background · interactive, has states] Tonal warning fill: warning Chip/Tag, Lozenge, Tonal button. Text on it uses text/role/warning. Alerts, potential risks, actions that need attention.
   final Color backgroundWarningSubtle;
-  /// [Background · interactive, has states] Lightest warning tint: warning Alert/Banner, selected/highlighted row. Text on it uses text/role/warning or text/default. Alerts, potential risks, actions that need attention.
+  /// [Background · interactive, has states] Lightest warning tint: warning Alert/Banner, highlighted (not selected) row; selection uses background/selected. Text on it uses text/role/warning or text/default. Alerts, potential risks, actions that need attention.
   final Color backgroundWarningSubtlest;
   /// [Background · interactive, has states] Hover fill of warning/default elements (Web pointer only).
   final Color backgroundWarningHovered;
   /// [Background · interactive, has states] Pressed fill of warning/default elements.
   final Color backgroundWarningPressed;
-  /// [Background · interactive, has states] Fill of a disabled warning element. Neutral, so the role colour disappears. Label uses text/disabled. No hover or press effect.
-  final Color backgroundWarningDisabled;
   /// [Background · interactive, has states] Bold info fill of an interactive element: Info badge, In-progress step, Sync indicator. Text and icons on it use text/on/info and icon/on/info. Guidance, information, in-progress states.
   final Color backgroundInfoDefault;
   /// [Background · interactive, has states] Tonal info fill: info Chip/Tag, Lozenge, Tonal button. Text on it uses text/role/info. Guidance, information, in-progress states.
   final Color backgroundInfoSubtle;
-  /// [Background · interactive, has states] Lightest info tint: info Alert/Banner, selected/highlighted row. Text on it uses text/role/info or text/default. Guidance, information, in-progress states.
+  /// [Background · interactive, has states] Lightest info tint: info Alert/Banner, highlighted (not selected) row; selection uses background/selected. Text on it uses text/role/info or text/default. Guidance, information, in-progress states.
   final Color backgroundInfoSubtlest;
   /// [Background · interactive, has states] Hover fill of info/default elements (Web pointer only).
   final Color backgroundInfoHovered;
   /// [Background · interactive, has states] Pressed fill of info/default elements.
   final Color backgroundInfoPressed;
-  /// [Background · interactive, has states] Fill of a disabled info element. Neutral, so the role colour disappears. Label uses text/disabled. No hover or press effect.
-  final Color backgroundInfoDisabled;
+  /// [Background · interactive, has states] Fill of any disabled control that has a fill: Filled/Tonal button (every colour), Text field, Select, checked Checkbox/Toggle. Transparent controls stay background/transparent/default. Label uses text/disabled. No hover or press effect.
+  final Color backgroundDisabled;
   /// Primary text: body, headings, Button label (outlined/text), Table cell values, Input value.
   final Color textDefault;
   /// Secondary text: Side-nav / Navigation bar items, Input labels, Subheadings, subtle Button links, Table headers.
@@ -588,6 +610,8 @@ class BwColors extends ThemeExtension<BwColors> {
   final Color textRoleBrand;
   /// Secondary accent text, secondary Chip label.
   final Color textRoleSecondary;
+  /// Accent text on neutral surfaces and on background/accent/subtle and subtlest: highlight label, feature callout.
+  final Color textRoleAccent;
   /// Input success message, success Chip/Alert text, "Online" status label.
   final Color textRoleSuccess;
   /// Input error message, error Chip/Alert text, required asterisk.
@@ -600,6 +624,8 @@ class BwColors extends ThemeExtension<BwColors> {
   final Color textOnBrand;
   /// Text colour placed on background/secondary/default, hovered and pressed fills. Always pair with that fill; never use on surfaces.
   final Color textOnSecondary;
+  /// Text colour placed on background/accent/default, hovered and pressed fills. Always pair with that fill; never use on surfaces.
+  final Color textOnAccent;
   /// Text colour placed on background/success/default, hovered and pressed fills. Always pair with that fill; never use on surfaces.
   final Color textOnSuccess;
   /// Text colour placed on background/error/default, hovered and pressed fills. Always pair with that fill; never use on surfaces.
@@ -622,6 +648,8 @@ class BwColors extends ThemeExtension<BwColors> {
   final Color iconRoleBrand;
   /// Secondary accent icons.
   final Color iconRoleSecondary;
+  /// Accent icon: highlight, new-feature marker.
+  final Color iconRoleAccent;
   /// Success Alert icon, check icon, Online status icon.
   final Color iconRoleSuccess;
   /// Error Alert icon, Input error icon, offline device icon.
@@ -634,6 +662,8 @@ class BwColors extends ThemeExtension<BwColors> {
   final Color iconOnBrand;
   /// Icon colour placed on background/secondary/default, hovered and pressed fills. Always pair with that fill; never use on surfaces.
   final Color iconOnSecondary;
+  /// Icon colour placed on background/accent/default, hovered and pressed fills. Always pair with that fill; never use on surfaces.
+  final Color iconOnAccent;
   /// Icon colour placed on background/success/default, hovered and pressed fills. Always pair with that fill; never use on surfaces.
   final Color iconOnSuccess;
   /// Icon colour placed on background/error/default, hovered and pressed fills. Always pair with that fill; never use on surfaces.
@@ -642,45 +672,104 @@ class BwColors extends ThemeExtension<BwColors> {
   final Color iconOnWarning;
   /// Icon colour placed on background/info/default, hovered and pressed fills. Always pair with that fill; never use on surfaces.
   final Color iconOnInfo;
-  /// Decorative separation: cards, tables, dividers. Not for control boundaries.
+  /// Decorative separation: Card and Panel outline, Table grid, Divider. Low contrast by design; not for control boundaries.
   final Color borderDefault;
+  /// Quietest separation: grouped rows, inner dividers inside a card.
   final Color borderSubtle;
+  /// Emphasised decorative line: strong Divider, Outlined button outline (the label identifies the button), selected neutral Icon button outline.
   final Color borderStrong;
+  /// Boundary that identifies a control (≥ 3:1): Text field, Select, Checkbox, Radio, Switch track outline, unselected Segmented control. Hover keeps this border and changes the fill to background/base/hovered.
+  final Color borderBold;
+  /// Outline of a disabled control.
   final Color borderDisabled;
-  final Color borderBrand;
-  final Color borderSecondary;
-  final Color borderSuccess;
-  final Color borderError;
-  final Color borderWarning;
-  final Color borderInfo;
-  /// Outlines and focus ring of controls placed on brand or inverse surfaces.
-  final Color borderInverse;
-  final Color borderInputDefault;
-  final Color borderInputError;
-  final Color borderInputHovered;
-  /// Keyboard focus ring. FIX: was primary/200 (2.58:1 on white, below 3:1).
+  /// Keyboard focus ring (2px, 2px offset) on every focusable element. ≥ 3:1 against surfaces.
   final Color borderFocus;
+  /// Outline and focus ring of controls placed on brand or inverse areas (navy Side navigation, brand App bar), where border/focus would disappear.
+  final Color borderInverse;
+  /// Selected outline (selected Icon button, selected Card), brand emphasis. ≥ 3:1 against surfaces.
+  final Color borderBrand;
+  /// Secondary accent outline. ≥ 3:1 against surfaces.
+  final Color borderSecondary;
+  /// Accent outline: highlight card, feature callout. ≥ 3:1 against surfaces.
+  final Color borderAccent;
+  /// Success Alert/Banner outline, valid field. ≥ 3:1 against surfaces.
+  final Color borderSuccess;
+  /// Error outline: invalid Text field/Select, error Alert/Banner, destructive confirmation. ≥ 3:1 against surfaces.
+  final Color borderError;
+  /// Warning Alert/Banner outline. ≥ 3:1 against surfaces.
+  final Color borderWarning;
+  /// Info Alert/Banner outline. ≥ 3:1 against surfaces.
+  final Color borderInfo;
+  /// Link at rest: inline links in body text, Breadcrumb links, "Learn more".
   final Color linkDefault;
-  final Color linkPressed;
-  final Color linkVisited;
+  /// Link on pointer hover (Web).
   final Color linkHovered;
-  /// Behind modals and blocking drawers.
-  final Color overlayBackdrop;
-  /// Non-blocking dimming.
-  final Color overlayScrim;
-  /// Quiet hover/selected layer.
-  final Color overlaySubtle;
-  final Color overlayBrand;
-  final Color overlaySecondary;
-  final Color overlaySuccess;
-  final Color overlayError;
-  final Color overlayWarning;
-  final Color overlayInfo;
-  /// State layer over a non-filled control on press.
-  final Color overlayPressed;
-  /// State layer over a non-filled control (tonal, outlined, text) on hover. Placed above the control's own fill.
-  final Color overlayHovered;
+  /// Link while pressed / active.
+  final Color linkPressed;
+  /// Link the user has already opened. Biowave has no purple ramp, so visited uses error 700 / 300. Only where revisits matter (help, docs); app navigation links do not use it.
+  final Color linkVisited;
+  /// Dimming layer behind blocking layers: Modal, Dialog, blocking Drawer, Bottom sheet, side Panel. Not a fill and not a state layer (states use background/transparent/hovered and pressed; selection uses background/selected).
+  final Color overlayDefault;
+  /// Base colour of elevation shadows (navy tint in light, black in dark). Used inside elevation tokens and Figma effect styles only.
   final Color shadowAmbient;
+  /// Series 1 (brand blue): line, bar, area, pie slice, legend swatch. ≥ 3:1 on surfaces. Scatter, bubble and map charts use slots 1–3 only.
+  final Color dataCategorical1;
+  /// Series 2 (gold): line, bar, area, pie slice, legend swatch. ≥ 3:1 on surfaces. Scatter, bubble and map charts use slots 1–3 only.
+  final Color dataCategorical2;
+  /// Series 3 (rose): line, bar, area, pie slice, legend swatch. ≥ 3:1 on surfaces. Scatter, bubble and map charts use slots 1–3 only.
+  final Color dataCategorical3;
+  /// Series 4 (teal, secondary hue): line, bar, area, pie slice, legend swatch. ≥ 3:1 on surfaces. Scatter, bubble and map charts use slots 1–3 only.
+  final Color dataCategorical4;
+  /// Series 5 (orange): line, bar, area, pie slice, legend swatch. ≥ 3:1 on surfaces. Scatter, bubble and map charts use slots 1–3 only.
+  final Color dataCategorical5;
+  /// Series 6 (violet): line, bar, area, pie slice, legend swatch. ≥ 3:1 on surfaces. Scatter, bubble and map charts use slots 1–3 only.
+  final Color dataCategorical6;
+  /// Series 7 (magenta): line, bar, area, pie slice, legend swatch. ≥ 3:1 on surfaces. Scatter, bubble and map charts use slots 1–3 only.
+  final Color dataCategorical7;
+  /// Series 8 (olive): line, bar, area, pie slice, legend swatch. ≥ 3:1 on surfaces. Scatter, bubble and map charts use slots 1–3 only.
+  final Color dataCategorical8;
+  /// Magnitude step 1 of 5 (brand blue, low): heatmap cell, choropleth, intensity scale. One hue, ordered; never for categories.
+  final Color dataSequential1;
+  /// Magnitude step 2 of 5 (brand blue, mid): heatmap cell, choropleth, intensity scale. One hue, ordered; never for categories.
+  final Color dataSequential2;
+  /// Magnitude step 3 of 5 (brand blue, mid): heatmap cell, choropleth, intensity scale. One hue, ordered; never for categories.
+  final Color dataSequential3;
+  /// Magnitude step 4 of 5 (brand blue, mid): heatmap cell, choropleth, intensity scale. One hue, ordered; never for categories.
+  final Color dataSequential4;
+  /// Magnitude step 5 of 5 (brand blue, high): heatmap cell, choropleth, intensity scale. One hue, ordered; never for categories.
+  final Color dataSequential5;
+  /// Categorical tag / avatar fill 1 (brand blue): user-defined Tag, Label, Avatar initials, department or group colour. Same order as data/categorical.
+  final Color dataTag1Background;
+  /// Label and icon on data/tag/1/background (≥ 4.5:1).
+  final Color dataTag1Text;
+  /// Categorical tag / avatar fill 2 (gold): user-defined Tag, Label, Avatar initials, department or group colour. Same order as data/categorical.
+  final Color dataTag2Background;
+  /// Label and icon on data/tag/2/background (≥ 4.5:1).
+  final Color dataTag2Text;
+  /// Categorical tag / avatar fill 3 (rose): user-defined Tag, Label, Avatar initials, department or group colour. Same order as data/categorical.
+  final Color dataTag3Background;
+  /// Label and icon on data/tag/3/background (≥ 4.5:1).
+  final Color dataTag3Text;
+  /// Categorical tag / avatar fill 4 (teal, secondary hue): user-defined Tag, Label, Avatar initials, department or group colour. Same order as data/categorical.
+  final Color dataTag4Background;
+  /// Label and icon on data/tag/4/background (≥ 4.5:1).
+  final Color dataTag4Text;
+  /// Categorical tag / avatar fill 5 (orange): user-defined Tag, Label, Avatar initials, department or group colour. Same order as data/categorical.
+  final Color dataTag5Background;
+  /// Label and icon on data/tag/5/background (≥ 4.5:1).
+  final Color dataTag5Text;
+  /// Categorical tag / avatar fill 6 (violet): user-defined Tag, Label, Avatar initials, department or group colour. Same order as data/categorical.
+  final Color dataTag6Background;
+  /// Label and icon on data/tag/6/background (≥ 4.5:1).
+  final Color dataTag6Text;
+  /// Categorical tag / avatar fill 7 (magenta): user-defined Tag, Label, Avatar initials, department or group colour. Same order as data/categorical.
+  final Color dataTag7Background;
+  /// Label and icon on data/tag/7/background (≥ 4.5:1).
+  final Color dataTag7Text;
+  /// Categorical tag / avatar fill 8 (olive): user-defined Tag, Label, Avatar initials, department or group colour. Same order as data/categorical.
+  final Color dataTag8Background;
+  /// Label and icon on data/tag/8/background (≥ 4.5:1).
+  final Color dataTag8Text;
 
   static const light = BwColors(
     surfacePage: Color(0xFFF7F7F7),
@@ -691,56 +780,56 @@ class BwColors extends ThemeExtension<BwColors> {
     backgroundTransparentDefault: Color(0x00545454),
     backgroundTransparentHovered: Color(0x1A545454),
     backgroundTransparentPressed: Color(0x33545454),
-    backgroundTransparentDisabled: Color(0x00545454),
     backgroundBaseDefault: Color(0xFFFFFFFF),
     backgroundBaseSubtle: Color(0xFFEDEDED),
     backgroundBaseSubtlest: Color(0xFFF7F7F7),
     backgroundBaseHovered: Color(0xFFEDEDED),
     backgroundBasePressed: Color(0xFFDBDBDB),
-    backgroundBaseDisabled: Color(0xFFEDEDED),
     backgroundInverseDefault: Color(0xFFFFFFFF),
     backgroundInverseHovered: Color(0xFFEDEDED),
     backgroundInversePressed: Color(0xFFDBDBDB),
     backgroundNeutralDefault: Color(0xFFEDEDED),
     backgroundNeutralHovered: Color(0xFFDBDBDB),
     backgroundNeutralPressed: Color(0xFFBDBDBD),
-    backgroundNeutralDisabled: Color(0xFFEDEDED),
+    backgroundSelectedDefault: Color(0xFFE8ECF2),
+    backgroundSelectedHovered: Color(0xFFBEC9D9),
+    backgroundSelectedPressed: Color(0xFF90A3BC),
     backgroundBrandDefault: Color(0xFF193351),
     backgroundBrandSubtle: Color(0xFFBEC9D9),
     backgroundBrandSubtlest: Color(0xFFE8ECF2),
     backgroundBrandHovered: Color(0xFF132843),
     backgroundBrandPressed: Color(0xFF0D1E33),
-    backgroundBrandDisabled: Color(0xFFEDEDED),
     backgroundSecondaryDefault: Color(0xFF0C5F79),
     backgroundSecondarySubtle: Color(0xFFC0DDE8),
     backgroundSecondarySubtlest: Color(0xFFE8F4F8),
     backgroundSecondaryHovered: Color(0xFF094E65),
     backgroundSecondaryPressed: Color(0xFF063C4E),
-    backgroundSecondaryDisabled: Color(0xFFEDEDED),
+    backgroundAccentDefault: Color(0xFFC2410C),
+    backgroundAccentSubtle: Color(0xFFFFEDD5),
+    backgroundAccentSubtlest: Color(0xFFFFF7ED),
+    backgroundAccentHovered: Color(0xFF9A3412),
+    backgroundAccentPressed: Color(0xFF7C2D12),
     backgroundSuccessDefault: Color(0xFF1E6D41),
     backgroundSuccessSubtle: Color(0xFFC1E8D2),
     backgroundSuccessSubtlest: Color(0xFFE9F7EF),
     backgroundSuccessHovered: Color(0xFF165331),
     backgroundSuccessPressed: Color(0xFF0E3921),
-    backgroundSuccessDisabled: Color(0xFFEDEDED),
     backgroundErrorDefault: Color(0xFFD42222),
     backgroundErrorSubtle: Color(0xFFFECFCF),
     backgroundErrorSubtlest: Color(0xFFFEF0EE),
     backgroundErrorHovered: Color(0xFFA31A1A),
     backgroundErrorPressed: Color(0xFF721212),
-    backgroundErrorDisabled: Color(0xFFEDEDED),
     backgroundWarningDefault: Color(0xFFFF9435),
     backgroundWarningSubtle: Color(0xFFFFE0C0),
     backgroundWarningSubtlest: Color(0xFFFFF3E8),
     backgroundWarningHovered: Color(0xFFFF8C32),
     backgroundWarningPressed: Color(0xFFD97424),
-    backgroundWarningDisabled: Color(0xFFEDEDED),
     backgroundInfoDefault: Color(0xFF2559D4),
     backgroundInfoSubtle: Color(0xFFCBDCFA),
     backgroundInfoSubtlest: Color(0xFFEEF4FF),
     backgroundInfoHovered: Color(0xFF1D48AD),
     backgroundInfoPressed: Color(0xFF153786),
-    backgroundInfoDisabled: Color(0xFFEDEDED),
+    backgroundDisabled: Color(0xFFEDEDED),
     textDefault: Color(0xFF0A0A0A),
     textSubtle: Color(0xFF292929),
     textSubtlest: Color(0xFF545454),
@@ -748,12 +837,14 @@ class BwColors extends ThemeExtension<BwColors> {
     textDisabled: Color(0xFF969696),
     textRoleBrand: Color(0xFF132843),
     textRoleSecondary: Color(0xFF094E65),
+    textRoleAccent: Color(0xFF9A3412),
     textRoleSuccess: Color(0xFF1E6D41),
     textRoleError: Color(0xFFA31A1A),
     textRoleWarning: Color(0xFF773F12),
     textRoleInfo: Color(0xFF1D48AD),
     textOnBrand: Color(0xFFFFFFFF),
     textOnSecondary: Color(0xFFFFFFFF),
+    textOnAccent: Color(0xFFFFFFFF),
     textOnSuccess: Color(0xFFFFFFFF),
     textOnError: Color(0xFFFFFFFF),
     textOnWarning: Color(0xFF0A0A0A),
@@ -765,12 +856,14 @@ class BwColors extends ThemeExtension<BwColors> {
     iconDisabled: Color(0xFF969696),
     iconRoleBrand: Color(0xFF132843),
     iconRoleSecondary: Color(0xFF094E65),
+    iconRoleAccent: Color(0xFF9A3412),
     iconRoleSuccess: Color(0xFF1E6D41),
     iconRoleError: Color(0xFFA31A1A),
     iconRoleWarning: Color(0xFF773F12),
     iconRoleInfo: Color(0xFF1D48AD),
     iconOnBrand: Color(0xFFFFFFFF),
     iconOnSecondary: Color(0xFFFFFFFF),
+    iconOnAccent: Color(0xFFFFFFFF),
     iconOnSuccess: Color(0xFFFFFFFF),
     iconOnError: Color(0xFFFFFFFF),
     iconOnWarning: Color(0xFF0A0A0A),
@@ -778,34 +871,52 @@ class BwColors extends ThemeExtension<BwColors> {
     borderDefault: Color(0xFFDBDBDB),
     borderSubtle: Color(0xFFEDEDED),
     borderStrong: Color(0xFFBDBDBD),
+    borderBold: Color(0xFF707070),
     borderDisabled: Color(0xFFDBDBDB),
-    borderBrand: Color(0xFF607D9F),
-    borderSecondary: Color(0xFF5DA8C2),
-    borderSuccess: Color(0xFF55BE87),
-    borderError: Color(0xFFFF7676),
-    borderWarning: Color(0xFFFFB05E),
-    borderInfo: Color(0xFF6D9CE8),
-    borderInverse: Color(0xFFFFFFFF),
-    borderInputDefault: Color(0xFF707070),
-    borderInputError: Color(0xFFD42222),
-    borderInputHovered: Color(0xFF404040),
     borderFocus: Color(0xFF254471),
+    borderInverse: Color(0xFFFFFFFF),
+    borderBrand: Color(0xFF254471),
+    borderSecondary: Color(0xFF1A7596),
+    borderAccent: Color(0xFFC2410C),
+    borderSuccess: Color(0xFF268751),
+    borderError: Color(0xFFD42222),
+    borderWarning: Color(0xFFD97424),
+    borderInfo: Color(0xFF2559D4),
     linkDefault: Color(0xFF2559D4),
-    linkPressed: Color(0xFF153786),
-    linkVisited: Color(0xFF1D48AD),
     linkHovered: Color(0xFF1D48AD),
-    overlayBackdrop: Color(0x99545454),
-    overlayScrim: Color(0x4D545454),
-    overlaySubtle: Color(0x1A545454),
-    overlayBrand: Color(0x33193351),
-    overlaySecondary: Color(0x330C5F79),
-    overlaySuccess: Color(0x33268751),
-    overlayError: Color(0x33FF2B2B),
-    overlayWarning: Color(0x33FF8C32),
-    overlayInfo: Color(0x332559D4),
-    overlayPressed: Color(0x33545454),
-    overlayHovered: Color(0x1A545454),
+    linkPressed: Color(0xFF153786),
+    linkVisited: Color(0xFFD42222),
+    overlayDefault: Color(0x99545454),
     shadowAmbient: Color(0xFF071323),
+    dataCategorical1: Color(0xFF3065A0),
+    dataCategorical2: Color(0xFFB48500),
+    dataCategorical3: Color(0xFFA8545D),
+    dataCategorical4: Color(0xFF0587AC),
+    dataCategorical5: Color(0xFFDE602C),
+    dataCategorical6: Color(0xFF6B50C2),
+    dataCategorical7: Color(0xFFCA5794),
+    dataCategorical8: Color(0xFF6F8D2A),
+    dataSequential1: Color(0xFF7DAEE9),
+    dataSequential2: Color(0xFF6091C9),
+    dataSequential3: Color(0xFF4574AA),
+    dataSequential4: Color(0xFF29588D),
+    dataSequential5: Color(0xFF0C3E70),
+    dataTag1Background: Color(0xFFDDEFFF),
+    dataTag1Text: Color(0xFF184E87),
+    dataTag2Background: Color(0xFFF8ECD3),
+    dataTag2Text: Color(0xFF684600),
+    dataTag3Background: Color(0xFFFFE4E5),
+    dataTag3Text: Color(0xFF7E2E39),
+    dataTag4Background: Color(0xFFD5F2FF),
+    dataTag4Text: Color(0xFF00577A),
+    dataTag5Background: Color(0xFFFFE6DB),
+    dataTag5Text: Color(0xFF7D3416),
+    dataTag6Background: Color(0xFFECE9FF),
+    dataTag6Text: Color(0xFF4D4084),
+    dataTag7Background: Color(0xFFFFE4F0),
+    dataTag7Text: Color(0xFF772F55),
+    dataTag8Background: Color(0xFFE7F1D8),
+    dataTag8Text: Color(0xFF3F5700),
   );
 
   static const dark = BwColors(
@@ -817,69 +928,71 @@ class BwColors extends ThemeExtension<BwColors> {
     backgroundTransparentDefault: Color(0x00545454),
     backgroundTransparentHovered: Color(0x66545454),
     backgroundTransparentPressed: Color(0x99545454),
-    backgroundTransparentDisabled: Color(0x00545454),
     backgroundBaseDefault: Color(0xFF141414),
     backgroundBaseSubtle: Color(0xFF292929),
     backgroundBaseSubtlest: Color(0xFF0A0A0A),
     backgroundBaseHovered: Color(0xFF404040),
     backgroundBasePressed: Color(0xFF545454),
-    backgroundBaseDisabled: Color(0xFF292929),
     backgroundInverseDefault: Color(0xFF0A0A0A),
     backgroundInverseHovered: Color(0xFF141414),
     backgroundInversePressed: Color(0xFF292929),
     backgroundNeutralDefault: Color(0xFF292929),
     backgroundNeutralHovered: Color(0xFF404040),
     backgroundNeutralPressed: Color(0xFF545454),
-    backgroundNeutralDisabled: Color(0xFF292929),
+    backgroundSelectedDefault: Color(0xFF193351),
+    backgroundSelectedHovered: Color(0xFF254471),
+    backgroundSelectedPressed: Color(0xFF3D5E88),
     backgroundBrandDefault: Color(0xFF607D9F),
     backgroundBrandSubtle: Color(0xFF071323),
     backgroundBrandSubtlest: Color(0xFF030A14),
     backgroundBrandHovered: Color(0xFF90A3BC),
     backgroundBrandPressed: Color(0xFFBEC9D9),
-    backgroundBrandDisabled: Color(0xFF292929),
     backgroundSecondaryDefault: Color(0xFF5DA8C2),
     backgroundSecondarySubtle: Color(0xFF032A37),
     backgroundSecondarySubtlest: Color(0xFF011820),
     backgroundSecondaryHovered: Color(0xFF90C3D5),
     backgroundSecondaryPressed: Color(0xFFC0DDE8),
-    backgroundSecondaryDisabled: Color(0xFF292929),
+    backgroundAccentDefault: Color(0xFFFB923C),
+    backgroundAccentSubtle: Color(0xFF7C2D12),
+    backgroundAccentSubtlest: Color(0xFF431407),
+    backgroundAccentHovered: Color(0xFFFDBA74),
+    backgroundAccentPressed: Color(0xFFFED7AA),
     backgroundSuccessDefault: Color(0xFF55BE87),
     backgroundSuccessSubtle: Color(0xFF0E3921),
     backgroundSuccessSubtlest: Color(0xFF071F12),
     backgroundSuccessHovered: Color(0xFF8DD4AE),
     backgroundSuccessPressed: Color(0xFFC1E8D2),
-    backgroundSuccessDisabled: Color(0xFF292929),
     backgroundErrorDefault: Color(0xFFFF7676),
     backgroundErrorSubtle: Color(0xFF721212),
     backgroundErrorSubtlest: Color(0xFF420A0A),
     backgroundErrorHovered: Color(0xFFFEA3A3),
     backgroundErrorPressed: Color(0xFFFECFCF),
-    backgroundErrorDisabled: Color(0xFF292929),
     backgroundWarningDefault: Color(0xFFFFB05E),
     backgroundWarningSubtle: Color(0xFF773F12),
     backgroundWarningSubtlest: Color(0xFF4A2609),
     backgroundWarningHovered: Color(0xFFFFC88F),
     backgroundWarningPressed: Color(0xFFFFE0C0),
-    backgroundWarningDisabled: Color(0xFF292929),
     backgroundInfoDefault: Color(0xFF6D9CE8),
     backgroundInfoSubtle: Color(0xFF0E265F),
     backgroundInfoSubtlest: Color(0xFF081638),
     backgroundInfoHovered: Color(0xFF9CBCF2),
     backgroundInfoPressed: Color(0xFFCBDCFA),
-    backgroundInfoDisabled: Color(0xFF292929),
+    backgroundDisabled: Color(0xFF292929),
     textDefault: Color(0xFFF7F7F7),
     textSubtle: Color(0xFFDBDBDB),
     textSubtlest: Color(0xFFBDBDBD),
     textInverse: Color(0xFF0A0A0A),
     textDisabled: Color(0xFF707070),
-    textRoleBrand: Color(0xFF90A3BC),
+    textRoleBrand: Color(0xFFBEC9D9),
     textRoleSecondary: Color(0xFF90C3D5),
+    textRoleAccent: Color(0xFFFED7AA),
     textRoleSuccess: Color(0xFF8DD4AE),
     textRoleError: Color(0xFFFEA3A3),
     textRoleWarning: Color(0xFFFFC88F),
     textRoleInfo: Color(0xFF9CBCF2),
     textOnBrand: Color(0xFF0A0A0A),
     textOnSecondary: Color(0xFF0A0A0A),
+    textOnAccent: Color(0xFF0A0A0A),
     textOnSuccess: Color(0xFF0A0A0A),
     textOnError: Color(0xFF0A0A0A),
     textOnWarning: Color(0xFF0A0A0A),
@@ -889,14 +1002,16 @@ class BwColors extends ThemeExtension<BwColors> {
     iconSubtlest: Color(0xFFBDBDBD),
     iconInverse: Color(0xFF0A0A0A),
     iconDisabled: Color(0xFF707070),
-    iconRoleBrand: Color(0xFF90A3BC),
+    iconRoleBrand: Color(0xFFBEC9D9),
     iconRoleSecondary: Color(0xFF90C3D5),
+    iconRoleAccent: Color(0xFFFED7AA),
     iconRoleSuccess: Color(0xFF8DD4AE),
     iconRoleError: Color(0xFFFEA3A3),
     iconRoleWarning: Color(0xFFFFC88F),
     iconRoleInfo: Color(0xFF9CBCF2),
     iconOnBrand: Color(0xFF0A0A0A),
     iconOnSecondary: Color(0xFF0A0A0A),
+    iconOnAccent: Color(0xFF0A0A0A),
     iconOnSuccess: Color(0xFF0A0A0A),
     iconOnError: Color(0xFF0A0A0A),
     iconOnWarning: Color(0xFF0A0A0A),
@@ -904,40 +1019,58 @@ class BwColors extends ThemeExtension<BwColors> {
     borderDefault: Color(0xFF404040),
     borderSubtle: Color(0xFF292929),
     borderStrong: Color(0xFF545454),
+    borderBold: Color(0xFF969696),
     borderDisabled: Color(0xFF404040),
-    borderBrand: Color(0xFF254471),
-    borderSecondary: Color(0xFF1A7596),
-    borderSuccess: Color(0xFF2D9860),
-    borderError: Color(0xFFFF3B3B),
-    borderWarning: Color(0xFFFF9435),
-    borderInfo: Color(0xFF336CD9),
-    borderInverse: Color(0xFF0A0A0A),
-    borderInputDefault: Color(0xFF969696),
-    borderInputError: Color(0xFFFF7676),
-    borderInputHovered: Color(0xFFBDBDBD),
     borderFocus: Color(0xFF90A3BC),
+    borderInverse: Color(0xFF0A0A0A),
+    borderBrand: Color(0xFF607D9F),
+    borderSecondary: Color(0xFF5DA8C2),
+    borderAccent: Color(0xFFFB923C),
+    borderSuccess: Color(0xFF55BE87),
+    borderError: Color(0xFFFF7676),
+    borderWarning: Color(0xFFFFB05E),
+    borderInfo: Color(0xFF6D9CE8),
     linkDefault: Color(0xFF6D9CE8),
-    linkPressed: Color(0xFFCBDCFA),
-    linkVisited: Color(0xFF9CBCF2),
     linkHovered: Color(0xFF9CBCF2),
-    overlayBackdrop: Color(0xB3545454),
-    overlayScrim: Color(0x66545454),
-    overlaySubtle: Color(0x33545454),
-    overlayBrand: Color(0x4D193351),
-    overlaySecondary: Color(0x4D0C5F79),
-    overlaySuccess: Color(0x4D268751),
-    overlayError: Color(0x4DFF2B2B),
-    overlayWarning: Color(0x4DFF8C32),
-    overlayInfo: Color(0x4D2559D4),
-    overlayPressed: Color(0x99545454),
-    overlayHovered: Color(0x66545454),
+    linkPressed: Color(0xFFCBDCFA),
+    linkVisited: Color(0xFFFF7676),
+    overlayDefault: Color(0xB3545454),
     shadowAmbient: Color(0xFF000000),
+    dataCategorical1: Color(0xFF4E89CC),
+    dataCategorical2: Color(0xFFB68B16),
+    dataCategorical3: Color(0xFFBD5F69),
+    dataCategorical4: Color(0xFF2193B9),
+    dataCategorical5: Color(0xFFDA6435),
+    dataCategorical6: Color(0xFF8673D9),
+    dataCategorical7: Color(0xFFCA5E96),
+    dataCategorical8: Color(0xFF749331),
+    dataSequential1: Color(0xFF36608F),
+    dataSequential2: Color(0xFF537DAE),
+    dataSequential3: Color(0xFF709CCF),
+    dataSequential4: Color(0xFF8EBBF0),
+    dataSequential5: Color(0xFFAEDCFF),
+    dataTag1Background: Color(0xFF19314E),
+    dataTag1Text: Color(0xFFB4D8FF),
+    dataTag2Background: Color(0xFF3E2D04),
+    dataTag2Text: Color(0xFFE9D1A0),
+    dataTag3Background: Color(0xFF4A2226),
+    dataTag3Text: Color(0xFFFFC2C5),
+    dataTag4Background: Color(0xFF003647),
+    dataTag4Text: Color(0xFFA3DEF8),
+    dataTag5Background: Color(0xFF492517),
+    dataTag5Text: Color(0xFFFDC6B1),
+    dataTag6Background: Color(0xFF302A4C),
+    dataTag6Text: Color(0xFFD3CDFF),
+    dataTag7Background: Color(0xFF472335),
+    dataTag7Text: Color(0xFFF9C2DB),
+    dataTag8Background: Color(0xFF293510),
+    dataTag8Text: Color(0xFFCADDAB),
   );
 
   static BwColors of(BuildContext context) => Theme.of(context).extension<BwColors>()!;
 
   @override
-  BwColors copyWith({Color? surfacePage, Color? surfaceDefault, Color? surfaceSubtle, Color? surfaceRaised, Color? surfaceInverse, Color? backgroundTransparentDefault, Color? backgroundTransparentHovered, Color? backgroundTransparentPressed, Color? backgroundTransparentDisabled, Color? backgroundBaseDefault, Color? backgroundBaseSubtle, Color? backgroundBaseSubtlest, Color? backgroundBaseHovered, Color? backgroundBasePressed, Color? backgroundBaseDisabled, Color? backgroundInverseDefault, Color? backgroundInverseHovered, Color? backgroundInversePressed, Color? backgroundNeutralDefault, Color? backgroundNeutralHovered, Color? backgroundNeutralPressed, Color? backgroundNeutralDisabled, Color? backgroundBrandDefault, Color? backgroundBrandSubtle, Color? backgroundBrandSubtlest, Color? backgroundBrandHovered, Color? backgroundBrandPressed, Color? backgroundBrandDisabled, Color? backgroundSecondaryDefault, Color? backgroundSecondarySubtle, Color? backgroundSecondarySubtlest, Color? backgroundSecondaryHovered, Color? backgroundSecondaryPressed, Color? backgroundSecondaryDisabled, Color? backgroundSuccessDefault, Color? backgroundSuccessSubtle, Color? backgroundSuccessSubtlest, Color? backgroundSuccessHovered, Color? backgroundSuccessPressed, Color? backgroundSuccessDisabled, Color? backgroundErrorDefault, Color? backgroundErrorSubtle, Color? backgroundErrorSubtlest, Color? backgroundErrorHovered, Color? backgroundErrorPressed, Color? backgroundErrorDisabled, Color? backgroundWarningDefault, Color? backgroundWarningSubtle, Color? backgroundWarningSubtlest, Color? backgroundWarningHovered, Color? backgroundWarningPressed, Color? backgroundWarningDisabled, Color? backgroundInfoDefault, Color? backgroundInfoSubtle, Color? backgroundInfoSubtlest, Color? backgroundInfoHovered, Color? backgroundInfoPressed, Color? backgroundInfoDisabled, Color? textDefault, Color? textSubtle, Color? textSubtlest, Color? textInverse, Color? textDisabled, Color? textRoleBrand, Color? textRoleSecondary, Color? textRoleSuccess, Color? textRoleError, Color? textRoleWarning, Color? textRoleInfo, Color? textOnBrand, Color? textOnSecondary, Color? textOnSuccess, Color? textOnError, Color? textOnWarning, Color? textOnInfo, Color? iconDefault, Color? iconSubtle, Color? iconSubtlest, Color? iconInverse, Color? iconDisabled, Color? iconRoleBrand, Color? iconRoleSecondary, Color? iconRoleSuccess, Color? iconRoleError, Color? iconRoleWarning, Color? iconRoleInfo, Color? iconOnBrand, Color? iconOnSecondary, Color? iconOnSuccess, Color? iconOnError, Color? iconOnWarning, Color? iconOnInfo, Color? borderDefault, Color? borderSubtle, Color? borderStrong, Color? borderDisabled, Color? borderBrand, Color? borderSecondary, Color? borderSuccess, Color? borderError, Color? borderWarning, Color? borderInfo, Color? borderInverse, Color? borderInputDefault, Color? borderInputError, Color? borderInputHovered, Color? borderFocus, Color? linkDefault, Color? linkPressed, Color? linkVisited, Color? linkHovered, Color? overlayBackdrop, Color? overlayScrim, Color? overlaySubtle, Color? overlayBrand, Color? overlaySecondary, Color? overlaySuccess, Color? overlayError, Color? overlayWarning, Color? overlayInfo, Color? overlayPressed, Color? overlayHovered, Color? shadowAmbient}) => BwColors(
+  BwColors copyWith({Color? surfacePage, Color? surfaceDefault, Color? surfaceSubtle, Color? surfaceRaised, Color? surfaceInverse, Color? backgroundTransparentDefault, Color? backgroundTransparentHovered, Color? backgroundTransparentPressed, Color? backgroundBaseDefault, Color? backgroundBaseSubtle, Color? backgroundBaseSubtlest, Color? backgroundBaseHovered, Color? backgroundBasePressed, Color? backgroundInverseDefault, Color? backgroundInverseHovered, Color? backgroundInversePressed, Color? backgroundNeutralDefault, Color? backgroundNeutralHovered, Color? backgroundNeutralPressed, Color? backgroundSelectedDefault, Color? backgroundSelectedHovered, Color? backgroundSelectedPressed, Color? backgroundBrandDefault, Color? backgroundBrandSubtle, Color? backgroundBrandSubtlest, Color? backgroundBrandHovered, Color? backgroundBrandPressed, Color? backgroundSecondaryDefault, Color? backgroundSecondarySubtle, Color? backgroundSecondarySubtlest, Color? backgroundSecondaryHovered, Color? backgroundSecondaryPressed, Color? backgroundAccentDefault, Color? backgroundAccentSubtle, Color? backgroundAccentSubtlest, Color? backgroundAccentHovered, Color? backgroundAccentPressed, Color? backgroundSuccessDefault, Color? backgroundSuccessSubtle, Color? backgroundSuccessSubtlest, Color? backgroundSuccessHovered, Color? backgroundSuccessPressed, Color? backgroundErrorDefault, Color? backgroundErrorSubtle, Color? backgroundErrorSubtlest, Color? backgroundErrorHovered, Color? backgroundErrorPressed, Color? backgroundWarningDefault, Color? backgroundWarningSubtle, Color? backgroundWarningSubtlest, Color? backgroundWarningHovered, Color? backgroundWarningPressed, Color? backgroundInfoDefault, Color? backgroundInfoSubtle, Color? backgroundInfoSubtlest, Color? backgroundInfoHovered, Color? backgroundInfoPressed, Color? backgroundDisabled, Color? textDefault, Color? textSubtle, Color? textSubtlest, Color? textInverse, Color? textDisabled, Color? textRoleBrand, Color? textRoleSecondary, Color? textRoleAccent, Color? textRoleSuccess, Color? textRoleError, Color? textRoleWarning, Color? textRoleInfo, Color? textOnBrand, Color? textOnSecondary, Color? textOnAccent, Color? textOnSuccess, Color? textOnError, Color? textOnWarning, Color? textOnInfo, Color? iconDefault, Color? iconSubtle, Color? iconSubtlest, Color? iconInverse, Color? iconDisabled, Color? iconRoleBrand, Color? iconRoleSecondary, Color? iconRoleAccent, Color? iconRoleSuccess, Color? iconRoleError, Color? iconRoleWarning, Color? iconRoleInfo, Color? iconOnBrand, Color? iconOnSecondary, Color? iconOnAccent, Color? iconOnSuccess, Color? iconOnError, Color? iconOnWarning, Color? iconOnInfo, Color? borderDefault, Color? borderSubtle, Color? borderStrong, Color? borderBold, Color? borderDisabled, Color? borderFocus, Color? borderInverse, Color? borderBrand, Color? borderSecondary, Color? borderAccent, Color? borderSuccess, Color? borderError, Color? borderWarning, Color? borderInfo, Color? linkDefault, Color? linkHovered, Color? linkPressed, Color? linkVisited, Color? overlayDefault, Color? shadowAmbient, Color? dataCategorical1, Color? dataCategorical2, Color? dataCategorical3, Color? dataCategorical4, Color? dataCategorical5, Color? dataCategorical6, Color? dataCategorical7, Color? dataCategorical8, Color? dataSequential1, Color? dataSequential2, Color? dataSequential3, Color? dataSequential4, Color? dataSequential5, Color? dataTag1Background, Color? dataTag1Text, Color? dataTag2Background, Color? dataTag2Text, Color? dataTag3Background, Color? dataTag3Text, Color? dataTag4Background, Color? dataTag4Text, Color? dataTag5Background, Color? dataTag5Text, Color? dataTag6Background, Color? dataTag6Text, Color? dataTag7Background, Color? dataTag7Text, Color? dataTag8Background, Color? dataTag8Text}) => BwColors(
     surfacePage: surfacePage ?? this.surfacePage,
     surfaceDefault: surfaceDefault ?? this.surfaceDefault,
     surfaceSubtle: surfaceSubtle ?? this.surfaceSubtle,
@@ -946,56 +1079,56 @@ class BwColors extends ThemeExtension<BwColors> {
     backgroundTransparentDefault: backgroundTransparentDefault ?? this.backgroundTransparentDefault,
     backgroundTransparentHovered: backgroundTransparentHovered ?? this.backgroundTransparentHovered,
     backgroundTransparentPressed: backgroundTransparentPressed ?? this.backgroundTransparentPressed,
-    backgroundTransparentDisabled: backgroundTransparentDisabled ?? this.backgroundTransparentDisabled,
     backgroundBaseDefault: backgroundBaseDefault ?? this.backgroundBaseDefault,
     backgroundBaseSubtle: backgroundBaseSubtle ?? this.backgroundBaseSubtle,
     backgroundBaseSubtlest: backgroundBaseSubtlest ?? this.backgroundBaseSubtlest,
     backgroundBaseHovered: backgroundBaseHovered ?? this.backgroundBaseHovered,
     backgroundBasePressed: backgroundBasePressed ?? this.backgroundBasePressed,
-    backgroundBaseDisabled: backgroundBaseDisabled ?? this.backgroundBaseDisabled,
     backgroundInverseDefault: backgroundInverseDefault ?? this.backgroundInverseDefault,
     backgroundInverseHovered: backgroundInverseHovered ?? this.backgroundInverseHovered,
     backgroundInversePressed: backgroundInversePressed ?? this.backgroundInversePressed,
     backgroundNeutralDefault: backgroundNeutralDefault ?? this.backgroundNeutralDefault,
     backgroundNeutralHovered: backgroundNeutralHovered ?? this.backgroundNeutralHovered,
     backgroundNeutralPressed: backgroundNeutralPressed ?? this.backgroundNeutralPressed,
-    backgroundNeutralDisabled: backgroundNeutralDisabled ?? this.backgroundNeutralDisabled,
+    backgroundSelectedDefault: backgroundSelectedDefault ?? this.backgroundSelectedDefault,
+    backgroundSelectedHovered: backgroundSelectedHovered ?? this.backgroundSelectedHovered,
+    backgroundSelectedPressed: backgroundSelectedPressed ?? this.backgroundSelectedPressed,
     backgroundBrandDefault: backgroundBrandDefault ?? this.backgroundBrandDefault,
     backgroundBrandSubtle: backgroundBrandSubtle ?? this.backgroundBrandSubtle,
     backgroundBrandSubtlest: backgroundBrandSubtlest ?? this.backgroundBrandSubtlest,
     backgroundBrandHovered: backgroundBrandHovered ?? this.backgroundBrandHovered,
     backgroundBrandPressed: backgroundBrandPressed ?? this.backgroundBrandPressed,
-    backgroundBrandDisabled: backgroundBrandDisabled ?? this.backgroundBrandDisabled,
     backgroundSecondaryDefault: backgroundSecondaryDefault ?? this.backgroundSecondaryDefault,
     backgroundSecondarySubtle: backgroundSecondarySubtle ?? this.backgroundSecondarySubtle,
     backgroundSecondarySubtlest: backgroundSecondarySubtlest ?? this.backgroundSecondarySubtlest,
     backgroundSecondaryHovered: backgroundSecondaryHovered ?? this.backgroundSecondaryHovered,
     backgroundSecondaryPressed: backgroundSecondaryPressed ?? this.backgroundSecondaryPressed,
-    backgroundSecondaryDisabled: backgroundSecondaryDisabled ?? this.backgroundSecondaryDisabled,
+    backgroundAccentDefault: backgroundAccentDefault ?? this.backgroundAccentDefault,
+    backgroundAccentSubtle: backgroundAccentSubtle ?? this.backgroundAccentSubtle,
+    backgroundAccentSubtlest: backgroundAccentSubtlest ?? this.backgroundAccentSubtlest,
+    backgroundAccentHovered: backgroundAccentHovered ?? this.backgroundAccentHovered,
+    backgroundAccentPressed: backgroundAccentPressed ?? this.backgroundAccentPressed,
     backgroundSuccessDefault: backgroundSuccessDefault ?? this.backgroundSuccessDefault,
     backgroundSuccessSubtle: backgroundSuccessSubtle ?? this.backgroundSuccessSubtle,
     backgroundSuccessSubtlest: backgroundSuccessSubtlest ?? this.backgroundSuccessSubtlest,
     backgroundSuccessHovered: backgroundSuccessHovered ?? this.backgroundSuccessHovered,
     backgroundSuccessPressed: backgroundSuccessPressed ?? this.backgroundSuccessPressed,
-    backgroundSuccessDisabled: backgroundSuccessDisabled ?? this.backgroundSuccessDisabled,
     backgroundErrorDefault: backgroundErrorDefault ?? this.backgroundErrorDefault,
     backgroundErrorSubtle: backgroundErrorSubtle ?? this.backgroundErrorSubtle,
     backgroundErrorSubtlest: backgroundErrorSubtlest ?? this.backgroundErrorSubtlest,
     backgroundErrorHovered: backgroundErrorHovered ?? this.backgroundErrorHovered,
     backgroundErrorPressed: backgroundErrorPressed ?? this.backgroundErrorPressed,
-    backgroundErrorDisabled: backgroundErrorDisabled ?? this.backgroundErrorDisabled,
     backgroundWarningDefault: backgroundWarningDefault ?? this.backgroundWarningDefault,
     backgroundWarningSubtle: backgroundWarningSubtle ?? this.backgroundWarningSubtle,
     backgroundWarningSubtlest: backgroundWarningSubtlest ?? this.backgroundWarningSubtlest,
     backgroundWarningHovered: backgroundWarningHovered ?? this.backgroundWarningHovered,
     backgroundWarningPressed: backgroundWarningPressed ?? this.backgroundWarningPressed,
-    backgroundWarningDisabled: backgroundWarningDisabled ?? this.backgroundWarningDisabled,
     backgroundInfoDefault: backgroundInfoDefault ?? this.backgroundInfoDefault,
     backgroundInfoSubtle: backgroundInfoSubtle ?? this.backgroundInfoSubtle,
     backgroundInfoSubtlest: backgroundInfoSubtlest ?? this.backgroundInfoSubtlest,
     backgroundInfoHovered: backgroundInfoHovered ?? this.backgroundInfoHovered,
     backgroundInfoPressed: backgroundInfoPressed ?? this.backgroundInfoPressed,
-    backgroundInfoDisabled: backgroundInfoDisabled ?? this.backgroundInfoDisabled,
+    backgroundDisabled: backgroundDisabled ?? this.backgroundDisabled,
     textDefault: textDefault ?? this.textDefault,
     textSubtle: textSubtle ?? this.textSubtle,
     textSubtlest: textSubtlest ?? this.textSubtlest,
@@ -1003,12 +1136,14 @@ class BwColors extends ThemeExtension<BwColors> {
     textDisabled: textDisabled ?? this.textDisabled,
     textRoleBrand: textRoleBrand ?? this.textRoleBrand,
     textRoleSecondary: textRoleSecondary ?? this.textRoleSecondary,
+    textRoleAccent: textRoleAccent ?? this.textRoleAccent,
     textRoleSuccess: textRoleSuccess ?? this.textRoleSuccess,
     textRoleError: textRoleError ?? this.textRoleError,
     textRoleWarning: textRoleWarning ?? this.textRoleWarning,
     textRoleInfo: textRoleInfo ?? this.textRoleInfo,
     textOnBrand: textOnBrand ?? this.textOnBrand,
     textOnSecondary: textOnSecondary ?? this.textOnSecondary,
+    textOnAccent: textOnAccent ?? this.textOnAccent,
     textOnSuccess: textOnSuccess ?? this.textOnSuccess,
     textOnError: textOnError ?? this.textOnError,
     textOnWarning: textOnWarning ?? this.textOnWarning,
@@ -1020,12 +1155,14 @@ class BwColors extends ThemeExtension<BwColors> {
     iconDisabled: iconDisabled ?? this.iconDisabled,
     iconRoleBrand: iconRoleBrand ?? this.iconRoleBrand,
     iconRoleSecondary: iconRoleSecondary ?? this.iconRoleSecondary,
+    iconRoleAccent: iconRoleAccent ?? this.iconRoleAccent,
     iconRoleSuccess: iconRoleSuccess ?? this.iconRoleSuccess,
     iconRoleError: iconRoleError ?? this.iconRoleError,
     iconRoleWarning: iconRoleWarning ?? this.iconRoleWarning,
     iconRoleInfo: iconRoleInfo ?? this.iconRoleInfo,
     iconOnBrand: iconOnBrand ?? this.iconOnBrand,
     iconOnSecondary: iconOnSecondary ?? this.iconOnSecondary,
+    iconOnAccent: iconOnAccent ?? this.iconOnAccent,
     iconOnSuccess: iconOnSuccess ?? this.iconOnSuccess,
     iconOnError: iconOnError ?? this.iconOnError,
     iconOnWarning: iconOnWarning ?? this.iconOnWarning,
@@ -1033,34 +1170,52 @@ class BwColors extends ThemeExtension<BwColors> {
     borderDefault: borderDefault ?? this.borderDefault,
     borderSubtle: borderSubtle ?? this.borderSubtle,
     borderStrong: borderStrong ?? this.borderStrong,
+    borderBold: borderBold ?? this.borderBold,
     borderDisabled: borderDisabled ?? this.borderDisabled,
+    borderFocus: borderFocus ?? this.borderFocus,
+    borderInverse: borderInverse ?? this.borderInverse,
     borderBrand: borderBrand ?? this.borderBrand,
     borderSecondary: borderSecondary ?? this.borderSecondary,
+    borderAccent: borderAccent ?? this.borderAccent,
     borderSuccess: borderSuccess ?? this.borderSuccess,
     borderError: borderError ?? this.borderError,
     borderWarning: borderWarning ?? this.borderWarning,
     borderInfo: borderInfo ?? this.borderInfo,
-    borderInverse: borderInverse ?? this.borderInverse,
-    borderInputDefault: borderInputDefault ?? this.borderInputDefault,
-    borderInputError: borderInputError ?? this.borderInputError,
-    borderInputHovered: borderInputHovered ?? this.borderInputHovered,
-    borderFocus: borderFocus ?? this.borderFocus,
     linkDefault: linkDefault ?? this.linkDefault,
+    linkHovered: linkHovered ?? this.linkHovered,
     linkPressed: linkPressed ?? this.linkPressed,
     linkVisited: linkVisited ?? this.linkVisited,
-    linkHovered: linkHovered ?? this.linkHovered,
-    overlayBackdrop: overlayBackdrop ?? this.overlayBackdrop,
-    overlayScrim: overlayScrim ?? this.overlayScrim,
-    overlaySubtle: overlaySubtle ?? this.overlaySubtle,
-    overlayBrand: overlayBrand ?? this.overlayBrand,
-    overlaySecondary: overlaySecondary ?? this.overlaySecondary,
-    overlaySuccess: overlaySuccess ?? this.overlaySuccess,
-    overlayError: overlayError ?? this.overlayError,
-    overlayWarning: overlayWarning ?? this.overlayWarning,
-    overlayInfo: overlayInfo ?? this.overlayInfo,
-    overlayPressed: overlayPressed ?? this.overlayPressed,
-    overlayHovered: overlayHovered ?? this.overlayHovered,
+    overlayDefault: overlayDefault ?? this.overlayDefault,
     shadowAmbient: shadowAmbient ?? this.shadowAmbient,
+    dataCategorical1: dataCategorical1 ?? this.dataCategorical1,
+    dataCategorical2: dataCategorical2 ?? this.dataCategorical2,
+    dataCategorical3: dataCategorical3 ?? this.dataCategorical3,
+    dataCategorical4: dataCategorical4 ?? this.dataCategorical4,
+    dataCategorical5: dataCategorical5 ?? this.dataCategorical5,
+    dataCategorical6: dataCategorical6 ?? this.dataCategorical6,
+    dataCategorical7: dataCategorical7 ?? this.dataCategorical7,
+    dataCategorical8: dataCategorical8 ?? this.dataCategorical8,
+    dataSequential1: dataSequential1 ?? this.dataSequential1,
+    dataSequential2: dataSequential2 ?? this.dataSequential2,
+    dataSequential3: dataSequential3 ?? this.dataSequential3,
+    dataSequential4: dataSequential4 ?? this.dataSequential4,
+    dataSequential5: dataSequential5 ?? this.dataSequential5,
+    dataTag1Background: dataTag1Background ?? this.dataTag1Background,
+    dataTag1Text: dataTag1Text ?? this.dataTag1Text,
+    dataTag2Background: dataTag2Background ?? this.dataTag2Background,
+    dataTag2Text: dataTag2Text ?? this.dataTag2Text,
+    dataTag3Background: dataTag3Background ?? this.dataTag3Background,
+    dataTag3Text: dataTag3Text ?? this.dataTag3Text,
+    dataTag4Background: dataTag4Background ?? this.dataTag4Background,
+    dataTag4Text: dataTag4Text ?? this.dataTag4Text,
+    dataTag5Background: dataTag5Background ?? this.dataTag5Background,
+    dataTag5Text: dataTag5Text ?? this.dataTag5Text,
+    dataTag6Background: dataTag6Background ?? this.dataTag6Background,
+    dataTag6Text: dataTag6Text ?? this.dataTag6Text,
+    dataTag7Background: dataTag7Background ?? this.dataTag7Background,
+    dataTag7Text: dataTag7Text ?? this.dataTag7Text,
+    dataTag8Background: dataTag8Background ?? this.dataTag8Background,
+    dataTag8Text: dataTag8Text ?? this.dataTag8Text,
   );
 
   @override
@@ -1075,56 +1230,56 @@ class BwColors extends ThemeExtension<BwColors> {
       backgroundTransparentDefault: Color.lerp(backgroundTransparentDefault, other.backgroundTransparentDefault, t)!,
       backgroundTransparentHovered: Color.lerp(backgroundTransparentHovered, other.backgroundTransparentHovered, t)!,
       backgroundTransparentPressed: Color.lerp(backgroundTransparentPressed, other.backgroundTransparentPressed, t)!,
-      backgroundTransparentDisabled: Color.lerp(backgroundTransparentDisabled, other.backgroundTransparentDisabled, t)!,
       backgroundBaseDefault: Color.lerp(backgroundBaseDefault, other.backgroundBaseDefault, t)!,
       backgroundBaseSubtle: Color.lerp(backgroundBaseSubtle, other.backgroundBaseSubtle, t)!,
       backgroundBaseSubtlest: Color.lerp(backgroundBaseSubtlest, other.backgroundBaseSubtlest, t)!,
       backgroundBaseHovered: Color.lerp(backgroundBaseHovered, other.backgroundBaseHovered, t)!,
       backgroundBasePressed: Color.lerp(backgroundBasePressed, other.backgroundBasePressed, t)!,
-      backgroundBaseDisabled: Color.lerp(backgroundBaseDisabled, other.backgroundBaseDisabled, t)!,
       backgroundInverseDefault: Color.lerp(backgroundInverseDefault, other.backgroundInverseDefault, t)!,
       backgroundInverseHovered: Color.lerp(backgroundInverseHovered, other.backgroundInverseHovered, t)!,
       backgroundInversePressed: Color.lerp(backgroundInversePressed, other.backgroundInversePressed, t)!,
       backgroundNeutralDefault: Color.lerp(backgroundNeutralDefault, other.backgroundNeutralDefault, t)!,
       backgroundNeutralHovered: Color.lerp(backgroundNeutralHovered, other.backgroundNeutralHovered, t)!,
       backgroundNeutralPressed: Color.lerp(backgroundNeutralPressed, other.backgroundNeutralPressed, t)!,
-      backgroundNeutralDisabled: Color.lerp(backgroundNeutralDisabled, other.backgroundNeutralDisabled, t)!,
+      backgroundSelectedDefault: Color.lerp(backgroundSelectedDefault, other.backgroundSelectedDefault, t)!,
+      backgroundSelectedHovered: Color.lerp(backgroundSelectedHovered, other.backgroundSelectedHovered, t)!,
+      backgroundSelectedPressed: Color.lerp(backgroundSelectedPressed, other.backgroundSelectedPressed, t)!,
       backgroundBrandDefault: Color.lerp(backgroundBrandDefault, other.backgroundBrandDefault, t)!,
       backgroundBrandSubtle: Color.lerp(backgroundBrandSubtle, other.backgroundBrandSubtle, t)!,
       backgroundBrandSubtlest: Color.lerp(backgroundBrandSubtlest, other.backgroundBrandSubtlest, t)!,
       backgroundBrandHovered: Color.lerp(backgroundBrandHovered, other.backgroundBrandHovered, t)!,
       backgroundBrandPressed: Color.lerp(backgroundBrandPressed, other.backgroundBrandPressed, t)!,
-      backgroundBrandDisabled: Color.lerp(backgroundBrandDisabled, other.backgroundBrandDisabled, t)!,
       backgroundSecondaryDefault: Color.lerp(backgroundSecondaryDefault, other.backgroundSecondaryDefault, t)!,
       backgroundSecondarySubtle: Color.lerp(backgroundSecondarySubtle, other.backgroundSecondarySubtle, t)!,
       backgroundSecondarySubtlest: Color.lerp(backgroundSecondarySubtlest, other.backgroundSecondarySubtlest, t)!,
       backgroundSecondaryHovered: Color.lerp(backgroundSecondaryHovered, other.backgroundSecondaryHovered, t)!,
       backgroundSecondaryPressed: Color.lerp(backgroundSecondaryPressed, other.backgroundSecondaryPressed, t)!,
-      backgroundSecondaryDisabled: Color.lerp(backgroundSecondaryDisabled, other.backgroundSecondaryDisabled, t)!,
+      backgroundAccentDefault: Color.lerp(backgroundAccentDefault, other.backgroundAccentDefault, t)!,
+      backgroundAccentSubtle: Color.lerp(backgroundAccentSubtle, other.backgroundAccentSubtle, t)!,
+      backgroundAccentSubtlest: Color.lerp(backgroundAccentSubtlest, other.backgroundAccentSubtlest, t)!,
+      backgroundAccentHovered: Color.lerp(backgroundAccentHovered, other.backgroundAccentHovered, t)!,
+      backgroundAccentPressed: Color.lerp(backgroundAccentPressed, other.backgroundAccentPressed, t)!,
       backgroundSuccessDefault: Color.lerp(backgroundSuccessDefault, other.backgroundSuccessDefault, t)!,
       backgroundSuccessSubtle: Color.lerp(backgroundSuccessSubtle, other.backgroundSuccessSubtle, t)!,
       backgroundSuccessSubtlest: Color.lerp(backgroundSuccessSubtlest, other.backgroundSuccessSubtlest, t)!,
       backgroundSuccessHovered: Color.lerp(backgroundSuccessHovered, other.backgroundSuccessHovered, t)!,
       backgroundSuccessPressed: Color.lerp(backgroundSuccessPressed, other.backgroundSuccessPressed, t)!,
-      backgroundSuccessDisabled: Color.lerp(backgroundSuccessDisabled, other.backgroundSuccessDisabled, t)!,
       backgroundErrorDefault: Color.lerp(backgroundErrorDefault, other.backgroundErrorDefault, t)!,
       backgroundErrorSubtle: Color.lerp(backgroundErrorSubtle, other.backgroundErrorSubtle, t)!,
       backgroundErrorSubtlest: Color.lerp(backgroundErrorSubtlest, other.backgroundErrorSubtlest, t)!,
       backgroundErrorHovered: Color.lerp(backgroundErrorHovered, other.backgroundErrorHovered, t)!,
       backgroundErrorPressed: Color.lerp(backgroundErrorPressed, other.backgroundErrorPressed, t)!,
-      backgroundErrorDisabled: Color.lerp(backgroundErrorDisabled, other.backgroundErrorDisabled, t)!,
       backgroundWarningDefault: Color.lerp(backgroundWarningDefault, other.backgroundWarningDefault, t)!,
       backgroundWarningSubtle: Color.lerp(backgroundWarningSubtle, other.backgroundWarningSubtle, t)!,
       backgroundWarningSubtlest: Color.lerp(backgroundWarningSubtlest, other.backgroundWarningSubtlest, t)!,
       backgroundWarningHovered: Color.lerp(backgroundWarningHovered, other.backgroundWarningHovered, t)!,
       backgroundWarningPressed: Color.lerp(backgroundWarningPressed, other.backgroundWarningPressed, t)!,
-      backgroundWarningDisabled: Color.lerp(backgroundWarningDisabled, other.backgroundWarningDisabled, t)!,
       backgroundInfoDefault: Color.lerp(backgroundInfoDefault, other.backgroundInfoDefault, t)!,
       backgroundInfoSubtle: Color.lerp(backgroundInfoSubtle, other.backgroundInfoSubtle, t)!,
       backgroundInfoSubtlest: Color.lerp(backgroundInfoSubtlest, other.backgroundInfoSubtlest, t)!,
       backgroundInfoHovered: Color.lerp(backgroundInfoHovered, other.backgroundInfoHovered, t)!,
       backgroundInfoPressed: Color.lerp(backgroundInfoPressed, other.backgroundInfoPressed, t)!,
-      backgroundInfoDisabled: Color.lerp(backgroundInfoDisabled, other.backgroundInfoDisabled, t)!,
+      backgroundDisabled: Color.lerp(backgroundDisabled, other.backgroundDisabled, t)!,
       textDefault: Color.lerp(textDefault, other.textDefault, t)!,
       textSubtle: Color.lerp(textSubtle, other.textSubtle, t)!,
       textSubtlest: Color.lerp(textSubtlest, other.textSubtlest, t)!,
@@ -1132,12 +1287,14 @@ class BwColors extends ThemeExtension<BwColors> {
       textDisabled: Color.lerp(textDisabled, other.textDisabled, t)!,
       textRoleBrand: Color.lerp(textRoleBrand, other.textRoleBrand, t)!,
       textRoleSecondary: Color.lerp(textRoleSecondary, other.textRoleSecondary, t)!,
+      textRoleAccent: Color.lerp(textRoleAccent, other.textRoleAccent, t)!,
       textRoleSuccess: Color.lerp(textRoleSuccess, other.textRoleSuccess, t)!,
       textRoleError: Color.lerp(textRoleError, other.textRoleError, t)!,
       textRoleWarning: Color.lerp(textRoleWarning, other.textRoleWarning, t)!,
       textRoleInfo: Color.lerp(textRoleInfo, other.textRoleInfo, t)!,
       textOnBrand: Color.lerp(textOnBrand, other.textOnBrand, t)!,
       textOnSecondary: Color.lerp(textOnSecondary, other.textOnSecondary, t)!,
+      textOnAccent: Color.lerp(textOnAccent, other.textOnAccent, t)!,
       textOnSuccess: Color.lerp(textOnSuccess, other.textOnSuccess, t)!,
       textOnError: Color.lerp(textOnError, other.textOnError, t)!,
       textOnWarning: Color.lerp(textOnWarning, other.textOnWarning, t)!,
@@ -1149,12 +1306,14 @@ class BwColors extends ThemeExtension<BwColors> {
       iconDisabled: Color.lerp(iconDisabled, other.iconDisabled, t)!,
       iconRoleBrand: Color.lerp(iconRoleBrand, other.iconRoleBrand, t)!,
       iconRoleSecondary: Color.lerp(iconRoleSecondary, other.iconRoleSecondary, t)!,
+      iconRoleAccent: Color.lerp(iconRoleAccent, other.iconRoleAccent, t)!,
       iconRoleSuccess: Color.lerp(iconRoleSuccess, other.iconRoleSuccess, t)!,
       iconRoleError: Color.lerp(iconRoleError, other.iconRoleError, t)!,
       iconRoleWarning: Color.lerp(iconRoleWarning, other.iconRoleWarning, t)!,
       iconRoleInfo: Color.lerp(iconRoleInfo, other.iconRoleInfo, t)!,
       iconOnBrand: Color.lerp(iconOnBrand, other.iconOnBrand, t)!,
       iconOnSecondary: Color.lerp(iconOnSecondary, other.iconOnSecondary, t)!,
+      iconOnAccent: Color.lerp(iconOnAccent, other.iconOnAccent, t)!,
       iconOnSuccess: Color.lerp(iconOnSuccess, other.iconOnSuccess, t)!,
       iconOnError: Color.lerp(iconOnError, other.iconOnError, t)!,
       iconOnWarning: Color.lerp(iconOnWarning, other.iconOnWarning, t)!,
@@ -1162,34 +1321,52 @@ class BwColors extends ThemeExtension<BwColors> {
       borderDefault: Color.lerp(borderDefault, other.borderDefault, t)!,
       borderSubtle: Color.lerp(borderSubtle, other.borderSubtle, t)!,
       borderStrong: Color.lerp(borderStrong, other.borderStrong, t)!,
+      borderBold: Color.lerp(borderBold, other.borderBold, t)!,
       borderDisabled: Color.lerp(borderDisabled, other.borderDisabled, t)!,
+      borderFocus: Color.lerp(borderFocus, other.borderFocus, t)!,
+      borderInverse: Color.lerp(borderInverse, other.borderInverse, t)!,
       borderBrand: Color.lerp(borderBrand, other.borderBrand, t)!,
       borderSecondary: Color.lerp(borderSecondary, other.borderSecondary, t)!,
+      borderAccent: Color.lerp(borderAccent, other.borderAccent, t)!,
       borderSuccess: Color.lerp(borderSuccess, other.borderSuccess, t)!,
       borderError: Color.lerp(borderError, other.borderError, t)!,
       borderWarning: Color.lerp(borderWarning, other.borderWarning, t)!,
       borderInfo: Color.lerp(borderInfo, other.borderInfo, t)!,
-      borderInverse: Color.lerp(borderInverse, other.borderInverse, t)!,
-      borderInputDefault: Color.lerp(borderInputDefault, other.borderInputDefault, t)!,
-      borderInputError: Color.lerp(borderInputError, other.borderInputError, t)!,
-      borderInputHovered: Color.lerp(borderInputHovered, other.borderInputHovered, t)!,
-      borderFocus: Color.lerp(borderFocus, other.borderFocus, t)!,
       linkDefault: Color.lerp(linkDefault, other.linkDefault, t)!,
+      linkHovered: Color.lerp(linkHovered, other.linkHovered, t)!,
       linkPressed: Color.lerp(linkPressed, other.linkPressed, t)!,
       linkVisited: Color.lerp(linkVisited, other.linkVisited, t)!,
-      linkHovered: Color.lerp(linkHovered, other.linkHovered, t)!,
-      overlayBackdrop: Color.lerp(overlayBackdrop, other.overlayBackdrop, t)!,
-      overlayScrim: Color.lerp(overlayScrim, other.overlayScrim, t)!,
-      overlaySubtle: Color.lerp(overlaySubtle, other.overlaySubtle, t)!,
-      overlayBrand: Color.lerp(overlayBrand, other.overlayBrand, t)!,
-      overlaySecondary: Color.lerp(overlaySecondary, other.overlaySecondary, t)!,
-      overlaySuccess: Color.lerp(overlaySuccess, other.overlaySuccess, t)!,
-      overlayError: Color.lerp(overlayError, other.overlayError, t)!,
-      overlayWarning: Color.lerp(overlayWarning, other.overlayWarning, t)!,
-      overlayInfo: Color.lerp(overlayInfo, other.overlayInfo, t)!,
-      overlayPressed: Color.lerp(overlayPressed, other.overlayPressed, t)!,
-      overlayHovered: Color.lerp(overlayHovered, other.overlayHovered, t)!,
+      overlayDefault: Color.lerp(overlayDefault, other.overlayDefault, t)!,
       shadowAmbient: Color.lerp(shadowAmbient, other.shadowAmbient, t)!,
+      dataCategorical1: Color.lerp(dataCategorical1, other.dataCategorical1, t)!,
+      dataCategorical2: Color.lerp(dataCategorical2, other.dataCategorical2, t)!,
+      dataCategorical3: Color.lerp(dataCategorical3, other.dataCategorical3, t)!,
+      dataCategorical4: Color.lerp(dataCategorical4, other.dataCategorical4, t)!,
+      dataCategorical5: Color.lerp(dataCategorical5, other.dataCategorical5, t)!,
+      dataCategorical6: Color.lerp(dataCategorical6, other.dataCategorical6, t)!,
+      dataCategorical7: Color.lerp(dataCategorical7, other.dataCategorical7, t)!,
+      dataCategorical8: Color.lerp(dataCategorical8, other.dataCategorical8, t)!,
+      dataSequential1: Color.lerp(dataSequential1, other.dataSequential1, t)!,
+      dataSequential2: Color.lerp(dataSequential2, other.dataSequential2, t)!,
+      dataSequential3: Color.lerp(dataSequential3, other.dataSequential3, t)!,
+      dataSequential4: Color.lerp(dataSequential4, other.dataSequential4, t)!,
+      dataSequential5: Color.lerp(dataSequential5, other.dataSequential5, t)!,
+      dataTag1Background: Color.lerp(dataTag1Background, other.dataTag1Background, t)!,
+      dataTag1Text: Color.lerp(dataTag1Text, other.dataTag1Text, t)!,
+      dataTag2Background: Color.lerp(dataTag2Background, other.dataTag2Background, t)!,
+      dataTag2Text: Color.lerp(dataTag2Text, other.dataTag2Text, t)!,
+      dataTag3Background: Color.lerp(dataTag3Background, other.dataTag3Background, t)!,
+      dataTag3Text: Color.lerp(dataTag3Text, other.dataTag3Text, t)!,
+      dataTag4Background: Color.lerp(dataTag4Background, other.dataTag4Background, t)!,
+      dataTag4Text: Color.lerp(dataTag4Text, other.dataTag4Text, t)!,
+      dataTag5Background: Color.lerp(dataTag5Background, other.dataTag5Background, t)!,
+      dataTag5Text: Color.lerp(dataTag5Text, other.dataTag5Text, t)!,
+      dataTag6Background: Color.lerp(dataTag6Background, other.dataTag6Background, t)!,
+      dataTag6Text: Color.lerp(dataTag6Text, other.dataTag6Text, t)!,
+      dataTag7Background: Color.lerp(dataTag7Background, other.dataTag7Background, t)!,
+      dataTag7Text: Color.lerp(dataTag7Text, other.dataTag7Text, t)!,
+      dataTag8Background: Color.lerp(dataTag8Background, other.dataTag8Background, t)!,
+      dataTag8Text: Color.lerp(dataTag8Text, other.dataTag8Text, t)!,
     );
   }
 }

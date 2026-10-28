@@ -447,11 +447,11 @@ class _BwSplitButtonState extends State<BwSplitButton> {
       ),
       overlayColor: WidgetStateProperty.resolveWith<Color>((states) {
         if (states.contains(WidgetState.pressed)) {
-          return colors.overlayPressed;
+          return colors.backgroundTransparentPressed;
         }
         if (states.contains(WidgetState.hovered) ||
             states.contains(WidgetState.focused)) {
-          return colors.overlayHovered;
+          return colors.backgroundTransparentHovered;
         }
         return colors.backgroundTransparentDefault;
       }),

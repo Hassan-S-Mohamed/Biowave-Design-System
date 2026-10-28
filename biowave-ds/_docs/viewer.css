@@ -576,7 +576,7 @@ a:focus-visible,
 .demo-control.tonal:hover,
 .demo-control.outlined:hover,
 .demo-control.text:hover {
-  background-image: linear-gradient(var(--bw-color-overlay-hovered), var(--bw-color-overlay-hovered));
+  background-image: linear-gradient(var(--bw-color-background-transparent-hovered), var(--bw-color-background-transparent-hovered));
 }
 
 .demo-control.outlined {
@@ -613,7 +613,7 @@ a:focus-visible,
 
 .demo-control[disabled],
 .demo-control.is-disabled {
-  --control-bg: var(--bw-color-background-neutral-disabled);
+  --control-bg: var(--bw-color-background-disabled);
   --control-border: var(--bw-color-border-disabled);
   --control-fg: var(--bw-color-text-disabled);
   cursor: not-allowed;
@@ -1052,16 +1052,16 @@ a:focus-visible,
 .demo-control[data-v='filled']:not([disabled]):active,
 .demo-control[data-v='filled'].is-pressed { --control-bg: var(--f-bg-pressed); }
 .demo-control[data-v]:not([data-v='filled']):not([disabled]):hover,
-.demo-control[data-v]:not([data-v='filled']).is-hover { background-image: linear-gradient(var(--bw-color-overlay-hovered), var(--bw-color-overlay-hovered)); }
+.demo-control[data-v]:not([data-v='filled']).is-hover { background-image: linear-gradient(var(--bw-color-background-transparent-hovered), var(--bw-color-background-transparent-hovered)); }
 .demo-control[data-v]:not([data-v='filled']):not([disabled]):active,
-.demo-control[data-v]:not([data-v='filled']).is-pressed { background-image: linear-gradient(var(--bw-color-overlay-pressed), var(--bw-color-overlay-pressed)); }
+.demo-control[data-v]:not([data-v='filled']).is-pressed { background-image: linear-gradient(var(--bw-color-background-transparent-pressed), var(--bw-color-background-transparent-pressed)); }
 
 .demo-control[data-v] .demo-icon { color: var(--control-icon); }
 .demo-control[data-v].is-selected { --control-bg: var(--t-bg); --control-fg: var(--r-icon); --control-icon: var(--r-icon); }
 
 .demo-control[data-v][disabled] { --control-fg: var(--bw-color-text-disabled); --control-icon: var(--bw-color-icon-disabled); background-image: none; }
 .demo-control[data-v='filled'][disabled],
-.demo-control[data-v='tonal'][disabled] { --control-bg: var(--bw-color-background-neutral-disabled); --control-border: transparent; }
+.demo-control[data-v='tonal'][disabled] { --control-bg: var(--bw-color-background-disabled); --control-border: transparent; }
 .demo-control[data-v='outlined'][disabled] { --control-bg: var(--bw-color-background-transparent-default); --control-border: var(--bw-color-border-disabled); }
 .demo-control[data-v='text'][disabled] { --control-bg: var(--bw-color-background-transparent-default); --control-border: transparent; }
 
@@ -1591,7 +1591,7 @@ a:focus-visible,
 }
 .demo-field.is-disabled .demo-field-label,
 .demo-field.is-disabled input { color: var(--bw-color-text-disabled); }
-.demo-field.is-disabled .demo-field-box { border-color: var(--bw-color-border-disabled); background: var(--bw-color-background-neutral-disabled); }
+.demo-field.is-disabled .demo-field-box { border-color: var(--bw-color-border-disabled); background: var(--bw-color-background-disabled); }
 .demo-field-helper {
   display: flex;
   justify-content: space-between;

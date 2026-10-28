@@ -85,7 +85,7 @@ export const textFieldSizeTokens: Record<TextFieldSize, TextFieldSizeTokens> = {
 
 const defaultState: TextFieldStateTokens = {
   background: cssVars.color.background.base.default,
-  border: cssVars.color.border.input.default,
+  border: cssVars.color.border.bold,
   borderWidth: cssVars.border.width.default,
   label: cssVars.color.text.default,
   input: cssVars.color.text.default,
@@ -103,7 +103,7 @@ export const textFieldStateTokens: Record<TextFieldState, TextFieldStateTokens> 
   default: defaultState,
   hover: {
     ...defaultState,
-    border: cssVars.color.border.input.hovered,
+    background: cssVars.color.background.base.hovered,
   },
   focus: {
     ...defaultState,
@@ -113,12 +113,12 @@ export const textFieldStateTokens: Record<TextFieldState, TextFieldStateTokens> 
   },
   error: {
     ...defaultState,
-    border: cssVars.color.border.input.error,
+    border: cssVars.color.border.error,
     supporting: cssVars.color.text.role.error,
     counter: cssVars.color.text.role.error,
   },
   disabled: {
-    background: cssVars.color.background.base.disabled,
+    background: cssVars.color.background.disabled,
     border: cssVars.color.border.disabled,
     borderWidth: cssVars.border.width.default,
     label: cssVars.color.text.disabled,
@@ -128,7 +128,7 @@ export const textFieldStateTokens: Record<TextFieldState, TextFieldStateTokens> 
     supporting: cssVars.color.text.disabled,
     counter: cssVars.color.text.disabled,
     required: cssVars.color.text.disabled,
-    addonBackground: cssVars.color.background.base.disabled,
+    addonBackground: cssVars.color.background.disabled,
     addonText: cssVars.color.text.disabled,
     errorIcon: cssVars.color.icon.disabled,
   },

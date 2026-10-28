@@ -2,6 +2,36 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Foundations — Semantic colour tokens 2.1] — 2026-10-28
+### Added
+- `color-background-selected-default · hovered · pressed` (primary 50 · 100 · 200 / dark 600 · 500 · 400): one selection fill for table rows, list/menu items, active nav, tabs, chips, cards. Text on it stays `text-default` or `text-role-brand` (no text/icon selected tokens — the role token does the job).
+- **Accent role** (orange, separate from warning; raw hex until a primitive ramp exists): `background-accent-default · subtle · subtlest · hovered · pressed`, `text/icon-role-accent`, `text/icon-on-accent`, `border-accent`. Flutter maps it to Material 3 `tertiary` / `tertiaryContainer` (was info).
+- **`color-data-*`** group (raw hex): `categorical-1…8` (fixed order: brand blue · gold · rose · teal · orange · violet · magenta · olive), `sequential-1…5` (brand blue, light→dark), `tag-1…8-background / -text` for tags and avatars. Validated with the dataviz checks in both themes (lightness band, chroma ≥ 0.10, adjacent CVD ΔE ≥ 8, normal-vision ΔE ≥ 15, marks ≥ 3:1 on page and default surfaces, first 3 slots pass all-pairs for scatter/map); tag labels ≥ 4.5:1.
+- `color-border-bold` (n500 / n400, ≥ 3:1): the control boundary, replacing the input-only group.
+- `2-foundations/scripts/foundations-md.mjs`: `tokens/Biowave Foundations.md` is now generated on every `npm run tokens` (old hand-made file deleted).
+- `_sync/figma-apply-tokens.template.js` recreated (it had never been committed: `.gitignore` rule `figma-apply-*.js` matched it). Negation rule added in both `.gitignore` files.
+- Contrast pairs: 201 per theme (402 checks, all pass).
+### Changed
+- **One disabled fill:** `color-background-disabled` replaces `base-, neutral-, brand-, secondary-, success-, error-, warning-, info-disabled`. `background-transparent-disabled` removed — a disabled ghost control stays `background-transparent-default`.
+- **Overlay is one token:** `color-overlay-default` (was `overlay-backdrop`). `overlay-hovered/pressed/subtle` merged into `background-transparent-hovered/pressed` (identical values); `overlay-scrim` → `overlay-default`; `overlay-brand` → `background-selected-default`; role overlays removed.
+- **Borders:** input group removed (`border-input-default` → `border-bold`, `-error` → `border-error`, `-hovered` → `border-bold`). Role borders now ≥ 3:1 (light 500–700 steps, dark 300). Every border, link, overlay and shadow token has a description.
+- `color-link-visited` → error 700 / 300 (was identical to hovered).
+- Dark `text/icon-role-brand` → primary 100 (keeps 4.5:1 on the selected fills).
+- **Text field:** hover keeps `border-bold` and changes the fill to `background-base-hovered` (Atlassian pattern) — web code, test and spec B3.
+- **MUI:** `action.hover` → `background-transparent-hovered` (was `overlay-subtle`, a different dark value), `action.selected` → `background-selected-default`, `focus` → `background-transparent-pressed`, `disabledBackground` → `background-disabled`.
+- **Flutter M3:** `tertiary*` = accent; container ladder fixed (`surfaceContainerLowest` = page in dark, `surfaceContainerHighest` = `background-base-subtle`); `hoverColor`/`focusColor` = transparent hovered/pressed.
+- Figma Foundations: renamed in place (`overlay/backdrop`, `border/input/default`, `background/base/disabled` keep their IDs), 42 created, 20 moved to `_deprecated/` and aliased to their replacement, descriptions on all 145 colour variables, verified value by value.
+
+### Migration map
+| Old | New |
+|---|---|
+| `color-background-{base,neutral,brand,secondary,success,error,warning,info}-disabled` | `color-background-disabled` |
+| `color-background-transparent-disabled` | `color-background-transparent-default` |
+| `color-overlay-backdrop` · `color-overlay-scrim` | `color-overlay-default` |
+| `color-overlay-hovered` · `-pressed` · `-subtle` | `color-background-transparent-hovered` · `-pressed` · `-hovered` |
+| `color-overlay-brand` | `color-background-selected-default` |
+| `color-border-input-default` · `-hovered` · `-error` | `color-border-bold` · `color-border-bold` · `color-border-error` |
+
 ## [Foundations — Semantic colour tokens 2.0] — 2026-10-27
 ### Changed
 - **Surface vs Background documented and tagged.** New section *Surface vs Background — read this first* in `guidelines/colors.md`. Every surface description starts with `[Surface · static, no states]`, every background description with `[Background · interactive, has states]`; usage descriptions name the components per platform. Group descriptions updated.

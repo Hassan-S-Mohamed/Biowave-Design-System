@@ -118,7 +118,7 @@
           "$value": "{color.background.base.default}"
         },
         "border": {
-          "$value": "{color.border.input.default}"
+          "$value": "{color.border.bold}"
         },
         "border-width": {
           "$value": "{border.width.default}"
@@ -156,10 +156,10 @@
       },
       "hover": {
         "background": {
-          "$value": "{color.background.base.default}"
+          "$value": "{color.background.base.hovered}"
         },
         "border": {
-          "$value": "{color.border.input.hovered}"
+          "$value": "{color.border.bold}"
         },
         "border-width": {
           "$value": "{border.width.default}"
@@ -241,7 +241,7 @@
           "$value": "{color.background.base.default}"
         },
         "border": {
-          "$value": "{color.border.input.error}"
+          "$value": "{color.border.error}"
         },
         "border-width": {
           "$value": "{border.width.default}"
@@ -279,7 +279,7 @@
       },
       "disabled": {
         "background": {
-          "$value": "{color.background.base.disabled}"
+          "$value": "{color.background.disabled}"
         },
         "border": {
           "$value": "{color.border.disabled}"
@@ -309,7 +309,7 @@
           "$value": "{color.text.disabled}"
         },
         "addon-background": {
-          "$value": "{color.background.base.disabled}"
+          "$value": "{color.background.disabled}"
         },
         "addon-text": {
           "$value": "{color.text.disabled}"

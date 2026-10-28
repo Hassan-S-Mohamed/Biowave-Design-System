@@ -25,7 +25,7 @@ abstract final class BwButtonStyle {
         return switch (variant) {
           BwButtonVariant.filled ||
           BwButtonVariant.tonal =>
-            colors.backgroundNeutralDisabled,
+            colors.backgroundDisabled,
           BwButtonVariant.outlined || BwButtonVariant.text => transparent,
         };
       }
@@ -68,10 +68,10 @@ abstract final class BwButtonStyle {
         return transparent;
       }
       if (states.contains(WidgetState.pressed)) {
-        return colors.overlayPressed;
+        return colors.backgroundTransparentPressed;
       }
       if (states.contains(WidgetState.hovered)) {
-        return colors.overlayHovered;
+        return colors.backgroundTransparentHovered;
       }
       return transparent;
     }

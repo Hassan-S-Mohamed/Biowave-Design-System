@@ -29,14 +29,14 @@ export interface ButtonVisualTokens {
   };
 }
 
-const disabledBackground = cssVars.color.background.neutral.disabled;
+const disabledBackground = cssVars.color.background.disabled;
 const transparentBackground = cssVars.color.background.transparent.default;
 const disabledLabel = cssVars.color.text.disabled;
 const disabledIcon = cssVars.color.icon.disabled;
 const disabledBorder = cssVars.color.border.disabled;
 const stateLayer = {
-  hover: cssVars.color.overlay.hovered,
-  pressed: cssVars.color.overlay.pressed,
+  hover: cssVars.color.background.transparent.hovered,
+  pressed: cssVars.color.background.transparent.pressed,
 } as const;
 
 function filled(

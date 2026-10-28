@@ -223,12 +223,12 @@ Exactly [Button B3.1–B3.5](../button/button.md#b3-tokens-by-part-and-state) fo
 #### 3.2 Selected (`toggle` + `selected`, text and outlined only)
 | `color` | `container` background | State layer · Hover / Pressed | `icon` | `container` border (outlined) |
 |---|---|---|---|---|
-| `brand` | `color-background-brand-subtle` | `color-overlay-hovered` / `color-overlay-pressed` | `color-icon-role-brand` | `color-border-brand` |
+| `brand` | `color-background-brand-subtle` | `color-background-transparent-hovered` / `color-background-transparent-pressed` | `color-icon-role-brand` | `color-border-brand` |
 | `secondary` | `color-background-secondary-subtle` | same | `color-icon-role-secondary` | `color-border-secondary` |
 | `error` | `color-background-error-subtle` | same | `color-icon-role-error` | `color-border-error` |
 | `neutral` | `color-background-neutral-default` | same | `color-icon-default` | `color-border-strong` |
 | `inverse` | `color-background-inverse-default` | same | `color-icon-role-brand` | `color-border-inverse` |
-| Disabled | `color-background-neutral-disabled` | — | `color-icon-disabled` | `color-border-disabled` |
+| Disabled | `color-background-disabled` | — | `color-icon-disabled` | `color-border-disabled` |
 
 #### 3.3 Focus
 As Button B3.5 (`inverse` uses `color-border-inverse`).

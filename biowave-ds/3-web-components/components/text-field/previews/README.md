@@ -10,13 +10,13 @@ All dimensions are web pixels. Typography rows use the English value first and t
 |---|---:|---:|
 | `color-surface-page` | `#F7F7F7` | `#0A0A0A` |
 | `color-background-base-default` | `#FFFFFF` | `#141414` |
-| `color-background-base-disabled` | `#EDEDED` | `#292929` |
+| `color-background-disabled` | `#EDEDED` | `#292929` |
 | `color-background-neutral-default` | `#EDEDED` | `#292929` |
 | `color-background-base-subtlest` | `#F7F7F7` | `#141414` |
-| `color-border-input-default` | `#707070` | `#969696` |
-| `color-border-input-hovered` | `#404040` | `#BDBDBD` |
+| `color-border-bold` | `#707070` | `#969696` |
+| `color-border-bold` | `#404040` | `#BDBDBD` |
 | `color-border-focus` | `#254471` | `#90A3BC` |
-| `color-border-input-error` | `#D42222` | `#FF7676` |
+| `color-border-error` | `#D42222` | `#FF7676` |
 | `color-border-disabled` | `#DBDBDB` | `#404040` |
 | `color-border-default` | `#DBDBDB` | `#404040` |
 | `color-text-default` | `#0A0A0A` | `#F7F7F7` |

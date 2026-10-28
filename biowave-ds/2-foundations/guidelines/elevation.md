@@ -18,4 +18,4 @@ Light shadows are tinted navy (`primary/900`); dark shadows are black.
 - Use the whole token; never copy individual shadow values.
 - Do not stack elevation inside elevation (no shadowed card inside a dialog).
 - Flutter `BoxShadow` has no inset: `shadowControl` exposes only its drop layer; draw the inner edge with a 1px border using `color-border-subtle` if needed.
-- Overlays behind dialogs: `color-overlay-backdrop`.
+- Overlays behind dialogs: `color-overlay-default`.

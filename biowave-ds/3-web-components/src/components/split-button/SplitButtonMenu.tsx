@@ -47,15 +47,15 @@ const StyledMenuItem = styled(MuiMenuItem)(() => ({
   backgroundImage: 'none',
   '&:hover': {
     backgroundColor: cssVars.color.surface.raised,
-    backgroundImage: stateLayer(cssVars.color.overlay.hovered),
+    backgroundImage: stateLayer(cssVars.color.background.transparent.hovered),
   },
   '&:active': {
     backgroundColor: cssVars.color.surface.raised,
-    backgroundImage: stateLayer(cssVars.color.overlay.pressed),
+    backgroundImage: stateLayer(cssVars.color.background.transparent.pressed),
   },
   '&:focus-visible, &.Mui-focusVisible': {
     backgroundColor: cssVars.color.surface.raised,
-    backgroundImage: stateLayer(cssVars.color.overlay.hovered),
+    backgroundImage: stateLayer(cssVars.color.background.transparent.hovered),
     boxShadow: `inset 0 0 0 ${cssVars.border.width.focus} ${cssVars.color.border.focus}`,
   },
   '&.Mui-disabled': {

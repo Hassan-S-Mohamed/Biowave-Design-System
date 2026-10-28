@@ -15,7 +15,7 @@ These images are a review sketch. The plan remains the source of truth. Values b
 | `color.background.secondary.default` | `#0C5F79` | `#5DA8C2` |
 | `color.background.secondary.subtle` | `#E8F4F8` | `#032A37` |
 | `color.background.neutral.default` | `#EDEDED` | `#292929` |
-| `color.background.neutral.disabled` | `#EDEDED` | `#292929` |
+| `color.background.disabled` | `#EDEDED` | `#292929` |
 | `color.background.error.default` | `#D42222` | `#FF7676` |
 | `color.background.error.subtle` | `#FEF0EE` | `#721212` |
 | `color.background.inverse.default` | `#FFFFFF` | `#0A0A0A` |

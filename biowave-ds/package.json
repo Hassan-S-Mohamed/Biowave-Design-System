@@ -9,7 +9,7 @@
   "scripts": {
     "start": "npm run docs:build && vite --config _docs/vite.config.mjs",
     "dev": "npm start",
-    "tokens": "node 2-foundations/scripts/build.mjs && node 2-foundations/scripts/preview.mjs && node _sync/sync.mjs stamp",
+    "tokens": "node 2-foundations/scripts/build.mjs && node 2-foundations/scripts/preview.mjs && node 2-foundations/scripts/foundations-md.mjs && node _sync/sync.mjs stamp",
     "docs": "npm start",
     "docs:static": "node _docs/server.mjs",
     "preview:components": "npm start",

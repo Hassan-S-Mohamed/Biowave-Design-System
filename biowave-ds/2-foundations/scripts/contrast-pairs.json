@@ -38,7 +38,7 @@
       "note": "WCAG 1.4.11 meaningful icon"
     },
     {
-      "fg": "color.border.input.default",
+      "fg": "color.border.bold",
       "bg": "color.surface.default",
       "min": 3,
       "note": "WCAG 1.4.11 control boundary"
@@ -86,7 +86,7 @@
       "note": "WCAG 1.4.11 meaningful icon"
     },
     {
-      "fg": "color.border.input.default",
+      "fg": "color.border.bold",
       "bg": "color.surface.page",
       "min": 3,
       "note": "WCAG 1.4.11 control boundary"
@@ -134,7 +134,7 @@
       "note": "WCAG 1.4.11 meaningful icon"
     },
     {
-      "fg": "color.border.input.default",
+      "fg": "color.border.bold",
       "bg": "color.surface.subtle",
       "min": 3,
       "note": "WCAG 1.4.11 control boundary"
@@ -182,7 +182,7 @@
       "note": "WCAG 1.4.11 meaningful icon"
     },
     {
-      "fg": "color.border.input.default",
+      "fg": "color.border.bold",
       "bg": "color.surface.raised",
       "min": 3,
       "note": "WCAG 1.4.11 control boundary"
@@ -738,6 +738,474 @@
       "bg": "color.background.neutral.hovered",
       "min": 4.5,
       "note": "label on neutral filled control (2026-10-27)"
+    },
+    {
+      "fg": "color.text.default",
+      "bg": "color.background.selected.default",
+      "min": 4.5,
+      "note": "text on selected item (2026-10-28)"
+    },
+    {
+      "fg": "color.icon.default",
+      "bg": "color.background.selected.default",
+      "min": 3,
+      "note": "icon on selected item (2026-10-28)"
+    },
+    {
+      "fg": "color.text.on.accent",
+      "bg": "color.background.accent.default",
+      "min": 4.5,
+      "note": "label on accent fill (2026-10-28)"
+    },
+    {
+      "fg": "color.icon.on.accent",
+      "bg": "color.background.accent.default",
+      "min": 3,
+      "note": "icon on accent fill (2026-10-28)"
+    },
+    {
+      "fg": "color.text.default",
+      "bg": "color.background.selected.hovered",
+      "min": 4.5,
+      "note": "text on selected item (2026-10-28)"
+    },
+    {
+      "fg": "color.icon.default",
+      "bg": "color.background.selected.hovered",
+      "min": 3,
+      "note": "icon on selected item (2026-10-28)"
+    },
+    {
+      "fg": "color.text.on.accent",
+      "bg": "color.background.accent.hovered",
+      "min": 4.5,
+      "note": "label on accent fill (2026-10-28)"
+    },
+    {
+      "fg": "color.icon.on.accent",
+      "bg": "color.background.accent.hovered",
+      "min": 3,
+      "note": "icon on accent fill (2026-10-28)"
+    },
+    {
+      "fg": "color.text.default",
+      "bg": "color.background.selected.pressed",
+      "min": 4.5,
+      "note": "text on selected item (2026-10-28)"
+    },
+    {
+      "fg": "color.icon.default",
+      "bg": "color.background.selected.pressed",
+      "min": 3,
+      "note": "icon on selected item (2026-10-28)"
+    },
+    {
+      "fg": "color.text.on.accent",
+      "bg": "color.background.accent.pressed",
+      "min": 4.5,
+      "note": "label on accent fill (2026-10-28)"
+    },
+    {
+      "fg": "color.icon.on.accent",
+      "bg": "color.background.accent.pressed",
+      "min": 3,
+      "note": "icon on accent fill (2026-10-28)"
+    },
+    {
+      "fg": "color.text.role.brand",
+      "bg": "color.background.selected.default",
+      "min": 4.5,
+      "note": "brand label on selected item (2026-10-28)"
+    },
+    {
+      "fg": "color.text.role.brand",
+      "bg": "color.background.selected.hovered",
+      "min": 4.5,
+      "note": "brand label on selected item (2026-10-28)"
+    },
+    {
+      "fg": "color.text.role.accent",
+      "bg": "color.background.accent.subtle",
+      "min": 4.5,
+      "note": "accent text on its tonal fill (2026-10-28)"
+    },
+    {
+      "fg": "color.text.role.accent",
+      "bg": "color.background.accent.subtlest",
+      "min": 4.5,
+      "note": "accent text on its tonal fill (2026-10-28)"
+    },
+    {
+      "fg": "color.text.role.accent",
+      "bg": "color.surface.page",
+      "min": 4.5,
+      "note": "accent text on surface (2026-10-28)"
+    },
+    {
+      "fg": "color.link.visited",
+      "bg": "color.surface.page",
+      "min": 4.5,
+      "note": "visited link (2026-10-28)"
+    },
+    {
+      "fg": "color.border.brand",
+      "bg": "color.surface.page",
+      "min": 3,
+      "note": "role border identifies a state (2026-10-28)"
+    },
+    {
+      "fg": "color.border.secondary",
+      "bg": "color.surface.page",
+      "min": 3,
+      "note": "role border identifies a state (2026-10-28)"
+    },
+    {
+      "fg": "color.border.accent",
+      "bg": "color.surface.page",
+      "min": 3,
+      "note": "role border identifies a state (2026-10-28)"
+    },
+    {
+      "fg": "color.border.success",
+      "bg": "color.surface.page",
+      "min": 3,
+      "note": "role border identifies a state (2026-10-28)"
+    },
+    {
+      "fg": "color.border.error",
+      "bg": "color.surface.page",
+      "min": 3,
+      "note": "role border identifies a state (2026-10-28)"
+    },
+    {
+      "fg": "color.border.warning",
+      "bg": "color.surface.page",
+      "min": 3,
+      "note": "role border identifies a state (2026-10-28)"
+    },
+    {
+      "fg": "color.border.info",
+      "bg": "color.surface.page",
+      "min": 3,
+      "note": "role border identifies a state (2026-10-28)"
+    },
+    {
+      "fg": "color.data.categorical.1",
+      "bg": "color.surface.page",
+      "min": 3,
+      "note": "chart mark (WCAG 1.4.11) (2026-10-28)"
+    },
+    {
+      "fg": "color.data.categorical.2",
+      "bg": "color.surface.page",
+      "min": 3,
+      "note": "chart mark (WCAG 1.4.11) (2026-10-28)"
+    },
+    {
+      "fg": "color.data.categorical.3",
+      "bg": "color.surface.page",
+      "min": 3,
+      "note": "chart mark (WCAG 1.4.11) (2026-10-28)"
+    },
+    {
+      "fg": "color.data.categorical.4",
+      "bg": "color.surface.page",
+      "min": 3,
+      "note": "chart mark (WCAG 1.4.11) (2026-10-28)"
+    },
+    {
+      "fg": "color.data.categorical.5",
+      "bg": "color.surface.page",
+      "min": 3,
+      "note": "chart mark (WCAG 1.4.11) (2026-10-28)"
+    },
+    {
+      "fg": "color.data.categorical.6",
+      "bg": "color.surface.page",
+      "min": 3,
+      "note": "chart mark (WCAG 1.4.11) (2026-10-28)"
+    },
+    {
+      "fg": "color.data.categorical.7",
+      "bg": "color.surface.page",
+      "min": 3,
+      "note": "chart mark (WCAG 1.4.11) (2026-10-28)"
+    },
+    {
+      "fg": "color.data.categorical.8",
+      "bg": "color.surface.page",
+      "min": 3,
+      "note": "chart mark (WCAG 1.4.11) (2026-10-28)"
+    },
+    {
+      "fg": "color.text.role.accent",
+      "bg": "color.surface.default",
+      "min": 4.5,
+      "note": "accent text on surface (2026-10-28)"
+    },
+    {
+      "fg": "color.link.visited",
+      "bg": "color.surface.default",
+      "min": 4.5,
+      "note": "visited link (2026-10-28)"
+    },
+    {
+      "fg": "color.border.brand",
+      "bg": "color.surface.default",
+      "min": 3,
+      "note": "role border identifies a state (2026-10-28)"
+    },
+    {
+      "fg": "color.border.secondary",
+      "bg": "color.surface.default",
+      "min": 3,
+      "note": "role border identifies a state (2026-10-28)"
+    },
+    {
+      "fg": "color.border.accent",
+      "bg": "color.surface.default",
+      "min": 3,
+      "note": "role border identifies a state (2026-10-28)"
+    },
+    {
+      "fg": "color.border.success",
+      "bg": "color.surface.default",
+      "min": 3,
+      "note": "role border identifies a state (2026-10-28)"
+    },
+    {
+      "fg": "color.border.error",
+      "bg": "color.surface.default",
+      "min": 3,
+      "note": "role border identifies a state (2026-10-28)"
+    },
+    {
+      "fg": "color.border.warning",
+      "bg": "color.surface.default",
+      "min": 3,
+      "note": "role border identifies a state (2026-10-28)"
+    },
+    {
+      "fg": "color.border.info",
+      "bg": "color.surface.default",
+      "min": 3,
+      "note": "role border identifies a state (2026-10-28)"
+    },
+    {
+      "fg": "color.data.categorical.1",
+      "bg": "color.surface.default",
+      "min": 3,
+      "note": "chart mark (WCAG 1.4.11) (2026-10-28)"
+    },
+    {
+      "fg": "color.data.categorical.2",
+      "bg": "color.surface.default",
+      "min": 3,
+      "note": "chart mark (WCAG 1.4.11) (2026-10-28)"
+    },
+    {
+      "fg": "color.data.categorical.3",
+      "bg": "color.surface.default",
+      "min": 3,
+      "note": "chart mark (WCAG 1.4.11) (2026-10-28)"
+    },
+    {
+      "fg": "color.data.categorical.4",
+      "bg": "color.surface.default",
+      "min": 3,
+      "note": "chart mark (WCAG 1.4.11) (2026-10-28)"
+    },
+    {
+      "fg": "color.data.categorical.5",
+      "bg": "color.surface.default",
+      "min": 3,
+      "note": "chart mark (WCAG 1.4.11) (2026-10-28)"
+    },
+    {
+      "fg": "color.data.categorical.6",
+      "bg": "color.surface.default",
+      "min": 3,
+      "note": "chart mark (WCAG 1.4.11) (2026-10-28)"
+    },
+    {
+      "fg": "color.data.categorical.7",
+      "bg": "color.surface.default",
+      "min": 3,
+      "note": "chart mark (WCAG 1.4.11) (2026-10-28)"
+    },
+    {
+      "fg": "color.data.categorical.8",
+      "bg": "color.surface.default",
+      "min": 3,
+      "note": "chart mark (WCAG 1.4.11) (2026-10-28)"
+    },
+    {
+      "fg": "color.text.role.accent",
+      "bg": "color.surface.raised",
+      "min": 4.5,
+      "note": "accent text on surface (2026-10-28)"
+    },
+    {
+      "fg": "color.link.visited",
+      "bg": "color.surface.raised",
+      "min": 4.5,
+      "note": "visited link (2026-10-28)"
+    },
+    {
+      "fg": "color.border.brand",
+      "bg": "color.surface.raised",
+      "min": 3,
+      "note": "role border identifies a state (2026-10-28)"
+    },
+    {
+      "fg": "color.border.secondary",
+      "bg": "color.surface.raised",
+      "min": 3,
+      "note": "role border identifies a state (2026-10-28)"
+    },
+    {
+      "fg": "color.border.accent",
+      "bg": "color.surface.raised",
+      "min": 3,
+      "note": "role border identifies a state (2026-10-28)"
+    },
+    {
+      "fg": "color.border.success",
+      "bg": "color.surface.raised",
+      "min": 3,
+      "note": "role border identifies a state (2026-10-28)"
+    },
+    {
+      "fg": "color.border.error",
+      "bg": "color.surface.raised",
+      "min": 3,
+      "note": "role border identifies a state (2026-10-28)"
+    },
+    {
+      "fg": "color.border.warning",
+      "bg": "color.surface.raised",
+      "min": 3,
+      "note": "role border identifies a state (2026-10-28)"
+    },
+    {
+      "fg": "color.border.info",
+      "bg": "color.surface.raised",
+      "min": 3,
+      "note": "role border identifies a state (2026-10-28)"
+    },
+    {
+      "fg": "color.data.categorical.1",
+      "bg": "color.surface.raised",
+      "min": 3,
+      "note": "chart mark (WCAG 1.4.11) (2026-10-28)"
+    },
+    {
+      "fg": "color.data.categorical.2",
+      "bg": "color.surface.raised",
+      "min": 3,
+      "note": "chart mark (WCAG 1.4.11) (2026-10-28)"
+    },
+    {
+      "fg": "color.data.categorical.3",
+      "bg": "color.surface.raised",
+      "min": 3,
+      "note": "chart mark (WCAG 1.4.11) (2026-10-28)"
+    },
+    {
+      "fg": "color.data.categorical.4",
+      "bg": "color.surface.raised",
+      "min": 3,
+      "note": "chart mark (WCAG 1.4.11) (2026-10-28)"
+    },
+    {
+      "fg": "color.data.categorical.5",
+      "bg": "color.surface.raised",
+      "min": 3,
+      "note": "chart mark (WCAG 1.4.11) (2026-10-28)"
+    },
+    {
+      "fg": "color.data.categorical.6",
+      "bg": "color.surface.raised",
+      "min": 3,
+      "note": "chart mark (WCAG 1.4.11) (2026-10-28)"
+    },
+    {
+      "fg": "color.data.categorical.7",
+      "bg": "color.surface.raised",
+      "min": 3,
+      "note": "chart mark (WCAG 1.4.11) (2026-10-28)"
+    },
+    {
+      "fg": "color.data.categorical.8",
+      "bg": "color.surface.raised",
+      "min": 3,
+      "note": "chart mark (WCAG 1.4.11) (2026-10-28)"
+    },
+    {
+      "fg": "color.border.bold",
+      "bg": "color.background.base.hovered",
+      "min": 3,
+      "note": "hovered control boundary (2026-10-28)"
+    },
+    {
+      "fg": "color.border.bold",
+      "bg": "color.background.base.subtle",
+      "min": 3,
+      "note": "control boundary on filled field (2026-10-28)"
+    },
+    {
+      "fg": "color.data.tag.1.text",
+      "bg": "color.data.tag.1.background",
+      "min": 4.5,
+      "note": "tag / avatar label (2026-10-28)"
+    },
+    {
+      "fg": "color.data.tag.2.text",
+      "bg": "color.data.tag.2.background",
+      "min": 4.5,
+      "note": "tag / avatar label (2026-10-28)"
+    },
+    {
+      "fg": "color.data.tag.3.text",
+      "bg": "color.data.tag.3.background",
+      "min": 4.5,
+      "note": "tag / avatar label (2026-10-28)"
+    },
+    {
+      "fg": "color.data.tag.4.text",
+      "bg": "color.data.tag.4.background",
+      "min": 4.5,
+      "note": "tag / avatar label (2026-10-28)"
+    },
+    {
+      "fg": "color.data.tag.5.text",
+      "bg": "color.data.tag.5.background",
+      "min": 4.5,
+      "note": "tag / avatar label (2026-10-28)"
+    },
+    {
+      "fg": "color.data.tag.6.text",
+      "bg": "color.data.tag.6.background",
+      "min": 4.5,
+      "note": "tag / avatar label (2026-10-28)"
+    },
+    {
+      "fg": "color.data.tag.7.text",
+      "bg": "color.data.tag.7.background",
+      "min": 4.5,
+      "note": "tag / avatar label (2026-10-28)"
+    },
+    {
+      "fg": "color.data.tag.8.text",
+      "bg": "color.data.tag.8.background",
+      "min": 4.5,
+      "note": "tag / avatar label (2026-10-28)"
+    },
+    {
+      "fg": "color.data.sequential.1",
+      "bg": "color.surface.default",
+      "min": 2,
+      "note": "sequential light end (dataviz ordinal floor) (2026-10-28)"
     }
   ]
 }

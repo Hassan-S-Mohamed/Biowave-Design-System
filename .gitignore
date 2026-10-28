@@ -123,4 +123,5 @@ biowave-ds/_sync/watch.log
 biowave-ds/_sync/status.txt
 biowave-ds/_sync/figma-pending.json
 biowave-ds/_sync/figma-apply-*.js
+!biowave-ds/_sync/figma-apply-tokens.template.js
 biowave-ds/_sync/.verify/

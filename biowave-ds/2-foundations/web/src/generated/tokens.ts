@@ -154,16 +154,14 @@ export const themes = {
         transparent: {
           default: "#54545400",
           hovered: "#5454541A",
-          pressed: "#54545433",
-          disabled: "#54545400"
+          pressed: "#54545433"
         },
         base: {
           default: "#FFFFFF",
           subtle: "#EDEDED",
           subtlest: "#F7F7F7",
           hovered: "#EDEDED",
-          pressed: "#DBDBDB",
-          disabled: "#EDEDED"
+          pressed: "#DBDBDB"
         },
         inverse: {
           default: "#FFFFFF",
@@ -173,57 +171,63 @@ export const themes = {
         neutral: {
           default: "#EDEDED",
           hovered: "#DBDBDB",
-          pressed: "#BDBDBD",
-          disabled: "#EDEDED"
+          pressed: "#BDBDBD"
+        },
+        selected: {
+          default: "#E8ECF2",
+          hovered: "#BEC9D9",
+          pressed: "#90A3BC"
         },
         brand: {
           default: "#193351",
           subtle: "#BEC9D9",
           subtlest: "#E8ECF2",
           hovered: "#132843",
-          pressed: "#0D1E33",
-          disabled: "#EDEDED"
+          pressed: "#0D1E33"
         },
         secondary: {
           default: "#0C5F79",
           subtle: "#C0DDE8",
           subtlest: "#E8F4F8",
           hovered: "#094E65",
-          pressed: "#063C4E",
-          disabled: "#EDEDED"
+          pressed: "#063C4E"
+        },
+        accent: {
+          default: "#C2410C",
+          subtle: "#FFEDD5",
+          subtlest: "#FFF7ED",
+          hovered: "#9A3412",
+          pressed: "#7C2D12"
         },
         success: {
           default: "#1E6D41",
           subtle: "#C1E8D2",
           subtlest: "#E9F7EF",
           hovered: "#165331",
-          pressed: "#0E3921",
-          disabled: "#EDEDED"
+          pressed: "#0E3921"
         },
         error: {
           default: "#D42222",
           subtle: "#FECFCF",
           subtlest: "#FEF0EE",
           hovered: "#A31A1A",
-          pressed: "#721212",
-          disabled: "#EDEDED"
+          pressed: "#721212"
         },
         warning: {
           default: "#FF9435",
           subtle: "#FFE0C0",
           subtlest: "#FFF3E8",
           hovered: "#FF8C32",
-          pressed: "#D97424",
-          disabled: "#EDEDED"
+          pressed: "#D97424"
         },
         info: {
           default: "#2559D4",
           subtle: "#CBDCFA",
           subtlest: "#EEF4FF",
           hovered: "#1D48AD",
-          pressed: "#153786",
-          disabled: "#EDEDED"
-        }
+          pressed: "#153786"
+        },
+        disabled: "#EDEDED"
       },
       text: {
         default: "#0A0A0A",
@@ -234,6 +238,7 @@ export const themes = {
         role: {
           brand: "#132843",
           secondary: "#094E65",
+          accent: "#9A3412",
           success: "#1E6D41",
           error: "#A31A1A",
           warning: "#773F12",
@@ -242,6 +247,7 @@ export const themes = {
         on: {
           brand: "#FFFFFF",
           secondary: "#FFFFFF",
+          accent: "#FFFFFF",
           success: "#FFFFFF",
           error: "#FFFFFF",
           warning: "#0A0A0A",
@@ -257,6 +263,7 @@ export const themes = {
         role: {
           brand: "#132843",
           secondary: "#094E65",
+          accent: "#9A3412",
           success: "#1E6D41",
           error: "#A31A1A",
           warning: "#773F12",
@@ -265,6 +272,7 @@ export const themes = {
         on: {
           brand: "#FFFFFF",
           secondary: "#FFFFFF",
+          accent: "#FFFFFF",
           success: "#FFFFFF",
           error: "#FFFFFF",
           warning: "#0A0A0A",
@@ -275,42 +283,82 @@ export const themes = {
         default: "#DBDBDB",
         subtle: "#EDEDED",
         strong: "#BDBDBD",
+        bold: "#707070",
         disabled: "#DBDBDB",
-        brand: "#607D9F",
-        secondary: "#5DA8C2",
-        success: "#55BE87",
-        error: "#FF7676",
-        warning: "#FFB05E",
-        info: "#6D9CE8",
+        focus: "#254471",
         inverse: "#FFFFFF",
-        input: {
-          default: "#707070",
-          error: "#D42222",
-          hovered: "#404040"
-        },
-        focus: "#254471"
+        brand: "#254471",
+        secondary: "#1A7596",
+        accent: "#C2410C",
+        success: "#268751",
+        error: "#D42222",
+        warning: "#D97424",
+        info: "#2559D4"
       },
       link: {
         default: "#2559D4",
+        hovered: "#1D48AD",
         pressed: "#153786",
-        visited: "#1D48AD",
-        hovered: "#1D48AD"
+        visited: "#D42222"
       },
       overlay: {
-        backdrop: "#54545499",
-        scrim: "#5454544D",
-        subtle: "#5454541A",
-        brand: "#19335133",
-        secondary: "#0C5F7933",
-        success: "#26875133",
-        error: "#FF2B2B33",
-        warning: "#FF8C3233",
-        info: "#2559D433",
-        pressed: "#54545433",
-        hovered: "#5454541A"
+        default: "#54545499"
       },
       shadow: {
         ambient: "#071323"
+      },
+      data: {
+        categorical: {
+          "1": "#3065A0",
+          "2": "#B48500",
+          "3": "#A8545D",
+          "4": "#0587AC",
+          "5": "#DE602C",
+          "6": "#6B50C2",
+          "7": "#CA5794",
+          "8": "#6F8D2A"
+        },
+        sequential: {
+          "1": "#7DAEE9",
+          "2": "#6091C9",
+          "3": "#4574AA",
+          "4": "#29588D",
+          "5": "#0C3E70"
+        },
+        tag: {
+          "1": {
+            background: "#DDEFFF",
+            text: "#184E87"
+          },
+          "2": {
+            background: "#F8ECD3",
+            text: "#684600"
+          },
+          "3": {
+            background: "#FFE4E5",
+            text: "#7E2E39"
+          },
+          "4": {
+            background: "#D5F2FF",
+            text: "#00577A"
+          },
+          "5": {
+            background: "#FFE6DB",
+            text: "#7D3416"
+          },
+          "6": {
+            background: "#ECE9FF",
+            text: "#4D4084"
+          },
+          "7": {
+            background: "#FFE4F0",
+            text: "#772F55"
+          },
+          "8": {
+            background: "#E7F1D8",
+            text: "#3F5700"
+          }
+        }
       }
     },
     elevation: {
@@ -337,16 +385,14 @@ export const themes = {
         transparent: {
           default: "#54545400",
           hovered: "#54545466",
-          pressed: "#54545499",
-          disabled: "#54545400"
+          pressed: "#54545499"
         },
         base: {
           default: "#141414",
           subtle: "#292929",
           subtlest: "#0A0A0A",
           hovered: "#404040",
-          pressed: "#545454",
-          disabled: "#292929"
+          pressed: "#545454"
         },
         inverse: {
           default: "#0A0A0A",
@@ -356,57 +402,63 @@ export const themes = {
         neutral: {
           default: "#292929",
           hovered: "#404040",
-          pressed: "#545454",
-          disabled: "#292929"
+          pressed: "#545454"
+        },
+        selected: {
+          default: "#193351",
+          hovered: "#254471",
+          pressed: "#3D5E88"
         },
         brand: {
           default: "#607D9F",
           subtle: "#071323",
           subtlest: "#030A14",
           hovered: "#90A3BC",
-          pressed: "#BEC9D9",
-          disabled: "#292929"
+          pressed: "#BEC9D9"
         },
         secondary: {
           default: "#5DA8C2",
           subtle: "#032A37",
           subtlest: "#011820",
           hovered: "#90C3D5",
-          pressed: "#C0DDE8",
-          disabled: "#292929"
+          pressed: "#C0DDE8"
+        },
+        accent: {
+          default: "#FB923C",
+          subtle: "#7C2D12",
+          subtlest: "#431407",
+          hovered: "#FDBA74",
+          pressed: "#FED7AA"
         },
         success: {
           default: "#55BE87",
           subtle: "#0E3921",
           subtlest: "#071F12",
           hovered: "#8DD4AE",
-          pressed: "#C1E8D2",
-          disabled: "#292929"
+          pressed: "#C1E8D2"
         },
         error: {
           default: "#FF7676",
           subtle: "#721212",
           subtlest: "#420A0A",
           hovered: "#FEA3A3",
-          pressed: "#FECFCF",
-          disabled: "#292929"
+          pressed: "#FECFCF"
         },
         warning: {
           default: "#FFB05E",
           subtle: "#773F12",
           subtlest: "#4A2609",
           hovered: "#FFC88F",
-          pressed: "#FFE0C0",
-          disabled: "#292929"
+          pressed: "#FFE0C0"
         },
         info: {
           default: "#6D9CE8",
           subtle: "#0E265F",
           subtlest: "#081638",
           hovered: "#9CBCF2",
-          pressed: "#CBDCFA",
-          disabled: "#292929"
-        }
+          pressed: "#CBDCFA"
+        },
+        disabled: "#292929"
       },
       text: {
         default: "#F7F7F7",
@@ -415,8 +467,9 @@ export const themes = {
         inverse: "#0A0A0A",
         disabled: "#707070",
         role: {
-          brand: "#90A3BC",
+          brand: "#BEC9D9",
           secondary: "#90C3D5",
+          accent: "#FED7AA",
           success: "#8DD4AE",
           error: "#FEA3A3",
           warning: "#FFC88F",
@@ -425,6 +478,7 @@ export const themes = {
         on: {
           brand: "#0A0A0A",
           secondary: "#0A0A0A",
+          accent: "#0A0A0A",
           success: "#0A0A0A",
           error: "#0A0A0A",
           warning: "#0A0A0A",
@@ -438,8 +492,9 @@ export const themes = {
         inverse: "#0A0A0A",
         disabled: "#707070",
         role: {
-          brand: "#90A3BC",
+          brand: "#BEC9D9",
           secondary: "#90C3D5",
+          accent: "#FED7AA",
           success: "#8DD4AE",
           error: "#FEA3A3",
           warning: "#FFC88F",
@@ -448,6 +503,7 @@ export const themes = {
         on: {
           brand: "#0A0A0A",
           secondary: "#0A0A0A",
+          accent: "#0A0A0A",
           success: "#0A0A0A",
           error: "#0A0A0A",
           warning: "#0A0A0A",
@@ -458,42 +514,82 @@ export const themes = {
         default: "#404040",
         subtle: "#292929",
         strong: "#545454",
+        bold: "#969696",
         disabled: "#404040",
-        brand: "#254471",
-        secondary: "#1A7596",
-        success: "#2D9860",
-        error: "#FF3B3B",
-        warning: "#FF9435",
-        info: "#336CD9",
+        focus: "#90A3BC",
         inverse: "#0A0A0A",
-        input: {
-          default: "#969696",
-          error: "#FF7676",
-          hovered: "#BDBDBD"
-        },
-        focus: "#90A3BC"
+        brand: "#607D9F",
+        secondary: "#5DA8C2",
+        accent: "#FB923C",
+        success: "#55BE87",
+        error: "#FF7676",
+        warning: "#FFB05E",
+        info: "#6D9CE8"
       },
       link: {
         default: "#6D9CE8",
+        hovered: "#9CBCF2",
         pressed: "#CBDCFA",
-        visited: "#9CBCF2",
-        hovered: "#9CBCF2"
+        visited: "#FF7676"
       },
       overlay: {
-        backdrop: "#545454B3",
-        scrim: "#54545466",
-        subtle: "#54545433",
-        brand: "#1933514D",
-        secondary: "#0C5F794D",
-        success: "#2687514D",
-        error: "#FF2B2B4D",
-        warning: "#FF8C324D",
-        info: "#2559D44D",
-        pressed: "#54545499",
-        hovered: "#54545466"
+        default: "#545454B3"
       },
       shadow: {
         ambient: "#000000"
+      },
+      data: {
+        categorical: {
+          "1": "#4E89CC",
+          "2": "#B68B16",
+          "3": "#BD5F69",
+          "4": "#2193B9",
+          "5": "#DA6435",
+          "6": "#8673D9",
+          "7": "#CA5E96",
+          "8": "#749331"
+        },
+        sequential: {
+          "1": "#36608F",
+          "2": "#537DAE",
+          "3": "#709CCF",
+          "4": "#8EBBF0",
+          "5": "#AEDCFF"
+        },
+        tag: {
+          "1": {
+            background: "#19314E",
+            text: "#B4D8FF"
+          },
+          "2": {
+            background: "#3E2D04",
+            text: "#E9D1A0"
+          },
+          "3": {
+            background: "#4A2226",
+            text: "#FFC2C5"
+          },
+          "4": {
+            background: "#003647",
+            text: "#A3DEF8"
+          },
+          "5": {
+            background: "#492517",
+            text: "#FDC6B1"
+          },
+          "6": {
+            background: "#302A4C",
+            text: "#D3CDFF"
+          },
+          "7": {
+            background: "#472335",
+            text: "#F9C2DB"
+          },
+          "8": {
+            background: "#293510",
+            text: "#CADDAB"
+          }
+        }
       }
     },
     elevation: {
@@ -1250,16 +1346,14 @@ export const cssVars = {
       transparent: {
         default: "var(--bw-color-background-transparent-default)",
         hovered: "var(--bw-color-background-transparent-hovered)",
-        pressed: "var(--bw-color-background-transparent-pressed)",
-        disabled: "var(--bw-color-background-transparent-disabled)"
+        pressed: "var(--bw-color-background-transparent-pressed)"
       },
       base: {
         default: "var(--bw-color-background-base-default)",
         subtle: "var(--bw-color-background-base-subtle)",
         subtlest: "var(--bw-color-background-base-subtlest)",
         hovered: "var(--bw-color-background-base-hovered)",
-        pressed: "var(--bw-color-background-base-pressed)",
-        disabled: "var(--bw-color-background-base-disabled)"
+        pressed: "var(--bw-color-background-base-pressed)"
       },
       inverse: {
         default: "var(--bw-color-background-inverse-default)",
@@ -1269,57 +1363,63 @@ export const cssVars = {
       neutral: {
         default: "var(--bw-color-background-neutral-default)",
         hovered: "var(--bw-color-background-neutral-hovered)",
-        pressed: "var(--bw-color-background-neutral-pressed)",
-        disabled: "var(--bw-color-background-neutral-disabled)"
+        pressed: "var(--bw-color-background-neutral-pressed)"
+      },
+      selected: {
+        default: "var(--bw-color-background-selected-default)",
+        hovered: "var(--bw-color-background-selected-hovered)",
+        pressed: "var(--bw-color-background-selected-pressed)"
       },
       brand: {
         default: "var(--bw-color-background-brand-default)",
         subtle: "var(--bw-color-background-brand-subtle)",
         subtlest: "var(--bw-color-background-brand-subtlest)",
         hovered: "var(--bw-color-background-brand-hovered)",
-        pressed: "var(--bw-color-background-brand-pressed)",
-        disabled: "var(--bw-color-background-brand-disabled)"
+        pressed: "var(--bw-color-background-brand-pressed)"
       },
       secondary: {
         default: "var(--bw-color-background-secondary-default)",
         subtle: "var(--bw-color-background-secondary-subtle)",
         subtlest: "var(--bw-color-background-secondary-subtlest)",
         hovered: "var(--bw-color-background-secondary-hovered)",
-        pressed: "var(--bw-color-background-secondary-pressed)",
-        disabled: "var(--bw-color-background-secondary-disabled)"
+        pressed: "var(--bw-color-background-secondary-pressed)"
+      },
+      accent: {
+        default: "var(--bw-color-background-accent-default)",
+        subtle: "var(--bw-color-background-accent-subtle)",
+        subtlest: "var(--bw-color-background-accent-subtlest)",
+        hovered: "var(--bw-color-background-accent-hovered)",
+        pressed: "var(--bw-color-background-accent-pressed)"
       },
       success: {
         default: "var(--bw-color-background-success-default)",
         subtle: "var(--bw-color-background-success-subtle)",
         subtlest: "var(--bw-color-background-success-subtlest)",
         hovered: "var(--bw-color-background-success-hovered)",
-        pressed: "var(--bw-color-background-success-pressed)",
-        disabled: "var(--bw-color-background-success-disabled)"
+        pressed: "var(--bw-color-background-success-pressed)"
       },
       error: {
         default: "var(--bw-color-background-error-default)",
         subtle: "var(--bw-color-background-error-subtle)",
         subtlest: "var(--bw-color-background-error-subtlest)",
         hovered: "var(--bw-color-background-error-hovered)",
-        pressed: "var(--bw-color-background-error-pressed)",
-        disabled: "var(--bw-color-background-error-disabled)"
+        pressed: "var(--bw-color-background-error-pressed)"
       },
       warning: {
         default: "var(--bw-color-background-warning-default)",
         subtle: "var(--bw-color-background-warning-subtle)",
         subtlest: "var(--bw-color-background-warning-subtlest)",
         hovered: "var(--bw-color-background-warning-hovered)",
-        pressed: "var(--bw-color-background-warning-pressed)",
-        disabled: "var(--bw-color-background-warning-disabled)"
+        pressed: "var(--bw-color-background-warning-pressed)"
       },
       info: {
         default: "var(--bw-color-background-info-default)",
         subtle: "var(--bw-color-background-info-subtle)",
         subtlest: "var(--bw-color-background-info-subtlest)",
         hovered: "var(--bw-color-background-info-hovered)",
-        pressed: "var(--bw-color-background-info-pressed)",
-        disabled: "var(--bw-color-background-info-disabled)"
-      }
+        pressed: "var(--bw-color-background-info-pressed)"
+      },
+      disabled: "var(--bw-color-background-disabled)"
     },
     text: {
       default: "var(--bw-color-text-default)",
@@ -1330,6 +1430,7 @@ export const cssVars = {
       role: {
         brand: "var(--bw-color-text-role-brand)",
         secondary: "var(--bw-color-text-role-secondary)",
+        accent: "var(--bw-color-text-role-accent)",
         success: "var(--bw-color-text-role-success)",
         error: "var(--bw-color-text-role-error)",
         warning: "var(--bw-color-text-role-warning)",
@@ -1338,6 +1439,7 @@ export const cssVars = {
       on: {
         brand: "var(--bw-color-text-on-brand)",
         secondary: "var(--bw-color-text-on-secondary)",
+        accent: "var(--bw-color-text-on-accent)",
         success: "var(--bw-color-text-on-success)",
         error: "var(--bw-color-text-on-error)",
         warning: "var(--bw-color-text-on-warning)",
@@ -1353,6 +1455,7 @@ export const cssVars = {
       role: {
         brand: "var(--bw-color-icon-role-brand)",
         secondary: "var(--bw-color-icon-role-secondary)",
+        accent: "var(--bw-color-icon-role-accent)",
         success: "var(--bw-color-icon-role-success)",
         error: "var(--bw-color-icon-role-error)",
         warning: "var(--bw-color-icon-role-warning)",
@@ -1361,6 +1464,7 @@ export const cssVars = {
       on: {
         brand: "var(--bw-color-icon-on-brand)",
         secondary: "var(--bw-color-icon-on-secondary)",
+        accent: "var(--bw-color-icon-on-accent)",
         success: "var(--bw-color-icon-on-success)",
         error: "var(--bw-color-icon-on-error)",
         warning: "var(--bw-color-icon-on-warning)",
@@ -1371,42 +1475,82 @@ export const cssVars = {
       default: "var(--bw-color-border-default)",
       subtle: "var(--bw-color-border-subtle)",
       strong: "var(--bw-color-border-strong)",
+      bold: "var(--bw-color-border-bold)",
       disabled: "var(--bw-color-border-disabled)",
+      focus: "var(--bw-color-border-focus)",
+      inverse: "var(--bw-color-border-inverse)",
       brand: "var(--bw-color-border-brand)",
       secondary: "var(--bw-color-border-secondary)",
+      accent: "var(--bw-color-border-accent)",
       success: "var(--bw-color-border-success)",
       error: "var(--bw-color-border-error)",
       warning: "var(--bw-color-border-warning)",
-      info: "var(--bw-color-border-info)",
-      inverse: "var(--bw-color-border-inverse)",
-      input: {
-        default: "var(--bw-color-border-input-default)",
-        error: "var(--bw-color-border-input-error)",
-        hovered: "var(--bw-color-border-input-hovered)"
-      },
-      focus: "var(--bw-color-border-focus)"
+      info: "var(--bw-color-border-info)"
     },
     link: {
       default: "var(--bw-color-link-default)",
+      hovered: "var(--bw-color-link-hovered)",
       pressed: "var(--bw-color-link-pressed)",
-      visited: "var(--bw-color-link-visited)",
-      hovered: "var(--bw-color-link-hovered)"
+      visited: "var(--bw-color-link-visited)"
     },
     overlay: {
-      backdrop: "var(--bw-color-overlay-backdrop)",
-      scrim: "var(--bw-color-overlay-scrim)",
-      subtle: "var(--bw-color-overlay-subtle)",
-      brand: "var(--bw-color-overlay-brand)",
-      secondary: "var(--bw-color-overlay-secondary)",
-      success: "var(--bw-color-overlay-success)",
-      error: "var(--bw-color-overlay-error)",
-      warning: "var(--bw-color-overlay-warning)",
-      info: "var(--bw-color-overlay-info)",
-      pressed: "var(--bw-color-overlay-pressed)",
-      hovered: "var(--bw-color-overlay-hovered)"
+      default: "var(--bw-color-overlay-default)"
     },
     shadow: {
       ambient: "var(--bw-color-shadow-ambient)"
+    },
+    data: {
+      categorical: {
+        "1": "var(--bw-color-data-categorical-1)",
+        "2": "var(--bw-color-data-categorical-2)",
+        "3": "var(--bw-color-data-categorical-3)",
+        "4": "var(--bw-color-data-categorical-4)",
+        "5": "var(--bw-color-data-categorical-5)",
+        "6": "var(--bw-color-data-categorical-6)",
+        "7": "var(--bw-color-data-categorical-7)",
+        "8": "var(--bw-color-data-categorical-8)"
+      },
+      sequential: {
+        "1": "var(--bw-color-data-sequential-1)",
+        "2": "var(--bw-color-data-sequential-2)",
+        "3": "var(--bw-color-data-sequential-3)",
+        "4": "var(--bw-color-data-sequential-4)",
+        "5": "var(--bw-color-data-sequential-5)"
+      },
+      tag: {
+        "1": {
+          background: "var(--bw-color-data-tag-1-background)",
+          text: "var(--bw-color-data-tag-1-text)"
+        },
+        "2": {
+          background: "var(--bw-color-data-tag-2-background)",
+          text: "var(--bw-color-data-tag-2-text)"
+        },
+        "3": {
+          background: "var(--bw-color-data-tag-3-background)",
+          text: "var(--bw-color-data-tag-3-text)"
+        },
+        "4": {
+          background: "var(--bw-color-data-tag-4-background)",
+          text: "var(--bw-color-data-tag-4-text)"
+        },
+        "5": {
+          background: "var(--bw-color-data-tag-5-background)",
+          text: "var(--bw-color-data-tag-5-text)"
+        },
+        "6": {
+          background: "var(--bw-color-data-tag-6-background)",
+          text: "var(--bw-color-data-tag-6-text)"
+        },
+        "7": {
+          background: "var(--bw-color-data-tag-7-background)",
+          text: "var(--bw-color-data-tag-7-text)"
+        },
+        "8": {
+          background: "var(--bw-color-data-tag-8-background)",
+          text: "var(--bw-color-data-tag-8-text)"
+        }
+      }
     }
   },
   elevation: {

@@ -313,7 +313,7 @@ class BwIconButton extends StatelessWidget {
     if (!states.contains(WidgetState.selected)) return null;
     final colors = context.bw.colors;
     if (states.contains(WidgetState.disabled)) {
-      return colors.backgroundNeutralDisabled;
+      return colors.backgroundDisabled;
     }
     return switch (color) {
       BwButtonColor.brand => colors.backgroundBrandSubtle,

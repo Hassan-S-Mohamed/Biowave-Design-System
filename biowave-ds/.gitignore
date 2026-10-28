@@ -12,6 +12,7 @@ _sync/watch.log
 _sync/status.txt
 _sync/figma-pending.json
 _sync/figma-apply-*.js
+!_sync/figma-apply-tokens.template.js
 _sync/figma-read-icons.generated.js
 _sync/.verify/
 

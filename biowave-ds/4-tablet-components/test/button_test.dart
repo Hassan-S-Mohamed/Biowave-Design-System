@@ -199,7 +199,7 @@ void main() {
           expect(
             style.backgroundColor!.resolve(const {WidgetState.disabled}),
             isFilled || isTonal
-                ? colors.backgroundNeutralDisabled
+                ? colors.backgroundDisabled
                 : colors.backgroundTransparentDefault,
           );
           expect(
@@ -253,11 +253,11 @@ void main() {
 
           expect(
             style.overlayColor!.resolve(const {WidgetState.hovered}),
-            isFilled ? colors.backgroundTransparentDefault : colors.overlayHovered,
+            isFilled ? colors.backgroundTransparentDefault : colors.backgroundTransparentHovered,
           );
           expect(
             style.overlayColor!.resolve(const {WidgetState.pressed}),
-            isFilled ? colors.backgroundTransparentDefault : colors.overlayPressed,
+            isFilled ? colors.backgroundTransparentDefault : colors.backgroundTransparentPressed,
           );
           expect(
             style.overlayColor!.resolve(const {WidgetState.focused}),

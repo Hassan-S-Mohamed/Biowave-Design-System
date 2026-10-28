@@ -22,7 +22,7 @@ All values below are resolved from `2-foundations/dist/tokens.json` for the web 
 | `color-background-neutral-default` | `#EDEDED` | `#292929` |
 | `color-background-neutral-hovered` | `#DBDBDB` | `#404040` |
 | `color-background-neutral-pressed` | `#BDBDBD` | `#545454` |
-| `color-background-neutral-disabled` | `#EDEDED` | `#292929` |
+| `color-background-disabled` | `#EDEDED` | `#292929` |
 | `color-background-transparent-default` | `#54545400` | `#54545400` |
 | `color-text-on-brand` | `#FFFFFF` | `#0A0A0A` |
 | `color-text-on-secondary` | `#FFFFFF` | `#0A0A0A` |
@@ -42,8 +42,8 @@ All values below are resolved from `2-foundations/dist/tokens.json` for the web 
 | `color-border-strong` | `#BDBDBD` | `#545454` |
 | `color-border-disabled` | `#DBDBDB` | `#404040` |
 | `color-border-focus` | `#254471` | `#90A3BC` |
-| `color-overlay-hovered` | `#5454541A` | `#54545466` |
-| `color-overlay-pressed` | `#54545433` | `#54545499` |
+| `color-background-transparent-hovered` | `#5454541A` | `#54545466` |
+| `color-background-transparent-pressed` | `#54545433` | `#54545499` |
 | `spacing-xxs` (between halves) | `2px` | `2px` |
 | `spacing-xs` (menu offset) | `4px` | `4px` |
 | `spacing-control-padding-inline-sm / md / lg` | `8px / 12px / 16px` | `8px / 12px / 16px` |

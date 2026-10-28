@@ -3,12 +3,12 @@ import type { ButtonColor, ButtonVariant, ButtonVisualTokens } from '../button/b
 
 type ToggleVariant = Extract<ButtonVariant, 'outlined' | 'text'>;
 
-const disabledBackground = cssVars.color.background.neutral.disabled;
+const disabledBackground = cssVars.color.background.disabled;
 const disabledBorder = cssVars.color.border.disabled;
 const disabledIcon = cssVars.color.icon.disabled;
 const stateLayer = {
-  hover: cssVars.color.overlay.hovered,
-  pressed: cssVars.color.overlay.pressed,
+  hover: cssVars.color.background.transparent.hovered,
+  pressed: cssVars.color.background.transparent.pressed,
 } as const;
 
 function selected(

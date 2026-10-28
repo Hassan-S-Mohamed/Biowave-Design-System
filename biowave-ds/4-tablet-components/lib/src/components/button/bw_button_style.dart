@@ -153,7 +153,7 @@ abstract final class BwButtonStyle {
     BwButtonColor color,
   ) {
     final colors = context.bw.colors;
-    final disabledBackground = colors.backgroundNeutralDisabled;
+    final disabledBackground = colors.backgroundDisabled;
     final disabledForeground = colors.textDisabled;
     final disabledIcon = colors.iconDisabled;
 
@@ -199,8 +199,8 @@ abstract final class BwButtonStyle {
           },
           iconDisabled: disabledIcon,
           overlayDefault: colors.backgroundTransparentDefault,
-          overlayHovered: colors.backgroundTransparentDefault,
-          overlayPressed: colors.backgroundTransparentDefault,
+          backgroundTransparentHovered: colors.backgroundTransparentDefault,
+          backgroundTransparentPressed: colors.backgroundTransparentDefault,
         );
       case BwButtonVariant.tonal:
         return _ButtonPalette(
@@ -232,8 +232,8 @@ abstract final class BwButtonStyle {
           },
           iconDisabled: disabledIcon,
           overlayDefault: colors.backgroundTransparentDefault,
-          overlayHovered: colors.overlayHovered,
-          overlayPressed: colors.overlayPressed,
+          backgroundTransparentHovered: colors.backgroundTransparentHovered,
+          backgroundTransparentPressed: colors.backgroundTransparentPressed,
         );
       case BwButtonVariant.outlined:
       case BwButtonVariant.text:
@@ -257,8 +257,8 @@ abstract final class BwButtonStyle {
           },
           iconDisabled: disabledIcon,
           overlayDefault: colors.backgroundTransparentDefault,
-          overlayHovered: colors.overlayHovered,
-          overlayPressed: colors.overlayPressed,
+          backgroundTransparentHovered: colors.backgroundTransparentHovered,
+          backgroundTransparentPressed: colors.backgroundTransparentPressed,
           borderDefault: variant == BwButtonVariant.outlined
               ? switch (color) {
                   BwButtonColor.brand => colors.borderBrand,
@@ -285,8 +285,8 @@ final class _ButtonPalette {
     required this.icon,
     required this.iconDisabled,
     required this.overlayDefault,
-    required this.overlayHovered,
-    required this.overlayPressed,
+    required this.backgroundTransparentHovered,
+    required this.backgroundTransparentPressed,
     this.backgroundHover,
     this.backgroundPressed,
     this.borderDefault,
@@ -302,8 +302,8 @@ final class _ButtonPalette {
   final Color icon;
   final Color iconDisabled;
   final Color overlayDefault;
-  final Color overlayHovered;
-  final Color overlayPressed;
+  final Color backgroundTransparentHovered;
+  final Color backgroundTransparentPressed;
   final Color? borderDefault;
   final Color? borderDisabled;
 
@@ -323,8 +323,8 @@ final class _ButtonPalette {
         states.contains(WidgetState.focused)) {
       return overlayDefault;
     }
-    if (states.contains(WidgetState.pressed)) return overlayPressed;
-    if (states.contains(WidgetState.hovered)) return overlayHovered;
+    if (states.contains(WidgetState.pressed)) return backgroundTransparentPressed;
+    if (states.contains(WidgetState.hovered)) return backgroundTransparentHovered;
     return overlayDefault;
   }
 

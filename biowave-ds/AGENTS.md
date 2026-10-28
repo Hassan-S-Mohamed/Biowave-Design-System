@@ -35,7 +35,7 @@ Read this file completely before doing anything. It is short on purpose.
 
 ## 2. Golden rules
 
-1. **Never edit generated files.** `*/generated/*`, `2-foundations/dist/`, `2-foundations/preview/`, `_sync/*.json`, every `*-contract.md`, every docs HTML shell and `components/index.json` (`npm run docs:build`).
+1. **Never edit generated files.** `*/generated/*`, `2-foundations/dist/`, `2-foundations/preview/`, `2-foundations/tokens/Biowave Foundations.md`, `_sync/*.json`, every `*-contract.md`, every docs HTML shell and `components/index.json` (`npm run docs:build`).
 2. **No raw values in components.** No hex, px, ms or font names. Use semantic tokens (`cssVars.*`, `var(--bw-…)`, MUI theme, `context.bw.*`, `BwSpacing.*`). A missing value means stop and report — tokens are added by the Planner, not the Executor.
 3. **Never use primitives in components** (`primitive.*`, `BwPalette`). Only semantic tokens.
 3a. **Component Figma files hold component tokens only (D-13, strict).** Semantic and primitive variables exist **only** in the Foundations file. A component file may contain exactly one kind of local variable: collections named `<Component> / <Group>` whose every value aliases a Foundations semantic variable. Never create a local primitive or semantic variable or any other collection, never copy or detach a library variable, never create a local style. Component tokens are written in `<name>.tokens.json` and pushed by the sync tooling; `figma-read-tokens.js` lint must report 0 before Phase 1 and after each phase.

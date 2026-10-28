@@ -157,6 +157,9 @@ const FieldRoot = styled(OutlinedInput, {
     '& .MuiOutlinedInput-notchedOutline legend': {
       display: 'none',
     },
+    '&:hover:not(.Mui-disabled):not(.Mui-focused):not(.Mui-error):not([data-read-only="true"])': {
+      backgroundColor: hover.background,
+    },
     '&:hover:not(.Mui-disabled):not(.Mui-focused):not(.Mui-error):not([data-read-only="true"]) .MuiOutlinedInput-notchedOutline': {
       borderColor: hover.border,
       borderWidth: hover.borderWidth,

@@ -140,7 +140,7 @@ void main() {
             );
             expect(
               style.backgroundColor!.resolve(disabledSelectedStates),
-              colors.backgroundNeutralDisabled,
+              colors.backgroundDisabled,
             );
             expect(
               style.iconColor!.resolve(disabledSelectedStates),
@@ -151,14 +151,14 @@ void main() {
                 WidgetState.selected,
                 WidgetState.hovered,
               }),
-              colors.overlayHovered,
+              colors.backgroundTransparentHovered,
             );
             expect(
               style.overlayColor!.resolve(<WidgetState>{
                 WidgetState.selected,
                 WidgetState.pressed,
               }),
-              colors.overlayPressed,
+              colors.backgroundTransparentPressed,
             );
             if (variant == BwButtonVariant.outlined) {
               expect(

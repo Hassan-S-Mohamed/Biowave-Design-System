@@ -291,7 +291,7 @@ Identical to the [Web B3](../../../3-web-components/components/button/button.md#
 | Spec part / state | `ButtonStyle` field |
 |---|---|
 | `container` background (Default · Hover · Pressed · Disabled) | `backgroundColor` `WidgetStateProperty` |
-| state layer (tonal · outlined · text) | `overlayColor`: hovered → `overlayHovered`, pressed → `overlayPressed`, focused → transparent; filled → always transparent |
+| state layer (tonal · outlined · text) | `overlayColor`: hovered → `backgroundTransparentHovered`, pressed → `backgroundTransparentPressed`, focused → transparent; filled → always transparent |
 | `container` border (outlined) | `side` `WidgetStateProperty` (`BorderSide(width: BwBorder.widthDefault, color: …)`) |
 | `label` · `spinner` | `foregroundColor` |
 | icons | `iconColor` |

@@ -230,7 +230,7 @@ Every visual value of the component. If a value is missing from foundations, sto
 
 | Part | Property | Default | Hover | Pressed | Focus | Selected | Disabled |
 |---|---|---|---|---|---|---|---|
-| `container` | background | `color-background-neutral-default` | `color-background-neutral-hovered` | `color-background-neutral-pressed` | — | | `color-background-neutral-disabled` |
+| `container` | background | `color-background-neutral-default` | `color-background-neutral-hovered` | `color-background-neutral-pressed` | — | | `color-background-disabled` |
 | `container` | border | | | | `color-border-focus` | `color-border-brand` | |
 | `container` | elevation | `elevation-0` | `elevation-1` | | | | |
 | `title` | color | `color-text-default` | | | | | `color-text-disabled` |

@@ -20,7 +20,7 @@ Plan 1.1 sketch for the web Icon button. The component plan is the source of tru
 | `color-background-neutral-default` | `#EDEDED` | `#292929` |
 | `color-background-neutral-hovered` | `#DBDBDB` | `#404040` |
 | `color-background-neutral-pressed` | `#BDBDBD` | `#545454` |
-| `color-background-neutral-disabled` | `#EDEDED` | `#292929` |
+| `color-background-disabled` | `#EDEDED` | `#292929` |
 | `color-background-error-default` | `#D42222` | `#FF7676` |
 | `color-background-error-hovered` | `#A31A1A` | `#FEA3A3` |
 | `color-background-error-pressed` | `#721212` | `#FECFCF` |
@@ -43,8 +43,8 @@ Plan 1.1 sketch for the web Icon button. The component plan is the source of tru
 | `color-border-disabled` | `#DBDBDB` | `#404040` |
 | `color-border-focus` | `#254471` | `#90A3BC` |
 | `color-border-inverse` | `#FFFFFF` | `#0A0A0A` |
-| `color-overlay-hovered` | `#5454541A` | `#54545466` |
-| `color-overlay-pressed` | `#54545433` | `#54545499` |
+| `color-background-transparent-hovered` | `#5454541A` | `#54545466` |
+| `color-background-transparent-pressed` | `#54545433` | `#54545499` |
 | `color-text-default` | `#0A0A0A` | `#F7F7F7` |
 | `color-text-disabled` | `#969696` | `#545454` |
 | `color-text-inverse` | `#FFFFFF` | `#0A0A0A` |
