@@ -326,6 +326,7 @@ abstract final class BwExternalColors {
 abstract final class BwFontFamily {
   static const String en = "Inter";
   static const String ar = "IBM Plex Sans Arabic";
+  static const String mono = "JetBrains Mono";
   static const List<String> arFallback = ["Noto Sans Arabic"];
 }
 
@@ -1410,7 +1411,7 @@ class BwElevation extends ThemeExtension<BwElevation> {
 /// Colors are not set here: apply `BwColors` (e.g. style.copyWith(color: colors.textDefault)).
 @immutable
 class BwTextStyles extends ThemeExtension<BwTextStyles> {
-  const BwTextStyles({required this.displayLg, required this.displayMd, required this.headingLg, required this.headingMd, required this.headingSm, required this.titleLg, required this.titleMd, required this.bodyLg, required this.bodyMd, required this.bodySm, required this.labelLg, required this.labelMd, required this.labelSm, required this.captionMd, required this.captionSm, required this.actionLg, required this.actionMd, required this.actionSm, required this.dataLg, required this.dataMd, required this.dataSm});
+  const BwTextStyles({required this.displayLg, required this.displayMd, required this.headingLg, required this.headingMd, required this.headingSm, required this.titleLg, required this.titleMd, required this.bodyLg, required this.bodyMd, required this.bodySm, required this.labelLg, required this.labelMd, required this.labelSm, required this.captionMd, required this.captionSm, required this.actionLg, required this.actionMd, required this.actionSm, required this.dataLg, required this.dataMd, required this.dataSm, required this.codeMd, required this.codeSm});
   final TextStyle displayLg;
   final TextStyle displayMd;
   final TextStyle headingLg;
@@ -1432,6 +1433,8 @@ class BwTextStyles extends ThemeExtension<BwTextStyles> {
   final TextStyle dataLg;
   final TextStyle dataMd;
   final TextStyle dataSm;
+  final TextStyle codeMd;
+  final TextStyle codeSm;
 
   static const tabletEn = BwTextStyles(
     displayLg: TextStyle(fontFamily: BwFontFamily.en, fontSize: 34, height: 1.2353, fontWeight: FontWeight.w600, letterSpacing: -0.16, leadingDistribution: TextLeadingDistribution.even),
@@ -1455,6 +1458,8 @@ class BwTextStyles extends ThemeExtension<BwTextStyles> {
     dataLg: TextStyle(fontFamily: BwFontFamily.en, fontSize: 22, height: 1.3636, fontWeight: FontWeight.w500, letterSpacing: 0, leadingDistribution: TextLeadingDistribution.even),
     dataMd: TextStyle(fontFamily: BwFontFamily.en, fontSize: 16, height: 1.5, fontWeight: FontWeight.w500, letterSpacing: 0, leadingDistribution: TextLeadingDistribution.even),
     dataSm: TextStyle(fontFamily: BwFontFamily.en, fontSize: 13, height: 1.3846, fontWeight: FontWeight.w500, letterSpacing: 0, leadingDistribution: TextLeadingDistribution.even),
+    codeMd: TextStyle(fontFamily: BwFontFamily.mono, fontSize: 14, height: 1.5714, fontWeight: FontWeight.w400, letterSpacing: 0, leadingDistribution: TextLeadingDistribution.even),
+    codeSm: TextStyle(fontFamily: BwFontFamily.mono, fontSize: 12, height: 1.5, fontWeight: FontWeight.w400, letterSpacing: 0, leadingDistribution: TextLeadingDistribution.even),
   );
 
   static const tabletAr = BwTextStyles(
@@ -1479,6 +1484,8 @@ class BwTextStyles extends ThemeExtension<BwTextStyles> {
     dataLg: TextStyle(fontFamily: BwFontFamily.ar, fontFamilyFallback: BwFontFamily.arFallback, fontSize: 22, height: 1.4545, fontWeight: FontWeight.w500, letterSpacing: 0, leadingDistribution: TextLeadingDistribution.even),
     dataMd: TextStyle(fontFamily: BwFontFamily.ar, fontFamilyFallback: BwFontFamily.arFallback, fontSize: 16, height: 1.625, fontWeight: FontWeight.w500, letterSpacing: 0, leadingDistribution: TextLeadingDistribution.even),
     dataSm: TextStyle(fontFamily: BwFontFamily.ar, fontFamilyFallback: BwFontFamily.arFallback, fontSize: 13, height: 1.5385, fontWeight: FontWeight.w500, letterSpacing: 0, leadingDistribution: TextLeadingDistribution.even),
+    codeMd: TextStyle(fontFamily: BwFontFamily.mono, fontSize: 14, height: 1.5714, fontWeight: FontWeight.w400, letterSpacing: 0, leadingDistribution: TextLeadingDistribution.even),
+    codeSm: TextStyle(fontFamily: BwFontFamily.mono, fontSize: 12, height: 1.5, fontWeight: FontWeight.w400, letterSpacing: 0, leadingDistribution: TextLeadingDistribution.even),
   );
 
   static const mobileEn = BwTextStyles(
@@ -1503,6 +1510,8 @@ class BwTextStyles extends ThemeExtension<BwTextStyles> {
     dataLg: TextStyle(fontFamily: BwFontFamily.en, fontSize: 24, height: 1.3333, fontWeight: FontWeight.w500, letterSpacing: 0, leadingDistribution: TextLeadingDistribution.even),
     dataMd: TextStyle(fontFamily: BwFontFamily.en, fontSize: 16, height: 1.5, fontWeight: FontWeight.w500, letterSpacing: 0, leadingDistribution: TextLeadingDistribution.even),
     dataSm: TextStyle(fontFamily: BwFontFamily.en, fontSize: 13, height: 1.3846, fontWeight: FontWeight.w500, letterSpacing: 0, leadingDistribution: TextLeadingDistribution.even),
+    codeMd: TextStyle(fontFamily: BwFontFamily.mono, fontSize: 14, height: 1.5714, fontWeight: FontWeight.w400, letterSpacing: 0, leadingDistribution: TextLeadingDistribution.even),
+    codeSm: TextStyle(fontFamily: BwFontFamily.mono, fontSize: 12, height: 1.5, fontWeight: FontWeight.w400, letterSpacing: 0, leadingDistribution: TextLeadingDistribution.even),
   );
 
   static const mobileAr = BwTextStyles(
@@ -1527,6 +1536,8 @@ class BwTextStyles extends ThemeExtension<BwTextStyles> {
     dataLg: TextStyle(fontFamily: BwFontFamily.ar, fontFamilyFallback: BwFontFamily.arFallback, fontSize: 24, height: 1.4167, fontWeight: FontWeight.w500, letterSpacing: 0, leadingDistribution: TextLeadingDistribution.even),
     dataMd: TextStyle(fontFamily: BwFontFamily.ar, fontFamilyFallback: BwFontFamily.arFallback, fontSize: 16, height: 1.625, fontWeight: FontWeight.w500, letterSpacing: 0, leadingDistribution: TextLeadingDistribution.even),
     dataSm: TextStyle(fontFamily: BwFontFamily.ar, fontFamilyFallback: BwFontFamily.arFallback, fontSize: 13, height: 1.5385, fontWeight: FontWeight.w500, letterSpacing: 0, leadingDistribution: TextLeadingDistribution.even),
+    codeMd: TextStyle(fontFamily: BwFontFamily.mono, fontSize: 14, height: 1.5714, fontWeight: FontWeight.w400, letterSpacing: 0, leadingDistribution: TextLeadingDistribution.even),
+    codeSm: TextStyle(fontFamily: BwFontFamily.mono, fontSize: 12, height: 1.5, fontWeight: FontWeight.w400, letterSpacing: 0, leadingDistribution: TextLeadingDistribution.even),
   );
 
   static BwTextStyles of(BuildContext context) => Theme.of(context).extension<BwTextStyles>()!;
@@ -1559,6 +1570,8 @@ class BwTextStyles extends ThemeExtension<BwTextStyles> {
       dataLg: TextStyle.lerp(dataLg, other.dataLg, t)!,
       dataMd: TextStyle.lerp(dataMd, other.dataMd, t)!,
       dataSm: TextStyle.lerp(dataSm, other.dataSm, t)!,
+      codeMd: TextStyle.lerp(codeMd, other.codeMd, t)!,
+      codeSm: TextStyle.lerp(codeSm, other.codeSm, t)!,
     );
   }
 }

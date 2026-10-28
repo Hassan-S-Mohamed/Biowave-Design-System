@@ -2,7 +2,7 @@
 // Returns one line per variable: collection|name|web|Mode=value;Mode=value  (aliases resolved).
 // Output is capped at ~20 KB per call, so run it once per group and save each result to a file:
 //   ONLY = ['1. Themes']          ONLY = ['_Primitive']
-//   ONLY = ['2. Radius','3. Spacing','4. Size','5. Typography (EN)','6. Typography (AR)','7. Grid & Layout','9. Border']
+//   ONLY = ['2. Radius','3. Spacing','4. Size','5. Typography','7. Grid & Layout','9. Border']
 // then: npm run sync:verify -- <file1> <file2> <file3>
 const ONLY = ['1. Themes'];
 const cols = await figma.variables.getLocalVariableCollectionsAsync();

@@ -550,7 +550,7 @@ Files the Executor may touch in this fix round: `3-web-components/src/components
 
 ### D1 Rules for this build
 
-0. **Library first; no component tokens (D-13).** Badge has no `badge.tokens.json` (B3: every value is a semantic token). Bind directly to the **Biowave DS — Foundations** library variables listed in the contract; never create local variables, collections or styles. Text style `Web/{en|ar}/data/sm`; the check glyph is the **Icon** set in this file.
+0. **Library first; no component tokens (D-13).** Badge has no `badge.tokens.json` (B3: every value is a semantic token). Bind directly to the **Biowave DS — Foundations** library variables listed in the contract; never create local variables, collections or styles. Text style `data/sm`; the check glyph is the **Icon** set in this file.
 1. **Every value is bound.** Fill, stroke colour and weight, radius, padding, height, min width → variables; text → text style. No raw hex / px.
 2. **Token → variable:** `-` between segments becomes `/`: `color-background-error-default` → `1. Themes › color/background/error/default`; `color-surface-inverse` → `1. Themes › color/surface/inverse`; `color-icon-role-warning` → `1. Themes › color/icon/role/warning` (the `Warning` fill, B3); `size-icon-md` → `4. Size › size/icon/md`; `spacing-xs` → `3. Spacing › spacing/xs`; `spacing-md` → `3. Spacing › spacing/md`; `radius-full` → `2. Radius › radius/full`; `border-width-strong` → `9. Border › border/width/strong`; `color-border-inverse` → `1. Themes › color/border/inverse`.
 3. **Never** bind `_Primitive/*` or `_deprecated/*`.
@@ -573,7 +573,7 @@ indicator (Badge)     ↔ horizontal · align center/center · height fixed {B2 
 │                       pad-inline {B2 padding-inline, Count only} · radius {B2 radius}
 │                       fill {B3 indicator background}
 │                       stroke OUTSIDE {B3 ring colour} · weight {B3 ring width} — Ring=On only
-├── count             T text style Web/{en|ar}/data/sm · fill {B3 count text} · TEXT `Count`
+├── count             T text style data/sm · fill {B3 count text} · TEXT `Count`
 │                       hug · no wrap · Variant=Count only
 └── check-icon        ◇ Icon instance (Size=SM, Glyph=check) · fill {B3 check-icon}
                         Variant=Check only

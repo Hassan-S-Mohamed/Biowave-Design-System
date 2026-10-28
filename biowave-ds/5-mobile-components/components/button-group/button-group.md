@@ -339,7 +339,7 @@ B9, plus earlier button-family tests still pass.
 ### D1 Rules for this build
 
 Same as [Web D1](../../../3-web-components/components/button/button.md#d1-rules-for-this-build) (library first, everything bound, no local variables or styles), plus:
-- **Typography mode:** on page `↳ Button Group` set the explicit variable mode **`Mobile`** for `5. Typography (EN)` and `6. Typography (AR)` (`page.setExplicitVariableModeForCollection`). Text styles stay `Web/{en|ar}/…` names; the mode gives the Mobile scale.
+- **Typography mode:** on page `↳ Button Group` set the explicit variable mode **`Mobile · EN`** of `5. Typography` (Arabic frames and examples: **`Mobile · AR`**) (`page.setExplicitVariableModeForCollection`). Text styles stay the same `{role}/{size}` names; the mode gives the Mobile scale and the language font.
 
 ### D2 Component structure
 

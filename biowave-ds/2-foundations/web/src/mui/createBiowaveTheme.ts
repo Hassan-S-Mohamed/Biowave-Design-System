@@ -43,7 +43,7 @@ const variant = (role: keyof typeof t.size, size: string) => {
   const sizes = t.size[role] as Record<string, string>;
   const lines = t['line-height'][role as keyof (typeof t)['line-height']] as Record<string, string>;
   return {
-    fontFamily: t.family.active,
+    fontFamily: role === 'code' ? t.family.mono : t.family.active,
     fontSize: sizes[size],
     lineHeight: lines[size],
     fontWeight: t.weight[role as keyof typeof t.weight],
@@ -61,6 +61,7 @@ export const biowaveVariants = {
   captionMd: variant('caption', 'md'), captionSm: variant('caption', 'sm'),
   actionLg: variant('action', 'lg'), actionMd: variant('action', 'md'), actionSm: variant('action', 'sm'),
   dataLg: variant('data', 'lg'), dataMd: variant('data', 'md'), dataSm: variant('data', 'sm'),
+  codeMd: variant('code', 'md'), codeSm: variant('code', 'sm'),
 } as const;
 
 export type BiowaveTypographyVariant = keyof typeof biowaveVariants;

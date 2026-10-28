@@ -210,9 +210,9 @@ function figmaContract(c, lib, errors) {
   // styles named in B/D (brace patterns like Web/{en|ar}/action/{sm|md|lg} are expanded)
   const textNames = new Set(lib.textStyles.map((s) => s.name)), effNames = new Map(lib.effectStyles.map((s) => [s.name, s]));
   const tRows = [], missingT = [];
-  const pats = new Set([...bdText.matchAll(/`((?:Web|Tablet|Mobile)\/[^`\s]+)`/g)].map((m) => m[1]));
+  const pats = new Set([...bdText.matchAll(/`((?:display|heading|title|body|label|caption|action|data|code)\/[^`\s]+)`/g)].map((m) => m[1]));
   const seenT = new Set();
-  for (const p of [...pats].filter((x) => !/[…*]/.test(x))) for (const n of expandBraces(p)) { // "Web/{en|ar}/…" is shorthand, not a style name
+  for (const p of [...pats].filter((x) => !/[…*]/.test(x))) for (const n of expandBraces(p)) { // "action/{sm|md|lg}" is shorthand, not a style name
     if (seenT.has(n)) continue; seenT.add(n);
     const s = lib.textStyles.find((x) => x.name === n);
     if (s) tRows.push(`| \`${s.name}\` | \`${s.key}\` |`); else missingT.push(n);

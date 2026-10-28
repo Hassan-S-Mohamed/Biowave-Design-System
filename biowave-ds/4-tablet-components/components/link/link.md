@@ -501,7 +501,7 @@ Implement every item in B9, plus:
 ### D1 Rules for this build
 
 Same as [Web D1](../../../3-web-components/components/link/link.md#d1-rules-for-this-build) (library first, no component tokens — bind the Foundations variables directly, everything bound except the underline thickness and offset), plus:
-- **Typography mode:** on page `↳ Link` set the explicit variable mode **`Tablet`** for `5. Typography (EN)` and `6. Typography (AR)` (`page.setExplicitVariableModeForCollection`). Text styles stay `Web/{en|ar}/action/{sm|md|lg}`; the mode gives the Tablet scale.
+- **Typography mode:** on page `↳ Link` set the explicit variable mode **`Tablet · EN`** of `5. Typography` (Arabic frames and examples: **`Tablet · AR`**) (`page.setExplicitVariableModeForCollection`). Text styles stay `action/{sm|md|lg}`; the mode gives the Tablet scale and the language font.
 - Underline offset: font default (B2), not `spacing-xxs`.
 
 ### D2 Component structure

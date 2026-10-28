@@ -642,6 +642,10 @@ export const platforms = {
           lg: 20,
           md: 14,
           sm: 12
+        },
+        code: {
+          md: 13,
+          sm: 12
         }
       },
       "line-height": {
@@ -680,6 +684,10 @@ export const platforms = {
           },
           data: {
             lg: 28,
+            md: 20,
+            sm: 16
+          },
+          code: {
             md: 20,
             sm: 16
           }
@@ -721,6 +729,10 @@ export const platforms = {
             lg: 30,
             md: 22,
             sm: 18
+          },
+          code: {
+            md: 20,
+            sm: 16
           }
         }
       },
@@ -732,7 +744,8 @@ export const platforms = {
         label: 500,
         caption: 400,
         action: 500,
-        data: 500
+        data: 500,
+        code: 400
       },
       "letter-spacing": {
         en: {
@@ -809,6 +822,10 @@ export const platforms = {
           lg: 22,
           md: 16,
           sm: 13
+        },
+        code: {
+          md: 14,
+          sm: 12
         }
       },
       "line-height": {
@@ -849,6 +866,10 @@ export const platforms = {
             lg: 30,
             md: 24,
             sm: 18
+          },
+          code: {
+            md: 22,
+            sm: 18
           }
         },
         ar: {
@@ -888,6 +909,10 @@ export const platforms = {
             lg: 32,
             md: 26,
             sm: 20
+          },
+          code: {
+            md: 22,
+            sm: 18
           }
         }
       },
@@ -899,7 +924,8 @@ export const platforms = {
         label: 500,
         caption: 400,
         action: 500,
-        data: 500
+        data: 500,
+        code: 400
       },
       "letter-spacing": {
         en: {
@@ -976,6 +1002,10 @@ export const platforms = {
           lg: 24,
           md: 16,
           sm: 13
+        },
+        code: {
+          md: 14,
+          sm: 12
         }
       },
       "line-height": {
@@ -1016,6 +1046,10 @@ export const platforms = {
             lg: 32,
             md: 24,
             sm: 18
+          },
+          code: {
+            md: 22,
+            sm: 18
           }
         },
         ar: {
@@ -1055,6 +1089,10 @@ export const platforms = {
             lg: 34,
             md: 26,
             sm: 20
+          },
+          code: {
+            md: 22,
+            sm: 18
           }
         }
       },
@@ -1066,7 +1104,8 @@ export const platforms = {
         label: 500,
         caption: 400,
         action: 500,
-        data: 500
+        data: 500,
+        code: 400
       },
       "letter-spacing": {
         en: {
@@ -1237,6 +1276,10 @@ export const cssVars = {
         lg: "var(--bw-font-size-data-lg)",
         md: "var(--bw-font-size-data-md)",
         sm: "var(--bw-font-size-data-sm)"
+      },
+      code: {
+        md: "var(--bw-font-size-code-md)",
+        sm: "var(--bw-font-size-code-sm)"
       }
     },
     weight: {
@@ -1247,7 +1290,8 @@ export const cssVars = {
       label: "var(--bw-font-weight-label)",
       caption: "var(--bw-font-weight-caption)",
       action: "var(--bw-font-weight-action)",
-      data: "var(--bw-font-weight-data)"
+      data: "var(--bw-font-weight-data)",
+      code: "var(--bw-font-weight-code)"
     },
     "line-height": {
       display: {
@@ -1286,6 +1330,10 @@ export const cssVars = {
         lg: "var(--bw-font-line-height-data-lg)",
         md: "var(--bw-font-line-height-data-md)",
         sm: "var(--bw-font-line-height-data-sm)"
+      },
+      code: {
+        md: "var(--bw-font-line-height-code-md)",
+        sm: "var(--bw-font-line-height-code-sm)"
       }
     }
   },
@@ -1583,5 +1631,5 @@ export const cssVars = {
 export type ThemeName = 'light' | 'dark';
 export type PlatformName = 'web' | 'tablet' | 'mobile';
 export type LocaleName = 'en' | 'ar';
-export type TypeRole = 'display-lg' | 'display-md' | 'heading-lg' | 'heading-md' | 'heading-sm' | 'title-lg' | 'title-md' | 'body-lg' | 'body-md' | 'body-sm' | 'label-lg' | 'label-md' | 'label-sm' | 'caption-md' | 'caption-sm' | 'action-lg' | 'action-md' | 'action-sm' | 'data-lg' | 'data-md' | 'data-sm';
-export const typeRoles: readonly TypeRole[] = ["display-lg","display-md","heading-lg","heading-md","heading-sm","title-lg","title-md","body-lg","body-md","body-sm","label-lg","label-md","label-sm","caption-md","caption-sm","action-lg","action-md","action-sm","data-lg","data-md","data-sm"];
+export type TypeRole = 'display-lg' | 'display-md' | 'heading-lg' | 'heading-md' | 'heading-sm' | 'title-lg' | 'title-md' | 'body-lg' | 'body-md' | 'body-sm' | 'label-lg' | 'label-md' | 'label-sm' | 'caption-md' | 'caption-sm' | 'action-lg' | 'action-md' | 'action-sm' | 'data-lg' | 'data-md' | 'data-sm' | 'code-md' | 'code-sm';
+export const typeRoles: readonly TypeRole[] = ["display-lg","display-md","heading-lg","heading-md","heading-sm","title-lg","title-md","body-lg","body-md","body-sm","label-lg","label-md","label-sm","caption-md","caption-sm","action-lg","action-md","action-sm","data-lg","data-md","data-sm","code-md","code-sm"];

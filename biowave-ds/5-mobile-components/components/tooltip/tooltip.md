@@ -440,7 +440,7 @@ Implement every item in B9, plus:
 ### D1 Rules for this build
 
 Same as [Web D1](../../../3-web-components/components/tooltip/tooltip.md#d1-rules-for-this-build) (library first, everything bound, no local variables or styles, no component tokens), plus:
-- **Typography mode:** on page `↳ Tooltip` set the explicit variable mode **`Mobile`** for `5. Typography (EN)` and `6. Typography (AR)` (`page.setExplicitVariableModeForCollection`). Text styles stay `Web/{en|ar}/label/sm`; the mode gives the Mobile scale.
+- **Typography mode:** on page `↳ Tooltip` set the explicit variable mode **`Mobile · EN`** of `5. Typography` (Arabic frames and examples: **`Mobile · AR`**) (`page.setExplicitVariableModeForCollection`). Text styles stay `label/sm`; the mode gives the Mobile scale and the language font.
 
 ### D2 Component structure
 

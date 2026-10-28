@@ -104,7 +104,7 @@ ${platformDecls(all.platform.mobile, '  ')}
 }
 
 /* ---------- Typography utility classes ---------- */
-${roles.map((r) => `.bw-text-${r} { font-family: var(--bw-font-family); font-size: var(--bw-font-size-${r}); line-height: var(--bw-font-line-height-${r}); font-weight: var(--bw-font-weight-${r.split('-')[0]}); letter-spacing: var(--bw-font-letter-spacing-${r.startsWith('display') ? 'display' : 'default'}); }`).join('\n')}
+${roles.map((r) => `.bw-text-${r} { font-family: ${r.startsWith('code') ? 'var(--bw-font-family-mono)' : 'var(--bw-font-family)'};${r.startsWith('data') || r.startsWith('code') ? ' font-variant-numeric: tabular-nums;' : ''} font-size: var(--bw-font-size-${r}); line-height: var(--bw-font-line-height-${r}); font-weight: var(--bw-font-weight-${r.split('-')[0]}); letter-spacing: var(--bw-font-letter-spacing-${r.startsWith('display') ? 'display' : 'default'}); }`).join('\n')}
 
 /* ---------- Motion safety ---------- */
 @media (prefers-reduced-motion: reduce) {
@@ -195,6 +195,7 @@ ${consts('BwExternalColors', 'Third-party brand colors (never themed).', (t) => 
 abstract final class BwFontFamily {
   static const String en = ${JSON.stringify(all.base.get('primitive.font.family.en').value[0])};
   static const String ar = ${JSON.stringify(all.base.get('primitive.font.family.ar').value[0])};
+  static const String mono = ${JSON.stringify(all.base.get('primitive.font.family.mono').value[0])};
   static const List<String> arFallback = ${JSON.stringify(all.base.get('primitive.font.family.ar').value.slice(1, 2))};
 }
 
@@ -255,14 +256,14 @@ ${typeIds.map((x) => `  final TextStyle ${x.id};`).join('\n')}
 
 ${dartPlatforms.flatMap((p) => LOCALES.map((loc) => {
   const m = all.platform[p];
-  const fam = loc === 'en' ? 'BwFontFamily.en' : 'BwFontFamily.ar';
+  const famOf = (role) => (role === 'code' ? 'BwFontFamily.mono' : loc === 'en' ? 'BwFontFamily.en' : 'BwFontFamily.ar');
   return `  static const ${p}${loc === 'en' ? 'En' : 'Ar'} = BwTextStyles(\n${typeIds.map(({ r, id }) => {
     const [role, size] = r.split('-');
     const fs = px(m.get(`platform.font.size.${role}.${size}`).value);
     const lh = px(m.get(`platform.font.line-height.${loc}.${role}.${size}`).value);
     const w = m.get(`platform.font.weight.${role}`).value;
     const ls = loc === 'en' && role === 'display' ? px(m.get('platform.font.letter-spacing.en.display').value) : 0;
-    return `    ${id}: TextStyle(fontFamily: ${fam}${loc === 'ar' ? ', fontFamilyFallback: BwFontFamily.arFallback' : ''}, fontSize: ${fs}, height: ${+(lh / fs).toFixed(4)}, fontWeight: FontWeight.w${w}, letterSpacing: ${ls}, leadingDistribution: TextLeadingDistribution.even),`;
+    return `    ${id}: TextStyle(fontFamily: ${famOf(role)}${loc === 'ar' && role !== 'code' ? ', fontFamilyFallback: BwFontFamily.arFallback' : ''}, fontSize: ${fs}, height: ${+(lh / fs).toFixed(4)}, fontWeight: FontWeight.w${w}, letterSpacing: ${ls}, leadingDistribution: TextLeadingDistribution.even),`;
   }).join('\n')}\n  );`;
 })).join('\n\n')}
 

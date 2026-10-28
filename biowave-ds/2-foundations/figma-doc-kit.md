@@ -9,7 +9,7 @@
 - Page widths are the only fixed sizes: **Wide** = `size/container/6xl` (1920) for variant matrices, variations, motion and the home pages; **Standard** = `size/container/2xl` (1024) for text pages. Bind the page frame's width to the variable (confirmed by the Planner 2026-10-18, DK-5).
 - Kit components have a default width for the Standard page. **In a row, set `Doc/Tile`, `Doc/Do`, `Doc/Dont`, `Doc/Uses` instances to Fill**; full-width pieces (`Doc/Header`, `Doc/Section`, `Doc/Table`, `Doc/Divider`, `Doc/Motion row`, home components) are set to Fill in the page frame.
 - Slots are native Figma slots: put live component instances inside them; never detach a kit instance.
-- No mono text style exists in Figma (mono is code-only, D-13 sync report), so `Doc/Code block` and code cells use `Web/en/data/*`.
+- `Doc/Code block` and code cells use the `code/md` and `code/sm` text styles (JetBrains Mono, added 2026-10-28).
 - Changing a Doc Kit component updates every component's docs. Version changes go in this file's changelog.
 
 ## Components

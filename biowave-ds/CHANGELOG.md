@@ -2,6 +2,19 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Foundations — Typography 2.0] — 2026-10-28
+### Changed
+- **Figma: one typography collection.** `5. Typography (EN)` converted in place into **`5. Typography`** with six modes `Web · EN`, `Web · AR`, `Tablet · EN`, `Tablet · AR`, `Mobile · EN`, `Mobile · AR` (existing modes renamed, IDs kept; AR values copied in). Variables renamed to the code paths: `font/family/default`, `font/family/mono`, `font/size/{role}/{size}`, `font/line-height/{role}/{size}`, `font/weight/{role}`, `font/letter-spacing/display · default` (new; display was a raw −0.16). Scopes and WEB code syntax set.
+- **23 text styles** named `{role}/{size}` — the code class names. The `Web/en/*` styles were renamed in place (keys kept) and rebound to the new collection, so existing text keeps its style; one style now serves every platform and language through the frame mode. 115 duplicates (`Web/ar/*`, `Tablet/*`, `Mobile/*`, `*/md-medium`) → `_deprecated/`. Every style has a usage description.
+- `Font Weight/*` (8 variables incl. italics, not in code) → `_deprecated/`. `6. Typography (AR)` renamed `_deprecated · 6. Typography (AR)` and kept published until component files move off the `Web/ar/*` styles.
+- **`action` role aliased:** `action-lg` = `title-lg`, `action-md` = `label-lg`, `action-sm` = `label-md` (size, line height en/ar, weight) in the platform tokens and in Figma — same values as before, can no longer drift.
+- Component specs and the template: text styles `Web/{en|ar}/x/y` → `x/y`; page typography mode → `<Platform> · EN` / `· AR` of `5. Typography`.
+- `typography.md` rewritten: how one name maps to web / Flutter / Figma, variable ↔ token table, and a usage table (style → components, weight, Web/Tablet/Mobile size and line height EN · AR).
+### Added
+- **`code` role** (`code-md`, `code-sm`, JetBrains Mono, regular; web 13/20 · 12/16, tablet/mobile 14/22 · 12/18) for serial numbers, device IDs and keys: CSS `.bw-text-code-*`, MUI `codeMd/codeSm`, Flutter `codeMd/codeSm` + `BwFontFamily.mono`, Figma styles `code/md`, `code/sm`.
+- `.bw-text-data-*` and `.bw-text-code-*` include `font-variant-numeric: tabular-nums`.
+- Sync tooling: `figma-map.mjs` typography section → single collection; `component-tokens.mjs`, `figma-read.js` collection names; `contract.mjs` detects `{role}/{size}` style names.
+
 ## [Sync — Component tokens, library index, contracts] — 2026-10-28
 ### Changed
 - Component tokens applied to the Web, Tablet and Mobile Figma files with the restored `figma-apply-tokens.template.js`: 10 collections / 66 variables per file updated in place (no collection, mode or variable created or removed; IDs kept, so component bindings keep working). Aliases now point to `background/disabled`, `border/bold`, `background/transparent/hovered · pressed`, `background/base/hovered` (text field hover). Lint 0 violations; values match `tokens.json` in every file (digest check). `sync:done:tokens:web · tablet · mobile`.

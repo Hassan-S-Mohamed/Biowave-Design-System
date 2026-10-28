@@ -16,7 +16,7 @@ const WEIGHT_WORD = { 400: 'regular', 500: 'medium', 600: 'semibold', 700: 'bold
 
 // Tokens that exist only in code by design (Figma has no matching variable type or uses styles instead).
 export const CODE_ONLY = [
-  /^motion\./, /^layer\./, /^font\.family\.mono$/, /^font\.letter-spacing\./,
+  /^motion\./, /^layer\./,
   /^elevation\./, /^shadow\./, // Figma: effect styles bound to color/shadow/* variables (derived below)
 ];
 
@@ -94,31 +94,32 @@ export function expectedFigma(T = readJson(P.tokensJson)) {
     add({ collection, name: p.split('.').join('/'), web: kebab(p), type: 'FLOAT', modes: { [mode]: t.value }, hint: { [mode]: hint() }, scopes });
   }
 
-  // ---- typography (EN / AR), modes Web · Tablet · Mobile
+  // ---- 5. Typography: ONE collection, modes = platform × language (mirrors code: data-platform + :lang)
+  const TYPO = '5. Typography';
+  const TYPO_MODES = Object.fromEntries(Object.entries(PLATFORM_MODES).flatMap(([P, k]) => [['en', 'EN'], ['ar', 'AR']].map(([lang, L]) => [`${P} · ${L}`, { plat: k, P, lang }])));
+  const perMode = (fn) => Object.fromEntries(Object.entries(TYPO_MODES).map(([md, x]) => [md, fn(x)]));
+  const first = (v) => (Array.isArray(v) ? v[0] : v);
+  add({ collection: TYPO, name: 'font/family/default', web: 'font-family', type: 'STRING', scopes: ['FONT_FAMILY'],
+    modes: perMode((x) => first(T.base[`font.family.${x.lang}`].value)), hint: perMode((x) => `Typography/Font Family/${x.lang.toUpperCase()}`) });
+  add({ collection: TYPO, name: 'font/family/mono', web: 'font-family-mono', type: 'STRING', scopes: ['FONT_FAMILY'],
+    modes: perMode(() => first(T.base['font.family.mono'].value)), hint: {} });
   const W = T.platform.web;
-  for (const [lang, collection] of [['en', '5. Typography (EN)'], ['ar', '6. Typography (AR)']]) {
-    const fam = T.base[`font.family.${lang}`].value;
-    add({ collection, name: 'Font Family', web: null, type: 'STRING',
-      modes: Object.fromEntries(Object.keys(PLATFORM_MODES).map((m) => [m, Array.isArray(fam) ? fam[0] : fam])),
-      hint: Object.fromEntries(Object.keys(PLATFORM_MODES).map((m) => [m, `Typography/Font Family/${lang.toUpperCase()}`])), scopes: ['FONT_FAMILY'] });
-    for (const p of Object.keys(W)) {
-      let m, name, web, scopes, type = 'FLOAT', hint, val = (mode) => T.platform[PLATFORM_MODES[mode]][p];
-      if ((m = p.match(/^font\.size\.(\w+)\.(\w+)$/))) {
-        name = `Size/${cap(m[1])}/${m[2]}`; web = `font-size-${m[1]}-${m[2]}`; scopes = ['FONT_SIZE'];
-        hint = (mode) => `Typography/Size/${mode}/${val(mode)}`;
-      } else if ((m = p.match(/^font\.line-height\.(en|ar)\.(\w+)\.(\w+)$/)) && m[1] === lang) {
-        name = `Line Height/${cap(m[2])}/${m[3]}`; web = `font-line-height-${m[2]}-${m[3]}`; scopes = ['LINE_HEIGHT'];
-        hint = (mode) => `Typography/Line Height/${mode}/${lang}/${val(mode)}`;
-      } else if ((m = p.match(/^font\.weight\.(\w+)$/))) {
-        name = `Role Weight/${m[1]}`; web = `font-weight-${m[1]}`; scopes = ['FONT_STYLE']; type = 'STRING';
-        const num = val; val = (mode) => WEIGHT[lang][num(mode)];
-        hint = (mode) => `Font Weight/font-weight-${WEIGHT_WORD[num(mode)]}`;
-      } else continue;
-      add({ collection, name, web, type, scopes,
-        modes: Object.fromEntries(Object.keys(PLATFORM_MODES).map((md) => [md, val(md)])),
-        hint: Object.fromEntries(Object.keys(PLATFORM_MODES).map((md) => [md, hint(md)])) });
+  for (const p of Object.keys(W)) {
+    let m;
+    if ((m = p.match(/^font\.size\.(\w+)\.(\w+)$/))) {
+      add({ collection: TYPO, name: `font/size/${m[1]}/${m[2]}`, web: `font-size-${m[1]}-${m[2]}`, type: 'FLOAT', scopes: ['FONT_SIZE'],
+        modes: perMode((x) => T.platform[x.plat][p]), hint: perMode((x) => `Typography/Size/${x.P}/${T.platform[x.plat][p]}`) });
+    } else if ((m = p.match(/^font\.line-height\.en\.(\w+)\.(\w+)$/))) {
+      const key = (x) => `font.line-height.${x.lang}.${m[1]}.${m[2]}`;
+      add({ collection: TYPO, name: `font/line-height/${m[1]}/${m[2]}`, web: `font-line-height-${m[1]}-${m[2]}`, type: 'FLOAT', scopes: ['LINE_HEIGHT'],
+        modes: perMode((x) => T.platform[x.plat][key(x)]), hint: perMode((x) => `Typography/Line Height/${x.P}/${x.lang}/${T.platform[x.plat][key(x)]}`) });
+    } else if ((m = p.match(/^font\.weight\.(\w+)$/))) {
+      add({ collection: TYPO, name: `font/weight/${m[1]}`, web: `font-weight-${m[1]}`, type: 'STRING', scopes: ['FONT_STYLE'],
+        modes: perMode((x) => WEIGHT[m[1] === 'code' ? 'en' : x.lang][T.platform[x.plat][p]]), hint: {} });
     }
   }
+  for (const k of ['display', 'default']) add({ collection: TYPO, name: `font/letter-spacing/${k}`, web: `font-letter-spacing-${k}`, type: 'FLOAT', scopes: ['LETTER_SPACING'],
+    modes: perMode((x) => T.platform[x.plat][`font.letter-spacing.${x.lang}.${k}`] ?? T.platform[x.plat][`font.letter-spacing.${x.lang}.default`]), hint: {} });
 
   // ---- 7. Grid & Layout
   const platformKeys = [...new Set(Object.values(PLATFORM_MODES).flatMap((k) => Object.keys(T.platform[k])))];

@@ -492,7 +492,7 @@ Questions: none.
 ### D1 Rules for this build
 
 0. **No component tokens** — this component has no `Divider / *` collection. Bind directly to the Foundations library variables (keys in the contract). Never create local variables or styles; `figma-read-tokens.js` lint must report 0 before Phase 1 and after each phase.
-1. Every value is bound: line stroke colour → `color/border/{subtle|default|strong}`; stroke weight → `border/width/default`; inset padding → `spacing/xl` (or `spacing/none`); label gap → `spacing/md`; label fill → `color/text/subtlest`; label text style → `Web/{en|ar}/caption/md` (published Foundations text styles). No raw numbers.
+1. Every value is bound: line stroke colour → `color/border/{subtle|default|strong}`; stroke weight → `border/width/default`; inset padding → `spacing/xl` (or `spacing/none`); label gap → `spacing/md`; label fill → `color/text/subtlest`; label text style → `caption/md` (published Foundations text styles). No raw numbers.
 2. Never bind `_Primitive/*` or `_deprecated/*`.
 3. Layer names = A2 part names (`container`, `line`, `label`). With a label the line is two layers, both named `line`.
 4. Auto layout on every frame; no absolute positioning.
@@ -516,7 +516,7 @@ container        ↔ horizontal · width FILL when placed · height HUG
 ├── line         frame · width FILL (min width {spacing/xl}) · height HUG (no children)
 │                  bottom stroke only: weight {B3 border-width-default}, colour {B3 per Emphasis}
 │                  strokes included in layout = on (the frame is exactly one stroke thick)
-├── label        T `Web/{en|ar}/caption/md` · fill {color/text/subtlest} · width HUG · align center
+├── label        T `caption/md` · fill {color/text/subtlest} · width HUG · align center
 │                  BOOLEAN `Show label` (visibility) · TEXT `Label` (characters) · default “or”
 └── line         second segment, same as the first · visibility bound to `Show label`
 
@@ -527,7 +527,7 @@ container        ↕ vertical · height FILL when placed · width HUG
                    right stroke only: weight {B3}, colour {B3}; strokes included in layout = on
 ```
 
-With `Show label` off, `label` and the second `line` are hidden, so the first `line` fills the container alone (hidden layers take no gap). Vertical variants have no `label` layer: `Show label` and `Label` do nothing there (B1 — no label on vertical dividers). The default text style is `Web/en/caption/md`; Arabic samples on doc pages use `Web/ar/caption/md` and the Arabic text “أو”.
+With `Show label` off, `label` and the second `line` are hidden, so the first `line` fills the container alone (hidden layers take no gap). Vertical variants have no `label` layer: `Show label` and `Label` do nothing there (B1 — no label on vertical dividers). The default text style is `caption/md`; Arabic samples on doc pages use `caption/md` and the Arabic text “أو”.
 
 If a hug frame with no children cannot keep the stroke-only size, stop and report in D11 (do not switch to a fill rectangle with a raw height).
 
@@ -562,7 +562,7 @@ None.
 
 ### D7 RTL
 
-Method: `Direction=RTL` variants only where the result differs (Horizontal · Inset=Start): padding on the right instead of the left. All other variants look the same in both directions, including a shown label (centred). Doc page 08 shows an inset divider in an Arabic list (sample copy from A6: الإشعارات) and a labelled divider with “أو” in `Web/ar/caption/md`.
+Method: `Direction=RTL` variants only where the result differs (Horizontal · Inset=Start): padding on the right instead of the left. All other variants look the same in both directions, including a shown label (centred). Doc page 08 shows an inset divider in an Arabic list (sample copy from A6: الإشعارات) and a labelled divider with “أو” in `caption/md`.
 
 ### D8 Documentation pages
 

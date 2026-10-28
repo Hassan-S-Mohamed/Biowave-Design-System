@@ -151,3 +151,7 @@ Found and fixed: the dark values of `color/surface/page · default · subtle · 
 Renamed in place in Figma: `color/overlay/backdrop` → `color/overlay/default`, `color/border/input/default` → `color/border/bold`, `color/background/base/disabled` → `color/background/disabled`. Moved to `_deprecated/` and aliased to the replacement (bindings keep their colour): every other `*/disabled`, `border/input/error · hovered`, `overlay/hovered · pressed · subtle · scrim · brand`; role overlays have no replacement. Full map in `CHANGELOG.md` › *Semantic colour tokens 2.1*.
 
 Raw hex (no primitive yet, by decision): accent role and the `color/data/*` group. Promote to primitive ramps when the brand palette is next revised.
+
+## 9. Typography 2.0 — 28 Oct 2026
+
+`5. Typography (EN)` → `5. Typography` (modes renamed `Web/Tablet/Mobile` → `… · EN`, `… · AR` added). Variable renames (IDs kept): `Font Family` → `font/family/default`; `Size/<Role>/<size>` → `font/size/<role>/<size>`; `Line Height/<Role>/<size>` → `font/line-height/<role>/<size>`; `Role Weight/<role>` → `font/weight/<role>`. Text styles `Web/en/<role>/<size>` → `<role>/<size>` (keys kept). Deprecated: `Font Weight/*`, all `Web/ar/*`, `Tablet/*`, `Mobile/*` and `*/md-medium` styles, collection `6. Typography (AR)` (kept published for now). Delete the deprecated AR collection once no component file uses a `_deprecated/Web/ar/*` style.

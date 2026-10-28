@@ -1,7 +1,7 @@
 {
-  "syncedAt": "2026-10-28T09:59:20.505Z",
+  "syncedAt": "2026-10-28T12:46:15.423Z",
   "fileKey": "AyFaSmfDUlTax3GpKhRdHI",
-  "sourceHash": "5845e029dbf590e6",
+  "sourceHash": "3750c1a3798c9ddd",
   "tokens": {
     "1. Themes::color-surface-page": {
       "Light": "#F7F7F7",
@@ -808,515 +808,477 @@
     "4. Size::size-control-height-xl": {
       "Value": 56
     },
-    "5. Typography (EN)::Font Family": {
-      "Web": "Inter",
-      "Tablet": "Inter",
-      "Mobile": "Inter"
-    },
-    "5. Typography (EN)::font-size-display-lg": {
-      "Web": 40,
-      "Tablet": 34,
-      "Mobile": 36
-    },
-    "5. Typography (EN)::font-size-display-md": {
-      "Web": 32,
-      "Tablet": 30,
-      "Mobile": 32
-    },
-    "5. Typography (EN)::font-size-heading-lg": {
-      "Web": 24,
-      "Tablet": 26,
-      "Mobile": 28
-    },
-    "5. Typography (EN)::font-size-heading-md": {
-      "Web": 20,
-      "Tablet": 22,
-      "Mobile": 24
-    },
-    "5. Typography (EN)::font-size-heading-sm": {
-      "Web": 18,
-      "Tablet": 18,
-      "Mobile": 20
-    },
-    "5. Typography (EN)::font-size-title-lg": {
-      "Web": 16,
-      "Tablet": 18,
-      "Mobile": 18
-    },
-    "5. Typography (EN)::font-size-title-md": {
-      "Web": 14,
-      "Tablet": 16,
-      "Mobile": 16
-    },
-    "5. Typography (EN)::font-size-body-lg": {
-      "Web": 16,
-      "Tablet": 16,
-      "Mobile": 18
-    },
-    "5. Typography (EN)::font-size-body-md": {
-      "Web": 14,
-      "Tablet": 16,
-      "Mobile": 16
-    },
-    "5. Typography (EN)::font-size-body-sm": {
-      "Web": 13,
-      "Tablet": 14,
-      "Mobile": 14
-    },
-    "5. Typography (EN)::font-size-label-lg": {
-      "Web": 14,
-      "Tablet": 16,
-      "Mobile": 16
-    },
-    "5. Typography (EN)::font-size-label-md": {
-      "Web": 13,
-      "Tablet": 14,
-      "Mobile": 14
-    },
-    "5. Typography (EN)::font-size-label-sm": {
-      "Web": 12,
-      "Tablet": 12,
-      "Mobile": 12
-    },
-    "5. Typography (EN)::font-size-caption-md": {
-      "Web": 12,
-      "Tablet": 12,
-      "Mobile": 12
-    },
-    "5. Typography (EN)::font-size-caption-sm": {
-      "Web": 11,
-      "Tablet": 12,
-      "Mobile": 12
-    },
-    "5. Typography (EN)::font-size-action-lg": {
-      "Web": 16,
-      "Tablet": 18,
-      "Mobile": 18
-    },
-    "5. Typography (EN)::font-size-action-md": {
-      "Web": 14,
-      "Tablet": 16,
-      "Mobile": 16
-    },
-    "5. Typography (EN)::font-size-action-sm": {
-      "Web": 13,
-      "Tablet": 14,
-      "Mobile": 14
-    },
-    "5. Typography (EN)::font-size-data-lg": {
-      "Web": 20,
-      "Tablet": 22,
-      "Mobile": 24
-    },
-    "5. Typography (EN)::font-size-data-md": {
-      "Web": 14,
-      "Tablet": 16,
-      "Mobile": 16
-    },
-    "5. Typography (EN)::font-size-data-sm": {
-      "Web": 12,
-      "Tablet": 13,
-      "Mobile": 13
-    },
-    "5. Typography (EN)::font-line-height-display-lg": {
-      "Web": 40,
-      "Tablet": 42,
-      "Mobile": 44
-    },
-    "5. Typography (EN)::font-line-height-display-md": {
-      "Web": 36,
-      "Tablet": 38,
-      "Mobile": 40
-    },
-    "5. Typography (EN)::font-line-height-heading-lg": {
-      "Web": 32,
-      "Tablet": 34,
-      "Mobile": 36
-    },
-    "5. Typography (EN)::font-line-height-heading-md": {
-      "Web": 28,
-      "Tablet": 30,
-      "Mobile": 32
-    },
-    "5. Typography (EN)::font-line-height-heading-sm": {
-      "Web": 24,
-      "Tablet": 26,
-      "Mobile": 28
-    },
-    "5. Typography (EN)::font-line-height-title-lg": {
-      "Web": 24,
-      "Tablet": 26,
-      "Mobile": 28
-    },
-    "5. Typography (EN)::font-line-height-title-md": {
-      "Web": 22,
-      "Tablet": 24,
-      "Mobile": 24
-    },
-    "5. Typography (EN)::font-line-height-body-lg": {
-      "Web": 24,
-      "Tablet": 26,
-      "Mobile": 28
-    },
-    "5. Typography (EN)::font-line-height-body-md": {
-      "Web": 22,
-      "Tablet": 24,
-      "Mobile": 24
-    },
-    "5. Typography (EN)::font-line-height-body-sm": {
-      "Web": 20,
-      "Tablet": 22,
-      "Mobile": 22
-    },
-    "5. Typography (EN)::font-line-height-label-lg": {
-      "Web": 20,
-      "Tablet": 24,
-      "Mobile": 24
-    },
-    "5. Typography (EN)::font-line-height-label-md": {
-      "Web": 18,
-      "Tablet": 20,
-      "Mobile": 20
-    },
-    "5. Typography (EN)::font-line-height-label-sm": {
-      "Web": 16,
-      "Tablet": 18,
-      "Mobile": 16
-    },
-    "5. Typography (EN)::font-line-height-caption-md": {
-      "Web": 16,
-      "Tablet": 18,
-      "Mobile": 18
-    },
-    "5. Typography (EN)::font-line-height-caption-sm": {
-      "Web": 16,
-      "Tablet": 18,
-      "Mobile": 18
-    },
-    "5. Typography (EN)::font-line-height-action-lg": {
-      "Web": 24,
-      "Tablet": 26,
-      "Mobile": 28
-    },
-    "5. Typography (EN)::font-line-height-action-md": {
-      "Web": 20,
-      "Tablet": 24,
-      "Mobile": 24
-    },
-    "5. Typography (EN)::font-line-height-action-sm": {
-      "Web": 18,
-      "Tablet": 20,
-      "Mobile": 20
-    },
-    "5. Typography (EN)::font-line-height-data-lg": {
-      "Web": 28,
-      "Tablet": 30,
-      "Mobile": 32
-    },
-    "5. Typography (EN)::font-line-height-data-md": {
-      "Web": 20,
-      "Tablet": 24,
-      "Mobile": 24
-    },
-    "5. Typography (EN)::font-line-height-data-sm": {
-      "Web": 16,
-      "Tablet": 18,
-      "Mobile": 18
-    },
-    "5. Typography (EN)::font-weight-display": {
-      "Web": "Semi Bold",
-      "Tablet": "Semi Bold",
-      "Mobile": "Semi Bold"
-    },
-    "5. Typography (EN)::font-weight-heading": {
-      "Web": "Semi Bold",
-      "Tablet": "Semi Bold",
-      "Mobile": "Semi Bold"
-    },
-    "5. Typography (EN)::font-weight-title": {
-      "Web": "Medium",
-      "Tablet": "Medium",
-      "Mobile": "Medium"
-    },
-    "5. Typography (EN)::font-weight-body": {
-      "Web": "Regular",
-      "Tablet": "Regular",
-      "Mobile": "Regular"
-    },
-    "5. Typography (EN)::font-weight-label": {
-      "Web": "Medium",
-      "Tablet": "Medium",
-      "Mobile": "Medium"
-    },
-    "5. Typography (EN)::font-weight-caption": {
-      "Web": "Regular",
-      "Tablet": "Regular",
-      "Mobile": "Regular"
-    },
-    "5. Typography (EN)::font-weight-action": {
-      "Web": "Medium",
-      "Tablet": "Medium",
-      "Mobile": "Medium"
-    },
-    "5. Typography (EN)::font-weight-data": {
-      "Web": "Medium",
-      "Tablet": "Medium",
-      "Mobile": "Medium"
-    },
-    "6. Typography (AR)::Font Family": {
-      "Web": "IBM Plex Sans Arabic",
-      "Tablet": "IBM Plex Sans Arabic",
-      "Mobile": "IBM Plex Sans Arabic"
-    },
-    "6. Typography (AR)::font-size-display-lg": {
-      "Web": 40,
-      "Tablet": 34,
-      "Mobile": 36
-    },
-    "6. Typography (AR)::font-size-display-md": {
-      "Web": 32,
-      "Tablet": 30,
-      "Mobile": 32
-    },
-    "6. Typography (AR)::font-size-heading-lg": {
-      "Web": 24,
-      "Tablet": 26,
-      "Mobile": 28
-    },
-    "6. Typography (AR)::font-size-heading-md": {
-      "Web": 20,
-      "Tablet": 22,
-      "Mobile": 24
-    },
-    "6. Typography (AR)::font-size-heading-sm": {
-      "Web": 18,
-      "Tablet": 18,
-      "Mobile": 20
-    },
-    "6. Typography (AR)::font-size-title-lg": {
-      "Web": 16,
-      "Tablet": 18,
-      "Mobile": 18
-    },
-    "6. Typography (AR)::font-size-title-md": {
-      "Web": 14,
-      "Tablet": 16,
-      "Mobile": 16
-    },
-    "6. Typography (AR)::font-size-body-lg": {
-      "Web": 16,
-      "Tablet": 16,
-      "Mobile": 18
-    },
-    "6. Typography (AR)::font-size-body-md": {
-      "Web": 14,
-      "Tablet": 16,
-      "Mobile": 16
-    },
-    "6. Typography (AR)::font-size-body-sm": {
-      "Web": 13,
-      "Tablet": 14,
-      "Mobile": 14
-    },
-    "6. Typography (AR)::font-size-label-lg": {
-      "Web": 14,
-      "Tablet": 16,
-      "Mobile": 16
-    },
-    "6. Typography (AR)::font-size-label-md": {
-      "Web": 13,
-      "Tablet": 14,
-      "Mobile": 14
-    },
-    "6. Typography (AR)::font-size-label-sm": {
-      "Web": 12,
-      "Tablet": 12,
-      "Mobile": 12
-    },
-    "6. Typography (AR)::font-size-caption-md": {
-      "Web": 12,
-      "Tablet": 12,
-      "Mobile": 12
-    },
-    "6. Typography (AR)::font-size-caption-sm": {
-      "Web": 11,
-      "Tablet": 12,
-      "Mobile": 12
-    },
-    "6. Typography (AR)::font-size-action-lg": {
-      "Web": 16,
-      "Tablet": 18,
-      "Mobile": 18
-    },
-    "6. Typography (AR)::font-size-action-md": {
-      "Web": 14,
-      "Tablet": 16,
-      "Mobile": 16
-    },
-    "6. Typography (AR)::font-size-action-sm": {
-      "Web": 13,
-      "Tablet": 14,
-      "Mobile": 14
-    },
-    "6. Typography (AR)::font-size-data-lg": {
-      "Web": 20,
-      "Tablet": 22,
-      "Mobile": 24
-    },
-    "6. Typography (AR)::font-size-data-md": {
-      "Web": 14,
-      "Tablet": 16,
-      "Mobile": 16
-    },
-    "6. Typography (AR)::font-size-data-sm": {
-      "Web": 12,
-      "Tablet": 13,
-      "Mobile": 13
-    },
-    "6. Typography (AR)::font-line-height-display-lg": {
-      "Web": 50,
-      "Tablet": 44,
-      "Mobile": 48
-    },
-    "6. Typography (AR)::font-line-height-display-md": {
-      "Web": 40,
-      "Tablet": 40,
-      "Mobile": 44
-    },
-    "6. Typography (AR)::font-line-height-heading-lg": {
-      "Web": 34,
-      "Tablet": 36,
-      "Mobile": 40
-    },
-    "6. Typography (AR)::font-line-height-heading-md": {
-      "Web": 30,
-      "Tablet": 32,
-      "Mobile": 34
-    },
-    "6. Typography (AR)::font-line-height-heading-sm": {
-      "Web": 26,
-      "Tablet": 28,
-      "Mobile": 30
-    },
-    "6. Typography (AR)::font-line-height-title-lg": {
-      "Web": 26,
-      "Tablet": 28,
-      "Mobile": 30
-    },
-    "6. Typography (AR)::font-line-height-title-md": {
-      "Web": 24,
-      "Tablet": 26,
-      "Mobile": 26
-    },
-    "6. Typography (AR)::font-line-height-body-lg": {
-      "Web": 26,
-      "Tablet": 28,
-      "Mobile": 30
-    },
-    "6. Typography (AR)::font-line-height-body-md": {
-      "Web": 24,
-      "Tablet": 26,
-      "Mobile": 26
-    },
-    "6. Typography (AR)::font-line-height-body-sm": {
-      "Web": 22,
-      "Tablet": 24,
-      "Mobile": 24
-    },
-    "6. Typography (AR)::font-line-height-label-lg": {
-      "Web": 22,
-      "Tablet": 26,
-      "Mobile": 26
-    },
-    "6. Typography (AR)::font-line-height-label-md": {
-      "Web": 20,
-      "Tablet": 22,
-      "Mobile": 22
-    },
-    "6. Typography (AR)::font-line-height-label-sm": {
-      "Web": 18,
-      "Tablet": 20,
-      "Mobile": 18
-    },
-    "6. Typography (AR)::font-line-height-caption-md": {
-      "Web": 18,
-      "Tablet": 20,
-      "Mobile": 20
-    },
-    "6. Typography (AR)::font-line-height-caption-sm": {
-      "Web": 18,
-      "Tablet": 20,
-      "Mobile": 20
-    },
-    "6. Typography (AR)::font-line-height-action-lg": {
-      "Web": 26,
-      "Tablet": 28,
-      "Mobile": 30
-    },
-    "6. Typography (AR)::font-line-height-action-md": {
-      "Web": 22,
-      "Tablet": 26,
-      "Mobile": 26
-    },
-    "6. Typography (AR)::font-line-height-action-sm": {
-      "Web": 20,
-      "Tablet": 22,
-      "Mobile": 22
-    },
-    "6. Typography (AR)::font-line-height-data-lg": {
-      "Web": 30,
-      "Tablet": 32,
-      "Mobile": 34
-    },
-    "6. Typography (AR)::font-line-height-data-md": {
-      "Web": 22,
-      "Tablet": 26,
-      "Mobile": 26
-    },
-    "6. Typography (AR)::font-line-height-data-sm": {
-      "Web": 18,
-      "Tablet": 20,
-      "Mobile": 20
-    },
-    "6. Typography (AR)::font-weight-display": {
-      "Web": "SemiBold",
-      "Tablet": "SemiBold",
-      "Mobile": "SemiBold"
-    },
-    "6. Typography (AR)::font-weight-heading": {
-      "Web": "SemiBold",
-      "Tablet": "SemiBold",
-      "Mobile": "SemiBold"
-    },
-    "6. Typography (AR)::font-weight-title": {
-      "Web": "Medium",
-      "Tablet": "Medium",
-      "Mobile": "Medium"
-    },
-    "6. Typography (AR)::font-weight-body": {
-      "Web": "Regular",
-      "Tablet": "Regular",
-      "Mobile": "Regular"
-    },
-    "6. Typography (AR)::font-weight-label": {
-      "Web": "Medium",
-      "Tablet": "Medium",
-      "Mobile": "Medium"
-    },
-    "6. Typography (AR)::font-weight-caption": {
-      "Web": "Regular",
-      "Tablet": "Regular",
-      "Mobile": "Regular"
-    },
-    "6. Typography (AR)::font-weight-action": {
-      "Web": "Medium",
-      "Tablet": "Medium",
-      "Mobile": "Medium"
-    },
-    "6. Typography (AR)::font-weight-data": {
-      "Web": "Medium",
-      "Tablet": "Medium",
-      "Mobile": "Medium"
+    "5. Typography::font-family": {
+      "Web · EN": "Inter",
+      "Web · AR": "IBM Plex Sans Arabic",
+      "Tablet · EN": "Inter",
+      "Tablet · AR": "IBM Plex Sans Arabic",
+      "Mobile · EN": "Inter",
+      "Mobile · AR": "IBM Plex Sans Arabic"
+    },
+    "5. Typography::font-family-mono": {
+      "Web · EN": "JetBrains Mono",
+      "Web · AR": "JetBrains Mono",
+      "Tablet · EN": "JetBrains Mono",
+      "Tablet · AR": "JetBrains Mono",
+      "Mobile · EN": "JetBrains Mono",
+      "Mobile · AR": "JetBrains Mono"
+    },
+    "5. Typography::font-size-display-lg": {
+      "Web · EN": 40,
+      "Web · AR": 40,
+      "Tablet · EN": 34,
+      "Tablet · AR": 34,
+      "Mobile · EN": 36,
+      "Mobile · AR": 36
+    },
+    "5. Typography::font-size-display-md": {
+      "Web · EN": 32,
+      "Web · AR": 32,
+      "Tablet · EN": 30,
+      "Tablet · AR": 30,
+      "Mobile · EN": 32,
+      "Mobile · AR": 32
+    },
+    "5. Typography::font-size-heading-lg": {
+      "Web · EN": 24,
+      "Web · AR": 24,
+      "Tablet · EN": 26,
+      "Tablet · AR": 26,
+      "Mobile · EN": 28,
+      "Mobile · AR": 28
+    },
+    "5. Typography::font-size-heading-md": {
+      "Web · EN": 20,
+      "Web · AR": 20,
+      "Tablet · EN": 22,
+      "Tablet · AR": 22,
+      "Mobile · EN": 24,
+      "Mobile · AR": 24
+    },
+    "5. Typography::font-size-heading-sm": {
+      "Web · EN": 18,
+      "Web · AR": 18,
+      "Tablet · EN": 18,
+      "Tablet · AR": 18,
+      "Mobile · EN": 20,
+      "Mobile · AR": 20
+    },
+    "5. Typography::font-size-title-lg": {
+      "Web · EN": 16,
+      "Web · AR": 16,
+      "Tablet · EN": 18,
+      "Tablet · AR": 18,
+      "Mobile · EN": 18,
+      "Mobile · AR": 18
+    },
+    "5. Typography::font-size-title-md": {
+      "Web · EN": 14,
+      "Web · AR": 14,
+      "Tablet · EN": 16,
+      "Tablet · AR": 16,
+      "Mobile · EN": 16,
+      "Mobile · AR": 16
+    },
+    "5. Typography::font-size-body-lg": {
+      "Web · EN": 16,
+      "Web · AR": 16,
+      "Tablet · EN": 16,
+      "Tablet · AR": 16,
+      "Mobile · EN": 18,
+      "Mobile · AR": 18
+    },
+    "5. Typography::font-size-body-md": {
+      "Web · EN": 14,
+      "Web · AR": 14,
+      "Tablet · EN": 16,
+      "Tablet · AR": 16,
+      "Mobile · EN": 16,
+      "Mobile · AR": 16
+    },
+    "5. Typography::font-size-body-sm": {
+      "Web · EN": 13,
+      "Web · AR": 13,
+      "Tablet · EN": 14,
+      "Tablet · AR": 14,
+      "Mobile · EN": 14,
+      "Mobile · AR": 14
+    },
+    "5. Typography::font-size-label-lg": {
+      "Web · EN": 14,
+      "Web · AR": 14,
+      "Tablet · EN": 16,
+      "Tablet · AR": 16,
+      "Mobile · EN": 16,
+      "Mobile · AR": 16
+    },
+    "5. Typography::font-size-label-md": {
+      "Web · EN": 13,
+      "Web · AR": 13,
+      "Tablet · EN": 14,
+      "Tablet · AR": 14,
+      "Mobile · EN": 14,
+      "Mobile · AR": 14
+    },
+    "5. Typography::font-size-label-sm": {
+      "Web · EN": 12,
+      "Web · AR": 12,
+      "Tablet · EN": 12,
+      "Tablet · AR": 12,
+      "Mobile · EN": 12,
+      "Mobile · AR": 12
+    },
+    "5. Typography::font-size-caption-md": {
+      "Web · EN": 12,
+      "Web · AR": 12,
+      "Tablet · EN": 12,
+      "Tablet · AR": 12,
+      "Mobile · EN": 12,
+      "Mobile · AR": 12
+    },
+    "5. Typography::font-size-caption-sm": {
+      "Web · EN": 11,
+      "Web · AR": 11,
+      "Tablet · EN": 12,
+      "Tablet · AR": 12,
+      "Mobile · EN": 12,
+      "Mobile · AR": 12
+    },
+    "5. Typography::font-size-action-lg": {
+      "Web · EN": 16,
+      "Web · AR": 16,
+      "Tablet · EN": 18,
+      "Tablet · AR": 18,
+      "Mobile · EN": 18,
+      "Mobile · AR": 18
+    },
+    "5. Typography::font-size-action-md": {
+      "Web · EN": 14,
+      "Web · AR": 14,
+      "Tablet · EN": 16,
+      "Tablet · AR": 16,
+      "Mobile · EN": 16,
+      "Mobile · AR": 16
+    },
+    "5. Typography::font-size-action-sm": {
+      "Web · EN": 13,
+      "Web · AR": 13,
+      "Tablet · EN": 14,
+      "Tablet · AR": 14,
+      "Mobile · EN": 14,
+      "Mobile · AR": 14
+    },
+    "5. Typography::font-size-data-lg": {
+      "Web · EN": 20,
+      "Web · AR": 20,
+      "Tablet · EN": 22,
+      "Tablet · AR": 22,
+      "Mobile · EN": 24,
+      "Mobile · AR": 24
+    },
+    "5. Typography::font-size-data-md": {
+      "Web · EN": 14,
+      "Web · AR": 14,
+      "Tablet · EN": 16,
+      "Tablet · AR": 16,
+      "Mobile · EN": 16,
+      "Mobile · AR": 16
+    },
+    "5. Typography::font-size-data-sm": {
+      "Web · EN": 12,
+      "Web · AR": 12,
+      "Tablet · EN": 13,
+      "Tablet · AR": 13,
+      "Mobile · EN": 13,
+      "Mobile · AR": 13
+    },
+    "5. Typography::font-size-code-md": {
+      "Web · EN": 13,
+      "Web · AR": 13,
+      "Tablet · EN": 14,
+      "Tablet · AR": 14,
+      "Mobile · EN": 14,
+      "Mobile · AR": 14
+    },
+    "5. Typography::font-size-code-sm": {
+      "Web · EN": 12,
+      "Web · AR": 12,
+      "Tablet · EN": 12,
+      "Tablet · AR": 12,
+      "Mobile · EN": 12,
+      "Mobile · AR": 12
+    },
+    "5. Typography::font-line-height-display-lg": {
+      "Web · EN": 40,
+      "Web · AR": 50,
+      "Tablet · EN": 42,
+      "Tablet · AR": 44,
+      "Mobile · EN": 44,
+      "Mobile · AR": 48
+    },
+    "5. Typography::font-line-height-display-md": {
+      "Web · EN": 36,
+      "Web · AR": 40,
+      "Tablet · EN": 38,
+      "Tablet · AR": 40,
+      "Mobile · EN": 40,
+      "Mobile · AR": 44
+    },
+    "5. Typography::font-line-height-heading-lg": {
+      "Web · EN": 32,
+      "Web · AR": 34,
+      "Tablet · EN": 34,
+      "Tablet · AR": 36,
+      "Mobile · EN": 36,
+      "Mobile · AR": 40
+    },
+    "5. Typography::font-line-height-heading-md": {
+      "Web · EN": 28,
+      "Web · AR": 30,
+      "Tablet · EN": 30,
+      "Tablet · AR": 32,
+      "Mobile · EN": 32,
+      "Mobile · AR": 34
+    },
+    "5. Typography::font-line-height-heading-sm": {
+      "Web · EN": 24,
+      "Web · AR": 26,
+      "Tablet · EN": 26,
+      "Tablet · AR": 28,
+      "Mobile · EN": 28,
+      "Mobile · AR": 30
+    },
+    "5. Typography::font-line-height-title-lg": {
+      "Web · EN": 24,
+      "Web · AR": 26,
+      "Tablet · EN": 26,
+      "Tablet · AR": 28,
+      "Mobile · EN": 28,
+      "Mobile · AR": 30
+    },
+    "5. Typography::font-line-height-title-md": {
+      "Web · EN": 22,
+      "Web · AR": 24,
+      "Tablet · EN": 24,
+      "Tablet · AR": 26,
+      "Mobile · EN": 24,
+      "Mobile · AR": 26
+    },
+    "5. Typography::font-line-height-body-lg": {
+      "Web · EN": 24,
+      "Web · AR": 26,
+      "Tablet · EN": 26,
+      "Tablet · AR": 28,
+      "Mobile · EN": 28,
+      "Mobile · AR": 30
+    },
+    "5. Typography::font-line-height-body-md": {
+      "Web · EN": 22,
+      "Web · AR": 24,
+      "Tablet · EN": 24,
+      "Tablet · AR": 26,
+      "Mobile · EN": 24,
+      "Mobile · AR": 26
+    },
+    "5. Typography::font-line-height-body-sm": {
+      "Web · EN": 20,
+      "Web · AR": 22,
+      "Tablet · EN": 22,
+      "Tablet · AR": 24,
+      "Mobile · EN": 22,
+      "Mobile · AR": 24
+    },
+    "5. Typography::font-line-height-label-lg": {
+      "Web · EN": 20,
+      "Web · AR": 22,
+      "Tablet · EN": 24,
+      "Tablet · AR": 26,
+      "Mobile · EN": 24,
+      "Mobile · AR": 26
+    },
+    "5. Typography::font-line-height-label-md": {
+      "Web · EN": 18,
+      "Web · AR": 20,
+      "Tablet · EN": 20,
+      "Tablet · AR": 22,
+      "Mobile · EN": 20,
+      "Mobile · AR": 22
+    },
+    "5. Typography::font-line-height-label-sm": {
+      "Web · EN": 16,
+      "Web · AR": 18,
+      "Tablet · EN": 18,
+      "Tablet · AR": 20,
+      "Mobile · EN": 16,
+      "Mobile · AR": 18
+    },
+    "5. Typography::font-line-height-caption-md": {
+      "Web · EN": 16,
+      "Web · AR": 18,
+      "Tablet · EN": 18,
+      "Tablet · AR": 20,
+      "Mobile · EN": 18,
+      "Mobile · AR": 20
+    },
+    "5. Typography::font-line-height-caption-sm": {
+      "Web · EN": 16,
+      "Web · AR": 18,
+      "Tablet · EN": 18,
+      "Tablet · AR": 20,
+      "Mobile · EN": 18,
+      "Mobile · AR": 20
+    },
+    "5. Typography::font-line-height-action-lg": {
+      "Web · EN": 24,
+      "Web · AR": 26,
+      "Tablet · EN": 26,
+      "Tablet · AR": 28,
+      "Mobile · EN": 28,
+      "Mobile · AR": 30
+    },
+    "5. Typography::font-line-height-action-md": {
+      "Web · EN": 20,
+      "Web · AR": 22,
+      "Tablet · EN": 24,
+      "Tablet · AR": 26,
+      "Mobile · EN": 24,
+      "Mobile · AR": 26
+    },
+    "5. Typography::font-line-height-action-sm": {
+      "Web · EN": 18,
+      "Web · AR": 20,
+      "Tablet · EN": 20,
+      "Tablet · AR": 22,
+      "Mobile · EN": 20,
+      "Mobile · AR": 22
+    },
+    "5. Typography::font-line-height-data-lg": {
+      "Web · EN": 28,
+      "Web · AR": 30,
+      "Tablet · EN": 30,
+      "Tablet · AR": 32,
+      "Mobile · EN": 32,
+      "Mobile · AR": 34
+    },
+    "5. Typography::font-line-height-data-md": {
+      "Web · EN": 20,
+      "Web · AR": 22,
+      "Tablet · EN": 24,
+      "Tablet · AR": 26,
+      "Mobile · EN": 24,
+      "Mobile · AR": 26
+    },
+    "5. Typography::font-line-height-data-sm": {
+      "Web · EN": 16,
+      "Web · AR": 18,
+      "Tablet · EN": 18,
+      "Tablet · AR": 20,
+      "Mobile · EN": 18,
+      "Mobile · AR": 20
+    },
+    "5. Typography::font-line-height-code-md": {
+      "Web · EN": 20,
+      "Web · AR": 20,
+      "Tablet · EN": 22,
+      "Tablet · AR": 22,
+      "Mobile · EN": 22,
+      "Mobile · AR": 22
+    },
+    "5. Typography::font-line-height-code-sm": {
+      "Web · EN": 16,
+      "Web · AR": 16,
+      "Tablet · EN": 18,
+      "Tablet · AR": 18,
+      "Mobile · EN": 18,
+      "Mobile · AR": 18
+    },
+    "5. Typography::font-weight-display": {
+      "Web · EN": "Semi Bold",
+      "Web · AR": "SemiBold",
+      "Tablet · EN": "Semi Bold",
+      "Tablet · AR": "SemiBold",
+      "Mobile · EN": "Semi Bold",
+      "Mobile · AR": "SemiBold"
+    },
+    "5. Typography::font-weight-heading": {
+      "Web · EN": "Semi Bold",
+      "Web · AR": "SemiBold",
+      "Tablet · EN": "Semi Bold",
+      "Tablet · AR": "SemiBold",
+      "Mobile · EN": "Semi Bold",
+      "Mobile · AR": "SemiBold"
+    },
+    "5. Typography::font-weight-title": {
+      "Web · EN": "Medium",
+      "Web · AR": "Medium",
+      "Tablet · EN": "Medium",
+      "Tablet · AR": "Medium",
+      "Mobile · EN": "Medium",
+      "Mobile · AR": "Medium"
+    },
+    "5. Typography::font-weight-body": {
+      "Web · EN": "Regular",
+      "Web · AR": "Regular",
+      "Tablet · EN": "Regular",
+      "Tablet · AR": "Regular",
+      "Mobile · EN": "Regular",
+      "Mobile · AR": "Regular"
+    },
+    "5. Typography::font-weight-label": {
+      "Web · EN": "Medium",
+      "Web · AR": "Medium",
+      "Tablet · EN": "Medium",
+      "Tablet · AR": "Medium",
+      "Mobile · EN": "Medium",
+      "Mobile · AR": "Medium"
+    },
+    "5. Typography::font-weight-caption": {
+      "Web · EN": "Regular",
+      "Web · AR": "Regular",
+      "Tablet · EN": "Regular",
+      "Tablet · AR": "Regular",
+      "Mobile · EN": "Regular",
+      "Mobile · AR": "Regular"
+    },
+    "5. Typography::font-weight-action": {
+      "Web · EN": "Medium",
+      "Web · AR": "Medium",
+      "Tablet · EN": "Medium",
+      "Tablet · AR": "Medium",
+      "Mobile · EN": "Medium",
+      "Mobile · AR": "Medium"
+    },
+    "5. Typography::font-weight-data": {
+      "Web · EN": "Medium",
+      "Web · AR": "Medium",
+      "Tablet · EN": "Medium",
+      "Tablet · AR": "Medium",
+      "Mobile · EN": "Medium",
+      "Mobile · AR": "Medium"
+    },
+    "5. Typography::font-weight-code": {
+      "Web · EN": "Regular",
+      "Web · AR": "Regular",
+      "Tablet · EN": "Regular",
+      "Tablet · AR": "Regular",
+      "Mobile · EN": "Regular",
+      "Mobile · AR": "Regular"
+    },
+    "5. Typography::font-letter-spacing-display": {
+      "Web · EN": -0.16,
+      "Web · AR": 0,
+      "Tablet · EN": -0.16,
+      "Tablet · AR": 0,
+      "Mobile · EN": -0.16,
+      "Mobile · AR": 0
+    },
+    "5. Typography::font-letter-spacing-default": {
+      "Web · EN": 0,
+      "Web · AR": 0,
+      "Tablet · EN": 0,
+      "Tablet · AR": 0,
+      "Mobile · EN": 0,
+      "Mobile · AR": 0
     },
     "7. Grid & Layout::breakpoint-min": {
       "Web": 1200,

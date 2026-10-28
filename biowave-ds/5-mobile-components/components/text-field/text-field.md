@@ -521,7 +521,7 @@ Implement every item in B9, plus:
 ### D1 Rules for this build
 
 Same as [Web D1](../../../3-web-components/components/text-field/text-field.md#d1-rules-for-this-build) (component tokens only, everything bound, library instances), plus:
-- **Typography mode:** on page `↳ Text field` set the explicit variable mode **`Mobile`** for `5. Typography (EN)` and `6. Typography (AR)`.
+- **Typography mode:** on page `↳ Text field` set the explicit variable mode **`Mobile · EN`** of `5. Typography` (Arabic frames and examples: **`Mobile · AR`**).
 - Component tokens: `Text field / Size` and `Text field / State` synced to this file from [`text-field.tokens.json`](text-field.tokens.json).
 - Nested instances: Mobile `Button` (end button) and `Icon button` (help icon, trailing action) from this file once they are built; until then report Phase 1 as “blocked — Button / Icon button” for those slots and build the rest.
 

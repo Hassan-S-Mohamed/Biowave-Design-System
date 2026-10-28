@@ -520,7 +520,7 @@ Files the Executor may touch in this fix round: `3-web-components/src/components
 
 ### D1 Rules for this build
 
-0. **Library first; no component tokens (D-13).** Avatar has no `avatar.tokens.json` (B3: every value is a semantic token). Bind directly to the **Biowave DS — Foundations** library variables listed in the contract; never create local variables, collections or styles. Text styles `Web/{en|ar}/label/sm`, `Web/{en|ar}/label/lg`, `Web/{en|ar}/title/lg`, `Web/{en|ar}/heading/sm`.
+0. **Library first; no component tokens (D-13).** Avatar has no `avatar.tokens.json` (B3: every value is a semantic token). Bind directly to the **Biowave DS — Foundations** library variables listed in the contract; never create local variables, collections or styles. Text styles `label/sm`, `label/lg`, `title/lg`, `heading/sm`.
 1. **Every value is bound.** Fill, radius, width and height → variables; text → text style. The sample photo is an image fill (the only unbound fill allowed).
 2. **Token → variable:** `-` between segments becomes `/`: `size-control-height-md` → `4. Size › size/control/height/md`; `size-icon-md` → `4. Size › size/icon/md`; `radius-full` → `2. Radius › radius/full`; `radius-md` → `2. Radius › radius/md`; `color-background-neutral-default` → `1. Themes › color/background/neutral/default`; `color-text-role-brand` → `1. Themes › color/text/role/brand`.
 3. **Never** bind `_Primitive/*` or `_deprecated/*`.

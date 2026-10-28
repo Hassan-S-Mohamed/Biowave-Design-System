@@ -469,7 +469,7 @@ Checks: `npm run typecheck` ✓ (2.38 s); `npm run test:web` ✓ 146/146 in thre
 ### D1 Rules for this build
 
 Same as [Button D1](../button/button.md#d1-rules-for-this-build): library first, every value bound, no local variables or styles. Tooltip has **no component tokens** (P-04), so bind directly to the Foundations library variables listed in the contract (§3); `figma-read-tokens.js` lint must still report 0.
-- Text uses the published text styles `Web/{en|ar}/label/sm` (EN variant → `en`, AR variant → `ar`).
+- Text uses the published text styles `label/sm` (EN variant → `en`, AR variant → `ar`).
 - No effect style (no shadow) and no stroke.
 
 ### D2 Component structure
@@ -484,7 +484,7 @@ Same as [Button D1](../button/button.md#d1-rules-for-this-build): library first,
 Tooltip                  ↔ horizontal · pad-inline {B2 spacing/md} · pad-block {B2 spacing/xs}
 │                          width: hug · max width {B2 size/container/xxs} · height: hug
 │                          radius {B2 radius/sm} · fill {B3 color/surface/inverse} · no stroke · no effect
-└── label                T text style Web/{en|ar}/label/sm · fill {B3 color/text/inverse}
+└── label                T text style label/sm · fill {B3 color/text/inverse}
                            TEXT `Label` · width: fill (wraps at the max width) · align start · no truncation
 ```
 

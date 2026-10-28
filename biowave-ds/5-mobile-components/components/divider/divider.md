@@ -412,7 +412,7 @@ Implement every item in B9, plus:
 
 ### D1 Rules for this build
 
-Same as [Web D1](../../../3-web-components/components/divider/divider.md#d1-rules-for-this-build) (no component tokens; bind to Foundations variables), except the label text style: `Mobile/{en|ar}/caption/md` instead of the Web styles. The page sets the Typography variable mode to `Mobile`.
+Same as [Web D1](../../../3-web-components/components/divider/divider.md#d1-rules-for-this-build) (no component tokens; bind to Foundations variables), except the label text style: `caption/md` instead of the Web styles. The page sets the Typography variable mode to `Mobile`.
 
 ### D2 Component structure
 
@@ -420,7 +420,7 @@ As Web D2.
 
 ### D3 Layer tree and auto layout
 
-As Web D3, including the `label` layer and the second `line` bound to `Show label`; the `label` text style is `Mobile/{en|ar}/caption/md` (default `Mobile/en/caption/md`).
+As Web D3, including the `label` layer and the second `line` bound to `Show label`; the `label` text style is `caption/md` (default `caption/md`).
 
 ### D4 Properties
 
@@ -440,7 +440,7 @@ As Web D7.
 
 ### D8 Documentation pages
 
-As Web D8; 07 Platform uses `Doc/Device frame` Phone with a list and a bottom sheet. Labelled samples use `Mobile/en/caption/md` (“or”) and `Mobile/ar/caption/md` (“أو”).
+As Web D8; 07 Platform uses `Doc/Device frame` Phone with a list and a bottom sheet. Labelled samples use `caption/md` (“or”) and `caption/md` (“أو”).
 
 Component description: “Thin line that separates groups of content, with an optional centred label. Spec: 5-mobile-components/components/divider/divider.md”.
 
@@ -452,7 +452,7 @@ Component description: “Thin line that separates groups of content, with an op
 
 - [ ] F-AC-1 Set on `↳ Divider` in the Mobile file as Web D2–D3
 - [ ] F-AC-2 Properties as Web D4 (with `Show label` and `Label`); 18 variants, no Vertical · Start
-- [ ] F-AC-3 Zero raw values; bound to Foundations variables; label uses `Mobile/{en|ar}/caption/md`; token lint 0
+- [ ] F-AC-3 Zero raw values; bound to Foundations variables; label uses `caption/md`; token lint 0
 - [ ] F-AC-4 Light / Dark by variable mode only; RTL per Web D7
 - [ ] F-AC-5 Docs from the Doc Kit (or reported blocked); Components List card; Code Connect after approval
 

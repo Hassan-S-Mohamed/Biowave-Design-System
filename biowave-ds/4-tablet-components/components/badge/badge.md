@@ -470,7 +470,7 @@ Implement every item in B9, plus:
 ### D1 Rules for this build
 
 Same as [Web D1](../../../3-web-components/components/badge/badge.md#d1-rules-for-this-build) (library first, no component tokens, everything bound, no local variables or styles), plus:
-- **Typography mode:** on page `↳ Badge` set the explicit variable mode **`Tablet`** for `5. Typography (EN)` and `6. Typography (AR)`. Text styles stay `Web/{en|ar}/data/sm`; the mode gives the Tablet scale.
+- **Typography mode:** on page `↳ Badge` set the explicit variable mode **`Tablet · EN`** of `5. Typography` (Arabic frames and examples: **`Tablet · AR`**). Text styles stay `data/sm`; the mode gives the Tablet scale and the language font.
 - `check-icon` is an instance of the **Icon** set in this file (`Size=SM`, `Glyph` = `check`).
 
 ### D2 Component structure

@@ -148,28 +148,16 @@
         },
         "action": {
           "lg": {
-            "$type": "dimension",
-            "$value": {
-              "value": 16,
-              "unit": "px"
-            },
-            "$description": "High-emphasis action text, e.g. a large primary button/CTA, on web, tablet, and mobile."
+            "$value": "{platform.font.size.title.lg}",
+            "$description": "Button and link text. Same value as title-lg (aliased so they never drift); kept as its own role so components say what the text is for."
           },
           "md": {
-            "$type": "dimension",
-            "$value": {
-              "value": 14,
-              "unit": "px"
-            },
-            "$description": "Default button or link action text, on web, tablet, and mobile."
+            "$value": "{platform.font.size.label.lg}",
+            "$description": "Button and link text. Same value as label-lg (aliased so they never drift); kept as its own role so components say what the text is for."
           },
           "sm": {
-            "$type": "dimension",
-            "$value": {
-              "value": 13,
-              "unit": "px"
-            },
-            "$description": "Compact action text, e.g. small inline link or icon button label, on web, tablet, and mobile."
+            "$value": "{platform.font.size.label.md}",
+            "$description": "Button and link text. Same value as label-md (aliased so they never drift); kept as its own role so components say what the text is for."
           }
         },
         "data": {
@@ -196,6 +184,24 @@
               "unit": "px"
             },
             "$description": "Small, secondary numeric values, e.g. count badges, on web, tablet, and mobile."
+          }
+        },
+        "code": {
+          "md": {
+            "$type": "dimension",
+            "$value": {
+              "value": 13,
+              "unit": "px"
+            },
+            "$description": "Serial numbers, device IDs, API keys, codes in tables and detail panels (monospace, JetBrains Mono). Latin characters only."
+          },
+          "sm": {
+            "$type": "dimension",
+            "$value": {
+              "value": 12,
+              "unit": "px"
+            },
+            "$description": "Small monospace: inline IDs in captions, table cells in dense lists."
           }
         }
       },
@@ -320,9 +326,20 @@
           },
           "action": {
             "lg": {
+              "$value": "{platform.font.line-height.en.title.lg}"
+            },
+            "md": {
+              "$value": "{platform.font.line-height.en.label.lg}"
+            },
+            "sm": {
+              "$value": "{platform.font.line-height.en.label.md}"
+            }
+          },
+          "data": {
+            "lg": {
               "$type": "dimension",
               "$value": {
-                "value": 24,
+                "value": 28,
                 "unit": "px"
               }
             },
@@ -336,19 +353,12 @@
             "sm": {
               "$type": "dimension",
               "$value": {
-                "value": 18,
+                "value": 16,
                 "unit": "px"
               }
             }
           },
-          "data": {
-            "lg": {
-              "$type": "dimension",
-              "$value": {
-                "value": 28,
-                "unit": "px"
-              }
-            },
+          "code": {
             "md": {
               "$type": "dimension",
               "$value": {
@@ -485,25 +495,13 @@
           },
           "action": {
             "lg": {
-              "$type": "dimension",
-              "$value": {
-                "value": 26,
-                "unit": "px"
-              }
+              "$value": "{platform.font.line-height.ar.title.lg}"
             },
             "md": {
-              "$type": "dimension",
-              "$value": {
-                "value": 22,
-                "unit": "px"
-              }
+              "$value": "{platform.font.line-height.ar.label.lg}"
             },
             "sm": {
-              "$type": "dimension",
-              "$value": {
-                "value": 20,
-                "unit": "px"
-              }
+              "$value": "{platform.font.line-height.ar.label.md}"
             }
           },
           "data": {
@@ -525,6 +523,22 @@
               "$type": "dimension",
               "$value": {
                 "value": 18,
+                "unit": "px"
+              }
+            }
+          },
+          "code": {
+            "md": {
+              "$type": "dimension",
+              "$value": {
+                "value": 20,
+                "unit": "px"
+              }
+            },
+            "sm": {
+              "$type": "dimension",
+              "$value": {
+                "value": 16,
                 "unit": "px"
               }
             }
@@ -558,12 +572,17 @@
           "$value": "{primitive.font.weight.regular}"
         },
         "action": {
-          "$type": "fontWeight",
-          "$value": "{primitive.font.weight.medium}"
+          "$value": "{platform.font.weight.label}",
+          "$description": "Same as label (aliased)."
         },
         "data": {
           "$type": "fontWeight",
           "$value": "{primitive.font.weight.medium}"
+        },
+        "code": {
+          "$type": "fontWeight",
+          "$value": "{primitive.font.weight.regular}",
+          "$description": "Monospace text is regular weight."
         }
       },
       "letter-spacing": {
