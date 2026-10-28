@@ -184,14 +184,14 @@ describe('Badge visual contract', () => {
       </Badge>,
     );
     expect(getIndicator(anchored.container)).toHaveStyle({
-      boxShadow: `0 0 0 ${cssVars.border.width.strong} ${cssVars.color.border.inverse}`,
+      outline: `${cssVars.border.width.strong} solid ${cssVars.color.border.inverse}`,
       position: 'absolute',
     });
     anchored.unmount();
 
     const standalone = renderBadge({ count: 3, label: 'Three notifications' });
     expect(getIndicator(standalone.container)).toHaveStyle({
-      boxShadow: 'none',
+      outline: 'none',
       position: 'static',
       transform: 'none',
     });

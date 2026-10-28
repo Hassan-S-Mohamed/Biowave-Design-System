@@ -70,7 +70,6 @@ export function expectedFigma(T = readJson(P.tokensJson)) {
   const shadowVars = {
     'elevation-1': (m) => sh(m, 'elevation.1')[0], 'elevation-2': (m) => sh(m, 'elevation.2')[0],
     'elevation-3': (m) => sh(m, 'elevation.3')[0], 'elevation-4': (m) => sh(m, 'elevation.4')[0],
-    'control-drop': (m) => sh(m, 'shadow.control')[0], 'control-ring': (m) => sh(m, 'shadow.control')[2],
     'ambient': (m) => sh(m, 'elevation.1')[0]?.slice(0, 7),
   };
   for (const [n, f] of Object.entries(shadowVars)) {

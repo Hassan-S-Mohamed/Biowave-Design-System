@@ -56,7 +56,9 @@ const StyledMenuItem = styled(MuiMenuItem)(() => ({
   '&:focus-visible, &.Mui-focusVisible': {
     backgroundColor: cssVars.color.surface.raised,
     backgroundImage: stateLayer(cssVars.color.background.transparent.hovered),
-    boxShadow: `inset 0 0 0 ${cssVars.border.width.focus} ${cssVars.color.border.focus}`,
+    // inset focus ring as an outline (border token), never a shadow
+    outline: `${cssVars.border.width.focus} solid ${cssVars.color.border.focus}`,
+    outlineOffset: `calc(-1 * ${cssVars.border.width.focus})`,
   },
   '&.Mui-disabled': {
     color: cssVars.color.text.disabled,

@@ -536,7 +536,7 @@ Fix checks: `npm run docs:check` ✓; `npm run typecheck` ✓; `npm run test:web
 ### D1 Rules for this build
 
 0. **Library first, no component tokens (P-04).** Link has no `link.tokens.json`, so this file gets **no** `Link / …` collection. Bind layers directly to the Foundations variables listed in the contract (§3) by key — this is intended, not a gap; do not ask for component tokens in D11. Never create, copy or detach variables or styles. Lint (`figma-read-tokens.js`) must report 0.
-1. **Every value is bound.** Fills, gap, min height, radius → variables; text → text styles `Web/en/action/{sm|md|lg}` and `Web/ar/action/{sm|md|lg}`; focus → effect styles `Focus/Ring` and `Focus/Ring Inverse`. No raw hex / px. **Only literals allowed:** the label's underline thickness and offset (Figma text decoration cannot be bound to variables) — set them to the B2 / B3 values and list them in the QA report.
+1. **Every value is bound.** Fills, gap, min height, radius → variables; text → text styles `Web/en/action/{sm|md|lg}` and `Web/ar/action/{sm|md|lg}`; focus → the `Focus ring` layer (border.md › Figma focus ring: stroke `color/border/focus`, `color/border/inverse` on Inverse). No raw hex / px. **Only literals allowed:** the label's underline thickness and offset (Figma text decoration cannot be bound to variables) — set them to the B2 / B3 values and list them in the QA report.
 2. **Token → variable name:** replace `-` between segments with `/` — `color-link-hovered` → `1. Themes › color/link/hovered`; `spacing-xs` → `3. Spacing › spacing/xs`; `radius-xs` → `2. Radius › radius/xs`; `target-min` → `7. Grid & Layout › target/min`.
 3. **Never** bind `_Primitive/*` or `_deprecated/*`.
 4. **Layer names = anatomy part names** (A2): the component frame is the link root; children `leading-icon`, `label`, `external-icon`. The underline is the label's text decoration, not a layer.
@@ -556,7 +556,7 @@ No private base components.
 ```
 Link                      ↔ horizontal · align center/center · gap {B2 gap} · padding 0
 │                           height hug, min height {B2 min block size} · width hug · radius {B2 focus radius}
-│                           no fill · effect Focus/Ring (State=Focused) · Focus/Ring Inverse (Color=Inverse, State=Focused)
+│                           no fill · `Focus ring` layer visible (State=Focused; stroke `color/border/inverse` when Color=Inverse)
 ├── leading-icon          ◇ Material Symbols instance · size {B2 icon} · fill {B3 colour} · BOOLEAN `Leading icon` · INSTANCE_SWAP `Leading icon glyph`
 ├── label                 T text style Web/{en|ar}/action/{sm|md|lg} · fill {B3 colour} · decoration Underline per B3 · TEXT `Label` · hug
 └── external-icon         ◇ Material Symbols `open_in_new` instance · size {B2 icon} · fill {B3 colour} · BOOLEAN `External`
@@ -620,7 +620,7 @@ Page notes for Link:
 - 01 Introduction: one inline example (a body paragraph with a link) and one standalone example, Light + Dark panels.
 - 03 Variations: blocks for `Color` (`Inverse` on a `color/background/brand/default` tile), `Size`, `Underline`, `Leading icon`, `External`. Inline (`size="inherit"`): a body paragraph whose link words use the `Web/en/body/md` text style with the `color/link/default` fill and underline applied to that text range — the one example that is not an instance, because Figma cannot place an instance inside running text; label it "Inline — code `size=\"inherit\"`".
 - 05 Usage: Link vs Button (`text`) side by side.
-- 09 Accessibility: focus ring examples (`Focus/Ring`, `Focus/Ring Inverse`), the external announcement text in EN and AR, `target-min` overlay on a standalone `SM` link.
+- 09 Accessibility: focus ring examples (default and Inverse), the external announcement text in EN and AR, `target-min` overlay on a standalone `SM` link.
 
 Component description: "Takes people to another page or resource. Spec: 3-web-components/components/link/link.md".
 
@@ -637,7 +637,7 @@ Component description: "Takes people to another page or resource. Spec: 3-web-co
 - [ ] F-AC-4 Zero raw values except the underline thickness and offset listed in the QA report; every fill, gap, min height, radius, text and effect bound
 - [ ] F-AC-5 Correct in Light and Dark (variable mode switch only); Typography mode `Web`; zero local variables and styles in the file
 - [ ] F-AC-6 AR variants per D7; Arabic labels fit without truncation; `open_in_new` mirrored, `mail` not
-- [ ] F-AC-7 Interactions per D6; component description filled; `Focus/Ring` and `Focus/Ring Inverse` applied
+- [ ] F-AC-7 Interactions per D6; component description filled; `Focus ring` layer (focus / inverse stroke) present and bound
 - [ ] F-AC-8 Values match B2–B3 one by one (redline check on every `Color` × `Size` in Default and Hover)
 - [ ] F-AC-9 Documentation pages built from the Doc Kit (or reported blocked) with the page notes above
 

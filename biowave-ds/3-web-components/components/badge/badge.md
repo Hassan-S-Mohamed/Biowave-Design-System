@@ -286,7 +286,7 @@ Layout rules:
 - Anchored `indicator`: `position: absolute`, `pointer-events: none`, `z-index` = `layer-raised` (above the anchor, inside the root's stacking context only). Placement with logical properties: `inset-block-start: 0; inset-inline-end: 0`, translated so its centre sits on the corner (B5). `overlap="circular"`: the reference corner moves inward to the circle's edge at 45° — `inset-block-start` and `inset-inline-end` = 14.6% of the anchor box ((1 − cos 45°) ÷ 2, the same as MUI `overlap="circular"`).
 - Standalone `indicator` (no `children`): `position: static`, inline after text, no `ring`, no translation; it aligns to the text's middle. While hidden it is out of the layout (`display: none`, after the exit transition — B4 › Hidden standalone), so it adds no inline size.
 - `count`: one line, `white-space: nowrap`, centred; the text is wrapped in `<bdi dir="ltr">` so `99+` never reorders in Arabic.
-- `ring`: drawn outside the indicator box as `box-shadow: 0 0 0 var(--bw-border-width-strong) var(--bw-color-border-inverse)` — it adds no layout size.
+- `ring`: drawn outside the indicator box as `outline: var(--bw-border-width-strong) solid var(--bw-color-border-inverse)` — a stroke, never a shadow (border.md); it adds no layout size.
 - `check-icon`: `<Icon name="check" />` centred; never `directional`.
 
 ### B3 Tokens by part and state
@@ -394,7 +394,7 @@ Structure, properties, the Figma ↔ code mapping and Code Connect: [Part D](#d-
 
 - [ ] Every `variant` × allowed `color` renders the B2 sizes and B3 tokens in light + dark × en + ar (computed styles: `block-size`, `min-inline-size`, `padding-inline`, background, text and icon colour); `count` × `warning` background is `color-icon-role-warning`, never `color-background-warning-default`
 - [ ] `count` above `max` shows `{max}+` inside `<bdi dir="ltr">`; `count={0}` hides unless `showZero`; `max` default 99
-- [ ] Anchored: `ring` box-shadow uses `border-width-strong` + `color-border-inverse`; standalone: no ring, `position: static`
+- [ ] Anchored: `ring` outline uses `border-width-strong` + `color-border-inverse`; standalone: no ring, `position: static`
 - [ ] Placement: indicator centre on the anchor's top-end corner in LTR and top-start in RTL (both `overlap` values); the anchor's box size is the same with and without the badge — checked by comparing the anchor's computed styles rendered with and without `Badge` and by asserting the root adds no padding or border and the anchored indicator is out of flow (`position: absolute`), not by reading a style the test set itself
 - [ ] B4: hidden ↔ visible transitions use the listed duration/easing tokens; first render has no animation (checked by behaviour — e.g. no transition / `getAnimations()` empty or the initial transform already final — or by a whitespace-tolerant check, never by matching exact source text and line breaks); reduced motion → instant
 - [ ] Hidden standalone (B4): while the exit runs the indicator is still in the layout; after its `transitionend` (fired in the test) it has `display: none`; with reduced motion it has `display: none` at once; hidden on first render → `display: none` from the start; shown again → back in the layout at scale 0, then scale 1; an anchored hidden badge never gets `display: none`

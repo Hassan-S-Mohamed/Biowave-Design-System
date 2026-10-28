@@ -2,6 +2,16 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Foundations — Borders are tokens, never shadows · warning 600] — 2026-10-28
+### Changed
+- **Rule (Hassan):** borders and rings are drawn with `color-border-*` tokens on a real stroke — CSS `border` / `outline`, Flutter `Border`, Figma stroke — never with `box-shadow` / effect styles. Written in `border.md` (with the Figma focus-ring layer recipe) and `elevation.md`; elevation tokens are for lift only.
+- `shadow-control` removed (its third layer was a 1px inset ring); Figma `color/shadow/control-drop · control-ring` → `_deprecated/`; effect styles `Shadow/Control`, `Focus/Ring`, `Focus/Ring Inverse` → `_deprecated/` (IDs kept, existing layers keep rendering until rebuilt).
+- Web Badge cut-out ring: `box-shadow` → `outline` (`border-width-strong` + `color-border-inverse`, no layout change); spec B2/B9 and test updated.
+- Web Split button menu item focus: inset `box-shadow` → `outline` with negative `outline-offset`.
+- Button, Icon button and Link Figma specs (Part D) and the component template: focus ring = `Focus ring` stroke layer bound to `color/border/focus` (`color/border/inverse` on Inverse) instead of effect styles.
+- Docs viewer and preview: inset-shadow borders → `border`.
+- **Warning ramp:** `warning.600` `#FF8C32` → `#EC842C` (and its alpha ramp), so `background-warning-hovered` is visibly between default 500 and pressed 700. Dark text on it 7.45:1.
+
 ## [Foundations — Semantic colour tokens 2.1] — 2026-10-28
 ### Added
 - `color-background-selected-default · hovered · pressed` (primary 50 · 100 · 200 / dark 600 · 500 · 400): one selection fill for table rows, list/menu items, active nav, tabs, chips, cards. Text on it stays `text-default` or `text-role-brand` (no text/icon selected tokens — the role token does the job).

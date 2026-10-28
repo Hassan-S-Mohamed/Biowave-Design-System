@@ -74,7 +74,7 @@
 | `color-background-warning-default` | `#FF9435` · warning.500 | `#FFB05E` · warning.300 |  | [Background · interactive, has states] Bold warning fill of an interactive element: Warning button, Warning badge (always dark text). Text and icons on it use text/on/warning and icon/on/warning. Alerts, potential risks, actions that need attention. |
 | `color-background-warning-subtle` | `#FFE0C0` · warning.100 | `#773F12` · warning.900 |  | [Background · interactive, has states] Tonal warning fill: warning Chip/Tag, Lozenge, Tonal button. Text on it uses text/role/warning. Alerts, potential risks, actions that need attention. |
 | `color-background-warning-subtlest` | `#FFF3E8` · warning.50 | `#4A2609` · warning.950 |  | [Background · interactive, has states] Lightest warning tint: warning Alert/Banner, highlighted (not selected) row; selection uses background/selected. Text on it uses text/role/warning or text/default. Alerts, potential risks, actions that need attention. |
-| `color-background-warning-hovered` | `#FF8C32` · warning.600 | `#FFC88F` · warning.200 |  | [Background · interactive, has states] Hover fill of warning/default elements (Web pointer only). |
+| `color-background-warning-hovered` | `#EC842C` · warning.600 | `#FFC88F` · warning.200 |  | [Background · interactive, has states] Hover fill of warning/default elements (Web pointer only). |
 | `color-background-warning-pressed` | `#D97424` · warning.700 | `#FFE0C0` · warning.100 |  | [Background · interactive, has states] Pressed fill of warning/default elements. |
 | `color-background-info-default` | `#2559D4` · info.600 | `#6D9CE8` · info.300 |  | [Background · interactive, has states] Bold info fill of an interactive element: Info badge, In-progress step, Sync indicator. Text and icons on it use text/on/info and icon/on/info. Guidance, information, in-progress states. |
 | `color-background-info-subtle` | `#CBDCFA` · info.100 | `#0E265F` · info.900 |  | [Background · interactive, has states] Tonal info fill: info Chip/Tag, Lozenge, Tonal button. Text on it uses text/role/info. Guidance, information, in-progress states. |
@@ -229,7 +229,7 @@ Raw ramps. Maintainers only: never bind these inside components.
 
 **error** — 50 `#FEF0EE` · 100 `#FECFCF` · 200 `#FEA3A3` · 300 `#FF7676` · 400 `#FF5050` · 500 `#FF3B3B` · 600 `#FF2B2B` · 700 `#D42222` · 800 `#A31A1A` · 900 `#721212` · 950 `#420A0A`
 
-**warning** — 50 `#FFF3E8` · 100 `#FFE0C0` · 200 `#FFC88F` · 300 `#FFB05E` · 400 `#FF9D3E` · 500 `#FF9435` · 600 `#FF8C32` · 700 `#D97424` · 800 `#A85A1A` · 900 `#773F12` · 950 `#4A2609`
+**warning** — 50 `#FFF3E8` · 100 `#FFE0C0` · 200 `#FFC88F` · 300 `#FFB05E` · 400 `#FF9D3E` · 500 `#FF9435` · 600 `#EC842C` · 700 `#D97424` · 800 `#A85A1A` · 900 `#773F12` · 950 `#4A2609`
 
 **info** — 50 `#EEF4FF` · 100 `#CBDCFA` · 200 `#9CBCF2` · 300 `#6D9CE8` · 400 `#4880DE` · 500 `#336CD9` · 600 `#2559D4` · 700 `#1D48AD` · 800 `#153786` · 900 `#0E265F` · 950 `#081638`
 
@@ -357,4 +357,3 @@ Raw ramps. Maintainers only: never bind these inside components.
 | `elevation-2` | `[object Object]` | `[object Object]` |
 | `elevation-3` | `[object Object]` | `[object Object]` |
 | `elevation-4` | `[object Object]` | `[object Object]` |
-| `shadow-control` | `[object Object],[object Object],[object Object]` | `[object Object],[object Object],[object Object]` |

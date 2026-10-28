@@ -493,7 +493,7 @@ Same as [Button D1](../button/button.md#d1-rules-for-this-build).
 
 ```
 Icon Button              ↔ centered · width = height {B2} · padding 0
-└── .Icon Button/Appearance  ◇ fill both axes · radius {B2} · fill/stroke {B3} · effect Focus/Ring when State=Focused
+└── .Icon Button/Appearance  ◇ fill both axes · radius {B2} · fill/stroke {B3} · `Focus ring` layer visible when State=Focused (border.md › Figma focus ring)
     ├── state-layer      ▭ absolute, fill {overlay-hover|pressed} in Hover/Pressed of tonal/outlined/text
     ├── icon             ◇ .Icon Button/Glyph · size {B2 icon} · fill {B3}
     └── spinner          ◇ .Button/Spinner · visible only State=Loading (icon opacity 0)

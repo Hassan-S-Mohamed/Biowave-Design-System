@@ -217,7 +217,7 @@ export const themes = {
           default: "#FF9435",
           subtle: "#FFE0C0",
           subtlest: "#FFF3E8",
-          hovered: "#FF8C32",
+          hovered: "#EC842C",
           pressed: "#D97424"
         },
         info: {
@@ -367,9 +367,6 @@ export const themes = {
       "2": "0px 2px 16px 0px rgb(7 19 35 / 9%)",
       "3": "0px 8px 24px 0px rgb(7 19 35 / 12%)",
       "4": "0px 16px 48px -4px rgb(7 19 35 / 18%)"
-    },
-    shadow: {
-      control: "0px 1px 2px 0px rgb(25 51 81 / 5%), inset 0px -2px 0px 0px rgb(25 51 81 / 5%), inset 0px 0px 0px 1px rgb(25 51 81 / 20%)"
     }
   },
   dark: {
@@ -598,9 +595,6 @@ export const themes = {
       "2": "0px 2px 16px 0px rgb(0 0 0 / 22%)",
       "3": "0px 8px 24px 0px rgb(0 0 0 / 30%)",
       "4": "0px 16px 48px -4px rgb(0 0 0 / 45%)"
-    },
-    shadow: {
-      control: "0px 1px 2px 0px rgb(0 0 0 / 12%), inset 0px -2px 0px 0px rgb(0 0 0 / 12%), inset 0px 0px 0px 1px rgb(0 0 0 / 40%)"
     }
   }
 } as const;
@@ -1559,9 +1553,6 @@ export const cssVars = {
     "2": "var(--bw-elevation-2)",
     "3": "var(--bw-elevation-3)",
     "4": "var(--bw-elevation-4)"
-  },
-  shadow: {
-    control: "var(--bw-shadow-control)"
   },
   breakpoint: {
     min: "var(--bw-breakpoint-min)"

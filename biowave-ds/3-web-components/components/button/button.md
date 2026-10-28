@@ -629,10 +629,10 @@ Slowest Button tests in the full suite: render matrix 1.001 s; axe light 625 ms;
 
 ### D1 Rules for this build
 
-0. **Library first, component tokens only (D-13).** Text styles, effect styles (`Focus/Ring`, `Focus/Ring Inverse`) and icons come from the published library **Biowave DS — Foundations**. Visual values bind to the **Button component tokens** already in this file (created from [`button.tokens.json`](button.tokens.json) by the sync tooling): `Button / Size` (modes `sm`·`md`·`lg`), `Button / Filled` · `Button / Tonal` · `Button / Outlined` · `Button / Text` (modes = colors), `Button / Focus`. Each variant sets the explicit mode of its collections (e.g. `Variant=Filled, Color=Brand, Size=MD` → `Button / Filled`=`brand`, `Button / Size`=`md`). **Never create variables or styles** in this file; if a value is missing, stop and ask the Planner (it is added to `button.tokens.json` → synced).
+0. **Library first, component tokens only (D-13).** Text styles and icons come from the published library **Biowave DS — Foundations**. Visual values bind to the **Button component tokens** already in this file (created from [`button.tokens.json`](button.tokens.json) by the sync tooling): `Button / Size` (modes `sm`·`md`·`lg`), `Button / Filled` · `Button / Tonal` · `Button / Outlined` · `Button / Text` (modes = colors), `Button / Focus`. Each variant sets the explicit mode of its collections (e.g. `Variant=Filled, Color=Brand, Size=MD` → `Button / Filled`=`brand`, `Button / Size`=`md`). **Never create variables or styles** in this file; if a value is missing, stop and ask the Planner (it is added to `button.tokens.json` → synced).
 1. **Every value is bound.** Fills, strokes, radius, padding, gap, height → variables; text → text styles; focus → effect style. No raw hex / px. Opacity 0 for the hidden label in Loading is the only literal allowed.
 2. **Spec token → component token:** B3 table and `button.tokens.json` name the same semantic tokens; bind the component token that aliases it (`container/default`, `label/default`, `state-layer/hover`, `border/default`, `height`, `padding-inline`, `gap`, `icon`, `radius`, `border-width`, `Button / Focus › color`). Semantic variables are never bound directly. For reference, spec names map to Foundations variables as: `-` between segments becomes `/`: `color-background-brand-hovered` → `1. Themes › color/background/brand/hovered`; `size-control-height-md` → `4. Size › size/control/height/md`; `spacing-control-gap-md` → `3. Spacing › spacing/control/gap/md`; `radius-md` → `2. Radius › radius/md`; `border-width-default` → `9. Border › border/width/default`.
-   Text styles: `Web/en/action/{sm|md|lg}` and `Web/ar/action/{sm|md|lg}` (they are bound to the Typography variables, so Tablet/Mobile scale comes from the variable mode, not from a different style). Effect: `Focus/Ring`.
+   Text styles: `Web/en/action/{sm|md|lg}` and `Web/ar/action/{sm|md|lg}` (they are bound to the Typography variables, so Tablet/Mobile scale comes from the variable mode, not from a different style). Focus: the `Focus ring` layer (border.md › Figma focus ring: stroke `color/border/focus`, `color/border/inverse` on Inverse) — no effect style; borders and rings are never shadows.
 3. **Never** bind `_Primitive/*`, `_deprecated/*` or the old `Button size` collection.
 4. **Layer names = anatomy part names** (A2): `container` is the component itself, children `leading-icon`, `label`, `trailing-icon`, `spinner`, `state-layer`.
 5. Auto layout everywhere. Absolute position only for `state-layer` and `spinner` (both centered, constraints scale).
@@ -650,7 +650,7 @@ Slowest Button tests in the full suite: render matrix 1.001 s; axe light 625 ms;
 ```
 Button                    ↔ horizontal · align center/center · gap {B2 gap} · pad-inline {B2 padding-inline} · pad-block 0
 │                           height fixed {B2 height} · width hug · radius {B2 radius} · clip content
-│                           fill {B3 container background} · stroke inside {B3 border, outlined only} · effect Focus/Ring (State=Focused only)
+│                           fill {B3 container background} · stroke inside {B3 border, outlined only} · `Focus ring` layer visible (State=Focused only)
 ├── state-layer           ▭ absolute, constraints scale, fill {B3 state layer}; visible only in Hover/Pressed of tonal · outlined · text
 ├── leading-icon          ◇ Icon instance · size {B2} · fill {B3 icons} · BOOLEAN `Leading icon` · INSTANCE_SWAP `Leading icon glyph`
 ├── label                 T text style Web/{en|ar}/action/{sm|md|lg} · fill {B3 label} · TEXT `Label` · hug · no wrap
@@ -717,7 +717,7 @@ Values from B3 (tokens per state) and D4 (transitions).
 
 Focus is not an interaction in Figma; the `Focused` state shows the ring for docs and handoff.
 
-**Inverse focus ring:** effect style `Focus/Ring Inverse` (Foundations library, created 2026-10-16: ring `color/border/inverse`, gap `color/background/brand/default`). Use it for `Color=Inverse, State=Focused`.
+**Inverse focus ring:** the same `Focus ring` layer with its stroke bound to `color/border/inverse` (the 2px gap stays transparent, so the navy area shows through). Use it for `Color=Inverse, State=Focused`.
 
 ### D7 RTL
 
@@ -736,7 +736,7 @@ Build the 12 standard pages per `_templates/component.md` D8 + `2-foundations/fi
 Page notes for Button:
 - 03 Variations: one block each for `Variant`, `Color` (show the allowed variants per color), `Size`, icons, `fullWidth` (instance set to Fill inside a narrow frame).
 - 07 Platform: Desktop + narrow web.
-- 09 Accessibility: include `Focus/Ring` and `Focus/Ring Inverse` examples, and the Loading announcement text.
+- 09 Accessibility: include focus ring examples (default and Inverse), and the Loading announcement text.
 
 Component description: "Starts an action the user chose. One filled button per area. Spec: 3-web-components/components/button/button.md".
 
@@ -753,7 +753,7 @@ Component description: "Starts an action the user chose. One filled button per a
 - [ ] F-AC-4 Zero raw values: every fill, stroke, radius, padding, gap, height, text and effect bound (QA lint report attached)
 - [ ] F-AC-5 Correct in Light and Dark (variable mode switch only); Typography mode `Web`; zero local variables/styles in the file
 - [ ] F-AC-6 AR variants per D7; Arabic labels fit without truncation
-- [ ] F-AC-7 Interactions per D6; component description filled; `Focus/Ring` and `Focus/Ring Inverse` library styles applied
+- [ ] F-AC-7 Interactions per D6; component description filled; `Focus ring` layer (focus / inverse stroke) present and bound
 - [ ] F-AC-8 Values match B2–B3 one by one (redline check on `MD` and `LG`, every Variant × Color in Default)
 - [ ] F-AC-9 Legacy mapping D5 documented in the review; deprecation steps done only after `Approved`
 - [ ] F-AC-10 Documentation pages: built when the Doc Kit exists (otherwise reported as blocked)

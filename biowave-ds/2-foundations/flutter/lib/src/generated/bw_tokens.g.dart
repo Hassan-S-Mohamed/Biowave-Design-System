@@ -121,22 +121,22 @@ abstract final class BwPalette {
   static const Color warning300 = Color(0xFFFFB05E);
   static const Color warning400 = Color(0xFFFF9D3E);
   static const Color warning500 = Color(0xFFFF9435);
-  static const Color warning600 = Color(0xFFFF8C32);
+  static const Color warning600 = Color(0xFFEC842C);
   static const Color warning700 = Color(0xFFD97424);
   static const Color warning800 = Color(0xFFA85A1A);
   static const Color warning900 = Color(0xFF773F12);
   static const Color warning950 = Color(0xFF4A2609);
-  static const Color warningAlpha0 = Color(0x00FF8C32);
-  static const Color warningAlpha5 = Color(0x0DFF8C32);
-  static const Color warningAlpha10 = Color(0x1AFF8C32);
-  static const Color warningAlpha20 = Color(0x33FF8C32);
-  static const Color warningAlpha30 = Color(0x4DFF8C32);
-  static const Color warningAlpha40 = Color(0x66FF8C32);
-  static const Color warningAlpha50 = Color(0x80FF8C32);
-  static const Color warningAlpha60 = Color(0x99FF8C32);
-  static const Color warningAlpha70 = Color(0xB3FF8C32);
-  static const Color warningAlpha80 = Color(0xCCFF8C32);
-  static const Color warningAlpha90 = Color(0xE6FF8C32);
+  static const Color warningAlpha0 = Color(0x00EC842C);
+  static const Color warningAlpha5 = Color(0x0DEC842C);
+  static const Color warningAlpha10 = Color(0x1AEC842C);
+  static const Color warningAlpha20 = Color(0x33EC842C);
+  static const Color warningAlpha30 = Color(0x4DEC842C);
+  static const Color warningAlpha40 = Color(0x66EC842C);
+  static const Color warningAlpha50 = Color(0x80EC842C);
+  static const Color warningAlpha60 = Color(0x99EC842C);
+  static const Color warningAlpha70 = Color(0xB3EC842C);
+  static const Color warningAlpha80 = Color(0xCCEC842C);
+  static const Color warningAlpha90 = Color(0xE6EC842C);
   static const Color info50 = Color(0xFFEEF4FF);
   static const Color info100 = Color(0xFFCBDCFA);
   static const Color info200 = Color(0xFF9CBCF2);
@@ -822,7 +822,7 @@ class BwColors extends ThemeExtension<BwColors> {
     backgroundWarningDefault: Color(0xFFFF9435),
     backgroundWarningSubtle: Color(0xFFFFE0C0),
     backgroundWarningSubtlest: Color(0xFFFFF3E8),
-    backgroundWarningHovered: Color(0xFFFF8C32),
+    backgroundWarningHovered: Color(0xFFEC842C),
     backgroundWarningPressed: Color(0xFFD97424),
     backgroundInfoDefault: Color(0xFF2559D4),
     backgroundInfoSubtle: Color(0xFFCBDCFA),
@@ -1374,13 +1374,12 @@ class BwColors extends ThemeExtension<BwColors> {
 /// Elevation shadows for one theme. Read with `BwElevation.of(context)`.
 @immutable
 class BwElevation extends ThemeExtension<BwElevation> {
-  const BwElevation({required this.elevation0, required this.elevation1, required this.elevation2, required this.elevation3, required this.elevation4, required this.shadowControl});
+  const BwElevation({required this.elevation0, required this.elevation1, required this.elevation2, required this.elevation3, required this.elevation4});
   final List<BoxShadow> elevation0;
   final List<BoxShadow> elevation1;
   final List<BoxShadow> elevation2;
   final List<BoxShadow> elevation3;
   final List<BoxShadow> elevation4;
-  final List<BoxShadow> shadowControl;
 
   static const light = BwElevation(
     elevation0: [BoxShadow(color: Color(0x00071323), offset: Offset(0, 0), blurRadius: 0, spreadRadius: 0)],
@@ -1388,7 +1387,6 @@ class BwElevation extends ThemeExtension<BwElevation> {
     elevation2: [BoxShadow(color: Color(0x17071323), offset: Offset(0, 2), blurRadius: 16, spreadRadius: 0)],
     elevation3: [BoxShadow(color: Color(0x1F071323), offset: Offset(0, 8), blurRadius: 24, spreadRadius: 0)],
     elevation4: [BoxShadow(color: Color(0x2E071323), offset: Offset(0, 16), blurRadius: 48, spreadRadius: -4)],
-    shadowControl: [BoxShadow(color: Color(0x0D193351), offset: Offset(0, 1), blurRadius: 2, spreadRadius: 0)],
   );
 
   static const dark = BwElevation(
@@ -1397,7 +1395,6 @@ class BwElevation extends ThemeExtension<BwElevation> {
     elevation2: [BoxShadow(color: Color(0x38000000), offset: Offset(0, 2), blurRadius: 16, spreadRadius: 0)],
     elevation3: [BoxShadow(color: Color(0x4D000000), offset: Offset(0, 8), blurRadius: 24, spreadRadius: 0)],
     elevation4: [BoxShadow(color: Color(0x73000000), offset: Offset(0, 16), blurRadius: 48, spreadRadius: -4)],
-    shadowControl: [BoxShadow(color: Color(0x1F000000), offset: Offset(0, 1), blurRadius: 2, spreadRadius: 0)],
   );
 
   static BwElevation of(BuildContext context) => Theme.of(context).extension<BwElevation>()!;

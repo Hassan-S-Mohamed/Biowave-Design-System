@@ -121,10 +121,10 @@ code { font-family: var(--bw-font-family-mono); font-size: 12px; color: ${v('col
 .seg { display: inline-flex; gap: 4px; padding: 4px; border-radius: ${v('radius.lg')}; background: ${v('color.background.neutral.default')}; }
 .seg-opt { position: relative; }
 .seg-opt input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; }
-.seg-opt span { display: block; padding: 8px 16px; min-height: 24px; border-radius: ${v('radius.md')}; font-size: var(--bw-font-size-label-lg); line-height: 24px; color: ${v('color.text.subtlest')}; transition: background var(--bw-motion-duration-sm) var(--bw-motion-easing-standard), color var(--bw-motion-duration-sm) var(--bw-motion-easing-standard); }
+.seg-opt span { display: block; padding: 8px 16px; min-height: 24px; border-radius: ${v('radius.md')}; font-size: var(--bw-font-size-label-lg); line-height: 24px; color: ${v('color.text.subtlest')}; border: 1px solid transparent; transition: background var(--bw-motion-duration-sm) var(--bw-motion-easing-standard), color var(--bw-motion-duration-sm) var(--bw-motion-easing-standard); }
 .seg-opt span[lang="ar"] { font-family: var(--bw-font-family-ar); }
 .seg-opt:hover span { color: ${v('color.text.default')}; }
-.seg-opt input:checked + span { background: ${v('color.surface.default')}; color: ${v('color.text.role.brand')}; font-weight: 500; box-shadow: inset 0 0 0 1px ${v('color.border.default')}, var(--bw-elevation-1); }
+.seg-opt input:checked + span { background: ${v('color.surface.default')}; color: ${v('color.text.role.brand')}; font-weight: 500; border-color: ${v('color.border.default')}; box-shadow: var(--bw-elevation-1); }
 .seg-opt input:focus-visible + span { outline: var(--bw-border-width-focus) solid ${v('color.border.focus')}; outline-offset: var(--bw-border-focus-offset); }
 .menu { position: relative; }
 .menu-btn { width: 44px; height: 44px; display: grid; place-items: center; border: 0; border-radius: ${v('radius.lg')}; background: ${v('color.background.neutral.default')}; color: ${v('color.icon.default')}; cursor: pointer; }

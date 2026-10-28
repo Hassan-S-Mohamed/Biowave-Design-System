@@ -157,8 +157,9 @@ const StyledBadge = styled(MuiBadge, {
         transitionDuration: enterDuration,
         transitionTimingFunction:
           cssVars.motion.easing['standard-decelerate'],
-        boxShadow: $anchored
-          ? `0 0 0 ${cssVars.border.width.strong} ${cssVars.color.border.inverse}`
+        // cut-out ring between the badge and its anchor: a stroke (outline), never a shadow — no layout change
+        outline: $anchored
+          ? `${cssVars.border.width.strong} solid ${cssVars.color.border.inverse}`
           : 'none',
       },
 

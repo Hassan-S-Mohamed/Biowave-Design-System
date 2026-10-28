@@ -1,7 +1,7 @@
 {
-  "syncedAt": "2026-10-28T09:20:57.038Z",
+  "syncedAt": "2026-10-28T09:59:20.505Z",
   "fileKey": "AyFaSmfDUlTax3GpKhRdHI",
-  "sourceHash": "3f390fadb0505e90",
+  "sourceHash": "5845e029dbf590e6",
   "tokens": {
     "1. Themes::color-surface-page": {
       "Light": "#F7F7F7",
@@ -204,7 +204,7 @@
       "Dark": "#4A2609"
     },
     "1. Themes::color-background-warning-hovered": {
-      "Light": "#FF8C32",
+      "Light": "#EC842C",
       "Dark": "#FFC88F"
     },
     "1. Themes::color-background-warning-pressed": {
@@ -618,14 +618,6 @@
     "1. Themes::color/shadow/elevation-4": {
       "Light": "#0713232E",
       "Dark": "#00000073"
-    },
-    "1. Themes::color/shadow/control-drop": {
-      "Light": "#1933510D",
-      "Dark": "#0000001F"
-    },
-    "1. Themes::color/shadow/control-ring": {
-      "Light": "#19335133",
-      "Dark": "#00000066"
     },
     "3. Spacing::spacing-none": {
       "Values": 0
@@ -1732,7 +1724,7 @@
       "Values": "#FF9435"
     },
     "_Primitive::Colors/warning/600": {
-      "Values": "#FF8C32"
+      "Values": "#EC842C"
     },
     "_Primitive::Colors/warning/700": {
       "Values": "#D97424"
@@ -1747,37 +1739,37 @@
       "Values": "#4A2609"
     },
     "_Primitive::Colors/warning/alpha/0": {
-      "Values": "#FF8C3200"
+      "Values": "#EC842C00"
     },
     "_Primitive::Colors/warning/alpha/5": {
-      "Values": "#FF8C320D"
+      "Values": "#EC842C0D"
     },
     "_Primitive::Colors/warning/alpha/10": {
-      "Values": "#FF8C321A"
+      "Values": "#EC842C1A"
     },
     "_Primitive::Colors/warning/alpha/20": {
-      "Values": "#FF8C3233"
+      "Values": "#EC842C33"
     },
     "_Primitive::Colors/warning/alpha/30": {
-      "Values": "#FF8C324D"
+      "Values": "#EC842C4D"
     },
     "_Primitive::Colors/warning/alpha/40": {
-      "Values": "#FF8C3266"
+      "Values": "#EC842C66"
     },
     "_Primitive::Colors/warning/alpha/50": {
-      "Values": "#FF8C3280"
+      "Values": "#EC842C80"
     },
     "_Primitive::Colors/warning/alpha/60": {
-      "Values": "#FF8C3299"
+      "Values": "#EC842C99"
     },
     "_Primitive::Colors/warning/alpha/70": {
-      "Values": "#FF8C32B3"
+      "Values": "#EC842CB3"
     },
     "_Primitive::Colors/warning/alpha/80": {
-      "Values": "#FF8C32CC"
+      "Values": "#EC842CCC"
     },
     "_Primitive::Colors/warning/alpha/90": {
-      "Values": "#FF8C32E6"
+      "Values": "#EC842CE6"
     },
     "_Primitive::Colors/info/50": {
       "Values": "#EEF4FF"

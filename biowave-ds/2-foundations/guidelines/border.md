@@ -24,3 +24,16 @@ Border = width token + color token. Widths are new in v1.0.
 - 2px (`border-width-focus`) solid `color-border-focus`, offset 2px (`border-focus-offset`), following the control's radius.
 - Web: show on `:focus-visible` only. Flutter: use `FocusableActionDetector` / `WidgetStateProperty` focused state.
 - Never remove focus styles without an equivalent replacement.
+
+## Borders are colour tokens, never shadows
+- Every outline is a real `border` (CSS `border`, Flutter `Border`/`BorderSide`) whose colour is a `color-border-*` token and whose width is a `border-width-*` token.
+- Focus rings and rings that must not change layout (badge cut-out) use `outline` with a `color-border-*` token — still a stroke, not a shadow. Inset ring: `outline-offset: calc(-1 * <width>)`.
+- `box-shadow` / `BoxShadow` is used only by `elevation-*` tokens for lift.
+- Reason: shadows are removed in Windows forced-colors (High Contrast) mode, so a border drawn as a shadow disappears there; borders and outlines stay.
+
+### Figma focus ring
+Figma has no outline, so the ring is its own layer inside the component:
+- Child layer `Focus ring`: absolute position (ignores auto layout), constraints Left & Right / Top & Bottom, inset `−(border-focus-offset + border-width-focus)` on every side (−4px).
+- Corner radius = component radius + `border-focus-offset`. No fill.
+- Stroke **inside**, weight bound to `border/width/focus`, colour bound to `color/border/focus` (`color/border/inverse` on brand or inverse areas). The inner 2px stays empty: that is the offset.
+- Visible only in `State=Focused`. Effect styles `Focus/Ring`, `Focus/Ring Inverse` and `Shadow/Control` are deprecated.
