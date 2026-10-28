@@ -1,4 +1,4 @@
-<!-- GENERATED from divider.md @ 74b995aa778535db — do not edit; change the source and run: npm run contract -- mobile divider -->
+<!-- GENERATED from divider.md @ c41cad237f3ea3dd — do not edit; change the source and run: npm run contract -- mobile divider -->
 # Divider · فاصل — Mobile — Figma contract
 
 > **Everything the Figma Agent needs to build Divider in the Mobile Components file, with our variables and styles.** Read this file only. Generated from [`divider.md`](divider.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-28). Questions go to [D11 Execution log](divider.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
@@ -12,7 +12,7 @@
 | Component | Divider · فاصل |
 | Platform | Mobile · Flutter + Material 3 |
 | Version | 1.1 · 2026-10-23 |
-| Source | [`divider.md`](divider.md) @ `74b995aa778535db` |
+| Source | [`divider.md`](divider.md) @ `c41cad237f3ea3dd` |
 
 ## 1. Library connections in this file
 
@@ -21,7 +21,7 @@
 | Library | **Biowave DS — Foundations** · library key `lk-e00b31b21f924b36eeea820da99c4b306c460986c83e894f415a1c194ba5a2e670f3142c2fccca81280a80bcaee6a87bc47c9a9505d186d7b693aa9805ad7031` |
 | Library file | Foundations · key `AyFaSmfDUlTax3GpKhRdHI` |
 | Doc Kit library (Phase 2) | **Annotation (Biowave Doc Kit)** · file key `cBPWg6YZNqK8UIzgMQIpXl` — must be enabled in this file (Assets → Libraries) |
-| Enabled here | ✓ verified from a component file: 9 collections, 347 variables reachable |
+| Enabled here | ✓ verified from a component file: 8 collections, 287 variables reachable |
 
 Import by key — never search by name, never copy:
 
@@ -53,10 +53,7 @@ None yet — this component has no component tokens. Bind to the Foundations var
 
 | Style | Key |
 |---|---|
-| `Mobile/en/caption/md` | `5dc8735173f3501751ff9fd04780c1b72cfcfef5` |
-| `Mobile/ar/caption/md` | `d92494be0ff22229a32d765fd6ad119053a293e5` |
-| `Web/en/caption/md` | `3db0d9d2c62c77ac003b6444643b9828150787ba` |
-| `Web/ar/caption/md` | `5f111a909c2383565c3ba96d1cf622ef5da90f23` |
+| `caption/md` | `3db0d9d2c62c77ac003b6444643b9828150787ba` |
 
 ## 5. Effect styles used (keys)
 
@@ -166,7 +163,7 @@ As [Web B5](../../../3-web-components/components/divider/divider.md#b5-rtl). Flu
 
 ### D1 Rules for this build
 
-Same as [Web D1](../../../3-web-components/components/divider/divider.md#d1-rules-for-this-build) (no component tokens; bind to Foundations variables), except the label text style: `Mobile/{en|ar}/caption/md` instead of the Web styles. The page sets the Typography variable mode to `Mobile`.
+Same as [Web D1](../../../3-web-components/components/divider/divider.md#d1-rules-for-this-build) (no component tokens; bind to Foundations variables), except the label text style: `caption/md` instead of the Web styles. The page sets the Typography variable mode to `Mobile`.
 
 ### D2 Component structure
 
@@ -174,7 +171,7 @@ As Web D2.
 
 ### D3 Layer tree and auto layout
 
-As Web D3, including the `label` layer and the second `line` bound to `Show label`; the `label` text style is `Mobile/{en|ar}/caption/md` (default `Mobile/en/caption/md`).
+As Web D3, including the `label` layer and the second `line` bound to `Show label`; the `label` text style is `caption/md` (default `caption/md`).
 
 ### D4 Properties
 
@@ -199,7 +196,7 @@ The Mobile Part D refers to these Web sections; they are copied here so you read
 #### D1 Rules for this build
 
 0. **No component tokens** — this component has no `Divider / *` collection. Bind directly to the Foundations library variables (keys in the contract). Never create local variables or styles; `figma-read-tokens.js` lint must report 0 before Phase 1 and after each phase.
-1. Every value is bound: line stroke colour → `color/border/{subtle|default|strong}`; stroke weight → `border/width/default`; inset padding → `spacing/xl` (or `spacing/none`); label gap → `spacing/md`; label fill → `color/text/subtlest`; label text style → `Web/{en|ar}/caption/md` (published Foundations text styles). No raw numbers.
+1. Every value is bound: line stroke colour → `color/border/{subtle|default|strong}`; stroke weight → `border/width/default`; inset padding → `spacing/xl` (or `spacing/none`); label gap → `spacing/md`; label fill → `color/text/subtlest`; label text style → `caption/md` (published Foundations text styles). No raw numbers.
 2. Never bind `_Primitive/*` or `_deprecated/*`.
 3. Layer names = A2 part names (`container`, `line`, `label`). With a label the line is two layers, both named `line`.
 4. Auto layout on every frame; no absolute positioning.
@@ -223,7 +220,7 @@ container        ↔ horizontal · width FILL when placed · height HUG
 ├── line         frame · width FILL (min width {spacing/xl}) · height HUG (no children)
 │                  bottom stroke only: weight {B3 border-width-default}, colour {B3 per Emphasis}
 │                  strokes included in layout = on (the frame is exactly one stroke thick)
-├── label        T `Web/{en|ar}/caption/md` · fill {color/text/subtlest} · width HUG · align center
+├── label        T `caption/md` · fill {color/text/subtlest} · width HUG · align center
 │                  BOOLEAN `Show label` (visibility) · TEXT `Label` (characters) · default “or”
 └── line         second segment, same as the first · visibility bound to `Show label`
 
@@ -234,7 +231,7 @@ container        ↕ vertical · height FILL when placed · width HUG
                    right stroke only: weight {B3}, colour {B3}; strokes included in layout = on
 ```
 
-With `Show label` off, `label` and the second `line` are hidden, so the first `line` fills the container alone (hidden layers take no gap). Vertical variants have no `label` layer: `Show label` and `Label` do nothing there (B1 — no label on vertical dividers). The default text style is `Web/en/caption/md`; Arabic samples on doc pages use `Web/ar/caption/md` and the Arabic text “أو”.
+With `Show label` off, `label` and the second `line` are hidden, so the first `line` fills the container alone (hidden layers take no gap). Vertical variants have no `label` layer: `Show label` and `Label` do nothing there (B1 — no label on vertical dividers). The default text style is `caption/md`; Arabic samples on doc pages use `caption/md` and the Arabic text “أو”.
 
 If a hug frame with no children cannot keep the stroke-only size, stop and report in D11 (do not switch to a fill rectangle with a raw height).
 
@@ -269,7 +266,7 @@ None.
 
 #### D7 RTL
 
-Method: `Direction=RTL` variants only where the result differs (Horizontal · Inset=Start): padding on the right instead of the left. All other variants look the same in both directions, including a shown label (centred). Doc page 08 shows an inset divider in an Arabic list (sample copy from A6: الإشعارات) and a labelled divider with “أو” in `Web/ar/caption/md`.
+Method: `Direction=RTL` variants only where the result differs (Horizontal · Inset=Start): padding on the right instead of the left. All other variants look the same in both directions, including a shown label (centred). Doc page 08 shows an inset divider in an Arabic list (sample copy from A6: الإشعارات) and a labelled divider with “أو” in `caption/md`.
 
 #### D8 Documentation pages
 
@@ -281,7 +278,7 @@ Component description: “Thin line that separates groups of content, with an op
 
 ### D8 Documentation pages
 
-As Web D8; 07 Platform uses `Doc/Device frame` Phone with a list and a bottom sheet. Labelled samples use `Mobile/en/caption/md` (“or”) and `Mobile/ar/caption/md` (“أو”).
+As Web D8; 07 Platform uses `Doc/Device frame` Phone with a list and a bottom sheet. Labelled samples use `caption/md` (“or”) and `caption/md` (“أو”).
 
 Component description: “Thin line that separates groups of content, with an optional centred label. Spec: 5-mobile-components/components/divider/divider.md”.
 
@@ -496,7 +493,7 @@ All rules in **D1** (§8 and the inherited Web D1), plus:
 
 - [ ] F-AC-1 Set on `↳ Divider` in the Mobile file as Web D2–D3
 - [ ] F-AC-2 Properties as Web D4 (with `Show label` and `Label`); 18 variants, no Vertical · Start
-- [ ] F-AC-3 Zero raw values; bound to Foundations variables; label uses `Mobile/{en|ar}/caption/md`; token lint 0
+- [ ] F-AC-3 Zero raw values; bound to Foundations variables; label uses `caption/md`; token lint 0
 - [ ] F-AC-4 Light / Dark by variable mode only; RTL per Web D7
 - [ ] F-AC-5 Docs from the Doc Kit (or reported blocked); Components List card; Code Connect after approval
 

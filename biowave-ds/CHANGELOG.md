@@ -2,6 +2,14 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Sync — Typography published: library index and contracts] — 2026-10-28
+### Changed
+- Library index refreshed after the Foundations publish: 287 variables (`5. Typography` 59 with new keys), 23 text styles (`{role}/{size}`); reachable from the component files: 287. The deprecated AR collection is no longer published.
+- `contract.mjs`: style detection limited to `{role}/{lg|md|sm}` (component-token names such as `label/default` are not styles).
+- All contracts regenerated (text styles `action/{sm|md|lg}` … with keys). `docs:check` OK, `npm run sync` READY.
+### Found (not changed)
+- The Web Components file still shows the old style names (`Web/en/*`, `Web/ar/*`) until the library update is accepted there, and uses legacy kit styles (`Text sm/Medium`, `Display xl/Medium`, `Button/Button-3 Medium`, `Body S` …, ~420 text layers) plus ~2,600 text layers with no style. Migration to the 23 styles + frame modes is a separate task.
+
 ## [Foundations — Typography primitives] — 2026-10-28
 ### Changed
 - **Every typography value points to a primitive.** New flat primitive scales (no platform or language in the name): `font.size.{11…40}`, `font.line-height.{16…50}`, `font.letter-spacing.none · tight`; platform tokens (web/tablet/mobile) now alias them instead of holding numbers (generated CSS/Dart unchanged). Figma `_Primitive`: `Typography/Size/{n}`, `Line Height/{n}`, `Weight/{400|500|600}`, `Letter Spacing/none · tight`, `Font Family/EN · AR · Mono`; all 312 `5. Typography` mode values alias them (action keeps its alias to label/title). 97 old platform/language-scoped primitives (`Typography/Size/Web/14`, `Line Height/Mobile/ar/26` …) and the string weights → `_deprecated/`.

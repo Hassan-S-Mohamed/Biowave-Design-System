@@ -1,4 +1,4 @@
-<!-- GENERATED from tooltip.md @ 0ddf64c9adc64514 — do not edit; change the source and run: npm run contract -- mobile tooltip -->
+<!-- GENERATED from tooltip.md @ 812ec9ba972dc954 — do not edit; change the source and run: npm run contract -- mobile tooltip -->
 # Tooltip · تلميح — Mobile — Figma contract
 
 > **Everything the Figma Agent needs to build Tooltip in the Mobile Components file, with our variables and styles.** Read this file only. Generated from [`tooltip.md`](tooltip.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-28). Questions go to [D11 Execution log](tooltip.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
@@ -12,7 +12,7 @@
 | Component | Tooltip · تلميح |
 | Platform | Mobile · Flutter + Material 3 |
 | Version | 1.1 · 2026-10-24 |
-| Source | [`tooltip.md`](tooltip.md) @ `0ddf64c9adc64514` |
+| Source | [`tooltip.md`](tooltip.md) @ `812ec9ba972dc954` |
 
 ## 1. Library connections in this file
 
@@ -21,7 +21,7 @@
 | Library | **Biowave DS — Foundations** · library key `lk-e00b31b21f924b36eeea820da99c4b306c460986c83e894f415a1c194ba5a2e670f3142c2fccca81280a80bcaee6a87bc47c9a9505d186d7b693aa9805ad7031` |
 | Library file | Foundations · key `AyFaSmfDUlTax3GpKhRdHI` |
 | Doc Kit library (Phase 2) | **Annotation (Biowave Doc Kit)** · file key `cBPWg6YZNqK8UIzgMQIpXl` — must be enabled in this file (Assets → Libraries) |
-| Enabled here | ✓ verified from a component file: 9 collections, 347 variables reachable |
+| Enabled here | ✓ verified from a component file: 8 collections, 287 variables reachable |
 
 Import by key — never search by name, never copy:
 
@@ -53,8 +53,7 @@ Code-only tokens (no Figma variable by design — motion, layers): `motion-durat
 
 | Style | Key |
 |---|---|
-| `Web/en/label/sm` | `fc468e6e7206673886492c3f7f3c44dd1a9f8265` |
-| `Web/ar/label/sm` | `fe9cb9594a1f874f420a34ff627a87bac9f91497` |
+| `label/sm` | `fc468e6e7206673886492c3f7f3c44dd1a9f8265` |
 
 ## 5. Effect styles used (keys)
 
@@ -193,7 +192,7 @@ RTL   placement: end    ┌ تعديل الجهاز ┐ [◆]
 ### D1 Rules for this build
 
 Same as [Web D1](../../../3-web-components/components/tooltip/tooltip.md#d1-rules-for-this-build) (library first, everything bound, no local variables or styles, no component tokens), plus:
-- **Typography mode:** on page `↳ Tooltip` set the explicit variable mode **`Mobile`** for `5. Typography (EN)` and `6. Typography (AR)` (`page.setExplicitVariableModeForCollection`). Text styles stay `Web/{en|ar}/label/sm`; the mode gives the Mobile scale.
+- **Typography mode:** on page `↳ Tooltip` set the explicit variable mode **`Mobile · EN`** of `5. Typography` (Arabic frames and examples: **`Mobile · AR`**) (`page.setExplicitVariableModeForCollection`). Text styles stay `label/sm`; the mode gives the Mobile scale and the language font.
 
 ### D2 Component structure
 
@@ -228,7 +227,7 @@ The Mobile Part D refers to these Web sections; they are copied here so you read
 #### D1 Rules for this build
 
 Same as [Button D1](../button/button.md#d1-rules-for-this-build): library first, every value bound, no local variables or styles. Tooltip has **no component tokens** (P-04), so bind directly to the Foundations library variables listed in the contract (§3); `figma-read-tokens.js` lint must still report 0.
-- Text uses the published text styles `Web/{en|ar}/label/sm` (EN variant → `en`, AR variant → `ar`).
+- Text uses the published text styles `label/sm` (EN variant → `en`, AR variant → `ar`).
 - No effect style (no shadow) and no stroke.
 
 #### D2 Component structure
@@ -243,7 +242,7 @@ Same as [Button D1](../button/button.md#d1-rules-for-this-build): library first,
 Tooltip                  ↔ horizontal · pad-inline {B2 spacing/md} · pad-block {B2 spacing/xs}
 │                          width: hug · max width {B2 size/container/xxs} · height: hug
 │                          radius {B2 radius/sm} · fill {B3 color/surface/inverse} · no stroke · no effect
-└── label                T text style Web/{en|ar}/label/sm · fill {B3 color/text/inverse}
+└── label                T text style label/sm · fill {B3 color/text/inverse}
                            TEXT `Label` · width: fill (wraps at the max width) · align start · no truncation
 ```
 

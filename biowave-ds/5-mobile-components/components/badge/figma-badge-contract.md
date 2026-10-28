@@ -1,4 +1,4 @@
-<!-- GENERATED from badge.md @ af0edb0545f5bd3b — do not edit; change the source and run: npm run contract -- mobile badge -->
+<!-- GENERATED from badge.md @ f3a7de92cf729580 — do not edit; change the source and run: npm run contract -- mobile badge -->
 # Badge · شارة — Mobile — Figma contract
 
 > **Everything the Figma Agent needs to build Badge in the Mobile Components file, with our variables and styles.** Read this file only. Generated from [`badge.md`](badge.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-28). Questions go to [D11 Execution log](badge.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
@@ -12,7 +12,7 @@
 | Component | Badge · شارة |
 | Platform | Mobile · Flutter + Material 3 |
 | Version | 1.1 · 2026-10-24 |
-| Source | [`badge.md`](badge.md) @ `af0edb0545f5bd3b` |
+| Source | [`badge.md`](badge.md) @ `f3a7de92cf729580` |
 
 ## 1. Library connections in this file
 
@@ -21,7 +21,7 @@
 | Library | **Biowave DS — Foundations** · library key `lk-e00b31b21f924b36eeea820da99c4b306c460986c83e894f415a1c194ba5a2e670f3142c2fccca81280a80bcaee6a87bc47c9a9505d186d7b693aa9805ad7031` |
 | Library file | Foundations · key `AyFaSmfDUlTax3GpKhRdHI` |
 | Doc Kit library (Phase 2) | **Annotation (Biowave Doc Kit)** · file key `cBPWg6YZNqK8UIzgMQIpXl` — must be enabled in this file (Assets → Libraries) |
-| Enabled here | ✓ verified from a component file: 9 collections, 347 variables reachable |
+| Enabled here | ✓ verified from a component file: 8 collections, 287 variables reachable |
 
 Import by key — never search by name, never copy:
 
@@ -73,8 +73,7 @@ None yet — this component has no component tokens. Bind to the Foundations var
 
 | Style | Key |
 |---|---|
-| `Web/en/data/sm` | `b836c927df34dcf83db359fdaf14e70e0b54b7b2` |
-| `Web/ar/data/sm` | `6e2745b4b1dd4c3b5d008b9f6a5c8e97d2def079` |
+| `data/sm` | `b836c927df34dcf83db359fdaf14e70e0b54b7b2` |
 
 ## 5. Effect styles used (keys)
 
@@ -222,7 +221,7 @@ LTR   ┌──────────┐(3)        RTL  (3)┌─────�
 ### D1 Rules for this build
 
 Same as [Web D1](../../../3-web-components/components/badge/badge.md#d1-rules-for-this-build) (library first, no component tokens, everything bound, no local variables or styles), plus:
-- **Typography mode:** on page `↳ Badge` set the explicit variable mode **`Mobile`** for `5. Typography (EN)` and `6. Typography (AR)`. Text styles stay `Web/{en|ar}/data/sm`; the mode gives the Mobile scale.
+- **Typography mode:** on page `↳ Badge` set the explicit variable mode **`Mobile · EN`** of `5. Typography` (Arabic frames and examples: **`Mobile · AR`**). Text styles stay `data/sm`; the mode gives the Mobile scale and the language font.
 - `check-icon` is an instance of the **Icon** set in this file (`Size=SM`, `Glyph` = `check`).
 
 ### D2 Component structure
@@ -257,7 +256,7 @@ The Mobile Part D refers to these Web sections; they are copied here so you read
 
 #### D1 Rules for this build
 
-0. **Library first; no component tokens (D-13).** Badge has no `badge.tokens.json` (B3: every value is a semantic token). Bind directly to the **Biowave DS — Foundations** library variables listed in the contract; never create local variables, collections or styles. Text style `Web/{en|ar}/data/sm`; the check glyph is the **Icon** set in this file.
+0. **Library first; no component tokens (D-13).** Badge has no `badge.tokens.json` (B3: every value is a semantic token). Bind directly to the **Biowave DS — Foundations** library variables listed in the contract; never create local variables, collections or styles. Text style `data/sm`; the check glyph is the **Icon** set in this file.
 1. **Every value is bound.** Fill, stroke colour and weight, radius, padding, height, min width → variables; text → text style. No raw hex / px.
 2. **Token → variable:** `-` between segments becomes `/`: `color-background-error-default` → `1. Themes › color/background/error/default`; `color-surface-inverse` → `1. Themes › color/surface/inverse`; `color-icon-role-warning` → `1. Themes › color/icon/role/warning` (the `Warning` fill, B3); `size-icon-md` → `4. Size › size/icon/md`; `spacing-xs` → `3. Spacing › spacing/xs`; `spacing-md` → `3. Spacing › spacing/md`; `radius-full` → `2. Radius › radius/full`; `border-width-strong` → `9. Border › border/width/strong`; `color-border-inverse` → `1. Themes › color/border/inverse`.
 3. **Never** bind `_Primitive/*` or `_deprecated/*`.
@@ -280,7 +279,7 @@ indicator (Badge)     ↔ horizontal · align center/center · height fixed {B2 
 │                       pad-inline {B2 padding-inline, Count only} · radius {B2 radius}
 │                       fill {B3 indicator background}
 │                       stroke OUTSIDE {B3 ring colour} · weight {B3 ring width} — Ring=On only
-├── count             T text style Web/{en|ar}/data/sm · fill {B3 count text} · TEXT `Count`
+├── count             T text style data/sm · fill {B3 count text} · TEXT `Count`
 │                       hug · no wrap · Variant=Count only
 └── check-icon        ◇ Icon instance (Size=SM, Glyph=check) · fill {B3 check-icon}
                         Variant=Check only

@@ -1,4 +1,4 @@
-<!-- GENERATED from button.md @ f4fe2bdb098ac2b8 — do not edit; change the source and run: npm run contract -- web button -->
+<!-- GENERATED from button.md @ 61f69503e6406b6b — do not edit; change the source and run: npm run contract -- web button -->
 # Button · زر — Web — Figma contract
 
 > **Everything the Figma Agent needs to build Button in the Web Components file, with our variables and styles.** Read this file only. Generated from [`button.md`](button.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-28). Questions go to [D11 Execution log](button.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
@@ -12,7 +12,7 @@
 | Component | Button · زر |
 | Platform | Web · React + MUI |
 | Version | 1.1 · 2026-10-18 |
-| Source | [`button.md`](button.md) @ `f4fe2bdb098ac2b8` |
+| Source | [`button.md`](button.md) @ `61f69503e6406b6b` |
 
 ## 1. Library connections in this file
 
@@ -21,7 +21,7 @@
 | Library | **Biowave DS — Foundations** · library key `lk-e00b31b21f924b36eeea820da99c4b306c460986c83e894f415a1c194ba5a2e670f3142c2fccca81280a80bcaee6a87bc47c9a9505d186d7b693aa9805ad7031` |
 | Library file | Foundations · key `AyFaSmfDUlTax3GpKhRdHI` |
 | Doc Kit library (Phase 2) | **Annotation (Biowave Doc Kit)** · file key `cBPWg6YZNqK8UIzgMQIpXl` — must be enabled in this file (Assets → Libraries) |
-| Enabled here | ✓ verified from a component file: 9 collections, 347 variables reachable |
+| Enabled here | ✓ verified from a component file: 8 collections, 287 variables reachable |
 
 Import by key — never search by name, never copy:
 
@@ -153,12 +153,9 @@ Code-only tokens (no Figma variable by design — motion, layers): `elevation-0`
 
 | Style | Key |
 |---|---|
-| `Web/en/action/sm` | `db13893c893d1f873aeec7bbd5d890d77d5a3ab3` |
-| `Web/en/action/md` | `6dec13ffdefd6ebe1bcad745d715cf13b7a2a66a` |
-| `Web/en/action/lg` | `0566d1dce9a436d6464c879125e0797cef4f8750` |
-| `Web/ar/action/sm` | `f97df07b5974ac1d2fdd64d6a320a30c88c4bd3f` |
-| `Web/ar/action/md` | `ef1c490f6c608d2036d1ffcb2d171f21646cdb0d` |
-| `Web/ar/action/lg` | `8da07033b0da14a69851c6e2b828050d160c1d2b` |
+| `action/sm` | `db13893c893d1f873aeec7bbd5d890d77d5a3ab3` |
+| `action/md` | `6dec13ffdefd6ebe1bcad745d715cf13b7a2a66a` |
+| `action/lg` | `0566d1dce9a436d6464c879125e0797cef4f8750` |
 
 ## 5. Effect styles used (keys)
 
@@ -354,7 +351,7 @@ RTL  │          إضافة جهاز  [◆]  │      │  [◂]  التالي 
 0. **Library first, component tokens only (D-13).** Text styles and icons come from the published library **Biowave DS — Foundations**. Visual values bind to the **Button component tokens** already in this file (created from [`button.tokens.json`](button.tokens.json) by the sync tooling): `Button / Size` (modes `sm`·`md`·`lg`), `Button / Filled` · `Button / Tonal` · `Button / Outlined` · `Button / Text` (modes = colors), `Button / Focus`. Each variant sets the explicit mode of its collections (e.g. `Variant=Filled, Color=Brand, Size=MD` → `Button / Filled`=`brand`, `Button / Size`=`md`). **Never create variables or styles** in this file; if a value is missing, stop and ask the Planner (it is added to `button.tokens.json` → synced).
 1. **Every value is bound.** Fills, strokes, radius, padding, gap, height → variables; text → text styles; focus → effect style. No raw hex / px. Opacity 0 for the hidden label in Loading is the only literal allowed.
 2. **Spec token → component token:** B3 table and `button.tokens.json` name the same semantic tokens; bind the component token that aliases it (`container/default`, `label/default`, `state-layer/hover`, `border/default`, `height`, `padding-inline`, `gap`, `icon`, `radius`, `border-width`, `Button / Focus › color`). Semantic variables are never bound directly. For reference, spec names map to Foundations variables as: `-` between segments becomes `/`: `color-background-brand-hovered` → `1. Themes › color/background/brand/hovered`; `size-control-height-md` → `4. Size › size/control/height/md`; `spacing-control-gap-md` → `3. Spacing › spacing/control/gap/md`; `radius-md` → `2. Radius › radius/md`; `border-width-default` → `9. Border › border/width/default`.
-   Text styles: `Web/en/action/{sm|md|lg}` and `Web/ar/action/{sm|md|lg}` (they are bound to the Typography variables, so Tablet/Mobile scale comes from the variable mode, not from a different style). Focus: the `Focus ring` layer (border.md › Figma focus ring: stroke `color/border/focus`, `color/border/inverse` on Inverse) — no effect style; borders and rings are never shadows.
+   Text styles: `action/{sm|md|lg}` (they are bound to the Typography variables, so Tablet/Mobile scale comes from the variable mode, not from a different style). Focus: the `Focus ring` layer (border.md › Figma focus ring: stroke `color/border/focus`, `color/border/inverse` on Inverse) — no effect style; borders and rings are never shadows.
 3. **Never** bind `_Primitive/*`, `_deprecated/*` or the old `Button size` collection.
 4. **Layer names = anatomy part names** (A2): `container` is the component itself, children `leading-icon`, `label`, `trailing-icon`, `spinner`, `state-layer`.
 5. Auto layout everywhere. Absolute position only for `state-layer` and `spinner` (both centered, constraints scale).
@@ -375,7 +372,7 @@ Button                    ↔ horizontal · align center/center · gap {B2 gap} 
 │                           fill {B3 container background} · stroke inside {B3 border, outlined only} · `Focus ring` layer visible (State=Focused only)
 ├── state-layer           ▭ absolute, constraints scale, fill {B3 state layer}; visible only in Hover/Pressed of tonal · outlined · text
 ├── leading-icon          ◇ Icon instance · size {B2} · fill {B3 icons} · BOOLEAN `Leading icon` · INSTANCE_SWAP `Leading icon glyph`
-├── label                 T text style Web/{en|ar}/action/{sm|md|lg} · fill {B3 label} · TEXT `Label` · hug · no wrap
+├── label                 T text style action/{sm|md|lg} · fill {B3 label} · TEXT `Label` · hug · no wrap
 ├── trailing-icon         ◇ Icon instance · BOOLEAN `Trailing icon` · INSTANCE_SWAP `Trailing icon glyph`
 └── spinner               ◇ .Button/Spinner · absolute centered · size {B2 spinner} · visible only State=Loading
                             (in Loading: leading-icon, label, trailing-icon layer opacity 0, so the width stays the same)

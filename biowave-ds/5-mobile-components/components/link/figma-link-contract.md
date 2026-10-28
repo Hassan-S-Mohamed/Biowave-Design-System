@@ -1,4 +1,4 @@
-<!-- GENERATED from link.md @ 9826a3f75a540f33 — do not edit; change the source and run: npm run contract -- mobile link -->
+<!-- GENERATED from link.md @ 8195ac2180b675cf — do not edit; change the source and run: npm run contract -- mobile link -->
 # Link · رابط — Mobile — Figma contract
 
 > **Everything the Figma Agent needs to build Link in the Mobile Components file, with our variables and styles.** Read this file only. Generated from [`link.md`](link.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-28). Questions go to [D11 Execution log](link.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
@@ -12,7 +12,7 @@
 | Component | Link · رابط |
 | Platform | Mobile · Flutter + Material 3 |
 | Version | 1.0 · 2026-10-21 |
-| Source | [`link.md`](link.md) @ `9826a3f75a540f33` |
+| Source | [`link.md`](link.md) @ `8195ac2180b675cf` |
 
 ## 1. Library connections in this file
 
@@ -21,7 +21,7 @@
 | Library | **Biowave DS — Foundations** · library key `lk-e00b31b21f924b36eeea820da99c4b306c460986c83e894f415a1c194ba5a2e670f3142c2fccca81280a80bcaee6a87bc47c9a9505d186d7b693aa9805ad7031` |
 | Library file | Foundations · key `AyFaSmfDUlTax3GpKhRdHI` |
 | Doc Kit library (Phase 2) | **Annotation (Biowave Doc Kit)** · file key `cBPWg6YZNqK8UIzgMQIpXl` — must be enabled in this file (Assets → Libraries) |
-| Enabled here | ✓ verified from a component file: 9 collections, 347 variables reachable |
+| Enabled here | ✓ verified from a component file: 8 collections, 287 variables reachable |
 
 Import by key — never search by name, never copy:
 
@@ -65,13 +65,10 @@ Code-only tokens (no Figma variable by design — motion, layers): `motion-durat
 
 | Style | Key |
 |---|---|
-| `Web/en/action/sm` | `db13893c893d1f873aeec7bbd5d890d77d5a3ab3` |
-| `Web/en/action/md` | `6dec13ffdefd6ebe1bcad745d715cf13b7a2a66a` |
-| `Web/en/action/lg` | `0566d1dce9a436d6464c879125e0797cef4f8750` |
-| `Web/ar/action/sm` | `f97df07b5974ac1d2fdd64d6a320a30c88c4bd3f` |
-| `Web/ar/action/md` | `ef1c490f6c608d2036d1ffcb2d171f21646cdb0d` |
-| `Web/ar/action/lg` | `8da07033b0da14a69851c6e2b828050d160c1d2b` |
-| `Web/en/body/md` | `87a12277da6eb5157d262a0d847b277747f73b69` |
+| `action/sm` | `db13893c893d1f873aeec7bbd5d890d77d5a3ab3` |
+| `action/md` | `6dec13ffdefd6ebe1bcad745d715cf13b7a2a66a` |
+| `action/lg` | `0566d1dce9a436d6464c879125e0797cef4f8750` |
+| `body/md` | `87a12277da6eb5157d262a0d847b277747f73b69` |
 
 ## 5. Effect styles used (keys)
 
@@ -231,7 +228,7 @@ As [Web B5](../../../3-web-components/components/link/link.md#b5-rtl) (same wire
 ### D1 Rules for this build
 
 Same as [Web D1](../../../3-web-components/components/link/link.md#d1-rules-for-this-build) (library first, no component tokens — bind the Foundations variables directly, everything bound except the underline thickness and offset), plus:
-- **Typography mode:** on page `↳ Link` set the explicit variable mode **`Mobile`** for `5. Typography (EN)` and `6. Typography (AR)` (`page.setExplicitVariableModeForCollection`). Text styles stay `Web/{en|ar}/action/{sm|md|lg}`; the mode gives the Mobile scale.
+- **Typography mode:** on page `↳ Link` set the explicit variable mode **`Mobile · EN`** of `5. Typography` (Arabic frames and examples: **`Mobile · AR`**) (`page.setExplicitVariableModeForCollection`). Text styles stay `action/{sm|md|lg}`; the mode gives the Mobile scale and the language font.
 - Underline offset: font default (B2), not `spacing-xxs`.
 
 ### D2 Component structure
@@ -271,7 +268,7 @@ The Mobile Part D refers to these Web sections; they are copied here so you read
 #### D1 Rules for this build
 
 0. **Library first, no component tokens (P-04).** Link has no `link.tokens.json`, so this file gets **no** `Link / …` collection. Bind layers directly to the Foundations variables listed in the contract (§3) by key — this is intended, not a gap; do not ask for component tokens in D11. Never create, copy or detach variables or styles. Lint (`figma-read-tokens.js`) must report 0.
-1. **Every value is bound.** Fills, gap, min height, radius → variables; text → text styles `Web/en/action/{sm|md|lg}` and `Web/ar/action/{sm|md|lg}`; focus → the `Focus ring` layer (border.md › Figma focus ring: stroke `color/border/focus`, `color/border/inverse` on Inverse). No raw hex / px. **Only literals allowed:** the label's underline thickness and offset (Figma text decoration cannot be bound to variables) — set them to the B2 / B3 values and list them in the QA report.
+1. **Every value is bound.** Fills, gap, min height, radius → variables; text → text styles `action/{sm|md|lg}`; focus → the `Focus ring` layer (border.md › Figma focus ring: stroke `color/border/focus`, `color/border/inverse` on Inverse). No raw hex / px. **Only literals allowed:** the label's underline thickness and offset (Figma text decoration cannot be bound to variables) — set them to the B2 / B3 values and list them in the QA report.
 2. **Token → variable name:** replace `-` between segments with `/` — `color-link-hovered` → `1. Themes › color/link/hovered`; `spacing-xs` → `3. Spacing › spacing/xs`; `radius-xs` → `2. Radius › radius/xs`; `target-min` → `7. Grid & Layout › target/min`.
 3. **Never** bind `_Primitive/*` or `_deprecated/*`.
 4. **Layer names = anatomy part names** (A2): the component frame is the link root; children `leading-icon`, `label`, `external-icon`. The underline is the label's text decoration, not a layer.
@@ -293,7 +290,7 @@ Link                      ↔ horizontal · align center/center · gap {B2 gap} 
 │                           height hug, min height {B2 min block size} · width hug · radius {B2 focus radius}
 │                           no fill · `Focus ring` layer visible (State=Focused; stroke `color/border/inverse` when Color=Inverse)
 ├── leading-icon          ◇ Material Symbols instance · size {B2 icon} · fill {B3 colour} · BOOLEAN `Leading icon` · INSTANCE_SWAP `Leading icon glyph`
-├── label                 T text style Web/{en|ar}/action/{sm|md|lg} · fill {B3 colour} · decoration Underline per B3 · TEXT `Label` · hug
+├── label                 T text style action/{sm|md|lg} · fill {B3 colour} · decoration Underline per B3 · TEXT `Label` · hug
 └── external-icon         ◇ Material Symbols `open_in_new` instance · size {B2 icon} · fill {B3 colour} · BOOLEAN `External`
 ```
 
@@ -346,7 +343,7 @@ Build the 12 standard pages per `_templates/component.md` D8 + `2-foundations/fi
 
 Page notes for Link:
 - 01 Introduction: one inline example (a body paragraph with a link) and one standalone example, Light + Dark panels.
-- 03 Variations: blocks for `Color` (`Inverse` on a `color/background/brand/default` tile), `Size`, `Underline`, `Leading icon`, `External`. Inline (`size="inherit"`): a body paragraph whose link words use the `Web/en/body/md` text style with the `color/link/default` fill and underline applied to that text range — the one example that is not an instance, because Figma cannot place an instance inside running text; label it "Inline — code `size=\"inherit\"`".
+- 03 Variations: blocks for `Color` (`Inverse` on a `color/background/brand/default` tile), `Size`, `Underline`, `Leading icon`, `External`. Inline (`size="inherit"`): a body paragraph whose link words use the `body/md` text style with the `color/link/default` fill and underline applied to that text range — the one example that is not an instance, because Figma cannot place an instance inside running text; label it "Inline — code `size=\"inherit\"`".
 - 05 Usage: Link vs Button (`text`) side by side.
 - 09 Accessibility: focus ring examples (default and Inverse), the external announcement text in EN and AR, `target-min` overlay on a standalone `SM` link.
 

@@ -1,4 +1,4 @@
-<!-- GENERATED from text-field.md @ 73c030b6de9bd26e — do not edit; change the source and run: npm run contract -- web text-field -->
+<!-- GENERATED from text-field.md @ f81a9b4e12ac0fdd — do not edit; change the source and run: npm run contract -- web text-field -->
 # Text field · حقل نص — Web — Figma contract
 
 > **Everything the Figma Agent needs to build Text field in the Web Components file, with our variables and styles.** Read this file only. Generated from [`text-field.md`](text-field.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-28). Questions go to [D11 Execution log](text-field.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
@@ -12,7 +12,7 @@
 | Component | Text field · حقل نص |
 | Platform | Web · React + MUI |
 | Version | 1.2 · 2026-10-21 |
-| Source | [`text-field.md`](text-field.md) @ `73c030b6de9bd26e` |
+| Source | [`text-field.md`](text-field.md) @ `f81a9b4e12ac0fdd` |
 
 ## 1. Library connections in this file
 
@@ -21,7 +21,7 @@
 | Library | **Biowave DS — Foundations** · library key `lk-e00b31b21f924b36eeea820da99c4b306c460986c83e894f415a1c194ba5a2e670f3142c2fccca81280a80bcaee6a87bc47c9a9505d186d7b693aa9805ad7031` |
 | Library file | Foundations · key `AyFaSmfDUlTax3GpKhRdHI` |
 | Doc Kit library (Phase 2) | **Annotation (Biowave Doc Kit)** · file key `cBPWg6YZNqK8UIzgMQIpXl` — must be enabled in this file (Assets → Libraries) |
-| Enabled here | ✓ verified from a component file: 9 collections, 347 variables reachable |
+| Enabled here | ✓ verified from a component file: 8 collections, 287 variables reachable |
 
 Import by key — never search by name, never copy:
 

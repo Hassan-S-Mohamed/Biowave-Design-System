@@ -1,4 +1,4 @@
-<!-- GENERATED from split-button.md @ 6612a651bde1f4d4 — do not edit; change the source and run: npm run contract -- mobile split-button -->
+<!-- GENERATED from split-button.md @ f6236c45f9170327 — do not edit; change the source and run: npm run contract -- mobile split-button -->
 # Split button · زر مقسّم — Mobile — Figma contract
 
 > **Everything the Figma Agent needs to build Split button in the Mobile Components file, with our variables and styles.** Read this file only. Generated from [`split-button.md`](split-button.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-28). Questions go to [D11 Execution log](split-button.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
@@ -12,7 +12,7 @@
 | Component | Split button · زر مقسّم |
 | Platform | Mobile · Flutter + Material 3 |
 | Version | 1.0 · 2026-10-16 |
-| Source | [`split-button.md`](split-button.md) @ `6612a651bde1f4d4` |
+| Source | [`split-button.md`](split-button.md) @ `f6236c45f9170327` |
 
 ## 1. Library connections in this file
 
@@ -21,7 +21,7 @@
 | Library | **Biowave DS — Foundations** · library key `lk-e00b31b21f924b36eeea820da99c4b306c460986c83e894f415a1c194ba5a2e670f3142c2fccca81280a80bcaee6a87bc47c9a9505d186d7b693aa9805ad7031` |
 | Library file | Foundations · key `AyFaSmfDUlTax3GpKhRdHI` |
 | Doc Kit library (Phase 2) | **Annotation (Biowave Doc Kit)** · file key `cBPWg6YZNqK8UIzgMQIpXl` — must be enabled in this file (Assets → Libraries) |
-| Enabled here | ✓ verified from a component file: 9 collections, 347 variables reachable |
+| Enabled here | ✓ verified from a component file: 8 collections, 287 variables reachable |
 
 Import by key — never search by name, never copy:
 
@@ -181,7 +181,7 @@ Same as the [Web B5](../../../3-web-components/components/split-button/split-but
 ### D1 Rules for this build
 
 Same as [Web D1](../../../3-web-components/components/button/button.md#d1-rules-for-this-build) (library first, everything bound, no local variables or styles), plus:
-- **Typography mode:** on page `↳ Split Button` set the explicit variable mode **`Mobile`** for `5. Typography (EN)` and `6. Typography (AR)` (`page.setExplicitVariableModeForCollection`). Text styles stay `Web/{en|ar}/…` names; the mode gives the Mobile scale.
+- **Typography mode:** on page `↳ Split Button` set the explicit variable mode **`Mobile · EN`** of `5. Typography` (Arabic frames and examples: **`Mobile · AR`**) (`page.setExplicitVariableModeForCollection`). Text styles stay the same `{role}/{size}` names; the mode gives the Mobile scale and the language font.
 
 ### D2 Component structure
 

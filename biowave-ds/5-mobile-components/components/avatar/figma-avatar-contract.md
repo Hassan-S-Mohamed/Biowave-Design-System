@@ -1,4 +1,4 @@
-<!-- GENERATED from avatar.md @ 5833f8120a4652cf — do not edit; change the source and run: npm run contract -- mobile avatar -->
+<!-- GENERATED from avatar.md @ 1d224b0b287cd7b9 — do not edit; change the source and run: npm run contract -- mobile avatar -->
 # Avatar · صورة رمزية — Mobile — Figma contract
 
 > **Everything the Figma Agent needs to build Avatar in the Mobile Components file, with our variables and styles.** Read this file only. Generated from [`avatar.md`](avatar.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-28). Questions go to [D11 Execution log](avatar.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
@@ -12,7 +12,7 @@
 | Component | Avatar · صورة رمزية |
 | Platform | Mobile · Flutter + Material 3 |
 | Version | 1.1 · 2026-10-24 |
-| Source | [`avatar.md`](avatar.md) @ `5833f8120a4652cf` |
+| Source | [`avatar.md`](avatar.md) @ `1d224b0b287cd7b9` |
 
 ## 1. Library connections in this file
 
@@ -21,7 +21,7 @@
 | Library | **Biowave DS — Foundations** · library key `lk-e00b31b21f924b36eeea820da99c4b306c460986c83e894f415a1c194ba5a2e670f3142c2fccca81280a80bcaee6a87bc47c9a9505d186d7b693aa9805ad7031` |
 | Library file | Foundations · key `AyFaSmfDUlTax3GpKhRdHI` |
 | Doc Kit library (Phase 2) | **Annotation (Biowave Doc Kit)** · file key `cBPWg6YZNqK8UIzgMQIpXl` — must be enabled in this file (Assets → Libraries) |
-| Enabled here | ✓ verified from a component file: 9 collections, 347 variables reachable |
+| Enabled here | ✓ verified from a component file: 8 collections, 287 variables reachable |
 
 Import by key — never search by name, never copy:
 
@@ -68,14 +68,10 @@ None yet — this component has no component tokens. Bind to the Foundations var
 
 | Style | Key |
 |---|---|
-| `Web/en/label/sm` | `fc468e6e7206673886492c3f7f3c44dd1a9f8265` |
-| `Web/ar/label/sm` | `fe9cb9594a1f874f420a34ff627a87bac9f91497` |
-| `Web/en/label/lg` | `9fe6ff3cff9d3abce486aab5175350b06e06b891` |
-| `Web/ar/label/lg` | `17dadc4ed7dede74a5575e3d54f1613ec877a1be` |
-| `Web/en/title/lg` | `2da324fe6d92dee8e8bfb65214f3572272421b71` |
-| `Web/ar/title/lg` | `6ab5a0d44f5b291775cd371d317f42b03e674a16` |
-| `Web/en/heading/sm` | `5598bdd8dbd514d94e313a799f1a6344c7ed688f` |
-| `Web/ar/heading/sm` | `ea77e2de7cf6fe466eb1b21be6a9d02e3cacfe14` |
+| `label/sm` | `fc468e6e7206673886492c3f7f3c44dd1a9f8265` |
+| `label/lg` | `9fe6ff3cff9d3abce486aab5175350b06e06b891` |
+| `title/lg` | `2da324fe6d92dee8e8bfb65214f3572272421b71` |
+| `heading/sm` | `5598bdd8dbd514d94e313a799f1a6344c7ed688f` |
 
 ## 5. Effect styles used (keys)
 
@@ -206,7 +202,7 @@ LTR   ╭──────╮●        RTL  ●╭──────╮
 ### D1 Rules for this build
 
 Same as [Web D1](../../../3-web-components/components/avatar/avatar.md#d1-rules-for-this-build) (library first, no component tokens, everything bound except the sample image fill, no local variables or styles), plus:
-- **Typography mode:** on page `↳ Avatar` set the explicit variable mode **`Mobile`** for `5. Typography (EN)` and `6. Typography (AR)`. Text styles stay `Web/{en|ar}/label/sm`, `Web/{en|ar}/label/lg`, `Web/{en|ar}/title/lg`, `Web/{en|ar}/heading/sm`; the mode gives the Mobile scale.
+- **Typography mode:** on page `↳ Avatar` set the explicit variable mode **`Mobile · EN`** of `5. Typography` (Arabic frames and examples: **`Mobile · AR`**). Text styles stay `label/sm`, `label/lg`, `title/lg`, `heading/sm`; the mode gives the Mobile scale and the language font.
 - `fallback-icon` is an instance of the **Icon** set in this file (`Glyph` = `person`); badge examples are instances of the **Badge** set in this file.
 
 ### D2 Component structure
@@ -241,7 +237,7 @@ The Mobile Part D refers to these Web sections; they are copied here so you read
 
 #### D1 Rules for this build
 
-0. **Library first; no component tokens (D-13).** Avatar has no `avatar.tokens.json` (B3: every value is a semantic token). Bind directly to the **Biowave DS — Foundations** library variables listed in the contract; never create local variables, collections or styles. Text styles `Web/{en|ar}/label/sm`, `Web/{en|ar}/label/lg`, `Web/{en|ar}/title/lg`, `Web/{en|ar}/heading/sm`.
+0. **Library first; no component tokens (D-13).** Avatar has no `avatar.tokens.json` (B3: every value is a semantic token). Bind directly to the **Biowave DS — Foundations** library variables listed in the contract; never create local variables, collections or styles. Text styles `label/sm`, `label/lg`, `title/lg`, `heading/sm`.
 1. **Every value is bound.** Fill, radius, width and height → variables; text → text style. The sample photo is an image fill (the only unbound fill allowed).
 2. **Token → variable:** `-` between segments becomes `/`: `size-control-height-md` → `4. Size › size/control/height/md`; `size-icon-md` → `4. Size › size/icon/md`; `radius-full` → `2. Radius › radius/full`; `radius-md` → `2. Radius › radius/md`; `color-background-neutral-default` → `1. Themes › color/background/neutral/default`; `color-text-role-brand` → `1. Themes › color/text/role/brand`.
 3. **Never** bind `_Primitive/*` or `_deprecated/*`.
