@@ -1,7 +1,7 @@
-<!-- GENERATED from icon-button.md @ 279e160ea2349adc — do not edit; change the source and run: npm run contract -- web icon-button -->
+<!-- GENERATED from icon-button.md @ 857ea2afe2adbb4e — do not edit; change the source and run: npm run contract -- web icon-button -->
 # Icon button · زر أيقونة — Web — Figma contract
 
-> **Everything the Figma Agent needs to build Icon button in the Web Components file, with our variables and styles.** Read this file only. Generated from [`icon-button.md`](icon-button.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-24). Questions go to [D11 Execution log](icon-button.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
+> **Everything the Figma Agent needs to build Icon button in the Web Components file, with our variables and styles.** Read this file only. Generated from [`icon-button.md`](icon-button.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-28). Questions go to [D11 Execution log](icon-button.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
 
 **Two phases, one review:** Phase 1 — build the component set (§7–§8). Phase 2 — as soon as Phase 1 is finished, the 12 documentation pages and the Components List card (§9).
 
@@ -12,7 +12,7 @@
 | Component | Icon button · زر أيقونة |
 | Platform | Web · React + MUI |
 | Version | 1.1 · 2026-10-21 |
-| Source | [`icon-button.md`](icon-button.md) @ `279e160ea2349adc` |
+| Source | [`icon-button.md`](icon-button.md) @ `857ea2afe2adbb4e` |
 
 ## 1. Library connections in this file
 
@@ -21,7 +21,7 @@
 | Library | **Biowave DS — Foundations** · library key `lk-e00b31b21f924b36eeea820da99c4b306c460986c83e894f415a1c194ba5a2e670f3142c2fccca81280a80bcaee6a87bc47c9a9505d186d7b693aa9805ad7031` |
 | Library file | Foundations · key `AyFaSmfDUlTax3GpKhRdHI` |
 | Doc Kit library (Phase 2) | **Annotation (Biowave Doc Kit)** · file key `cBPWg6YZNqK8UIzgMQIpXl` — must be enabled in this file (Assets → Libraries) |
-| Enabled here | ✓ verified from a component file: 9 collections, 318 variables reachable |
+| Enabled here | ✓ verified from a component file: 9 collections, 347 variables reachable |
 
 Import by key — never search by name, never copy:
 
@@ -44,26 +44,26 @@ None yet — this component has no component tokens. Bind to the Foundations var
 | `border-width-default` | 9. Border › `border/width/default` | `9b62f24ecdfc438789ce3fa296e725ac14b1e08f` | FLOAT | STROKE_FLOAT | spec |
 | `border-width-focus` | 9. Border › `border/width/focus` | `d660bcb01777958134799fe11a99a63aaf1fbfca` | FLOAT | STROKE_FLOAT | spec |
 | `color-background-brand-subtle` | 1. Themes › `color/background/brand/subtle` | `7e262abe296024e9b4a29951d5e061fee8f3f2d7` | COLOR | FRAME_FILL, SHAPE_FILL | spec |
+| `color-background-disabled` | 1. Themes › `color/background/disabled` | `3697f6cbec9ecaa8acf84032dbdb9f6a1607a6ff` | COLOR | FRAME_FILL, SHAPE_FILL | spec |
 | `color-background-error-subtle` | 1. Themes › `color/background/error/subtle` | `b408c27a651904c0bc3c5396b3e88319c4d4d6fe` | COLOR | FRAME_FILL, SHAPE_FILL | spec |
 | `color-background-inverse-default` | 1. Themes › `color/background/inverse/default` | `0d78c3b8e082ed200902a7d8eb44436e029d1a2c` | COLOR | FRAME_FILL, SHAPE_FILL | spec |
 | `color-background-neutral-default` | 1. Themes › `color/background/neutral/default` | `2dc9c39d4df7b490fd0d7ac7385b49fdaf0e973e` | COLOR | FRAME_FILL, SHAPE_FILL | spec |
-| `color-background-neutral-disabled` | 1. Themes › `color/background/neutral/disabled` | `9972624254ddd391df63a7787d0281e703f584f2` | COLOR | FRAME_FILL, SHAPE_FILL | spec |
 | `color-background-secondary-subtle` | 1. Themes › `color/background/secondary/subtle` | `6cfea2f9951f4815d9385c0029ee3dd3cc4eba6a` | COLOR | FRAME_FILL, SHAPE_FILL | spec |
+| `color-background-transparent-hovered` | 1. Themes › `color/background/transparent/hovered` | `51354205cb02a343717bc6e5ca84b0e151af3de8` | COLOR | FRAME_FILL, SHAPE_FILL | spec |
+| `color-background-transparent-pressed` | 1. Themes › `color/background/transparent/pressed` | `830ae424ad770312d061208a89f7452569d643d8` | COLOR | FRAME_FILL, SHAPE_FILL | spec |
 | `color-border-brand` | 1. Themes › `color/border/brand` | `50ddd3d7028ede7c14f73576869a28588b0c3b7d` | COLOR | STROKE_COLOR | spec |
 | `color-border-disabled` | 1. Themes › `color/border/disabled` | `a6d557c3fa0bcb0e2e6b6592234d737ef80936bf` | COLOR | STROKE_COLOR | spec |
 | `color-border-error` | 1. Themes › `color/border/error` | `28b0f15306faf6c8113f5acdf14ed8fc66e02c57` | COLOR | STROKE_COLOR | spec |
 | `color-border-inverse` | 1. Themes › `color/border/inverse` | `0e53944b3de77eca83b17b27c3e5d0b4fca582d8` | COLOR | STROKE_COLOR | spec |
 | `color-border-secondary` | 1. Themes › `color/border/secondary` | `7466169e60102e31827f59ddfe6eb94a9bbee577` | COLOR | STROKE_COLOR | spec |
 | `color-border-strong` | 1. Themes › `color/border/strong` | `a12934eff6a447ebe30a4507b223c76e583e2701` | COLOR | STROKE_COLOR | spec |
-| `color-icon-neutral-default` | 1. Themes › `color/icon/neutral/default` | `b0844bd913aafe8789a44bc7b647058cdae299df` | COLOR | SHAPE_FILL, STROKE_COLOR | spec |
-| `color-icon-neutral-disabled` | 1. Themes › `color/icon/neutral/disabled` | `708926473ca446a26d4a0891351f04692171f74f` | COLOR | SHAPE_FILL, STROKE_COLOR | spec |
+| `color-icon-default` | 1. Themes › `color/icon/default` | `b0844bd913aafe8789a44bc7b647058cdae299df` | COLOR | SHAPE_FILL, STROKE_COLOR | spec |
+| `color-icon-disabled` | 1. Themes › `color/icon/disabled` | `708926473ca446a26d4a0891351f04692171f74f` | COLOR | SHAPE_FILL, STROKE_COLOR | spec |
 | `color-icon-role-brand` | 1. Themes › `color/icon/role/brand` | `73d6989d2161d900c2070cd9b67f01653e54251d` | COLOR | SHAPE_FILL, STROKE_COLOR | spec |
 | `color-icon-role-error` | 1. Themes › `color/icon/role/error` | `e7e61106b7c9b1c60197d2c456ad055991cc545d` | COLOR | SHAPE_FILL, STROKE_COLOR | spec |
 | `color-icon-role-secondary` | 1. Themes › `color/icon/role/secondary` | `b3c3c18415370f381760224fd00a40f2816ffdb6` | COLOR | SHAPE_FILL, STROKE_COLOR | spec |
-| `color-overlay-hover` | 1. Themes › `color/overlay/hover` | `aa2655bb098fde1c03c1b3c143cb22c435402789` | COLOR | FRAME_FILL, SHAPE_FILL | spec |
-| `color-overlay-pressed` | 1. Themes › `color/overlay/pressed` | `8910a028526424e788cdae6f511506ebb855ab37` | COLOR | FRAME_FILL, SHAPE_FILL | spec |
 | `color-surface-inverse` | 1. Themes › `color/surface/inverse` | `364770c6a80914cb1d30c8afc1e354431dbb5f07` | COLOR | FRAME_FILL, SHAPE_FILL | spec |
-| `color-text-neutral-inverse` | 1. Themes › `color/text/neutral/inverse` | `83e1f6c6d7ddf8376b1bc5d0b9d5f6cd13b68e9b` | COLOR | TEXT_FILL | spec |
+| `color-text-inverse` | 1. Themes › `color/text/inverse` | `83e1f6c6d7ddf8376b1bc5d0b9d5f6cd13b68e9b` | COLOR | TEXT_FILL | spec |
 | `radius-md` | 2. Radius › `radius/md` | `0758e506cdfd4d7a4eef6369a4851133d7eab5a4` | FLOAT | CORNER_RADIUS | spec |
 | `radius-sm` | 2. Radius › `radius/sm` | `44047be92c065ef35e4aa9ed6732645870ae38c9` | FLOAT | CORNER_RADIUS | spec |
 | `size-control-height-lg` | 4. Size › `size/control/height/lg` | `14c0f56d2add6f7149374e67cf4d3a2656aeb5dc` | FLOAT | WIDTH_HEIGHT | spec |
@@ -84,9 +84,7 @@ None named in B/D.
 
 ## 5. Effect styles used (keys)
 
-| Style | Key |
-|---|---|
-| `Focus/Ring` | `a52fabd21a5e545bc7bef092fbf39ebfe0e9bd43` |
+None named in B/D.
 
 ## 6. Components to instance (keys)
 
@@ -153,12 +151,12 @@ Exactly [Button B3.1–B3.5](../button/button.md#b3-tokens-by-part-and-state) fo
 ### 3.2 Selected (`toggle` + `selected`, text and outlined only)
 | `color` | `container` background | State layer · Hover / Pressed | `icon` | `container` border (outlined) |
 |---|---|---|---|---|
-| `brand` | `color-background-brand-subtle` | `color-overlay-hover` / `color-overlay-pressed` | `color-icon-role-brand` | `color-border-brand` |
+| `brand` | `color-background-brand-subtle` | `color-background-transparent-hovered` / `color-background-transparent-pressed` | `color-icon-role-brand` | `color-border-brand` |
 | `secondary` | `color-background-secondary-subtle` | same | `color-icon-role-secondary` | `color-border-secondary` |
 | `error` | `color-background-error-subtle` | same | `color-icon-role-error` | `color-border-error` |
-| `neutral` | `color-background-neutral-default` | same | `color-icon-neutral-default` | `color-border-strong` |
+| `neutral` | `color-background-neutral-default` | same | `color-icon-default` | `color-border-strong` |
 | `inverse` | `color-background-inverse-default` | same | `color-icon-role-brand` | `color-border-inverse` |
-| Disabled | `color-background-neutral-disabled` | — | `color-icon-neutral-disabled` | `color-border-disabled` |
+| Disabled | `color-background-disabled` | — | `color-icon-disabled` | `color-border-disabled` |
 
 ### 3.3 Focus
 As Button B3.5 (`inverse` uses `color-border-inverse`).
@@ -166,7 +164,7 @@ As Button B3.5 (`inverse` uses `color-border-inverse`).
 ### 3.4 Tooltip (temporary, until Tooltip component)
 | Part | Property | Token |
 |---|---|---|
-| `tooltip` | background · text | `color-surface-inverse` · `color-text-neutral-inverse` |
+| `tooltip` | background · text | `color-surface-inverse` · `color-text-inverse` |
 | `tooltip` | text style · radius | `label-sm` · `radius-sm` |
 | `tooltip` | padding-block · padding-inline | `spacing-xs` · `spacing-md` |
 | `tooltip` | offset from button | `spacing-xs` |
@@ -238,7 +236,7 @@ Same as [Button D1](../button/button.md#d1-rules-for-this-build).
 
 ```
 Icon Button              ↔ centered · width = height {B2} · padding 0
-└── .Icon Button/Appearance  ◇ fill both axes · radius {B2} · fill/stroke {B3} · effect Focus/Ring when State=Focused
+└── .Icon Button/Appearance  ◇ fill both axes · radius {B2} · fill/stroke {B3} · `Focus ring` layer visible when State=Focused (border.md › Figma focus ring)
     ├── state-layer      ▭ absolute, fill {overlay-hover|pressed} in Hover/Pressed of tonal/outlined/text
     ├── icon             ◇ .Icon Button/Glyph · size {B2 icon} · fill {B3}
     └── spinner          ◇ .Button/Spinner · visible only State=Loading (icon opacity 0)

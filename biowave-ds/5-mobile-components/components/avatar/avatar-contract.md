@@ -1,4 +1,4 @@
-<!-- GENERATED from avatar.md @ 5312c3c22b7b81c5 — do not edit; change the source and run: npm run contract -- mobile avatar -->
+<!-- GENERATED from avatar.md @ e43059fbe194b593 — do not edit; change the source and run: npm run contract -- mobile avatar -->
 # Avatar · صورة رمزية — Mobile — code contract
 
 > **Everything you need to build Avatar on Mobile, and nothing else.** Read this file only. Generated from [`avatar.md`](avatar.md) (Parts B and C). If something is unclear or impossible, stop and write it in [C8 Execution log → Questions](avatar.md#c8-execution-log-filled-by-the-executor) — never invent behaviour.
@@ -12,7 +12,7 @@
 | Version | 1.1 · 2026-10-24 |
 | Source code | `lib/src/components/avatar/` — not built yet (the Executor creates it) |
 | Tokens | — |
-| Source | [`avatar.md`](avatar.md) @ `5312c3c22b7b81c5` |
+| Source | [`avatar.md`](avatar.md) @ `e43059fbe194b593` |
 
 ## 1. What it is
 
@@ -95,7 +95,7 @@ Identical to [Web B3](../../../3-web-components/components/avatar/avatar.md#b3-t
 
 | `color` | `container` background | `initials` colour | `fallback-icon` colour |
 |---|---|---|---|
-| `neutral` | `color-background-neutral-default` → `backgroundNeutralDefault` | `color-text-neutral-subtle` → `textNeutralSubtle` | `color-icon-neutral-subtle` → `iconNeutralSubtle` |
+| `neutral` | `color-background-neutral-default` → `backgroundNeutralDefault` | `color-text-subtle` → `textSubtle` | `color-icon-subtle` → `iconSubtle` |
 | `brand` | `color-background-brand-subtle` → `backgroundBrandSubtle` | `color-text-role-brand` → `textRoleBrand` | `color-icon-role-brand` → `iconRoleBrand` |
 | `secondary` | `color-background-secondary-subtle` → `backgroundSecondarySubtle` | `color-text-role-secondary` → `textRoleSecondary` | `color-icon-role-secondary` → `iconRoleSecondary` |
 
@@ -107,15 +107,15 @@ Values are for checking only — never paste a value.
 
 | Token | Dart | Light | Dark |
 |---|---|---|---|
-| `color-background-brand-subtle` | `context.bw.colors.backgroundBrandSubtle` | #E8ECF2 | #071323 |
+| `color-background-brand-subtle` | `context.bw.colors.backgroundBrandSubtle` | #BEC9D9 | #071323 |
 | `color-background-neutral-default` | `context.bw.colors.backgroundNeutralDefault` | #EDEDED | #292929 |
-| `color-background-secondary-subtle` | `context.bw.colors.backgroundSecondarySubtle` | #E8F4F8 | #032A37 |
-| `color-icon-neutral-subtle` | `context.bw.colors.iconNeutralSubtle` | #292929 | #DBDBDB |
-| `color-icon-role-brand` | `context.bw.colors.iconRoleBrand` | #193351 | #90A3BC |
-| `color-icon-role-secondary` | `context.bw.colors.iconRoleSecondary` | #0C5F79 | #90C3D5 |
-| `color-text-neutral-subtle` | `context.bw.colors.textNeutralSubtle` | #292929 | #DBDBDB |
-| `color-text-role-brand` | `context.bw.colors.textRoleBrand` | #132843 | #90A3BC |
+| `color-background-secondary-subtle` | `context.bw.colors.backgroundSecondarySubtle` | #C0DDE8 | #032A37 |
+| `color-icon-role-brand` | `context.bw.colors.iconRoleBrand` | #132843 | #BEC9D9 |
+| `color-icon-role-secondary` | `context.bw.colors.iconRoleSecondary` | #094E65 | #90C3D5 |
+| `color-icon-subtle` | `context.bw.colors.iconSubtle` | #292929 | #DBDBDB |
+| `color-text-role-brand` | `context.bw.colors.textRoleBrand` | #132843 | #BEC9D9 |
 | `color-text-role-secondary` | `context.bw.colors.textRoleSecondary` | #094E65 | #90C3D5 |
+| `color-text-subtle` | `context.bw.colors.textSubtle` | #292929 | #DBDBDB |
 | `radius-full` | `context.bw` / `Bw*` constant in `bw_tokens.g.dart` | 9999 | 9999 |
 | `radius-lg` | `context.bw` / `Bw*` constant in `bw_tokens.g.dart` | 10 | 10 |
 | `radius-md` | `context.bw` / `Bw*` constant in `bw_tokens.g.dart` | 8 | 8 |

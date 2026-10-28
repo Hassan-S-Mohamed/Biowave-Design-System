@@ -1,4 +1,4 @@
-<!-- GENERATED from tooltip.md @ 8595c0cfb0160037 — do not edit; change the source and run: npm run contract -- web tooltip -->
+<!-- GENERATED from tooltip.md @ 48b30e44c54433a2 — do not edit; change the source and run: npm run contract -- web tooltip -->
 # Tooltip · تلميح — Web — code contract
 
 > **Everything you need to build Tooltip on Web, and nothing else.** Read this file only. Generated from [`tooltip.md`](tooltip.md) (Parts B and C). If something is unclear or impossible, stop and write it in [C8 Execution log → Questions](tooltip.md#c8-execution-log-filled-by-the-executor) — never invent behaviour.
@@ -12,7 +12,7 @@
 | Version | 1.1 · 2026-10-24 |
 | Source code | [`src/components/tooltip/`](../../src/components/tooltip/) |
 | Tokens | — |
-| Source | [`tooltip.md`](tooltip.md) @ `8595c0cfb0160037` |
+| Source | [`tooltip.md`](tooltip.md) @ `48b30e44c54433a2` |
 
 ## 1. What it is
 
@@ -86,7 +86,7 @@ Every value is a semantic token; there are no component tokens (P-04 — the sam
 | Part | Property | Shown | Entering / exiting |
 |---|---|---|---|
 | `container` | background | `color-surface-inverse` | same, with opacity animated (B4) |
-| `label` | color | `color-text-neutral-inverse` | same |
+| `label` | color | `color-text-inverse` | same |
 
 Dark theme: same tokens — the values switch, so the tooltip is light on dark pages. No exceptions. There is no hover, pressed, focus or disabled style on the tooltip itself; the anchor keeps its own states.
 
@@ -97,7 +97,7 @@ Values are for checking only — never paste a value.
 | Token | CSS / TS | Light | Dark |
 |---|---|---|---|
 | `color-surface-inverse` | `var(--bw-color-surface-inverse)` · `cssVars.color.surface.inverse` | #141414 | #FFFFFF |
-| `color-text-neutral-inverse` | `var(--bw-color-text-neutral-inverse)` · `cssVars.color.text.neutral.inverse` | #FFFFFF | #0A0A0A |
+| `color-text-inverse` | `var(--bw-color-text-inverse)` · `cssVars.color.text.inverse` | #FFFFFF | #0A0A0A |
 | `layer-tooltip` | `var(--bw-layer-tooltip)` · `cssVars.layer.tooltip` | 1600 | 1600 |
 | `motion-duration-2xl` | `var(--bw-motion-duration-2xl)` · `cssVars.motion.duration.2xl` | 500 | 500 |
 | `motion-duration-instant` | `var(--bw-motion-duration-instant)` · `cssVars.motion.duration.instant` | 0 | 0 |
@@ -146,7 +146,7 @@ RTL   placement="end"    ┌ تعديل الجهاز ┐ [◆]
 | `purpose="description"` | The anchor gets `aria-describedby` pointing to an element that always exists (visually hidden copy of `title` while closed, the tooltip while open). No native `title` attribute on the anchor, ever (it would show a second, unstyled browser tooltip) |
 | Dismissible | Esc closes the open tooltip; focus stays on the anchor (WCAG 1.4.13) |
 | Hoverable · persistent | Pointer can move onto the tooltip without it closing; it stays until pointer leave, blur or Esc (no auto-hide timer). (1.1) The `spacing-xs` gap between anchor and tooltip belongs to the popper element, which carries MUI's interactive hover listeners, so a pointer moving slowly from the anchor never passes through an area that is outside both (C3 › Offset). `leaveDelay` stays 0 |
-| Contrast | `color-text-neutral-inverse` on `color-surface-inverse` ≥ 4.5:1 in both themes |
+| Contrast | `color-text-inverse` on `color-surface-inverse` ≥ 4.5:1 in both themes |
 | Focus | The anchor keeps its own focus ring; the tooltip adds none |
 | Screen reader output | `label`: "Edit device, button" · `description`: "Work email, edit text, We send shift reminders to this address." |
 

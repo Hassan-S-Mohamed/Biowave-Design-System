@@ -2,6 +2,12 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Sync — Component tokens, library index, contracts] — 2026-10-28
+### Changed
+- Component tokens applied to the Web, Tablet and Mobile Figma files with the restored `figma-apply-tokens.template.js`: 10 collections / 66 variables per file updated in place (no collection, mode or variable created or removed; IDs kept, so component bindings keep working). Aliases now point to `background/disabled`, `border/bold`, `background/transparent/hovered · pressed`, `background/base/hovered` (text field hover). Lint 0 violations; values match `tokens.json` in every file (digest check). `sync:done:tokens:web · tablet · mobile`.
+- Library index `_sync/figma-library.json` refreshed after the Foundations publish: 347 variables (154 colour), 22 removed, effect styles renamed to `_deprecated/` recorded; reachable from the component files: 347.
+- All 33 code and Figma contracts regenerated with the new names and keys. `npm run sync` → READY; `docs:check` OK.
+
 ## [Foundations — Borders are tokens, never shadows · warning 600] — 2026-10-28
 ### Changed
 - **Rule (Hassan):** borders and rings are drawn with `color-border-*` tokens on a real stroke — CSS `border` / `outline`, Flutter `Border`, Figma stroke — never with `box-shadow` / effect styles. Written in `border.md` (with the Figma focus-ring layer recipe) and `elevation.md`; elevation tokens are for lift only.

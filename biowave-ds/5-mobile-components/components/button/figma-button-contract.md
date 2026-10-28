@@ -1,7 +1,7 @@
-<!-- GENERATED from button.md @ 4522e5b598bdb16b — do not edit; change the source and run: npm run contract -- mobile button -->
+<!-- GENERATED from button.md @ 2e9f4f5f4ee6ff0e — do not edit; change the source and run: npm run contract -- mobile button -->
 # Button · زر — Mobile — Figma contract
 
-> **Everything the Figma Agent needs to build Button in the Mobile Components file, with our variables and styles.** Read this file only. Generated from [`button.md`](button.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-24). Questions go to [D11 Execution log](button.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
+> **Everything the Figma Agent needs to build Button in the Mobile Components file, with our variables and styles.** Read this file only. Generated from [`button.md`](button.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-28). Questions go to [D11 Execution log](button.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
 
 **Two phases, one review:** Phase 1 — build the component set (§7–§8). Phase 2 — as soon as Phase 1 is finished, the 12 documentation pages and the Components List card (§9).
 
@@ -12,7 +12,7 @@
 | Component | Button · زر |
 | Platform | Mobile · Flutter + Material 3 |
 | Version | 1.1 · 2026-10-20 |
-| Source | [`button.md`](button.md) @ `4522e5b598bdb16b` |
+| Source | [`button.md`](button.md) @ `2e9f4f5f4ee6ff0e` |
 
 ## 1. Library connections in this file
 
@@ -21,7 +21,7 @@
 | Library | **Biowave DS — Foundations** · library key `lk-e00b31b21f924b36eeea820da99c4b306c460986c83e894f415a1c194ba5a2e670f3142c2fccca81280a80bcaee6a87bc47c9a9505d186d7b693aa9805ad7031` |
 | Library file | Foundations · key `AyFaSmfDUlTax3GpKhRdHI` |
 | Doc Kit library (Phase 2) | **Annotation (Biowave Doc Kit)** · file key `cBPWg6YZNqK8UIzgMQIpXl` — must be enabled in this file (Assets → Libraries) |
-| Enabled here | ✓ verified from a component file: 9 collections, 318 variables reachable |
+| Enabled here | ✓ verified from a component file: 9 collections, 347 variables reachable |
 
 Import by key — never search by name, never copy:
 
@@ -45,39 +45,39 @@ Already in this file, created by the sync tooling from [`button.tokens.json`](bu
 | Button / Size | sm · md · lg · xl | `radius` | sm → 2. Radius › `radius/md`<br>md → 2. Radius › `radius/md`<br>lg → 2. Radius › `radius/md`<br>xl → 2. Radius › `radius/xl` |
 | Button / Size | sm · md · lg · xl | `border-width` | sm → 9. Border › `border/width/default`<br>md → 9. Border › `border/width/default`<br>lg → 9. Border › `border/width/default`<br>xl → 9. Border › `border/width/default` |
 | Button / Filled | brand · secondary · error · neutral · inverse | `container/default` | brand → 1. Themes › `color/background/brand/default`<br>secondary → 1. Themes › `color/background/secondary/default`<br>error → 1. Themes › `color/background/error/default`<br>neutral → 1. Themes › `color/background/neutral/default`<br>inverse → 1. Themes › `color/background/inverse/default` |
-| Button / Filled | brand · secondary · error · neutral · inverse | `container/hover` | brand → 1. Themes › `color/background/brand/hover`<br>secondary → 1. Themes › `color/background/secondary/hover`<br>error → 1. Themes › `color/background/error/hover`<br>neutral → 1. Themes › `color/background/neutral/hover`<br>inverse → 1. Themes › `color/background/inverse/hover` |
+| Button / Filled | brand · secondary · error · neutral · inverse | `container/hover` | brand → 1. Themes › `color/background/brand/hovered`<br>secondary → 1. Themes › `color/background/secondary/hovered`<br>error → 1. Themes › `color/background/error/hovered`<br>neutral → 1. Themes › `color/background/neutral/hovered`<br>inverse → 1. Themes › `color/background/inverse/hovered` |
 | Button / Filled | brand · secondary · error · neutral · inverse | `container/pressed` | brand → 1. Themes › `color/background/brand/pressed`<br>secondary → 1. Themes › `color/background/secondary/pressed`<br>error → 1. Themes › `color/background/error/pressed`<br>neutral → 1. Themes › `color/background/neutral/pressed`<br>inverse → 1. Themes › `color/background/inverse/pressed` |
-| Button / Filled | brand · secondary · error · neutral · inverse | `container/disabled` | brand → 1. Themes › `color/background/neutral/disabled`<br>secondary → 1. Themes › `color/background/neutral/disabled`<br>error → 1. Themes › `color/background/neutral/disabled`<br>neutral → 1. Themes › `color/background/neutral/disabled`<br>inverse → 1. Themes › `color/background/neutral/disabled` |
-| Button / Filled | brand · secondary · error · neutral · inverse | `label/default` | brand → 1. Themes › `color/text/on/brand`<br>secondary → 1. Themes › `color/text/on/secondary`<br>error → 1. Themes › `color/text/on/error`<br>neutral → 1. Themes › `color/text/neutral/default`<br>inverse → 1. Themes › `color/text/role/brand` |
-| Button / Filled | brand · secondary · error · neutral · inverse | `label/disabled` | brand → 1. Themes › `color/text/neutral/disabled`<br>secondary → 1. Themes › `color/text/neutral/disabled`<br>error → 1. Themes › `color/text/neutral/disabled`<br>neutral → 1. Themes › `color/text/neutral/disabled`<br>inverse → 1. Themes › `color/text/neutral/disabled` |
-| Button / Filled | brand · secondary · error · neutral · inverse | `icon/default` | brand → 1. Themes › `color/icon/on/brand`<br>secondary → 1. Themes › `color/icon/on/secondary`<br>error → 1. Themes › `color/icon/on/error`<br>neutral → 1. Themes › `color/icon/neutral/default`<br>inverse → 1. Themes › `color/icon/role/brand` |
-| Button / Filled | brand · secondary · error · neutral · inverse | `icon/disabled` | brand → 1. Themes › `color/icon/neutral/disabled`<br>secondary → 1. Themes › `color/icon/neutral/disabled`<br>error → 1. Themes › `color/icon/neutral/disabled`<br>neutral → 1. Themes › `color/icon/neutral/disabled`<br>inverse → 1. Themes › `color/icon/neutral/disabled` |
+| Button / Filled | brand · secondary · error · neutral · inverse | `container/disabled` | brand → 1. Themes › `color/background/disabled`<br>secondary → 1. Themes › `color/background/disabled`<br>error → 1. Themes › `color/background/disabled`<br>neutral → 1. Themes › `color/background/disabled`<br>inverse → 1. Themes › `color/background/disabled` |
+| Button / Filled | brand · secondary · error · neutral · inverse | `label/default` | brand → 1. Themes › `color/text/on/brand`<br>secondary → 1. Themes › `color/text/on/secondary`<br>error → 1. Themes › `color/text/on/error`<br>neutral → 1. Themes › `color/text/default`<br>inverse → 1. Themes › `color/text/role/brand` |
+| Button / Filled | brand · secondary · error · neutral · inverse | `label/disabled` | brand → 1. Themes › `color/text/disabled`<br>secondary → 1. Themes › `color/text/disabled`<br>error → 1. Themes › `color/text/disabled`<br>neutral → 1. Themes › `color/text/disabled`<br>inverse → 1. Themes › `color/text/disabled` |
+| Button / Filled | brand · secondary · error · neutral · inverse | `icon/default` | brand → 1. Themes › `color/icon/on/brand`<br>secondary → 1. Themes › `color/icon/on/secondary`<br>error → 1. Themes › `color/icon/on/error`<br>neutral → 1. Themes › `color/icon/default`<br>inverse → 1. Themes › `color/icon/role/brand` |
+| Button / Filled | brand · secondary · error · neutral · inverse | `icon/disabled` | brand → 1. Themes › `color/icon/disabled`<br>secondary → 1. Themes › `color/icon/disabled`<br>error → 1. Themes › `color/icon/disabled`<br>neutral → 1. Themes › `color/icon/disabled`<br>inverse → 1. Themes › `color/icon/disabled` |
 | Button / Tonal | brand · secondary · error | `container/default` | brand → 1. Themes › `color/background/brand/subtle`<br>secondary → 1. Themes › `color/background/secondary/subtle`<br>error → 1. Themes › `color/background/error/subtle` |
-| Button / Tonal | brand · secondary · error | `container/disabled` | brand → 1. Themes › `color/background/neutral/disabled`<br>secondary → 1. Themes › `color/background/neutral/disabled`<br>error → 1. Themes › `color/background/neutral/disabled` |
-| Button / Tonal | brand · secondary · error | `state-layer/hover` | brand → 1. Themes › `color/overlay/hover`<br>secondary → 1. Themes › `color/overlay/hover`<br>error → 1. Themes › `color/overlay/hover` |
-| Button / Tonal | brand · secondary · error | `state-layer/pressed` | brand → 1. Themes › `color/overlay/pressed`<br>secondary → 1. Themes › `color/overlay/pressed`<br>error → 1. Themes › `color/overlay/pressed` |
+| Button / Tonal | brand · secondary · error | `container/disabled` | brand → 1. Themes › `color/background/disabled`<br>secondary → 1. Themes › `color/background/disabled`<br>error → 1. Themes › `color/background/disabled` |
+| Button / Tonal | brand · secondary · error | `state-layer/hover` | brand → 1. Themes › `color/background/transparent/hovered`<br>secondary → 1. Themes › `color/background/transparent/hovered`<br>error → 1. Themes › `color/background/transparent/hovered` |
+| Button / Tonal | brand · secondary · error | `state-layer/pressed` | brand → 1. Themes › `color/background/transparent/pressed`<br>secondary → 1. Themes › `color/background/transparent/pressed`<br>error → 1. Themes › `color/background/transparent/pressed` |
 | Button / Tonal | brand · secondary · error | `label/default` | brand → 1. Themes › `color/text/role/brand`<br>secondary → 1. Themes › `color/text/role/secondary`<br>error → 1. Themes › `color/text/role/error` |
-| Button / Tonal | brand · secondary · error | `label/disabled` | brand → 1. Themes › `color/text/neutral/disabled`<br>secondary → 1. Themes › `color/text/neutral/disabled`<br>error → 1. Themes › `color/text/neutral/disabled` |
+| Button / Tonal | brand · secondary · error | `label/disabled` | brand → 1. Themes › `color/text/disabled`<br>secondary → 1. Themes › `color/text/disabled`<br>error → 1. Themes › `color/text/disabled` |
 | Button / Tonal | brand · secondary · error | `icon/default` | brand → 1. Themes › `color/icon/role/brand`<br>secondary → 1. Themes › `color/icon/role/secondary`<br>error → 1. Themes › `color/icon/role/error` |
-| Button / Tonal | brand · secondary · error | `icon/disabled` | brand → 1. Themes › `color/icon/neutral/disabled`<br>secondary → 1. Themes › `color/icon/neutral/disabled`<br>error → 1. Themes › `color/icon/neutral/disabled` |
-| Button / Outlined | brand · secondary · error · neutral · inverse | `container/default` | brand → 1. Themes › `color/background/transparent`<br>secondary → 1. Themes › `color/background/transparent`<br>error → 1. Themes › `color/background/transparent`<br>neutral → 1. Themes › `color/background/transparent`<br>inverse → 1. Themes › `color/background/transparent` |
-| Button / Outlined | brand · secondary · error · neutral · inverse | `container/disabled` | brand → 1. Themes › `color/background/transparent`<br>secondary → 1. Themes › `color/background/transparent`<br>error → 1. Themes › `color/background/transparent`<br>neutral → 1. Themes › `color/background/transparent`<br>inverse → 1. Themes › `color/background/transparent` |
+| Button / Tonal | brand · secondary · error | `icon/disabled` | brand → 1. Themes › `color/icon/disabled`<br>secondary → 1. Themes › `color/icon/disabled`<br>error → 1. Themes › `color/icon/disabled` |
+| Button / Outlined | brand · secondary · error · neutral · inverse | `container/default` | brand → 1. Themes › `color/background/transparent/default`<br>secondary → 1. Themes › `color/background/transparent/default`<br>error → 1. Themes › `color/background/transparent/default`<br>neutral → 1. Themes › `color/background/transparent/default`<br>inverse → 1. Themes › `color/background/transparent/default` |
+| Button / Outlined | brand · secondary · error · neutral · inverse | `container/disabled` | brand → 1. Themes › `color/background/transparent/default`<br>secondary → 1. Themes › `color/background/transparent/default`<br>error → 1. Themes › `color/background/transparent/default`<br>neutral → 1. Themes › `color/background/transparent/default`<br>inverse → 1. Themes › `color/background/transparent/default` |
 | Button / Outlined | brand · secondary · error · neutral · inverse | `border/default` | brand → 1. Themes › `color/border/brand`<br>secondary → 1. Themes › `color/border/secondary`<br>error → 1. Themes › `color/border/error`<br>neutral → 1. Themes › `color/border/strong`<br>inverse → 1. Themes › `color/border/inverse` |
 | Button / Outlined | brand · secondary · error · neutral · inverse | `border/disabled` | brand → 1. Themes › `color/border/disabled`<br>secondary → 1. Themes › `color/border/disabled`<br>error → 1. Themes › `color/border/disabled`<br>neutral → 1. Themes › `color/border/disabled`<br>inverse → 1. Themes › `color/border/disabled` |
-| Button / Outlined | brand · secondary · error · neutral · inverse | `state-layer/hover` | brand → 1. Themes › `color/overlay/hover`<br>secondary → 1. Themes › `color/overlay/hover`<br>error → 1. Themes › `color/overlay/hover`<br>neutral → 1. Themes › `color/overlay/hover`<br>inverse → 1. Themes › `color/overlay/hover` |
-| Button / Outlined | brand · secondary · error · neutral · inverse | `state-layer/pressed` | brand → 1. Themes › `color/overlay/pressed`<br>secondary → 1. Themes › `color/overlay/pressed`<br>error → 1. Themes › `color/overlay/pressed`<br>neutral → 1. Themes › `color/overlay/pressed`<br>inverse → 1. Themes › `color/overlay/pressed` |
-| Button / Outlined | brand · secondary · error · neutral · inverse | `label/default` | brand → 1. Themes › `color/text/role/brand`<br>secondary → 1. Themes › `color/text/role/secondary`<br>error → 1. Themes › `color/text/role/error`<br>neutral → 1. Themes › `color/text/neutral/default`<br>inverse → 1. Themes › `color/text/on/brand` |
-| Button / Outlined | brand · secondary · error · neutral · inverse | `label/disabled` | brand → 1. Themes › `color/text/neutral/disabled`<br>secondary → 1. Themes › `color/text/neutral/disabled`<br>error → 1. Themes › `color/text/neutral/disabled`<br>neutral → 1. Themes › `color/text/neutral/disabled`<br>inverse → 1. Themes › `color/text/neutral/disabled` |
-| Button / Outlined | brand · secondary · error · neutral · inverse | `icon/default` | brand → 1. Themes › `color/icon/role/brand`<br>secondary → 1. Themes › `color/icon/role/secondary`<br>error → 1. Themes › `color/icon/role/error`<br>neutral → 1. Themes › `color/icon/neutral/default`<br>inverse → 1. Themes › `color/icon/on/brand` |
-| Button / Outlined | brand · secondary · error · neutral · inverse | `icon/disabled` | brand → 1. Themes › `color/icon/neutral/disabled`<br>secondary → 1. Themes › `color/icon/neutral/disabled`<br>error → 1. Themes › `color/icon/neutral/disabled`<br>neutral → 1. Themes › `color/icon/neutral/disabled`<br>inverse → 1. Themes › `color/icon/neutral/disabled` |
-| Button / Text | brand · secondary · error · neutral · inverse | `container/default` | brand → 1. Themes › `color/background/transparent`<br>secondary → 1. Themes › `color/background/transparent`<br>error → 1. Themes › `color/background/transparent`<br>neutral → 1. Themes › `color/background/transparent`<br>inverse → 1. Themes › `color/background/transparent` |
-| Button / Text | brand · secondary · error · neutral · inverse | `container/disabled` | brand → 1. Themes › `color/background/transparent`<br>secondary → 1. Themes › `color/background/transparent`<br>error → 1. Themes › `color/background/transparent`<br>neutral → 1. Themes › `color/background/transparent`<br>inverse → 1. Themes › `color/background/transparent` |
-| Button / Text | brand · secondary · error · neutral · inverse | `state-layer/hover` | brand → 1. Themes › `color/overlay/hover`<br>secondary → 1. Themes › `color/overlay/hover`<br>error → 1. Themes › `color/overlay/hover`<br>neutral → 1. Themes › `color/overlay/hover`<br>inverse → 1. Themes › `color/overlay/hover` |
-| Button / Text | brand · secondary · error · neutral · inverse | `state-layer/pressed` | brand → 1. Themes › `color/overlay/pressed`<br>secondary → 1. Themes › `color/overlay/pressed`<br>error → 1. Themes › `color/overlay/pressed`<br>neutral → 1. Themes › `color/overlay/pressed`<br>inverse → 1. Themes › `color/overlay/pressed` |
-| Button / Text | brand · secondary · error · neutral · inverse | `label/default` | brand → 1. Themes › `color/text/role/brand`<br>secondary → 1. Themes › `color/text/role/secondary`<br>error → 1. Themes › `color/text/role/error`<br>neutral → 1. Themes › `color/text/neutral/default`<br>inverse → 1. Themes › `color/text/on/brand` |
-| Button / Text | brand · secondary · error · neutral · inverse | `label/disabled` | brand → 1. Themes › `color/text/neutral/disabled`<br>secondary → 1. Themes › `color/text/neutral/disabled`<br>error → 1. Themes › `color/text/neutral/disabled`<br>neutral → 1. Themes › `color/text/neutral/disabled`<br>inverse → 1. Themes › `color/text/neutral/disabled` |
-| Button / Text | brand · secondary · error · neutral · inverse | `icon/default` | brand → 1. Themes › `color/icon/role/brand`<br>secondary → 1. Themes › `color/icon/role/secondary`<br>error → 1. Themes › `color/icon/role/error`<br>neutral → 1. Themes › `color/icon/neutral/default`<br>inverse → 1. Themes › `color/icon/on/brand` |
-| Button / Text | brand · secondary · error · neutral · inverse | `icon/disabled` | brand → 1. Themes › `color/icon/neutral/disabled`<br>secondary → 1. Themes › `color/icon/neutral/disabled`<br>error → 1. Themes › `color/icon/neutral/disabled`<br>neutral → 1. Themes › `color/icon/neutral/disabled`<br>inverse → 1. Themes › `color/icon/neutral/disabled` |
+| Button / Outlined | brand · secondary · error · neutral · inverse | `state-layer/hover` | brand → 1. Themes › `color/background/transparent/hovered`<br>secondary → 1. Themes › `color/background/transparent/hovered`<br>error → 1. Themes › `color/background/transparent/hovered`<br>neutral → 1. Themes › `color/background/transparent/hovered`<br>inverse → 1. Themes › `color/background/transparent/hovered` |
+| Button / Outlined | brand · secondary · error · neutral · inverse | `state-layer/pressed` | brand → 1. Themes › `color/background/transparent/pressed`<br>secondary → 1. Themes › `color/background/transparent/pressed`<br>error → 1. Themes › `color/background/transparent/pressed`<br>neutral → 1. Themes › `color/background/transparent/pressed`<br>inverse → 1. Themes › `color/background/transparent/pressed` |
+| Button / Outlined | brand · secondary · error · neutral · inverse | `label/default` | brand → 1. Themes › `color/text/role/brand`<br>secondary → 1. Themes › `color/text/role/secondary`<br>error → 1. Themes › `color/text/role/error`<br>neutral → 1. Themes › `color/text/default`<br>inverse → 1. Themes › `color/text/on/brand` |
+| Button / Outlined | brand · secondary · error · neutral · inverse | `label/disabled` | brand → 1. Themes › `color/text/disabled`<br>secondary → 1. Themes › `color/text/disabled`<br>error → 1. Themes › `color/text/disabled`<br>neutral → 1. Themes › `color/text/disabled`<br>inverse → 1. Themes › `color/text/disabled` |
+| Button / Outlined | brand · secondary · error · neutral · inverse | `icon/default` | brand → 1. Themes › `color/icon/role/brand`<br>secondary → 1. Themes › `color/icon/role/secondary`<br>error → 1. Themes › `color/icon/role/error`<br>neutral → 1. Themes › `color/icon/default`<br>inverse → 1. Themes › `color/icon/on/brand` |
+| Button / Outlined | brand · secondary · error · neutral · inverse | `icon/disabled` | brand → 1. Themes › `color/icon/disabled`<br>secondary → 1. Themes › `color/icon/disabled`<br>error → 1. Themes › `color/icon/disabled`<br>neutral → 1. Themes › `color/icon/disabled`<br>inverse → 1. Themes › `color/icon/disabled` |
+| Button / Text | brand · secondary · error · neutral · inverse | `container/default` | brand → 1. Themes › `color/background/transparent/default`<br>secondary → 1. Themes › `color/background/transparent/default`<br>error → 1. Themes › `color/background/transparent/default`<br>neutral → 1. Themes › `color/background/transparent/default`<br>inverse → 1. Themes › `color/background/transparent/default` |
+| Button / Text | brand · secondary · error · neutral · inverse | `container/disabled` | brand → 1. Themes › `color/background/transparent/default`<br>secondary → 1. Themes › `color/background/transparent/default`<br>error → 1. Themes › `color/background/transparent/default`<br>neutral → 1. Themes › `color/background/transparent/default`<br>inverse → 1. Themes › `color/background/transparent/default` |
+| Button / Text | brand · secondary · error · neutral · inverse | `state-layer/hover` | brand → 1. Themes › `color/background/transparent/hovered`<br>secondary → 1. Themes › `color/background/transparent/hovered`<br>error → 1. Themes › `color/background/transparent/hovered`<br>neutral → 1. Themes › `color/background/transparent/hovered`<br>inverse → 1. Themes › `color/background/transparent/hovered` |
+| Button / Text | brand · secondary · error · neutral · inverse | `state-layer/pressed` | brand → 1. Themes › `color/background/transparent/pressed`<br>secondary → 1. Themes › `color/background/transparent/pressed`<br>error → 1. Themes › `color/background/transparent/pressed`<br>neutral → 1. Themes › `color/background/transparent/pressed`<br>inverse → 1. Themes › `color/background/transparent/pressed` |
+| Button / Text | brand · secondary · error · neutral · inverse | `label/default` | brand → 1. Themes › `color/text/role/brand`<br>secondary → 1. Themes › `color/text/role/secondary`<br>error → 1. Themes › `color/text/role/error`<br>neutral → 1. Themes › `color/text/default`<br>inverse → 1. Themes › `color/text/on/brand` |
+| Button / Text | brand · secondary · error · neutral · inverse | `label/disabled` | brand → 1. Themes › `color/text/disabled`<br>secondary → 1. Themes › `color/text/disabled`<br>error → 1. Themes › `color/text/disabled`<br>neutral → 1. Themes › `color/text/disabled`<br>inverse → 1. Themes › `color/text/disabled` |
+| Button / Text | brand · secondary · error · neutral · inverse | `icon/default` | brand → 1. Themes › `color/icon/role/brand`<br>secondary → 1. Themes › `color/icon/role/secondary`<br>error → 1. Themes › `color/icon/role/error`<br>neutral → 1. Themes › `color/icon/default`<br>inverse → 1. Themes › `color/icon/on/brand` |
+| Button / Text | brand · secondary · error · neutral · inverse | `icon/disabled` | brand → 1. Themes › `color/icon/disabled`<br>secondary → 1. Themes › `color/icon/disabled`<br>error → 1. Themes › `color/icon/disabled`<br>neutral → 1. Themes › `color/icon/disabled`<br>inverse → 1. Themes › `color/icon/disabled` |
 | Button / Focus | default · inverse | `color` | default → 1. Themes › `color/border/focus`<br>inverse → 1. Themes › `color/border/inverse` |
 
 ## 3. Foundations variables used (keys)
@@ -88,25 +88,27 @@ Already in this file, created by the sync tooling from [`button.tokens.json`](bu
 | `border-width-default` | 9. Border › `border/width/default` | `9b62f24ecdfc438789ce3fa296e725ac14b1e08f` | FLOAT | STROKE_FLOAT | spec, component token |
 | `border-width-focus` | 9. Border › `border/width/focus` | `d660bcb01777958134799fe11a99a63aaf1fbfca` | FLOAT | STROKE_FLOAT | spec |
 | `color-background-brand-default` | 1. Themes › `color/background/brand/default` | `bdd7bfecb9dd5c41ac657e880d4d2efe36909e3f` | COLOR | FRAME_FILL, SHAPE_FILL | component token |
-| `color-background-brand-hover` | 1. Themes › `color/background/brand/hover` | `8c4a115738de9afc5cc82e97aa2aa38763e937ed` | COLOR | FRAME_FILL, SHAPE_FILL | spec, component token |
+| `color-background-brand-hovered` | 1. Themes › `color/background/brand/hovered` | `8c4a115738de9afc5cc82e97aa2aa38763e937ed` | COLOR | FRAME_FILL, SHAPE_FILL | spec, component token |
 | `color-background-brand-pressed` | 1. Themes › `color/background/brand/pressed` | `53e9e1b8df7612fbd2878471501d6b72fd3b12be` | COLOR | FRAME_FILL, SHAPE_FILL | component token |
 | `color-background-brand-subtle` | 1. Themes › `color/background/brand/subtle` | `7e262abe296024e9b4a29951d5e061fee8f3f2d7` | COLOR | FRAME_FILL, SHAPE_FILL | component token |
+| `color-background-disabled` | 1. Themes › `color/background/disabled` | `3697f6cbec9ecaa8acf84032dbdb9f6a1607a6ff` | COLOR | FRAME_FILL, SHAPE_FILL | component token |
 | `color-background-error-default` | 1. Themes › `color/background/error/default` | `00642d9524f1bc7c3550f2b6fc75ef70393d6b56` | COLOR | FRAME_FILL, SHAPE_FILL | component token |
-| `color-background-error-hover` | 1. Themes › `color/background/error/hover` | `a9474bf6f7facfd420b7b6f89a4d209518283cb1` | COLOR | FRAME_FILL, SHAPE_FILL | component token |
+| `color-background-error-hovered` | 1. Themes › `color/background/error/hovered` | `a9474bf6f7facfd420b7b6f89a4d209518283cb1` | COLOR | FRAME_FILL, SHAPE_FILL | component token |
 | `color-background-error-pressed` | 1. Themes › `color/background/error/pressed` | `9da0e3351735c92eeb30d34faeb15172b4cd3f4f` | COLOR | FRAME_FILL, SHAPE_FILL | component token |
 | `color-background-error-subtle` | 1. Themes › `color/background/error/subtle` | `b408c27a651904c0bc3c5396b3e88319c4d4d6fe` | COLOR | FRAME_FILL, SHAPE_FILL | component token |
 | `color-background-inverse-default` | 1. Themes › `color/background/inverse/default` | `0d78c3b8e082ed200902a7d8eb44436e029d1a2c` | COLOR | FRAME_FILL, SHAPE_FILL | component token |
-| `color-background-inverse-hover` | 1. Themes › `color/background/inverse/hover` | `c3928b097c6b2381ead0dfedbfaddbacc60a0cc5` | COLOR | FRAME_FILL, SHAPE_FILL | component token |
+| `color-background-inverse-hovered` | 1. Themes › `color/background/inverse/hovered` | `c3928b097c6b2381ead0dfedbfaddbacc60a0cc5` | COLOR | FRAME_FILL, SHAPE_FILL | component token |
 | `color-background-inverse-pressed` | 1. Themes › `color/background/inverse/pressed` | `184847e844ab1e2f7ad6bcc2a115d5d3273bfcdc` | COLOR | FRAME_FILL, SHAPE_FILL | component token |
 | `color-background-neutral-default` | 1. Themes › `color/background/neutral/default` | `2dc9c39d4df7b490fd0d7ac7385b49fdaf0e973e` | COLOR | FRAME_FILL, SHAPE_FILL | component token |
-| `color-background-neutral-disabled` | 1. Themes › `color/background/neutral/disabled` | `9972624254ddd391df63a7787d0281e703f584f2` | COLOR | FRAME_FILL, SHAPE_FILL | component token |
-| `color-background-neutral-hover` | 1. Themes › `color/background/neutral/hover` | `16f86a509cd2b260b41d6e424507e4afa9c2f129` | COLOR | FRAME_FILL, SHAPE_FILL | component token |
+| `color-background-neutral-hovered` | 1. Themes › `color/background/neutral/hovered` | `16f86a509cd2b260b41d6e424507e4afa9c2f129` | COLOR | FRAME_FILL, SHAPE_FILL | component token |
 | `color-background-neutral-pressed` | 1. Themes › `color/background/neutral/pressed` | `e61d69e8213fa938060cb965e6fe464fa4714187` | COLOR | FRAME_FILL, SHAPE_FILL | component token |
 | `color-background-secondary-default` | 1. Themes › `color/background/secondary/default` | `5fb5cedefb9062e4290089bb76e4929a21e5e739` | COLOR | FRAME_FILL, SHAPE_FILL | component token |
-| `color-background-secondary-hover` | 1. Themes › `color/background/secondary/hover` | `256a0e41b7ec7991e641cbd4ef86783030e7d890` | COLOR | FRAME_FILL, SHAPE_FILL | component token |
+| `color-background-secondary-hovered` | 1. Themes › `color/background/secondary/hovered` | `256a0e41b7ec7991e641cbd4ef86783030e7d890` | COLOR | FRAME_FILL, SHAPE_FILL | component token |
 | `color-background-secondary-pressed` | 1. Themes › `color/background/secondary/pressed` | `dfb8d5000f8aa653576e83dc0e7d59e49623b720` | COLOR | FRAME_FILL, SHAPE_FILL | component token |
 | `color-background-secondary-subtle` | 1. Themes › `color/background/secondary/subtle` | `6cfea2f9951f4815d9385c0029ee3dd3cc4eba6a` | COLOR | FRAME_FILL, SHAPE_FILL | component token |
-| `color-background-transparent` | 1. Themes › `color/background/transparent` | `7ded3d8bfead13a83fc2297ef9dc75a16f73857b` | COLOR | FRAME_FILL, SHAPE_FILL | component token |
+| `color-background-transparent-default` | 1. Themes › `color/background/transparent/default` | `7ded3d8bfead13a83fc2297ef9dc75a16f73857b` | COLOR | FRAME_FILL, SHAPE_FILL | component token |
+| `color-background-transparent-hovered` | 1. Themes › `color/background/transparent/hovered` | `51354205cb02a343717bc6e5ca84b0e151af3de8` | COLOR | FRAME_FILL, SHAPE_FILL | component token |
+| `color-background-transparent-pressed` | 1. Themes › `color/background/transparent/pressed` | `830ae424ad770312d061208a89f7452569d643d8` | COLOR | FRAME_FILL, SHAPE_FILL | component token |
 | `color-border-brand` | 1. Themes › `color/border/brand` | `50ddd3d7028ede7c14f73576869a28588b0c3b7d` | COLOR | STROKE_COLOR | component token |
 | `color-border-disabled` | 1. Themes › `color/border/disabled` | `a6d557c3fa0bcb0e2e6b6592234d737ef80936bf` | COLOR | STROKE_COLOR | component token |
 | `color-border-error` | 1. Themes › `color/border/error` | `28b0f15306faf6c8113f5acdf14ed8fc66e02c57` | COLOR | STROKE_COLOR | component token |
@@ -114,18 +116,16 @@ Already in this file, created by the sync tooling from [`button.tokens.json`](bu
 | `color-border-inverse` | 1. Themes › `color/border/inverse` | `0e53944b3de77eca83b17b27c3e5d0b4fca582d8` | COLOR | STROKE_COLOR | spec, component token |
 | `color-border-secondary` | 1. Themes › `color/border/secondary` | `7466169e60102e31827f59ddfe6eb94a9bbee577` | COLOR | STROKE_COLOR | component token |
 | `color-border-strong` | 1. Themes › `color/border/strong` | `a12934eff6a447ebe30a4507b223c76e583e2701` | COLOR | STROKE_COLOR | component token |
-| `color-icon-neutral-default` | 1. Themes › `color/icon/neutral/default` | `b0844bd913aafe8789a44bc7b647058cdae299df` | COLOR | SHAPE_FILL, STROKE_COLOR | component token |
-| `color-icon-neutral-disabled` | 1. Themes › `color/icon/neutral/disabled` | `708926473ca446a26d4a0891351f04692171f74f` | COLOR | SHAPE_FILL, STROKE_COLOR | component token |
+| `color-icon-default` | 1. Themes › `color/icon/default` | `b0844bd913aafe8789a44bc7b647058cdae299df` | COLOR | SHAPE_FILL, STROKE_COLOR | component token |
+| `color-icon-disabled` | 1. Themes › `color/icon/disabled` | `708926473ca446a26d4a0891351f04692171f74f` | COLOR | SHAPE_FILL, STROKE_COLOR | component token |
 | `color-icon-on-brand` | 1. Themes › `color/icon/on/brand` | `7adf0bdf71942294bcca707ea3b88ab778741004` | COLOR | SHAPE_FILL, STROKE_COLOR | component token |
 | `color-icon-on-error` | 1. Themes › `color/icon/on/error` | `8617148ccaaa218b21876f31d38c2a6b8a4357e4` | COLOR | SHAPE_FILL, STROKE_COLOR | component token |
 | `color-icon-on-secondary` | 1. Themes › `color/icon/on/secondary` | `c9e557cbf045baf1678551c328e726930b0ce16d` | COLOR | SHAPE_FILL, STROKE_COLOR | component token |
 | `color-icon-role-brand` | 1. Themes › `color/icon/role/brand` | `73d6989d2161d900c2070cd9b67f01653e54251d` | COLOR | SHAPE_FILL, STROKE_COLOR | component token |
 | `color-icon-role-error` | 1. Themes › `color/icon/role/error` | `e7e61106b7c9b1c60197d2c456ad055991cc545d` | COLOR | SHAPE_FILL, STROKE_COLOR | component token |
 | `color-icon-role-secondary` | 1. Themes › `color/icon/role/secondary` | `b3c3c18415370f381760224fd00a40f2816ffdb6` | COLOR | SHAPE_FILL, STROKE_COLOR | component token |
-| `color-overlay-hover` | 1. Themes › `color/overlay/hover` | `aa2655bb098fde1c03c1b3c143cb22c435402789` | COLOR | FRAME_FILL, SHAPE_FILL | component token |
-| `color-overlay-pressed` | 1. Themes › `color/overlay/pressed` | `8910a028526424e788cdae6f511506ebb855ab37` | COLOR | FRAME_FILL, SHAPE_FILL | component token |
-| `color-text-neutral-default` | 1. Themes › `color/text/neutral/default` | `4ea63d9ab5254c4df4eba4d26f771377a07929c4` | COLOR | TEXT_FILL | component token |
-| `color-text-neutral-disabled` | 1. Themes › `color/text/neutral/disabled` | `f88c10f90f454d356c14cc3240da0f04eafbbedd` | COLOR | TEXT_FILL | component token |
+| `color-text-default` | 1. Themes › `color/text/default` | `4ea63d9ab5254c4df4eba4d26f771377a07929c4` | COLOR | TEXT_FILL | component token |
+| `color-text-disabled` | 1. Themes › `color/text/disabled` | `f88c10f90f454d356c14cc3240da0f04eafbbedd` | COLOR | TEXT_FILL | component token |
 | `color-text-on-brand` | 1. Themes › `color/text/on/brand` | `993ca33a3563483742db3f20ac2db1d094fa2106` | COLOR | TEXT_FILL | component token |
 | `color-text-on-error` | 1. Themes › `color/text/on/error` | `2a712a2cc3a4ba1f5c6ec54f1fccb0a42d8da539` | COLOR | TEXT_FILL | component token |
 | `color-text-on-secondary` | 1. Themes › `color/text/on/secondary` | `c94b4241b9f81084e2ef11af7d3724b092d9da57` | COLOR | TEXT_FILL | component token |
@@ -166,10 +166,7 @@ Code-only tokens (no Figma variable by design — motion, layers): `motion-durat
 
 ## 5. Effect styles used (keys)
 
-| Style | Key |
-|---|---|
-| `Focus/Ring` | `a52fabd21a5e545bc7bef092fbf39ebfe0e9bd43` |
-| `Focus/Ring Inverse` | `226003580f6aa5c70ac56921a7ac0a2b6a9d8f85` |
+None named in B/D.
 
 ## 6. Components to instance (keys)
 
@@ -247,7 +244,7 @@ Identical to the [Web B3](../../../3-web-components/components/button/button.md#
 | Spec part / state | `ButtonStyle` field |
 |---|---|
 | `container` background (Default · Hover · Pressed · Disabled) | `backgroundColor` `WidgetStateProperty` |
-| state layer (tonal · outlined · text) | `overlayColor`: hovered → `overlayHover`, pressed → `overlayPressed`, focused → transparent; filled → always transparent |
+| state layer (tonal · outlined · text) | `overlayColor`: hovered → `backgroundTransparentHovered`, pressed → `backgroundTransparentPressed`, focused → transparent; filled → always transparent |
 | `container` border (outlined) | `side` `WidgetStateProperty` (`BorderSide(width: BwBorder.widthDefault, color: …)`) |
 | `label` · `spinner` | `foregroundColor` |
 | icons | `iconColor` |
@@ -347,10 +344,10 @@ The Mobile Part D refers to these Web sections; they are copied here so you read
 
 #### D1 Rules for this build
 
-0. **Library first, component tokens only (D-13).** Text styles, effect styles (`Focus/Ring`, `Focus/Ring Inverse`) and icons come from the published library **Biowave DS — Foundations**. Visual values bind to the **Button component tokens** already in this file (created from [`button.tokens.json`](button.tokens.json) by the sync tooling): `Button / Size` (modes `sm`·`md`·`lg`), `Button / Filled` · `Button / Tonal` · `Button / Outlined` · `Button / Text` (modes = colors), `Button / Focus`. Each variant sets the explicit mode of its collections (e.g. `Variant=Filled, Color=Brand, Size=MD` → `Button / Filled`=`brand`, `Button / Size`=`md`). **Never create variables or styles** in this file; if a value is missing, stop and ask the Planner (it is added to `button.tokens.json` → synced).
+0. **Library first, component tokens only (D-13).** Text styles and icons come from the published library **Biowave DS — Foundations**. Visual values bind to the **Button component tokens** already in this file (created from [`button.tokens.json`](button.tokens.json) by the sync tooling): `Button / Size` (modes `sm`·`md`·`lg`), `Button / Filled` · `Button / Tonal` · `Button / Outlined` · `Button / Text` (modes = colors), `Button / Focus`. Each variant sets the explicit mode of its collections (e.g. `Variant=Filled, Color=Brand, Size=MD` → `Button / Filled`=`brand`, `Button / Size`=`md`). **Never create variables or styles** in this file; if a value is missing, stop and ask the Planner (it is added to `button.tokens.json` → synced).
 1. **Every value is bound.** Fills, strokes, radius, padding, gap, height → variables; text → text styles; focus → effect style. No raw hex / px. Opacity 0 for the hidden label in Loading is the only literal allowed.
-2. **Spec token → component token:** B3 table and `button.tokens.json` name the same semantic tokens; bind the component token that aliases it (`container/default`, `label/default`, `state-layer/hover`, `border/default`, `height`, `padding-inline`, `gap`, `icon`, `radius`, `border-width`, `Button / Focus › color`). Semantic variables are never bound directly. For reference, spec names map to Foundations variables as: `-` between segments becomes `/`: `color-background-brand-hover` → `1. Themes › color/background/brand/hover`; `size-control-height-md` → `4. Size › size/control/height/md`; `spacing-control-gap-md` → `3. Spacing › spacing/control/gap/md`; `radius-md` → `2. Radius › radius/md`; `border-width-default` → `9. Border › border/width/default`.
-   Text styles: `Web/en/action/{sm|md|lg}` and `Web/ar/action/{sm|md|lg}` (they are bound to the Typography variables, so Tablet/Mobile scale comes from the variable mode, not from a different style). Effect: `Focus/Ring`.
+2. **Spec token → component token:** B3 table and `button.tokens.json` name the same semantic tokens; bind the component token that aliases it (`container/default`, `label/default`, `state-layer/hover`, `border/default`, `height`, `padding-inline`, `gap`, `icon`, `radius`, `border-width`, `Button / Focus › color`). Semantic variables are never bound directly. For reference, spec names map to Foundations variables as: `-` between segments becomes `/`: `color-background-brand-hovered` → `1. Themes › color/background/brand/hovered`; `size-control-height-md` → `4. Size › size/control/height/md`; `spacing-control-gap-md` → `3. Spacing › spacing/control/gap/md`; `radius-md` → `2. Radius › radius/md`; `border-width-default` → `9. Border › border/width/default`.
+   Text styles: `Web/en/action/{sm|md|lg}` and `Web/ar/action/{sm|md|lg}` (they are bound to the Typography variables, so Tablet/Mobile scale comes from the variable mode, not from a different style). Focus: the `Focus ring` layer (border.md › Figma focus ring: stroke `color/border/focus`, `color/border/inverse` on Inverse) — no effect style; borders and rings are never shadows.
 3. **Never** bind `_Primitive/*`, `_deprecated/*` or the old `Button size` collection.
 4. **Layer names = anatomy part names** (A2): `container` is the component itself, children `leading-icon`, `label`, `trailing-icon`, `spinner`, `state-layer`.
 5. Auto layout everywhere. Absolute position only for `state-layer` and `spinner` (both centered, constraints scale).
@@ -368,7 +365,7 @@ The Mobile Part D refers to these Web sections; they are copied here so you read
 ```
 Button                    ↔ horizontal · align center/center · gap {B2 gap} · pad-inline {B2 padding-inline} · pad-block 0
 │                           height fixed {B2 height} · width hug · radius {B2 radius} · clip content
-│                           fill {B3 container background} · stroke inside {B3 border, outlined only} · effect Focus/Ring (State=Focused only)
+│                           fill {B3 container background} · stroke inside {B3 border, outlined only} · `Focus ring` layer visible (State=Focused only)
 ├── state-layer           ▭ absolute, constraints scale, fill {B3 state layer}; visible only in Hover/Pressed of tonal · outlined · text
 ├── leading-icon          ◇ Icon instance · size {B2} · fill {B3 icons} · BOOLEAN `Leading icon` · INSTANCE_SWAP `Leading icon glyph`
 ├── label                 T text style Web/{en|ar}/action/{sm|md|lg} · fill {B3 label} · TEXT `Label` · hug · no wrap
@@ -414,7 +411,7 @@ Values from B3 (tokens per state) and D4 (transitions).
 
 Focus is not an interaction in Figma; the `Focused` state shows the ring for docs and handoff.
 
-**Inverse focus ring:** effect style `Focus/Ring Inverse` (Foundations library, created 2026-10-16: ring `color/border/inverse`, gap `color/background/brand/default`). Use it for `Color=Inverse, State=Focused`.
+**Inverse focus ring:** the same `Focus ring` layer with its stroke bound to `color/border/inverse` (the 2px gap stays transparent, so the navy area shows through). Use it for `Color=Inverse, State=Focused`.
 
 #### D7 RTL
 

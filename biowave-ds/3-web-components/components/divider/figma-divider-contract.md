@@ -1,7 +1,7 @@
-<!-- GENERATED from divider.md @ 96284f8886c6a3b9 — do not edit; change the source and run: npm run contract -- web divider -->
+<!-- GENERATED from divider.md @ 55c3bcf5a5404277 — do not edit; change the source and run: npm run contract -- web divider -->
 # Divider · فاصل — Web — Figma contract
 
-> **Everything the Figma Agent needs to build Divider in the Web Components file, with our variables and styles.** Read this file only. Generated from [`divider.md`](divider.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-24). Questions go to [D11 Execution log](divider.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
+> **Everything the Figma Agent needs to build Divider in the Web Components file, with our variables and styles.** Read this file only. Generated from [`divider.md`](divider.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-28). Questions go to [D11 Execution log](divider.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
 
 **Two phases, one review:** Phase 1 — build the component set (§7–§8). Phase 2 — as soon as Phase 1 is finished, the 12 documentation pages and the Components List card (§9).
 
@@ -12,7 +12,7 @@
 | Component | Divider · فاصل |
 | Platform | Web · React + MUI |
 | Version | 1.1 · 2026-10-23 |
-| Source | [`divider.md`](divider.md) @ `96284f8886c6a3b9` |
+| Source | [`divider.md`](divider.md) @ `55c3bcf5a5404277` |
 
 ## 1. Library connections in this file
 
@@ -21,7 +21,7 @@
 | Library | **Biowave DS — Foundations** · library key `lk-e00b31b21f924b36eeea820da99c4b306c460986c83e894f415a1c194ba5a2e670f3142c2fccca81280a80bcaee6a87bc47c9a9505d186d7b693aa9805ad7031` |
 | Library file | Foundations · key `AyFaSmfDUlTax3GpKhRdHI` |
 | Doc Kit library (Phase 2) | **Annotation (Biowave Doc Kit)** · file key `cBPWg6YZNqK8UIzgMQIpXl` — must be enabled in this file (Assets → Libraries) |
-| Enabled here | ✓ verified from a component file: 9 collections, 318 variables reachable |
+| Enabled here | ✓ verified from a component file: 9 collections, 347 variables reachable |
 
 Import by key — never search by name, never copy:
 
@@ -45,7 +45,7 @@ None yet — this component has no component tokens. Bind to the Foundations var
 | `color-border-strong` | 1. Themes › `color/border/strong` | `a12934eff6a447ebe30a4507b223c76e583e2701` | COLOR | STROKE_COLOR | spec |
 | `color-border-subtle` | 1. Themes › `color/border/subtle` | `07f3e9a3d1ca641c7f05d37bf2e4383e4a8e6112` | COLOR | STROKE_COLOR | spec |
 | `color-surface-default` | 1. Themes › `color/surface/default` | `2013a1c60d84d2bac2524fd0c32229e20cc341a1` | COLOR | FRAME_FILL, SHAPE_FILL | spec |
-| `color-text-neutral-muted` | 1. Themes › `color/text/neutral/muted` | `8ff5fe7707ac2ac866b453191dea9cdd680d0c8d` | COLOR | TEXT_FILL | spec |
+| `color-text-subtlest` | 1. Themes › `color/text/subtlest` | `8ff5fe7707ac2ac866b453191dea9cdd680d0c8d` | COLOR | TEXT_FILL | spec |
 | `spacing-md` | 3. Spacing › `spacing/md` | `58c93e3cec1b6ba603371a027483e101adcef4f0` | FLOAT | WIDTH_HEIGHT, GAP | spec |
 | `spacing-none` | 3. Spacing › `spacing/none` | `4879183c164f25d975ac0a8664388a77a2073b80` | FLOAT | WIDTH_HEIGHT, GAP | spec |
 | `spacing-xl` | 3. Spacing › `spacing/xl` | `5fa0c2ce8ae034e9696038d2704e520fd8383e55` | FLOAT | WIDTH_HEIGHT, GAP | spec |
@@ -157,10 +157,10 @@ Inset `start` stays one fixed `spacing-xl` (A4.3). Known follow-up: the List pla
 | `line` (with label) | minimum segment length | `spacing-xl` | same | same |
 | `container` | inset | `spacing-xl` · `spacing-none` | same | same |
 | `label` | text style | `caption-md` (`biowaveVariants.captionMd`; the family and line height follow the language) | same | same |
-| `label` | colour | `color-text-neutral-muted` | same | same |
+| `label` | colour | `color-text-subtlest` | same | same |
 | `label` | gap to each segment | `spacing-md` | same | same |
 
-The label does not change with `emphasis`. No interactive states. Dark theme: same tokens (values switch automatically). The line is decorative (`2-foundations/guidelines/border.md`) — no contrast requirement. The label is text: `color-text-neutral-muted` already meets 4.5:1 on `color-surface-default`, `-page`, `-subtle` and `-raised` in both themes (pairs exist in `contrast-pairs.json`; none to add).
+The label does not change with `emphasis`. No interactive states. Dark theme: same tokens (values switch automatically). The line is decorative (`2-foundations/guidelines/border.md`) — no contrast requirement. The label is text: `color-text-subtlest` already meets 4.5:1 on `color-surface-default`, `-page`, `-subtle` and `-raised` in both themes (pairs exist in `contrast-pairs.json`; none to add).
 
 ### B4 States and transitions
 
@@ -213,7 +213,7 @@ RTL  │─────────────── أو ───────
 ### D1 Rules for this build
 
 0. **No component tokens** — this component has no `Divider / *` collection. Bind directly to the Foundations library variables (keys in the contract). Never create local variables or styles; `figma-read-tokens.js` lint must report 0 before Phase 1 and after each phase.
-1. Every value is bound: line stroke colour → `color/border/{subtle|default|strong}`; stroke weight → `border/width/default`; inset padding → `spacing/xl` (or `spacing/none`); label gap → `spacing/md`; label fill → `color/text/neutral/muted`; label text style → `Web/{en|ar}/caption/md` (published Foundations text styles). No raw numbers.
+1. Every value is bound: line stroke colour → `color/border/{subtle|default|strong}`; stroke weight → `border/width/default`; inset padding → `spacing/xl` (or `spacing/none`); label gap → `spacing/md`; label fill → `color/text/subtlest`; label text style → `Web/{en|ar}/caption/md` (published Foundations text styles). No raw numbers.
 2. Never bind `_Primitive/*` or `_deprecated/*`.
 3. Layer names = A2 part names (`container`, `line`, `label`). With a label the line is two layers, both named `line`.
 4. Auto layout on every frame; no absolute positioning.
@@ -237,7 +237,7 @@ container        ↔ horizontal · width FILL when placed · height HUG
 ├── line         frame · width FILL (min width {spacing/xl}) · height HUG (no children)
 │                  bottom stroke only: weight {B3 border-width-default}, colour {B3 per Emphasis}
 │                  strokes included in layout = on (the frame is exactly one stroke thick)
-├── label        T `Web/{en|ar}/caption/md` · fill {color/text/neutral/muted} · width HUG · align center
+├── label        T `Web/{en|ar}/caption/md` · fill {color/text/subtlest} · width HUG · align center
 │                  BOOLEAN `Show label` (visibility) · TEXT `Label` (characters) · default “or”
 └── line         second segment, same as the first · visibility bound to `Show label`
 

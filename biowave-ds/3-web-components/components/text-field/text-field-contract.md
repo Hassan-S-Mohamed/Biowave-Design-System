@@ -1,4 +1,4 @@
-<!-- GENERATED from text-field.md @ 8f04ce82274c6b35 — do not edit; change the source and run: npm run contract -- web text-field -->
+<!-- GENERATED from text-field.md @ 3102f6b895714446 — do not edit; change the source and run: npm run contract -- web text-field -->
 # Text field · حقل نص — Web — code contract
 
 > **Everything you need to build Text field on Web, and nothing else.** Read this file only. Generated from [`text-field.md`](text-field.md) (Parts B and C). If something is unclear or impossible, stop and write it in [C8 Execution log → Questions](text-field.md#c8-execution-log-filled-by-the-executor) — never invent behaviour.
@@ -12,7 +12,7 @@
 | Version | 1.2 · 2026-10-21 |
 | Source code | [`src/components/text-field/`](../../src/components/text-field/) |
 | Tokens | [`text-field.tokens.json`](text-field.tokens.json) |
-| Source | [`text-field.md`](text-field.md) @ `8f04ce82274c6b35` |
+| Source | [`text-field.md`](text-field.md) @ `3102f6b895714446` |
 
 ## 1. What it is
 
@@ -169,18 +169,18 @@ Layout rules:
 
 | State | `field` background | `field` border | Border width | `label` · `input` | `placeholder` | icons | `prefix`/`suffix` bg · text | `supporting-text` · `counter` | `error-icon` |
 |---|---|---|---|---|---|---|---|---|---|
-| Default | `color-background-base-default` | `color-border-input-default` | `border-width-default` | `color-text-neutral-default` | `color-text-neutral-placeholder` | `color-icon-neutral-muted` | `color-background-neutral-default` · `color-text-neutral-subtle` | `color-text-neutral-muted` | — |
-| Hover | same | `color-border-input-hover` | same | same | same | same | same | same | — |
-| Focus | same | `color-border-focus` | `border-width-focus` | same | same | `color-icon-neutral-default` | same | same | — |
-| Error | same | `color-border-input-error` | `border-width-default` (focused: `border-width-focus`) | same | same | `color-icon-neutral-muted` (unchanged) | same | `color-text-role-error` | `color-icon-role-error` |
-| Disabled | `color-background-base-disabled` | `color-border-disabled` | `border-width-default` | `color-text-neutral-disabled` | `color-text-neutral-disabled` | `color-icon-neutral-disabled` | `color-background-base-disabled` · `color-text-neutral-disabled` | `color-text-neutral-disabled` | — |
-| Read-only | `color-background-neutral-subtle` | `color-border-default` | `border-width-default` (focused: `border-width-focus`) | `color-text-neutral-default` | `color-text-neutral-placeholder` | `color-icon-neutral-muted` | same as Default | `color-text-neutral-muted` | — |
+| Default | `color-background-base-default` | `color-border-bold` | `border-width-default` | `color-text-default` | `color-text-subtlest` | `color-icon-subtlest` | `color-background-neutral-default` · `color-text-subtle` | `color-text-subtlest` | — |
+| Hover | `color-background-base-hovered` | `color-border-bold` | same | same | same | same | same | same | — |
+| Focus | same | `color-border-focus` | `border-width-focus` | same | same | `color-icon-default` | same | same | — |
+| Error | same | `color-border-error` | `border-width-default` (focused: `border-width-focus`) | same | same | `color-icon-subtlest` (unchanged) | same | `color-text-role-error` | `color-icon-role-error` |
+| Disabled | `color-background-disabled` | `color-border-disabled` | `border-width-default` | `color-text-disabled` | `color-text-disabled` | `color-icon-disabled` | `color-background-disabled` · `color-text-disabled` | `color-text-disabled` | — |
+| Read-only | `color-background-base-subtlest` | `color-border-default` | `border-width-default` (focused: `border-width-focus`) | `color-text-default` | `color-text-subtlest` | `color-icon-subtlest` | same as Default | `color-text-subtlest` | — |
 
 - Add-on divider = the field border token of the current state.
-- `required-indicator` uses `color-text-role-error`, `color-text-neutral-disabled` when disabled.
+- `required-indicator` uses `color-text-role-error`, `color-text-disabled` when disabled.
 - Trailing action and help icon: Icon button `text` · `neutral` tokens (Icon button spec); end button: Button `outlined` · `neutral`.
 - Error priority is Disabled → Error → Focus → Hover → Default; an error that receives focus keeps the error colour and changes to `border-width-focus`.
-- Read-only uses a lighter border (`color-border-default`) so it differs from an editable field in both themes; `color-background-neutral-subtle` equals the base background in dark mode, so the border carries the difference. Dark theme uses the same token names and switches values automatically.
+- Read-only uses a lighter border (`color-border-default`) so it differs from an editable field in both themes; `color-background-base-subtlest` equals the base background in dark mode, so the border carries the difference. Dark theme uses the same token names and switches values automatically.
 
 ### 4.1 How to use each token on Web
 
@@ -191,25 +191,24 @@ Values are for checking only — never paste a value.
 | `border-width-default` | `var(--bw-border-width-default)` · `cssVars.border.width.default` | 1 | 1 |
 | `border-width-focus` | `var(--bw-border-width-focus)` · `cssVars.border.width.focus` | 2 | 2 |
 | `color-background-base-default` | `var(--bw-color-background-base-default)` · `cssVars.color.background.base.default` | #FFFFFF | #141414 |
-| `color-background-base-disabled` | `var(--bw-color-background-base-disabled)` · `cssVars.color.background.base.disabled` | #EDEDED | #292929 |
+| `color-background-base-hovered` | `var(--bw-color-background-base-hovered)` · `cssVars.color.background.base.hovered` | #EDEDED | #404040 |
+| `color-background-base-subtlest` | `var(--bw-color-background-base-subtlest)` · `cssVars.color.background.base.subtlest` | #F7F7F7 | #0A0A0A |
+| `color-background-disabled` | `var(--bw-color-background-disabled)` · `cssVars.color.background.disabled` | #EDEDED | #292929 |
 | `color-background-neutral-default` | `var(--bw-color-background-neutral-default)` · `cssVars.color.background.neutral.default` | #EDEDED | #292929 |
-| `color-background-neutral-subtle` | `var(--bw-color-background-neutral-subtle)` · `cssVars.color.background.neutral.subtle` | #F7F7F7 | #141414 |
+| `color-border-bold` | `var(--bw-color-border-bold)` · `cssVars.color.border.bold` | #707070 | #969696 |
 | `color-border-default` | `var(--bw-color-border-default)` · `cssVars.color.border.default` | #DBDBDB | #404040 |
 | `color-border-disabled` | `var(--bw-color-border-disabled)` · `cssVars.color.border.disabled` | #DBDBDB | #404040 |
+| `color-border-error` | `var(--bw-color-border-error)` · `cssVars.color.border.error` | #D42222 | #FF7676 |
 | `color-border-focus` | `var(--bw-color-border-focus)` · `cssVars.color.border.focus` | #254471 | #90A3BC |
-| `color-border-input-default` | `var(--bw-color-border-input-default)` · `cssVars.color.border.input.default` | #707070 | #969696 |
-| `color-border-input-error` | `var(--bw-color-border-input-error)` · `cssVars.color.border.input.error` | #D42222 | #FF7676 |
-| `color-border-input-hover` | `var(--bw-color-border-input-hover)` · `cssVars.color.border.input.hover` | #404040 | #BDBDBD |
-| `color-icon-neutral-default` | `var(--bw-color-icon-neutral-default)` · `cssVars.color.icon.neutral.default` | #0A0A0A | #F7F7F7 |
-| `color-icon-neutral-disabled` | `var(--bw-color-icon-neutral-disabled)` · `cssVars.color.icon.neutral.disabled` | #969696 | #545454 |
-| `color-icon-neutral-muted` | `var(--bw-color-icon-neutral-muted)` · `cssVars.color.icon.neutral.muted` | #707070 | #BDBDBD |
-| `color-icon-role-error` | `var(--bw-color-icon-role-error)` · `cssVars.color.icon.role.error` | #FF2B2B | #FEA3A3 |
-| `color-text-neutral-default` | `var(--bw-color-text-neutral-default)` · `cssVars.color.text.neutral.default` | #0A0A0A | #F7F7F7 |
-| `color-text-neutral-disabled` | `var(--bw-color-text-neutral-disabled)` · `cssVars.color.text.neutral.disabled` | #969696 | #545454 |
-| `color-text-neutral-muted` | `var(--bw-color-text-neutral-muted)` · `cssVars.color.text.neutral.muted` | #707070 | #BDBDBD |
-| `color-text-neutral-placeholder` | `var(--bw-color-text-neutral-placeholder)` · `cssVars.color.text.neutral.placeholder` | #707070 | #969696 |
-| `color-text-neutral-subtle` | `var(--bw-color-text-neutral-subtle)` · `cssVars.color.text.neutral.subtle` | #292929 | #DBDBDB |
-| `color-text-role-error` | `var(--bw-color-text-role-error)` · `cssVars.color.text.role.error` | #D42222 | #FEA3A3 |
+| `color-icon-default` | `var(--bw-color-icon-default)` · `cssVars.color.icon.default` | #0A0A0A | #F7F7F7 |
+| `color-icon-disabled` | `var(--bw-color-icon-disabled)` · `cssVars.color.icon.disabled` | #969696 | #707070 |
+| `color-icon-role-error` | `var(--bw-color-icon-role-error)` · `cssVars.color.icon.role.error` | #A31A1A | #FEA3A3 |
+| `color-icon-subtlest` | `var(--bw-color-icon-subtlest)` · `cssVars.color.icon.subtlest` | #545454 | #BDBDBD |
+| `color-text-default` | `var(--bw-color-text-default)` · `cssVars.color.text.default` | #0A0A0A | #F7F7F7 |
+| `color-text-disabled` | `var(--bw-color-text-disabled)` · `cssVars.color.text.disabled` | #969696 | #707070 |
+| `color-text-role-error` | `var(--bw-color-text-role-error)` · `cssVars.color.text.role.error` | #A31A1A | #FEA3A3 |
+| `color-text-subtle` | `var(--bw-color-text-subtle)` · `cssVars.color.text.subtle` | #292929 | #DBDBDB |
+| `color-text-subtlest` | `var(--bw-color-text-subtlest)` · `cssVars.color.text.subtlest` | #545454 | #BDBDBD |
 | `motion-duration-instant` | `var(--bw-motion-duration-instant)` · `cssVars.motion.duration.instant` | 0 | 0 |
 | `motion-duration-sm` | `var(--bw-motion-duration-sm)` · `cssVars.motion.duration.sm` | 100 | 100 |
 | `motion-easing-standard` | `var(--bw-motion-easing-standard)` · `cssVars.motion.easing.standard` | [0.2,0,0,1] | [0.2,0,0,1] |
@@ -246,19 +245,19 @@ The code token map must equal [`text-field.tokens.json`](text-field.tokens.json)
 | Text field / Size | border-width | sm: `border-width-default` · md: `border-width-default` · lg: `border-width-default` |
 | Text field / Size | action-box | sm: `size-icon-lg` · md: `size-control-height-sm` · lg: `size-control-height-md` |
 | Text field / Size | action-inset | sm: `spacing-xs` · md: `spacing-xs` · lg: `spacing-xs` |
-| Text field / State | background | default: `color-background-base-default` · hover: `color-background-base-default` · focus: `color-background-base-default` · error: `color-background-base-default` · disabled: `color-background-base-disabled` · read-only: `color-background-neutral-subtle` |
-| Text field / State | border | default: `color-border-input-default` · hover: `color-border-input-hover` · focus: `color-border-focus` · error: `color-border-input-error` · disabled: `color-border-disabled` · read-only: `color-border-default` |
+| Text field / State | background | default: `color-background-base-default` · hover: `color-background-base-hovered` · focus: `color-background-base-default` · error: `color-background-base-default` · disabled: `color-background-disabled` · read-only: `color-background-base-subtlest` |
+| Text field / State | border | default: `color-border-bold` · hover: `color-border-bold` · focus: `color-border-focus` · error: `color-border-error` · disabled: `color-border-disabled` · read-only: `color-border-default` |
 | Text field / State | border-width | default: `border-width-default` · hover: `border-width-default` · focus: `border-width-focus` · error: `border-width-default` · disabled: `border-width-default` · read-only: `border-width-default` |
-| Text field / State | label | default: `color-text-neutral-default` · hover: `color-text-neutral-default` · focus: `color-text-neutral-default` · error: `color-text-neutral-default` · disabled: `color-text-neutral-disabled` · read-only: `color-text-neutral-default` |
-| Text field / State | input | default: `color-text-neutral-default` · hover: `color-text-neutral-default` · focus: `color-text-neutral-default` · error: `color-text-neutral-default` · disabled: `color-text-neutral-disabled` · read-only: `color-text-neutral-default` |
-| Text field / State | placeholder | default: `color-text-neutral-placeholder` · hover: `color-text-neutral-placeholder` · focus: `color-text-neutral-placeholder` · error: `color-text-neutral-placeholder` · disabled: `color-text-neutral-disabled` · read-only: `color-text-neutral-placeholder` |
-| Text field / State | icon | default: `color-icon-neutral-muted` · hover: `color-icon-neutral-muted` · focus: `color-icon-neutral-default` · error: `color-icon-neutral-muted` · disabled: `color-icon-neutral-disabled` · read-only: `color-icon-neutral-muted` |
-| Text field / State | supporting | default: `color-text-neutral-muted` · hover: `color-text-neutral-muted` · focus: `color-text-neutral-muted` · error: `color-text-role-error` · disabled: `color-text-neutral-disabled` · read-only: `color-text-neutral-muted` |
-| Text field / State | counter | default: `color-text-neutral-muted` · hover: `color-text-neutral-muted` · focus: `color-text-neutral-muted` · error: `color-text-role-error` · disabled: `color-text-neutral-disabled` · read-only: `color-text-neutral-muted` |
-| Text field / State | required | default: `color-text-role-error` · hover: `color-text-role-error` · focus: `color-text-role-error` · error: `color-text-role-error` · disabled: `color-text-neutral-disabled` · read-only: `color-text-role-error` |
-| Text field / State | addon-background | default: `color-background-neutral-default` · hover: `color-background-neutral-default` · focus: `color-background-neutral-default` · error: `color-background-neutral-default` · disabled: `color-background-base-disabled` · read-only: `color-background-neutral-default` |
-| Text field / State | addon-text | default: `color-text-neutral-subtle` · hover: `color-text-neutral-subtle` · focus: `color-text-neutral-subtle` · error: `color-text-neutral-subtle` · disabled: `color-text-neutral-disabled` · read-only: `color-text-neutral-subtle` |
-| Text field / State | error-icon | default: `color-icon-role-error` · hover: `color-icon-role-error` · focus: `color-icon-role-error` · error: `color-icon-role-error` · disabled: `color-icon-neutral-disabled` · read-only: `color-icon-role-error` |
+| Text field / State | label | default: `color-text-default` · hover: `color-text-default` · focus: `color-text-default` · error: `color-text-default` · disabled: `color-text-disabled` · read-only: `color-text-default` |
+| Text field / State | input | default: `color-text-default` · hover: `color-text-default` · focus: `color-text-default` · error: `color-text-default` · disabled: `color-text-disabled` · read-only: `color-text-default` |
+| Text field / State | placeholder | default: `color-text-subtlest` · hover: `color-text-subtlest` · focus: `color-text-subtlest` · error: `color-text-subtlest` · disabled: `color-text-disabled` · read-only: `color-text-subtlest` |
+| Text field / State | icon | default: `color-icon-subtlest` · hover: `color-icon-subtlest` · focus: `color-icon-default` · error: `color-icon-subtlest` · disabled: `color-icon-disabled` · read-only: `color-icon-subtlest` |
+| Text field / State | supporting | default: `color-text-subtlest` · hover: `color-text-subtlest` · focus: `color-text-subtlest` · error: `color-text-role-error` · disabled: `color-text-disabled` · read-only: `color-text-subtlest` |
+| Text field / State | counter | default: `color-text-subtlest` · hover: `color-text-subtlest` · focus: `color-text-subtlest` · error: `color-text-role-error` · disabled: `color-text-disabled` · read-only: `color-text-subtlest` |
+| Text field / State | required | default: `color-text-role-error` · hover: `color-text-role-error` · focus: `color-text-role-error` · error: `color-text-role-error` · disabled: `color-text-disabled` · read-only: `color-text-role-error` |
+| Text field / State | addon-background | default: `color-background-neutral-default` · hover: `color-background-neutral-default` · focus: `color-background-neutral-default` · error: `color-background-neutral-default` · disabled: `color-background-disabled` · read-only: `color-background-neutral-default` |
+| Text field / State | addon-text | default: `color-text-subtle` · hover: `color-text-subtle` · focus: `color-text-subtle` · error: `color-text-subtle` · disabled: `color-text-disabled` · read-only: `color-text-subtle` |
+| Text field / State | error-icon | default: `color-icon-role-error` · hover: `color-icon-role-error` · focus: `color-icon-role-error` · error: `color-icon-role-error` · disabled: `color-icon-disabled` · read-only: `color-icon-role-error` |
 
 ## 5. States and transitions
 
@@ -307,7 +306,7 @@ No physical left/right properties are permitted.
 | Trailing action | Icon button rendered by the field; `disabled` follows the field; clear = `aria-label` `clearLabel`, returns focus to the input; password toggle = `aria-pressed` with “Show password” / “Hide password” |
 | End button | Button rendered by the field; disabled with the field; normal Button semantics |
 | Disabled / read-only | Native `disabled` removes input and every field control from the tab order; native `readOnly` remains focusable and selectable; clear hidden |
-| Focus | **Field exception:** the input border uses `border-width-focus` and `color-border-focus` with no exterior offset. Error focus uses the same width with `color-border-input-error`. Help icon, trailing action and end button use the normal 2px ring with 2px offset |
+| Focus | **Field exception:** the input border uses `border-width-focus` and `color-border-focus` with no exterior offset. Error focus uses the same width with `color-border-error`. Help icon, trailing action and end button use the normal 2px ring with 2px offset |
 | Target size | Field height ≥ `target-min`; trailing action and help icon pointer targets ≥ `target-min` without changing layout |
 | Screen reader output | “Work email, required, edit text, SAR” · error adds “invalid” then the linked correction |
 

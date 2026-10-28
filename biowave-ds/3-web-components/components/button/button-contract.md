@@ -1,4 +1,4 @@
-<!-- GENERATED from button.md @ c0f5e5eee5b42000 — do not edit; change the source and run: npm run contract -- web button -->
+<!-- GENERATED from button.md @ bd0c6006cf69460f — do not edit; change the source and run: npm run contract -- web button -->
 # Button · زر — Web — code contract
 
 > **Everything you need to build Button on Web, and nothing else.** Read this file only. Generated from [`button.md`](button.md) (Parts B and C). If something is unclear or impossible, stop and write it in [C8 Execution log → Questions](button.md#c8-execution-log-filled-by-the-executor) — never invent behaviour.
@@ -12,7 +12,7 @@
 | Version | 1.1 · 2026-10-18 |
 | Source code | [`src/components/button/`](../../src/components/button/) |
 | Tokens | [`button.tokens.json`](button.tokens.json) |
-| Source | [`button.md`](button.md) @ `c0f5e5eee5b42000` |
+| Source | [`button.md`](button.md) @ `bd0c6006cf69460f` |
 
 ## 1. What it is
 
@@ -106,30 +106,30 @@ Token names are written without the `color-` prefix where the column header says
 ### 3.1 `filled`
 | `color` | `container` background · Default / Hover / Pressed | `label` · `spinner` | `leading/trailing-icon` |
 |---|---|---|---|
-| `brand` | `color-background-brand-default` / `color-background-brand-hover` / `color-background-brand-pressed` | `color-text-on-brand` | `color-icon-on-brand` |
-| `secondary` | `color-background-secondary-default` / `color-background-secondary-hover` / `color-background-secondary-pressed` | `color-text-on-secondary` | `color-icon-on-secondary` |
-| `error` | `color-background-error-default` / `color-background-error-hover` / `color-background-error-pressed` | `color-text-on-error` | `color-icon-on-error` |
-| `neutral` | `color-background-neutral-default` / `color-background-neutral-hover` / `color-background-neutral-pressed` | `color-text-neutral-default` | `color-icon-neutral-default` |
-| `inverse` | `color-background-inverse-default` / `color-background-inverse-hover` / `color-background-inverse-pressed` | `color-text-role-brand` | `color-icon-role-brand` |
-| Disabled (all) | `color-background-neutral-disabled` | `color-text-neutral-disabled` | `color-icon-neutral-disabled` |
+| `brand` | `color-background-brand-default` / `color-background-brand-hovered` / `color-background-brand-pressed` | `color-text-on-brand` | `color-icon-on-brand` |
+| `secondary` | `color-background-secondary-default` / `color-background-secondary-hovered` / `color-background-secondary-pressed` | `color-text-on-secondary` | `color-icon-on-secondary` |
+| `error` | `color-background-error-default` / `color-background-error-hovered` / `color-background-error-pressed` | `color-text-on-error` | `color-icon-on-error` |
+| `neutral` | `color-background-neutral-default` / `color-background-neutral-hovered` / `color-background-neutral-pressed` | `color-text-default` | `color-icon-default` |
+| `inverse` | `color-background-inverse-default` / `color-background-inverse-hovered` / `color-background-inverse-pressed` | `color-text-role-brand` | `color-icon-role-brand` |
+| Disabled (all) | `color-background-disabled` | `color-text-disabled` | `color-icon-disabled` |
 
 ### 3.2 `tonal`
 | `color` | `container` background | State layer · Hover / Pressed | `label` · `spinner` | icons |
 |---|---|---|---|---|
-| `brand` | `color-background-brand-subtle` | `color-overlay-hover` / `color-overlay-pressed` | `color-text-role-brand` | `color-icon-role-brand` |
+| `brand` | `color-background-brand-subtle` | `color-background-transparent-hovered` / `color-background-transparent-pressed` | `color-text-role-brand` | `color-icon-role-brand` |
 | `secondary` | `color-background-secondary-subtle` | same | `color-text-role-secondary` | `color-icon-role-secondary` |
 | `error` | `color-background-error-subtle` | same | `color-text-role-error` | `color-icon-role-error` |
-| Disabled (all) | `color-background-neutral-disabled` | — | `color-text-neutral-disabled` | `color-icon-neutral-disabled` |
+| Disabled (all) | `color-background-disabled` | — | `color-text-disabled` | `color-icon-disabled` |
 
 ### 3.3 `outlined`
 | `color` | `container` background | `container` border | State layer · Hover / Pressed | `label` · `spinner` | icons |
 |---|---|---|---|---|---|
-| `brand` | `color-background-transparent` | `color-border-brand` | `color-overlay-hover` / `color-overlay-pressed` | `color-text-role-brand` | `color-icon-role-brand` |
+| `brand` | `color-background-transparent-default` | `color-border-brand` | `color-background-transparent-hovered` / `color-background-transparent-pressed` | `color-text-role-brand` | `color-icon-role-brand` |
 | `secondary` | same | `color-border-secondary` | same | `color-text-role-secondary` | `color-icon-role-secondary` |
 | `error` | same | `color-border-error` | same | `color-text-role-error` | `color-icon-role-error` |
-| `neutral` | same | `color-border-strong` | same | `color-text-neutral-default` | `color-icon-neutral-default` |
+| `neutral` | same | `color-border-strong` | same | `color-text-default` | `color-icon-default` |
 | `inverse` | same | `color-border-inverse` | same | `color-text-on-brand` | `color-icon-on-brand` |
-| Disabled (all) | same | `color-border-disabled` | — | `color-text-neutral-disabled` | `color-icon-neutral-disabled` |
+| Disabled (all) | same | `color-border-disabled` | — | `color-text-disabled` | `color-icon-disabled` |
 
 ### 3.4 `text`
 Same as `outlined` without the border.
@@ -140,7 +140,7 @@ Same as `outlined` without the border.
 | `focus-ring` | color | `color-border-focus` (`inverse`: `color-border-inverse`) |
 | `focus-ring` | width · offset | `border-width-focus` · `border-focus-offset` |
 
-The **state layer** is a second fill painted above the container fill (web: `background-image: linear-gradient(var(--bw-color-overlay-hover), var(--bw-color-overlay-hover))`). Filled buttons never use a state layer; they switch to the solid `-hover`/`-pressed` tokens.
+The **state layer** is a second fill painted above the container fill (web: `background-image: linear-gradient(var(--bw-color-background-transparent-hovered), var(--bw-color-background-transparent-hovered))`). Filled buttons never use a state layer; they switch to the solid `-hover`/`-pressed` tokens.
 
 Dark theme: same tokens, values switch automatically. No exceptions.
 
@@ -154,49 +154,49 @@ Values are for checking only — never paste a value.
 | `border-width-default` | `var(--bw-border-width-default)` · `cssVars.border.width.default` | 1 | 1 |
 | `border-width-focus` | `var(--bw-border-width-focus)` · `cssVars.border.width.focus` | 2 | 2 |
 | `color-background-brand-default` | `var(--bw-color-background-brand-default)` · `cssVars.color.background.brand.default` | #193351 | #607D9F |
-| `color-background-brand-hover` | `var(--bw-color-background-brand-hover)` · `cssVars.color.background.brand.hover` | #132843 | #90A3BC |
+| `color-background-brand-hovered` | `var(--bw-color-background-brand-hovered)` · `cssVars.color.background.brand.hovered` | #132843 | #90A3BC |
 | `color-background-brand-pressed` | `var(--bw-color-background-brand-pressed)` · `cssVars.color.background.brand.pressed` | #0D1E33 | #BEC9D9 |
-| `color-background-brand-subtle` | `var(--bw-color-background-brand-subtle)` · `cssVars.color.background.brand.subtle` | #E8ECF2 | #071323 |
+| `color-background-brand-subtle` | `var(--bw-color-background-brand-subtle)` · `cssVars.color.background.brand.subtle` | #BEC9D9 | #071323 |
+| `color-background-disabled` | `var(--bw-color-background-disabled)` · `cssVars.color.background.disabled` | #EDEDED | #292929 |
 | `color-background-error-default` | `var(--bw-color-background-error-default)` · `cssVars.color.background.error.default` | #D42222 | #FF7676 |
-| `color-background-error-hover` | `var(--bw-color-background-error-hover)` · `cssVars.color.background.error.hover` | #A31A1A | #FEA3A3 |
+| `color-background-error-hovered` | `var(--bw-color-background-error-hovered)` · `cssVars.color.background.error.hovered` | #A31A1A | #FEA3A3 |
 | `color-background-error-pressed` | `var(--bw-color-background-error-pressed)` · `cssVars.color.background.error.pressed` | #721212 | #FECFCF |
-| `color-background-error-subtle` | `var(--bw-color-background-error-subtle)` · `cssVars.color.background.error.subtle` | #FEF0EE | #721212 |
+| `color-background-error-subtle` | `var(--bw-color-background-error-subtle)` · `cssVars.color.background.error.subtle` | #FECFCF | #721212 |
 | `color-background-inverse-default` | `var(--bw-color-background-inverse-default)` · `cssVars.color.background.inverse.default` | #FFFFFF | #0A0A0A |
-| `color-background-inverse-hover` | `var(--bw-color-background-inverse-hover)` · `cssVars.color.background.inverse.hover` | #EDEDED | #141414 |
+| `color-background-inverse-hovered` | `var(--bw-color-background-inverse-hovered)` · `cssVars.color.background.inverse.hovered` | #EDEDED | #141414 |
 | `color-background-inverse-pressed` | `var(--bw-color-background-inverse-pressed)` · `cssVars.color.background.inverse.pressed` | #DBDBDB | #292929 |
 | `color-background-neutral-default` | `var(--bw-color-background-neutral-default)` · `cssVars.color.background.neutral.default` | #EDEDED | #292929 |
-| `color-background-neutral-disabled` | `var(--bw-color-background-neutral-disabled)` · `cssVars.color.background.neutral.disabled` | #EDEDED | #292929 |
-| `color-background-neutral-hover` | `var(--bw-color-background-neutral-hover)` · `cssVars.color.background.neutral.hover` | #DBDBDB | #404040 |
+| `color-background-neutral-hovered` | `var(--bw-color-background-neutral-hovered)` · `cssVars.color.background.neutral.hovered` | #DBDBDB | #404040 |
 | `color-background-neutral-pressed` | `var(--bw-color-background-neutral-pressed)` · `cssVars.color.background.neutral.pressed` | #BDBDBD | #545454 |
 | `color-background-secondary-default` | `var(--bw-color-background-secondary-default)` · `cssVars.color.background.secondary.default` | #0C5F79 | #5DA8C2 |
-| `color-background-secondary-hover` | `var(--bw-color-background-secondary-hover)` · `cssVars.color.background.secondary.hover` | #094E65 | #90C3D5 |
+| `color-background-secondary-hovered` | `var(--bw-color-background-secondary-hovered)` · `cssVars.color.background.secondary.hovered` | #094E65 | #90C3D5 |
 | `color-background-secondary-pressed` | `var(--bw-color-background-secondary-pressed)` · `cssVars.color.background.secondary.pressed` | #063C4E | #C0DDE8 |
-| `color-background-secondary-subtle` | `var(--bw-color-background-secondary-subtle)` · `cssVars.color.background.secondary.subtle` | #E8F4F8 | #032A37 |
-| `color-background-transparent` | `var(--bw-color-background-transparent)` · `cssVars.color.background.transparent` | #54545400 | #54545400 |
-| `color-border-brand` | `var(--bw-color-border-brand)` · `cssVars.color.border.brand` | #607D9F | #254471 |
+| `color-background-secondary-subtle` | `var(--bw-color-background-secondary-subtle)` · `cssVars.color.background.secondary.subtle` | #C0DDE8 | #032A37 |
+| `color-background-transparent-default` | `var(--bw-color-background-transparent-default)` · `cssVars.color.background.transparent.default` | #54545400 | #54545400 |
+| `color-background-transparent-hovered` | `var(--bw-color-background-transparent-hovered)` · `cssVars.color.background.transparent.hovered` | #5454541A | #54545466 |
+| `color-background-transparent-pressed` | `var(--bw-color-background-transparent-pressed)` · `cssVars.color.background.transparent.pressed` | #54545433 | #54545499 |
+| `color-border-brand` | `var(--bw-color-border-brand)` · `cssVars.color.border.brand` | #254471 | #607D9F |
 | `color-border-disabled` | `var(--bw-color-border-disabled)` · `cssVars.color.border.disabled` | #DBDBDB | #404040 |
-| `color-border-error` | `var(--bw-color-border-error)` · `cssVars.color.border.error` | #FF7676 | #FF3B3B |
+| `color-border-error` | `var(--bw-color-border-error)` · `cssVars.color.border.error` | #D42222 | #FF7676 |
 | `color-border-focus` | `var(--bw-color-border-focus)` · `cssVars.color.border.focus` | #254471 | #90A3BC |
 | `color-border-inverse` | `var(--bw-color-border-inverse)` · `cssVars.color.border.inverse` | #FFFFFF | #0A0A0A |
-| `color-border-secondary` | `var(--bw-color-border-secondary)` · `cssVars.color.border.secondary` | #5DA8C2 | #1A7596 |
+| `color-border-secondary` | `var(--bw-color-border-secondary)` · `cssVars.color.border.secondary` | #1A7596 | #5DA8C2 |
 | `color-border-strong` | `var(--bw-color-border-strong)` · `cssVars.color.border.strong` | #BDBDBD | #545454 |
-| `color-icon-neutral-default` | `var(--bw-color-icon-neutral-default)` · `cssVars.color.icon.neutral.default` | #0A0A0A | #F7F7F7 |
-| `color-icon-neutral-disabled` | `var(--bw-color-icon-neutral-disabled)` · `cssVars.color.icon.neutral.disabled` | #969696 | #545454 |
+| `color-icon-default` | `var(--bw-color-icon-default)` · `cssVars.color.icon.default` | #0A0A0A | #F7F7F7 |
+| `color-icon-disabled` | `var(--bw-color-icon-disabled)` · `cssVars.color.icon.disabled` | #969696 | #707070 |
 | `color-icon-on-brand` | `var(--bw-color-icon-on-brand)` · `cssVars.color.icon.on.brand` | #FFFFFF | #0A0A0A |
 | `color-icon-on-error` | `var(--bw-color-icon-on-error)` · `cssVars.color.icon.on.error` | #FFFFFF | #0A0A0A |
 | `color-icon-on-secondary` | `var(--bw-color-icon-on-secondary)` · `cssVars.color.icon.on.secondary` | #FFFFFF | #0A0A0A |
-| `color-icon-role-brand` | `var(--bw-color-icon-role-brand)` · `cssVars.color.icon.role.brand` | #193351 | #90A3BC |
-| `color-icon-role-error` | `var(--bw-color-icon-role-error)` · `cssVars.color.icon.role.error` | #FF2B2B | #FEA3A3 |
-| `color-icon-role-secondary` | `var(--bw-color-icon-role-secondary)` · `cssVars.color.icon.role.secondary` | #0C5F79 | #90C3D5 |
-| `color-overlay-hover` | `var(--bw-color-overlay-hover)` · `cssVars.color.overlay.hover` | #5454541A | #54545466 |
-| `color-overlay-pressed` | `var(--bw-color-overlay-pressed)` · `cssVars.color.overlay.pressed` | #54545433 | #54545499 |
-| `color-text-neutral-default` | `var(--bw-color-text-neutral-default)` · `cssVars.color.text.neutral.default` | #0A0A0A | #F7F7F7 |
-| `color-text-neutral-disabled` | `var(--bw-color-text-neutral-disabled)` · `cssVars.color.text.neutral.disabled` | #969696 | #545454 |
+| `color-icon-role-brand` | `var(--bw-color-icon-role-brand)` · `cssVars.color.icon.role.brand` | #132843 | #BEC9D9 |
+| `color-icon-role-error` | `var(--bw-color-icon-role-error)` · `cssVars.color.icon.role.error` | #A31A1A | #FEA3A3 |
+| `color-icon-role-secondary` | `var(--bw-color-icon-role-secondary)` · `cssVars.color.icon.role.secondary` | #094E65 | #90C3D5 |
+| `color-text-default` | `var(--bw-color-text-default)` · `cssVars.color.text.default` | #0A0A0A | #F7F7F7 |
+| `color-text-disabled` | `var(--bw-color-text-disabled)` · `cssVars.color.text.disabled` | #969696 | #707070 |
 | `color-text-on-brand` | `var(--bw-color-text-on-brand)` · `cssVars.color.text.on.brand` | #FFFFFF | #0A0A0A |
 | `color-text-on-error` | `var(--bw-color-text-on-error)` · `cssVars.color.text.on.error` | #FFFFFF | #0A0A0A |
 | `color-text-on-secondary` | `var(--bw-color-text-on-secondary)` · `cssVars.color.text.on.secondary` | #FFFFFF | #0A0A0A |
-| `color-text-role-brand` | `var(--bw-color-text-role-brand)` · `cssVars.color.text.role.brand` | #132843 | #90A3BC |
-| `color-text-role-error` | `var(--bw-color-text-role-error)` · `cssVars.color.text.role.error` | #D42222 | #FEA3A3 |
+| `color-text-role-brand` | `var(--bw-color-text-role-brand)` · `cssVars.color.text.role.brand` | #132843 | #BEC9D9 |
+| `color-text-role-error` | `var(--bw-color-text-role-error)` · `cssVars.color.text.role.error` | #A31A1A | #FEA3A3 |
 | `color-text-role-secondary` | `var(--bw-color-text-role-secondary)` · `cssVars.color.text.role.secondary` | #094E65 | #90C3D5 |
 | `elevation-0` | `var(--bw-elevation-0)` · `cssVars.elevation.0` | 0px 0px 0px 0px rgb(7 19 35 / 0%) | 0px 0px 0px 0px rgb(0 0 0 / 0%) |
 | `motion-duration-instant` | `var(--bw-motion-duration-instant)` · `cssVars.motion.duration.instant` | 0 | 0 |
@@ -233,39 +233,39 @@ The code token map must equal [`button.tokens.json`](button.tokens.json) (tests 
 | Button / Size | radius | sm: `radius-md` · md: `radius-md` · lg: `radius-md` |
 | Button / Size | border-width | sm: `border-width-default` · md: `border-width-default` · lg: `border-width-default` |
 | Button / Filled | container/default | brand: `color-background-brand-default` · secondary: `color-background-secondary-default` · error: `color-background-error-default` · neutral: `color-background-neutral-default` · inverse: `color-background-inverse-default` |
-| Button / Filled | container/hover | brand: `color-background-brand-hover` · secondary: `color-background-secondary-hover` · error: `color-background-error-hover` · neutral: `color-background-neutral-hover` · inverse: `color-background-inverse-hover` |
+| Button / Filled | container/hover | brand: `color-background-brand-hovered` · secondary: `color-background-secondary-hovered` · error: `color-background-error-hovered` · neutral: `color-background-neutral-hovered` · inverse: `color-background-inverse-hovered` |
 | Button / Filled | container/pressed | brand: `color-background-brand-pressed` · secondary: `color-background-secondary-pressed` · error: `color-background-error-pressed` · neutral: `color-background-neutral-pressed` · inverse: `color-background-inverse-pressed` |
-| Button / Filled | container/disabled | brand: `color-background-neutral-disabled` · secondary: `color-background-neutral-disabled` · error: `color-background-neutral-disabled` · neutral: `color-background-neutral-disabled` · inverse: `color-background-neutral-disabled` |
-| Button / Filled | label/default | brand: `color-text-on-brand` · secondary: `color-text-on-secondary` · error: `color-text-on-error` · neutral: `color-text-neutral-default` · inverse: `color-text-role-brand` |
-| Button / Filled | label/disabled | brand: `color-text-neutral-disabled` · secondary: `color-text-neutral-disabled` · error: `color-text-neutral-disabled` · neutral: `color-text-neutral-disabled` · inverse: `color-text-neutral-disabled` |
-| Button / Filled | icon/default | brand: `color-icon-on-brand` · secondary: `color-icon-on-secondary` · error: `color-icon-on-error` · neutral: `color-icon-neutral-default` · inverse: `color-icon-role-brand` |
-| Button / Filled | icon/disabled | brand: `color-icon-neutral-disabled` · secondary: `color-icon-neutral-disabled` · error: `color-icon-neutral-disabled` · neutral: `color-icon-neutral-disabled` · inverse: `color-icon-neutral-disabled` |
+| Button / Filled | container/disabled | brand: `color-background-disabled` · secondary: `color-background-disabled` · error: `color-background-disabled` · neutral: `color-background-disabled` · inverse: `color-background-disabled` |
+| Button / Filled | label/default | brand: `color-text-on-brand` · secondary: `color-text-on-secondary` · error: `color-text-on-error` · neutral: `color-text-default` · inverse: `color-text-role-brand` |
+| Button / Filled | label/disabled | brand: `color-text-disabled` · secondary: `color-text-disabled` · error: `color-text-disabled` · neutral: `color-text-disabled` · inverse: `color-text-disabled` |
+| Button / Filled | icon/default | brand: `color-icon-on-brand` · secondary: `color-icon-on-secondary` · error: `color-icon-on-error` · neutral: `color-icon-default` · inverse: `color-icon-role-brand` |
+| Button / Filled | icon/disabled | brand: `color-icon-disabled` · secondary: `color-icon-disabled` · error: `color-icon-disabled` · neutral: `color-icon-disabled` · inverse: `color-icon-disabled` |
 | Button / Tonal | container/default | brand: `color-background-brand-subtle` · secondary: `color-background-secondary-subtle` · error: `color-background-error-subtle` |
-| Button / Tonal | container/disabled | brand: `color-background-neutral-disabled` · secondary: `color-background-neutral-disabled` · error: `color-background-neutral-disabled` |
-| Button / Tonal | state-layer/hover | brand: `color-overlay-hover` · secondary: `color-overlay-hover` · error: `color-overlay-hover` |
-| Button / Tonal | state-layer/pressed | brand: `color-overlay-pressed` · secondary: `color-overlay-pressed` · error: `color-overlay-pressed` |
+| Button / Tonal | container/disabled | brand: `color-background-disabled` · secondary: `color-background-disabled` · error: `color-background-disabled` |
+| Button / Tonal | state-layer/hover | brand: `color-background-transparent-hovered` · secondary: `color-background-transparent-hovered` · error: `color-background-transparent-hovered` |
+| Button / Tonal | state-layer/pressed | brand: `color-background-transparent-pressed` · secondary: `color-background-transparent-pressed` · error: `color-background-transparent-pressed` |
 | Button / Tonal | label/default | brand: `color-text-role-brand` · secondary: `color-text-role-secondary` · error: `color-text-role-error` |
-| Button / Tonal | label/disabled | brand: `color-text-neutral-disabled` · secondary: `color-text-neutral-disabled` · error: `color-text-neutral-disabled` |
+| Button / Tonal | label/disabled | brand: `color-text-disabled` · secondary: `color-text-disabled` · error: `color-text-disabled` |
 | Button / Tonal | icon/default | brand: `color-icon-role-brand` · secondary: `color-icon-role-secondary` · error: `color-icon-role-error` |
-| Button / Tonal | icon/disabled | brand: `color-icon-neutral-disabled` · secondary: `color-icon-neutral-disabled` · error: `color-icon-neutral-disabled` |
-| Button / Outlined | container/default | brand: `color-background-transparent` · secondary: `color-background-transparent` · error: `color-background-transparent` · neutral: `color-background-transparent` · inverse: `color-background-transparent` |
-| Button / Outlined | container/disabled | brand: `color-background-transparent` · secondary: `color-background-transparent` · error: `color-background-transparent` · neutral: `color-background-transparent` · inverse: `color-background-transparent` |
+| Button / Tonal | icon/disabled | brand: `color-icon-disabled` · secondary: `color-icon-disabled` · error: `color-icon-disabled` |
+| Button / Outlined | container/default | brand: `color-background-transparent-default` · secondary: `color-background-transparent-default` · error: `color-background-transparent-default` · neutral: `color-background-transparent-default` · inverse: `color-background-transparent-default` |
+| Button / Outlined | container/disabled | brand: `color-background-transparent-default` · secondary: `color-background-transparent-default` · error: `color-background-transparent-default` · neutral: `color-background-transparent-default` · inverse: `color-background-transparent-default` |
 | Button / Outlined | border/default | brand: `color-border-brand` · secondary: `color-border-secondary` · error: `color-border-error` · neutral: `color-border-strong` · inverse: `color-border-inverse` |
 | Button / Outlined | border/disabled | brand: `color-border-disabled` · secondary: `color-border-disabled` · error: `color-border-disabled` · neutral: `color-border-disabled` · inverse: `color-border-disabled` |
-| Button / Outlined | state-layer/hover | brand: `color-overlay-hover` · secondary: `color-overlay-hover` · error: `color-overlay-hover` · neutral: `color-overlay-hover` · inverse: `color-overlay-hover` |
-| Button / Outlined | state-layer/pressed | brand: `color-overlay-pressed` · secondary: `color-overlay-pressed` · error: `color-overlay-pressed` · neutral: `color-overlay-pressed` · inverse: `color-overlay-pressed` |
-| Button / Outlined | label/default | brand: `color-text-role-brand` · secondary: `color-text-role-secondary` · error: `color-text-role-error` · neutral: `color-text-neutral-default` · inverse: `color-text-on-brand` |
-| Button / Outlined | label/disabled | brand: `color-text-neutral-disabled` · secondary: `color-text-neutral-disabled` · error: `color-text-neutral-disabled` · neutral: `color-text-neutral-disabled` · inverse: `color-text-neutral-disabled` |
-| Button / Outlined | icon/default | brand: `color-icon-role-brand` · secondary: `color-icon-role-secondary` · error: `color-icon-role-error` · neutral: `color-icon-neutral-default` · inverse: `color-icon-on-brand` |
-| Button / Outlined | icon/disabled | brand: `color-icon-neutral-disabled` · secondary: `color-icon-neutral-disabled` · error: `color-icon-neutral-disabled` · neutral: `color-icon-neutral-disabled` · inverse: `color-icon-neutral-disabled` |
-| Button / Text | container/default | brand: `color-background-transparent` · secondary: `color-background-transparent` · error: `color-background-transparent` · neutral: `color-background-transparent` · inverse: `color-background-transparent` |
-| Button / Text | container/disabled | brand: `color-background-transparent` · secondary: `color-background-transparent` · error: `color-background-transparent` · neutral: `color-background-transparent` · inverse: `color-background-transparent` |
-| Button / Text | state-layer/hover | brand: `color-overlay-hover` · secondary: `color-overlay-hover` · error: `color-overlay-hover` · neutral: `color-overlay-hover` · inverse: `color-overlay-hover` |
-| Button / Text | state-layer/pressed | brand: `color-overlay-pressed` · secondary: `color-overlay-pressed` · error: `color-overlay-pressed` · neutral: `color-overlay-pressed` · inverse: `color-overlay-pressed` |
-| Button / Text | label/default | brand: `color-text-role-brand` · secondary: `color-text-role-secondary` · error: `color-text-role-error` · neutral: `color-text-neutral-default` · inverse: `color-text-on-brand` |
-| Button / Text | label/disabled | brand: `color-text-neutral-disabled` · secondary: `color-text-neutral-disabled` · error: `color-text-neutral-disabled` · neutral: `color-text-neutral-disabled` · inverse: `color-text-neutral-disabled` |
-| Button / Text | icon/default | brand: `color-icon-role-brand` · secondary: `color-icon-role-secondary` · error: `color-icon-role-error` · neutral: `color-icon-neutral-default` · inverse: `color-icon-on-brand` |
-| Button / Text | icon/disabled | brand: `color-icon-neutral-disabled` · secondary: `color-icon-neutral-disabled` · error: `color-icon-neutral-disabled` · neutral: `color-icon-neutral-disabled` · inverse: `color-icon-neutral-disabled` |
+| Button / Outlined | state-layer/hover | brand: `color-background-transparent-hovered` · secondary: `color-background-transparent-hovered` · error: `color-background-transparent-hovered` · neutral: `color-background-transparent-hovered` · inverse: `color-background-transparent-hovered` |
+| Button / Outlined | state-layer/pressed | brand: `color-background-transparent-pressed` · secondary: `color-background-transparent-pressed` · error: `color-background-transparent-pressed` · neutral: `color-background-transparent-pressed` · inverse: `color-background-transparent-pressed` |
+| Button / Outlined | label/default | brand: `color-text-role-brand` · secondary: `color-text-role-secondary` · error: `color-text-role-error` · neutral: `color-text-default` · inverse: `color-text-on-brand` |
+| Button / Outlined | label/disabled | brand: `color-text-disabled` · secondary: `color-text-disabled` · error: `color-text-disabled` · neutral: `color-text-disabled` · inverse: `color-text-disabled` |
+| Button / Outlined | icon/default | brand: `color-icon-role-brand` · secondary: `color-icon-role-secondary` · error: `color-icon-role-error` · neutral: `color-icon-default` · inverse: `color-icon-on-brand` |
+| Button / Outlined | icon/disabled | brand: `color-icon-disabled` · secondary: `color-icon-disabled` · error: `color-icon-disabled` · neutral: `color-icon-disabled` · inverse: `color-icon-disabled` |
+| Button / Text | container/default | brand: `color-background-transparent-default` · secondary: `color-background-transparent-default` · error: `color-background-transparent-default` · neutral: `color-background-transparent-default` · inverse: `color-background-transparent-default` |
+| Button / Text | container/disabled | brand: `color-background-transparent-default` · secondary: `color-background-transparent-default` · error: `color-background-transparent-default` · neutral: `color-background-transparent-default` · inverse: `color-background-transparent-default` |
+| Button / Text | state-layer/hover | brand: `color-background-transparent-hovered` · secondary: `color-background-transparent-hovered` · error: `color-background-transparent-hovered` · neutral: `color-background-transparent-hovered` · inverse: `color-background-transparent-hovered` |
+| Button / Text | state-layer/pressed | brand: `color-background-transparent-pressed` · secondary: `color-background-transparent-pressed` · error: `color-background-transparent-pressed` · neutral: `color-background-transparent-pressed` · inverse: `color-background-transparent-pressed` |
+| Button / Text | label/default | brand: `color-text-role-brand` · secondary: `color-text-role-secondary` · error: `color-text-role-error` · neutral: `color-text-default` · inverse: `color-text-on-brand` |
+| Button / Text | label/disabled | brand: `color-text-disabled` · secondary: `color-text-disabled` · error: `color-text-disabled` · neutral: `color-text-disabled` · inverse: `color-text-disabled` |
+| Button / Text | icon/default | brand: `color-icon-role-brand` · secondary: `color-icon-role-secondary` · error: `color-icon-role-error` · neutral: `color-icon-default` · inverse: `color-icon-on-brand` |
+| Button / Text | icon/disabled | brand: `color-icon-disabled` · secondary: `color-icon-disabled` · error: `color-icon-disabled` · neutral: `color-icon-disabled` · inverse: `color-icon-disabled` |
 | Button / Focus | color | default: `color-border-focus` · inverse: `color-border-inverse` |
 
 ## 5. States and transitions
@@ -379,7 +379,7 @@ import Icon from '@mui/material/Icon';   // until the Biowave Icon ships (D-18)
 
 ### Token gaps
 
-None. Added on 2026-10-16 before this plan (Foundations 1.1.0): `size-control-height-*`, `spacing-control-padding-inline-*`, `spacing-control-gap-*`, `color-background-inverse-*`, `color-border-inverse`, `color-overlay-hover`, `color-overlay-pressed`.
+None. Added on 2026-10-16 before this plan (Foundations 1.1.0): `size-control-height-*`, `spacing-control-padding-inline-*`, `spacing-control-gap-*`, `color-background-inverse-*`, `color-border-inverse`, `color-background-transparent-hovered`, `color-background-transparent-pressed`.
 
 ### Files to create / change
 

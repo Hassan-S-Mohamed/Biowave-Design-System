@@ -1,4 +1,4 @@
-<!-- GENERATED from avatar.md @ ae8292590b8ec311 — do not edit; change the source and run: npm run contract -- web avatar -->
+<!-- GENERATED from avatar.md @ 0749bcbbcd2bb966 — do not edit; change the source and run: npm run contract -- web avatar -->
 # Avatar · صورة رمزية — Web — code contract
 
 > **Everything you need to build Avatar on Web, and nothing else.** Read this file only. Generated from [`avatar.md`](avatar.md) (Parts B and C). If something is unclear or impossible, stop and write it in [C8 Execution log → Questions](avatar.md#c8-execution-log-filled-by-the-executor) — never invent behaviour.
@@ -12,7 +12,7 @@
 | Version | 1.1 · 2026-10-24 |
 | Source code | [`src/components/avatar/`](../../src/components/avatar/) |
 | Tokens | — |
-| Source | [`avatar.md`](avatar.md) @ `ae8292590b8ec311` |
+| Source | [`avatar.md`](avatar.md) @ `0749bcbbcd2bb966` |
 
 ## 1. What it is
 
@@ -102,7 +102,7 @@ No component tokens — every value is an existing semantic token (P-04); `avata
 
 | `color` | `container` background | `initials` colour | `fallback-icon` colour |
 |---|---|---|---|
-| `neutral` | `color-background-neutral-default` | `color-text-neutral-subtle` | `color-icon-neutral-subtle` |
+| `neutral` | `color-background-neutral-default` | `color-text-subtle` | `color-icon-subtle` |
 | `brand` | `color-background-brand-subtle` | `color-text-role-brand` | `color-icon-role-brand` |
 | `secondary` | `color-background-secondary-subtle` | `color-text-role-secondary` | `color-icon-role-secondary` |
 
@@ -116,15 +116,15 @@ Values are for checking only — never paste a value.
 
 | Token | CSS / TS | Light | Dark |
 |---|---|---|---|
-| `color-background-brand-subtle` | `var(--bw-color-background-brand-subtle)` · `cssVars.color.background.brand.subtle` | #E8ECF2 | #071323 |
+| `color-background-brand-subtle` | `var(--bw-color-background-brand-subtle)` · `cssVars.color.background.brand.subtle` | #BEC9D9 | #071323 |
 | `color-background-neutral-default` | `var(--bw-color-background-neutral-default)` · `cssVars.color.background.neutral.default` | #EDEDED | #292929 |
-| `color-background-secondary-subtle` | `var(--bw-color-background-secondary-subtle)` · `cssVars.color.background.secondary.subtle` | #E8F4F8 | #032A37 |
-| `color-icon-neutral-subtle` | `var(--bw-color-icon-neutral-subtle)` · `cssVars.color.icon.neutral.subtle` | #292929 | #DBDBDB |
-| `color-icon-role-brand` | `var(--bw-color-icon-role-brand)` · `cssVars.color.icon.role.brand` | #193351 | #90A3BC |
-| `color-icon-role-secondary` | `var(--bw-color-icon-role-secondary)` · `cssVars.color.icon.role.secondary` | #0C5F79 | #90C3D5 |
-| `color-text-neutral-subtle` | `var(--bw-color-text-neutral-subtle)` · `cssVars.color.text.neutral.subtle` | #292929 | #DBDBDB |
-| `color-text-role-brand` | `var(--bw-color-text-role-brand)` · `cssVars.color.text.role.brand` | #132843 | #90A3BC |
+| `color-background-secondary-subtle` | `var(--bw-color-background-secondary-subtle)` · `cssVars.color.background.secondary.subtle` | #C0DDE8 | #032A37 |
+| `color-icon-role-brand` | `var(--bw-color-icon-role-brand)` · `cssVars.color.icon.role.brand` | #132843 | #BEC9D9 |
+| `color-icon-role-secondary` | `var(--bw-color-icon-role-secondary)` · `cssVars.color.icon.role.secondary` | #094E65 | #90C3D5 |
+| `color-icon-subtle` | `var(--bw-color-icon-subtle)` · `cssVars.color.icon.subtle` | #292929 | #DBDBDB |
+| `color-text-role-brand` | `var(--bw-color-text-role-brand)` · `cssVars.color.text.role.brand` | #132843 | #BEC9D9 |
 | `color-text-role-secondary` | `var(--bw-color-text-role-secondary)` · `cssVars.color.text.role.secondary` | #094E65 | #90C3D5 |
+| `color-text-subtle` | `var(--bw-color-text-subtle)` · `cssVars.color.text.subtle` | #292929 | #DBDBDB |
 | `motion-duration-instant` | `var(--bw-motion-duration-instant)` · `cssVars.motion.duration.instant` | 0 | 0 |
 | `radius-full` | `var(--bw-radius-full)` · `cssVars.radius.full` | 9999 | 9999 |
 | `radius-lg` | `var(--bw-radius-lg)` · `cssVars.radius.lg` | 10 | 10 |

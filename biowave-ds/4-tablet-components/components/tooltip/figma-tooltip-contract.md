@@ -1,7 +1,7 @@
-<!-- GENERATED from tooltip.md @ d9349c734e15c26f — do not edit; change the source and run: npm run contract -- tablet tooltip -->
+<!-- GENERATED from tooltip.md @ c1ecdeaa52706d5e — do not edit; change the source and run: npm run contract -- tablet tooltip -->
 # Tooltip · تلميح — Tablet — Figma contract
 
-> **Everything the Figma Agent needs to build Tooltip in the Tablet Components file, with our variables and styles.** Read this file only. Generated from [`tooltip.md`](tooltip.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-24). Questions go to [D11 Execution log](tooltip.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
+> **Everything the Figma Agent needs to build Tooltip in the Tablet Components file, with our variables and styles.** Read this file only. Generated from [`tooltip.md`](tooltip.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-28). Questions go to [D11 Execution log](tooltip.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
 
 **Two phases, one review:** Phase 1 — build the component set (§7–§8). Phase 2 — as soon as Phase 1 is finished, the 12 documentation pages and the Components List card (§9).
 
@@ -12,7 +12,7 @@
 | Component | Tooltip · تلميح |
 | Platform | Tablet · Flutter + Material 3 |
 | Version | 1.1 · 2026-10-24 |
-| Source | [`tooltip.md`](tooltip.md) @ `d9349c734e15c26f` |
+| Source | [`tooltip.md`](tooltip.md) @ `c1ecdeaa52706d5e` |
 
 ## 1. Library connections in this file
 
@@ -21,7 +21,7 @@
 | Library | **Biowave DS — Foundations** · library key `lk-e00b31b21f924b36eeea820da99c4b306c460986c83e894f415a1c194ba5a2e670f3142c2fccca81280a80bcaee6a87bc47c9a9505d186d7b693aa9805ad7031` |
 | Library file | Foundations · key `AyFaSmfDUlTax3GpKhRdHI` |
 | Doc Kit library (Phase 2) | **Annotation (Biowave Doc Kit)** · file key `cBPWg6YZNqK8UIzgMQIpXl` — must be enabled in this file (Assets → Libraries) |
-| Enabled here | ✓ verified from a component file: 9 collections, 318 variables reachable |
+| Enabled here | ✓ verified from a component file: 9 collections, 347 variables reachable |
 
 Import by key — never search by name, never copy:
 
@@ -41,7 +41,7 @@ None yet — this component has no component tokens. Bind to the Foundations var
 | Token | Figma variable | Key | Type | Scopes | Used by |
 |---|---|---|---|---|---|
 | `color-surface-inverse` | 1. Themes › `color/surface/inverse` | `364770c6a80914cb1d30c8afc1e354431dbb5f07` | COLOR | FRAME_FILL, SHAPE_FILL | spec |
-| `color-text-neutral-inverse` | 1. Themes › `color/text/neutral/inverse` | `83e1f6c6d7ddf8376b1bc5d0b9d5f6cd13b68e9b` | COLOR | TEXT_FILL | spec |
+| `color-text-inverse` | 1. Themes › `color/text/inverse` | `83e1f6c6d7ddf8376b1bc5d0b9d5f6cd13b68e9b` | COLOR | TEXT_FILL | spec |
 | `radius-sm` | 2. Radius › `radius/sm` | `44047be92c065ef35e4aa9ed6732645870ae38c9` | FLOAT | CORNER_RADIUS | spec |
 | `size-container-xxs` | 4. Size › `size/container/xxs` | `8f6b24b58d8c1a4206dee923c88a2cb14caf031d` | FLOAT | WIDTH_HEIGHT | spec |
 | `spacing-md` | 3. Spacing › `spacing/md` | `58c93e3cec1b6ba603371a027483e101adcef4f0` | FLOAT | WIDTH_HEIGHT, GAP | spec |
@@ -126,7 +126,7 @@ Every value is a semantic token; there are no component tokens (P-04 — the sam
 | Part | Property | Shown | Entering / exiting |
 |---|---|---|---|
 | `container` | background | `color-surface-inverse` (`context.bw.colors.surfaceInverse`) | same, opacity animated (B4) |
-| `label` | color | `color-text-neutral-inverse` (`context.bw.colors.textNeutralInverse`) | same |
+| `label` | color | `color-text-inverse` (`context.bw.colors.textInverse`) | same |
 
 Dark theme: same tokens — the values switch, so the tooltip is light on dark screens. No exceptions. The tooltip has no pressed, focus or disabled style of its own.
 
@@ -164,7 +164,7 @@ RTL   placement: end    ┌ تعديل الجهاز ┐ [◆]
 | `purpose: description` | `RawTooltip.semanticsTooltip: message` — read after the anchor's own name |
 | Dismissible | Esc (hardware keyboard) closes the tooltip; focus stays on the anchor. A tap elsewhere closes it |
 | Hoverable · persistent | `ignorePointer: false`: a pointer can move onto the tooltip without it closing; no auto-hide while hovered or focused. (1.1) Checked against Web review round 1 #1: plan 1.0 had the same gap problem with a pointer — the position delegate left the `BwSpacing.xs` gap outside both the anchor and the tooltip's `MouseRegion`, and with `dismissDelay: BwDuration.instant` a pointer moving slowly from the anchor would dismiss the tooltip in the gap. Fixed in C3 › Position: the gap is transparent padding inside the tooltip's hover area. Touch triggers are not affected (no hover) |
-| Contrast | `textNeutralInverse` on `surfaceInverse` ≥ 4.5:1 in both themes (`textContrastGuideline`) |
+| Contrast | `textInverse` on `surfaceInverse` ≥ 4.5:1 in both themes (`textContrastGuideline`) |
 | Focus | The anchor keeps its own focus ring; the tooltip is never focusable and adds no traversal stop |
 | Haptics | Long press keeps the framework feedback (`enableFeedback: true`) |
 | Screen reader output | `label`: "Edit device, button" · `description`: "Export, button, Exports this month's shifts as a CSV file." |
@@ -243,7 +243,7 @@ Same as [Button D1](../button/button.md#d1-rules-for-this-build): library first,
 Tooltip                  ↔ horizontal · pad-inline {B2 spacing/md} · pad-block {B2 spacing/xs}
 │                          width: hug · max width {B2 size/container/xxs} · height: hug
 │                          radius {B2 radius/sm} · fill {B3 color/surface/inverse} · no stroke · no effect
-└── label                T text style Web/{en|ar}/label/sm · fill {B3 color/text/neutral/inverse}
+└── label                T text style Web/{en|ar}/label/sm · fill {B3 color/text/inverse}
                            TEXT `Label` · width: fill (wraps at the max width) · align start · no truncation
 ```
 

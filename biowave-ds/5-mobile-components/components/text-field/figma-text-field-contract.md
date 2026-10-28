@@ -1,7 +1,7 @@
-<!-- GENERATED from text-field.md @ f78d949eefaa5467 — do not edit; change the source and run: npm run contract -- mobile text-field -->
+<!-- GENERATED from text-field.md @ eaab6e2182c1e1f2 — do not edit; change the source and run: npm run contract -- mobile text-field -->
 # Text field · حقل نص — Mobile — Figma contract
 
-> **Everything the Figma Agent needs to build Text field in the Mobile Components file, with our variables and styles.** Read this file only. Generated from [`text-field.md`](text-field.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-24). Questions go to [D11 Execution log](text-field.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
+> **Everything the Figma Agent needs to build Text field in the Mobile Components file, with our variables and styles.** Read this file only. Generated from [`text-field.md`](text-field.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-28). Questions go to [D11 Execution log](text-field.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
 
 **Two phases, one review:** Phase 1 — build the component set (§7–§8). Phase 2 — as soon as Phase 1 is finished, the 12 documentation pages and the Components List card (§9).
 
@@ -12,7 +12,7 @@
 | Component | Text field · حقل نص |
 | Platform | Mobile · Flutter + Material 3 |
 | Version | 1.1 · 2026-10-18 (first Mobile version; same guidelines version as Web 1.1) |
-| Source | [`text-field.md`](text-field.md) @ `f78d949eefaa5467` |
+| Source | [`text-field.md`](text-field.md) @ `eaab6e2182c1e1f2` |
 
 ## 1. Library connections in this file
 
@@ -21,7 +21,7 @@
 | Library | **Biowave DS — Foundations** · library key `lk-e00b31b21f924b36eeea820da99c4b306c460986c83e894f415a1c194ba5a2e670f3142c2fccca81280a80bcaee6a87bc47c9a9505d186d7b693aa9805ad7031` |
 | Library file | Foundations · key `AyFaSmfDUlTax3GpKhRdHI` |
 | Doc Kit library (Phase 2) | **Annotation (Biowave Doc Kit)** · file key `cBPWg6YZNqK8UIzgMQIpXl` — must be enabled in this file (Assets → Libraries) |
-| Enabled here | ✓ verified from a component file: 9 collections, 318 variables reachable |
+| Enabled here | ✓ verified from a component file: 9 collections, 347 variables reachable |
 
 Import by key — never search by name, never copy:
 
@@ -48,19 +48,19 @@ Already in this file, created by the sync tooling from [`text-field.tokens.json`
 | Text field / Size | sm · md · lg | `border-width` | sm → 9. Border › `border/width/default`<br>md → 9. Border › `border/width/default`<br>lg → 9. Border › `border/width/default` |
 | Text field / Size | sm · md · lg | `action-box` | sm → 4. Size › `size/icon/lg`<br>md → 4. Size › `size/control/height/sm`<br>lg → 4. Size › `size/control/height/md` |
 | Text field / Size | sm · md · lg | `action-inset` | sm → 3. Spacing › `spacing/xs`<br>md → 3. Spacing › `spacing/xs`<br>lg → 3. Spacing › `spacing/xs` |
-| Text field / State | default · hover · focus · error · disabled · read-only | `background` | default → 1. Themes › `color/background/base/default`<br>hover → 1. Themes › `color/background/base/default`<br>focus → 1. Themes › `color/background/base/default`<br>error → 1. Themes › `color/background/base/default`<br>disabled → 1. Themes › `color/background/base/disabled`<br>read-only → 1. Themes › `color/background/neutral/subtle` |
-| Text field / State | default · hover · focus · error · disabled · read-only | `border` | default → 1. Themes › `color/border/input/default`<br>hover → 1. Themes › `color/border/input/hover`<br>focus → 1. Themes › `color/border/focus`<br>error → 1. Themes › `color/border/input/error`<br>disabled → 1. Themes › `color/border/disabled`<br>read-only → 1. Themes › `color/border/default` |
+| Text field / State | default · hover · focus · error · disabled · read-only | `background` | default → 1. Themes › `color/background/base/default`<br>hover → 1. Themes › `color/background/base/hovered`<br>focus → 1. Themes › `color/background/base/default`<br>error → 1. Themes › `color/background/base/default`<br>disabled → 1. Themes › `color/background/disabled`<br>read-only → 1. Themes › `color/background/base/subtlest` |
+| Text field / State | default · hover · focus · error · disabled · read-only | `border` | default → 1. Themes › `color/border/bold`<br>hover → 1. Themes › `color/border/bold`<br>focus → 1. Themes › `color/border/focus`<br>error → 1. Themes › `color/border/error`<br>disabled → 1. Themes › `color/border/disabled`<br>read-only → 1. Themes › `color/border/default` |
 | Text field / State | default · hover · focus · error · disabled · read-only | `border-width` | default → 9. Border › `border/width/default`<br>hover → 9. Border › `border/width/default`<br>focus → 9. Border › `border/width/focus`<br>error → 9. Border › `border/width/default`<br>disabled → 9. Border › `border/width/default`<br>read-only → 9. Border › `border/width/default` |
-| Text field / State | default · hover · focus · error · disabled · read-only | `label` | default → 1. Themes › `color/text/neutral/default`<br>hover → 1. Themes › `color/text/neutral/default`<br>focus → 1. Themes › `color/text/neutral/default`<br>error → 1. Themes › `color/text/neutral/default`<br>disabled → 1. Themes › `color/text/neutral/disabled`<br>read-only → 1. Themes › `color/text/neutral/default` |
-| Text field / State | default · hover · focus · error · disabled · read-only | `input` | default → 1. Themes › `color/text/neutral/default`<br>hover → 1. Themes › `color/text/neutral/default`<br>focus → 1. Themes › `color/text/neutral/default`<br>error → 1. Themes › `color/text/neutral/default`<br>disabled → 1. Themes › `color/text/neutral/disabled`<br>read-only → 1. Themes › `color/text/neutral/default` |
-| Text field / State | default · hover · focus · error · disabled · read-only | `placeholder` | default → 1. Themes › `color/text/neutral/placeholder`<br>hover → 1. Themes › `color/text/neutral/placeholder`<br>focus → 1. Themes › `color/text/neutral/placeholder`<br>error → 1. Themes › `color/text/neutral/placeholder`<br>disabled → 1. Themes › `color/text/neutral/disabled`<br>read-only → 1. Themes › `color/text/neutral/placeholder` |
-| Text field / State | default · hover · focus · error · disabled · read-only | `icon` | default → 1. Themes › `color/icon/neutral/muted`<br>hover → 1. Themes › `color/icon/neutral/muted`<br>focus → 1. Themes › `color/icon/neutral/default`<br>error → 1. Themes › `color/icon/neutral/muted`<br>disabled → 1. Themes › `color/icon/neutral/disabled`<br>read-only → 1. Themes › `color/icon/neutral/muted` |
-| Text field / State | default · hover · focus · error · disabled · read-only | `supporting` | default → 1. Themes › `color/text/neutral/muted`<br>hover → 1. Themes › `color/text/neutral/muted`<br>focus → 1. Themes › `color/text/neutral/muted`<br>error → 1. Themes › `color/text/role/error`<br>disabled → 1. Themes › `color/text/neutral/disabled`<br>read-only → 1. Themes › `color/text/neutral/muted` |
-| Text field / State | default · hover · focus · error · disabled · read-only | `counter` | default → 1. Themes › `color/text/neutral/muted`<br>hover → 1. Themes › `color/text/neutral/muted`<br>focus → 1. Themes › `color/text/neutral/muted`<br>error → 1. Themes › `color/text/role/error`<br>disabled → 1. Themes › `color/text/neutral/disabled`<br>read-only → 1. Themes › `color/text/neutral/muted` |
-| Text field / State | default · hover · focus · error · disabled · read-only | `required` | default → 1. Themes › `color/text/role/error`<br>hover → 1. Themes › `color/text/role/error`<br>focus → 1. Themes › `color/text/role/error`<br>error → 1. Themes › `color/text/role/error`<br>disabled → 1. Themes › `color/text/neutral/disabled`<br>read-only → 1. Themes › `color/text/role/error` |
-| Text field / State | default · hover · focus · error · disabled · read-only | `addon-background` | default → 1. Themes › `color/background/neutral/default`<br>hover → 1. Themes › `color/background/neutral/default`<br>focus → 1. Themes › `color/background/neutral/default`<br>error → 1. Themes › `color/background/neutral/default`<br>disabled → 1. Themes › `color/background/base/disabled`<br>read-only → 1. Themes › `color/background/neutral/default` |
-| Text field / State | default · hover · focus · error · disabled · read-only | `addon-text` | default → 1. Themes › `color/text/neutral/subtle`<br>hover → 1. Themes › `color/text/neutral/subtle`<br>focus → 1. Themes › `color/text/neutral/subtle`<br>error → 1. Themes › `color/text/neutral/subtle`<br>disabled → 1. Themes › `color/text/neutral/disabled`<br>read-only → 1. Themes › `color/text/neutral/subtle` |
-| Text field / State | default · hover · focus · error · disabled · read-only | `error-icon` | default → 1. Themes › `color/icon/role/error`<br>hover → 1. Themes › `color/icon/role/error`<br>focus → 1. Themes › `color/icon/role/error`<br>error → 1. Themes › `color/icon/role/error`<br>disabled → 1. Themes › `color/icon/neutral/disabled`<br>read-only → 1. Themes › `color/icon/role/error` |
+| Text field / State | default · hover · focus · error · disabled · read-only | `label` | default → 1. Themes › `color/text/default`<br>hover → 1. Themes › `color/text/default`<br>focus → 1. Themes › `color/text/default`<br>error → 1. Themes › `color/text/default`<br>disabled → 1. Themes › `color/text/disabled`<br>read-only → 1. Themes › `color/text/default` |
+| Text field / State | default · hover · focus · error · disabled · read-only | `input` | default → 1. Themes › `color/text/default`<br>hover → 1. Themes › `color/text/default`<br>focus → 1. Themes › `color/text/default`<br>error → 1. Themes › `color/text/default`<br>disabled → 1. Themes › `color/text/disabled`<br>read-only → 1. Themes › `color/text/default` |
+| Text field / State | default · hover · focus · error · disabled · read-only | `placeholder` | default → 1. Themes › `color/text/subtlest`<br>hover → 1. Themes › `color/text/subtlest`<br>focus → 1. Themes › `color/text/subtlest`<br>error → 1. Themes › `color/text/subtlest`<br>disabled → 1. Themes › `color/text/disabled`<br>read-only → 1. Themes › `color/text/subtlest` |
+| Text field / State | default · hover · focus · error · disabled · read-only | `icon` | default → 1. Themes › `color/icon/subtlest`<br>hover → 1. Themes › `color/icon/subtlest`<br>focus → 1. Themes › `color/icon/default`<br>error → 1. Themes › `color/icon/subtlest`<br>disabled → 1. Themes › `color/icon/disabled`<br>read-only → 1. Themes › `color/icon/subtlest` |
+| Text field / State | default · hover · focus · error · disabled · read-only | `supporting` | default → 1. Themes › `color/text/subtlest`<br>hover → 1. Themes › `color/text/subtlest`<br>focus → 1. Themes › `color/text/subtlest`<br>error → 1. Themes › `color/text/role/error`<br>disabled → 1. Themes › `color/text/disabled`<br>read-only → 1. Themes › `color/text/subtlest` |
+| Text field / State | default · hover · focus · error · disabled · read-only | `counter` | default → 1. Themes › `color/text/subtlest`<br>hover → 1. Themes › `color/text/subtlest`<br>focus → 1. Themes › `color/text/subtlest`<br>error → 1. Themes › `color/text/role/error`<br>disabled → 1. Themes › `color/text/disabled`<br>read-only → 1. Themes › `color/text/subtlest` |
+| Text field / State | default · hover · focus · error · disabled · read-only | `required` | default → 1. Themes › `color/text/role/error`<br>hover → 1. Themes › `color/text/role/error`<br>focus → 1. Themes › `color/text/role/error`<br>error → 1. Themes › `color/text/role/error`<br>disabled → 1. Themes › `color/text/disabled`<br>read-only → 1. Themes › `color/text/role/error` |
+| Text field / State | default · hover · focus · error · disabled · read-only | `addon-background` | default → 1. Themes › `color/background/neutral/default`<br>hover → 1. Themes › `color/background/neutral/default`<br>focus → 1. Themes › `color/background/neutral/default`<br>error → 1. Themes › `color/background/neutral/default`<br>disabled → 1. Themes › `color/background/disabled`<br>read-only → 1. Themes › `color/background/neutral/default` |
+| Text field / State | default · hover · focus · error · disabled · read-only | `addon-text` | default → 1. Themes › `color/text/subtle`<br>hover → 1. Themes › `color/text/subtle`<br>focus → 1. Themes › `color/text/subtle`<br>error → 1. Themes › `color/text/subtle`<br>disabled → 1. Themes › `color/text/disabled`<br>read-only → 1. Themes › `color/text/subtle` |
+| Text field / State | default · hover · focus · error · disabled · read-only | `error-icon` | default → 1. Themes › `color/icon/role/error`<br>hover → 1. Themes › `color/icon/role/error`<br>focus → 1. Themes › `color/icon/role/error`<br>error → 1. Themes › `color/icon/role/error`<br>disabled → 1. Themes › `color/icon/disabled`<br>read-only → 1. Themes › `color/icon/role/error` |
 
 ## 3. Foundations variables used (keys)
 
@@ -69,25 +69,24 @@ Already in this file, created by the sync tooling from [`text-field.tokens.json`
 | `border-width-default` | 9. Border › `border/width/default` | `9b62f24ecdfc438789ce3fa296e725ac14b1e08f` | FLOAT | STROKE_FLOAT | spec, component token |
 | `border-width-focus` | 9. Border › `border/width/focus` | `d660bcb01777958134799fe11a99a63aaf1fbfca` | FLOAT | STROKE_FLOAT | spec, component token |
 | `color-background-base-default` | 1. Themes › `color/background/base/default` | `82c8830a9ba9a3837c6d6f261cc1b43e8b6a9c08` | COLOR | FRAME_FILL, SHAPE_FILL | component token |
-| `color-background-base-disabled` | 1. Themes › `color/background/base/disabled` | `3697f6cbec9ecaa8acf84032dbdb9f6a1607a6ff` | COLOR | FRAME_FILL, SHAPE_FILL | component token |
+| `color-background-base-hovered` | 1. Themes › `color/background/base/hovered` | `748ab6c7d3faeb25b160aa79b60eeadf0dba10a6` | COLOR | FRAME_FILL, SHAPE_FILL | component token |
+| `color-background-base-subtlest` | 1. Themes › `color/background/base/subtlest` | `99e507c57d0911a93c3305a2454046b2b28d3acb` | COLOR | FRAME_FILL, SHAPE_FILL | component token |
+| `color-background-disabled` | 1. Themes › `color/background/disabled` | `3697f6cbec9ecaa8acf84032dbdb9f6a1607a6ff` | COLOR | FRAME_FILL, SHAPE_FILL | component token |
 | `color-background-neutral-default` | 1. Themes › `color/background/neutral/default` | `2dc9c39d4df7b490fd0d7ac7385b49fdaf0e973e` | COLOR | FRAME_FILL, SHAPE_FILL | component token |
-| `color-background-neutral-subtle` | 1. Themes › `color/background/neutral/subtle` | `99e507c57d0911a93c3305a2454046b2b28d3acb` | COLOR | FRAME_FILL, SHAPE_FILL | component token |
+| `color-border-bold` | 1. Themes › `color/border/bold` | `ab8b644249ebef8ab1b6a1efc54e0b4e504d3979` | COLOR | STROKE_COLOR | component token |
 | `color-border-default` | 1. Themes › `color/border/default` | `ad520e82898707a0d3112a12f6f9439566c6d6c4` | COLOR | STROKE_COLOR | component token |
 | `color-border-disabled` | 1. Themes › `color/border/disabled` | `a6d557c3fa0bcb0e2e6b6592234d737ef80936bf` | COLOR | STROKE_COLOR | component token |
+| `color-border-error` | 1. Themes › `color/border/error` | `28b0f15306faf6c8113f5acdf14ed8fc66e02c57` | COLOR | STROKE_COLOR | spec, component token |
 | `color-border-focus` | 1. Themes › `color/border/focus` | `ef666d3badd2b63f18cb168d9987ead7fbc21480` | COLOR | STROKE_COLOR | spec, component token |
-| `color-border-input-default` | 1. Themes › `color/border/input/default` | `ab8b644249ebef8ab1b6a1efc54e0b4e504d3979` | COLOR | STROKE_COLOR | component token |
-| `color-border-input-error` | 1. Themes › `color/border/input/error` | `e346a0de10a9c6bdfd00c3c5b4cb376b58f3e87f` | COLOR | STROKE_COLOR | spec, component token |
-| `color-border-input-hover` | 1. Themes › `color/border/input/hover` | `eadf46670cd0192d6b3ac611127c1762c7e2df5e` | COLOR | STROKE_COLOR | component token |
-| `color-icon-neutral-default` | 1. Themes › `color/icon/neutral/default` | `b0844bd913aafe8789a44bc7b647058cdae299df` | COLOR | SHAPE_FILL, STROKE_COLOR | component token |
-| `color-icon-neutral-disabled` | 1. Themes › `color/icon/neutral/disabled` | `708926473ca446a26d4a0891351f04692171f74f` | COLOR | SHAPE_FILL, STROKE_COLOR | component token |
-| `color-icon-neutral-muted` | 1. Themes › `color/icon/neutral/muted` | `22b53651f4efa195f0dfb625922d0279003534eb` | COLOR | SHAPE_FILL, STROKE_COLOR | component token |
+| `color-icon-default` | 1. Themes › `color/icon/default` | `b0844bd913aafe8789a44bc7b647058cdae299df` | COLOR | SHAPE_FILL, STROKE_COLOR | component token |
+| `color-icon-disabled` | 1. Themes › `color/icon/disabled` | `708926473ca446a26d4a0891351f04692171f74f` | COLOR | SHAPE_FILL, STROKE_COLOR | component token |
 | `color-icon-role-error` | 1. Themes › `color/icon/role/error` | `e7e61106b7c9b1c60197d2c456ad055991cc545d` | COLOR | SHAPE_FILL, STROKE_COLOR | component token |
-| `color-text-neutral-default` | 1. Themes › `color/text/neutral/default` | `4ea63d9ab5254c4df4eba4d26f771377a07929c4` | COLOR | TEXT_FILL | component token |
-| `color-text-neutral-disabled` | 1. Themes › `color/text/neutral/disabled` | `f88c10f90f454d356c14cc3240da0f04eafbbedd` | COLOR | TEXT_FILL | component token |
-| `color-text-neutral-muted` | 1. Themes › `color/text/neutral/muted` | `8ff5fe7707ac2ac866b453191dea9cdd680d0c8d` | COLOR | TEXT_FILL | component token |
-| `color-text-neutral-placeholder` | 1. Themes › `color/text/neutral/placeholder` | `60b49c24f7a0bcd05569c52a3497bab40f56840c` | COLOR | TEXT_FILL | component token |
-| `color-text-neutral-subtle` | 1. Themes › `color/text/neutral/subtle` | `dac97f2fd2a80ccffd6283bcc06c623f64ebe90a` | COLOR | TEXT_FILL | component token |
+| `color-icon-subtlest` | 1. Themes › `color/icon/subtlest` | `22b53651f4efa195f0dfb625922d0279003534eb` | COLOR | SHAPE_FILL, STROKE_COLOR | component token |
+| `color-text-default` | 1. Themes › `color/text/default` | `4ea63d9ab5254c4df4eba4d26f771377a07929c4` | COLOR | TEXT_FILL | component token |
+| `color-text-disabled` | 1. Themes › `color/text/disabled` | `f88c10f90f454d356c14cc3240da0f04eafbbedd` | COLOR | TEXT_FILL | component token |
 | `color-text-role-error` | 1. Themes › `color/text/role/error` | `99d512c8b115971ff7f8045c6decd1cada845f37` | COLOR | TEXT_FILL | component token |
+| `color-text-subtle` | 1. Themes › `color/text/subtle` | `dac97f2fd2a80ccffd6283bcc06c623f64ebe90a` | COLOR | TEXT_FILL | component token |
+| `color-text-subtlest` | 1. Themes › `color/text/subtlest` | `8ff5fe7707ac2ac866b453191dea9cdd680d0c8d` | COLOR | TEXT_FILL | component token |
 | `radius-md` | 2. Radius › `radius/md` | `0758e506cdfd4d7a4eef6369a4851133d7eab5a4` | FLOAT | CORNER_RADIUS | spec, component token |
 | `size-control-height-lg` | 4. Size › `size/control/height/lg` | `14c0f56d2add6f7149374e67cf4d3a2656aeb5dc` | FLOAT | WIDTH_HEIGHT | spec, component token |
 | `size-control-height-md` | 4. Size › `size/control/height/md` | `cb6d23a09de76b9cea37c24579dbb2a9e6e6a079` | FLOAT | WIDTH_HEIGHT | spec, component token |
@@ -199,7 +198,7 @@ Shared for every size: radius `radius-md` · border `border-width-default` / foc
 - **Text scale:** label, value and supporting text scale with the system text scale; the field grows in height (`isDense: false`, `constraints` with a min height, never a fixed max) and never clips.
 - **Keyboard:** the field scrolls into view above the on-screen keyboard (`scrollPadding` = `EdgeInsets.all(BwSpacing.xl3)`).
 
-Flutter access: `size-control-height-lg` → `BwSize.controlHeightLg` · `spacing-control-padding-inline-lg` → `BwSpacing.controlPaddingInlineLg` · `spacing-xs` → `BwSpacing.xs` · `radius-md` → `BwRadius.md` · `border-width-focus` → `BwBorder.widthFocus` · `body-lg` → `context.bw.text.bodyLg` · colours → `context.bw.colors.<camelCase>` (e.g. `borderInputDefault`) · `target-min` → `BwLayout.mobile.minTarget`.
+Flutter access: `size-control-height-lg` → `BwSize.controlHeightLg` · `spacing-control-padding-inline-lg` → `BwSpacing.controlPaddingInlineLg` · `spacing-xs` → `BwSpacing.xs` · `radius-md` → `BwRadius.md` · `border-width-focus` → `BwBorder.widthFocus` · `body-lg` → `context.bw.text.bodyLg` · colours → `context.bw.colors.<camelCase>` (e.g. `borderBold`) · `target-min` → `BwLayout.mobile.minTarget`.
 
 ### B3 Tokens by part and state
 
@@ -234,7 +233,7 @@ Same as [Web B5](../../../3-web-components/components/text-field/text-field.md#b
 | Help icon | `BwIconButton` (`text`, `neutral`) with `helpLabel`; M3 `Tooltip(triggerMode: TooltipTriggerMode.tap, message: helpText)`; stays enabled when the field is disabled |
 | Trailing action | `BwIconButton` (`text`, `neutral`) sized to B2 `action-box`; `onPressed: null` when the field is disabled; clear returns focus to the field; password toggle exposes `toggled` with “Show password” / “Hide password” |
 | End button | `BwButton` (`outlined`, `neutral`, field size); `onPressed: null` when the field is disabled |
-| Focus | **Field exception** (as Web): the outline becomes `border-width-focus` in `color-border-focus` whenever the field has focus (touch or keyboard); error keeps `color-border-input-error`. Buttons inside use `BwFocusRing` (keyboard only) |
+| Focus | **Field exception** (as Web): the outline becomes `border-width-focus` in `color-border-focus` whenever the field has focus (touch or keyboard); error keeps `color-border-error`. Buttons inside use `BwFocusRing` (keyboard only) |
 | Disabled / read-only | `enabled: false` removes the field and its controls from focus traversal; `readOnly: true` stays focusable and selectable, clear hidden |
 | Target size | B2 touch targets |
 | Screen reader output | “Work email, required, text field, Use your work email” · error: “… Enter a valid work email” |

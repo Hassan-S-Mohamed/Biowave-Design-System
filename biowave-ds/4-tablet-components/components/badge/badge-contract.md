@@ -1,4 +1,4 @@
-<!-- GENERATED from badge.md @ d85074845f3110e5 — do not edit; change the source and run: npm run contract -- tablet badge -->
+<!-- GENERATED from badge.md @ c249aed11decdd2e — do not edit; change the source and run: npm run contract -- tablet badge -->
 # Badge · شارة — Tablet — code contract
 
 > **Everything you need to build Badge on Tablet, and nothing else.** Read this file only. Generated from [`badge.md`](badge.md) (Parts B and C). If something is unclear or impossible, stop and write it in [C8 Execution log → Questions](badge.md#c8-execution-log-filled-by-the-executor) — never invent behaviour.
@@ -12,7 +12,7 @@
 | Version | 1.1 · 2026-10-24 |
 | Source code | `lib/src/components/badge/` — not built yet (the Executor creates it) |
 | Tokens | — |
-| Source | [`badge.md`](badge.md) @ `d85074845f3110e5` |
+| Source | [`badge.md`](badge.md) @ `c249aed11decdd2e` |
 
 ## 1. What it is
 
@@ -101,9 +101,9 @@ Identical to [Web B3](../../../3-web-components/components/badge/badge.md#b3-tok
 | `brand` | `color-background-brand-default` → `backgroundBrandDefault` | `color-text-on-brand` → `textOnBrand` | `color-icon-on-brand` → `iconOnBrand` |
 | `secondary` | `color-background-secondary-default` → `backgroundSecondaryDefault` | `color-text-on-secondary` → `textOnSecondary` | `color-icon-on-secondary` → `iconOnSecondary` |
 | `success` | `color-background-success-default` → `backgroundSuccessDefault` | `color-text-on-success` → `textOnSuccess` | `color-icon-on-success` → `iconOnSuccess` |
-| `warning` | `color-icon-role-warning` → `iconRoleWarning` | `color-text-on-warning` → `textOnWarning` | — |
+| `warning` | `color-icon-role-warning` → `iconRoleWarning` | `color-text-inverse` → `textInverse` | — |
 | `info` | `color-background-info-default` → `backgroundInfoDefault` | `color-text-on-info` → `textOnInfo` | `color-icon-on-info` → `iconOnInfo` |
-| `neutral` | `color-surface-inverse` → `surfaceInverse` | `color-text-neutral-inverse` → `textNeutralInverse` | `color-icon-neutral-inverse` → `iconNeutralInverse` |
+| `neutral` | `color-surface-inverse` → `surfaceInverse` | `color-text-inverse` → `textInverse` | `color-icon-inverse` → `iconInverse` |
 
 | Part | Property | Token → Flutter |
 |---|---|---|
@@ -128,21 +128,20 @@ Values are for checking only — never paste a value.
 | `color-background-success-default` | `context.bw.colors.backgroundSuccessDefault` | #1E6D41 | #55BE87 |
 | `color-background-warning-default` | `context.bw.colors.backgroundWarningDefault` | #FF9435 | #FFB05E |
 | `color-border-inverse` | `context.bw.colors.borderInverse` | #FFFFFF | #0A0A0A |
-| `color-icon-neutral-inverse` | `context.bw.colors.iconNeutralInverse` | #FFFFFF | #0A0A0A |
+| `color-icon-inverse` | `context.bw.colors.iconInverse` | #FFFFFF | #0A0A0A |
 | `color-icon-on-brand` | `context.bw.colors.iconOnBrand` | #FFFFFF | #0A0A0A |
 | `color-icon-on-info` | `context.bw.colors.iconOnInfo` | #FFFFFF | #0A0A0A |
 | `color-icon-on-secondary` | `context.bw.colors.iconOnSecondary` | #FFFFFF | #0A0A0A |
 | `color-icon-on-success` | `context.bw.colors.iconOnSuccess` | #FFFFFF | #0A0A0A |
-| `color-icon-role-warning` | `context.bw.colors.iconRoleWarning` | #D97424 | #FFC88F |
+| `color-icon-role-warning` | `context.bw.colors.iconRoleWarning` | #773F12 | #FFC88F |
 | `color-surface-default` | `context.bw.colors.surfaceDefault` | #FFFFFF | #141414 |
 | `color-surface-inverse` | `context.bw.colors.surfaceInverse` | #141414 | #FFFFFF |
-| `color-text-neutral-inverse` | `context.bw.colors.textNeutralInverse` | #FFFFFF | #0A0A0A |
+| `color-text-inverse` | `context.bw.colors.textInverse` | #FFFFFF | #0A0A0A |
 | `color-text-on-brand` | `context.bw.colors.textOnBrand` | #FFFFFF | #0A0A0A |
 | `color-text-on-error` | `context.bw.colors.textOnError` | #FFFFFF | #0A0A0A |
 | `color-text-on-info` | `context.bw.colors.textOnInfo` | #FFFFFF | #0A0A0A |
 | `color-text-on-secondary` | `context.bw.colors.textOnSecondary` | #FFFFFF | #0A0A0A |
 | `color-text-on-success` | `context.bw.colors.textOnSuccess` | #FFFFFF | #0A0A0A |
-| `color-text-on-warning` | `context.bw.colors.textOnWarning` | #0A0A0A | #0A0A0A |
 | `radius-full` | `context.bw` / `Bw*` constant in `bw_tokens.g.dart` | 9999 | 9999 |
 | `size-icon-md` | `context.bw` / `Bw*` constant in `bw_tokens.g.dart` | 20 | 20 |
 | `size-icon-sm` | `context.bw` / `Bw*` constant in `bw_tokens.g.dart` | 16 | 16 |

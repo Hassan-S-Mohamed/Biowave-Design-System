@@ -1,4 +1,4 @@
-<!-- GENERATED from split-button.md @ 756ebfbd6e53a195 — do not edit; change the source and run: npm run contract -- mobile split-button -->
+<!-- GENERATED from split-button.md @ 6bff0f95361fb5b6 — do not edit; change the source and run: npm run contract -- mobile split-button -->
 # Split button · زر مقسّم — Mobile — code contract
 
 > **Everything you need to build Split button on Mobile, and nothing else.** Read this file only. Generated from [`split-button.md`](split-button.md) (Parts B and C). If something is unclear or impossible, stop and write it in [C8 Execution log → Questions](split-button.md#c8-execution-log-filled-by-the-executor) — never invent behaviour.
@@ -12,7 +12,7 @@
 | Version | 1.0 · 2026-10-16 |
 | Source code | `lib/src/components/split_button/bw_split_button.dart` |
 | Tokens | — |
-| Source | [`split-button.md`](split-button.md) @ `756ebfbd6e53a195` |
+| Source | [`split-button.md`](split-button.md) @ `6bff0f95361fb5b6` |
 
 ## 1. What it is
 
@@ -64,14 +64,14 @@ Two parts with `spacing-xxs` (`BwSpacing.xxs`) between; outer corners `radius-md
 | `menu` | background | `color-surface-raised` | the decorated surface (below) |
 | `menu` | radius | `radius-lg` | the decorated surface; `MenuStyle.shape` uses the same radius |
 | `menu` | elevation | `elevation-3` | the decorated surface: `boxShadow: context.bw.elevation.elevation3` |
-| `menu` | M3 surface (unused) | `color-background-transparent` | `MenuStyle.backgroundColor`, `shadowColor` and `surfaceTintColor` |
+| `menu` | M3 surface (unused) | `color-background-transparent-default` | `MenuStyle.backgroundColor`, `shadowColor` and `surfaceTintColor` |
 | `menu` item | height | `size-control-height-md` | item `minimumSize` |
 | `menu` item | padding-inline | `spacing-control-padding-inline-md` | `EdgeInsetsDirectional` |
 | `menu` item | icon–label gap | `spacing-control-gap-md` | |
 | `menu` item | text style | `body-md` | `context.bw.text.bodyMd` |
 | `menu` item | focus ring width | `border-width-focus` | inner ring (B3); item corners square, clipped by the surface |
 
-**How `elevation-3` maps on Mobile.** `elevation-3` is a `List<BoxShadow>` (`context.bw.elevation.elevation3`, light and dark), and `MenuStyle` takes only a number (`elevation`) and a `shadowColor`, so the M3 surface is not used for the look: `MenuStyle.backgroundColor`, `shadowColor` and `surfaceTintColor` are `color-background-transparent`, and `MenuAnchor(clipBehavior: Clip.none)` so the shadow is not cut off. All `menuChildren` sit in one decorated surface — `DecoratedBox(BoxDecoration(color: color-surface-raised, borderRadius: radius-lg, boxShadow: elevation-3))` with a `ClipRRect` of `radius-lg` inside it, so item overlays follow the corners. No numeric M3 elevation is set (never derived from a shadow offset).
+**How `elevation-3` maps on Mobile.** `elevation-3` is a `List<BoxShadow>` (`context.bw.elevation.elevation3`, light and dark), and `MenuStyle` takes only a number (`elevation`) and a `shadowColor`, so the M3 surface is not used for the look: `MenuStyle.backgroundColor`, `shadowColor` and `surfaceTintColor` are `color-background-transparent-default`, and `MenuAnchor(clipBehavior: Clip.none)` so the shadow is not cut off. All `menuChildren` sit in one decorated surface — `DecoratedBox(BoxDecoration(color: color-surface-raised, borderRadius: radius-lg, boxShadow: elevation-3))` with a `ClipRRect` of `radius-lg` inside it, so item overlays follow the corners. No numeric M3 elevation is set (never derived from a shadow offset).
 
 ## 4. Tokens by part and state
 
@@ -81,11 +81,11 @@ Menu item tokens on Mobile (`MenuItemButton` style):
 
 | State | Text | Icon | Overlay | Ring |
 |---|---|---|---|---|
-| Rest | `color-text-neutral-default` | `color-icon-neutral-subtle` | `color-background-transparent` | — |
-| Hover (pointer) | `color-text-neutral-default` | `color-icon-neutral-subtle` | `color-overlay-hover` | — |
-| Pressed | `color-text-neutral-default` | `color-icon-neutral-subtle` | `color-overlay-pressed` | — |
-| Focus (keyboard) | `color-text-neutral-default` | `color-icon-neutral-subtle` | `color-overlay-hover` | `color-border-focus`, `border-width-focus`, inside the item edge |
-| Disabled | `color-text-neutral-disabled` | `color-icon-neutral-disabled` | `color-background-transparent` | — |
+| Rest | `color-text-default` | `color-icon-subtle` | `color-background-transparent-default` | — |
+| Hover (pointer) | `color-text-default` | `color-icon-subtle` | `color-background-transparent-hovered` | — |
+| Pressed | `color-text-default` | `color-icon-subtle` | `color-background-transparent-pressed` | — |
+| Focus (keyboard) | `color-text-default` | `color-icon-subtle` | `color-background-transparent-hovered` | `color-border-focus`, `border-width-focus`, inside the item edge |
+| Disabled | `color-text-disabled` | `color-icon-disabled` | `color-background-transparent-default` | — |
 
 Dark theme: same tokens. No exceptions.
 
@@ -96,15 +96,15 @@ Values are for checking only — never paste a value.
 | Token | Dart | Light | Dark |
 |---|---|---|---|
 | `border-width-focus` | `context.bw` / `Bw*` constant in `bw_tokens.g.dart` | 2 | 2 |
-| `color-background-transparent` | `context.bw.colors.backgroundTransparent` | #54545400 | #54545400 |
+| `color-background-transparent-default` | `context.bw.colors.backgroundTransparentDefault` | #54545400 | #54545400 |
+| `color-background-transparent-hovered` | `context.bw.colors.backgroundTransparentHovered` | #5454541A | #54545466 |
+| `color-background-transparent-pressed` | `context.bw.colors.backgroundTransparentPressed` | #54545433 | #54545499 |
 | `color-border-focus` | `context.bw.colors.borderFocus` | #254471 | #90A3BC |
-| `color-icon-neutral-disabled` | `context.bw.colors.iconNeutralDisabled` | #969696 | #545454 |
-| `color-icon-neutral-subtle` | `context.bw.colors.iconNeutralSubtle` | #292929 | #DBDBDB |
-| `color-overlay-hover` | `context.bw.colors.overlayHover` | #5454541A | #54545466 |
-| `color-overlay-pressed` | `context.bw.colors.overlayPressed` | #54545433 | #54545499 |
+| `color-icon-disabled` | `context.bw.colors.iconDisabled` | #969696 | #707070 |
+| `color-icon-subtle` | `context.bw.colors.iconSubtle` | #292929 | #DBDBDB |
 | `color-surface-raised` | `context.bw.colors.surfaceRaised` | #FFFFFF | #292929 |
-| `color-text-neutral-default` | `context.bw.colors.textNeutralDefault` | #0A0A0A | #F7F7F7 |
-| `color-text-neutral-disabled` | `context.bw.colors.textNeutralDisabled` | #969696 | #545454 |
+| `color-text-default` | `context.bw.colors.textDefault` | #0A0A0A | #F7F7F7 |
+| `color-text-disabled` | `context.bw.colors.textDisabled` | #969696 | #707070 |
 | `elevation-3` | `context.bw` / `Bw*` constant in `bw_tokens.g.dart` | 0px 8px 24px 0px rgb(7 19 35 / 12%) | 0px 8px 24px 0px rgb(0 0 0 / 30%) |
 | `motion-duration-md` | `context.bw` / `Bw*` constant in `bw_tokens.g.dart` | 200 | 200 |
 | `motion-duration-sm` | `context.bw` / `Bw*` constant in `bw_tokens.g.dart` | 100 | 100 |

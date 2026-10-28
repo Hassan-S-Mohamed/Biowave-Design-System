@@ -1,4 +1,4 @@
-<!-- GENERATED from link.md @ 0d11096cf85332eb — do not edit; change the source and run: npm run contract -- web link -->
+<!-- GENERATED from link.md @ 732ca6aee4d43bdc — do not edit; change the source and run: npm run contract -- web link -->
 # Link · رابط — Web — code contract
 
 > **Everything you need to build Link on Web, and nothing else.** Read this file only. Generated from [`link.md`](link.md) (Parts B and C). If something is unclear or impossible, stop and write it in [C8 Execution log → Questions](link.md#c8-execution-log-filled-by-the-executor) — never invent behaviour.
@@ -12,7 +12,7 @@
 | Version | 1.0 · 2026-10-21 |
 | Source code | `src/components/link/` (built) |
 | Tokens | — |
-| Source | [`link.md`](link.md) @ `0d11096cf85332eb` |
+| Source | [`link.md`](link.md) @ `732ca6aee4d43bdc` |
 
 ## 1. What it is
 
@@ -109,9 +109,9 @@ Layout rules:
 
 | `color` | Default | Hover | Pressed | Visited (`showVisited`) | Disabled |
 |---|---|---|---|---|---|
-| `brand` | `color-link-default` | `color-link-hover` | `color-link-pressed` | `color-link-visited` | `color-text-neutral-disabled` |
-| `neutral` | `color-text-neutral-default` | `color-text-neutral-default` | `color-text-neutral-default` | — | `color-text-neutral-disabled` |
-| `inverse` | `color-text-neutral-inverse` | `color-text-neutral-inverse` | `color-text-neutral-inverse` | — | `color-text-neutral-disabled` |
+| `brand` | `color-link-default` | `color-link-hovered` | `color-link-pressed` | `color-link-visited` | `color-text-disabled` |
+| `neutral` | `color-text-default` | `color-text-default` | `color-text-default` | — | `color-text-disabled` |
+| `inverse` | `color-text-inverse` | `color-text-inverse` | `color-text-inverse` | — | `color-text-disabled` |
 
 | Part | `underline` | Default | Hover | Pressed | Focus | Disabled |
 |---|---|---|---|---|---|---|
@@ -138,12 +138,12 @@ Values are for checking only — never paste a value.
 | `color-border-focus` | `var(--bw-color-border-focus)` · `cssVars.color.border.focus` | #254471 | #90A3BC |
 | `color-border-inverse` | `var(--bw-color-border-inverse)` · `cssVars.color.border.inverse` | #FFFFFF | #0A0A0A |
 | `color-link-default` | `var(--bw-color-link-default)` · `cssVars.color.link.default` | #2559D4 | #6D9CE8 |
-| `color-link-hover` | `var(--bw-color-link-hover)` · `cssVars.color.link.hover` | #1D48AD | #9CBCF2 |
+| `color-link-hovered` | `var(--bw-color-link-hovered)` · `cssVars.color.link.hovered` | #1D48AD | #9CBCF2 |
 | `color-link-pressed` | `var(--bw-color-link-pressed)` · `cssVars.color.link.pressed` | #153786 | #CBDCFA |
-| `color-link-visited` | `var(--bw-color-link-visited)` · `cssVars.color.link.visited` | #1D48AD | #9CBCF2 |
-| `color-text-neutral-default` | `var(--bw-color-text-neutral-default)` · `cssVars.color.text.neutral.default` | #0A0A0A | #F7F7F7 |
-| `color-text-neutral-disabled` | `var(--bw-color-text-neutral-disabled)` · `cssVars.color.text.neutral.disabled` | #969696 | #545454 |
-| `color-text-neutral-inverse` | `var(--bw-color-text-neutral-inverse)` · `cssVars.color.text.neutral.inverse` | #FFFFFF | #0A0A0A |
+| `color-link-visited` | `var(--bw-color-link-visited)` · `cssVars.color.link.visited` | #D42222 | #FF7676 |
+| `color-text-default` | `var(--bw-color-text-default)` · `cssVars.color.text.default` | #0A0A0A | #F7F7F7 |
+| `color-text-disabled` | `var(--bw-color-text-disabled)` · `cssVars.color.text.disabled` | #969696 | #707070 |
+| `color-text-inverse` | `var(--bw-color-text-inverse)` · `cssVars.color.text.inverse` | #FFFFFF | #0A0A0A |
 | `motion-duration-instant` | `var(--bw-motion-duration-instant)` · `cssVars.motion.duration.instant` | 0 | 0 |
 | `motion-duration-sm` | `var(--bw-motion-duration-sm)` · `cssVars.motion.duration.sm` | 100 | 100 |
 | `motion-duration-xs` | `var(--bw-motion-duration-xs)` · `cssVars.motion.duration.xs` | 50 | 50 |
@@ -264,7 +264,7 @@ import { Link as RouterLink } from 'react-router-dom';
 
 ### Token gaps
 
-None. All tokens exist in Foundations: `color-link-default` · `-hover` · `-pressed` · `-visited`, `color-text-neutral-default` · `-inverse` · `-disabled`, `color-border-focus` · `-inverse`, `border-width-default` · `-strong` · `-focus`, `border-focus-offset`, `radius-xs`, `spacing-xs` · `-xxs`, `size-icon-sm` · `-md`, `target-min`, `action-sm|md|lg`, `motion-duration-*`, `motion-easing-standard`. No component tokens (P-04).
+None. All tokens exist in Foundations: `color-link-default` · `-hover` · `-pressed` · `-visited`, `color-text-default` · `-inverse` · `-disabled`, `color-border-focus` · `-inverse`, `border-width-default` · `-strong` · `-focus`, `border-focus-offset`, `radius-xs`, `spacing-xs` · `-xxs`, `size-icon-sm` · `-md`, `target-min`, `action-sm|md|lg`, `motion-duration-*`, `motion-easing-standard`. No component tokens (P-04).
 
 ### Files to create / change
 

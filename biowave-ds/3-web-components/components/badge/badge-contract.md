@@ -1,4 +1,4 @@
-<!-- GENERATED from badge.md @ d855142fd6fe5899 — do not edit; change the source and run: npm run contract -- web badge -->
+<!-- GENERATED from badge.md @ 3c5aa19e0b5912df — do not edit; change the source and run: npm run contract -- web badge -->
 # Badge · شارة — Web — code contract
 
 > **Everything you need to build Badge on Web, and nothing else.** Read this file only. Generated from [`badge.md`](badge.md) (Parts B and C). If something is unclear or impossible, stop and write it in [C8 Execution log → Questions](badge.md#c8-execution-log-filled-by-the-executor) — never invent behaviour.
@@ -12,7 +12,7 @@
 | Version | 1.1 · 2026-10-24 |
 | Source code | [`src/components/badge/`](../../src/components/badge/) |
 | Tokens | — |
-| Source | [`badge.md`](badge.md) @ `d855142fd6fe5899` |
+| Source | [`badge.md`](badge.md) @ `3c5aa19e0b5912df` |
 
 ## 1. What it is
 
@@ -104,7 +104,7 @@ Layout rules:
 - Anchored `indicator`: `position: absolute`, `pointer-events: none`, `z-index` = `layer-raised` (above the anchor, inside the root's stacking context only). Placement with logical properties: `inset-block-start: 0; inset-inline-end: 0`, translated so its centre sits on the corner (B5). `overlap="circular"`: the reference corner moves inward to the circle's edge at 45° — `inset-block-start` and `inset-inline-end` = 14.6% of the anchor box ((1 − cos 45°) ÷ 2, the same as MUI `overlap="circular"`).
 - Standalone `indicator` (no `children`): `position: static`, inline after text, no `ring`, no translation; it aligns to the text's middle. While hidden it is out of the layout (`display: none`, after the exit transition — B4 › Hidden standalone), so it adds no inline size.
 - `count`: one line, `white-space: nowrap`, centred; the text is wrapped in `<bdi dir="ltr">` so `99+` never reorders in Arabic.
-- `ring`: drawn outside the indicator box as `box-shadow: 0 0 0 var(--bw-border-width-strong) var(--bw-color-border-inverse)` — it adds no layout size.
+- `ring`: drawn outside the indicator box as `outline: var(--bw-border-width-strong) solid var(--bw-color-border-inverse)` — a stroke, never a shadow (border.md); it adds no layout size.
 - `check-icon`: `<Icon name="check" />` centred; never `directional`.
 
 ## 4. Tokens by part and state
@@ -117,9 +117,9 @@ No component tokens — every value is an existing semantic token (P-04); `badge
 | `brand` | `color-background-brand-default` | `color-text-on-brand` | `color-icon-on-brand` |
 | `secondary` | `color-background-secondary-default` | `color-text-on-secondary` | `color-icon-on-secondary` |
 | `success` | `color-background-success-default` | `color-text-on-success` | `color-icon-on-success` |
-| `warning` | `color-icon-role-warning` | `color-text-on-warning` | — (not allowed) |
+| `warning` | `color-icon-role-warning` | `color-text-inverse` | — (not allowed) |
 | `info` | `color-background-info-default` | `color-text-on-info` | `color-icon-on-info` |
-| `neutral` | `color-surface-inverse` | `color-text-neutral-inverse` | `color-icon-neutral-inverse` |
+| `neutral` | `color-surface-inverse` | `color-text-inverse` | `color-icon-inverse` |
 
 | Part | Property | Token |
 |---|---|---|
@@ -144,15 +144,15 @@ Values are for checking only — never paste a value.
 | `color-background-success-default` | `var(--bw-color-background-success-default)` · `cssVars.color.background.success.default` | #1E6D41 | #55BE87 |
 | `color-background-warning-default` | `var(--bw-color-background-warning-default)` · `cssVars.color.background.warning.default` | #FF9435 | #FFB05E |
 | `color-border-inverse` | `var(--bw-color-border-inverse)` · `cssVars.color.border.inverse` | #FFFFFF | #0A0A0A |
-| `color-icon-neutral-inverse` | `var(--bw-color-icon-neutral-inverse)` · `cssVars.color.icon.neutral.inverse` | #FFFFFF | #0A0A0A |
+| `color-icon-inverse` | `var(--bw-color-icon-inverse)` · `cssVars.color.icon.inverse` | #FFFFFF | #0A0A0A |
 | `color-icon-on-brand` | `var(--bw-color-icon-on-brand)` · `cssVars.color.icon.on.brand` | #FFFFFF | #0A0A0A |
 | `color-icon-on-info` | `var(--bw-color-icon-on-info)` · `cssVars.color.icon.on.info` | #FFFFFF | #0A0A0A |
 | `color-icon-on-secondary` | `var(--bw-color-icon-on-secondary)` · `cssVars.color.icon.on.secondary` | #FFFFFF | #0A0A0A |
 | `color-icon-on-success` | `var(--bw-color-icon-on-success)` · `cssVars.color.icon.on.success` | #FFFFFF | #0A0A0A |
-| `color-icon-role-warning` | `var(--bw-color-icon-role-warning)` · `cssVars.color.icon.role.warning` | #D97424 | #FFC88F |
+| `color-icon-role-warning` | `var(--bw-color-icon-role-warning)` · `cssVars.color.icon.role.warning` | #773F12 | #FFC88F |
 | `color-surface-default` | `var(--bw-color-surface-default)` · `cssVars.color.surface.default` | #FFFFFF | #141414 |
 | `color-surface-inverse` | `var(--bw-color-surface-inverse)` · `cssVars.color.surface.inverse` | #141414 | #FFFFFF |
-| `color-text-neutral-inverse` | `var(--bw-color-text-neutral-inverse)` · `cssVars.color.text.neutral.inverse` | #FFFFFF | #0A0A0A |
+| `color-text-inverse` | `var(--bw-color-text-inverse)` · `cssVars.color.text.inverse` | #FFFFFF | #0A0A0A |
 | `color-text-on-brand` | `var(--bw-color-text-on-brand)` · `cssVars.color.text.on.brand` | #FFFFFF | #0A0A0A |
 | `color-text-on-error` | `var(--bw-color-text-on-error)` · `cssVars.color.text.on.error` | #FFFFFF | #0A0A0A |
 | `color-text-on-info` | `var(--bw-color-text-on-info)` · `cssVars.color.text.on.info` | #FFFFFF | #0A0A0A |
@@ -265,7 +265,7 @@ import { Badge, IconButton, Icon } from '@biowave/web';
 ### Approach
 
 - Base: `@mui/material/Badge` wrapped by `styled(MuiBadge)` in `Badge.tsx`. Map props: `count` → `badgeContent` (only for `variant="count"`), `variant` `count`/`check` → MUI `standard`, `dot` → MUI `dot`; `max`, `showZero`, `invisible` passed through (MUI computes `99+` and the zero-hidden state — wrap the rendered content in `<bdi dir="ltr">` via `badgeContent`). For `check`, `badgeContent` = `<Icon name="check" />` (no `size`; the indicator sets `font-size` to `size-icon-sm`).
-- Styles from `cssVars` only (`cssVars.size.icon.md`, `cssVars.spacing.xs`, `cssVars.spacing.md`, `cssVars.radius.full`, `cssVars.border.width.strong`, `cssVars.color.*`, `cssVars.motion.*`, `cssVars.layer.raised`), applied to the MUI `badge` slot. One `switch` from `color` to the B3 tokens; `neutral` uses `color.surface.inverse` / `color.text.neutral.inverse` / `color.icon.neutral.inverse`; `warning` uses `color.icon.role.warning` / `color.text.on.warning` (1.1). `error` and `warning` have no `check-icon` token (B3 “—”): the map gives them none (`icon` optional in the map type), so no unlisted token sits in the component.
+- Styles from `cssVars` only (`cssVars.size.icon.md`, `cssVars.spacing.xs`, `cssVars.spacing.md`, `cssVars.radius.full`, `cssVars.border.width.strong`, `cssVars.color.*`, `cssVars.motion.*`, `cssVars.layer.raised`), applied to the MUI `badge` slot. One `switch` from `color` to the B3 tokens; `neutral` uses `color.surface.inverse` / `color.text.inverse` / `color.icon.inverse`; `warning` uses `color.icon.role.warning` / `color.text.inverse` (1.2, colour tokens 2026-10-27). `error` and `warning` have no `check-icon` token (B3 “—”): the map gives them none (`icon` optional in the map type), so no unlisted token sits in the component.
 - Placement: override MUI's `anchorOrigin` styles completely — set `top`/`right`/`transform` to `unset` and use `inset-block-start` / `inset-inline-end` plus `transform: translate(50%, -50%)`, and `[dir='rtl'] &` → `translate(-50%, -50%)` (B5). Visibility combines with the translation: hidden = `translate(…) scale(0)`, visible = `translate(…) scale(1)`, `transform-origin: center`.
 - Transitions: replace MUI's `theme.transitions` on the `badge` slot with `transform` timed by B4 — `motion-duration-md` + `motion-easing-standard-decelerate` when becoming visible, `motion-duration-sm` + `motion-easing-standard-accelerate` when hiding (set the transition on the `.MuiBadge-invisible` state for the exit). No transition on first paint.
 - Standalone (no `children`): add class `bw-badge-standalone`; the `badge` slot becomes `position: static`, no transform, no ring.
@@ -293,7 +293,7 @@ CHANGELOG.md                                            change
 
 - [ ] Every `variant` × allowed `color` renders the B2 sizes and B3 tokens in light + dark × en + ar (computed styles: `block-size`, `min-inline-size`, `padding-inline`, background, text and icon colour); `count` × `warning` background is `color-icon-role-warning`, never `color-background-warning-default`
 - [ ] `count` above `max` shows `{max}+` inside `<bdi dir="ltr">`; `count={0}` hides unless `showZero`; `max` default 99
-- [ ] Anchored: `ring` box-shadow uses `border-width-strong` + `color-border-inverse`; standalone: no ring, `position: static`
+- [ ] Anchored: `ring` outline uses `border-width-strong` + `color-border-inverse`; standalone: no ring, `position: static`
 - [ ] Placement: indicator centre on the anchor's top-end corner in LTR and top-start in RTL (both `overlap` values); the anchor's box size is the same with and without the badge — checked by comparing the anchor's computed styles rendered with and without `Badge` and by asserting the root adds no padding or border and the anchored indicator is out of flow (`position: absolute`), not by reading a style the test set itself
 - [ ] B4: hidden ↔ visible transitions use the listed duration/easing tokens; first render has no animation (checked by behaviour — e.g. no transition / `getAnimations()` empty or the initial transform already final — or by a whitespace-tolerant check, never by matching exact source text and line breaks); reduced motion → instant
 - [ ] Hidden standalone (B4): while the exit runs the indicator is still in the layout; after its `transitionend` (fired in the test) it has `display: none`; with reduced motion it has `display: none` at once; hidden on first render → `display: none` from the start; shown again → back in the layout at scale 0, then scale 1; an anchored hidden badge never gets `display: none`

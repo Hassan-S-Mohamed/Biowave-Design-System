@@ -1,4 +1,4 @@
-<!-- GENERATED from icon.md @ 907e8edbdc6f47a8 — do not edit; change the source and run: npm run contract -- mobile icon -->
+<!-- GENERATED from icon.md @ c12c5bb427a19762 — do not edit; change the source and run: npm run contract -- mobile icon -->
 # Icon · أيقونة — Mobile — code contract
 
 > **Everything you need to build Icon on Mobile, and nothing else.** Read this file only. Generated from [`icon.md`](icon.md) (Parts B and C). If something is unclear or impossible, stop and write it in [C8 Execution log → Questions](icon.md#c8-execution-log-filled-by-the-executor) — never invent behaviour.
@@ -12,7 +12,7 @@
 | Version | 1.0 · 2026-10-18 |
 | Source code | `lib/src/components/icon/` — not built yet (the Executor creates it) |
 | Tokens | [`icon.tokens.json`](icon.tokens.json) |
-| Source | [`icon.md`](icon.md) @ `907e8edbdc6f47a8` |
+| Source | [`icon.md`](icon.md) @ `c12c5bb427a19762` |
 
 ## 1. What it is
 
@@ -71,10 +71,10 @@ Identical to [Web B3](../../../3-web-components/components/icon/icon.md#b3-token
 
 | Colour | Token → Flutter |
 |---|---|
-| `BwIconColor.defaultColor` | `color-icon-neutral-default` → `context.bw.colors.iconNeutralDefault` |
-| `BwIconColor.subtle` | `color-icon-neutral-subtle` → `context.bw.colors.iconNeutralSubtle` |
-| `BwIconColor.muted` | `color-icon-neutral-muted` → `context.bw.colors.iconNeutralMuted` |
-| `BwIconColor.inverse` | `color-icon-neutral-inverse` → `context.bw.colors.iconNeutralInverse` |
+| `BwIconColor.defaultColor` | `color-icon-default` → `context.bw.colors.iconDefault` |
+| `BwIconColor.subtle` | `color-icon-subtle` → `context.bw.colors.iconSubtle` |
+| `BwIconColor.muted` | `color-icon-subtlest` → `context.bw.colors.iconSubtlest` |
+| `BwIconColor.inverse` | `color-icon-inverse` → `context.bw.colors.iconInverse` |
 | `BwIconColor.brand` | `color-icon-role-brand` → `context.bw.colors.iconRoleBrand` |
 | `BwIconColor.secondary` | `color-icon-role-secondary` → `context.bw.colors.iconRoleSecondary` |
 | `BwIconColor.success` | `color-icon-role-success` → `context.bw.colors.iconRoleSuccess` |
@@ -88,16 +88,16 @@ Values are for checking only — never paste a value.
 
 | Token | Dart | Light | Dark |
 |---|---|---|---|
-| `color-icon-neutral-default` | `context.bw.colors.iconNeutralDefault` | #0A0A0A | #F7F7F7 |
-| `color-icon-neutral-inverse` | `context.bw.colors.iconNeutralInverse` | #FFFFFF | #0A0A0A |
-| `color-icon-neutral-muted` | `context.bw.colors.iconNeutralMuted` | #707070 | #BDBDBD |
-| `color-icon-neutral-subtle` | `context.bw.colors.iconNeutralSubtle` | #292929 | #DBDBDB |
-| `color-icon-role-brand` | `context.bw.colors.iconRoleBrand` | #193351 | #90A3BC |
-| `color-icon-role-error` | `context.bw.colors.iconRoleError` | #FF2B2B | #FEA3A3 |
-| `color-icon-role-info` | `context.bw.colors.iconRoleInfo` | #2559D4 | #9CBCF2 |
-| `color-icon-role-secondary` | `context.bw.colors.iconRoleSecondary` | #0C5F79 | #90C3D5 |
-| `color-icon-role-success` | `context.bw.colors.iconRoleSuccess` | #268751 | #8DD4AE |
-| `color-icon-role-warning` | `context.bw.colors.iconRoleWarning` | #D97424 | #FFC88F |
+| `color-icon-default` | `context.bw.colors.iconDefault` | #0A0A0A | #F7F7F7 |
+| `color-icon-inverse` | `context.bw.colors.iconInverse` | #FFFFFF | #0A0A0A |
+| `color-icon-role-brand` | `context.bw.colors.iconRoleBrand` | #132843 | #BEC9D9 |
+| `color-icon-role-error` | `context.bw.colors.iconRoleError` | #A31A1A | #FEA3A3 |
+| `color-icon-role-info` | `context.bw.colors.iconRoleInfo` | #1D48AD | #9CBCF2 |
+| `color-icon-role-secondary` | `context.bw.colors.iconRoleSecondary` | #094E65 | #90C3D5 |
+| `color-icon-role-success` | `context.bw.colors.iconRoleSuccess` | #1E6D41 | #8DD4AE |
+| `color-icon-role-warning` | `context.bw.colors.iconRoleWarning` | #773F12 | #FFC88F |
+| `color-icon-subtle` | `context.bw.colors.iconSubtle` | #292929 | #DBDBDB |
+| `color-icon-subtlest` | `context.bw.colors.iconSubtlest` | #545454 | #BDBDBD |
 | `size-icon-2xl` | `context.bw` / `Bw*` constant in `bw_tokens.g.dart` | 40 | 40 |
 | `size-icon-3xl` | `context.bw` / `Bw*` constant in `bw_tokens.g.dart` | 48 | 48 |
 | `size-icon-lg` | `context.bw` / `Bw*` constant in `bw_tokens.g.dart` | 24 | 24 |
@@ -113,7 +113,7 @@ The code token map must equal [`icon.tokens.json`](icon.tokens.json) (tests comp
 | Collection | Variable | Modes → semantic token |
 |---|---|---|
 | Icon / Size | size | xs: `size-icon-xs` · sm: `size-icon-sm` · md: `size-icon-md` · lg: `size-icon-lg` · xl: `size-icon-xl` · 2xl: `size-icon-2xl` · 3xl: `size-icon-3xl` |
-| Icon / Color | color | default: `color-icon-neutral-default` · subtle: `color-icon-neutral-subtle` · muted: `color-icon-neutral-muted` · inverse: `color-icon-neutral-inverse` · brand: `color-icon-role-brand` · secondary: `color-icon-role-secondary` · success: `color-icon-role-success` · error: `color-icon-role-error` · warning: `color-icon-role-warning` · info: `color-icon-role-info` |
+| Icon / Color | color | default: `color-icon-default` · subtle: `color-icon-subtle` · muted: `color-icon-subtlest` · inverse: `color-icon-inverse` · brand: `color-icon-role-brand` · secondary: `color-icon-role-secondary` · success: `color-icon-role-success` · error: `color-icon-role-error` · warning: `color-icon-role-warning` · info: `color-icon-role-info` |
 
 ## 5. States and transitions
 

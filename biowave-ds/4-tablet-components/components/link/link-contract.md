@@ -1,4 +1,4 @@
-<!-- GENERATED from link.md @ 11cbfee37dd70406 — do not edit; change the source and run: npm run contract -- tablet link -->
+<!-- GENERATED from link.md @ 5c6bb196394f1f2d — do not edit; change the source and run: npm run contract -- tablet link -->
 # Link · رابط — Tablet — code contract
 
 > **Everything you need to build Link on Tablet, and nothing else.** Read this file only. Generated from [`link.md`](link.md) (Parts B and C). If something is unclear or impossible, stop and write it in [C8 Execution log → Questions](link.md#c8-execution-log-filled-by-the-executor) — never invent behaviour.
@@ -12,7 +12,7 @@
 | Version | 1.0 · 2026-10-21 |
 | Source code | `lib/src/components/link/` — not built yet (the Executor creates it) |
 | Tokens | — |
-| Source | [`link.md`](link.md) @ `11cbfee37dd70406` |
+| Source | [`link.md`](link.md) @ `5c6bb196394f1f2d` |
 
 ## 1. What it is
 
@@ -108,9 +108,9 @@ Layout rules: `BwLink` is a `Row(mainAxisSize: MainAxisSize.min)` centred inside
 
 | `color` | Default | Hover (pointer) | Pressed | Disabled |
 |---|---|---|---|---|
-| `brand` | `color-link-default` | `color-link-hover` | `color-link-pressed` | `color-text-neutral-disabled` |
-| `neutral` | `color-text-neutral-default` | `color-text-neutral-default` | `color-text-neutral-default` | `color-text-neutral-disabled` |
-| `inverse` | `color-text-neutral-inverse` | `color-text-neutral-inverse` | `color-text-neutral-inverse` | `color-text-neutral-disabled` |
+| `brand` | `color-link-default` | `color-link-hovered` | `color-link-pressed` | `color-text-disabled` |
+| `neutral` | `color-text-default` | `color-text-default` | `color-text-default` | `color-text-disabled` |
+| `inverse` | `color-text-inverse` | `color-text-inverse` | `color-text-inverse` | `color-text-disabled` |
 
 | Part | `underline` | Default | Hover | Pressed | Focus | Disabled |
 |---|---|---|---|---|---|---|
@@ -137,11 +137,11 @@ Values are for checking only — never paste a value.
 | `color-border-focus` | `context.bw.colors.borderFocus` | #254471 | #90A3BC |
 | `color-border-inverse` | `context.bw.colors.borderInverse` | #FFFFFF | #0A0A0A |
 | `color-link-default` | `context.bw.colors.linkDefault` | #2559D4 | #6D9CE8 |
-| `color-link-hover` | `context.bw.colors.linkHover` | #1D48AD | #9CBCF2 |
+| `color-link-hovered` | `context.bw.colors.linkHovered` | #1D48AD | #9CBCF2 |
 | `color-link-pressed` | `context.bw.colors.linkPressed` | #153786 | #CBDCFA |
-| `color-text-neutral-default` | `context.bw.colors.textNeutralDefault` | #0A0A0A | #F7F7F7 |
-| `color-text-neutral-disabled` | `context.bw.colors.textNeutralDisabled` | #969696 | #545454 |
-| `color-text-neutral-inverse` | `context.bw.colors.textNeutralInverse` | #FFFFFF | #0A0A0A |
+| `color-text-default` | `context.bw.colors.textDefault` | #0A0A0A | #F7F7F7 |
+| `color-text-disabled` | `context.bw.colors.textDisabled` | #969696 | #707070 |
+| `color-text-inverse` | `context.bw.colors.textInverse` | #FFFFFF | #0A0A0A |
 | `motion-duration-instant` | `context.bw` / `Bw*` constant in `bw_tokens.g.dart` | 0 | 0 |
 | `motion-duration-sm` | `context.bw` / `Bw*` constant in `bw_tokens.g.dart` | 100 | 100 |
 | `motion-duration-xs` | `context.bw` / `Bw*` constant in `bw_tokens.g.dart` | 50 | 50 |
@@ -242,7 +242,7 @@ BwLink(label: 'التواصل مع الدعم', external: true, onPressed: () =>
 
 ### Token gaps
 
-None. All tokens exist in Foundations (`color-link-*`, `color-text-neutral-default` · `-inverse` · `-disabled`, `color-border-focus` · `-inverse`, `border-width-*`, `border-focus-offset`, `radius-xs`, `spacing-xs`, `size-icon-sm` · `-md`, `target-min`, `action-*`, `motion-*`). No component tokens (P-04).
+None. All tokens exist in Foundations (`color-link-*`, `color-text-default` · `-inverse` · `-disabled`, `color-border-focus` · `-inverse`, `border-width-*`, `border-focus-offset`, `radius-xs`, `spacing-xs`, `size-icon-sm` · `-md`, `target-min`, `action-*`, `motion-*`). No component tokens (P-04).
 
 ### Files to create / change
 

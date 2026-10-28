@@ -1,7 +1,7 @@
-<!-- GENERATED from badge.md @ c2beb38ab3fd7286 — do not edit; change the source and run: npm run contract -- tablet badge -->
+<!-- GENERATED from badge.md @ 646636a3fd82b6f2 — do not edit; change the source and run: npm run contract -- tablet badge -->
 # Badge · شارة — Tablet — Figma contract
 
-> **Everything the Figma Agent needs to build Badge in the Tablet Components file, with our variables and styles.** Read this file only. Generated from [`badge.md`](badge.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-24). Questions go to [D11 Execution log](badge.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
+> **Everything the Figma Agent needs to build Badge in the Tablet Components file, with our variables and styles.** Read this file only. Generated from [`badge.md`](badge.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-28). Questions go to [D11 Execution log](badge.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
 
 **Two phases, one review:** Phase 1 — build the component set (§7–§8). Phase 2 — as soon as Phase 1 is finished, the 12 documentation pages and the Components List card (§9).
 
@@ -12,7 +12,7 @@
 | Component | Badge · شارة |
 | Platform | Tablet · Flutter + Material 3 |
 | Version | 1.1 · 2026-10-24 |
-| Source | [`badge.md`](badge.md) @ `c2beb38ab3fd7286` |
+| Source | [`badge.md`](badge.md) @ `646636a3fd82b6f2` |
 
 ## 1. Library connections in this file
 
@@ -21,7 +21,7 @@
 | Library | **Biowave DS — Foundations** · library key `lk-e00b31b21f924b36eeea820da99c4b306c460986c83e894f415a1c194ba5a2e670f3142c2fccca81280a80bcaee6a87bc47c9a9505d186d7b693aa9805ad7031` |
 | Library file | Foundations · key `AyFaSmfDUlTax3GpKhRdHI` |
 | Doc Kit library (Phase 2) | **Annotation (Biowave Doc Kit)** · file key `cBPWg6YZNqK8UIzgMQIpXl` — must be enabled in this file (Assets → Libraries) |
-| Enabled here | ✓ verified from a component file: 9 collections, 318 variables reachable |
+| Enabled here | ✓ verified from a component file: 9 collections, 347 variables reachable |
 
 Import by key — never search by name, never copy:
 
@@ -48,7 +48,7 @@ None yet — this component has no component tokens. Bind to the Foundations var
 | `color-background-success-default` | 1. Themes › `color/background/success/default` | `1222c78801e68710a1c3affcb6648a60835ac846` | COLOR | FRAME_FILL, SHAPE_FILL | spec |
 | `color-background-warning-default` | 1. Themes › `color/background/warning/default` | `369f1ccef2a098d715709bd23c490667074ad00b` | COLOR | FRAME_FILL, SHAPE_FILL | spec |
 | `color-border-inverse` | 1. Themes › `color/border/inverse` | `0e53944b3de77eca83b17b27c3e5d0b4fca582d8` | COLOR | STROKE_COLOR | spec |
-| `color-icon-neutral-inverse` | 1. Themes › `color/icon/neutral/inverse` | `f1c29644d88c107b8e40c4ba2dd9e5c8d9667fde` | COLOR | SHAPE_FILL, STROKE_COLOR | spec |
+| `color-icon-inverse` | 1. Themes › `color/icon/inverse` | `f1c29644d88c107b8e40c4ba2dd9e5c8d9667fde` | COLOR | SHAPE_FILL, STROKE_COLOR | spec |
 | `color-icon-on-brand` | 1. Themes › `color/icon/on/brand` | `7adf0bdf71942294bcca707ea3b88ab778741004` | COLOR | SHAPE_FILL, STROKE_COLOR | spec |
 | `color-icon-on-info` | 1. Themes › `color/icon/on/info` | `914bfb05cd12b9e876ddbf6f6ff19a4b369910af` | COLOR | SHAPE_FILL, STROKE_COLOR | spec |
 | `color-icon-on-secondary` | 1. Themes › `color/icon/on/secondary` | `c9e557cbf045baf1678551c328e726930b0ce16d` | COLOR | SHAPE_FILL, STROKE_COLOR | spec |
@@ -56,13 +56,12 @@ None yet — this component has no component tokens. Bind to the Foundations var
 | `color-icon-role-warning` | 1. Themes › `color/icon/role/warning` | `3fa016bcd1409896b81681403e6a214dcc365fda` | COLOR | SHAPE_FILL, STROKE_COLOR | spec |
 | `color-surface-default` | 1. Themes › `color/surface/default` | `2013a1c60d84d2bac2524fd0c32229e20cc341a1` | COLOR | FRAME_FILL, SHAPE_FILL | spec |
 | `color-surface-inverse` | 1. Themes › `color/surface/inverse` | `364770c6a80914cb1d30c8afc1e354431dbb5f07` | COLOR | FRAME_FILL, SHAPE_FILL | spec |
-| `color-text-neutral-inverse` | 1. Themes › `color/text/neutral/inverse` | `83e1f6c6d7ddf8376b1bc5d0b9d5f6cd13b68e9b` | COLOR | TEXT_FILL | spec |
+| `color-text-inverse` | 1. Themes › `color/text/inverse` | `83e1f6c6d7ddf8376b1bc5d0b9d5f6cd13b68e9b` | COLOR | TEXT_FILL | spec |
 | `color-text-on-brand` | 1. Themes › `color/text/on/brand` | `993ca33a3563483742db3f20ac2db1d094fa2106` | COLOR | TEXT_FILL | spec |
 | `color-text-on-error` | 1. Themes › `color/text/on/error` | `2a712a2cc3a4ba1f5c6ec54f1fccb0a42d8da539` | COLOR | TEXT_FILL | spec |
 | `color-text-on-info` | 1. Themes › `color/text/on/info` | `f321b04e3d1a4b3d6640c131b730c637107f2124` | COLOR | TEXT_FILL | spec |
 | `color-text-on-secondary` | 1. Themes › `color/text/on/secondary` | `c94b4241b9f81084e2ef11af7d3724b092d9da57` | COLOR | TEXT_FILL | spec |
 | `color-text-on-success` | 1. Themes › `color/text/on/success` | `72f5f649b899d7488e05dd8e79537c94251c7aa2` | COLOR | TEXT_FILL | spec |
-| `color-text-on-warning` | 1. Themes › `color/text/on/warning` | `c8d1dc5f68cdfab924bd2028bfc6a96a5225b3e9` | COLOR | TEXT_FILL | spec |
 | `radius-full` | 2. Radius › `radius/full` | `cde1a4778562f488d8f32680d4d00f7957cc2a21` | FLOAT | CORNER_RADIUS | spec |
 | `size-icon-md` | 4. Size › `size/icon/md` | `eb459c673e6ca16e3c81b240f04b467717953a9a` | FLOAT | WIDTH_HEIGHT | spec |
 | `size-icon-sm` | 4. Size › `size/icon/sm` | `2aa4b1f12a5ed0745f9a8b3251dc1fd9f7dd3476` | FLOAT | WIDTH_HEIGHT | spec |
@@ -160,9 +159,9 @@ Identical to [Web B3](../../../3-web-components/components/badge/badge.md#b3-tok
 | `brand` | `color-background-brand-default` → `backgroundBrandDefault` | `color-text-on-brand` → `textOnBrand` | `color-icon-on-brand` → `iconOnBrand` |
 | `secondary` | `color-background-secondary-default` → `backgroundSecondaryDefault` | `color-text-on-secondary` → `textOnSecondary` | `color-icon-on-secondary` → `iconOnSecondary` |
 | `success` | `color-background-success-default` → `backgroundSuccessDefault` | `color-text-on-success` → `textOnSuccess` | `color-icon-on-success` → `iconOnSuccess` |
-| `warning` | `color-icon-role-warning` → `iconRoleWarning` | `color-text-on-warning` → `textOnWarning` | — |
+| `warning` | `color-icon-role-warning` → `iconRoleWarning` | `color-text-inverse` → `textInverse` | — |
 | `info` | `color-background-info-default` → `backgroundInfoDefault` | `color-text-on-info` → `textOnInfo` | `color-icon-on-info` → `iconOnInfo` |
-| `neutral` | `color-surface-inverse` → `surfaceInverse` | `color-text-neutral-inverse` → `textNeutralInverse` | `color-icon-neutral-inverse` → `iconNeutralInverse` |
+| `neutral` | `color-surface-inverse` → `surfaceInverse` | `color-text-inverse` → `textInverse` | `color-icon-inverse` → `iconInverse` |
 
 | Part | Property | Token → Flutter |
 |---|---|---|

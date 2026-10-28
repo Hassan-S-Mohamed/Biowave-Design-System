@@ -1,7 +1,7 @@
-<!-- GENERATED from tooltip.md @ 3d753f03475ede9b — do not edit; change the source and run: npm run contract -- web tooltip -->
+<!-- GENERATED from tooltip.md @ 4f6355a63f5b373a — do not edit; change the source and run: npm run contract -- web tooltip -->
 # Tooltip · تلميح — Web — Figma contract
 
-> **Everything the Figma Agent needs to build Tooltip in the Web Components file, with our variables and styles.** Read this file only. Generated from [`tooltip.md`](tooltip.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-24). Questions go to [D11 Execution log](tooltip.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
+> **Everything the Figma Agent needs to build Tooltip in the Web Components file, with our variables and styles.** Read this file only. Generated from [`tooltip.md`](tooltip.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-28). Questions go to [D11 Execution log](tooltip.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
 
 **Two phases, one review:** Phase 1 — build the component set (§7–§8). Phase 2 — as soon as Phase 1 is finished, the 12 documentation pages and the Components List card (§9).
 
@@ -12,7 +12,7 @@
 | Component | Tooltip · تلميح |
 | Platform | Web · React + MUI |
 | Version | 1.1 · 2026-10-24 |
-| Source | [`tooltip.md`](tooltip.md) @ `3d753f03475ede9b` |
+| Source | [`tooltip.md`](tooltip.md) @ `4f6355a63f5b373a` |
 
 ## 1. Library connections in this file
 
@@ -21,7 +21,7 @@
 | Library | **Biowave DS — Foundations** · library key `lk-e00b31b21f924b36eeea820da99c4b306c460986c83e894f415a1c194ba5a2e670f3142c2fccca81280a80bcaee6a87bc47c9a9505d186d7b693aa9805ad7031` |
 | Library file | Foundations · key `AyFaSmfDUlTax3GpKhRdHI` |
 | Doc Kit library (Phase 2) | **Annotation (Biowave Doc Kit)** · file key `cBPWg6YZNqK8UIzgMQIpXl` — must be enabled in this file (Assets → Libraries) |
-| Enabled here | ✓ verified from a component file: 9 collections, 318 variables reachable |
+| Enabled here | ✓ verified from a component file: 9 collections, 347 variables reachable |
 
 Import by key — never search by name, never copy:
 
@@ -41,7 +41,7 @@ None yet — this component has no component tokens. Bind to the Foundations var
 | Token | Figma variable | Key | Type | Scopes | Used by |
 |---|---|---|---|---|---|
 | `color-surface-inverse` | 1. Themes › `color/surface/inverse` | `364770c6a80914cb1d30c8afc1e354431dbb5f07` | COLOR | FRAME_FILL, SHAPE_FILL | spec |
-| `color-text-neutral-inverse` | 1. Themes › `color/text/neutral/inverse` | `83e1f6c6d7ddf8376b1bc5d0b9d5f6cd13b68e9b` | COLOR | TEXT_FILL | spec |
+| `color-text-inverse` | 1. Themes › `color/text/inverse` | `83e1f6c6d7ddf8376b1bc5d0b9d5f6cd13b68e9b` | COLOR | TEXT_FILL | spec |
 | `radius-sm` | 2. Radius › `radius/sm` | `44047be92c065ef35e4aa9ed6732645870ae38c9` | FLOAT | CORNER_RADIUS | spec |
 | `size-container-xxs` | 4. Size › `size/container/xxs` | `8f6b24b58d8c1a4206dee923c88a2cb14caf031d` | FLOAT | WIDTH_HEIGHT | spec |
 | `spacing-md` | 3. Spacing › `spacing/md` | `58c93e3cec1b6ba603371a027483e101adcef4f0` | FLOAT | WIDTH_HEIGHT, GAP | spec |
@@ -124,7 +124,7 @@ Every value is a semantic token; there are no component tokens (P-04 — the sam
 | Part | Property | Shown | Entering / exiting |
 |---|---|---|---|
 | `container` | background | `color-surface-inverse` | same, with opacity animated (B4) |
-| `label` | color | `color-text-neutral-inverse` | same |
+| `label` | color | `color-text-inverse` | same |
 
 Dark theme: same tokens — the values switch, so the tooltip is light on dark pages. No exceptions. There is no hover, pressed, focus or disabled style on the tooltip itself; the anchor keeps its own states.
 
@@ -164,7 +164,7 @@ RTL   placement="end"    ┌ تعديل الجهاز ┐ [◆]
 | `purpose="description"` | The anchor gets `aria-describedby` pointing to an element that always exists (visually hidden copy of `title` while closed, the tooltip while open). No native `title` attribute on the anchor, ever (it would show a second, unstyled browser tooltip) |
 | Dismissible | Esc closes the open tooltip; focus stays on the anchor (WCAG 1.4.13) |
 | Hoverable · persistent | Pointer can move onto the tooltip without it closing; it stays until pointer leave, blur or Esc (no auto-hide timer). (1.1) The `spacing-xs` gap between anchor and tooltip belongs to the popper element, which carries MUI's interactive hover listeners, so a pointer moving slowly from the anchor never passes through an area that is outside both (C3 › Offset). `leaveDelay` stays 0 |
-| Contrast | `color-text-neutral-inverse` on `color-surface-inverse` ≥ 4.5:1 in both themes |
+| Contrast | `color-text-inverse` on `color-surface-inverse` ≥ 4.5:1 in both themes |
 | Focus | The anchor keeps its own focus ring; the tooltip adds none |
 | Screen reader output | `label`: "Edit device, button" · `description`: "Work email, edit text, We send shift reminders to this address." |
 
@@ -207,7 +207,7 @@ Same as [Button D1](../button/button.md#d1-rules-for-this-build): library first,
 Tooltip                  ↔ horizontal · pad-inline {B2 spacing/md} · pad-block {B2 spacing/xs}
 │                          width: hug · max width {B2 size/container/xxs} · height: hug
 │                          radius {B2 radius/sm} · fill {B3 color/surface/inverse} · no stroke · no effect
-└── label                T text style Web/{en|ar}/label/sm · fill {B3 color/text/neutral/inverse}
+└── label                T text style Web/{en|ar}/label/sm · fill {B3 color/text/inverse}
                            TEXT `Label` · width: fill (wraps at the max width) · align start · no truncation
 ```
 

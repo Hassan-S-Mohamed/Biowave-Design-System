@@ -1,4 +1,4 @@
-<!-- GENERATED from icon.md @ df98d03487a866e4 — do not edit; change the source and run: npm run contract -- web icon -->
+<!-- GENERATED from icon.md @ 04c7f6b1d3fb8140 — do not edit; change the source and run: npm run contract -- web icon -->
 # Icon · أيقونة — Web — code contract
 
 > **Everything you need to build Icon on Web, and nothing else.** Read this file only. Generated from [`icon.md`](icon.md) (Parts B and C). If something is unclear or impossible, stop and write it in [C8 Execution log → Questions](icon.md#c8-execution-log-filled-by-the-executor) — never invent behaviour.
@@ -12,7 +12,7 @@
 | Version | 1.1 · 2026-10-20 |
 | Source code | [`src/components/icon/`](../../src/components/icon/) |
 | Tokens | [`icon.tokens.json`](icon.tokens.json) |
-| Source | [`icon.md`](icon.md) @ `df98d03487a866e4` |
+| Source | [`icon.md`](icon.md) @ `04c7f6b1d3fb8140` |
 
 ## 1. What it is
 
@@ -93,10 +93,10 @@ Layout rules: `display: inline-flex`, `flex: none`, `inline-size`/`block-size`/`
 | `color` | `glyph` colour |
 |---|---|
 | — | `currentColor` (inherits) |
-| `default` | `color-icon-neutral-default` |
-| `subtle` | `color-icon-neutral-subtle` |
-| `muted` | `color-icon-neutral-muted` |
-| `inverse` | `color-icon-neutral-inverse` |
+| `default` | `color-icon-default` |
+| `subtle` | `color-icon-subtle` |
+| `muted` | `color-icon-subtlest` |
+| `inverse` | `color-icon-inverse` |
 | `brand` | `color-icon-role-brand` |
 | `secondary` | `color-icon-role-secondary` |
 | `success` | `color-icon-role-success` |
@@ -112,16 +112,16 @@ Values are for checking only — never paste a value.
 
 | Token | CSS / TS | Light | Dark |
 |---|---|---|---|
-| `color-icon-neutral-default` | `var(--bw-color-icon-neutral-default)` · `cssVars.color.icon.neutral.default` | #0A0A0A | #F7F7F7 |
-| `color-icon-neutral-inverse` | `var(--bw-color-icon-neutral-inverse)` · `cssVars.color.icon.neutral.inverse` | #FFFFFF | #0A0A0A |
-| `color-icon-neutral-muted` | `var(--bw-color-icon-neutral-muted)` · `cssVars.color.icon.neutral.muted` | #707070 | #BDBDBD |
-| `color-icon-neutral-subtle` | `var(--bw-color-icon-neutral-subtle)` · `cssVars.color.icon.neutral.subtle` | #292929 | #DBDBDB |
-| `color-icon-role-brand` | `var(--bw-color-icon-role-brand)` · `cssVars.color.icon.role.brand` | #193351 | #90A3BC |
-| `color-icon-role-error` | `var(--bw-color-icon-role-error)` · `cssVars.color.icon.role.error` | #FF2B2B | #FEA3A3 |
-| `color-icon-role-info` | `var(--bw-color-icon-role-info)` · `cssVars.color.icon.role.info` | #2559D4 | #9CBCF2 |
-| `color-icon-role-secondary` | `var(--bw-color-icon-role-secondary)` · `cssVars.color.icon.role.secondary` | #0C5F79 | #90C3D5 |
-| `color-icon-role-success` | `var(--bw-color-icon-role-success)` · `cssVars.color.icon.role.success` | #268751 | #8DD4AE |
-| `color-icon-role-warning` | `var(--bw-color-icon-role-warning)` · `cssVars.color.icon.role.warning` | #D97424 | #FFC88F |
+| `color-icon-default` | `var(--bw-color-icon-default)` · `cssVars.color.icon.default` | #0A0A0A | #F7F7F7 |
+| `color-icon-inverse` | `var(--bw-color-icon-inverse)` · `cssVars.color.icon.inverse` | #FFFFFF | #0A0A0A |
+| `color-icon-role-brand` | `var(--bw-color-icon-role-brand)` · `cssVars.color.icon.role.brand` | #132843 | #BEC9D9 |
+| `color-icon-role-error` | `var(--bw-color-icon-role-error)` · `cssVars.color.icon.role.error` | #A31A1A | #FEA3A3 |
+| `color-icon-role-info` | `var(--bw-color-icon-role-info)` · `cssVars.color.icon.role.info` | #1D48AD | #9CBCF2 |
+| `color-icon-role-secondary` | `var(--bw-color-icon-role-secondary)` · `cssVars.color.icon.role.secondary` | #094E65 | #90C3D5 |
+| `color-icon-role-success` | `var(--bw-color-icon-role-success)` · `cssVars.color.icon.role.success` | #1E6D41 | #8DD4AE |
+| `color-icon-role-warning` | `var(--bw-color-icon-role-warning)` · `cssVars.color.icon.role.warning` | #773F12 | #FFC88F |
+| `color-icon-subtle` | `var(--bw-color-icon-subtle)` · `cssVars.color.icon.subtle` | #292929 | #DBDBDB |
+| `color-icon-subtlest` | `var(--bw-color-icon-subtlest)` · `cssVars.color.icon.subtlest` | #545454 | #BDBDBD |
 | `size-icon-2xl` | `var(--bw-size-icon-2xl)` · `cssVars.size.icon.2xl` | 40 | 40 |
 | `size-icon-3xl` | `var(--bw-size-icon-3xl)` · `cssVars.size.icon.3xl` | 48 | 48 |
 | `size-icon-lg` | `var(--bw-size-icon-lg)` · `cssVars.size.icon.lg` | 24 | 24 |
@@ -137,7 +137,7 @@ The code token map must equal [`icon.tokens.json`](icon.tokens.json) (tests comp
 | Collection | Variable | Modes → semantic token |
 |---|---|---|
 | Icon / Size | size | xs: `size-icon-xs` · sm: `size-icon-sm` · md: `size-icon-md` · lg: `size-icon-lg` · xl: `size-icon-xl` · 2xl: `size-icon-2xl` · 3xl: `size-icon-3xl` |
-| Icon / Color | color | default: `color-icon-neutral-default` · subtle: `color-icon-neutral-subtle` · muted: `color-icon-neutral-muted` · inverse: `color-icon-neutral-inverse` · brand: `color-icon-role-brand` · secondary: `color-icon-role-secondary` · success: `color-icon-role-success` · error: `color-icon-role-error` · warning: `color-icon-role-warning` · info: `color-icon-role-info` |
+| Icon / Color | color | default: `color-icon-default` · subtle: `color-icon-subtle` · muted: `color-icon-subtlest` · inverse: `color-icon-inverse` · brand: `color-icon-role-brand` · secondary: `color-icon-role-secondary` · success: `color-icon-role-success` · error: `color-icon-role-error` · warning: `color-icon-role-warning` · info: `color-icon-role-info` |
 
 ## 5. States and transitions
 

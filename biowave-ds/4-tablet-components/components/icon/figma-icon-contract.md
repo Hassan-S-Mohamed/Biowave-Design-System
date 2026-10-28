@@ -1,7 +1,7 @@
-<!-- GENERATED from icon.md @ d678d2d9ae888fec — do not edit; change the source and run: npm run contract -- tablet icon -->
+<!-- GENERATED from icon.md @ 1100d38e83e8fe87 — do not edit; change the source and run: npm run contract -- tablet icon -->
 # Icon · أيقونة — Tablet — Figma contract
 
-> **Everything the Figma Agent needs to build Icon in the Tablet Components file, with our variables and styles.** Read this file only. Generated from [`icon.md`](icon.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-24). Questions go to [D11 Execution log](icon.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
+> **Everything the Figma Agent needs to build Icon in the Tablet Components file, with our variables and styles.** Read this file only. Generated from [`icon.md`](icon.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-28). Questions go to [D11 Execution log](icon.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
 
 **Two phases, one review:** Phase 1 — build the component set (§7–§8). Phase 2 — as soon as Phase 1 is finished, the 12 documentation pages and the Components List card (§9).
 
@@ -12,7 +12,7 @@
 | Component | Icon · أيقونة |
 | Platform | Tablet · Flutter + Material 3 |
 | Version | 1.0 · 2026-10-18 |
-| Source | [`icon.md`](icon.md) @ `d678d2d9ae888fec` |
+| Source | [`icon.md`](icon.md) @ `1100d38e83e8fe87` |
 
 ## 1. Library connections in this file
 
@@ -21,7 +21,7 @@
 | Library | **Biowave DS — Foundations** · library key `lk-e00b31b21f924b36eeea820da99c4b306c460986c83e894f415a1c194ba5a2e670f3142c2fccca81280a80bcaee6a87bc47c9a9505d186d7b693aa9805ad7031` |
 | Library file | Foundations · key `AyFaSmfDUlTax3GpKhRdHI` |
 | Doc Kit library (Phase 2) | **Annotation (Biowave Doc Kit)** · file key `cBPWg6YZNqK8UIzgMQIpXl` — must be enabled in this file (Assets → Libraries) |
-| Enabled here | ✓ verified from a component file: 9 collections, 318 variables reachable |
+| Enabled here | ✓ verified from a component file: 9 collections, 347 variables reachable |
 
 Import by key — never search by name, never copy:
 
@@ -39,22 +39,22 @@ Already in this file, created by the sync tooling from [`icon.tokens.json`](icon
 | Collection | Modes | Variable | Alias target per mode |
 |---|---|---|---|
 | Icon / Size | xs · sm · md · lg · xl · 2xl · 3xl | `size` | xs → 4. Size › `size/icon/xs`<br>sm → 4. Size › `size/icon/sm`<br>md → 4. Size › `size/icon/md`<br>lg → 4. Size › `size/icon/lg`<br>xl → 4. Size › `size/icon/xl`<br>2xl → 4. Size › `size/icon/2xl`<br>3xl → 4. Size › `size/icon/3xl` |
-| Icon / Color | default · subtle · muted · inverse · brand · secondary · success · error · warning · info | `color` | default → 1. Themes › `color/icon/neutral/default`<br>subtle → 1. Themes › `color/icon/neutral/subtle`<br>muted → 1. Themes › `color/icon/neutral/muted`<br>inverse → 1. Themes › `color/icon/neutral/inverse`<br>brand → 1. Themes › `color/icon/role/brand`<br>secondary → 1. Themes › `color/icon/role/secondary`<br>success → 1. Themes › `color/icon/role/success`<br>error → 1. Themes › `color/icon/role/error`<br>warning → 1. Themes › `color/icon/role/warning`<br>info → 1. Themes › `color/icon/role/info` |
+| Icon / Color | default · subtle · muted · inverse · brand · secondary · success · error · warning · info | `color` | default → 1. Themes › `color/icon/default`<br>subtle → 1. Themes › `color/icon/subtle`<br>muted → 1. Themes › `color/icon/subtlest`<br>inverse → 1. Themes › `color/icon/inverse`<br>brand → 1. Themes › `color/icon/role/brand`<br>secondary → 1. Themes › `color/icon/role/secondary`<br>success → 1. Themes › `color/icon/role/success`<br>error → 1. Themes › `color/icon/role/error`<br>warning → 1. Themes › `color/icon/role/warning`<br>info → 1. Themes › `color/icon/role/info` |
 
 ## 3. Foundations variables used (keys)
 
 | Token | Figma variable | Key | Type | Scopes | Used by |
 |---|---|---|---|---|---|
-| `color-icon-neutral-default` | 1. Themes › `color/icon/neutral/default` | `b0844bd913aafe8789a44bc7b647058cdae299df` | COLOR | SHAPE_FILL, STROKE_COLOR | spec, component token |
-| `color-icon-neutral-inverse` | 1. Themes › `color/icon/neutral/inverse` | `f1c29644d88c107b8e40c4ba2dd9e5c8d9667fde` | COLOR | SHAPE_FILL, STROKE_COLOR | spec, component token |
-| `color-icon-neutral-muted` | 1. Themes › `color/icon/neutral/muted` | `22b53651f4efa195f0dfb625922d0279003534eb` | COLOR | SHAPE_FILL, STROKE_COLOR | spec, component token |
-| `color-icon-neutral-subtle` | 1. Themes › `color/icon/neutral/subtle` | `fc66c13d6c036489bf774535cd8dbbf749795748` | COLOR | SHAPE_FILL, STROKE_COLOR | spec, component token |
+| `color-icon-default` | 1. Themes › `color/icon/default` | `b0844bd913aafe8789a44bc7b647058cdae299df` | COLOR | SHAPE_FILL, STROKE_COLOR | spec, component token |
+| `color-icon-inverse` | 1. Themes › `color/icon/inverse` | `f1c29644d88c107b8e40c4ba2dd9e5c8d9667fde` | COLOR | SHAPE_FILL, STROKE_COLOR | spec, component token |
 | `color-icon-role-brand` | 1. Themes › `color/icon/role/brand` | `73d6989d2161d900c2070cd9b67f01653e54251d` | COLOR | SHAPE_FILL, STROKE_COLOR | spec, component token |
 | `color-icon-role-error` | 1. Themes › `color/icon/role/error` | `e7e61106b7c9b1c60197d2c456ad055991cc545d` | COLOR | SHAPE_FILL, STROKE_COLOR | spec, component token |
 | `color-icon-role-info` | 1. Themes › `color/icon/role/info` | `9bbd326956964ff857cb9e3a5f9e0f41883fe168` | COLOR | SHAPE_FILL, STROKE_COLOR | spec, component token |
 | `color-icon-role-secondary` | 1. Themes › `color/icon/role/secondary` | `b3c3c18415370f381760224fd00a40f2816ffdb6` | COLOR | SHAPE_FILL, STROKE_COLOR | spec, component token |
 | `color-icon-role-success` | 1. Themes › `color/icon/role/success` | `096b2f9e4c965c38f55d3dd051dbff93f36a33e5` | COLOR | SHAPE_FILL, STROKE_COLOR | spec, component token |
 | `color-icon-role-warning` | 1. Themes › `color/icon/role/warning` | `3fa016bcd1409896b81681403e6a214dcc365fda` | COLOR | SHAPE_FILL, STROKE_COLOR | spec, component token |
+| `color-icon-subtle` | 1. Themes › `color/icon/subtle` | `fc66c13d6c036489bf774535cd8dbbf749795748` | COLOR | SHAPE_FILL, STROKE_COLOR | spec, component token |
+| `color-icon-subtlest` | 1. Themes › `color/icon/subtlest` | `22b53651f4efa195f0dfb625922d0279003534eb` | COLOR | SHAPE_FILL, STROKE_COLOR | spec, component token |
 | `size-icon-2xl` | 4. Size › `size/icon/2xl` | `5d82d1a47d232577418f3cff87dbefe1d0a02765` | FLOAT | WIDTH_HEIGHT | spec, component token |
 | `size-icon-3xl` | 4. Size › `size/icon/3xl` | `160abf1bfcc5ce1bec8193ea16a9df21e4c6b387` | FLOAT | WIDTH_HEIGHT | spec, component token |
 | `size-icon-lg` | 4. Size › `size/icon/lg` | `e79bd86fedcce89547674c84c9127d0149e60061` | FLOAT | WIDTH_HEIGHT | spec, component token |
@@ -124,10 +124,10 @@ Identical to [Web B3](../../../3-web-components/components/icon/icon.md#b3-token
 
 | Colour | Token → Flutter |
 |---|---|
-| `BwIconColor.defaultColor` | `color-icon-neutral-default` → `context.bw.colors.iconNeutralDefault` |
-| `BwIconColor.subtle` | `color-icon-neutral-subtle` → `context.bw.colors.iconNeutralSubtle` |
-| `BwIconColor.muted` | `color-icon-neutral-muted` → `context.bw.colors.iconNeutralMuted` |
-| `BwIconColor.inverse` | `color-icon-neutral-inverse` → `context.bw.colors.iconNeutralInverse` |
+| `BwIconColor.defaultColor` | `color-icon-default` → `context.bw.colors.iconDefault` |
+| `BwIconColor.subtle` | `color-icon-subtle` → `context.bw.colors.iconSubtle` |
+| `BwIconColor.muted` | `color-icon-subtlest` → `context.bw.colors.iconSubtlest` |
+| `BwIconColor.inverse` | `color-icon-inverse` → `context.bw.colors.iconInverse` |
 | `BwIconColor.brand` | `color-icon-role-brand` → `context.bw.colors.iconRoleBrand` |
 | `BwIconColor.secondary` | `color-icon-role-secondary` → `context.bw.colors.iconRoleSecondary` |
 | `BwIconColor.success` | `color-icon-role-success` → `context.bw.colors.iconRoleSuccess` |

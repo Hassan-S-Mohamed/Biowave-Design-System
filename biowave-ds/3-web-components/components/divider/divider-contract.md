@@ -1,4 +1,4 @@
-<!-- GENERATED from divider.md @ 6e043ffa04598608 — do not edit; change the source and run: npm run contract -- web divider -->
+<!-- GENERATED from divider.md @ e737cd454fbaaeb8 — do not edit; change the source and run: npm run contract -- web divider -->
 # Divider · فاصل — Web — code contract
 
 > **Everything you need to build Divider on Web, and nothing else.** Read this file only. Generated from [`divider.md`](divider.md) (Parts B and C). If something is unclear or impossible, stop and write it in [C8 Execution log → Questions](divider.md#c8-execution-log-filled-by-the-executor) — never invent behaviour.
@@ -12,7 +12,7 @@
 | Version | 1.1 · 2026-10-23 |
 | Source code | [`src/components/divider/`](../../src/components/divider/) |
 | Tokens | — |
-| Source | [`divider.md`](divider.md) @ `6e043ffa04598608` |
+| Source | [`divider.md`](divider.md) @ `e737cd454fbaaeb8` |
 
 ## 1. What it is
 
@@ -121,10 +121,10 @@ Inset `start` stays one fixed `spacing-xl` (A4.3). Known follow-up: the List pla
 | `line` (with label) | minimum segment length | `spacing-xl` | same | same |
 | `container` | inset | `spacing-xl` · `spacing-none` | same | same |
 | `label` | text style | `caption-md` (`biowaveVariants.captionMd`; the family and line height follow the language) | same | same |
-| `label` | colour | `color-text-neutral-muted` | same | same |
+| `label` | colour | `color-text-subtlest` | same | same |
 | `label` | gap to each segment | `spacing-md` | same | same |
 
-The label does not change with `emphasis`. No interactive states. Dark theme: same tokens (values switch automatically). The line is decorative (`2-foundations/guidelines/border.md`) — no contrast requirement. The label is text: `color-text-neutral-muted` already meets 4.5:1 on `color-surface-default`, `-page`, `-subtle` and `-raised` in both themes (pairs exist in `contrast-pairs.json`; none to add).
+The label does not change with `emphasis`. No interactive states. Dark theme: same tokens (values switch automatically). The line is decorative (`2-foundations/guidelines/border.md`) — no contrast requirement. The label is text: `color-text-subtlest` already meets 4.5:1 on `color-surface-default`, `-page`, `-subtle` and `-raised` in both themes (pairs exist in `contrast-pairs.json`; none to add).
 
 ### 4.1 How to use each token on Web
 
@@ -137,7 +137,7 @@ Values are for checking only — never paste a value.
 | `color-border-strong` | `var(--bw-color-border-strong)` · `cssVars.color.border.strong` | #BDBDBD | #545454 |
 | `color-border-subtle` | `var(--bw-color-border-subtle)` · `cssVars.color.border.subtle` | #EDEDED | #292929 |
 | `color-surface-default` | `var(--bw-color-surface-default)` · `cssVars.color.surface.default` | #FFFFFF | #141414 |
-| `color-text-neutral-muted` | `var(--bw-color-text-neutral-muted)` · `cssVars.color.text.neutral.muted` | #707070 | #BDBDBD |
+| `color-text-subtlest` | `var(--bw-color-text-subtlest)` · `cssVars.color.text.subtlest` | #545454 | #BDBDBD |
 | `spacing-md` | `var(--bw-spacing-md)` · `cssVars.spacing.md` | 8 | 8 |
 | `spacing-none` | `var(--bw-spacing-none)` · `cssVars.spacing.none` | 0 | 0 |
 | `spacing-xl` | `var(--bw-spacing-xl)` · `cssVars.spacing.xl` | 16 | 16 |
@@ -223,9 +223,9 @@ import { Divider } from '@biowave/web';
 ### Approach
 
 - Base: `styled(MuiDivider)` with `shouldForwardProp` that drops the Biowave props. Map: `orientation` → MUI `orientation`; vertical → MUI `flexItem` always; MUI `variant` stays `fullWidth` (Biowave `inset` replaces `inset`/`middle`, because MUI's inset value is a fixed physical-looking left margin, not a token).
-- Styles from `divider.tokens.ts` (`cssVars.color.border.{subtle|default|strong}`, `cssVars.border.width.default`, `cssVars.spacing.xl`, `cssVars.spacing.md`, `cssVars.spacing.none`, `cssVars.color.text.neutral.muted`, `biowaveVariants.captionMd`): reset MUI's border (`border-width: 0`, `border-style: solid`), then horizontal `border-block-end-width`, vertical `border-inline-end-width`; `border-color` per `emphasis`; `margin: 0` plus the B2 logical inset margins.
+- Styles from `divider.tokens.ts` (`cssVars.color.border.{subtle|default|strong}`, `cssVars.border.width.default`, `cssVars.spacing.xl`, `cssVars.spacing.md`, `cssVars.spacing.none`, `cssVars.color.text.subtlest`, `biowaveVariants.captionMd`): reset MUI's border (`border-width: 0`, `border-style: solid`), then horizontal `border-block-end-width`, vertical `border-inline-end-width`; `border-color` per `emphasis`; `margin: 0` plus the B2 logical inset margins.
 - Gotcha: MUI's own styles use `borderBottomWidth` / `borderRightWidth`; the reset must override them so only the logical border remains (stylis RTL would otherwise flip a physical right border — harmless visually but against rule 4).
-- **Label:** only when `orientation="horizontal"`, `showLabel` and a non-empty `label`. Pass the text as MUI `children` (MUI then renders the line as `::before` / `::after` and wraps the text in `.MuiDivider-wrapper`). Gotchas: MUI's `withChildren` styles use `border-top` and physical `padding-left` / `padding-right` (`calc(8px * 1.2)`) and fixed `width` on the pseudo elements — override them: pseudo elements `flex: 1 0 spacing-xl`, `width: auto`, `border-width: 0`, `border-block-end-width: border-width-default`, `border-style: solid`, `border-color` per `emphasis`; wrapper `padding-inline: spacing-md`, `padding-block: 0`, `caption-md` typography, `color-text-neutral-muted`, `text-align: center`, `flex: 0 1 auto`, `white-space: normal`; root `display: flex`, `align-items: center`, no own border (`border-width: 0` on the root when labelled). Do not use MUI `textAlign`.
+- **Label:** only when `orientation="horizontal"`, `showLabel` and a non-empty `label`. Pass the text as MUI `children` (MUI then renders the line as `::before` / `::after` and wraps the text in `.MuiDivider-wrapper`). Gotchas: MUI's `withChildren` styles use `border-top` and physical `padding-left` / `padding-right` (`calc(8px * 1.2)`) and fixed `width` on the pseudo elements — override them: pseudo elements `flex: 1 0 spacing-xl`, `width: auto`, `border-width: 0`, `border-block-end-width: border-width-default`, `border-style: solid`, `border-color` per `emphasis`; wrapper `padding-inline: spacing-md`, `padding-block: 0`, `caption-md` typography, `color-text-subtlest`, `text-align: center`, `flex: 0 1 auto`, `white-space: normal`; root `display: flex`, `align-items: center`, no own border (`border-width: 0` on the root when labelled). Do not use MUI `textAlign`.
 - **Root element (B1):** pass MUI `component` = `'li'` when `component="li"`; otherwise `'div'` when labelled, `'hr'` when not. MUI sets `role="separator"` for non-`hr` roots — keep it.
 - Semantics per B6: `decorative` → `aria-hidden="true"`; vertical non-decorative → `aria-orientation="vertical"` on the `<hr>`; labelled non-decorative → `aria-label={label}`; `component="li"` → always `aria-hidden="true"` and no `aria-label` / `aria-orientation`.
 - Invalid combinations per B1 with the shared `warnOnce` helper used by Button.
@@ -233,7 +233,7 @@ import { Divider } from '@biowave/web';
 
 ### Token gaps
 
-None — `color-border-subtle`, `color-border-default`, `color-border-strong`, `border-width-default`, `spacing-xl`, `spacing-md`, `spacing-none`, `color-text-neutral-muted` and the `caption-md` text style exist.
+None — `color-border-subtle`, `color-border-default`, `color-border-strong`, `border-width-default`, `spacing-xl`, `spacing-md`, `spacing-none`, `color-text-subtlest` and the `caption-md` text style exist.
 
 ### Files to create / change
 
@@ -255,7 +255,7 @@ CHANGELOG.md                                                 change
 - [ ] Inset: `start` → `margin-inline-start` = `spacing-xl`; `both` → `margin-inline` (horizontal) / `margin-block` (vertical) = `spacing-xl`; `none` → no margin
 - [ ] RTL: in `en` and `ar` the Divider's own styled rules (`divider.tokens.ts` values) use only logical properties (`margin-inline-start`, `margin-inline`, `margin-block`, `padding-inline`, `border-block-end-width`, `border-inline-end-width`) — no physical `left` / `right` margin, padding or border in them or in the source; the computed inline-start margin is `spacing-xl` with `inset="start"` in both directions
 - [ ] Vertical divider stretches to the height of a flex row (`align-self: stretch`)
-- [ ] Label: `showLabel` + `label="or"` (en) / `"أو"` (ar) renders the text centred between two line segments; label text style `caption-md`, colour `color-text-neutral-muted`, `padding-inline` `spacing-md`, segment colour per `emphasis` and minimum length `spacing-xl` — all from `divider.tokens.ts`, light + dark; with `inset` the margins apply to the outer ends
+- [ ] Label: `showLabel` + `label="or"` (en) / `"أو"` (ar) renders the text centred between two line segments; label text style `caption-md`, colour `color-text-subtlest`, `padding-inline` `spacing-md`, segment colour per `emphasis` and minimum length `spacing-xl` — all from `divider.tokens.ts`, light + dark; with `inset` the margins apply to the outer ends
 - [ ] Label off: `showLabel={false}` with a `label` renders the plain `<hr>` and no text
 - [ ] Semantics: horizontal `<hr>` with role `separator`; vertical has `aria-orientation="vertical"`; labelled divider is `<div role="separator" aria-label="or">` with the visible text inside; `decorative` sets `aria-hidden="true"` (and no `aria-label`); never focusable
 - [ ] `component="li"`: renders `<li role="separator" aria-hidden="true">` (with and without a label, and with `decorative={false}`), no `<hr>` inside; a `<ul>` with `<li>` items and `component="li"` dividers is valid markup

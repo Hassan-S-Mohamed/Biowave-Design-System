@@ -1,4 +1,4 @@
-<!-- GENERATED from divider.md @ 445f8bb9a37dd8e2 — do not edit; change the source and run: npm run contract -- tablet divider -->
+<!-- GENERATED from divider.md @ 16e45dcc37fe2b71 — do not edit; change the source and run: npm run contract -- tablet divider -->
 # Divider · فاصل — Tablet — code contract
 
 > **Everything you need to build Divider on Tablet, and nothing else.** Read this file only. Generated from [`divider.md`](divider.md) (Parts B and C). If something is unclear or impossible, stop and write it in [C8 Execution log → Questions](divider.md#c8-execution-log-filled-by-the-executor) — never invent behaviour.
@@ -12,7 +12,7 @@
 | Version | 1.1 · 2026-10-23 |
 | Source code | `lib/src/components/divider/` — not built yet (the Executor creates it) |
 | Tokens | — |
-| Source | [`divider.md`](divider.md) @ `445f8bb9a37dd8e2` |
+| Source | [`divider.md`](divider.md) @ `16e45dcc37fe2b71` |
 
 ## 1. What it is
 
@@ -92,7 +92,7 @@ Width `border-width-default` → `BwBorder.widthDefault`; inset `spacing-xl` →
 | Part | Property | Token → Flutter |
 |---|---|---|
 | `label` | text style | `caption-md` → `context.bw.text.captionMd` (family and line height follow the locale) |
-| `label` | colour | `color-text-neutral-muted` → `context.bw.colors.textNeutralMuted` (4.5:1 on every surface, pairs already in `contrast-pairs.json`) |
+| `label` | colour | `color-text-subtlest` → `context.bw.colors.textSubtlest` (4.5:1 on every surface, pairs already in `contrast-pairs.json`) |
 | `label` | gap to each segment | `spacing-md` → `BwSpacing.md` |
 | `line` (with label) | minimum segment length | `spacing-xl` → `BwSpacing.xl` |
 
@@ -108,7 +108,7 @@ Values are for checking only — never paste a value.
 | `color-border-default` | `context.bw.colors.borderDefault` | #DBDBDB | #404040 |
 | `color-border-strong` | `context.bw.colors.borderStrong` | #BDBDBD | #545454 |
 | `color-border-subtle` | `context.bw.colors.borderSubtle` | #EDEDED | #292929 |
-| `color-text-neutral-muted` | `context.bw.colors.textNeutralMuted` | #707070 | #BDBDBD |
+| `color-text-subtlest` | `context.bw.colors.textSubtlest` | #545454 | #BDBDBD |
 | `spacing-md` | `context.bw` / `Bw*` constant in `bw_tokens.g.dart` | 8 | 8 |
 | `spacing-none` | `context.bw` / `Bw*` constant in `bw_tokens.g.dart` | 0 | 0 |
 | `spacing-xl` | `context.bw` / `Bw*` constant in `bw_tokens.g.dart` | 16 | 16 |
@@ -165,13 +165,13 @@ IntrinsicHeight(
 ### Approach
 
 - `BwDivider` is a `StatelessWidget`. Resolve colour from `context.bw.colors` per `emphasis` and inset from `BwSpacing` per `inset`, then build `Divider(height:, thickness:, indent:, endIndent:, color:)` or `VerticalDivider(width:, thickness:, indent:, endIndent:, color:)` with the B2 values. Always pass every value explicitly so the M3 defaults (16 dp height, `DividerTheme`) never apply.
-- Label (horizontal, `showLabel` and a non-empty `label` only): `LayoutBuilder` → `Padding(EdgeInsetsDirectional.only(start:, end:))` with the B2 inset → `Row(crossAxisAlignment: CrossAxisAlignment.center)` of `Expanded(segment)`, the label, `Expanded(segment)`. Label = `ConstrainedBox(maxWidth: max(0, maxWidth − 2 × BwSpacing.xl))` → `Padding(EdgeInsetsDirectional.symmetric(horizontal: BwSpacing.md))` → `Text(label, style: context.bw.text.captionMd.copyWith(color: context.bw.colors.textNeutralMuted), textAlign: TextAlign.center, softWrap: true)`. Segment = `Divider` with every value passed explicitly (B2). Never `Padding` with physical `EdgeInsets`.
+- Label (horizontal, `showLabel` and a non-empty `label` only): `LayoutBuilder` → `Padding(EdgeInsetsDirectional.only(start:, end:))` with the B2 inset → `Row(crossAxisAlignment: CrossAxisAlignment.center)` of `Expanded(segment)`, the label, `Expanded(segment)`. Label = `ConstrainedBox(maxWidth: max(0, maxWidth − 2 × BwSpacing.xl))` → `Padding(EdgeInsetsDirectional.symmetric(horizontal: BwSpacing.md))` → `Text(label, style: context.bw.text.captionMd.copyWith(color: context.bw.colors.textSubtlest), textAlign: TextAlign.center, softWrap: true)`. Segment = `Divider` with every value passed explicitly (B2). Never `Padding` with physical `EdgeInsets`.
 - Invalid combinations: `assert` with the B1 messages; then use `BwDividerInset.none` / render without the label.
 - Gotchas: `VerticalDivider` takes its height from the parent's constraints — document in the dartdoc that the row must bound its height (B2). `Divider.indent` is directional; do not add `Padding` with physical insets.
 
 ### Token gaps
 
-None — `color-border-subtle`, `color-border-default`, `color-border-strong`, `border-width-default`, `spacing-xl`, `spacing-md`, `spacing-none`, `color-text-neutral-muted` and the `caption-md` text style exist.
+None — `color-border-subtle`, `color-border-default`, `color-border-strong`, `border-width-default`, `spacing-xl`, `spacing-md`, `spacing-none`, `color-text-subtlest` and the `caption-md` text style exist.
 
 ### Files to create / change
 
@@ -194,7 +194,7 @@ CHANGELOG.md                                           change
 - [ ] Vertical divider fills the height of a bounded row
 - [ ] `orientation: vertical` + `inset: start` throws the B1 assertion in debug
 - [ ] Semantics: the divider adds no node (`tester.getSemantics` / `SemanticsTester` finds nothing for it)
-- [ ] Label: `showLabel: true` + `label: 'or'` (en) / `'أو'` (ar) renders one centred `Text` between two segments; text style = `context.bw.text.captionMd`, colour = `context.bw.colors.textNeutralMuted`, gap = `BwSpacing.md` on each side, each segment ≥ `BwSpacing.xl` and coloured per `emphasis`, light + dark; with `inset` the space is at the outer ends
+- [ ] Label: `showLabel: true` + `label: 'or'` (en) / `'أو'` (ar) renders one centred `Text` between two segments; text style = `context.bw.text.captionMd`, colour = `context.bw.colors.textSubtlest`, gap = `BwSpacing.md` on each side, each segment ≥ `BwSpacing.xl` and coloured per `emphasis`, light + dark; with `inset` the space is at the outer ends
 - [ ] Label RTL: in `ar` the label is centred and the gaps are equal on both sides (`tester.getRect`)
 - [ ] Long label in a narrow parent wraps, stays centred, is never ellipsised, and both segments stay `BwSpacing.xl` long; no overflow error
 - [ ] `showLabel: false` with a `label` renders only the line and no `Text`
