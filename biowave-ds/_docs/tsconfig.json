@@ -1,0 +1,4 @@
+{
+  "extends": "../3-web-components/tsconfig.json",
+  "include": ["live.tsx"]
+}

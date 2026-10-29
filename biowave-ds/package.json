@@ -21,7 +21,7 @@
     "sync:icons:plan": "node _sync/sync.mjs icons-plan",
     "sync:icons": "node _sync/sync.mjs icons",
     "tokens:check": "node 2-foundations/scripts/check.mjs --verbose",
-    "typecheck": "tsc -p 2-foundations/web && tsc -p 3-web-components",
+    "typecheck": "tsc -p 2-foundations/web && tsc -p 3-web-components && tsc -p _docs",
     "test:web": "npm test -w 3-web-components",
     "sync": "node _sync/sync.mjs status",
     "sync:plan": "node _sync/sync.mjs plan",

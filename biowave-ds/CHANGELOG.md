@@ -376,6 +376,18 @@ Every change to the design system is logged here **in the same task**, newest fi
 - Generated contracts `link-contract.md` · `figma-link-contract.md` and docs pages `link.html` for the three platforms; Link rows in the three section README Components tables.
 - Open: glyph `open_in_new` is not in `_sync/figma-icons.json` yet (`npm run sync:icons:plan` → read in Figma → `npm run sync:icons`, then regenerate the Figma contracts).
 
+## [Docs — live preview demo fixes] — 2026-10-24
+### Fixed
+- Icon button live preview: the Pin toggle used `variant="tonal"`, which IconButton ignores for toggles (A4.4), so it never switched and warned in the console. It is now `outlined` and its label changes "Pin" ↔ "Unpin" (A7).
+- Text field live preview: the password, add-on and end-button examples were all labelled "Email". They now read Password (helper "Use at least 12 characters", A7), Website and Employee ID, in English and Arabic.
+- Button group live preview: the "vertical · fill" heading is now translated in Arabic.
+
+## [Docs — live previews on the Biowave Icon] — 2026-10-21
+### Fixed
+- `_docs/live.tsx` still imported the `MaterialSymbol` test helper that icon/web deleted, so every live React preview (`npm start`) failed with a Vite import error. The demos now use the Biowave `Icon` from `3-web-components/src` (the directional arrow uses `directional` instead of the `bw-icon-directional` class).
+### Added
+- `_docs/tsconfig.json` and `tsc -p _docs` in `npm run typecheck`, so a broken import in `live.tsx` now fails the typecheck.
+
 ## [Review — Mobile Icon button round 3: Approved] — 2026-10-24
 ### Changed
 - Icon button (mobile) review round 3: **Approved** — Part E4 of `5-mobile-components/components/icon-button/icon-button.md`. Round 2 #4 fixed (D11 / Part D equal to `main` again; Fix round 1 kept once in C8). No code or test change since Round 2. No findings. Plan stays Finished. Code → Approved (header + README). `docs:check` ✓, `flutter analyze` ✓, `flutter test` 96/96 ✓, `sync` READY.
