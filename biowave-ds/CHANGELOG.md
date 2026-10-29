@@ -2,6 +2,14 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Repository — branches merged and cleaned up] — 2026-10-29
+### Changed
+- Merged into `main`: `rules/component-tokens-semantic` (#5, AGENTS.md rule 3b), `fix/docs-live-icon` (#12), `docs/live-icon-and-foundations-audit` (#11, adds `_audits/foundations.md`; the Pin toggle demo keeps the #12 fix), `ds/button-group-web` (review round 3 Approved). Button group contracts regenerated after the merge.
+- Checks on merged `main`: `tokens`, `component-tokens`, `docs:check`, `typecheck`, `sync` ✓ READY, `test:web` 224/224.
+### Removed
+- Finished branches already merged through pull requests: `ds/button-web`, `ds/icon-button-mobile`, `ds/icon-button-tablet`, `ds/icon-mobile`, `ds/split-button-mobile`, `ds/split-button-tablet`, `claude/confident-sinoussi-852bf7`, plus the four merged above. Superseded plan-only branches `ds/badge-tablet` and `ds/link-tablet` (plans already on `main` via #19 / #16).
+- Kept (still in the workflow, synced with `main`): `ds/chip-web`, `ds/text-field-mobile`, `ds/text-field-tablet`.
+
 ## [Check — Token changes applied to built components] — 2026-10-29
 ### Checked
 - After colour tokens 2.0 / 2.1, borders, typography 2.0 and the collection renumbering: `npm run tokens` rebuilds with no change to generated CSS / TS / Dart (402/402 contrast pairs), `npm run sync` READY (Figma variables, component tokens in all 3 files and the library index in sync; all 33 contracts current), `docs:check`, `typecheck` and `test:web` (220/220) pass.
