@@ -1,4 +1,4 @@
-<!-- GENERATED from button-group.md @ b383d1d911faac48 — do not edit; change the source and run: npm run contract -- mobile button-group -->
+<!-- GENERATED from button-group.md @ a02955bdcb87f21e — do not edit; change the source and run: npm run contract -- mobile button-group -->
 # Button group · مجموعة أزرار — Mobile — code contract
 
 > **Everything you need to build Button group on Mobile, and nothing else.** Read this file only. Generated from [`button-group.md`](button-group.md) (Parts B and C). If something is unclear or impossible, stop and write it in [C8 Execution log → Questions](button-group.md#c8-execution-log-filled-by-the-executor) — never invent behaviour.
@@ -12,7 +12,7 @@
 | Version | 1.0 · 2026-10-16 |
 | Source code | `lib/src/components/button-group/` — not built yet (the Executor creates it) |
 | Tokens | — |
-| Source | [`button-group.md`](button-group.md) @ `b383d1d911faac48` |
+| Source | [`button-group.md`](button-group.md) @ `a02955bdcb87f21e` |
 
 ## 1. What it is
 

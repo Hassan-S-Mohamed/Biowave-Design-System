@@ -441,6 +441,44 @@ Every change to the design system is logged here **in the same task**, newest fi
 ## [Audit — Foundations coverage per platform] — 2026-10-22
 ### Added
 - `_audits/foundations.md`: read-only check of tokens, generated web/Flutter code, guidelines and biometric devices for Web, Tablet and Mobile, with an ordered to-do checklist per platform. Nothing in tokens, code or Figma changed.
+
+## [Review — Web Button group round 3: Approved] — 2026-10-22
+### Changed
+- Button group (web) review round 3: **Approved** — Part E4 of `3-web-components/components/button-group/button-group.md`. Round 2 findings #12–#14 fixed: vertical groups ignore every `align` (headless Chrome: buttons 400 × 40 px for all six `align` cases, en + ar), the four B1 Overflow counting examples render exactly as the table (visible children, menu items, dev warnings), and `fill` is asserted from rendered flex longhands. Round 2's `align` placement and RTL mirroring unchanged. Checks: `docs:check` ✓, `typecheck` ✓, `test:web` 111/111 ×2. Code → `Approved` in the header and `3-web-components/README.md`; Plan stays `Finished`.
+
+## [Web Button group — fix round 2 (1.2)] — 2026-10-21
+### Fixed
+- Fixed review findings #12–#14: vertical groups now ignore every `align` value without applying horizontal fill flex; overflow counting reserves visible slots for the filled primary, links, submit actions and non-Button/IconButton children before keeping the last optional actions; the overflow warning appears only when always-visible children alone exceed the limit; and layout tests assert rendered flex styles and non-zero vertical action heights. `docs:check` and `typecheck` pass; three full Web runs pass 93/93 in 6.51 s, 6.16 s and 6.03 s.
+
+## [Preview — Web Button group 1.2] — 2026-10-21
+### Changed
+- Redrew the light/English and dark/Arabic RTL plan-check sheets with the four B1 overflow-counting examples, normal-height vertical `align="fill"`, equal-share horizontal `fill` intent, visibly distinct alignment frames, and resolved token callouts; the preview README records the remaining generated-image differences after two retries per image.
+
+## [Plan — Web Button group 1.2: review round 2 Planner item #13] — 2026-10-21
+### Changed
+- Button group (web) re-plan, version **1.2** (plan 1.2) in `3-web-components/components/button-group/button-group.md`: #13 B1 **Overflow counting** — always-visible children (`filled` primary, `href`, `type="submit"`, not Button/IconButton) use up the `maxVisible` slots first, the other children fill the slots left with the least important going into the menu first, and the limit is exceeded (dev warning) only when the always-visible children alone exceed it; examples table, B9/C6 tests (`maxVisible={1}` with `[Docs href, Cancel, Save (filled)]` → Docs and Save visible, Cancel in the menu; always-visible children alone over the limit), C3. B2/C3 vertical ignores `align`. C7 AC-12–14 + Fix round 2 task list: #12 (vertical + `align="fill"` test with non-zero heights), #13, #14 (`fill` asserted from the rendered style). Part F0/F1/F2 updated.
+- Guidelines 1.1: A4.4 Overflow rule added in the Web, Tablet and Mobile `button-group.md` (Part A kept identical).
+- Contracts regenerated: `npm run contract -- web button-group`, `-- tablet button-group`, `-- mobile button-group`. Plan → `Finished` in the header and `3-web-components/README.md`.
+
+## [Review — Web Button group round 2: Changes requested] — 2026-10-21
+### Changed
+- Button group (web) review round 2: **Changes requested** — Part E3 of `3-web-components/components/button-group/button-group.md`. Round 1 findings #1–#11 all fixed (Chromium, 800 px parent: `start` / `center` / `end` / `space-between` / `fill` place the actions and mirror in Arabic; vertical 100% wide, primary on top). New: 1 🟡 (#12 vertical + `align="fill"` collapses the buttons to 0–2 px tall), 2 🟢 (#13 a kept-visible `href`/submit child pushes the primary into the overflow menu — spec gap, Planner; #14 `fill` flex test reads source text). `docs:check` ✅, `typecheck` ✅, `test:web` 91/91 twice (8.30 s, 6.52 s). Plan → `Open`, Code → `Changes requested`; header and `3-web-components/README.md` updated.
+
+## [Web Button group — fix round 1 (1.1)] — 2026-10-21
+### Changed
+- Fixed review findings #2, #3, #4, #7, #9, #10 and the Executor half of #8: the group now fills its parent's inline size with working logical alignment; the English/Arabic layout matrix covers the full B2 rules; `maxVisible` clamps to 1–4; overflowing links and submit actions remain visible; the ButtonGroup suite uses the shared Biowave renderer and default timeout without its former focus warning. Group-owned size precedence is recorded in C8. `docs:check`, `typecheck` and `component-tokens` pass; three full Web runs pass 91/91 in 7.79 s, 6.64 s and 6.66 s.
+
+- **2026-10-21 — Preview · Web Button group 1.1:** Added light/English and dark/Arabic RTL plan-check sheets with resolved token callouts for alignment, group-owned sm/md/lg sizing, vertical stacking, and overflow behavior; README records the remaining generated-image `fill` width discrepancy.
+
+## [Plan — Web Button group 1.1: review round 1 Planner items] — 2026-10-21
+### Changed
+- Button group (web) re-plan, version **1.1** (plan 1.1) in `3-web-components/components/button-group/button-group.md`: #1 B2/C3 — container is `display: flex` with `inline-size: 100%` of its parent in both orientations, so `align` places the actions (vertical stays full width, `align-items: stretch`); #8 C3 size precedence aligned with B1 (group wins); #11 header Source code links `src/components/button-group/`. B1 invalid combinations add `maxVisible` clamping and overflowing `href` / `type="submit"` children kept visible; B9/C6 tests and C7 AC-7–11 + a Fix round 1 Executor task list (#2, #3, #4, #7, #9, #10, #8 C8 note). #5 (shared speedy Emotion test cache) not re-planned: the fix rebases on `ds/button-web` (PR #1). Part F0/F2 updated; Part A unchanged.
+- Contracts regenerated: `npm run contract -- web button-group`; #6 `npm run contract -- tablet button-group` and `-- mobile button-group` (source hash only; contract body unchanged). Plan → `Finished` in the header and `3-web-components/README.md`.
+
+## [Review — Web Button group round 1: Changes requested] — 2026-10-21
+### Changed
+- Button group (web) review round 1: **Changes requested** — Part E2 of `3-web-components/components/button-group/button-group.md`. 1 🔴 (B2 hug width makes `align` a no-op), 5 🟡 (inline-flex/fit-content layout, B9 layout test too weak, raised 20 s test timeout, flaky `test:web` / missing shared speedy Emotion cache, stale tablet/mobile Figma contracts), 5 🟢. typecheck ✅; ButtonGroup suite 10/10 but `test:web` fails on flakes in other suites; `docs:check` fails on the stale contracts. Plan → `Open`; review status updated in the header and `3-web-components/README.md`.
+
 ## [Review — Web Split button round 3: Approved] — 2026-10-21
 ### Changed
 - Split button (web) review round 3: **Approved** — Part E4 of `3-web-components/components/split-button/split-button.md`. Round 2 #9 fixed (headless Chrome computed Paper `transition`: open `opacity`/`transform` 0.2s `standard-decelerate`, close 0.1s `standard-accelerate`, no delay) and #10 fixed (`prefers-reduced-motion: reduce` → 0 s, menu instant); Round 1 #1 still holds (menu end edge right in English, left in Arabic). 🟢 #11 nit: MUI Grow's `auto` timeout keeps the invisible backdrop ~240 ms after close — carried to the Menu component. Code → Approved (header + README). `docs:check` ✓, `typecheck` ✓, `test:web` 100/100 ✓, `sync` READY.

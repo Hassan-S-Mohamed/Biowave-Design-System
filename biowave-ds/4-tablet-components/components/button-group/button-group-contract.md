@@ -1,4 +1,4 @@
-<!-- GENERATED from button-group.md @ e4f923ba8d837743 — do not edit; change the source and run: npm run contract -- tablet button-group -->
+<!-- GENERATED from button-group.md @ 1ed102c543c9a82c — do not edit; change the source and run: npm run contract -- tablet button-group -->
 # Button group · مجموعة أزرار — Tablet — code contract
 
 > **Everything you need to build Button group on Tablet, and nothing else.** Read this file only. Generated from [`button-group.md`](button-group.md) (Parts B and C). If something is unclear or impossible, stop and write it in [C8 Execution log → Questions](button-group.md#c8-execution-log-filled-by-the-executor) — never invent behaviour.
@@ -12,7 +12,7 @@
 | Version | 1.0 · 2026-10-16 |
 | Source code | `lib/src/components/button-group/` — not built yet (the Executor creates it) |
 | Tokens | — |
-| Source | [`button-group.md`](button-group.md) @ `e4f923ba8d837743` |
+| Source | [`button-group.md`](button-group.md) @ `1ed102c543c9a82c` |
 
 ## 1. What it is
 

@@ -38,7 +38,7 @@
 | Specs | [Web](../../../3-web-components/components/button-group/button-group.md#b--spec) · [Tablet](../../../4-tablet-components/components/button-group/button-group.md#b--spec) · [Mobile](#b--spec) |
 | Figma | `↳ Button Group` in **Biowave DS — Web Components** · **Tablet Components** · **Mobile Components** (one set per platform file, D-12; keys in `_sync/figma-files.json`) |
 | Family | [Button](../button/button.md#a--guidelines) · [Icon button](../icon-button/icon-button.md#a--guidelines) · [Split button](../split-button/split-button.md#a--guidelines) · Button group |
-| Version | 1.0 · 2026-10-16 |
+| Version | 1.1 · 2026-10-21 |
 
 ### A1 Overview
 
@@ -107,6 +107,9 @@ One size for all actions in the group (`sm` · `md` · `lg` · `xl`), same scale
 
 #### 4.4 Overflow
 More than the visible limit (web 3, touch 2) → the rest go into an `overflow-trigger` menu.
+- Actions that must stay on screen — the primary action, a link, an action that submits a form — always stay visible and use up the visible slots first
+- The other actions fill the slots that are left; the least important (first in reading order) go into the menu first
+- The group shows more actions than the limit only when the must-stay actions alone are more than the limit
 
 **Combination rules**
 - At most one `filled` Button, and it is the primary action.

@@ -1,4 +1,4 @@
-<!-- GENERATED from button-group.md @ 8db962ca90c8b33d — do not edit; change the source and run: npm run contract -- web button-group -->
+<!-- GENERATED from button-group.md @ 0dc0a5dd919d60aa — do not edit; change the source and run: npm run contract -- web button-group -->
 # Button group · مجموعة أزرار — Web — Figma contract
 
 > **Everything the Figma Agent needs to build Button group in the Web Components file, with our variables and styles.** Read this file only. Generated from [`button-group.md`](button-group.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-28). Questions go to [D11 Execution log](button-group.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
@@ -11,8 +11,8 @@
 | Page | `↳ Button group` (one page per component) |
 | Component | Button group · مجموعة أزرار |
 | Platform | Web · React + MUI |
-| Version | 1.0 · 2026-10-16 |
-| Source | [`button-group.md`](button-group.md) @ `8db962ca90c8b33d` |
+| Version | 1.2 · 2026-10-21 |
+| Source | [`button-group.md`](button-group.md) @ `0dc0a5dd919d60aa` |
 
 ## 1. Library connections in this file
 
@@ -73,7 +73,7 @@ Library file **Google · Material Symbols** · key `RXlnhYgUKBBE6HveEr7e9C` — 
 | `orientation` | enum | `horizontal` · `vertical` | `horizontal` | | A4.1 |
 | `align` | enum | `start` · `center` · `end` · `space-between` · `fill` | `end` | | A4.2 (horizontal). Vertical is always full width |
 | `size` | enum | `sm` · `md` · `lg` | `md` | | Applied to every child through context |
-| `maxVisible` | number | 1–4 | `3` | | Actions beyond this go into the overflow menu |
+| `maxVisible` | number | 1–4 | `3` | | Visible slots; the other actions go into the overflow menu per **Overflow counting** below. Out of range → clamped to 1–4 |
 | `overflowLabel` | string | | "More options" / "خيارات أخرى" | | Overflow trigger name |
 | `aria-label` | string | | — | | When set, the group is exposed as `role="group"` with this name |
 
@@ -82,6 +82,22 @@ Library file **Google · Material Symbols** · key `RXlnhYgUKBBE6HveEr7e9C` — 
 - a child with its own `size` different from the group `size` (group wins)
 - `align="space-between"` with more than 2 children
 - `align` set with `orientation="vertical"` (ignored)
+- `maxVisible` outside 1–4 (clamped)
+- the always-visible children alone are more than `maxVisible` — they all stay visible (Overflow counting, rule 3)
+
+**Overflow counting** (plan 1.2, finding 13). `n` = the clamped `maxVisible`. When the group has `n` children or fewer, all are visible and there is no overflow trigger. Otherwise:
+1. **Always-visible children use up visible slots first:** the primary action (`variant="filled"`), any child with `href` or `type="submit"` (an overflow menu item calls the child's `onClick()` with no event, so it cannot follow a link or submit a form), and any child that is not a `Button` / `IconButton` (it cannot become a menu item).
+2. **The other children fill the slots that are left** (`n` − number of always-visible children, never below 0): the last ones in reading order stay visible; the first (least important) go into the overflow menu first, in reading order.
+3. **The limit is exceeded only when the always-visible children alone are more than `n`:** then all of them are visible, every other child goes into the menu, and the group warns (dev). No other case shows more than `n` children.
+
+Visible children keep their DOM order. The overflow trigger does not use a slot; it is placed first (B2) and is rendered only when the menu has at least one item.
+
+| `maxVisible` | Children (reading order) | Visible | Menu | Warning |
+|---|---|---|---|---|
+| `3` | Delete · Archive · Cancel · Save (`filled`) | Archive · Cancel · Save | Delete | — |
+| `3` | Docs (`href`) · Delete · Cancel · Save (`filled`) | Docs · Cancel · Save | Delete | — |
+| `1` | Docs (`href`) · Cancel · Save (`filled`) | Docs · Save | Cancel | yes — 2 always-visible > 1 |
+| `1` | Docs (`href`) · Help (`href`) · Save (`type="submit"`, `filled`) | all three | — (no trigger) | yes — 3 always-visible > 1 |
 
 ### B2 Dimensions
 
@@ -102,10 +118,10 @@ vertical
 
 | Part | Property | Value |
 |---|---|---|
-| `container` | display · gap | flex · `spacing-md` (both orientations) |
-| `container` | horizontal | `flex-direction: row`; `justify-content` from `align` (`start` · `center` · `flex-end` · `space-between`); `fill` → children `flex: 1 1 0` |
-| `container` | vertical | `flex-direction: column-reverse` (primary = last child on top), children full width |
-| `container` | width | hug (horizontal) · 100% of parent (vertical, `fill`) |
+| `container` | display · gap | `display: flex` (block-level, never `inline-flex`) · `spacing-md` (both orientations) |
+| `container` | horizontal | `flex-direction: row`; `justify-content` from `align` (`start` · `center` · `flex-end` · `space-between`); `fill` → children `flex: 1 1 0` (horizontal only) |
+| `container` | vertical | `flex-direction: column-reverse` (primary = last child on top), `align-items: stretch` → children full width. `align` is ignored: no child gets `flex: 1 1 0` for any `align` value (finding 12) |
+| `container` | width | `inline-size: 100%` of its parent in **both** orientations and every `align` — the group fills the footer / header slot, so `justify-content` has free space and `align` places the actions (and mirrors in RTL). Never hug |
 | `overflow-trigger` | | `IconButton` `variant="text"` `color="neutral"`, same `size`, icon `more_horiz`, placed first (start) |
 
 No colors of its own: B3 is empty by design.

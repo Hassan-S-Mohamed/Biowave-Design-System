@@ -43,21 +43,23 @@ const justifyContent: Record<Exclude<ButtonGroupAlign, 'fill'>, string> = {
 const ButtonGroupRoot = styled('div', {
   shouldForwardProp: (prop) => prop !== '$align' && prop !== '$orientation',
 })<ButtonGroupRootProps>(({ $align, $orientation }) => {
-  const fillsAvailableSpace = $orientation === 'vertical' || $align === 'fill';
-
   return {
-    display: 'inline-flex',
+    display: 'flex',
     flexDirection: $orientation === 'vertical' ? 'column-reverse' : 'row',
     alignItems: $orientation === 'vertical' || $align === 'fill' ? 'stretch' : 'center',
     justifyContent:
-      $orientation === 'horizontal' && $align !== 'fill'
-        ? justifyContent[$align]
+      $orientation === 'horizontal'
+        ? $align === 'fill'
+          ? 'flex-start'
+          : justifyContent[$align]
         : undefined,
     gap: cssVars.spacing.md,
-    inlineSize: fillsAvailableSpace ? '100%' : 'fit-content',
+    inlineSize: '100%',
     '& > *': {
-      ...(fillsAvailableSpace ? { inlineSize: '100%' } : {}),
-      ...($align === 'fill' ? { flex: '1 1 0' } : {}),
+      ...($orientation === 'vertical' ? { inlineSize: '100%' } : {}),
+      ...($orientation === 'horizontal' && $align === 'fill'
+        ? { flex: '1 1 0', flexGrow: 1, flexShrink: 1, flexBasis: 0 }
+        : {}),
     },
   };
 });
@@ -70,6 +72,25 @@ function isActionElement(child: React.ReactNode): child is ActionElement {
 
 function isOverflowable(child: ActionElement): boolean {
   return child.type === Button || child.type === IconButton;
+}
+
+function isFilledAction(child: React.ReactNode): boolean {
+  if (!isActionElement(child)) return false;
+  if (child.type === IconButton) return child.props.variant === 'filled';
+  if (child.type === Button || child.type === SplitButton) {
+    return child.props.variant === undefined || child.props.variant === 'filled';
+  }
+  return child.props.variant === 'filled';
+}
+
+function isAlwaysVisible(child: React.ReactNode): boolean {
+  if (!isActionElement(child)) return true;
+  return (
+    !isOverflowable(child) ||
+    isFilledAction(child) ||
+    child.props.href !== undefined ||
+    child.props.type === 'submit'
+  );
 }
 
 function actionLabel(child: ActionElement): string | undefined {
@@ -107,40 +128,52 @@ export const ButtonGroup = React.forwardRef<HTMLDivElement, ButtonGroupProps>(
     const { locale } = useBiowave();
     const align = alignProp ?? 'end';
     const actionChildren = React.Children.toArray(children);
+    const clampedMaxVisible = Math.min(Math.max(maxVisible, 1), 4);
+    if (clampedMaxVisible !== maxVisible) {
+      warnOnce(
+        `button-group-max-visible-${String(maxVisible)}`,
+        `ButtonGroup: maxVisible=${String(maxVisible)} is outside 1–4; clamped to ${String(clampedMaxVisible)}.`,
+      );
+    }
     const effectiveOverflowLabel =
       overflowLabel ?? (locale === 'ar' ? 'خيارات أخرى' : 'More options');
-    const overflowCount = Math.max(actionChildren.length - maxVisible, 0);
     const overflowOptions: SplitButtonMenuOption[] = [];
     const visibleChildren: React.ReactNode[] = [];
-    let remainingOverflow = overflowCount;
+    const hasOverflow = actionChildren.length > clampedMaxVisible;
+    const alwaysVisibleCount = hasOverflow
+      ? actionChildren.filter(isAlwaysVisible).length
+      : 0;
+    const optionalVisibleSlots = Math.max(clampedMaxVisible - alwaysVisibleCount, 0);
+    const optionalCount = actionChildren.length - alwaysVisibleCount;
+    let optionalChildrenToOverflow = hasOverflow
+      ? Math.max(optionalCount - optionalVisibleSlots, 0)
+      : 0;
+
+    if (hasOverflow && alwaysVisibleCount > clampedMaxVisible) {
+      warnOnce(
+        `button-group-always-visible-${String(alwaysVisibleCount)}-${String(clampedMaxVisible)}`,
+        `ButtonGroup: ${String(alwaysVisibleCount)} always-visible children exceed maxVisible=${String(clampedMaxVisible)}; keeping them visible.`,
+      );
+    }
 
     for (const child of actionChildren) {
-      if (remainingOverflow > 0 && isActionElement(child) && isOverflowable(child)) {
+      if (isAlwaysVisible(child) || optionalChildrenToOverflow === 0) {
+        visibleChildren.push(child);
+        continue;
+      }
+
+      if (isActionElement(child)) {
         const option = toMenuOption(child);
         if (option) {
           overflowOptions.push(option);
-          remainingOverflow -= 1;
+          optionalChildrenToOverflow -= 1;
           continue;
         }
-      }
-
-      if (remainingOverflow > 0 && isActionElement(child) && !isOverflowable(child)) {
-        warnOnce(
-          'button-group-non-overflowable-child',
-          'ButtonGroup: only Button and IconButton children can move into overflow; keeping this child visible.',
-        );
       }
       visibleChildren.push(child);
     }
 
-    const filledCount = actionChildren.filter((child) => {
-      if (!isActionElement(child)) return false;
-      if (child.type === IconButton) return child.props.variant === 'filled';
-      if (child.type === Button || child.type === SplitButton) {
-        return child.props.variant === undefined || child.props.variant === 'filled';
-      }
-      return child.props.variant === 'filled';
-    }).length;
+    const filledCount = actionChildren.filter(isFilledAction).length;
 
     if (filledCount > 1) {
       warnOnce(

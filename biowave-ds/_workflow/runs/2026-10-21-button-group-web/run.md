@@ -1,0 +1,45 @@
+# Run — button-group / web — 2026-10-21
+
+| Field | Value |
+|---|---|
+| Unit | `button-group` on `web` |
+| Unit file | `3-web-components/components/button-group/button-group.md` |
+| Branch | `ds/button-group-web` (from `main`, worktree `.claude/worktrees/button-group-web`) |
+| Pull request | — |
+| Skipped steps | figma (config › skip) |
+
+Orchestrated from a Cowork session (Phase 1 run; gates pre-approved by the user except merge). Plan Finished, Code Built, no review round → **review**.
+
+## Steps
+
+| # | Step | Agent | Result | Checks | Commit | Prompt |
+|---|---|---|---|---|---|---|
+| 01 | review | claude (wf-reviewer subagent) | done · **Changes requested** — 1 🔴 (#1 `align` no-op: container hugs content, Planner), 5 🟡 (#2–#4 Executor, #5 shared test tooling + #6 stale T/M Figma contracts, Planner), 5 🟢 | typecheck ✓ · test:web ✗ 86/87 · 85/87 (flaky, not ButtonGroup: 10/10 every run) · docs:check ✗ 2 (stale T/M button-group Figma contracts) | see git log | `01-review-claude.prompt.md` |
+| 02 | plan | claude (wf-planner subagent) | done · plan 1.1: #1 container `flex` + 100 % inline size, #8 group size wins, #11 header, #6 T/M Figma contracts regenerated; B1 clamps `maxVisible`, keeps `href`/submit actions visible; fix list AC-7…AC-11. Plan Finished | contract web/tablet/mobile ✓ · docs:check ✓ 0 errors | see git log | `02-plan-claude.prompt.md` |
+| 03 | preview | codex | partial → accepted (not blocking, 12 min): `button-group-light-en.jpg`, `button-group-dark-ar.jpg`, README token sheet; ⚠ `fill` children slightly unequal after two retries; orchestrator: narrow frames make end/start/center hard to tell apart, overflow sketch shows 4 visible actions (limit 3, `href`/submit stay visible) — the fix-round tests are the proof | previews ✓ | see git log | `03-preview-codex.prompt.md` |
+| 04 | fix | codex | done (5.7 min): Fix round 1 — #1 container `display: flex` + `inlineSize: 100%`, #2–#4, #7, #9, #10, Executor half of #8, raised timeout removed; C8 entry; Codex: test:web ×3 91/91 | docs:check ✓ · typecheck ✓ · test:web ✓ 91/91 in 8.6 s (orchestrator) | see git log | `04-fix-codex.prompt.md` |
+| 05 | review | claude (wf-reviewer subagent) | done · **Changes requested** — Round 2: R1 #1–#11 fixed (Chromium, 800 px parent: all five `align` values correct in light/en and mirrored in dark/ar; `fill` 397 + 8 + 395 px; vertical full width). New: #12 🟡 vertical + `align="fill"` collapses children (`flex: 1 1 0`, group 10 px tall) — Executor; #13 🟢 always-visible `href`/submit children don't count toward `maxVisible`, primary can land in the menu — Planner; #14 🟢 `fill` test reads source text — Executor. Plan → Open, Code → Changes requested | docs:check ✓ · typecheck ✓ · test:web ✓ 91/91 ×2 | see git log | `05-review-claude.prompt.md` |
+| 06 | plan | claude (wf-planner subagent) | done · plan 1.2: #13 B1 "Overflow counting" — primary (`filled`), `href`/submit and non-Button children always visible and use slots first; the rest fill what's left, least important into the menu first; limit exceeded only when always-visible alone exceed it (dev warning); trigger takes no slot. A4.4 rule in all three Part A files (guidelines 1.1). #12 vertical ignores `align` (B2/C3). C7 AC-12…AC-14 + Fix round 2 task list (#12, #13, #14). Plan Finished. Planner choice to confirm: non-Button children count as always-visible | contract web/tablet/mobile ✓ · docs:check ✓ | see git log | `06-plan-claude.prompt.md` |
+| 07 | preview | codex | files written, no Handoff (13.6 min): Codex hit its usage limit right after writing the sheets (dispatcher: failed). Accepted as partial (not blocking): light/en draws all four B1 overflow-counting examples and vertical + `align="fill"` ignored; ⚠ dark/ar example C warning says 3 always-visible (should be 2), example D caption typo; `fill` children still slightly unequal | previews ✓ | see git log | `07-preview-codex.prompt.md` |
+| 08 | fix | codex | done (4.5 min): Fix round 2 — #12 vertical ignores `align` (no `flex: 1 1 0`), #13 B1 overflow counting + tests, #14 `fill` from rendered style; C8 entry; Code Built. Codex: test:web ×3 93/93 | Orchestrator after merging `main` (53bf993, Icon button #9 + Split button #10): 3 runs under load avg 19–24 had 1–5 timeouts, all in Text field / Split button tests (not on this branch); quiet re-run docs:check ✓ · typecheck ✓ · test:web ✓ 111/111 | see git log | `08-fix-codex.prompt.md` |
+| 09 | review | claude (wf-reviewer subagent) | done (2026-10-22) · **Approved** — Round 3: #12 fixed (headless Chrome: vertical buttons 400 × 40 px for every `align`, was 0–2 px), #13 fixed (all four B1 examples incl. menu contents and dev warning, EN/AR), #14 fixed (computed `flex: 1 1 0px`, 397 + 8 + 395 px); R2 `align` offsets unchanged LTR/RTL. AC-1…AC-14 met. Note for a later plan: a Button whose label isn't plain text can't go into the menu and stays visible without a slot | docs:check ✓ · typecheck ✓ · test:web ✓ 111/111 ×2 (after 2 timeout runs under load 18–29) | see git log | `09-review-claude.prompt.md` |
+
+## Gates
+
+| Gate | Decision | Notes |
+|---|---|---|
+| all gates except merge | Pre-approved by the user (2026-10-21, Cowork session) | Merge to `main` stays with the user. 2026-10-21 Code-tab session: `main` merged in after PR #1 + #8 (4900ed8); gates asked again here |
+| after-plan | **Approve** (2026-10-21) | Fix round 1 with codex (`04-fix-codex.prompt.md`; `03-fix-AGENT.prompt.md` from the Cowork session was never sent), then review round 2 |
+| after-review | **Approve** (2026-10-21) | Planner for #13 with the user's rule: always-visible actions (`href` / submit) and the primary (filled) action use up visible slots first; the rest fill what's left, least important first into the menu; the limit is exceeded only if the always-visible actions alone exceed it. Then preview → fix round 2 (#12, #14, #13 per plan) → review round 3 |
+| after-plan | **Approve** (2026-10-21) | Plan 1.2 as written, including the Planner's choice that non-Button / IconButton children count as always-visible. Codex credits refilled by the user; fix round 2 (last allowed) with codex, then review round 3 |
+| before-merge | **Parked** (2026-10-22) — user: button components are fine for now, move on to planning; no PR or merge yet | Branch `ds/button-group-web` kept (local only), worktree kept |
+
+## Questions raised
+
+- Reviewer: shared speedy Emotion cache missing on `main` → Orchestrator: it is on `ds/button-web` (PR #1, merge pending with the user); #5 closes when PR #1 merges, the fix branch should rebase on it.
+- Planner: Part D3 doesn't say the Figma container fills its parent (same issue as #1 in Figma) → Orchestrator: yes, follow-up for the next plan pass; Figma is skipped in this workflow so it doesn't block the code fix.
+- Reviewer: stale T/M button-group Figma contracts → kept as 🟡 Planner #6, regenerate in the plan step.
+
+## Summary
+
+—

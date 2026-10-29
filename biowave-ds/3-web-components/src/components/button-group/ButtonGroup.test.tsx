@@ -22,6 +22,13 @@ import { Icon } from '../icon';
 const orientations: ButtonGroupOrientation[] = ['horizontal', 'vertical'];
 const aligns: ButtonGroupAlign[] = ['start', 'center', 'end', 'space-between', 'fill'];
 const locales = ['en', 'ar'] as const;
+const horizontalJustifyContent: Record<ButtonGroupAlign, string> = {
+  start: 'flex-start',
+  center: 'center',
+  end: 'flex-end',
+  'space-between': 'space-between',
+  fill: 'flex-start',
+};
 
 function allCssRules(): string {
   const rules: string[] = [];
@@ -47,13 +54,14 @@ function cssRulesFor(element: Element, cssText = allCssRules()): string {
 
 describe('ButtonGroup layout', () => {
   it('renders each orientation and alignment in English and Arabic', () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     for (const locale of locales) {
       for (const orientation of orientations) {
         for (const align of aligns) {
           const view = renderWithBiowave(
             <ButtonGroup
               orientation={orientation}
-              align={orientation === 'horizontal' ? align : undefined}
+              align={align}
               aria-label="Actions"
             >
               <Button variant="outlined">Cancel</Button>
@@ -63,15 +71,52 @@ describe('ButtonGroup layout', () => {
           );
           const group = screen.getByRole('group', { name: 'Actions' });
           const rules = cssRulesFor(group);
+          const styles = getComputedStyle(group);
+          const directChildRule = rules
+            .split('\n')
+            .find((rule) => rule.includes('>*') || rule.includes('> *')) ?? '';
           expect(rules).toContain(cssVars.spacing.md);
-          expect(rules).toContain(
-            orientation === 'vertical' ? 'flex-direction: column-reverse' : 'flex-direction: row',
+          expect(styles.display).toBe('flex');
+          expect(styles.inlineSize).toBe('100%');
+          expect(styles.flexDirection).toBe(
+            orientation === 'vertical' ? 'column-reverse' : 'row',
           );
+          if (orientation === 'vertical') {
+            expect(styles.alignItems).toBe('stretch');
+            expect(directChildRule).toContain('inline-size: 100%');
+            expect(directChildRule).not.toContain('flex: 1 1 0');
+            for (const child of Array.from(group.children)) {
+              const childStyles = getComputedStyle(child);
+              expect(childStyles.flexGrow).not.toBe('1');
+              expect(
+                [
+                  childStyles.height,
+                  childStyles.minHeight,
+                  childStyles.blockSize,
+                  childStyles.minBlockSize,
+                ].some((value) => value !== '' && value !== '0' && value !== '0px'),
+              ).toBe(true);
+            }
+          } else {
+            expect(styles.justifyContent).toBe(horizontalJustifyContent[align]);
+            if (align === 'fill') {
+              for (const child of Array.from(group.children)) {
+                const childStyles = getComputedStyle(child);
+                expect(childStyles.flexGrow).toBe('1');
+                expect(childStyles.flexShrink).toBe('1');
+                expect(['0', '0px', '0%']).toContain(childStyles.flexBasis);
+              }
+            }
+          }
           expect(document.documentElement.dir).toBe(locale === 'ar' ? 'rtl' : 'ltr');
           view.unmount();
         }
       }
     }
+    expect(warn.mock.calls.flat().join(' ')).toContain(
+      'align is ignored when orientation="vertical"',
+    );
+    warn.mockRestore();
   });
 
   it('uses group semantics only when an accessible label is provided', () => {
@@ -201,14 +246,112 @@ describe('ButtonGroup overflow', () => {
       </ButtonGroup>,
     );
     const trigger = screen.getByRole('button', { name: 'More options' });
-    trigger.focus();
+    await user.tab();
+    expect(trigger).toHaveFocus();
     await user.keyboard('{ArrowUp}');
     await waitFor(() => expect(screen.getByRole('menuitem', { name: 'Second' })).toHaveFocus());
+  });
+
+  it('clamps maxVisible to 1–4 and warns for each out-of-range value', () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    const lower = renderWithBiowave(
+      <ButtonGroup maxVisible={0} aria-label="Lower clamp">
+        <Button variant="outlined">Cancel</Button>
+        <Button>Save</Button>
+      </ButtonGroup>,
+    );
+    expect(screen.queryByRole('button', { name: 'Cancel' })).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Save' })).toBeInTheDocument();
+    lower.unmount();
+
+    renderWithBiowave(
+      <ButtonGroup maxVisible={5} aria-label="Upper clamp">
+        <Button variant="outlined">One</Button>
+        <Button variant="outlined">Two</Button>
+        <Button variant="outlined">Three</Button>
+        <Button variant="outlined">Four</Button>
+        <Button>Five</Button>
+      </ButtonGroup>,
+    );
+    expect(screen.queryByRole('button', { name: 'One' })).not.toBeInTheDocument();
+    expect(screen.getAllByRole('button')).toHaveLength(5);
+    const warnings = warn.mock.calls.flat().join(' ');
+    expect(warnings).toContain('maxVisible=0');
+    expect(warnings).toContain('clamped to 1');
+    expect(warnings).toContain('maxVisible=5');
+    expect(warnings).toContain('clamped to 4');
+    warn.mockRestore();
+  });
+
+  it('uses always-visible actions first and overflows the next least-important action', async () => {
+    const user = userEvent.setup();
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    renderWithBiowave(
+      <ButtonGroup maxVisible={1} aria-label="Actions">
+        <Button href="/docs" variant="outlined">Docs</Button>
+        <Button variant="outlined">Cancel</Button>
+        <Button type="submit">Save</Button>
+      </ButtonGroup>,
+    );
+
+    expect(screen.getByRole('link', { name: 'Docs' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Save' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Cancel' })).not.toBeInTheDocument();
+    const trigger = screen.getByRole('button', { name: 'More options' });
+    await user.click(trigger);
+    expect(screen.getByRole('menuitem', { name: 'Cancel' })).toBeInTheDocument();
+    expect(warn.mock.calls.flat().join(' ')).toContain(
+      'always-visible children exceed maxVisible=1',
+    );
+    warn.mockRestore();
+  });
+
+  it('keeps the last optional actions after always-visible actions use their slots', async () => {
+    const user = userEvent.setup();
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    renderWithBiowave(
+      <ButtonGroup maxVisible={3} aria-label="Actions">
+        <Button href="/docs" variant="outlined">Docs</Button>
+        <Button variant="outlined">Delete</Button>
+        <Button variant="outlined">Cancel</Button>
+        <Button>Save</Button>
+      </ButtonGroup>,
+    );
+
+    expect(screen.getByRole('link', { name: 'Docs' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Cancel' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Save' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Delete' })).not.toBeInTheDocument();
+    const trigger = screen.getByRole('button', { name: 'More options' });
+    await user.click(trigger);
+    expect(screen.getByRole('menuitem', { name: 'Delete' })).toBeInTheDocument();
+    expect(warn).not.toHaveBeenCalled();
+    warn.mockRestore();
+  });
+
+  it('shows no trigger when every child is always visible and warns only about the limit', () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
+    renderWithBiowave(
+      <ButtonGroup maxVisible={1} aria-label="Actions">
+        <Button href="/docs" variant="outlined">Docs</Button>
+        <Button href="/help" variant="outlined">Help</Button>
+        <Button type="submit">Save</Button>
+      </ButtonGroup>,
+    );
+
+    expect(screen.getByRole('link', { name: 'Docs' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Help' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Save' })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'More options' })).not.toBeInTheDocument();
+    expect(warn.mock.calls.flat().join(' ')).toContain(
+      'always-visible children exceed maxVisible=1',
+    );
+    warn.mockRestore();
   });
 });
 
 describe('ButtonGroup validation and accessibility', () => {
-  it('warns for each invalid combination and keeps non-overflowable children visible', () => {
+  it('warns for invalid combinations and keeps non-overflowable children visible', () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     renderWithBiowave(
       <ButtonGroup orientation="vertical" align="space-between" size="sm" maxVisible={1}>
@@ -228,9 +371,7 @@ describe('ButtonGroup validation and accessibility', () => {
     const warnings = warn.mock.calls.flat().join(' ');
     expect(warnings).toContain('no more than one child');
     expect(warnings).toContain('supports at most 2 children');
-    expect(warnings).toContain('align is ignored');
     expect(warnings).toContain('the group size wins');
-    expect(warnings).toContain('keeping this child visible');
     expect(screen.getByRole('group', { name: 'Export' })).toBeInTheDocument();
     warn.mockRestore();
   });
@@ -251,5 +392,5 @@ describe('ButtonGroup validation and accessibility', () => {
         view.unmount();
       }
     }
-  }, 20_000);
+  });
 });
