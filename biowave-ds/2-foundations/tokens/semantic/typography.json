@@ -3,13 +3,16 @@
     "family": {
       "$description": "Font family per script. Platform files (platform/*.json) hold sizes, line heights and role weights.",
       "en": {
-        "$value": "{primitive.font.family.en}"
+        "$value": "{primitive.font.family.en}",
+        "$description": "Inter — Latin text on every platform (weights 400 / 500 / 600)."
       },
       "ar": {
-        "$value": "{primitive.font.family.ar}"
+        "$value": "{primitive.font.family.ar}",
+        "$description": "IBM Plex Sans Arabic — Arabic text on every platform (weights 400 / 500 / 600). Selected automatically for lang=\"ar\"."
       },
       "mono": {
-        "$value": "{primitive.font.family.mono}"
+        "$value": "{primitive.font.family.mono}",
+        "$description": "JetBrains Mono — the code role only: IDs, serial numbers, keys, codes. Latin characters only."
       }
     }
   }

@@ -130,178 +130,224 @@
         "en": {
           "display": {
             "lg": {
-              "$value": "{primitive.font.line-height.40}"
+              "$value": "{primitive.font.line-height.40}",
+              "$description": "Line height of display/lg in English text on web."
             },
             "md": {
-              "$value": "{primitive.font.line-height.36}"
+              "$value": "{primitive.font.line-height.36}",
+              "$description": "Line height of display/md in English text on web."
             }
           },
           "heading": {
             "lg": {
-              "$value": "{primitive.font.line-height.32}"
+              "$value": "{primitive.font.line-height.32}",
+              "$description": "Line height of heading/lg in English text on web."
             },
             "md": {
-              "$value": "{primitive.font.line-height.28}"
+              "$value": "{primitive.font.line-height.28}",
+              "$description": "Line height of heading/md in English text on web."
             },
             "sm": {
-              "$value": "{primitive.font.line-height.24}"
+              "$value": "{primitive.font.line-height.24}",
+              "$description": "Line height of heading/sm in English text on web."
             }
           },
           "title": {
             "lg": {
-              "$value": "{primitive.font.line-height.24}"
+              "$value": "{primitive.font.line-height.24}",
+              "$description": "Line height of title/lg in English text on web."
             },
             "md": {
-              "$value": "{primitive.font.line-height.22}"
+              "$value": "{primitive.font.line-height.22}",
+              "$description": "Line height of title/md in English text on web."
             }
           },
           "body": {
             "lg": {
-              "$value": "{primitive.font.line-height.24}"
+              "$value": "{primitive.font.line-height.24}",
+              "$description": "Line height of body/lg in English text on web."
             },
             "md": {
-              "$value": "{primitive.font.line-height.22}"
+              "$value": "{primitive.font.line-height.22}",
+              "$description": "Line height of body/md in English text on web."
             },
             "sm": {
-              "$value": "{primitive.font.line-height.20}"
+              "$value": "{primitive.font.line-height.20}",
+              "$description": "Line height of body/sm in English text on web."
             }
           },
           "label": {
             "lg": {
-              "$value": "{primitive.font.line-height.20}"
+              "$value": "{primitive.font.line-height.20}",
+              "$description": "Line height of label/lg in English text on web."
             },
             "md": {
-              "$value": "{primitive.font.line-height.18}"
+              "$value": "{primitive.font.line-height.18}",
+              "$description": "Line height of label/md in English text on web."
             },
             "sm": {
-              "$value": "{primitive.font.line-height.16}"
+              "$value": "{primitive.font.line-height.16}",
+              "$description": "Line height of label/sm in English text on web."
             }
           },
           "caption": {
             "md": {
-              "$value": "{primitive.font.line-height.16}"
+              "$value": "{primitive.font.line-height.16}",
+              "$description": "Line height of caption/md in English text on web."
             },
             "sm": {
-              "$value": "{primitive.font.line-height.16}"
+              "$value": "{primitive.font.line-height.16}",
+              "$description": "Line height of caption/sm in English text on web."
             }
           },
           "action": {
             "lg": {
-              "$value": "{platform.font.line-height.en.title.lg}"
+              "$value": "{platform.font.line-height.en.title.lg}",
+              "$description": "Line height of action/lg in English text on web."
             },
             "md": {
-              "$value": "{platform.font.line-height.en.label.lg}"
+              "$value": "{platform.font.line-height.en.label.lg}",
+              "$description": "Line height of action/md in English text on web."
             },
             "sm": {
-              "$value": "{platform.font.line-height.en.label.md}"
+              "$value": "{platform.font.line-height.en.label.md}",
+              "$description": "Line height of action/sm in English text on web."
             }
           },
           "data": {
             "lg": {
-              "$value": "{primitive.font.line-height.28}"
+              "$value": "{primitive.font.line-height.28}",
+              "$description": "Line height of data/lg in English text on web."
             },
             "md": {
-              "$value": "{primitive.font.line-height.20}"
+              "$value": "{primitive.font.line-height.20}",
+              "$description": "Line height of data/md in English text on web."
             },
             "sm": {
-              "$value": "{primitive.font.line-height.16}"
+              "$value": "{primitive.font.line-height.16}",
+              "$description": "Line height of data/sm in English text on web."
             }
           },
           "code": {
             "md": {
-              "$value": "{primitive.font.line-height.20}"
+              "$value": "{primitive.font.line-height.20}",
+              "$description": "Line height of code/md in English text on web."
             },
             "sm": {
-              "$value": "{primitive.font.line-height.16}"
+              "$value": "{primitive.font.line-height.16}",
+              "$description": "Line height of code/sm in English text on web."
             }
           }
         },
         "ar": {
           "display": {
             "lg": {
-              "$value": "{primitive.font.line-height.50}"
+              "$value": "{primitive.font.line-height.50}",
+              "$description": "Line height of display/lg in Arabic text on web."
             },
             "md": {
-              "$value": "{primitive.font.line-height.40}"
+              "$value": "{primitive.font.line-height.40}",
+              "$description": "Line height of display/md in Arabic text on web."
             }
           },
           "heading": {
             "lg": {
-              "$value": "{primitive.font.line-height.34}"
+              "$value": "{primitive.font.line-height.34}",
+              "$description": "Line height of heading/lg in Arabic text on web."
             },
             "md": {
-              "$value": "{primitive.font.line-height.30}"
+              "$value": "{primitive.font.line-height.30}",
+              "$description": "Line height of heading/md in Arabic text on web."
             },
             "sm": {
-              "$value": "{primitive.font.line-height.26}"
+              "$value": "{primitive.font.line-height.26}",
+              "$description": "Line height of heading/sm in Arabic text on web."
             }
           },
           "title": {
             "lg": {
-              "$value": "{primitive.font.line-height.26}"
+              "$value": "{primitive.font.line-height.26}",
+              "$description": "Line height of title/lg in Arabic text on web."
             },
             "md": {
-              "$value": "{primitive.font.line-height.24}"
+              "$value": "{primitive.font.line-height.24}",
+              "$description": "Line height of title/md in Arabic text on web."
             }
           },
           "body": {
             "lg": {
-              "$value": "{primitive.font.line-height.26}"
+              "$value": "{primitive.font.line-height.26}",
+              "$description": "Line height of body/lg in Arabic text on web."
             },
             "md": {
-              "$value": "{primitive.font.line-height.24}"
+              "$value": "{primitive.font.line-height.24}",
+              "$description": "Line height of body/md in Arabic text on web."
             },
             "sm": {
-              "$value": "{primitive.font.line-height.22}"
+              "$value": "{primitive.font.line-height.22}",
+              "$description": "Line height of body/sm in Arabic text on web."
             }
           },
           "label": {
             "lg": {
-              "$value": "{primitive.font.line-height.22}"
+              "$value": "{primitive.font.line-height.22}",
+              "$description": "Line height of label/lg in Arabic text on web."
             },
             "md": {
-              "$value": "{primitive.font.line-height.20}"
+              "$value": "{primitive.font.line-height.20}",
+              "$description": "Line height of label/md in Arabic text on web."
             },
             "sm": {
-              "$value": "{primitive.font.line-height.18}"
+              "$value": "{primitive.font.line-height.18}",
+              "$description": "Line height of label/sm in Arabic text on web."
             }
           },
           "caption": {
             "md": {
-              "$value": "{primitive.font.line-height.18}"
+              "$value": "{primitive.font.line-height.18}",
+              "$description": "Line height of caption/md in Arabic text on web."
             },
             "sm": {
-              "$value": "{primitive.font.line-height.18}"
+              "$value": "{primitive.font.line-height.18}",
+              "$description": "Line height of caption/sm in Arabic text on web."
             }
           },
           "action": {
             "lg": {
-              "$value": "{platform.font.line-height.ar.title.lg}"
+              "$value": "{platform.font.line-height.ar.title.lg}",
+              "$description": "Line height of action/lg in Arabic text on web."
             },
             "md": {
-              "$value": "{platform.font.line-height.ar.label.lg}"
+              "$value": "{platform.font.line-height.ar.label.lg}",
+              "$description": "Line height of action/md in Arabic text on web."
             },
             "sm": {
-              "$value": "{platform.font.line-height.ar.label.md}"
+              "$value": "{platform.font.line-height.ar.label.md}",
+              "$description": "Line height of action/sm in Arabic text on web."
             }
           },
           "data": {
             "lg": {
-              "$value": "{primitive.font.line-height.30}"
+              "$value": "{primitive.font.line-height.30}",
+              "$description": "Line height of data/lg in Arabic text on web."
             },
             "md": {
-              "$value": "{primitive.font.line-height.22}"
+              "$value": "{primitive.font.line-height.22}",
+              "$description": "Line height of data/md in Arabic text on web."
             },
             "sm": {
-              "$value": "{primitive.font.line-height.18}"
+              "$value": "{primitive.font.line-height.18}",
+              "$description": "Line height of data/sm in Arabic text on web."
             }
           },
           "code": {
             "md": {
-              "$value": "{primitive.font.line-height.20}"
+              "$value": "{primitive.font.line-height.20}",
+              "$description": "Line height of code/md in Arabic text on web."
             },
             "sm": {
-              "$value": "{primitive.font.line-height.16}"
+              "$value": "{primitive.font.line-height.16}",
+              "$description": "Line height of code/sm in Arabic text on web."
             }
           }
         }
@@ -310,40 +356,47 @@
         "$description": "PROPOSED role weights (decision D-07).",
         "display": {
           "$type": "fontWeight",
-          "$value": "{primitive.font.weight.semibold}"
+          "$value": "{primitive.font.weight.semibold}",
+          "$description": "600 (Semi Bold). Display text."
         },
         "heading": {
           "$type": "fontWeight",
-          "$value": "{primitive.font.weight.semibold}"
+          "$value": "{primitive.font.weight.semibold}",
+          "$description": "600 (Semi Bold). Headings."
         },
         "title": {
           "$type": "fontWeight",
-          "$value": "{primitive.font.weight.medium}"
+          "$value": "{primitive.font.weight.medium}",
+          "$description": "500 (Medium). Titles."
         },
         "body": {
           "$type": "fontWeight",
-          "$value": "{primitive.font.weight.regular}"
+          "$value": "{primitive.font.weight.regular}",
+          "$description": "400 (Regular). Body text; inline emphasis inside body uses 600."
         },
         "label": {
           "$type": "fontWeight",
-          "$value": "{primitive.font.weight.medium}"
+          "$value": "{primitive.font.weight.medium}",
+          "$description": "500 (Medium). Labels."
         },
         "caption": {
           "$type": "fontWeight",
-          "$value": "{primitive.font.weight.regular}"
+          "$value": "{primitive.font.weight.regular}",
+          "$description": "400 (Regular). Captions and helper text."
         },
         "action": {
           "$value": "{platform.font.weight.label}",
-          "$description": "Same as label (aliased)."
+          "$description": "500 (Medium) — aliases label. Text inside actions (buttons, links)."
         },
         "data": {
           "$type": "fontWeight",
-          "$value": "{primitive.font.weight.medium}"
+          "$value": "{primitive.font.weight.medium}",
+          "$description": "500 (Medium). Numbers and values in data displays."
         },
         "code": {
           "$type": "fontWeight",
           "$value": "{primitive.font.weight.regular}",
-          "$description": "Monospace text is regular weight."
+          "$description": "400 (Regular). Monospace code role."
         }
       },
       "letter-spacing": {
@@ -353,7 +406,8 @@
             "$description": "Slight negative tracking for large Latin text."
           },
           "default": {
-            "$value": "{primitive.font.letter-spacing.none}"
+            "$value": "{primitive.font.letter-spacing.none}",
+            "$description": "0 for all English text except display (letter-spacing-display, −0.16)."
           }
         },
         "ar": {

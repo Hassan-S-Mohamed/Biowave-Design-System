@@ -1,7 +1,7 @@
 {
   "color": {
     "external": {
-      "$description": "Third-party brand colors (payment networks). Never themed, never used for UI meaning. Moved out of icon/payment.",
+      "$description": "Third-party brand colours (payment network marks). Never themed, never used for UI meaning, never for text.",
       "payment": {
         "red": {
           "$type": "color",
@@ -14,7 +14,8 @@
             ],
             "alpha": 1,
             "hex": "#ED0006"
-          }
+          },
+          "$description": "Payment network mark colour (red). Only inside payment brand marks (card network logos), exactly as the brand requires."
         },
         "silver": {
           "$type": "color",
@@ -27,7 +28,8 @@
             ],
             "alpha": 1,
             "hex": "#DADADA"
-          }
+          },
+          "$description": "Payment network mark colour (silver). Only inside payment brand marks (card network logos), exactly as the brand requires."
         },
         "gold": {
           "$type": "color",
@@ -40,7 +42,8 @@
             ],
             "alpha": 1,
             "hex": "#F9A000"
-          }
+          },
+          "$description": "Payment network mark colour (gold). Only inside payment brand marks (card network logos), exactly as the brand requires."
         },
         "purple": {
           "$type": "color",
@@ -53,7 +56,8 @@
             ],
             "alpha": 1,
             "hex": "#6D6DBB"
-          }
+          },
+          "$description": "Payment network mark colour (purple). Only inside payment brand marks (card network logos), exactly as the brand requires."
         },
         "orange": {
           "$type": "color",
@@ -66,7 +70,8 @@
             ],
             "alpha": 1,
             "hex": "#FF5E00"
-          }
+          },
+          "$description": "Payment network mark colour (orange). Only inside payment brand marks (card network logos), exactly as the brand requires."
         }
       }
     }

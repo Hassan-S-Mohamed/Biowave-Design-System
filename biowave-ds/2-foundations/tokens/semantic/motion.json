@@ -3,7 +3,8 @@
     "duration": {
       "$description": "Aligned to Material 3 motion tokens. Respect prefers-reduced-motion / MediaQuery.disableAnimations.",
       "instant": {
-        "$value": "{primitive.duration.0}"
+        "$value": "{primitive.duration.0}",
+        "$description": "0 ms. No animation: state changes that must not move (content swaps, prop changes) and the value every duration falls back to when reduced motion is on."
       },
       "xs": {
         "$value": "{primitive.duration.50}",

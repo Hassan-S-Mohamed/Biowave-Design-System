@@ -229,14 +229,15 @@ abstract final class BwRadius {
 
 /// Border widths and focus offset (logical pixels).
 abstract final class BwBorder {
+  /// No stroke. Borderless variants (text button, filled field without outline).
   static const double widthNone = 0;
-  /// Cards, inputs, dividers.
+  /// 1px. Default border: cards, inputs, dividers, outlined buttons.
   static const double widthDefault = 1;
-  /// Selected/active outlines.
+  /// 2px. Selected or active outlines, emphasis rings (badge ring).
   static const double widthStrong = 2;
-  /// Focus ring thickness (WCAG 2.4.13 recommends >= 2px).
+  /// 2px. Focus ring thickness (WCAG 2.4.13 recommends at least 2px). Use with color-border-focus.
   static const double widthFocus = 2;
-  /// Gap between control and focus ring.
+  /// 2px. Gap between a control and its focus ring.
   static const double focusOffset = 2;
 }
 
@@ -286,6 +287,7 @@ abstract final class BwSize {
 
 /// Motion durations.
 abstract final class BwDuration {
+  /// 0 ms. No animation: state changes that must not move (content swaps, prop changes) and the value every duration falls back to when reduced motion is on.
   static const Duration instant = Duration(milliseconds: 0);
   /// Ripple start, color change on small controls.
   static const Duration xs = Duration(milliseconds: 50);
@@ -321,10 +323,15 @@ abstract final class BwEasing {
 
 /// Third-party brand colors (never themed).
 abstract final class BwExternalColors {
+  /// Payment network mark colour (red). Only inside payment brand marks (card network logos), exactly as the brand requires.
   static const Color paymentRed = Color(0xFFED0006);
+  /// Payment network mark colour (silver). Only inside payment brand marks (card network logos), exactly as the brand requires.
   static const Color paymentSilver = Color(0xFFDADADA);
+  /// Payment network mark colour (gold). Only inside payment brand marks (card network logos), exactly as the brand requires.
   static const Color paymentGold = Color(0xFFF9A000);
+  /// Payment network mark colour (purple). Only inside payment brand marks (card network logos), exactly as the brand requires.
   static const Color paymentPurple = Color(0xFF6D6DBB);
+  /// Payment network mark colour (orange). Only inside payment brand marks (card network logos), exactly as the brand requires.
   static const Color paymentOrange = Color(0xFFFF5E00);
 }
 

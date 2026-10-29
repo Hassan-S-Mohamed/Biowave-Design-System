@@ -9,11 +9,11 @@
 
 | Token | Light | Dark | Contrast ☀ / ☾ | Use |
 |---|---|---|---|---|
-| `color-external-payment-red` | `#ED0006` | `#ED0006` |  |  |
-| `color-external-payment-silver` | `#DADADA` | `#DADADA` |  |  |
-| `color-external-payment-gold` | `#F9A000` | `#F9A000` |  |  |
-| `color-external-payment-purple` | `#6D6DBB` | `#6D6DBB` |  |  |
-| `color-external-payment-orange` | `#FF5E00` | `#FF5E00` |  |  |
+| `color-external-payment-red` | `#ED0006` | `#ED0006` |  | Payment network mark colour (red). Only inside payment brand marks (card network logos), exactly as the brand requires. |
+| `color-external-payment-silver` | `#DADADA` | `#DADADA` |  | Payment network mark colour (silver). Only inside payment brand marks (card network logos), exactly as the brand requires. |
+| `color-external-payment-gold` | `#F9A000` | `#F9A000` |  | Payment network mark colour (gold). Only inside payment brand marks (card network logos), exactly as the brand requires. |
+| `color-external-payment-purple` | `#6D6DBB` | `#6D6DBB` |  | Payment network mark colour (purple). Only inside payment brand marks (card network logos), exactly as the brand requires. |
+| `color-external-payment-orange` | `#FF5E00` | `#FF5E00` |  | Payment network mark colour (orange). Only inside payment brand marks (card network logos), exactly as the brand requires. |
 
 ### surface
 
@@ -209,11 +209,11 @@
 
 | Token | Value | Use |
 |---|---|---|
-| `color-external-payment-red` | `#ED0006` |  |
-| `color-external-payment-silver` | `#DADADA` |  |
-| `color-external-payment-gold` | `#F9A000` |  |
-| `color-external-payment-purple` | `#6D6DBB` |  |
-| `color-external-payment-orange` | `#FF5E00` |  |
+| `color-external-payment-red` | `#ED0006` | Payment network mark colour (red). Only inside payment brand marks (card network logos), exactly as the brand requires. |
+| `color-external-payment-silver` | `#DADADA` | Payment network mark colour (silver). Only inside payment brand marks (card network logos), exactly as the brand requires. |
+| `color-external-payment-gold` | `#F9A000` | Payment network mark colour (gold). Only inside payment brand marks (card network logos), exactly as the brand requires. |
+| `color-external-payment-purple` | `#6D6DBB` | Payment network mark colour (purple). Only inside payment brand marks (card network logos), exactly as the brand requires. |
+| `color-external-payment-orange` | `#FF5E00` | Payment network mark colour (orange). Only inside payment brand marks (card network logos), exactly as the brand requires. |
 
 ## Primitive palette
 
@@ -275,11 +275,11 @@ Raw ramps. Maintainers only: never bind these inside components.
 
 | Token | Value | Use |
 |---|---|---|
-| `border-width-none` | {"value":0,"unit":"px"} |  |
-| `border-width-default` | {"value":1,"unit":"px"} | Cards, inputs, dividers. |
-| `border-width-strong` | {"value":2,"unit":"px"} | Selected/active outlines. |
-| `border-width-focus` | {"value":2,"unit":"px"} | Focus ring thickness (WCAG 2.4.13 recommends >= 2px). |
-| `border-focus-offset` | {"value":2,"unit":"px"} | Gap between control and focus ring. |
+| `border-width-none` | {"value":0,"unit":"px"} | No stroke. Borderless variants (text button, filled field without outline). |
+| `border-width-default` | {"value":1,"unit":"px"} | 1px. Default border: cards, inputs, dividers, outlined buttons. |
+| `border-width-strong` | {"value":2,"unit":"px"} | 2px. Selected or active outlines, emphasis rings (badge ring). |
+| `border-width-focus` | {"value":2,"unit":"px"} | 2px. Focus ring thickness (WCAG 2.4.13 recommends at least 2px). Use with color-border-focus. |
+| `border-focus-offset` | {"value":2,"unit":"px"} | 2px. Gap between a control and its focus ring. |
 
 ## Size
 
@@ -310,7 +310,7 @@ Raw ramps. Maintainers only: never bind these inside components.
 
 | Token | Value | Use |
 |---|---|---|
-| `motion-duration-instant` | {"value":0,"unit":"ms"} |  |
+| `motion-duration-instant` | {"value":0,"unit":"ms"} | 0 ms. No animation: state changes that must not move (content swaps, prop changes) and the value every duration falls back to when reduced motion is on. |
 | `motion-duration-xs` | {"value":50,"unit":"ms"} | Ripple start, color change on small controls. |
 | `motion-duration-sm` | {"value":100,"unit":"ms"} | Hover, press, toggle, checkbox. |
 | `motion-duration-md` | {"value":200,"unit":"ms"} | Tooltip, menu open, expand small content. |
@@ -329,14 +329,14 @@ Raw ramps. Maintainers only: never bind these inside components.
 
 | Token | Value | Use |
 |---|---|---|
-| `layer-base` | 0 |  |
-| `layer-raised` | 1 |  |
-| `layer-sticky` | 1100 |  |
-| `layer-drawer` | 1200 |  |
-| `layer-overlay` | 1300 |  |
-| `layer-modal` | 1400 |  |
-| `layer-toast` | 1500 |  |
-| `layer-tooltip` | 1600 |  |
+| `layer-base` | 0 | 0 · Page content in normal flow. |
+| `layer-raised` | 1 | 1 · Element lifted above its siblings in the same area — badge on an avatar, selected tab indicator, sticky table column inside its table. |
+| `layer-sticky` | 1100 | 1100 · App bar, sticky headers and toolbars that stay on top while content scrolls under them. |
+| `layer-drawer` | 1200 | 1200 · Side navigation drawer and side/bottom sheets. |
+| `layer-overlay` | 1300 | 1300 · Scrim behind a modal (color-overlay-default). |
+| `layer-modal` | 1400 | 1400 · Dialogs and full-screen modals, above their scrim. |
+| `layer-toast` | 1500 | 1500 · Snackbars and toasts — above modals so feedback is always visible. |
+| `layer-tooltip` | 1600 | 1600 · Tooltips and popovers anchored to an element — always on top. |
 
 ## Elevation
 

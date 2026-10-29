@@ -84,8 +84,8 @@ export function expectedFigma(T = readJson(P.tokensJson)) {
     [/^radius\./, '2. Radius', 'Values', ['CORNER_RADIUS'], () => 'group:Dimension/', 'BwRadius'],
     [/^spacing\./, '3. Spacing', 'Values', ['GAP'], () => 'group:Dimension/', 'BwSpacing'],
     [/^size\./, '4. Size', 'Value', ['WIDTH_HEIGHT'], () => 'group:Dimension/', 'BwSize'],
-    [/^border\.width\./, '7. Border', 'Value', ['STROKE_FLOAT'], () => undefined, 'BwBorder'],
-    [/^border\.focus\./, '7. Border', 'Value', ['GAP'], () => undefined, 'BwBorder'],
+    [/^border\.width\./, '7. Border', 'Value', ['STROKE_FLOAT'], () => 'group:Dimension/', 'BwBorder'],
+    [/^border\.focus\./, '7. Border', 'Value', ['GAP'], () => 'group:Dimension/', 'BwBorder'],
   ];
   for (const [p, t] of Object.entries(T.base)) {
     const s = single.find(([re]) => re.test(p));

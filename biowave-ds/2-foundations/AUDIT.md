@@ -172,3 +172,9 @@ Three levels: **control** (`spacing-control-*`, by control size), **component** 
 
 ## 12. Radius — 29 Oct 2026
 Values unchanged (all steps are used or planned). Every radius token now has a "pick by object" description (code and Figma) matching real use: controls `md` at sm/md/lg and `xl` at xl, joined-segment inner corners `xs`, tooltip `sm`, menus `lg`, cards `2xl`, dialogs `3xl`, sheets `4xl`, avatar steps with its size. Figma values alias `_Primitive › Dimension/*` (were raw). Nesting rule corrected for paddings larger than the outer radius.
+
+## 13. Overall quick review — 29 Oct 2026
+- **Descriptions everywhere:** every token in the source now has a `$description` (added: layer ×8, font family ×3, payment colours ×5, `motion-duration-instant`, `border-width-*`, 159 platform typography tokens, role weights). Dev notes in group descriptions ("NEW", "Moved out of …") replaced. Figma: 0 semantic variables without a description or Flutter code syntax (typography 17 descriptions + 16 code syntaxes added).
+- **Border:** Figma values alias `_Primitive › Dimension/0·1·2` (were raw).
+- **Primitives hidden from publishing:** all 246 `_Primitive` variables (197 were published). Semantic variables still resolve in every file; designers can no longer pick a primitive.
+- Left as decided: 92 raw colour values in `1. Themes` (accent + data palette, raw hex by decision) — promoting them to primitives stays in the backlog.

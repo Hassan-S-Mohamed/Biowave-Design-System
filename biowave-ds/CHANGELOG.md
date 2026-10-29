@@ -2,6 +2,12 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Foundations — Overall quick review fixes] — 2026-10-29
+### Changed
+- Every token in the source has a description: layer (z-index) ×8, font families ×3, payment colours ×5, `motion-duration-instant`, border widths and focus offset, platform typography line heights / sizes / weights ×159 (role weights now name the value, e.g. "600 (Semi Bold)"). Leftover dev notes in group descriptions removed.
+- Figma: typography — 17 descriptions and 16 Flutter code syntaxes added (`code` role, mono family, letter spacing, role weights → `context.bw.text.<role>Md.*`); border — 5 values alias `Dimension/*`, descriptions added; payment colours described; **all `_Primitive` variables hidden from publishing** (197 were visible to designers). Every semantic variable now has a description and WEB + Flutter code syntax.
+- `figma-map.mjs`: border hints `group:Dimension/`. AUDIT §13.
+
 ## [Foundations — Radius descriptions] — 2026-10-29
 ### Changed
 - Every radius token has a usage description by object type (code + Figma); old ones contradicted real use (`sm` "compact button", `xl` "large button" — buttons use `md`, and `xl` only at the 56 control size). Group description added.

@@ -1,27 +1,28 @@
 {
   "border": {
     "width": {
-      "$description": "Stroke widths. NEW: no width tokens existed.",
+      "$description": "Stroke widths. Borders are always drawn as a stroke with a color-border-* token, never with shadows.",
       "none": {
-        "$value": "{primitive.dimension.0}"
+        "$value": "{primitive.dimension.0}",
+        "$description": "No stroke. Borderless variants (text button, filled field without outline)."
       },
       "default": {
         "$value": "{primitive.dimension.1}",
-        "$description": "Cards, inputs, dividers."
+        "$description": "1px. Default border: cards, inputs, dividers, outlined buttons."
       },
       "strong": {
         "$value": "{primitive.dimension.2}",
-        "$description": "Selected/active outlines."
+        "$description": "2px. Selected or active outlines, emphasis rings (badge ring)."
       },
       "focus": {
         "$value": "{primitive.dimension.2}",
-        "$description": "Focus ring thickness (WCAG 2.4.13 recommends >= 2px)."
+        "$description": "2px. Focus ring thickness (WCAG 2.4.13 recommends at least 2px). Use with color-border-focus."
       }
     },
     "focus": {
       "offset": {
         "$value": "{primitive.dimension.2}",
-        "$description": "Gap between control and focus ring."
+        "$description": "2px. Gap between a control and its focus ring."
       }
     }
   }
