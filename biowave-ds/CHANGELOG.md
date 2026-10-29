@@ -2,6 +2,11 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Sync — Foundations published: library index and contracts] — 2026-10-29
+### Changed
+- Publish confirmed from the Web file (7 collections, 281 variables, `spacing/layout/*` present, removed tokens gone, no primitives visible). Library index re-read: 281 variables, 23 text / 4 effect / 2 grid styles (deprecated styles no longer indexed); reach 281. All contracts regenerated; `docs:check` OK, `npm run sync` READY.
+- `figma-map.mjs`: `color/shadow/ambient` was listed twice (theme tokens + shadow helper) — now once.
+
 ## [Foundations — Overall quick review fixes] — 2026-10-29
 ### Changed
 - Every token in the source has a description: layer (z-index) ×8, font families ×3, payment colours ×5, `motion-duration-instant`, border widths and focus offset, platform typography line heights / sizes / weights ×159 (role weights now name the value, e.g. "600 (Semi Bold)"). Leftover dev notes in group descriptions removed.

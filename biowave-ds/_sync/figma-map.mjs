@@ -75,6 +75,7 @@ export function expectedFigma(T = readJson(P.tokensJson)) {
   for (const [n, f] of Object.entries(shadowVars)) {
     const L = f('light'), D = f('dark');
     if (!L || !D) continue;
+    if (out.some((e) => e.name === `color/shadow/${n}`)) continue; // already added from the theme tokens (ambient)
     const web = n === 'ambient' ? 'color-shadow-ambient' : null; // only ambient has code syntax in Figma
     add({ collection: '1. Themes', name: `color/shadow/${n}`, web, type: 'COLOR', modes: { Light: L, Dark: D }, hint: {}, scopes: ['EFFECT_COLOR'] });
   }
