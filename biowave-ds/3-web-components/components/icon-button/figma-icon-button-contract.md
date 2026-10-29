@@ -1,4 +1,4 @@
-<!-- GENERATED from icon-button.md @ 62dc8bec2f36a4eb — do not edit; change the source and run: npm run contract -- web icon-button -->
+<!-- GENERATED from icon-button.md @ 54abb8513d6a9cb4 — do not edit; change the source and run: npm run contract -- web icon-button -->
 # Icon button · زر أيقونة — Web — Figma contract
 
 > **Everything the Figma Agent needs to build Icon button in the Web Components file, with our variables and styles.** Read this file only. Generated from [`icon-button.md`](icon-button.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-28). Questions go to [D11 Execution log](icon-button.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
@@ -12,7 +12,7 @@
 | Component | Icon button · زر أيقونة |
 | Platform | Web · React + MUI |
 | Version | 1.1 · 2026-10-21 |
-| Source | [`icon-button.md`](icon-button.md) @ `62dc8bec2f36a4eb` |
+| Source | [`icon-button.md`](icon-button.md) @ `54abb8513d6a9cb4` |
 
 ## 1. Library connections in this file
 
@@ -237,7 +237,7 @@ Same as [Button D1](../button/button.md#d1-rules-for-this-build).
 ```
 Icon Button              ↔ centered · width = height {B2} · padding 0
 └── .Icon Button/Appearance  ◇ fill both axes · radius {B2} · fill/stroke {B3} · `Focus ring` layer visible when State=Focused (border.md › Figma focus ring)
-    ├── state-layer      ▭ absolute, fill {overlay-hover|pressed} in Hover/Pressed of tonal/outlined/text
+    ├── state-layer      ▭ absolute, fill {background-transparent-hovered|pressed} in Hover/Pressed of tonal/outlined/text
     ├── icon             ◇ .Icon Button/Glyph · size {B2 icon} · fill {B3}
     └── spinner          ◇ .Button/Spinner · visible only State=Loading (icon opacity 0)
 ```

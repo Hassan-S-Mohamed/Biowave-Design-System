@@ -26,7 +26,7 @@ Biowave uses **Google Material Symbols** — style **Rounded**, weight 400, grad
 Default inline icon: `size-icon-md` (20) on web, `size-icon-lg` (24) on tablet/mobile. Icon-only buttons keep the icon size but the **target** must reach `target-min`.
 
 ## Color
-`color-icon-neutral-*` on neutral surfaces, `color-icon-role-*` for status, `color-icon-on-*` on filled backgrounds. Meaningful icons need ≥ 3:1 (checked by the build).
+`color-icon-default` · `-subtle` · `-subtlest` on neutral surfaces, `color-icon-role-*` for status, `color-icon-on-*` on filled backgrounds. Meaningful icons need ≥ 3:1 (checked by the build).
 
 ## RTL
 Flutter `material_symbols_icons` mirrors directional glyphs in RTL itself. On web the font does not: directional icons get the Biowave directional class (Button B5) or the Icon `directional` option.

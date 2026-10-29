@@ -1,4 +1,4 @@
-<!-- GENERATED from link.md @ 99f7042dee406576 — do not edit; change the source and run: npm run contract -- web link -->
+<!-- GENERATED from link.md @ f11a73e430e80ada — do not edit; change the source and run: npm run contract -- web link -->
 # Link · رابط — Web — Figma contract
 
 > **Everything the Figma Agent needs to build Link in the Web Components file, with our variables and styles.** Read this file only. Generated from [`link.md`](link.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-28). Questions go to [D11 Execution log](link.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
@@ -12,7 +12,7 @@
 | Component | Link · رابط |
 | Platform | Web · React + MUI |
 | Version | 1.0 · 2026-10-21 |
-| Source | [`link.md`](link.md) @ `99f7042dee406576` |
+| Source | [`link.md`](link.md) @ `f11a73e430e80ada` |
 
 ## 1. Library connections in this file
 
@@ -176,7 +176,7 @@ Layout rules:
 | `focus-ring` | color | `color-border-focus` (`inverse`: `color-border-inverse`) |
 | `focus-ring` | width · offset · radius | `border-width-focus` · `border-focus-offset` · `radius-xs` |
 
-Contrast: `color-link-default` is checked against the page and surface colours in `2-foundations/scripts/contrast-pairs.json` (4.5:1); `-hover` and `-pressed` are darker in light and lighter in dark, so they keep at least that contrast. Dark theme: same tokens, values switch automatically. No exceptions.
+Contrast: `color-link-default` is checked against the page and surface colours in `2-foundations/scripts/contrast-pairs.json` (4.5:1); `-hovered` and `-pressed` are darker in light and lighter in dark, so they keep at least that contrast. Dark theme: same tokens, values switch automatically. No exceptions.
 
 ### B4 States and transitions
 

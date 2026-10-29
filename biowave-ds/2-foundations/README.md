@@ -36,7 +36,7 @@
 | [Illustration](guidelines/illustration.md) | Flat geometric, token colors, no text inside, decorative for screen readers. Assets not created yet. |
 | [Logos](guidelines/logos.md) | Variants (en/ar wordmark, symbol, mono, partner lock-up). Never mirror. Assets to be added. |
 | [Elevation](guidelines/elevation.md) | elevation-0…4 (lift only — never borders or rings), light (navy tint) and dark (black, stronger) values. Pair with surface-raised. |
-| [Border](guidelines/border.md) | Widths none/default 1/strong 2/focus 2. Decorative vs control borders (`border-input-*` ≥ 3:1). Focus ring recipe. |
+| [Border](guidelines/border.md) | Widths none/default 1/strong 2/focus 2. Decorative vs control borders (`color-border-bold` ≥ 3:1). Focus ring recipe. |
 | [Radius](guidelines/radius.md) | none 0, xxs 2, xs 4, sm 6, md 8 (controls), lg 10, xl 12, 2xl 16 (cards), 3xl 20 (dialogs), 4xl 24 (sheets), full. Inner = outer − padding. |
 | [Devices](guidelines/devices.md) | Target screens per platform + safe areas; biometric hardware imagery rules (IDEMIA, Suprema, STid, HID, Assa Abloy…). |
 

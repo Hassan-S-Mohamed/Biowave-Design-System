@@ -1514,22 +1514,22 @@ a:focus-visible,
   padding-inline: var(--bw-spacing-control-padding-inline-md);
   gap: var(--bw-spacing-control-gap-md);
   align-items: center;
-  border: var(--bw-border-width-default) solid var(--bw-color-border-strong);
+  border: var(--bw-border-width-default) solid var(--bw-color-border-bold);
   border-radius: var(--bw-radius-md);
-  background: var(--bw-color-surface-default);
+  background: var(--bw-color-background-base-default);
   color: var(--bw-color-icon-subtlest);
-  transition: border-color var(--bw-motion-duration-sm) var(--bw-motion-easing-standard);
+  transition: border-color var(--bw-motion-duration-sm) var(--bw-motion-easing-standard), background-color var(--bw-motion-duration-sm) var(--bw-motion-easing-standard);
 }
 .demo-field[data-s='sm'] .demo-field-box { min-block-size: var(--bw-size-control-height-sm); }
 .demo-field[data-s='lg'] .demo-field-box { min-block-size: var(--bw-size-control-height-lg); }
 [data-platform='tablet'] .demo-field-box,
 [data-platform='mobile'] .demo-field-box { min-block-size: var(--bw-size-control-height-lg); }
 .demo-field-box:hover,
-.demo-field-box.is-hover { border-color: var(--bw-color-text-default); }
+.demo-field-box.is-hover { background-color: var(--bw-color-background-base-hovered); }
 .demo-field-box:focus-within,
 .demo-field-box.is-focus { border-color: var(--bw-color-border-focus); outline: calc(var(--bw-border-width-focus) - var(--bw-border-width-default)) solid var(--bw-color-border-focus); outline-offset: calc(-1 * var(--bw-border-width-focus)); }
 .demo-field-box.is-error { border-color: var(--bw-color-border-error); }
-.demo-field-box.is-readonly { border-style: dashed; }
+.demo-field-box.is-readonly { border-color: var(--bw-color-border-default); background-color: var(--bw-color-background-base-subtlest); }
 .demo-field-box.is-multiline { align-items: stretch; padding-block: var(--bw-spacing-sm); }
 .demo-field-box input,
 .demo-field-box textarea {
@@ -1551,15 +1551,18 @@ a:focus-visible,
   align-items: center;
   padding-inline: var(--bw-spacing-sm);
   margin-inline: calc(var(--bw-spacing-control-padding-inline-md) * -1) 0;
-  border-inline-end: var(--bw-border-width-default) solid var(--bw-color-border-subtle);
-  background: var(--bw-color-background-base-subtlest);
-  color: var(--bw-color-text-subtlest);
+  /* divider = the field border of the current state (text-field.md B3.2) */
+  border-inline-end: var(--bw-border-width-default) solid;
+  border-inline-end-color: inherit;
+  background: var(--bw-color-background-neutral-default);
+  color: var(--bw-color-text-subtle);
   font-size: var(--bw-font-size-body-sm);
   unicode-bidi: isolate;
 }
 .demo-field-box .demo-field-addon:last-child {
   margin-inline: 0 calc(var(--bw-spacing-control-padding-inline-md) * -1);
-  border-inline-start: var(--bw-border-width-default) solid var(--bw-color-border-subtle);
+  border-inline-start: var(--bw-border-width-default) solid;
+  border-inline-start-color: inherit;
   border-inline-end: 0;
 }
 .demo-field-action {

@@ -1,4 +1,4 @@
-<!-- GENERATED from button.md @ 0f302bb10dbb6741 — do not edit; change the source and run: npm run contract -- web button -->
+<!-- GENERATED from button.md @ 930dd39daa3973f2 — do not edit; change the source and run: npm run contract -- web button -->
 # Button · زر — Web — Figma contract
 
 > **Everything the Figma Agent needs to build Button in the Web Components file, with our variables and styles.** Read this file only. Generated from [`button.md`](button.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-28). Questions go to [D11 Execution log](button.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
@@ -12,7 +12,7 @@
 | Component | Button · زر |
 | Platform | Web · React + MUI |
 | Version | 1.1 · 2026-10-18 |
-| Source | [`button.md`](button.md) @ `0f302bb10dbb6741` |
+| Source | [`button.md`](button.md) @ `930dd39daa3973f2` |
 
 ## 1. Library connections in this file
 
@@ -279,7 +279,7 @@ Same as `outlined` without the border.
 | `focus-ring` | color | `color-border-focus` (`inverse`: `color-border-inverse`) |
 | `focus-ring` | width · offset | `border-width-focus` · `border-focus-offset` |
 
-The **state layer** is a second fill painted above the container fill (web: `background-image: linear-gradient(var(--bw-color-background-transparent-hovered), var(--bw-color-background-transparent-hovered))`). Filled buttons never use a state layer; they switch to the solid `-hover`/`-pressed` tokens.
+The **state layer** is a second fill painted above the container fill (web: `background-image: linear-gradient(var(--bw-color-background-transparent-hovered), var(--bw-color-background-transparent-hovered))`). Filled buttons never use a state layer; they switch to the solid `-hovered`/`-pressed` tokens.
 
 Dark theme: same tokens, values switch automatically. No exceptions.
 

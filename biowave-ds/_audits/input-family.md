@@ -47,14 +47,14 @@
 |---|---|---|
 | Field height per size | `size-control-height-{sm,md,lg}` | ✅ exists (P-04 lists inputs) |
 | Inline padding / icon gap | `spacing-control-padding-inline-*` · `spacing-control-gap-*` | ✅ |
-| Border default / hover / error | `color-border-input-{default,hover,error}` | ✅ |
+| Border default / hover / error | `color-border-bold` · `color-border-bold` · `color-border-error` (colour tokens 2.1) | ✅ |
 | Border focus / disabled | `color-border-focus` · `color-border-disabled` | ✅ |
-| Field background / disabled | `color-background-base-default` · `color-background-base-disabled` | ✅ |
-| Placeholder / value / label / helper text | `color-text-neutral-{placeholder,default,subtle}` | ✅ — check placeholder contrast in Day 7 plan |
+| Field background / disabled | `color-background-base-default` · `color-background-disabled` (hover: `color-background-base-hovered`) | ✅ |
+| Placeholder / value / label / helper text | `color-text-{subtlest,default,subtle}` | ✅ (`subtlest` replaces placeholder/muted, colour tokens 2.0) |
 | Error text / icon | `color-text-role-error` · `color-icon-role-error` | ✅ |
 | Label → field gap | `spacing-…` (foundation description says "form field label gap") | ✅ confirm which step in Day 7 |
 | Radius | `radius-md` ("input, select, small popover") | ✅ |
-| Read-only background | — | ⚠️ gap if I-05 keeps Read-only — propose `color-background-neutral-subtle` alias, no new token |
+| Read-only background | — | ⚠️ gap if I-05 keeps Read-only — Text field uses `color-background-base-subtlest` + `color-border-default` (text-field.md B3.2) |
 | Multiline min height (Text area) | — | ⚠️ likely component token in `text-field.tokens.json` |
 | OTP cell width | — | ⚠️ reuse `size-control-height-*` (square cells) — no new token |
 

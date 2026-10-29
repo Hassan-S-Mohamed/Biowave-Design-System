@@ -1,4 +1,4 @@
-<!-- GENERATED from button.md @ bd0c6006cf69460f — do not edit; change the source and run: npm run contract -- web button -->
+<!-- GENERATED from button.md @ 2be0ffda8a49ea5f — do not edit; change the source and run: npm run contract -- web button -->
 # Button · زر — Web — code contract
 
 > **Everything you need to build Button on Web, and nothing else.** Read this file only. Generated from [`button.md`](button.md) (Parts B and C). If something is unclear or impossible, stop and write it in [C8 Execution log → Questions](button.md#c8-execution-log-filled-by-the-executor) — never invent behaviour.
@@ -12,7 +12,7 @@
 | Version | 1.1 · 2026-10-18 |
 | Source code | [`src/components/button/`](../../src/components/button/) |
 | Tokens | [`button.tokens.json`](button.tokens.json) |
-| Source | [`button.md`](button.md) @ `bd0c6006cf69460f` |
+| Source | [`button.md`](button.md) @ `2be0ffda8a49ea5f` |
 
 ## 1. What it is
 
@@ -140,7 +140,7 @@ Same as `outlined` without the border.
 | `focus-ring` | color | `color-border-focus` (`inverse`: `color-border-inverse`) |
 | `focus-ring` | width · offset | `border-width-focus` · `border-focus-offset` |
 
-The **state layer** is a second fill painted above the container fill (web: `background-image: linear-gradient(var(--bw-color-background-transparent-hovered), var(--bw-color-background-transparent-hovered))`). Filled buttons never use a state layer; they switch to the solid `-hover`/`-pressed` tokens.
+The **state layer** is a second fill painted above the container fill (web: `background-image: linear-gradient(var(--bw-color-background-transparent-hovered), var(--bw-color-background-transparent-hovered))`). Filled buttons never use a state layer; they switch to the solid `-hovered`/`-pressed` tokens.
 
 Dark theme: same tokens, values switch automatically. No exceptions.
 

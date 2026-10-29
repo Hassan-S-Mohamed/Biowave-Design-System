@@ -494,7 +494,7 @@ Same as [Button D1](../button/button.md#d1-rules-for-this-build).
 ```
 Icon Button              ↔ centered · width = height {B2} · padding 0
 └── .Icon Button/Appearance  ◇ fill both axes · radius {B2} · fill/stroke {B3} · `Focus ring` layer visible when State=Focused (border.md › Figma focus ring)
-    ├── state-layer      ▭ absolute, fill {overlay-hover|pressed} in Hover/Pressed of tonal/outlined/text
+    ├── state-layer      ▭ absolute, fill {background-transparent-hovered|pressed} in Hover/Pressed of tonal/outlined/text
     ├── icon             ◇ .Icon Button/Glyph · size {B2 icon} · fill {B3}
     └── spinner          ◇ .Button/Spinner · visible only State=Loading (icon opacity 0)
 ```
@@ -831,3 +831,4 @@ Skipped — Figma build is `Planned` and `figma` is skipped in `_workflow/config
 |---|---|---|---|---|
 | 1.0 | 2026-10-16 | Initial | No | — |
 | 1.1 | 2026-10-21 | Review round 1 Planner items: #8 B7 examples use the Biowave `Icon` (`<Icon name>`, `filled`), D4 code values, a D4 **Icons used** line and the header Source code updated; #6 C dependency on `ds/button-web` (PR #1) shared speedy Emotion cache, raised timeouts dropped. Executor findings #1–#5, #7, #9 folded into C3/C5/C6, C7 AC-7–AC-11 and the Fix round 1 task list. B1–B6 unchanged | No | — |
+| 1.1 (wording) | 2026-10-29 | D3 layer tree: state layer fill `{overlay-hover\|pressed}` → `{background-transparent-hovered\|pressed}` (colour tokens 2.1); same as B3, no value change | No | — |

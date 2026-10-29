@@ -332,7 +332,7 @@ Same as `outlined` without the border.
 | `focus-ring` | color | `color-border-focus` (`inverse`: `color-border-inverse`) |
 | `focus-ring` | width · offset | `border-width-focus` · `border-focus-offset` |
 
-The **state layer** is a second fill painted above the container fill (web: `background-image: linear-gradient(var(--bw-color-background-transparent-hovered), var(--bw-color-background-transparent-hovered))`). Filled buttons never use a state layer; they switch to the solid `-hover`/`-pressed` tokens.
+The **state layer** is a second fill painted above the container fill (web: `background-image: linear-gradient(var(--bw-color-background-transparent-hovered), var(--bw-color-background-transparent-hovered))`). Filled buttons never use a state layer; they switch to the solid `-hovered`/`-pressed` tokens.
 
 Dark theme: same tokens, values switch automatically. No exceptions.
 
@@ -1113,3 +1113,4 @@ Executor items for round 2: #1, #2, #3, #5, #6, #7, #8 (C7 AC-9).
 | 1.0 | 2026-10-16 | Initial | No | — |
 | 1.1 | 2026-10-18 | Review round 1 Planner items: spinner uses `motion-duration-progress` (B4); loading content hidden by opacity, name kept (B2, C3); `mirrorInRtl` / `bw-icon-directional` defined (B5, C3); C6 tests and C7 AC-9/10 added | No | — |
 | 1.1 · plan 1.2 | 2026-10-19 | Review round 2 Planner items: shared test tooling fix (fresh speedy emotion cache per test, Foundations `createBiowaveEmotionCaches` + `emotionCaches` prop) in C2/C3/C5; live region always mounted (C3); `mirrorInRtl={false}` stripped (C3); C6 tests and C7 AC-11–15 + Fix round 1 task list added. Spec (B) unchanged | No | — |
+| 1.1 (wording) | 2026-10-29 | B3 prose: filled buttons switch to the `-hovered` / `-pressed` tokens (colour tokens 2.0 name); no token or value change | No | — |

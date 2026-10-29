@@ -2,6 +2,14 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Check — Token changes applied to built components] — 2026-10-29
+### Checked
+- After colour tokens 2.0 / 2.1, borders, typography 2.0 and the collection renumbering: `npm run tokens` rebuilds with no change to generated CSS / TS / Dart (402/402 contrast pairs), `npm run sync` READY (Figma variables, component tokens in all 3 files and the library index in sync; all 33 contracts current), `docs:check`, `typecheck` and `test:web` (220/220) pass.
+- Every token reference in web code (`--bw-*`, `cssVars.*`), Flutter code (`context.bw.colors.*`), `*.tokens.json` aliases, specs and `_templates` resolves to a token in `dist/tokens.json`; no raw colours in component code.
+### Fixed
+- Leftover old names in prose: Button B3 and Link B3 / C4 `-hover` → `-hovered`; Icon button D3 state layer `{overlay-hover|pressed}` → `{background-transparent-hovered|pressed}` (also fixes the tablet and mobile Figma contracts); `guidelines/icons.md` `color-icon-neutral-*` → `color-icon-default · subtle · subtlest`; Foundations README `border-input-*` → `color-border-bold`; `_audits/input-family.md` token table updated to the 2.x names (used for the input-family plans). Contracts regenerated.
+- Docs viewer text-field demo matched to Text field B3.2: border `color-border-bold` (was `border-strong`), fill `color-background-base-default`, hover = `color-background-base-hovered` fill (was a darker border), read-only = `color-background-base-subtlest` + `color-border-default` (was dashed), add-on `color-background-neutral-default` · `color-text-subtle` with the field border as divider.
+
 ## [Sync — Collections renumbered] — 2026-10-28
 ### Changed
 - Foundations collections renumbered in Figma after the AR typography collection was deleted: `7. Grid & Layout` → `6. Grid & Layout`, `9. Border` → `7. Border` (variable IDs and keys unchanged). Sync tooling (`figma-map.mjs`, `component-tokens.mjs`, `sync.mjs`, `figma-read.js`) and the badge/link/button specs updated. Figma variables verified (16/16) and marked synced.
