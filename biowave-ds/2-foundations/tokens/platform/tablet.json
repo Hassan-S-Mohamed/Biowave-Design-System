@@ -2,20 +2,22 @@
   "platform": {
     "$description": "tablet platform values (Figma mode: Tablet).",
     "breakpoint": {
-      "$description": "Viewport range for this platform (Material 3 window size classes: compact <600, medium/expanded 600-1199, large >=1200).",
+      "$description": "Viewport range for this platform (Material 3 window size classes): mobile 0–599, tablet 600–1199, web 1200 and wider.",
       "min": {
         "$type": "dimension",
         "$value": {
           "value": 600,
           "unit": "px"
-        }
+        },
+        "$description": "Smallest viewport width of this platform."
       },
       "max": {
         "$type": "dimension",
         "$value": {
           "value": 1199,
           "unit": "px"
-        }
+        },
+        "$description": "Largest viewport width of this platform (web has no maximum)."
       }
     },
     "font": {
@@ -373,33 +375,28 @@
     "grid": {
       "columns": {
         "$type": "number",
-        "$value": 8
+        "$value": 8,
+        "$description": "Number of grid columns: web 12, tablet 8, mobile 4. Content spans whole columns."
       },
       "gutter": {
         "$type": "dimension",
-        "$value": {
-          "value": 24,
-          "unit": "px"
-        }
+        "$value": "{primitive.dimension.24}",
+        "$description": "Space between grid columns: web 24, tablet 24, mobile 16. Equals spacing-layout-group, so cards and blocks follow the column rhythm."
       },
       "margin": {
         "full": {
           "$type": "dimension",
-          "$value": {
-            "value": 24,
-            "unit": "px"
-          },
-          "$description": "Outer margin, no persistent sidebar."
+          "$value": "{primitive.dimension.24}",
+          "$description": "Page margin when no sidebar is shown: web 40, tablet 24, mobile 16."
         },
         "sidebar": {
           "$type": "dimension",
-          "$value": {
-            "value": 24,
-            "unit": "px"
-          },
-          "$description": "Outer margin next to a persistent sidebar."
-        }
-      }
+          "$value": "{primitive.dimension.24}",
+          "$description": "Page margin between a persistent sidebar or rail and the content: web 24, tablet 24, mobile 16."
+        },
+        "$description": "Outer page margin: space between the viewport edge (or a sidebar) and the first column."
+      },
+      "$description": "Fluid column grid for this platform. Columns stretch; gutter and margins are fixed. In Figma apply the grid style \"Grid/Full width\" or \"Grid/With sidebar\" and set the frame mode of 6. Grid & Layout."
     },
     "spacing": {
       "layout": {
@@ -430,47 +427,34 @@
       "height": {
         "app-bar": {
           "$type": "dimension",
-          "$value": {
-            "value": 64,
-            "unit": "px"
-          }
+          "$value": "{primitive.dimension.64}",
+          "$description": "App bar (App header) height: web 72, tablet and mobile 64."
         },
         "system-status": {
           "$type": "dimension",
-          "$value": {
-            "value": 40,
-            "unit": "px"
-          },
-          "$description": "Biowave System Status Bar (not the OS status bar)."
+          "$value": "{primitive.dimension.40}",
+          "$description": "Biowave System Status Bar height (the in-app status strip, not the OS status bar): 40 on every platform."
         }
       },
       "width": {
         "sidebar-start": {
           "$type": "dimension",
-          "$value": {
-            "value": 248,
-            "unit": "px"
-          },
-          "$description": "Renamed from sidebar-left (logical, RTL-safe)."
+          "$value": "{primitive.dimension.80}",
+          "$description": "Start-side navigation width (left in LTR, right in RTL): web 248 persistent sidebar; tablet 80 navigation rail (icons + short labels); mobile 0 — navigation opens as a modal drawer."
         },
         "sidebar-end": {
           "$type": "dimension",
-          "$value": {
-            "value": 248,
-            "unit": "px"
-          },
-          "$description": "Renamed from sidebar-right (logical, RTL-safe)."
+          "$value": "{primitive.dimension.0}",
+          "$description": "End-side panel width (details, filters): web 248 persistent; tablet and mobile 0 — the panel opens as a sheet over the content."
         }
-      }
+      },
+      "$description": "Fixed heights and widths of the app frame regions."
     },
     "target": {
       "min": {
         "$type": "dimension",
-        "$value": {
-          "value": 48,
-          "unit": "px"
-        },
-        "$description": "Minimum interactive target. Web: WCAG 2.5.8 (24px). Touch: 48dp (Material) / 44pt (Apple)."
+        "$value": "{primitive.dimension.48}",
+        "$description": "Minimum interactive target (hit area, not visual size): web 24 (WCAG 2.5.8), tablet and mobile 48 (Material 48dp, above Apple 44pt)."
       }
     }
   }

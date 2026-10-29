@@ -242,31 +242,45 @@ abstract final class BwBorder {
 
 /// Container max-widths and icon sizes (logical pixels).
 abstract final class BwSize {
+  /// Max-width 320. Tooltips, menus, popovers.
   static const double containerXxs = 320;
+  /// Max-width 384. Small dialogs (confirm, single question), toasts.
   static const double containerXs = 384;
+  /// Max-width 480. Default dialog, simple forms in a dialog.
   static const double containerSm = 480;
+  /// Max-width 560. Large dialog, side sheet, multi-field forms in a dialog.
   static const double containerMd = 560;
+  /// Max-width 640. Single-column page forms, settings panels.
   static const double containerLg = 640;
+  /// Max-width 768. Reading column for long text (about 70 characters per line), detail pages.
   static const double containerXl = 768;
+  /// Max-width 1024. Medium content area — wizards, detail pages with a side column.
   static const double containerXl2 = 1024;
+  /// Max-width 1280. Default maximum width of main page content on wide screens.
   static const double containerXl3 = 1280;
+  /// Max-width 1440. Wide data screens — dashboards, large tables. Never wider.
   static const double containerXl4 = 1440;
-  static const double containerXl5 = 1600;
-  static const double containerXl6 = 1920;
+  /// Icon 12. Indicators and decoration only (status glyph inside a badge or chip). Never the only carrier of meaning.
   static const double iconXs = 12;
+  /// Icon 16. Dense web: inside sm controls, table cells, inline with caption or small text.
   static const double iconSm = 16;
+  /// Icon 20 (optical size). Default on web: inside md controls, menus, list rows, inline with body text.
   static const double iconMd = 20;
+  /// Icon 24 (optical size). Default on tablet and mobile: inside lg and xl controls, app bars, navigation.
   static const double iconLg = 24;
+  /// Icon 32. Emphasis: leading icon of a banner, avatar fallback at xl.
   static const double iconXl = 32;
+  /// Icon 40 (optical size). Feature or section icons, small empty states.
   static const double iconXl2 = 40;
+  /// Icon 48 (optical size). Empty states, onboarding, large illustrative icons.
   static const double iconXl3 = 48;
-  /// Dense web toolbars and tables.
+  /// Control height 32. Dense web only: tables, toolbars, filters. On touch never without a target-min hit area.
   static const double controlHeightSm = 32;
-  /// Default control on web.
+  /// Control height 40. Default on web.
   static const double controlHeightMd = 40;
-  /// Default on tablet and mobile (= touch target).
+  /// Control height 48. Default on tablet and mobile (= touch target).
   static const double controlHeightLg = 48;
-  /// Prominent mobile/tablet primary action.
+  /// Control height 56. Prominent tablet/mobile primary action (full-width buttons). Not on web.
   static const double controlHeightXl = 56;
 }
 
@@ -1593,8 +1607,8 @@ class BwLayout extends ThemeExtension<BwLayout> {
   /// Layout spacing (spacing-layout-container): padding from a container's edge to its content.
   final double containerPadding;
 
-  static const tablet = BwLayout(breakpointMin: 600, breakpointMax: 1199, columns: 8, gutter: 24, marginFull: 24, marginSidebar: 24, appBarHeight: 64, systemStatusHeight: 40, sidebarStart: 248, sidebarEnd: 248, minTarget: 48, sectionGap: 32, groupGap: 24, stackGap: 16, containerPadding: 24);
-  static const mobile = BwLayout(breakpointMin: 0, breakpointMax: 599, columns: 6, gutter: 8, marginFull: 16, marginSidebar: 16, appBarHeight: 64, systemStatusHeight: 40, sidebarStart: 0, sidebarEnd: 0, minTarget: 48, sectionGap: 24, groupGap: 16, stackGap: 12, containerPadding: 16);
+  static const tablet = BwLayout(breakpointMin: 600, breakpointMax: 1199, columns: 8, gutter: 24, marginFull: 24, marginSidebar: 24, appBarHeight: 64, systemStatusHeight: 40, sidebarStart: 80, sidebarEnd: 0, minTarget: 48, sectionGap: 32, groupGap: 24, stackGap: 16, containerPadding: 24);
+  static const mobile = BwLayout(breakpointMin: 0, breakpointMax: 599, columns: 4, gutter: 16, marginFull: 16, marginSidebar: 16, appBarHeight: 64, systemStatusHeight: 40, sidebarStart: 0, sidebarEnd: 0, minTarget: 48, sectionGap: 24, groupGap: 16, stackGap: 12, containerPadding: 16);
 
   static BwLayout of(BuildContext context) => Theme.of(context).extension<BwLayout>()!;
 

@@ -60,9 +60,7 @@ export const base = {
       xl: 768,
       "2xl": 1024,
       "3xl": 1280,
-      "4xl": 1440,
-      "5xl": 1600,
-      "6xl": 1920
+      "4xl": 1440
     },
     icon: {
       xs: 12,
@@ -959,8 +957,8 @@ export const platforms = {
         "system-status": 40
       },
       width: {
-        "sidebar-start": 248,
-        "sidebar-end": 248
+        "sidebar-start": 80,
+        "sidebar-end": 0
       }
     },
     target: {
@@ -1126,8 +1124,8 @@ export const platforms = {
       }
     },
     grid: {
-      columns: 6,
-      gutter: 8,
+      columns: 4,
+      gutter: 16,
       margin: {
         full: 16,
         sidebar: 16
@@ -1224,9 +1222,7 @@ export const cssVars = {
       xl: "var(--bw-size-container-xl)",
       "2xl": "var(--bw-size-container-2xl)",
       "3xl": "var(--bw-size-container-3xl)",
-      "4xl": "var(--bw-size-container-4xl)",
-      "5xl": "var(--bw-size-container-5xl)",
-      "6xl": "var(--bw-size-container-6xl)"
+      "4xl": "var(--bw-size-container-4xl)"
     },
     icon: {
       xs: "var(--bw-size-icon-xs)",

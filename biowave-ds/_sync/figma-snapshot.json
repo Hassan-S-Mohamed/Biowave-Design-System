@@ -1,7 +1,7 @@
 {
-  "syncedAt": "2026-10-29T18:09:09.523Z",
+  "syncedAt": "2026-10-29T19:16:46.582Z",
   "fileKey": "AyFaSmfDUlTax3GpKhRdHI",
-  "sourceHash": "141aae7bb2fb8f6d",
+  "sourceHash": "2e552be55fdde189",
   "tokens": {
     "1. Themes::color-surface-page": {
       "Light": "#F7F7F7",
@@ -745,12 +745,6 @@
     "4. Size::size-container-4xl": {
       "Value": 1440
     },
-    "4. Size::size-container-5xl": {
-      "Value": 1600
-    },
-    "4. Size::size-container-6xl": {
-      "Value": 1920
-    },
     "4. Size::size-icon-xs": {
       "Value": 12
     },
@@ -1264,12 +1258,12 @@
     "6. Grid & Layout::grid-columns": {
       "Web": 12,
       "Tablet": 8,
-      "Mobile": 6
+      "Mobile": 4
     },
     "6. Grid & Layout::grid-gutter": {
       "Web": 24,
       "Tablet": 24,
-      "Mobile": 8
+      "Mobile": 16
     },
     "6. Grid & Layout::grid-margin-full": {
       "Web": 40,
@@ -1313,12 +1307,12 @@
     },
     "6. Grid & Layout::layout-width-sidebar-start": {
       "Web": 248,
-      "Tablet": 248,
+      "Tablet": 80,
       "Mobile": 0
     },
     "6. Grid & Layout::layout-width-sidebar-end": {
       "Web": 248,
-      "Tablet": 248,
+      "Tablet": 0,
       "Mobile": 0
     },
     "6. Grid & Layout::target-min": {
@@ -1452,6 +1446,129 @@
     },
     "_Primitive::Typography/Letter Spacing/tight": {
       "Values": -0.16
+    },
+    "_Primitive::Dimension/0": {
+      "Values": 0
+    },
+    "_Primitive::Dimension/1": {
+      "Values": 1
+    },
+    "_Primitive::Dimension/2": {
+      "Values": 2
+    },
+    "_Primitive::Dimension/3": {
+      "Values": 3
+    },
+    "_Primitive::Dimension/4": {
+      "Values": 4
+    },
+    "_Primitive::Dimension/6": {
+      "Values": 6
+    },
+    "_Primitive::Dimension/8": {
+      "Values": 8
+    },
+    "_Primitive::Dimension/10": {
+      "Values": 10
+    },
+    "_Primitive::Dimension/12": {
+      "Values": 12
+    },
+    "_Primitive::Dimension/16": {
+      "Values": 16
+    },
+    "_Primitive::Dimension/20": {
+      "Values": 20
+    },
+    "_Primitive::Dimension/24": {
+      "Values": 24
+    },
+    "_Primitive::Dimension/32": {
+      "Values": 32
+    },
+    "_Primitive::Dimension/36": {
+      "Values": 36
+    },
+    "_Primitive::Dimension/40": {
+      "Values": 40
+    },
+    "_Primitive::Dimension/44": {
+      "Values": 44
+    },
+    "_Primitive::Dimension/48": {
+      "Values": 48
+    },
+    "_Primitive::Dimension/56": {
+      "Values": 56
+    },
+    "_Primitive::Dimension/64": {
+      "Values": 64
+    },
+    "_Primitive::Dimension/72": {
+      "Values": 72
+    },
+    "_Primitive::Dimension/80": {
+      "Values": 80
+    },
+    "_Primitive::Dimension/96": {
+      "Values": 96
+    },
+    "_Primitive::Dimension/128": {
+      "Values": 128
+    },
+    "_Primitive::Dimension/160": {
+      "Values": 160
+    },
+    "_Primitive::Dimension/192": {
+      "Values": 192
+    },
+    "_Primitive::Dimension/224": {
+      "Values": 224
+    },
+    "_Primitive::Dimension/248": {
+      "Values": 248
+    },
+    "_Primitive::Dimension/256": {
+      "Values": 256
+    },
+    "_Primitive::Dimension/320": {
+      "Values": 320
+    },
+    "_Primitive::Dimension/384": {
+      "Values": 384
+    },
+    "_Primitive::Dimension/480": {
+      "Values": 480
+    },
+    "_Primitive::Dimension/560": {
+      "Values": 560
+    },
+    "_Primitive::Dimension/640": {
+      "Values": 640
+    },
+    "_Primitive::Dimension/720": {
+      "Values": 720
+    },
+    "_Primitive::Dimension/768": {
+      "Values": 768
+    },
+    "_Primitive::Dimension/1024": {
+      "Values": 1024
+    },
+    "_Primitive::Dimension/1280": {
+      "Values": 1280
+    },
+    "_Primitive::Dimension/1440": {
+      "Values": 1440
+    },
+    "_Primitive::Dimension/1600": {
+      "Values": 1600
+    },
+    "_Primitive::Dimension/1920": {
+      "Values": 1920
+    },
+    "_Primitive::Dimension/9999": {
+      "Values": 9999
     },
     "_Primitive::Colors/primary/50": {
       "Values": "#E8ECF2"

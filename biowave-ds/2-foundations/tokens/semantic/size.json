@@ -1,84 +1,95 @@
 {
   "size": {
     "container": {
-      "$description": "Max-width tiers for dialogs, panels and content columns. FIX: now alias local primitives (were remote library \"Primitives\").",
+      "$description": "Max-width of a container or content column (use as max-width; the content stays fluid below it). Same on every platform. For page structure use the grid; for spacing use spacing tokens.",
       "xxs": {
-        "$value": "{primitive.dimension.320}"
+        "$value": "{primitive.dimension.320}",
+        "$description": "Max-width 320. Tooltips, menus, popovers."
       },
       "xs": {
-        "$value": "{primitive.dimension.384}"
+        "$value": "{primitive.dimension.384}",
+        "$description": "Max-width 384. Small dialogs (confirm, single question), toasts."
       },
       "sm": {
-        "$value": "{primitive.dimension.480}"
+        "$value": "{primitive.dimension.480}",
+        "$description": "Max-width 480. Default dialog, simple forms in a dialog."
       },
       "md": {
-        "$value": "{primitive.dimension.560}"
+        "$value": "{primitive.dimension.560}",
+        "$description": "Max-width 560. Large dialog, side sheet, multi-field forms in a dialog."
       },
       "lg": {
-        "$value": "{primitive.dimension.640}"
+        "$value": "{primitive.dimension.640}",
+        "$description": "Max-width 640. Single-column page forms, settings panels."
       },
       "xl": {
-        "$value": "{primitive.dimension.768}"
+        "$value": "{primitive.dimension.768}",
+        "$description": "Max-width 768. Reading column for long text (about 70 characters per line), detail pages."
       },
       "2xl": {
-        "$value": "{primitive.dimension.1024}"
+        "$value": "{primitive.dimension.1024}",
+        "$description": "Max-width 1024. Medium content area — wizards, detail pages with a side column."
       },
       "3xl": {
-        "$value": "{primitive.dimension.1280}"
+        "$value": "{primitive.dimension.1280}",
+        "$description": "Max-width 1280. Default maximum width of main page content on wide screens."
       },
       "4xl": {
-        "$value": "{primitive.dimension.1440}"
-      },
-      "5xl": {
-        "$value": "{primitive.dimension.1600}"
-      },
-      "6xl": {
-        "$value": "{primitive.dimension.1920}"
+        "$value": "{primitive.dimension.1440}",
+        "$description": "Max-width 1440. Wide data screens — dashboards, large tables. Never wider."
       }
     },
     "icon": {
-      "$description": "Icon box sizes (Material Symbols optical sizes 20/24/40/48).",
+      "$description": "Icon box sizes. Material Symbols optical sizes are 20, 24, 40 and 48 (md, lg, 2xl, 3xl); other sizes scale the nearest one. On touch, a tappable icon keeps a target-min hit area.",
       "xs": {
-        "$value": "{primitive.dimension.12}"
+        "$value": "{primitive.dimension.12}",
+        "$description": "Icon 12. Indicators and decoration only (status glyph inside a badge or chip). Never the only carrier of meaning."
       },
       "sm": {
-        "$value": "{primitive.dimension.16}"
+        "$value": "{primitive.dimension.16}",
+        "$description": "Icon 16. Dense web: inside sm controls, table cells, inline with caption or small text."
       },
       "md": {
-        "$value": "{primitive.dimension.20}"
+        "$value": "{primitive.dimension.20}",
+        "$description": "Icon 20 (optical size). Default on web: inside md controls, menus, list rows, inline with body text."
       },
       "lg": {
-        "$value": "{primitive.dimension.24}"
+        "$value": "{primitive.dimension.24}",
+        "$description": "Icon 24 (optical size). Default on tablet and mobile: inside lg and xl controls, app bars, navigation."
       },
       "xl": {
-        "$value": "{primitive.dimension.32}"
+        "$value": "{primitive.dimension.32}",
+        "$description": "Icon 32. Emphasis: leading icon of a banner, avatar fallback at xl."
       },
       "2xl": {
-        "$value": "{primitive.dimension.40}"
+        "$value": "{primitive.dimension.40}",
+        "$description": "Icon 40 (optical size). Feature or section icons, small empty states."
       },
       "3xl": {
-        "$value": "{primitive.dimension.48}"
+        "$value": "{primitive.dimension.48}",
+        "$description": "Icon 48 (optical size). Empty states, onboarding, large illustrative icons."
       }
     },
     "control": {
-      "$description": "Shared control heights (P-04): buttons, icon buttons, split buttons, inputs, selects, segmented buttons. Touch platforms default to lg; xl is tablet/mobile only (primary full-width actions).",
+      "$description": "Height of controls with a fixed height (Button, Icon button, Split button, Text field, Select, Segmented button). One size per row: controls side by side share a size. Components that sit in the same row as controls (Avatar) may use these heights through their component tokens so they line up. Touch platforms default to lg; xl is tablet/mobile primary actions only.",
       "height": {
         "sm": {
           "$value": "{primitive.dimension.32}",
-          "$description": "Dense web toolbars and tables."
+          "$description": "Control height 32. Dense web only: tables, toolbars, filters. On touch never without a target-min hit area."
         },
         "md": {
           "$value": "{primitive.dimension.40}",
-          "$description": "Default control on web."
+          "$description": "Control height 40. Default on web."
         },
         "lg": {
           "$value": "{primitive.dimension.48}",
-          "$description": "Default on tablet and mobile (= touch target)."
+          "$description": "Control height 48. Default on tablet and mobile (= touch target)."
         },
         "xl": {
           "$value": "{primitive.dimension.56}",
-          "$description": "Prominent mobile/tablet primary action."
-        }
+          "$description": "Control height 56. Prominent tablet/mobile primary action (full-width buttons). Not on web."
+        },
+        "$description": "Control height by size. Pair with spacing.control.*.{same size}."
       }
     }
   }

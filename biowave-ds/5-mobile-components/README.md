@@ -37,7 +37,7 @@
 - Touch target ≥ `BwLayout.mobile.minTarget` (48dp). Keep `MaterialTapTargetSize.padded`.
 - Never hard-code `TextDirection`; never use `EdgeInsets.only(left:/right:)`.
 - Honour `context.bw.reduceMotion` and the user's text scale.
-- Layout: 6 columns, 8 gutter, 16 margin; no persistent sidebars (use drawers / bottom sheets). Portrait-first. Respect SafeArea.
+- Layout: 4 columns, 16 gutter, 16 margin; no persistent sidebars — navigation opens as a modal drawer, details as a bottom sheet. Portrait-first. Respect SafeArea.
 
 ## 4. Components
 Status is written in each file header and here; `npm run docs:check` fails if they differ.

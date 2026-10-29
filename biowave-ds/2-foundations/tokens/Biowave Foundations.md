@@ -285,28 +285,26 @@ Raw ramps. Maintainers only: never bind these inside components.
 
 | Token | Value | Use |
 |---|---|---|
-| `size-container-xxs` | {"value":320,"unit":"px"} |  |
-| `size-container-xs` | {"value":384,"unit":"px"} |  |
-| `size-container-sm` | {"value":480,"unit":"px"} |  |
-| `size-container-md` | {"value":560,"unit":"px"} |  |
-| `size-container-lg` | {"value":640,"unit":"px"} |  |
-| `size-container-xl` | {"value":768,"unit":"px"} |  |
-| `size-container-2xl` | {"value":1024,"unit":"px"} |  |
-| `size-container-3xl` | {"value":1280,"unit":"px"} |  |
-| `size-container-4xl` | {"value":1440,"unit":"px"} |  |
-| `size-container-5xl` | {"value":1600,"unit":"px"} |  |
-| `size-container-6xl` | {"value":1920,"unit":"px"} |  |
-| `size-icon-xs` | {"value":12,"unit":"px"} |  |
-| `size-icon-sm` | {"value":16,"unit":"px"} |  |
-| `size-icon-md` | {"value":20,"unit":"px"} |  |
-| `size-icon-lg` | {"value":24,"unit":"px"} |  |
-| `size-icon-xl` | {"value":32,"unit":"px"} |  |
-| `size-icon-2xl` | {"value":40,"unit":"px"} |  |
-| `size-icon-3xl` | {"value":48,"unit":"px"} |  |
-| `size-control-height-sm` | {"value":32,"unit":"px"} | Dense web toolbars and tables. |
-| `size-control-height-md` | {"value":40,"unit":"px"} | Default control on web. |
-| `size-control-height-lg` | {"value":48,"unit":"px"} | Default on tablet and mobile (= touch target). |
-| `size-control-height-xl` | {"value":56,"unit":"px"} | Prominent mobile/tablet primary action. |
+| `size-container-xxs` | {"value":320,"unit":"px"} | Max-width 320. Tooltips, menus, popovers. |
+| `size-container-xs` | {"value":384,"unit":"px"} | Max-width 384. Small dialogs (confirm, single question), toasts. |
+| `size-container-sm` | {"value":480,"unit":"px"} | Max-width 480. Default dialog, simple forms in a dialog. |
+| `size-container-md` | {"value":560,"unit":"px"} | Max-width 560. Large dialog, side sheet, multi-field forms in a dialog. |
+| `size-container-lg` | {"value":640,"unit":"px"} | Max-width 640. Single-column page forms, settings panels. |
+| `size-container-xl` | {"value":768,"unit":"px"} | Max-width 768. Reading column for long text (about 70 characters per line), detail pages. |
+| `size-container-2xl` | {"value":1024,"unit":"px"} | Max-width 1024. Medium content area — wizards, detail pages with a side column. |
+| `size-container-3xl` | {"value":1280,"unit":"px"} | Max-width 1280. Default maximum width of main page content on wide screens. |
+| `size-container-4xl` | {"value":1440,"unit":"px"} | Max-width 1440. Wide data screens — dashboards, large tables. Never wider. |
+| `size-icon-xs` | {"value":12,"unit":"px"} | Icon 12. Indicators and decoration only (status glyph inside a badge or chip). Never the only carrier of meaning. |
+| `size-icon-sm` | {"value":16,"unit":"px"} | Icon 16. Dense web: inside sm controls, table cells, inline with caption or small text. |
+| `size-icon-md` | {"value":20,"unit":"px"} | Icon 20 (optical size). Default on web: inside md controls, menus, list rows, inline with body text. |
+| `size-icon-lg` | {"value":24,"unit":"px"} | Icon 24 (optical size). Default on tablet and mobile: inside lg and xl controls, app bars, navigation. |
+| `size-icon-xl` | {"value":32,"unit":"px"} | Icon 32. Emphasis: leading icon of a banner, avatar fallback at xl. |
+| `size-icon-2xl` | {"value":40,"unit":"px"} | Icon 40 (optical size). Feature or section icons, small empty states. |
+| `size-icon-3xl` | {"value":48,"unit":"px"} | Icon 48 (optical size). Empty states, onboarding, large illustrative icons. |
+| `size-control-height-sm` | {"value":32,"unit":"px"} | Control height 32. Dense web only: tables, toolbars, filters. On touch never without a target-min hit area. |
+| `size-control-height-md` | {"value":40,"unit":"px"} | Control height 40. Default on web. |
+| `size-control-height-lg` | {"value":48,"unit":"px"} | Control height 48. Default on tablet and mobile (= touch target). |
+| `size-control-height-xl` | {"value":56,"unit":"px"} | Control height 56. Prominent tablet/mobile primary action (full-width buttons). Not on web. |
 
 ## Motion
 

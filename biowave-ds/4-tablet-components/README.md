@@ -37,7 +37,7 @@
 - Touch target ≥ `BwLayout.tablet.minTarget` (48dp). Keep `MaterialTapTargetSize.padded`.
 - Never hard-code `TextDirection`; never use `EdgeInsets.only(left:/right:)`.
 - Honour `context.bw.reduceMotion` and the user's text scale.
-- Layout: 8 columns, 24 gutter, 24 margin; sidebars 248 (adaptive). Prefer navigation rail / drawer over a bottom bar; use two-pane (list-detail) layouts in landscape.
+- Layout: 8 columns, 24 gutter, 24 margin; start navigation is an 80 navigation rail, the end panel opens as a sheet. Prefer the rail over a bottom bar; use two-pane (list-detail) layouts in landscape.
 
 ## 4. Components
 Status is written in each file header and here; `npm run docs:check` fails if they differ.

@@ -2,6 +2,15 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Foundations — Size and Grid & Layout] — 2026-10-29
+### Changed — **breaking**
+- **Grid:** mobile 4 columns (was 6) and 16 gutter (was 8) — the Material compact standard; `spacing-layout-group` now equals the gutter on every platform. Tablet start navigation = 80 navigation rail (was a 248 sidebar), end panel = 0, opens as a sheet (was 248). Flutter `BwLayout`, CSS and TS follow; tablet and mobile READMEs updated.
+- **Size:** `size-container-5xl` / `6xl` removed (screen widths, not containers; unused). Every container, icon and control-height token has a usage description; the control-height group explains why Avatar may reuse control heights through its component tokens (same row, same height) — no component names in semantic tokens.
+- **Descriptions** for every grid, layout, breakpoint and target token (code + Figma, 31 variables); stale Figma notes ("Left Sidebar", "Confirmed at 40 …") replaced.
+- **Primitives:** platform dimensions alias `primitive.dimension.*` (columns and breakpoints stay raw). Figma `_Primitive › Spacing/N (Mpx)` renamed `Dimension/M` (DTCG dimension type, same as code; IDs kept) and the missing 9 added; 25 Size/Grid/Layout values that were raw now alias them. `figma-map.mjs` tracks the dimension scale (hints `group:Dimension/`).
+- **Figma:** `grid/margin/*` scope GAP; grid styles 6 → 2 (`Grid/Full width`, `Grid/With sidebar`, platform from the frame mode; old copies `_deprecated/`). Verified 52/52 + 41/41 primitives, marked synced.
+- Docs: `grid.md` (values with use, navigation per platform, Figma), `icons.md` (size use and optical sizes); AUDIT §11.
+
 ## [Foundations — Spacing 2.0] — 2026-10-29
 ### Changed — **breaking**
 - **Three levels** (plan: `_workflow/tasks/2026-10-29-spacing-2.0.md`): control (`spacing-control-*`, the step equals the control size), component (`spacing-none … 3xl`, same on every platform), layout (new, per platform). Every spacing token now has a "Use for / Not for" description, in the token source and in Figma (21 variables); the 8 control tokens had none.

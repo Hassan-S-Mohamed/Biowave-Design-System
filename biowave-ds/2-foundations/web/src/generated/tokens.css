@@ -46,8 +46,6 @@
   --bw-size-container-2xl: 1024px;
   --bw-size-container-3xl: 1280px;
   --bw-size-container-4xl: 1440px;
-  --bw-size-container-5xl: 1600px;
-  --bw-size-container-6xl: 1920px;
   --bw-size-icon-xs: 12px;
   --bw-size-icon-sm: 16px;
   --bw-size-icon-md: 20px;
@@ -722,8 +720,8 @@
     --bw-spacing-layout-container: 24px;
     --bw-layout-height-app-bar: 64px;
     --bw-layout-height-system-status: 40px;
-    --bw-layout-width-sidebar-start: 248px;
-    --bw-layout-width-sidebar-end: 248px;
+    --bw-layout-width-sidebar-start: 80px;
+    --bw-layout-width-sidebar-end: 0px;
     --bw-target-min: 48px;
   }
 }
@@ -731,8 +729,8 @@
   :root:not([data-platform]) {
     --bw-breakpoint-min: 0px;
     --bw-breakpoint-max: 599px;
-    --bw-grid-columns: 6;
-    --bw-grid-gutter: 8px;
+    --bw-grid-columns: 4;
+    --bw-grid-gutter: 16px;
     --bw-grid-margin-full: 16px;
     --bw-grid-margin-sidebar: 16px;
     --bw-spacing-layout-section: 24px;
@@ -840,8 +838,8 @@
   --bw-spacing-layout-container: 24px;
   --bw-layout-height-app-bar: 64px;
   --bw-layout-height-system-status: 40px;
-  --bw-layout-width-sidebar-start: 248px;
-  --bw-layout-width-sidebar-end: 248px;
+  --bw-layout-width-sidebar-start: 80px;
+  --bw-layout-width-sidebar-end: 0px;
   --bw-target-min: 48px;
 }
 [data-platform="mobile"] {
@@ -928,8 +926,8 @@
   --bw-font-letter-spacing-en-display: -0.16px;
   --bw-font-letter-spacing-en-default: 0px;
   --bw-font-letter-spacing-ar-default: 0px;
-  --bw-grid-columns: 6;
-  --bw-grid-gutter: 8px;
+  --bw-grid-columns: 4;
+  --bw-grid-gutter: 16px;
   --bw-grid-margin-full: 16px;
   --bw-grid-margin-sidebar: 16px;
   --bw-spacing-layout-section: 24px;

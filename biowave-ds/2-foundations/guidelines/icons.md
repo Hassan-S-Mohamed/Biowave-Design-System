@@ -15,13 +15,15 @@ Biowave uses **Google Material Symbols** — style **Rounded**, weight 400, grad
 ## Sizes
 | Token | Value | Use |
 |---|---|---|
-| `size-icon-xs` | 12px |  |
-| `size-icon-sm` | 16px |  |
-| `size-icon-md` | 20px |  |
-| `size-icon-lg` | 24px |  |
-| `size-icon-xl` | 32px |  |
-| `size-icon-2xl` | 40px |  |
-| `size-icon-3xl` | 48px |  |
+| `size-icon-xs` | 12px | Indicators and decoration only (status glyph inside a badge or chip). Never the only carrier of meaning |
+| `size-icon-sm` | 16px | Dense web: inside `sm` controls, table cells, inline with caption or small text |
+| `size-icon-md` | 20px · optical | Default on web: inside `md` controls, menus, list rows, inline with body text |
+| `size-icon-lg` | 24px · optical | Default on tablet and mobile: inside `lg`/`xl` controls, app bars, navigation |
+| `size-icon-xl` | 32px | Emphasis: leading icon of a banner, avatar fallback at `xl` |
+| `size-icon-2xl` | 40px · optical | Feature or section icons, small empty states |
+| `size-icon-3xl` | 48px · optical | Empty states, onboarding, large illustrative icons |
+
+Material Symbols optical sizes are 20, 24, 40 and 48; the other sizes scale the nearest one.
 
 Default inline icon: `size-icon-md` (20) on web, `size-icon-lg` (24) on tablet/mobile. Icon-only buttons keep the icon size but the **target** must reach `target-min`.
 

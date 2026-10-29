@@ -161,3 +161,11 @@ Three levels: **control** (`spacing-control-*`, by control size), **component** 
 - **Removed:** `spacing-4xl, 5xl, 6xl, 7xl, 8xl, 9xl, 10xl, 11xl` (no component used them). Figma: moved to `_deprecated/spacing/*`, hidden. Flutter `BwSpacing.xl4 … xl11` removed. Primitives `dimension.32 … 160` stay.
 - **Added:** `spacing-layout-section` (40/32/24), `spacing-layout-group` (24/24/16), `spacing-layout-stack` (16/16/12), `spacing-layout-container` (24/24/16) — Web/Tablet/Mobile, in `tokens/platform/*.json`; Figma `6. Grid & Layout › spacing/layout/*` (aliased to `_Primitive › Spacing/*`, scope GAP); Flutter `context.bw.layout.sectionGap · groupGap · stackGap · containerPadding`.
 - **Figma scope:** `3. Spacing` is `GAP` only (was `GAP + WIDTH_HEIGHT`).
+
+## 11. Size and Grid & Layout — 29 Oct 2026
+- **Grid:** mobile `grid-columns` 6 → **4**, `grid-gutter` 8 → **16** (now equals `spacing-layout-group` on every platform). Tablet `layout-width-sidebar-start` 248 → **80** (navigation rail), `sidebar-end` 248 → **0** (sheet).
+- **Size:** `size-container-5xl` (1600) and `6xl` (1920) removed — screen widths, not containers. Figma → `_deprecated/size/container/*`.
+- Every size, grid, layout, breakpoint and target token has a usage description (code and Figma). Grid/layout dimensions alias `primitive.dimension.*` in code and `_Primitive › Dimension/*` in Figma (breakpoints and columns stay raw).
+- **Figma primitives renamed** `Spacing/N (Mpx)` → `Dimension/M` (IDs kept), matching `primitive.dimension.M` (DTCG `dimension` type); missing ones added (1, 3, 10, 36, 44, 56, 72, 248, 9999). `_sync/figma-map.mjs` now tracks the whole dimension scale.
+- **Figma scopes:** `grid/margin/*` GAP (was WIDTH_HEIGHT); columns and breakpoints bind nowhere.
+- **Grid styles** 6 → 2: `Grid/Desktop/Full Width` → `Grid/Full width`, `Grid/Desktop/Sidebar` → `Grid/With sidebar`; the four Tablet/Mobile copies → `_deprecated/` (unpublished). The frame mode of `6. Grid & Layout` picks the platform.

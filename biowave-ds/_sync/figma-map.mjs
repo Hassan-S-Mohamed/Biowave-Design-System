@@ -82,8 +82,8 @@ export function expectedFigma(T = readJson(P.tokensJson)) {
   // ---- single-mode collections
   const single = [
     [/^radius\./, '2. Radius', 'Values', ['CORNER_RADIUS'], () => undefined, 'BwRadius'],
-    [/^spacing\./, '3. Spacing', 'Values', ['GAP'], () => 'group:Spacing/', 'BwSpacing'],
-    [/^size\./, '4. Size', 'Value', ['WIDTH_HEIGHT'], () => 'group:Spacing/', 'BwSize'],
+    [/^spacing\./, '3. Spacing', 'Values', ['GAP'], () => 'group:Dimension/', 'BwSpacing'],
+    [/^size\./, '4. Size', 'Value', ['WIDTH_HEIGHT'], () => 'group:Dimension/', 'BwSize'],
     [/^border\.width\./, '7. Border', 'Value', ['STROKE_FLOAT'], () => undefined, 'BwBorder'],
     [/^border\.focus\./, '7. Border', 'Value', ['GAP'], () => undefined, 'BwBorder'],
   ];
@@ -128,9 +128,10 @@ export function expectedFigma(T = readJson(P.tokensJson)) {
   for (const p of platformKeys) {
     if (!/^(grid|layout|breakpoint|target|spacing)\./.test(p)) continue;
     // a key missing on a platform (e.g. breakpoint.max on web = open-ended) is not checked for that mode
-    const isSpacing = p.startsWith('spacing.');
-    const scopes = isSpacing ? ['GAP'] : /^(layout|target)\./.test(p) ? ['WIDTH_HEIGHT'] : [];
-    const hint = isSpacing ? Object.fromEntries(Object.keys(PLATFORM_MODES).map((md) => [md, 'group:Spacing/'])) : {};
+    // gutter, margins and layout spacing are paddings/gaps; heights, widths and targets are sizes; columns and breakpoints bind nowhere
+    const scopes = /^(spacing|grid\.gutter|grid\.margin)\./.test(p + '.') ? ['GAP'] : /^(layout|target)\./.test(p) ? ['WIDTH_HEIGHT'] : [];
+    // every dimension except the breakpoints aliases a _Primitive Dimension/<px> variable
+    const hint = /^(spacing|grid\.gutter|grid\.margin|layout|target)\./.test(p + '.') ? Object.fromEntries(Object.keys(PLATFORM_MODES).map((md) => [md, 'group:Dimension/'])) : {};
     add({ collection: '6. Grid & Layout', name: p.split('.').join('/'), web: kebab(p), type: 'FLOAT', scopes, hint,
       modes: Object.fromEntries(Object.entries(PLATFORM_MODES).filter(([, k]) => T.platform[k][p] !== undefined).map(([md, k]) => [md, T.platform[k][p]])) });
   }
@@ -142,6 +143,12 @@ export function expectedFigma(T = readJson(P.tokensJson)) {
     if (m) add({ collection: '_Primitive', name: `Typography/${TP[m[1]]}/${m[1] === 'weight' ? v : m[2]}`, web: null, type: 'FLOAT', modes: { Values: v }, hint: {}, scopes: [] });
     const f = p.match(/^primitive\.font\.family\.(en|ar|mono)$/);
     if (f) add({ collection: '_Primitive', name: `Typography/Font Family/${f[1] === 'mono' ? 'Mono' : f[1].toUpperCase()}`, web: null, type: 'STRING', modes: { Values: Array.isArray(v) ? v[0] : v }, hint: {}, scopes: [] });
+  }
+
+  // ---- _Primitive dimension scale (hidden, matched by name): Dimension/<px> = primitive.dimension.<px> (DTCG dimension type)
+  for (const [p, v] of Object.entries(T.primitive)) {
+    const m = p.match(/^primitive\.dimension\.(\d+)$/);
+    if (m) add({ collection: '_Primitive', name: `Dimension/${m[1]}`, web: null, type: 'FLOAT', modes: { Values: v }, hint: {}, scopes: [] });
   }
 
   // ---- _Primitive colour ramps (hidden, matched by name)
