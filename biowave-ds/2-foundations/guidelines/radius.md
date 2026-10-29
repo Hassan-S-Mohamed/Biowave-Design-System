@@ -1,21 +1,31 @@
 # Radius
 
-| Token | Value | Use |
+Corner radius is chosen by **what the object is**, not by its size on screen. One scale, same on every platform: bigger surfaces get a bigger radius.
+
+## Pick by object
+| Object | Token | Value |
 |---|---|---|
-| `radius-none` | 0px | Square: sidebars, full-bleed areas. |
-| `radius-xxs` | 2px | Micro marks, progress tracks. |
-| `radius-xs` | 4px | Checkbox, small badge. |
-| `radius-sm` | 6px | Tag, tooltip, compact button. |
-| `radius-md` | 8px | Input, select, small popover, default button. |
-| `radius-lg` | 10px | Menu, dropdown. |
-| `radius-xl` | 12px | Card list item, large button. |
-| `radius-2xl` | 16px | Card, dashboard widget. |
-| `radius-3xl` | 20px | Dialog, banner. |
-| `radius-4xl` | 24px | Sheet, hero container. |
-| `radius-full` | full (9999) | Pill and circle: avatar, toggle track, count badge. |
+| Attached to a screen edge (app bar, sidebar, rail, full-bleed media, table cell) | `radius-none` | 0 |
+| Tiny marks (progress / slider track, inline code) | `radius-xxs` | 2 |
+| Inner corners of joined segments (button group, split button), checkbox, small badge | `radius-xs` | 4 |
+| Tooltip, chip, tag | `radius-sm` | 6 |
+| **Controls** — Button, Icon button, Text field, Select, Segmented button at `sm` · `md` · `lg`; small popover | `radius-md` | 8 |
+| Menu, dropdown list, popover anchored to a control | `radius-lg` | 10 |
+| `xl` (56) controls on tablet and mobile; list item shown as a card | `radius-xl` | 12 |
+| Card, dashboard widget, tile, banner inside content | `radius-2xl` | 16 |
+| Dialog and other modal surfaces | `radius-3xl` | 20 |
+| Bottom / side sheet (corners facing the content only), hero container | `radius-4xl` | 24 |
+| Pills and circles — circular avatar, switch, count and dot badges, pill chips | `radius-full` | 9999 |
+
+A rounded-square **Avatar** steps with its size: `sm` → `radius-sm`, `md` → `radius-md`, `lg` → `radius-lg`, `xl` → `radius-xl` (through the Avatar's component tokens).
 
 ## Rules
-- **Nesting:** inner radius = outer radius − padding (never larger than the parent). A `radius-2xl` card with `spacing-md` padding holds `radius-md` children.
-- Default control radius is `radius-md` (inputs, buttons, selects). Cards `radius-2xl`, dialogs `radius-3xl`, sheets `radius-4xl` (top corners only).
-- `radius-full` only for pills and circles (avatars, toggles, count badges).
-- In RTL, asymmetric corners use `BorderRadiusDirectional` / `border-start-start-radius`.
+- **Nesting:** when the padding is smaller than the outer radius, inner radius = outer radius − padding, never below `radius-xs`. When the padding is equal or larger (for example a `radius-2xl` card with `spacing-layout-container` padding), the inner element keeps its own radius from the table above.
+- **Joined segments:** outer corners keep the control radius; the corners where segments touch use `radius-xs`.
+- **Sheets:** round only the corners that face the content (`border-start-start-radius` …), never the edge attached to the screen.
+- `radius-full` only for pills and circles — never on a rectangle that can grow tall (it turns into a capsule).
+- RTL: asymmetric corners use logical properties (`border-start-start-radius`, `BorderRadiusDirectional`).
+
+## In Figma and code
+- Figma `2. Radius` (scope: corner radius only). Every value aliases `_Primitive › Dimension/<px>`; hover a variable to read where it is used.
+- CSS `var(--bw-radius-md)` · TS `cssVars.radius.md` · Flutter `BwRadius.md` (`2xl` → `BwRadius.xl2`).

@@ -259,17 +259,17 @@ Raw ramps. Maintainers only: never bind these inside components.
 
 | Token | Value | Use |
 |---|---|---|
-| `radius-none` | {"value":0,"unit":"px"} | Square: sidebars, full-bleed areas. |
-| `radius-xxs` | {"value":2,"unit":"px"} | Micro marks, progress tracks. |
-| `radius-xs` | {"value":4,"unit":"px"} | Checkbox, small badge. |
-| `radius-sm` | {"value":6,"unit":"px"} | Tag, tooltip, compact button. |
-| `radius-md` | {"value":8,"unit":"px"} | Input, select, small popover, default button. |
-| `radius-lg` | {"value":10,"unit":"px"} | Menu, dropdown. |
-| `radius-xl` | {"value":12,"unit":"px"} | Card list item, large button. |
-| `radius-2xl` | {"value":16,"unit":"px"} | Card, dashboard widget. |
-| `radius-3xl` | {"value":20,"unit":"px"} | Dialog, banner. |
-| `radius-4xl` | {"value":24,"unit":"px"} | Sheet, hero container. |
-| `radius-full` | {"value":9999,"unit":"px"} | Pill and circle: avatar, toggle track, count badge. |
+| `radius-none` | {"value":0,"unit":"px"} | Square corners. Anything attached to a screen edge — app bar, sidebar, navigation rail, full-bleed media, table cells. |
+| `radius-xxs` | {"value":2,"unit":"px"} | Hairline rounding for tiny marks: progress and slider tracks, inline code. |
+| `radius-xs` | {"value":4,"unit":"px"} | Inner corners of joined segments (button group, split button), checkbox, small badge, tags inside dense text. |
+| `radius-sm` | {"value":6,"unit":"px"} | Tooltip, chips and tags, rounded-square avatar sm. |
+| `radius-md` | {"value":8,"unit":"px"} | Default control radius: Button, Icon button, Text field, Select, Segmented button at sm, md and lg; small popovers; rounded-square avatar md. |
+| `radius-lg` | {"value":10,"unit":"px"} | Menus, dropdown lists and popovers anchored to a control (split button menu); rounded-square avatar lg. |
+| `radius-xl` | {"value":12,"unit":"px"} | xl (56) controls on tablet and mobile, list items shown as cards, rounded-square avatar xl. |
+| `radius-2xl` | {"value":16,"unit":"px"} | Cards, dashboard widgets, tiles, banners inside content. |
+| `radius-3xl` | {"value":20,"unit":"px"} | Dialogs and other modal surfaces. |
+| `radius-4xl` | {"value":24,"unit":"px"} | Bottom and side sheets (only the corners facing the content), hero containers. |
+| `radius-full` | {"value":9999,"unit":"px"} | Pills and circles: circular avatar, switch track and thumb, count and dot badges, pill chips. Never on rectangles that can grow tall. |
 
 ## Border width
 

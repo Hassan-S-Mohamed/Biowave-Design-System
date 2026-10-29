@@ -1,48 +1,49 @@
 {
   "radius": {
+    "$description": "Corner radius by object type, same on every platform. Bigger surfaces get bigger radius. Nested element: inner = outer − padding (never below xs) when the padding is smaller than the outer radius; otherwise the inner element keeps its own radius.",
     "none": {
       "$value": "{primitive.dimension.0}",
-      "$description": "Square: sidebars, full-bleed areas."
+      "$description": "Square corners. Anything attached to a screen edge — app bar, sidebar, navigation rail, full-bleed media, table cells."
     },
     "xxs": {
       "$value": "{primitive.dimension.2}",
-      "$description": "Micro marks, progress tracks."
+      "$description": "Hairline rounding for tiny marks: progress and slider tracks, inline code."
     },
     "xs": {
       "$value": "{primitive.dimension.4}",
-      "$description": "Checkbox, small badge."
+      "$description": "Inner corners of joined segments (button group, split button), checkbox, small badge, tags inside dense text."
     },
     "sm": {
       "$value": "{primitive.dimension.6}",
-      "$description": "Tag, tooltip, compact button."
+      "$description": "Tooltip, chips and tags, rounded-square avatar sm."
     },
     "md": {
       "$value": "{primitive.dimension.8}",
-      "$description": "Input, select, small popover, default button."
+      "$description": "Default control radius: Button, Icon button, Text field, Select, Segmented button at sm, md and lg; small popovers; rounded-square avatar md."
     },
     "lg": {
       "$value": "{primitive.dimension.10}",
-      "$description": "Menu, dropdown."
+      "$description": "Menus, dropdown lists and popovers anchored to a control (split button menu); rounded-square avatar lg."
     },
     "xl": {
       "$value": "{primitive.dimension.12}",
-      "$description": "Card list item, large button."
+      "$description": "xl (56) controls on tablet and mobile, list items shown as cards, rounded-square avatar xl."
     },
     "2xl": {
       "$value": "{primitive.dimension.16}",
-      "$description": "Card, dashboard widget."
+      "$description": "Cards, dashboard widgets, tiles, banners inside content."
     },
     "3xl": {
       "$value": "{primitive.dimension.20}",
-      "$description": "Dialog, banner."
+      "$description": "Dialogs and other modal surfaces."
     },
     "4xl": {
       "$value": "{primitive.dimension.24}",
-      "$description": "Sheet, hero container."
+      "$description": "Bottom and side sheets (only the corners facing the content), hero containers."
     },
     "full": {
       "$value": "{primitive.dimension.9999}",
-      "$description": "Pill and circle: avatar, toggle track, count badge."
+      "$description": "Pills and circles: circular avatar, switch track and thumb, count and dot badges, pill chips. Never on rectangles that can grow tall."
     }
   }
 }

@@ -2,6 +2,12 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Foundations — Radius descriptions] — 2026-10-29
+### Changed
+- Every radius token has a usage description by object type (code + Figma); old ones contradicted real use (`sm` "compact button", `xl` "large button" — buttons use `md`, and `xl` only at the 56 control size). Group description added.
+- Figma `2. Radius`: the 11 values alias `_Primitive › Dimension/*` (were raw); `figma-map.mjs` hint `group:Dimension/`.
+- `radius.md` rewritten: pick-by-object table, avatar steps, nesting rule fixed for paddings ≥ outer radius (e.g. card + `spacing-layout-container`), joined segments, sheets. AUDIT §12.
+
 ## [Foundations — Size and Grid & Layout] — 2026-10-29
 ### Changed — **breaking**
 - **Grid:** mobile 4 columns (was 6) and 16 gutter (was 8) — the Material compact standard; `spacing-layout-group` now equals the gutter on every platform. Tablet start navigation = 80 navigation rail (was a 248 sidebar), end panel = 0, opens as a sheet (was 248). Flutter `BwLayout`, CSS and TS follow; tablet and mobile READMEs updated.

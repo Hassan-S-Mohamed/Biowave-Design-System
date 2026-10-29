@@ -169,3 +169,6 @@ Three levels: **control** (`spacing-control-*`, by control size), **component** 
 - **Figma primitives renamed** `Spacing/N (Mpx)` → `Dimension/M` (IDs kept), matching `primitive.dimension.M` (DTCG `dimension` type); missing ones added (1, 3, 10, 36, 44, 56, 72, 248, 9999). `_sync/figma-map.mjs` now tracks the whole dimension scale.
 - **Figma scopes:** `grid/margin/*` GAP (was WIDTH_HEIGHT); columns and breakpoints bind nowhere.
 - **Grid styles** 6 → 2: `Grid/Desktop/Full Width` → `Grid/Full width`, `Grid/Desktop/Sidebar` → `Grid/With sidebar`; the four Tablet/Mobile copies → `_deprecated/` (unpublished). The frame mode of `6. Grid & Layout` picks the platform.
+
+## 12. Radius — 29 Oct 2026
+Values unchanged (all steps are used or planned). Every radius token now has a "pick by object" description (code and Figma) matching real use: controls `md` at sm/md/lg and `xl` at xl, joined-segment inner corners `xs`, tooltip `sm`, menus `lg`, cards `2xl`, dialogs `3xl`, sheets `4xl`, avatar steps with its size. Figma values alias `_Primitive › Dimension/*` (were raw). Nesting rule corrected for paddings larger than the outer radius.

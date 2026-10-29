@@ -81,7 +81,7 @@ export function expectedFigma(T = readJson(P.tokensJson)) {
 
   // ---- single-mode collections
   const single = [
-    [/^radius\./, '2. Radius', 'Values', ['CORNER_RADIUS'], () => undefined, 'BwRadius'],
+    [/^radius\./, '2. Radius', 'Values', ['CORNER_RADIUS'], () => 'group:Dimension/', 'BwRadius'],
     [/^spacing\./, '3. Spacing', 'Values', ['GAP'], () => 'group:Dimension/', 'BwSpacing'],
     [/^size\./, '4. Size', 'Value', ['WIDTH_HEIGHT'], () => 'group:Dimension/', 'BwSize'],
     [/^border\.width\./, '7. Border', 'Value', ['STROKE_FLOAT'], () => undefined, 'BwBorder'],

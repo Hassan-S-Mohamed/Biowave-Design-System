@@ -203,27 +203,27 @@ abstract final class BwSpacing {
 
 /// Corner radius scale (logical pixels).
 abstract final class BwRadius {
-  /// Square: sidebars, full-bleed areas.
+  /// Square corners. Anything attached to a screen edge — app bar, sidebar, navigation rail, full-bleed media, table cells.
   static const double none = 0;
-  /// Micro marks, progress tracks.
+  /// Hairline rounding for tiny marks: progress and slider tracks, inline code.
   static const double xxs = 2;
-  /// Checkbox, small badge.
+  /// Inner corners of joined segments (button group, split button), checkbox, small badge, tags inside dense text.
   static const double xs = 4;
-  /// Tag, tooltip, compact button.
+  /// Tooltip, chips and tags, rounded-square avatar sm.
   static const double sm = 6;
-  /// Input, select, small popover, default button.
+  /// Default control radius: Button, Icon button, Text field, Select, Segmented button at sm, md and lg; small popovers; rounded-square avatar md.
   static const double md = 8;
-  /// Menu, dropdown.
+  /// Menus, dropdown lists and popovers anchored to a control (split button menu); rounded-square avatar lg.
   static const double lg = 10;
-  /// Card list item, large button.
+  /// xl (56) controls on tablet and mobile, list items shown as cards, rounded-square avatar xl.
   static const double xl = 12;
-  /// Card, dashboard widget.
+  /// Cards, dashboard widgets, tiles, banners inside content.
   static const double xl2 = 16;
-  /// Dialog, banner.
+  /// Dialogs and other modal surfaces.
   static const double xl3 = 20;
-  /// Sheet, hero container.
+  /// Bottom and side sheets (only the corners facing the content), hero containers.
   static const double xl4 = 24;
-  /// Pill and circle: avatar, toggle track, count badge.
+  /// Pills and circles: circular avatar, switch track and thumb, count and dot badges, pill chips. Never on rectangles that can grow tall.
   static const double full = 9999;
 }
 
