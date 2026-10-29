@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Planning — Spacing 2.0 brief] — 2026-10-29
+### Added
+- `_workflow/tasks/2026-10-29-spacing-2.0.md`: approved plan for Codex — spacing in three levels (control · component · layout), new platform tokens `spacing-layout-section · group · stack · container` (Web/Tablet/Mobile), `spacing-4xl … 11xl` removed, "Use for / Not for" descriptions for every spacing token, Figma scope GAP only. No token changed yet.
+
 ## [Repository — branches merged and cleaned up] — 2026-10-29
 ### Changed
 - Merged into `main`: `rules/component-tokens-semantic` (#5, AGENTS.md rule 3b), `fix/docs-live-icon` (#12), `docs/live-icon-and-foundations-audit` (#11, adds `_audits/foundations.md`; the Pin toggle demo keeps the #12 fix), `ds/button-group-web` (review round 3 Approved). Button group contracts regenerated after the merge.
