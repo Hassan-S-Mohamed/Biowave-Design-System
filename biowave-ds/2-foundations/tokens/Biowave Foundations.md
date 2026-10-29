@@ -237,31 +237,23 @@ Raw ramps. Maintainers only: never bind these inside components.
 
 | Token | Value | Use |
 |---|---|---|
-| `spacing-none` | {"value":0,"unit":"px"} | Intentional zero spacing. Collapsing gaps, removing default padding on reset elements. |
-| `spacing-xxs` | {"value":2,"unit":"px"} | Micro adjustments. Notification badge offset, indicator dot position, tight icon nudges. |
-| `spacing-xs` | {"value":4,"unit":"px"} | Icon-to-label gap, tag/badge internal padding, tight chip spacing, button icon gap. |
-| `spacing-sm` | {"value":6,"unit":"px"} | Status pill padding, pagination item padding, vertical tab padding, small control gaps. |
-| `spacing-md` | {"value":8,"unit":"px"} | Table cell padding, button group gap, modal inner gap, list row vertical padding, tooltip padding. |
-| `spacing-lg` | {"value":12,"unit":"px"} | Tab button vertical padding, accordion header padding, form label gap, link group gap. |
-| `spacing-xl` | {"value":16,"unit":"px"} | Tab button horizontal padding, button large padding, notification padding, table cell horizontal padding, form field label gap. |
-| `spacing-2xl` | {"value":20,"unit":"px"} | Button large horizontal padding, section subgroup spacing, comfortable list gaps on tablet. |
-| `spacing-3xl` | {"value":24,"unit":"px"} | Modal padding, card padding, notification horizontal padding, accordion medium gap. |
-| `spacing-4xl` | {"value":32,"unit":"px"} | Section padding, section gap, card lg/md/sm padding on web. Major layout rhythm value. |
-| `spacing-5xl` | {"value":40,"unit":"px"} | Page content top padding, large drawer padding, between-section vertical rhythm on web. |
-| `spacing-6xl` | {"value":48,"unit":"px"} | Accordion medium header gap, large section separators, major vertical rhythm breaks. |
-| `spacing-7xl` | {"value":64,"unit":"px"} | Page header bottom margin, switch description offset, large structural gaps on web. |
-| `spacing-8xl` | {"value":80,"unit":"px"} | Large layout offsets, page-level container padding on wide breakpoints. |
-| `spacing-9xl` | {"value":96,"unit":"px"} | Maximum semantic spacing. Wide-screen page container horizontal padding. |
-| `spacing-10xl` | {"value":128,"unit":"px"} | Radio description indent, structural layout offsets in complex dashboard layouts. |
-| `spacing-11xl` | {"value":160,"unit":"px"} | Maximum layout structural offset. Rare — use only for intentional large structural gaps. |
-| `spacing-control-padding-inline-sm` | {"value":8,"unit":"px"} |  |
-| `spacing-control-padding-inline-md` | {"value":12,"unit":"px"} |  |
-| `spacing-control-padding-inline-lg` | {"value":16,"unit":"px"} |  |
-| `spacing-control-padding-inline-xl` | {"value":24,"unit":"px"} |  |
-| `spacing-control-gap-sm` | {"value":4,"unit":"px"} |  |
-| `spacing-control-gap-md` | {"value":6,"unit":"px"} |  |
-| `spacing-control-gap-lg` | {"value":8,"unit":"px"} |  |
-| `spacing-control-gap-xl` | {"value":8,"unit":"px"} |  |
+| `spacing-none` | {"value":0,"unit":"px"} | Component · 0. Use for: explicitly removing padding or gap — flush lists, joined button groups, edge-to-edge media. Not for: hiding content. |
+| `spacing-xxs` | {"value":2,"unit":"px"} | Component · 2px optical nudge. Use for: badge offset on an avatar or icon, status dot position, gap between stacked lines in dense data. Not for: padding of anything interactive or gaps between interactive elements. |
+| `spacing-xs` | {"value":4,"unit":"px"} | Component · Tight gap inside a component. Use for: icon-to-text in badges, chips and inline links; title-to-description in list items and card headers; badge padding; field-to-supporting-text gap. Not for: control padding (use control/*) or gaps between separate interactive elements (use md or more). |
+| `spacing-sm` | {"value":6,"unit":"px"} | Component · Compact gap. Use for: label-to-field gap, compact chip and tag padding, icon-to-text in small non-control elements. Not for: layout or control padding. |
+| `spacing-md` | {"value":8,"unit":"px"} | Component · Default small gap. Use for: tooltip and popover padding, gap between related interactive elements (button group, chip row, toolbar icon buttons), dense list-row vertical padding, menu item gap. Not for: card, dialog or panel padding (use layout/container). |
+| `spacing-lg` | {"value":12,"unit":"px"} | Component · Comfortable gap. Use for: list-row padding, menu padding-inline, avatar-to-text gap in list items, gap between the parts of a component (toast header and body). Not for: space between components on a page (use layout/*). |
+| `spacing-xl` | {"value":16,"unit":"px"} | Component · Large gap inside a component. Use for: list-row and menu-row padding-inline on touch, content-to-action gap in banners and snackbars, table cell padding-inline. Not for: container edges of cards, dialogs and panels (use layout/container). |
+| `spacing-2xl` | {"value":20,"unit":"px"} | Component · Extra-large gap inside a large component, when xl is too tight and 3xl too loose — side sheet header padding, empty-state content gap. Rare. Not for: layout. |
+| `spacing-3xl` | {"value":24,"unit":"px"} | Component · Largest step inside a component that owns its own spacing — navigation drawer header, illustration-to-text in empty states. Not for: card or dialog padding, which changes per platform (use layout/container). |
+| `spacing-control-padding-inline-sm` | {"value":8,"unit":"px"} | Control · Horizontal padding of sm (32px) controls. Dense web only: tables, toolbars, filters. Never mix with another size. |
+| `spacing-control-padding-inline-md` | {"value":12,"unit":"px"} | Control · Horizontal padding of md (40px) controls. Default on web. |
+| `spacing-control-padding-inline-lg` | {"value":16,"unit":"px"} | Control · Horizontal padding of lg (48px) controls. Default on tablet and mobile. |
+| `spacing-control-padding-inline-xl` | {"value":24,"unit":"px"} | Control · Horizontal padding of xl (56px) controls. Tablet and mobile primary actions only. |
+| `spacing-control-gap-sm` | {"value":4,"unit":"px"} | Control · Icon-to-label gap in sm (32px) controls. |
+| `spacing-control-gap-md` | {"value":6,"unit":"px"} | Control · Icon-to-label gap in md (40px) controls. Default on web. |
+| `spacing-control-gap-lg` | {"value":8,"unit":"px"} | Control · Icon-to-label gap in lg (48px) controls. Default on tablet and mobile. |
+| `spacing-control-gap-xl` | {"value":8,"unit":"px"} | Control · Icon-to-label gap in xl (56px) controls. |
 
 ## Radius
 

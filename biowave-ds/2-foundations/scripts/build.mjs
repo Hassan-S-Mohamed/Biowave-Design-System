@@ -284,7 +284,7 @@ ${typeIds.map((x) => `      ${x.id}: TextStyle.lerp(${x.id}, other.${x.id}, t)!,
 /// Grid and layout metrics for one platform. Read with \`BwLayout.of(context)\`.
 @immutable
 class BwLayout extends ThemeExtension<BwLayout> {
-  const BwLayout({required this.breakpointMin, this.breakpointMax, required this.columns, required this.gutter, required this.marginFull, required this.marginSidebar, required this.appBarHeight, required this.systemStatusHeight, required this.sidebarStart, required this.sidebarEnd, required this.minTarget});
+  const BwLayout({required this.breakpointMin, this.breakpointMax, required this.columns, required this.gutter, required this.marginFull, required this.marginSidebar, required this.appBarHeight, required this.systemStatusHeight, required this.sidebarStart, required this.sidebarEnd, required this.minTarget, required this.sectionGap, required this.groupGap, required this.stackGap, required this.containerPadding});
   final double breakpointMin;
   final double? breakpointMax;
   final int columns;
@@ -297,10 +297,18 @@ class BwLayout extends ThemeExtension<BwLayout> {
   final double sidebarEnd;
   /// Minimum interactive target size.
   final double minTarget;
+  /// Layout spacing (spacing-layout-section): vertical gap between page sections.
+  final double sectionGap;
+  /// Layout spacing (spacing-layout-group): gap between sibling blocks in a section (= gutter).
+  final double groupGap;
+  /// Layout spacing (spacing-layout-stack): gap between consecutive items in a vertical flow.
+  final double stackGap;
+  /// Layout spacing (spacing-layout-container): padding from a container's edge to its content.
+  final double containerPadding;
 
 ${dartPlatforms.map((p) => {
   const g = (k) => px(all.platform[p].get(`platform.${k}`)?.value);
-  return `  static const ${p} = BwLayout(breakpointMin: ${g('breakpoint.min')}, breakpointMax: ${g('breakpoint.max') ?? 'null'}, columns: ${g('grid.columns')}, gutter: ${g('grid.gutter')}, marginFull: ${g('grid.margin.full')}, marginSidebar: ${g('grid.margin.sidebar')}, appBarHeight: ${g('layout.height.app-bar')}, systemStatusHeight: ${g('layout.height.system-status')}, sidebarStart: ${g('layout.width.sidebar-start')}, sidebarEnd: ${g('layout.width.sidebar-end')}, minTarget: ${g('target.min')});`;
+  return `  static const ${p} = BwLayout(breakpointMin: ${g('breakpoint.min')}, breakpointMax: ${g('breakpoint.max') ?? 'null'}, columns: ${g('grid.columns')}, gutter: ${g('grid.gutter')}, marginFull: ${g('grid.margin.full')}, marginSidebar: ${g('grid.margin.sidebar')}, appBarHeight: ${g('layout.height.app-bar')}, systemStatusHeight: ${g('layout.height.system-status')}, sidebarStart: ${g('layout.width.sidebar-start')}, sidebarEnd: ${g('layout.width.sidebar-end')}, minTarget: ${g('target.min')}, sectionGap: ${g('spacing.layout.section')}, groupGap: ${g('spacing.layout.group')}, stackGap: ${g('spacing.layout.stack')}, containerPadding: ${g('spacing.layout.container')});`;
 }).join('\n')}
 
   static BwLayout of(BuildContext context) => Theme.of(context).extension<BwLayout>()!;

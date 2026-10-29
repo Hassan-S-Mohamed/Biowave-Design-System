@@ -155,3 +155,9 @@ Raw hex (no primitive yet, by decision): accent role and the `color/data/*` grou
 ## 9. Typography 2.0 — 28 Oct 2026
 
 `5. Typography (EN)` → `5. Typography` (modes renamed `Web/Tablet/Mobile` → `… · EN`, `… · AR` added). Variable renames (IDs kept): `Font Family` → `font/family/default`; `Size/<Role>/<size>` → `font/size/<role>/<size>`; `Line Height/<Role>/<size>` → `font/line-height/<role>/<size>`; `Role Weight/<role>` → `font/weight/<role>`. Text styles `Web/en/<role>/<size>` → `<role>/<size>` (keys kept). Deprecated: `Font Weight/*`, all `Web/ar/*`, `Tablet/*`, `Mobile/*` and `*/md-medium` styles, collection `6. Typography (AR)` (unpublished 2026-10-28 after the Web Components migration; no component file uses a `Web/ar/*` style). It can now be deleted from Foundations.
+
+## 10. Spacing 2.0 — 29 Oct 2026
+Three levels: **control** (`spacing-control-*`, by control size), **component** (`spacing-none … 3xl`, same on every platform), **layout** (new, per platform). Every spacing token has a "Use for / Not for" description in code and Figma.
+- **Removed:** `spacing-4xl, 5xl, 6xl, 7xl, 8xl, 9xl, 10xl, 11xl` (no component used them). Figma: moved to `_deprecated/spacing/*`, hidden. Flutter `BwSpacing.xl4 … xl11` removed. Primitives `dimension.32 … 160` stay.
+- **Added:** `spacing-layout-section` (40/32/24), `spacing-layout-group` (24/24/16), `spacing-layout-stack` (16/16/12), `spacing-layout-container` (24/24/16) — Web/Tablet/Mobile, in `tokens/platform/*.json`; Figma `6. Grid & Layout › spacing/layout/*` (aliased to `_Primitive › Spacing/*`, scope GAP); Flutter `context.bw.layout.sectionGap · groupGap · stackGap · containerPadding`.
+- **Figma scope:** `3. Spacing` is `GAP` only (was `GAP + WIDTH_HEIGHT`).

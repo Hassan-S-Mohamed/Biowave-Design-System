@@ -394,6 +394,31 @@
         }
       }
     },
+    "spacing": {
+      "layout": {
+        "$description": "Layout spacing between components. Changes per platform: set the frame's 6. Grid & Layout mode (Figma) or data-platform / BwLayout (code).",
+        "section": {
+          "$type": "dimension",
+          "$value": "{primitive.dimension.40}",
+          "$description": "Layout · Vertical gap between page sections that each have their own heading. Not for: space inside a card or form."
+        },
+        "group": {
+          "$type": "dimension",
+          "$value": "{primitive.dimension.24}",
+          "$description": "Layout · Gap between sibling blocks inside a section — cards in a row or grid, form groups, dashboard widgets. Equals grid-gutter so blocks follow the column rhythm. Not for: fields inside one form group (use layout/stack)."
+        },
+        "stack": {
+          "$type": "dimension",
+          "$value": "{primitive.dimension.16}",
+          "$description": "Layout · Gap between consecutive items in a vertical flow inside a container — section heading to content, field to field, paragraph to paragraph, content to the actions row. Not for: icon-to-text or other gaps inside one component."
+        },
+        "container": {
+          "$type": "dimension",
+          "$value": "{primitive.dimension.24}",
+          "$description": "Layout · Padding from the edge of a surface container to its content — card, dialog, side panel, bottom sheet. Not for: controls, list rows or tooltips (use control/* or the component scale)."
+        }
+      }
+    },
     "layout": {
       "height": {
         "app-bar": {

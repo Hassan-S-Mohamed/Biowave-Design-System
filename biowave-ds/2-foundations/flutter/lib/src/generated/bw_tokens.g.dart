@@ -165,47 +165,39 @@ abstract final class BwPalette {
 
 /// Spacing scale (logical pixels).
 abstract final class BwSpacing {
-  /// Intentional zero spacing. Collapsing gaps, removing default padding on reset elements. 
+  /// Component · 0. Use for: explicitly removing padding or gap — flush lists, joined button groups, edge-to-edge media. Not for: hiding content.
   static const double none = 0;
-  /// Micro adjustments. Notification badge offset, indicator dot position, tight icon nudges. 
+  /// Component · 2px optical nudge. Use for: badge offset on an avatar or icon, status dot position, gap between stacked lines in dense data. Not for: padding of anything interactive or gaps between interactive elements.
   static const double xxs = 2;
-  /// Icon-to-label gap, tag/badge internal padding, tight chip spacing, button icon gap. 
+  /// Component · Tight gap inside a component. Use for: icon-to-text in badges, chips and inline links; title-to-description in list items and card headers; badge padding; field-to-supporting-text gap. Not for: control padding (use control/*) or gaps between separate interactive elements (use md or more).
   static const double xs = 4;
-  /// Status pill padding, pagination item padding, vertical tab padding, small control gaps. 
+  /// Component · Compact gap. Use for: label-to-field gap, compact chip and tag padding, icon-to-text in small non-control elements. Not for: layout or control padding.
   static const double sm = 6;
-  /// Table cell padding, button group gap, modal inner gap, list row vertical padding, tooltip padding. 
+  /// Component · Default small gap. Use for: tooltip and popover padding, gap between related interactive elements (button group, chip row, toolbar icon buttons), dense list-row vertical padding, menu item gap. Not for: card, dialog or panel padding (use layout/container).
   static const double md = 8;
-  /// Tab button vertical padding, accordion header padding, form label gap, link group gap. 
+  /// Component · Comfortable gap. Use for: list-row padding, menu padding-inline, avatar-to-text gap in list items, gap between the parts of a component (toast header and body). Not for: space between components on a page (use layout/*).
   static const double lg = 12;
-  /// Tab button horizontal padding, button large padding, notification padding, table cell horizontal padding, form field label gap. 
+  /// Component · Large gap inside a component. Use for: list-row and menu-row padding-inline on touch, content-to-action gap in banners and snackbars, table cell padding-inline. Not for: container edges of cards, dialogs and panels (use layout/container).
   static const double xl = 16;
-  /// Button large horizontal padding, section subgroup spacing, comfortable list gaps on tablet. 
+  /// Component · Extra-large gap inside a large component, when xl is too tight and 3xl too loose — side sheet header padding, empty-state content gap. Rare. Not for: layout.
   static const double xl2 = 20;
-  /// Modal padding, card padding, notification horizontal padding, accordion medium gap. 
+  /// Component · Largest step inside a component that owns its own spacing — navigation drawer header, illustration-to-text in empty states. Not for: card or dialog padding, which changes per platform (use layout/container).
   static const double xl3 = 24;
-  /// Section padding, section gap, card lg/md/sm padding on web. Major layout rhythm value. 
-  static const double xl4 = 32;
-  /// Page content top padding, large drawer padding, between-section vertical rhythm on web. 
-  static const double xl5 = 40;
-  /// Accordion medium header gap, large section separators, major vertical rhythm breaks. 
-  static const double xl6 = 48;
-  /// Page header bottom margin, switch description offset, large structural gaps on web. 
-  static const double xl7 = 64;
-  /// Large layout offsets, page-level container padding on wide breakpoints. 
-  static const double xl8 = 80;
-  /// Maximum semantic spacing. Wide-screen page container horizontal padding. 
-  static const double xl9 = 96;
-  /// Radio description indent, structural layout offsets in complex dashboard layouts. 
-  static const double xl10 = 128;
-  /// Maximum layout structural offset. Rare — use only for intentional large structural gaps. 
-  static const double xl11 = 160;
+  /// Control · Horizontal padding of sm (32px) controls. Dense web only: tables, toolbars, filters. Never mix with another size.
   static const double controlPaddingInlineSm = 8;
+  /// Control · Horizontal padding of md (40px) controls. Default on web.
   static const double controlPaddingInlineMd = 12;
+  /// Control · Horizontal padding of lg (48px) controls. Default on tablet and mobile.
   static const double controlPaddingInlineLg = 16;
+  /// Control · Horizontal padding of xl (56px) controls. Tablet and mobile primary actions only.
   static const double controlPaddingInlineXl = 24;
+  /// Control · Icon-to-label gap in sm (32px) controls.
   static const double controlGapSm = 4;
+  /// Control · Icon-to-label gap in md (40px) controls. Default on web.
   static const double controlGapMd = 6;
+  /// Control · Icon-to-label gap in lg (48px) controls. Default on tablet and mobile.
   static const double controlGapLg = 8;
+  /// Control · Icon-to-label gap in xl (56px) controls.
   static const double controlGapXl = 8;
 }
 
@@ -1579,7 +1571,7 @@ class BwTextStyles extends ThemeExtension<BwTextStyles> {
 /// Grid and layout metrics for one platform. Read with `BwLayout.of(context)`.
 @immutable
 class BwLayout extends ThemeExtension<BwLayout> {
-  const BwLayout({required this.breakpointMin, this.breakpointMax, required this.columns, required this.gutter, required this.marginFull, required this.marginSidebar, required this.appBarHeight, required this.systemStatusHeight, required this.sidebarStart, required this.sidebarEnd, required this.minTarget});
+  const BwLayout({required this.breakpointMin, this.breakpointMax, required this.columns, required this.gutter, required this.marginFull, required this.marginSidebar, required this.appBarHeight, required this.systemStatusHeight, required this.sidebarStart, required this.sidebarEnd, required this.minTarget, required this.sectionGap, required this.groupGap, required this.stackGap, required this.containerPadding});
   final double breakpointMin;
   final double? breakpointMax;
   final int columns;
@@ -1592,9 +1584,17 @@ class BwLayout extends ThemeExtension<BwLayout> {
   final double sidebarEnd;
   /// Minimum interactive target size.
   final double minTarget;
+  /// Layout spacing (spacing-layout-section): vertical gap between page sections.
+  final double sectionGap;
+  /// Layout spacing (spacing-layout-group): gap between sibling blocks in a section (= gutter).
+  final double groupGap;
+  /// Layout spacing (spacing-layout-stack): gap between consecutive items in a vertical flow.
+  final double stackGap;
+  /// Layout spacing (spacing-layout-container): padding from a container's edge to its content.
+  final double containerPadding;
 
-  static const tablet = BwLayout(breakpointMin: 600, breakpointMax: 1199, columns: 8, gutter: 24, marginFull: 24, marginSidebar: 24, appBarHeight: 64, systemStatusHeight: 40, sidebarStart: 248, sidebarEnd: 248, minTarget: 48);
-  static const mobile = BwLayout(breakpointMin: 0, breakpointMax: 599, columns: 6, gutter: 8, marginFull: 16, marginSidebar: 16, appBarHeight: 64, systemStatusHeight: 40, sidebarStart: 0, sidebarEnd: 0, minTarget: 48);
+  static const tablet = BwLayout(breakpointMin: 600, breakpointMax: 1199, columns: 8, gutter: 24, marginFull: 24, marginSidebar: 24, appBarHeight: 64, systemStatusHeight: 40, sidebarStart: 248, sidebarEnd: 248, minTarget: 48, sectionGap: 32, groupGap: 24, stackGap: 16, containerPadding: 24);
+  static const mobile = BwLayout(breakpointMin: 0, breakpointMax: 599, columns: 6, gutter: 8, marginFull: 16, marginSidebar: 16, appBarHeight: 64, systemStatusHeight: 40, sidebarStart: 0, sidebarEnd: 0, minTarget: 48, sectionGap: 24, groupGap: 16, stackGap: 12, containerPadding: 16);
 
   static BwLayout of(BuildContext context) => Theme.of(context).extension<BwLayout>()!;
 

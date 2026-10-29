@@ -14,6 +14,8 @@ Each platform has a fluid column grid plus layout constants. Values come from `t
 | `layout-width-sidebar-start / end` | 248 | 248 (adaptive) | 0 (drawer) |
 | `target-min` | 24 | 48 | 48 |
 
+Spacing between components on a page (`spacing-layout-section · group · stack · container`) also changes per platform and sits in the same Figma collection — see [spacing](spacing.md#layout-spacing).
+
 Breakpoints follow Material 3 window size classes (compact < 600, medium/expanded 600–1199, large ≥ 1200), so web and Flutter agree.
 
 ## Page templates (from Figma "Grid & Layout Styles")

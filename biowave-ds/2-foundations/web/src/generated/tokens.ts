@@ -11,14 +11,6 @@ export const base = {
     xl: 16,
     "2xl": 20,
     "3xl": 24,
-    "4xl": 32,
-    "5xl": 40,
-    "6xl": 48,
-    "7xl": 64,
-    "8xl": 80,
-    "9xl": 96,
-    "10xl": 128,
-    "11xl": 160,
     control: {
       "padding-inline": {
         sm: 8,
@@ -765,6 +757,14 @@ export const platforms = {
         sidebar: 24
       }
     },
+    spacing: {
+      layout: {
+        section: 40,
+        group: 24,
+        stack: 16,
+        container: 24
+      }
+    },
     layout: {
       height: {
         "app-bar": 72,
@@ -943,6 +943,14 @@ export const platforms = {
       margin: {
         full: 24,
         sidebar: 24
+      }
+    },
+    spacing: {
+      layout: {
+        section: 32,
+        group: 24,
+        stack: 16,
+        container: 24
       }
     },
     layout: {
@@ -1125,6 +1133,14 @@ export const platforms = {
         sidebar: 16
       }
     },
+    spacing: {
+      layout: {
+        section: 24,
+        group: 16,
+        stack: 12,
+        container: 16
+      }
+    },
     layout: {
       height: {
         "app-bar": 64,
@@ -1153,14 +1169,6 @@ export const cssVars = {
     xl: "var(--bw-spacing-xl)",
     "2xl": "var(--bw-spacing-2xl)",
     "3xl": "var(--bw-spacing-3xl)",
-    "4xl": "var(--bw-spacing-4xl)",
-    "5xl": "var(--bw-spacing-5xl)",
-    "6xl": "var(--bw-spacing-6xl)",
-    "7xl": "var(--bw-spacing-7xl)",
-    "8xl": "var(--bw-spacing-8xl)",
-    "9xl": "var(--bw-spacing-9xl)",
-    "10xl": "var(--bw-spacing-10xl)",
-    "11xl": "var(--bw-spacing-11xl)",
     control: {
       "padding-inline": {
         sm: "var(--bw-spacing-control-padding-inline-sm)",
@@ -1174,6 +1182,12 @@ export const cssVars = {
         lg: "var(--bw-spacing-control-gap-lg)",
         xl: "var(--bw-spacing-control-gap-xl)"
       }
+    },
+    layout: {
+      section: "var(--bw-spacing-layout-section)",
+      group: "var(--bw-spacing-layout-group)",
+      stack: "var(--bw-spacing-layout-stack)",
+      container: "var(--bw-spacing-layout-container)"
     }
   },
   radius: {

@@ -1,103 +1,80 @@
 {
   "spacing": {
-    "$description": "Padding, gap and margin scale (4px base, 2px half-steps for micro adjustments).",
+    "$description": "Component and control spacing (4px base, 2px and 6px half-steps). Same value on every platform. For space between components use platform.spacing.layout.*.",
     "none": {
       "$value": "{primitive.dimension.0}",
-      "$description": "Intentional zero spacing. Collapsing gaps, removing default padding on reset elements.\n"
+      "$description": "Component · 0. Use for: explicitly removing padding or gap — flush lists, joined button groups, edge-to-edge media. Not for: hiding content."
     },
     "xxs": {
       "$value": "{primitive.dimension.2}",
-      "$description": "Micro adjustments. Notification badge offset, indicator dot position, tight icon nudges.\n"
+      "$description": "Component · 2px optical nudge. Use for: badge offset on an avatar or icon, status dot position, gap between stacked lines in dense data. Not for: padding of anything interactive or gaps between interactive elements."
     },
     "xs": {
       "$value": "{primitive.dimension.4}",
-      "$description": "Icon-to-label gap, tag/badge internal padding, tight chip spacing, button icon gap.\n"
+      "$description": "Component · Tight gap inside a component. Use for: icon-to-text in badges, chips and inline links; title-to-description in list items and card headers; badge padding; field-to-supporting-text gap. Not for: control padding (use control/*) or gaps between separate interactive elements (use md or more)."
     },
     "sm": {
       "$value": "{primitive.dimension.6}",
-      "$description": "Status pill padding, pagination item padding, vertical tab padding, small control gaps.\n"
+      "$description": "Component · Compact gap. Use for: label-to-field gap, compact chip and tag padding, icon-to-text in small non-control elements. Not for: layout or control padding."
     },
     "md": {
       "$value": "{primitive.dimension.8}",
-      "$description": "Table cell padding, button group gap, modal inner gap, list row vertical padding, tooltip padding.\n"
+      "$description": "Component · Default small gap. Use for: tooltip and popover padding, gap between related interactive elements (button group, chip row, toolbar icon buttons), dense list-row vertical padding, menu item gap. Not for: card, dialog or panel padding (use layout/container)."
     },
     "lg": {
       "$value": "{primitive.dimension.12}",
-      "$description": "Tab button vertical padding, accordion header padding, form label gap, link group gap.\n"
+      "$description": "Component · Comfortable gap. Use for: list-row padding, menu padding-inline, avatar-to-text gap in list items, gap between the parts of a component (toast header and body). Not for: space between components on a page (use layout/*)."
     },
     "xl": {
       "$value": "{primitive.dimension.16}",
-      "$description": "Tab button horizontal padding, button large padding, notification padding, table cell horizontal padding, form field label gap.\n"
+      "$description": "Component · Large gap inside a component. Use for: list-row and menu-row padding-inline on touch, content-to-action gap in banners and snackbars, table cell padding-inline. Not for: container edges of cards, dialogs and panels (use layout/container)."
     },
     "2xl": {
       "$value": "{primitive.dimension.20}",
-      "$description": "Button large horizontal padding, section subgroup spacing, comfortable list gaps on tablet.\n"
+      "$description": "Component · Extra-large gap inside a large component, when xl is too tight and 3xl too loose — side sheet header padding, empty-state content gap. Rare. Not for: layout."
     },
     "3xl": {
       "$value": "{primitive.dimension.24}",
-      "$description": "Modal padding, card padding, notification horizontal padding, accordion medium gap.\n"
-    },
-    "4xl": {
-      "$value": "{primitive.dimension.32}",
-      "$description": "Section padding, section gap, card lg/md/sm padding on web. Major layout rhythm value.\n"
-    },
-    "5xl": {
-      "$value": "{primitive.dimension.40}",
-      "$description": "Page content top padding, large drawer padding, between-section vertical rhythm on web.\n"
-    },
-    "6xl": {
-      "$value": "{primitive.dimension.48}",
-      "$description": "Accordion medium header gap, large section separators, major vertical rhythm breaks.\n"
-    },
-    "7xl": {
-      "$value": "{primitive.dimension.64}",
-      "$description": "Page header bottom margin, switch description offset, large structural gaps on web.\n"
-    },
-    "8xl": {
-      "$value": "{primitive.dimension.80}",
-      "$description": "Large layout offsets, page-level container padding on wide breakpoints.\n"
-    },
-    "9xl": {
-      "$value": "{primitive.dimension.96}",
-      "$description": "Maximum semantic spacing. Wide-screen page container horizontal padding.\n"
-    },
-    "10xl": {
-      "$value": "{primitive.dimension.128}",
-      "$description": "Radio description indent, structural layout offsets in complex dashboard layouts.\n"
-    },
-    "11xl": {
-      "$value": "{primitive.dimension.160}",
-      "$description": "Maximum layout structural offset. Rare — use only for intentional large structural gaps.\n"
+      "$description": "Component · Largest step inside a component that owns its own spacing — navigation drawer header, illustration-to-text in empty states. Not for: card or dialog padding, which changes per platform (use layout/container)."
     },
     "control": {
-      "$description": "Shared control spacing by control size (P-04). Use with size.control.height.*.",
+      "$description": "Control · Spacing inside controls with a fixed height (Button, Icon button, Split button, Text field, Select, Segmented button). The step always equals the control size: a md control uses padding-inline.md and gap.md. Use with size.control.height.*.",
       "padding-inline": {
         "sm": {
-          "$value": "{primitive.dimension.8}"
+          "$value": "{primitive.dimension.8}",
+          "$description": "Control · Horizontal padding of sm (32px) controls. Dense web only: tables, toolbars, filters. Never mix with another size."
         },
         "md": {
-          "$value": "{primitive.dimension.12}"
+          "$value": "{primitive.dimension.12}",
+          "$description": "Control · Horizontal padding of md (40px) controls. Default on web."
         },
         "lg": {
-          "$value": "{primitive.dimension.16}"
+          "$value": "{primitive.dimension.16}",
+          "$description": "Control · Horizontal padding of lg (48px) controls. Default on tablet and mobile."
         },
         "xl": {
-          "$value": "{primitive.dimension.24}"
-        }
+          "$value": "{primitive.dimension.24}",
+          "$description": "Control · Horizontal padding of xl (56px) controls. Tablet and mobile primary actions only."
+        },
+        "$description": "Control · Horizontal padding inside a control. The step always equals the control size."
       },
       "gap": {
-        "$description": "Icon-to-label gap inside a control.",
+        "$description": "Control · Icon-to-label gap inside a control. The step always equals the control size.",
         "sm": {
-          "$value": "{primitive.dimension.4}"
+          "$value": "{primitive.dimension.4}",
+          "$description": "Control · Icon-to-label gap in sm (32px) controls."
         },
         "md": {
-          "$value": "{primitive.dimension.6}"
+          "$value": "{primitive.dimension.6}",
+          "$description": "Control · Icon-to-label gap in md (40px) controls. Default on web."
         },
         "lg": {
-          "$value": "{primitive.dimension.8}"
+          "$value": "{primitive.dimension.8}",
+          "$description": "Control · Icon-to-label gap in lg (48px) controls. Default on tablet and mobile."
         },
         "xl": {
-          "$value": "{primitive.dimension.8}"
+          "$value": "{primitive.dimension.8}",
+          "$description": "Control · Icon-to-label gap in xl (56px) controls."
         }
       }
     }

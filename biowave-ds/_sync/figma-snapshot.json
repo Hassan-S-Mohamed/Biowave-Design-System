@@ -1,7 +1,7 @@
 {
-  "syncedAt": "2026-10-28T14:53:17.800Z",
+  "syncedAt": "2026-10-29T18:09:09.523Z",
   "fileKey": "AyFaSmfDUlTax3GpKhRdHI",
-  "sourceHash": "d83c1f66b59b01e6",
+  "sourceHash": "141aae7bb2fb8f6d",
   "tokens": {
     "1. Themes::color-surface-page": {
       "Light": "#F7F7F7",
@@ -646,30 +646,6 @@
     "3. Spacing::spacing-3xl": {
       "Values": 24
     },
-    "3. Spacing::spacing-4xl": {
-      "Values": 32
-    },
-    "3. Spacing::spacing-5xl": {
-      "Values": 40
-    },
-    "3. Spacing::spacing-6xl": {
-      "Values": 48
-    },
-    "3. Spacing::spacing-7xl": {
-      "Values": 64
-    },
-    "3. Spacing::spacing-8xl": {
-      "Values": 80
-    },
-    "3. Spacing::spacing-9xl": {
-      "Values": 96
-    },
-    "3. Spacing::spacing-10xl": {
-      "Values": 128
-    },
-    "3. Spacing::spacing-11xl": {
-      "Values": 160
-    },
     "3. Spacing::spacing-control-padding-inline-sm": {
       "Values": 8
     },
@@ -1301,6 +1277,26 @@
       "Mobile": 16
     },
     "6. Grid & Layout::grid-margin-sidebar": {
+      "Web": 24,
+      "Tablet": 24,
+      "Mobile": 16
+    },
+    "6. Grid & Layout::spacing-layout-section": {
+      "Web": 40,
+      "Tablet": 32,
+      "Mobile": 24
+    },
+    "6. Grid & Layout::spacing-layout-group": {
+      "Web": 24,
+      "Tablet": 24,
+      "Mobile": 16
+    },
+    "6. Grid & Layout::spacing-layout-stack": {
+      "Web": 16,
+      "Tablet": 16,
+      "Mobile": 12
+    },
+    "6. Grid & Layout::spacing-layout-container": {
       "Web": 24,
       "Tablet": 24,
       "Mobile": 16

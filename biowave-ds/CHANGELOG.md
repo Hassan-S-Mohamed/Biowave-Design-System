@@ -2,6 +2,15 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Foundations — Spacing 2.0] — 2026-10-29
+### Changed — **breaking**
+- **Three levels** (plan: `_workflow/tasks/2026-10-29-spacing-2.0.md`): control (`spacing-control-*`, the step equals the control size), component (`spacing-none … 3xl`, same on every platform), layout (new, per platform). Every spacing token now has a "Use for / Not for" description, in the token source and in Figma (21 variables); the 8 control tokens had none.
+- **Added** `spacing-layout-section` 40/32/24 · `group` 24/24/16 (= gutter) · `stack` 16/16/12 · `container` 24/24/16 (Web/Tablet/Mobile) in `tokens/platform/*.json` → CSS `--bw-spacing-layout-*` (switches with viewport / `data-platform`), TS `cssVars.spacing.layout.*`, Flutter `BwLayout` `sectionGap · groupGap · stackGap · containerPadding`. Figma: `6. Grid & Layout › spacing/layout/*`, aliased to `_Primitive › Spacing/*`, scope GAP, Flutter code syntax `context.bw.layout.*`.
+- **Removed** `spacing-4xl … 11xl` (unused by components) and `BwSpacing.xl4 … xl11`; Figma → `_deprecated/spacing/*`.
+- Figma `3. Spacing` scope: GAP only (spacing no longer shows in width/height fields). `figma-map.mjs` updated; Figma verified 32/32 and marked synced.
+- Docs viewer (`_docs/viewer.css`): removed steps replaced — page padding → `grid-margin-full`, section gaps → `spacing-layout-section`, card padding → `spacing-layout-container`, illustration sizes → `size-icon-*`.
+- `spacing.md` rewritten (levels, decision order, Use/Not tables, layout section, example, Figma and code usage); `grid.md` links to layout spacing; AUDIT §10.
+
 ## [Planning — Spacing 2.0 brief] — 2026-10-29
 ### Added
 - `_workflow/tasks/2026-10-29-spacing-2.0.md`: approved plan for Codex — spacing in three levels (control · component · layout), new platform tokens `spacing-layout-section · group · stack · container` (Web/Tablet/Mobile), `spacing-4xl … 11xl` removed, "Use for / Not for" descriptions for every spacing token, Figma scope GAP only. No token changed yet.

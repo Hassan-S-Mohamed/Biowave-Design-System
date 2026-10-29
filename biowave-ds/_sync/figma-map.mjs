@@ -82,7 +82,7 @@ export function expectedFigma(T = readJson(P.tokensJson)) {
   // ---- single-mode collections
   const single = [
     [/^radius\./, '2. Radius', 'Values', ['CORNER_RADIUS'], () => undefined, 'BwRadius'],
-    [/^spacing\./, '3. Spacing', 'Values', ['GAP', 'WIDTH_HEIGHT'], () => 'group:Spacing/', 'BwSpacing'],
+    [/^spacing\./, '3. Spacing', 'Values', ['GAP'], () => 'group:Spacing/', 'BwSpacing'],
     [/^size\./, '4. Size', 'Value', ['WIDTH_HEIGHT'], () => 'group:Spacing/', 'BwSize'],
     [/^border\.width\./, '7. Border', 'Value', ['STROKE_FLOAT'], () => undefined, 'BwBorder'],
     [/^border\.focus\./, '7. Border', 'Value', ['GAP'], () => undefined, 'BwBorder'],
@@ -126,10 +126,12 @@ export function expectedFigma(T = readJson(P.tokensJson)) {
   // ---- 6. Grid & Layout
   const platformKeys = [...new Set(Object.values(PLATFORM_MODES).flatMap((k) => Object.keys(T.platform[k])))];
   for (const p of platformKeys) {
-    if (!/^(grid|layout|breakpoint|target)\./.test(p)) continue;
+    if (!/^(grid|layout|breakpoint|target|spacing)\./.test(p)) continue;
     // a key missing on a platform (e.g. breakpoint.max on web = open-ended) is not checked for that mode
-    const scopes = /^(layout|target)\./.test(p) ? ['WIDTH_HEIGHT'] : [];
-    add({ collection: '6. Grid & Layout', name: p.split('.').join('/'), web: kebab(p), type: 'FLOAT', scopes, hint: {},
+    const isSpacing = p.startsWith('spacing.');
+    const scopes = isSpacing ? ['GAP'] : /^(layout|target)\./.test(p) ? ['WIDTH_HEIGHT'] : [];
+    const hint = isSpacing ? Object.fromEntries(Object.keys(PLATFORM_MODES).map((md) => [md, 'group:Spacing/'])) : {};
+    add({ collection: '6. Grid & Layout', name: p.split('.').join('/'), web: kebab(p), type: 'FLOAT', scopes, hint,
       modes: Object.fromEntries(Object.entries(PLATFORM_MODES).filter(([, k]) => T.platform[k][p] !== undefined).map(([md, k]) => [md, T.platform[k][p]])) });
   }
 
