@@ -165,7 +165,7 @@ abstract final class BwPalette {
 
 /// Spacing scale (logical pixels).
 abstract final class BwSpacing {
-  /// Component · 0. Use for: explicitly removing padding or gap — flush lists, joined button groups, edge-to-edge media. Not for: hiding content.
+  /// Component · 0. Use for: explicitly removing padding or gap — flush lists, joined segments (split button: the parts touch and a Divider separates them), edge-to-edge media. Not for: hiding content.
   static const double none = 0;
   /// Component · 2px optical nudge. Use for: badge offset on an avatar or icon, status dot position, gap between stacked lines in dense data. Not for: padding of anything interactive or gaps between interactive elements.
   static const double xxs = 2;
@@ -203,11 +203,11 @@ abstract final class BwSpacing {
 
 /// Corner radius scale (logical pixels).
 abstract final class BwRadius {
-  /// Square corners. Anything attached to a screen edge — app bar, sidebar, navigation rail, full-bleed media, table cells.
+  /// Square corners. Anything attached to a screen edge — app bar, sidebar, navigation rail, full-bleed media, table cells — and the inner corners where joined segments touch (split button).
   static const double none = 0;
   /// Hairline rounding for tiny marks: progress and slider tracks, inline code.
   static const double xxs = 2;
-  /// Inner corners of joined segments (button group, split button), checkbox, small badge, tags inside dense text.
+  /// Focus ring of inline links, checkbox, small badge, tags inside dense text.
   static const double xs = 4;
   /// Tooltip, chips and tags, rounded-square avatar sm.
   static const double sm = 6;

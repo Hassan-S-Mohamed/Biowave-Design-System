@@ -3,7 +3,7 @@
     "$description": "Corner radius by object type, same on every platform. Bigger surfaces get bigger radius. Nested element: inner = outer − padding (never below xs) when the padding is smaller than the outer radius; otherwise the inner element keeps its own radius.",
     "none": {
       "$value": "{primitive.dimension.0}",
-      "$description": "Square corners. Anything attached to a screen edge — app bar, sidebar, navigation rail, full-bleed media, table cells."
+      "$description": "Square corners. Anything attached to a screen edge — app bar, sidebar, navigation rail, full-bleed media, table cells — and the inner corners where joined segments touch (split button)."
     },
     "xxs": {
       "$value": "{primitive.dimension.2}",
@@ -11,7 +11,7 @@
     },
     "xs": {
       "$value": "{primitive.dimension.4}",
-      "$description": "Inner corners of joined segments (button group, split button), checkbox, small badge, tags inside dense text."
+      "$description": "Focus ring of inline links, checkbox, small badge, tags inside dense text."
     },
     "sm": {
       "$value": "{primitive.dimension.6}",

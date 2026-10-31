@@ -5,9 +5,9 @@ Corner radius is chosen by **what the object is**, not by its size on screen. On
 ## Pick by object
 | Object | Token | Value |
 |---|---|---|
-| Attached to a screen edge (app bar, sidebar, rail, full-bleed media, table cell) | `radius-none` | 0 |
+| Attached to a screen edge (app bar, sidebar, rail, full-bleed media, table cell); inner corners of joined segments (split button) | `radius-none` | 0 |
 | Tiny marks (progress / slider track, inline code) | `radius-xxs` | 2 |
-| Inner corners of joined segments (button group, split button), checkbox, small badge | `radius-xs` | 4 |
+| Focus ring of inline links, checkbox, small badge | `radius-xs` | 4 |
 | Tooltip, chip, tag | `radius-sm` | 6 |
 | **Controls** — Button, Icon button, Text field, Select, Segmented button at `sm` · `md` · `lg`; small popover | `radius-md` | 8 |
 | Menu, dropdown list, popover anchored to a control | `radius-lg` | 10 |
@@ -21,7 +21,7 @@ A rounded-square **Avatar** steps with its size: `sm` → `radius-sm`, `md` → 
 
 ## Rules
 - **Nesting:** when the padding is smaller than the outer radius, inner radius = outer radius − padding, never below `radius-xs`. When the padding is equal or larger (for example a `radius-2xl` card with `spacing-layout-container` padding), the inner element keeps its own radius from the table above.
-- **Joined segments:** outer corners keep the control radius; the corners where segments touch use `radius-xs`.
+- **Joined segments** (split button): outer corners keep the control radius; the corners where segments touch are square (`radius-none`) and a vertical Divider (`color-border-default`) separates the parts — no gap.
 - **Sheets:** round only the corners that face the content (`border-start-start-radius` …), never the edge attached to the screen.
 - `radius-full` only for pills and circles — never on a rectangle that can grow tall (it turns into a capsule).
 - RTL: asymmetric corners use logical properties (`border-start-start-radius`, `BorderRadiusDirectional`).

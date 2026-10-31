@@ -1,7 +1,7 @@
-<!-- GENERATED from tooltip.md @ 41dc4db4a9154dc3 — do not edit; change the source and run: npm run contract -- web tooltip -->
+<!-- GENERATED from tooltip.md @ b557679c3eacd3c9 — do not edit; change the source and run: npm run contract -- web tooltip -->
 # Tooltip · تلميح — Web — Figma contract
 
-> **Everything the Figma Agent needs to build Tooltip in the Web Components file, with our variables and styles.** Read this file only. Generated from [`tooltip.md`](tooltip.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-29). Questions go to [D11 Execution log](tooltip.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
+> **Everything the Figma Agent needs to build Tooltip in the Web Components file, with our variables and styles.** Read this file only. Generated from [`tooltip.md`](tooltip.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-31). Questions go to [D11 Execution log](tooltip.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
 
 **Two phases, one review:** Phase 1 — build the component set (§7–§8). Phase 2 — as soon as Phase 1 is finished, the 12 documentation pages and the Components List card (§9).
 
@@ -12,7 +12,7 @@
 | Component | Tooltip · تلميح |
 | Platform | Web · React + MUI |
 | Version | 1.1 · 2026-10-24 |
-| Source | [`tooltip.md`](tooltip.md) @ `41dc4db4a9154dc3` |
+| Source | [`tooltip.md`](tooltip.md) @ `b557679c3eacd3c9` |
 
 ## 1. Library connections in this file
 
