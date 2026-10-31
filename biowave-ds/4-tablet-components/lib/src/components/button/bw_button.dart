@@ -101,7 +101,7 @@ class BwButton extends StatelessWidget {
     final ringBorderRadius = borderRadius.resolve(Directionality.of(context));
     final style = baseStyle.copyWith(
       shape: WidgetStatePropertyAll<OutlinedBorder>(
-        RoundedRectangleBorder(borderRadius: borderRadius),
+        BwButtonStyle.segmentShape(borderRadius, segment),
       ),
       backgroundBuilder: (context, states, child) {
         assert(child != null);

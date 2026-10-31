@@ -1,4 +1,8 @@
 import 'package:biowave_tablet/biowave_tablet.dart';
+import 'package:biowave_tablet/src/components/button/bw_button.dart'
+    show BwButtonSegment;
+import 'package:biowave_tablet/src/components/button/bw_button_style.dart';
+import 'package:biowave_tablet/src/components/button/bw_segment_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
@@ -131,9 +135,11 @@ void main() {
                 find.byKey(const ValueKey<String>('BwIconButton.container')),
               );
               final primaryShape = primary.style!.shape!
-                  .resolve(const <WidgetState>{})! as RoundedRectangleBorder;
+                  .resolve(const <WidgetState>{})! as BwSegmentBorder;
               final triggerShape = trigger.style!.shape!
-                  .resolve(const <WidgetState>{})! as RoundedRectangleBorder;
+                  .resolve(const <WidgetState>{})! as BwSegmentBorder;
+              expect(primaryShape.segment, BwButtonSegment.start);
+              expect(triggerShape.segment, BwButtonSegment.end);
               final primaryRadius = primaryShape.borderRadius.resolve(
                 direction,
               );
@@ -143,7 +149,7 @@ void main() {
               final outer = Radius.circular(
                 size == BwControlSize.xl ? BwRadius.xl : BwRadius.md,
               );
-              const inner = Radius.circular(BwRadius.xs);
+              const inner = Radius.circular(BwRadius.none);
 
               expect(
                 primaryRadius.topLeft,
@@ -180,11 +186,28 @@ void main() {
                 triggerRect.width,
                 greaterThanOrEqualTo(BwLayout.tablet.minTarget),
               );
+              // Segments touch; the 1px Divider (border-width-default,
+              // color-border-default) is the only thing between them.
+              final dividerRect = tester.getRect(
+                find.byKey(const ValueKey<String>('divider')),
+              );
+              final divider = tester.widget<VerticalDivider>(
+                find.descendant(
+                  of: find.byKey(const ValueKey<String>('divider')),
+                  matching: find.byType(VerticalDivider),
+                ),
+              );
+              expect(divider.thickness, BwBorder.widthDefault);
+              expect(dividerRect.width, BwBorder.widthDefault);
+              expect(
+                dividerRect.height,
+                BwButtonStyle.metrics(size).height,
+              );
               expect(
                 direction == TextDirection.ltr
                     ? triggerRect.left - primaryRect.right
                     : primaryRect.left - triggerRect.right,
-                BwSpacing.xxs,
+                BwBorder.widthDefault,
               );
             }
           }
@@ -216,6 +239,16 @@ void main() {
         );
 
         expect(firstItemRect.top, containerRect.bottom + BwSpacing.xs);
+        // Touch menu rows: size-control-height-lg, spacing-xl.
+        final itemStyle = tester.widget<MenuItemButton>(find.widgetWithText(MenuItemButton, 'Export as Excel')).style!;
+        expect(
+          itemStyle.minimumSize!.resolve(<WidgetState>{})!.height,
+          BwSize.controlHeightLg,
+        );
+        expect(
+          itemStyle.padding!.resolve(<WidgetState>{}),
+          const EdgeInsetsDirectional.symmetric(horizontal: BwSpacing.xl),
+        );
         if (direction == TextDirection.ltr) {
           expect(firstItemRect.right, closeTo(containerRect.right, 0.01));
         } else {

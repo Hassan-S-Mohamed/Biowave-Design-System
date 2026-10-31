@@ -87,7 +87,7 @@ class BwButton extends StatelessWidget {
         ? baseStyle
         : baseStyle.copyWith(
             shape: WidgetStatePropertyAll<OutlinedBorder>(
-              RoundedRectangleBorder(borderRadius: borderRadius),
+              BwButtonStyle.segmentShape(borderRadius, segment),
             ),
             backgroundBuilder: (
               BuildContext builderContext,

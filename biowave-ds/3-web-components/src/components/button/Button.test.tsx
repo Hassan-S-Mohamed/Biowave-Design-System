@@ -46,11 +46,11 @@ interface TokenLeaf {
 interface SourceVisualTokens {
   container: {
     default: TokenLeaf;
-    hover?: TokenLeaf;
+    hovered?: TokenLeaf;
     pressed?: TokenLeaf;
     disabled: TokenLeaf;
   };
-  'state-layer'?: { hover: TokenLeaf; pressed: TokenLeaf };
+  'state-layer'?: { hovered: TokenLeaf; pressed: TokenLeaf };
   border?: { default: TokenLeaf; disabled: TokenLeaf };
   label: { default: TokenLeaf; disabled: TokenLeaf };
   icon: { default: TokenLeaf; disabled: TokenLeaf };
@@ -81,13 +81,13 @@ function cssVariable({ $value }: TokenLeaf): string {
 function expectedVisualTokens(tokens: SourceVisualTokens): ButtonVisualTokens {
   return {
     bg: cssVariable(tokens.container.default),
-    ...(tokens.container.hover ? { bgHover: cssVariable(tokens.container.hover) } : {}),
+    ...(tokens.container.hovered ? { bgHovered: cssVariable(tokens.container.hovered) } : {}),
     ...(tokens.container.pressed ? { bgPressed: cssVariable(tokens.container.pressed) } : {}),
     bgDisabled: cssVariable(tokens.container.disabled),
     ...(tokens['state-layer']
       ? {
           stateLayer: {
-            hover: cssVariable(tokens['state-layer'].hover),
+            hovered: cssVariable(tokens['state-layer'].hovered),
             pressed: cssVariable(tokens['state-layer'].pressed),
           },
         }
@@ -306,12 +306,12 @@ describe('Button rendering', () => {
       expect(rules).toContain(buttonMotionTokens.defaultDuration);
       expect(rules).toContain(buttonMotionTokens.pressedDuration);
       expect(rules).toContain(buttonMotionTokens.standardEasing);
-      if (visual.bgHover && visual.bgPressed) {
-        expect(rules).toContain(visual.bgHover);
+      if (visual.bgHovered && visual.bgPressed) {
+        expect(rules).toContain(visual.bgHovered);
         expect(rules).toContain(visual.bgPressed);
       } else {
         expect(rules).toContain(
-          `linear-gradient(${visual.stateLayer?.hover}, ${visual.stateLayer?.hover})`,
+          `linear-gradient(${visual.stateLayer?.hovered}, ${visual.stateLayer?.hovered})`,
         );
         expect(rules).toContain(
           `linear-gradient(${visual.stateLayer?.pressed}, ${visual.stateLayer?.pressed})`,

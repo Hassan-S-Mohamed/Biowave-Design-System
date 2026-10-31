@@ -1,4 +1,4 @@
-<!-- GENERATED from split-button.md @ 6bff0f95361fb5b6 — do not edit; change the source and run: npm run contract -- mobile split-button -->
+<!-- GENERATED from split-button.md @ 2b4a38882466f3e2 — do not edit; change the source and run: npm run contract -- mobile split-button -->
 # Split button · زر مقسّم — Mobile — code contract
 
 > **Everything you need to build Split button on Mobile, and nothing else.** Read this file only. Generated from [`split-button.md`](split-button.md) (Parts B and C). If something is unclear or impossible, stop and write it in [C8 Execution log → Questions](split-button.md#c8-execution-log-filled-by-the-executor) — never invent behaviour.
@@ -9,10 +9,10 @@
 | Platform | Mobile · Flutter + Material 3 |
 | Built on | Composition of `BwButton` (`primary-action`) + `BwIconButton` (`menu-trigger`) + M3 `MenuAnchor` (temporary until the Menu component on Day 10) |
 | Import | `BwSplitButton` from `package:biowave_mobile/biowave_mobile.dart` |
-| Version | 1.0 · 2026-10-16 |
+| Version | 1.1 · 2026-10-31 |
 | Source code | `lib/src/components/split_button/bw_split_button.dart` |
 | Tokens | — |
-| Source | [`split-button.md`](split-button.md) @ `6bff0f95361fb5b6` |
+| Source | [`split-button.md`](split-button.md) @ `2b4a38882466f3e2` |
 
 ## 1. What it is
 
@@ -22,11 +22,11 @@ A split button joins a main action with a menu of related alternatives: "Export"
 
 | # | Part | Required | Role |
 |---|---|---|---|
-| 1 | `container` | Yes | Groups the two parts; outer corners rounded, inner corners tight |
+| 1 | `container` | Yes | Joins the two parts; outer corners rounded, inner corners square |
 | 2 | `primary-action` | Yes | A Button: runs the most common action |
 | 3 | `menu-trigger` | Yes | An Icon button with a chevron: opens the menu |
 | 4 | `menu` | Yes | The alternatives (Menu component) |
-| 5 | `gap` | Yes | Small gap that separates the two hit areas |
+| 5 | `divider` | Yes | A vertical [Divider](../divider/divider.md#a--guidelines) where the two parts meet. The parts touch (no gap), so this line is what separates the two hit areas |
 
 **Options** (names and values are the props in §2):
 
@@ -54,7 +54,7 @@ A split button joins a main action with a menu of related alternatives: "Export"
 
 ## 3. Dimensions
 
-Two parts with `spacing-xxs` (`BwSpacing.xxs`) between; outer corners `radius-md` (`xl`: `radius-xl`), inner corners `radius-xs` via `BorderRadiusDirectional`; parts follow BwButton / BwIconButton B2. Menu: the [Web B2](../../../3-web-components/components/split-button/split-button.md#b2-dimensions) tokens, mapped on Mobile as below.
+The two parts touch (`spacing-none`) with a vertical `divider` between them: `VerticalDivider(width: BwBorder.widthDefault, thickness: BwBorder.widthDefault, indent/endIndent: BwSpacing.none, color: color-border-default)` in a `SizedBox` of the control height — the Divider spec values, same on every variant and color (swap for `BwDivider` vertical once Divider is built on Mobile). Outer corners `radius-md` (`xl`: `radius-xl`), inner corners `radius-none` via `BorderRadiusDirectional`; each part's shape is `BwSegmentBorder` (internal), which leaves the inner edge unstroked so an outlined control shows one line there. Parts follow BwButton / BwIconButton B2. Menu: the [Web B2](../../../3-web-components/components/split-button/split-button.md#b2-dimensions) tokens, mapped on Mobile as below (touch-sized rows).
 
 | Part | Property | Token | Mobile mapping |
 |---|---|---|---|
@@ -65,9 +65,9 @@ Two parts with `spacing-xxs` (`BwSpacing.xxs`) between; outer corners `radius-md
 | `menu` | radius | `radius-lg` | the decorated surface; `MenuStyle.shape` uses the same radius |
 | `menu` | elevation | `elevation-3` | the decorated surface: `boxShadow: context.bw.elevation.elevation3` |
 | `menu` | M3 surface (unused) | `color-background-transparent-default` | `MenuStyle.backgroundColor`, `shadowColor` and `surfaceTintColor` |
-| `menu` item | height | `size-control-height-md` | item `minimumSize` |
-| `menu` item | padding-inline | `spacing-control-padding-inline-md` | `EdgeInsetsDirectional` |
-| `menu` item | icon–label gap | `spacing-control-gap-md` | |
+| `menu` item | height | `size-control-height-lg` (touch row = `target-min`) | item `minimumSize` |
+| `menu` item | padding-inline | `spacing-xl` (menu-row padding on touch, component scale) | `EdgeInsetsDirectional` |
+| `menu` item | icon · icon–label gap | `size-icon-lg` · `spacing-md` | `BwIcon(size: BwIconSize.lg)` · `SizedBox` |
 | `menu` item | text style | `body-md` | `context.bw.text.bodyMd` |
 | `menu` item | focus ring width | `border-width-focus` | inner ring (B3); item corners square, clipped by the surface |
 
@@ -112,14 +112,15 @@ Values are for checking only — never paste a value.
 | `motion-easing-standard-decelerate` | `context.bw` / `Bw*` constant in `bw_tokens.g.dart` | [0,0,0,1] | [0,0,0,1] |
 | `radius-lg` | `context.bw` / `Bw*` constant in `bw_tokens.g.dart` | 10 | 10 |
 | `radius-md` | `context.bw` / `Bw*` constant in `bw_tokens.g.dart` | 8 | 8 |
+| `radius-none` | `context.bw` / `Bw*` constant in `bw_tokens.g.dart` | 0 | 0 |
 | `radius-xl` | `context.bw` / `Bw*` constant in `bw_tokens.g.dart` | 12 | 12 |
-| `radius-xs` | `context.bw` / `Bw*` constant in `bw_tokens.g.dart` | 4 | 4 |
-| `size-control-height-md` | `context.bw` / `Bw*` constant in `bw_tokens.g.dart` | 40 | 40 |
-| `spacing-control-gap-md` | `context.bw` / `Bw*` constant in `bw_tokens.g.dart` | 6 | 6 |
-| `spacing-control-padding-inline-md` | `context.bw` / `Bw*` constant in `bw_tokens.g.dart` | 12 | 12 |
+| `size-control-height-lg` | `context.bw` / `Bw*` constant in `bw_tokens.g.dart` | 48 | 48 |
+| `size-icon-lg` | `context.bw` / `Bw*` constant in `bw_tokens.g.dart` | 24 | 24 |
+| `spacing-md` | `context.bw` / `Bw*` constant in `bw_tokens.g.dart` | 8 | 8 |
 | `spacing-none` | `context.bw` / `Bw*` constant in `bw_tokens.g.dart` | 0 | 0 |
+| `spacing-xl` | `context.bw` / `Bw*` constant in `bw_tokens.g.dart` | 16 | 16 |
 | `spacing-xs` | `context.bw` / `Bw*` constant in `bw_tokens.g.dart` | 4 | 4 |
-| `spacing-xxs` | `context.bw` / `Bw*` constant in `bw_tokens.g.dart` | 2 | 2 |
+| `target-min` | `context.bw` / `Bw*` constant in `bw_tokens.g.dart` |  |  |
 
 ## 5. States and transitions
 

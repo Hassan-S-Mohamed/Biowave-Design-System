@@ -447,7 +447,7 @@ Each property maps 1:1 to a spec prop (B1). This table is the source for Code Co
 |---|---|---|---|---|---|
 | `Variant` | VARIANT | `Primary` · `Secondary` | `Primary` | `variant` | `'primary'` · `'secondary'` |
 | `Size` | VARIANT | `SM` · `MD` · `LG` | `MD` | `size` | `'sm'` … |
-| `State` | VARIANT | `Default` · `Hover` · `Pressed` · `Focus` · `Disabled` | `Default` | — | interaction state, not a prop (except `disabled`) |
+| `State` | VARIANT | `Default` · `Hovered` · `Pressed` · `Focus` · `Disabled` | `Default` | — | interaction state, not a prop (except `disabled`) |
 | `Label` | TEXT | | `Label` | `children` | |
 | `Leading icon` | BOOLEAN | | `false` | `startIcon` | present / absent |
 | `Icon` | INSTANCE_SWAP | preferred: Icons set | | `startIcon` | |
@@ -466,8 +466,8 @@ Values from B3 (tokens per state) and D4 (transitions).
 
 | Interaction | From → To | Animation |
 |---|---|---|
-| While hovering | Default → Hover | Smart animate · duration/easing from B4 |
-| While pressing | Hover → Pressed | Smart animate · B4 |
+| While hovering | Default → Hovered | Smart animate · duration/easing from B4 |
+| While pressing | Hovered → Pressed | Smart animate · B4 |
 | On click | Default → Selected | B4 |
 
 ### D7 RTL

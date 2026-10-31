@@ -30,8 +30,8 @@ import {
 const sizes: TextFieldSize[] = ['sm', 'md', 'lg'];
 const states: TextFieldState[] = [
   'default',
-  'hover',
-  'focus',
+  'hovered',
+  'focused',
   'error',
   'disabled',
   'read-only',
@@ -346,10 +346,10 @@ describe('TextField rendering and semantics', () => {
     const disabledRequired = screen.getAllByText('*')[0];
 
     expect(rules).toContain(':hover:not(.Mui-disabled):not(.Mui-focused):not(.Mui-error)');
-    expect(rules).toContain(textFieldStateTokens.hover.border);
-    expect(rules).toContain(textFieldStateTokens.hover.background);
+    expect(rules).toContain(textFieldStateTokens.hovered.border);
+    expect(rules).toContain(textFieldStateTokens.hovered.background);
     expect(rules).toContain('.Mui-focused.Mui-error');
-    expect(rules).toContain(textFieldStateTokens.focus.borderWidth);
+    expect(rules).toContain(textFieldStateTokens.focused.borderWidth);
     expect(rules).toContain(textFieldStateTokens.error.border);
     expect(rules).toContain(textFieldStateTokens['read-only'].border);
     expect(getComputedStyle(disabledRequired).color).toBe(

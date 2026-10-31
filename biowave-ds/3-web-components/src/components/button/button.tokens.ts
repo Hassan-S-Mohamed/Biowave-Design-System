@@ -8,11 +8,11 @@ type TonalColor = Exclude<ButtonColor, 'neutral' | 'inverse'>;
 
 export interface ButtonVisualTokens {
   bg: string;
-  bgHover?: string;
+  bgHovered?: string;
   bgPressed?: string;
   bgDisabled: string;
   stateLayer?: {
-    hover: string;
+    hovered: string;
     pressed: string;
   };
   border?: {
@@ -35,20 +35,20 @@ const disabledLabel = cssVars.color.text.disabled;
 const disabledIcon = cssVars.color.icon.disabled;
 const disabledBorder = cssVars.color.border.disabled;
 const stateLayer = {
-  hover: cssVars.color.background.transparent.hovered,
+  hovered: cssVars.color.background.transparent.hovered,
   pressed: cssVars.color.background.transparent.pressed,
 } as const;
 
 function filled(
   bg: string,
-  bgHover: string,
+  bgHovered: string,
   bgPressed: string,
   label: string,
   icon: string,
 ): ButtonVisualTokens {
   return {
     bg,
-    bgHover,
+    bgHovered,
     bgPressed,
     bgDisabled: disabledBackground,
     label: { default: label, disabled: disabledLabel },

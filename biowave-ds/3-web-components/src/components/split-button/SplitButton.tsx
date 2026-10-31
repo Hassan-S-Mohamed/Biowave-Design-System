@@ -4,7 +4,8 @@ import { cssVars, useBiowave } from '@biowave/foundations';
 import { warnOnce } from '../../internal/warnOnce';
 import { useButtonGroupSize } from '../button-group/ButtonGroupContext';
 import { InternalButton } from '../button/Button';
-import type { ButtonSize } from '../button/button.tokens';
+import { buttonSizeTokens, type ButtonSize } from '../button/button.tokens';
+import { Divider } from '../divider';
 import { Icon } from '../icon';
 import { InternalIconButton } from '../icon-button/IconButton';
 import {
@@ -36,14 +37,20 @@ export interface SplitButtonProps {
 
 interface SplitButtonRootProps {
   $open: boolean;
+  $size: ButtonSize;
 }
 
 const SplitButtonRoot = styled('div', {
-  shouldForwardProp: (prop) => prop !== '$open',
-})<SplitButtonRootProps>(({ $open }) => ({
+  shouldForwardProp: (prop) => prop !== '$open' && prop !== '$size',
+})<SplitButtonRootProps>(({ $open, $size }) => ({
   display: 'inline-flex',
   alignItems: 'center',
-  gap: cssVars.spacing.xxs,
+  gap: cssVars.spacing.none,
+  // the divider is exactly as tall as the parts, even when the row around the control is taller
+  '& .bw-split-button__divider.bw-split-button__divider': {
+    alignSelf: 'center',
+    blockSize: buttonSizeTokens[$size].height,
+  },
   '& .bw-split-button__chevron': {
     transform: $open ? 'rotate(0.5turn)' : 'none',
     transition: `transform ${
@@ -137,6 +144,7 @@ export const SplitButton = React.forwardRef<HTMLDivElement, SplitButtonProps>(
       <SplitButtonRoot
         ref={localContainerRef}
         $open={open}
+        $size={size}
         className={className}
         role="group"
         aria-label={children}
@@ -154,6 +162,11 @@ export const SplitButton = React.forwardRef<HTMLDivElement, SplitButtonProps>(
         >
           {children}
         </InternalButton>
+        <Divider
+          orientation="vertical"
+          decorative
+          className="bw-split-button__divider"
+        />
         <InternalIconButton
           ref={triggerRef}
           icon={<Icon name="expand_more" className="bw-split-button__chevron" />}

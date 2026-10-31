@@ -1,4 +1,4 @@
-<!-- GENERATED from split-button.md @ 962170416a393913 — do not edit; change the source and run: npm run contract -- web split-button -->
+<!-- GENERATED from split-button.md @ a9423d69ad50e39d — do not edit; change the source and run: npm run contract -- web split-button -->
 # Split button · زر مقسّم — Web — Figma contract
 
 > **Everything the Figma Agent needs to build Split button in the Web Components file, with our variables and styles.** Read this file only. Generated from [`split-button.md`](split-button.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-29). Questions go to [D11 Execution log](split-button.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
@@ -11,8 +11,8 @@
 | Page | `↳ Split button` (one page per component) |
 | Component | Split button · زر مقسّم |
 | Platform | Web · React + MUI |
-| Version | 1.1 · 2026-10-21 |
-| Source | [`split-button.md`](split-button.md) @ `962170416a393913` |
+| Version | 1.2 · 2026-10-31 |
+| Source | [`split-button.md`](split-button.md) @ `a9423d69ad50e39d` |
 
 ## 1. Library connections in this file
 
@@ -40,8 +40,11 @@ None yet — this component has no component tokens. Bind to the Foundations var
 
 | Token | Figma variable | Key | Type | Scopes | Used by |
 |---|---|---|---|---|---|
+| `border-width-default` | 7. Border › `border/width/default` | `9b62f24ecdfc438789ce3fa296e725ac14b1e08f` | FLOAT | STROKE_FLOAT | spec |
+| `border-width-none` | 7. Border › `border/width/none` | `2c42465da57090152416ef36c1c3c0c3c2d5092c` | FLOAT | STROKE_FLOAT | spec |
 | `color-background-transparent-hovered` | 1. Themes › `color/background/transparent/hovered` | `51354205cb02a343717bc6e5ca84b0e151af3de8` | COLOR | FRAME_FILL, SHAPE_FILL | spec |
 | `color-background-transparent-pressed` | 1. Themes › `color/background/transparent/pressed` | `830ae424ad770312d061208a89f7452569d643d8` | COLOR | FRAME_FILL, SHAPE_FILL | spec |
+| `color-border-default` | 1. Themes › `color/border/default` | `ad520e82898707a0d3112a12f6f9439566c6d6c4` | COLOR | STROKE_COLOR | spec |
 | `color-border-focus` | 1. Themes › `color/border/focus` | `ef666d3badd2b63f18cb168d9987ead7fbc21480` | COLOR | STROKE_COLOR | spec |
 | `color-icon-subtle` | 1. Themes › `color/icon/subtle` | `fc66c13d6c036489bf774535cd8dbbf749795748` | COLOR | SHAPE_FILL, STROKE_COLOR | spec |
 | `color-surface-raised` | 1. Themes › `color/surface/raised` | `92b71ada5e0cffef4eec84e17092c1f3d81da69f` | COLOR | FRAME_FILL, SHAPE_FILL | spec |
@@ -49,12 +52,13 @@ None yet — this component has no component tokens. Bind to the Foundations var
 | `color-text-disabled` | 1. Themes › `color/text/disabled` | `f88c10f90f454d356c14cc3240da0f04eafbbedd` | COLOR | TEXT_FILL | spec |
 | `radius-lg` | 2. Radius › `radius/lg` | `bb2122acd11d99ba9396f13390d02b70941a6cfa` | FLOAT | CORNER_RADIUS | spec |
 | `radius-md` | 2. Radius › `radius/md` | `0758e506cdfd4d7a4eef6369a4851133d7eab5a4` | FLOAT | CORNER_RADIUS | spec |
-| `radius-xs` | 2. Radius › `radius/xs` | `213fc023e86a88779565677e47c64a4dea40c260` | FLOAT | CORNER_RADIUS | spec |
+| `radius-none` | 2. Radius › `radius/none` | `e8421984adf95aa6c48895673eac13c0a62604e1` | FLOAT | CORNER_RADIUS | spec |
 | `size-control-height-md` | 4. Size › `size/control/height/md` | `cb6d23a09de76b9cea37c24579dbb2a9e6e6a079` | FLOAT | WIDTH_HEIGHT | spec |
-| `spacing-control-gap-md` | 3. Spacing › `spacing/control/gap/md` | `e2e6fc01e3a1245e8c3584798b5d224742a9a6bc` | FLOAT | GAP | spec |
-| `spacing-control-padding-inline-md` | 3. Spacing › `spacing/control/padding-inline/md` | `ece071c90fd7557c56f2a8918944c46d2672718e` | FLOAT | GAP | spec |
+| `size-icon-md` | 4. Size › `size/icon/md` | `eb459c673e6ca16e3c81b240f04b467717953a9a` | FLOAT | WIDTH_HEIGHT | spec |
+| `spacing-lg` | 3. Spacing › `spacing/lg` | `6976021b7dd1218f670faa6dd403943fbe7b2638` | FLOAT | GAP | spec |
+| `spacing-none` | 3. Spacing › `spacing/none` | `4879183c164f25d975ac0a8664388a77a2073b80` | FLOAT | GAP | spec |
+| `spacing-sm` | 3. Spacing › `spacing/sm` | `8332b62aa90dea8417383c59a11eee680e0f1db5` | FLOAT | GAP | spec |
 | `spacing-xs` | 3. Spacing › `spacing/xs` | `9ea993d003d5368c5100b038d51c7c8f3e95c115` | FLOAT | GAP | spec |
-| `spacing-xxs` | 3. Spacing › `spacing/xxs` | `e772baca3a3110208bb2791461b6659a6d6e9ba8` | FLOAT | GAP | spec |
 
 Code-only tokens (no Figma variable by design — motion, layers): `elevation-3` · `motion-duration-md` · `motion-duration-sm` · `motion-easing-standard-accelerate` · `motion-easing-standard-decelerate`. Use them only as written values in prototype settings and docs.
 
@@ -105,20 +109,22 @@ No icon named in this spec. Icons come only from the Google · Material Symbols 
 ### B2 Dimensions
 
 ```
-  radius-md                    radius-xs │ │ radius-xs          radius-md
-  ┌──────────────────────────────────┐   ┌────────┐
-  │ [◆]  Export report               │   │  [⌄]   │   both: size-control-height-md
-  └──────────────────────────────────┘   └────────┘
-                                    ├──┤ spacing-xxs
+  radius-md                   radius-none │ radius-none        radius-md
+  ┌──────────────────────────────────┬────────┐
+  │ [◆]  Export report               │  [⌄]   │   both: size-control-height-md
+  └──────────────────────────────────┴────────┘
+                                     └ divider: border-width-default · color-border-default
+                                       (gap spacing-none — the parts touch)
 ```
 
 | Part | Property | Value |
 |---|---|---|
-| `container` | layout · gap | inline-flex · `spacing-xxs` |
-| `primary-action` | everything | Button of the same `variant`, `color`, `size` ([Button B2](../button/button.md#b2-dimensions)), except: radius start corners `radius-md`, end corners `radius-xs` |
-| `menu-trigger` | everything | IconButton of the same `variant`, `color`, `size` ([Icon button B2](../icon-button/icon-button.md#b2-dimensions)), except: start corners `radius-xs`, end corners `radius-md`; icon `expand_more` |
+| `container` | layout · gap | inline-flex, `align-items: center` · `spacing-none` (the parts touch) |
+| `divider` | everything | [Divider](../divider/divider.md#b2-dimensions) `orientation="vertical"`, `emphasis="default"` (`border-width-default` · `color-border-default`, every variant and color), `decorative`; height = the parts' `size-control-height-*`; between `primary-action` and `menu-trigger` |
+| `primary-action` | everything | Button of the same `variant`, `color`, `size` ([Button B2](../button/button.md#b2-dimensions)), except: radius start corners `radius-md`, end corners `radius-none`; no border on the inline-end side (`border-width-none`) — the divider is the shared edge |
+| `menu-trigger` | everything | IconButton of the same `variant`, `color`, `size` ([Icon button B2](../icon-button/icon-button.md#b2-dimensions)), except: start corners `radius-none`, end corners `radius-md`; no border on the inline-start side (`border-width-none`); icon `expand_more` |
 | `menu` (temporary) | min-width · background · elevation · radius | width of `container` · `color-surface-raised` · `elevation-3` · `radius-lg` |
-| `menu` item | height · padding-inline · gap · text style · text color | `size-control-height-md` · `spacing-control-padding-inline-md` · `spacing-control-gap-md` · `body-md` · `color-text-default` |
+| `menu` item | height · padding-inline · icon–label gap · icon · text style · text color | `size-control-height-md` · `spacing-lg` · `spacing-sm` · `size-icon-md` · `body-md` · `color-text-default` (menu rows use the component spacing scale, not `spacing-control-*` — spacing.md) |
 | `menu` | offset from container | `spacing-xs` |
 
 ### B3 Tokens by part and state
@@ -187,7 +193,7 @@ RTL  │ [⌄] │ │ تصدير التقرير [◆] │
 
 ### D1 Rules for this build
 
-Same as [Button D1](../button/button.md#d1-rules-for-this-build). The two parts **must be instances** of `Button` and `Icon Button` (rule 6), with only their corner radii overridden (bound to `radius/xs` on the inner corners).
+Same as [Button D1](../button/button.md#d1-rules-for-this-build). The two parts **must be instances** of `Button` and `Icon Button` (rule 6), with only their inner corner radii (bound to `radius/none`) and inner-side stroke weight (bound to `border/width/none`) overridden; a `Divider` instance (Vertical · Default) sits between them. Build Divider before this set.
 
 ### D2 Component structure
 
@@ -199,9 +205,10 @@ Same as [Button D1](../button/button.md#d1-rules-for-this-build). The two parts 
 ### D3 Layer tree and auto layout
 
 ```
-Split Button            ↔ horizontal · gap spacing/xxs · hug
-├── primary-action      ◇ Button instance · Variant/Color/Size/Language follow the set · inner corners radius/xs · exposed: Label, Leading icon, Leading icon glyph
-└── menu-trigger        ◇ Icon Button instance · same Variant/Color/Size · inner corners radius/xs · Icon = expand_more · Tooltip label = "More options"
+Split Button            ↔ horizontal · gap spacing/none · hug · counter-axis stretch
+├── primary-action      ◇ Button instance · Variant/Color/Size/Language follow the set · inner corners radius/none · inline-end stroke weight border/width/none · exposed: Label, Leading icon, Leading icon glyph
+├── divider             ◇ Divider instance · Orientation=Vertical · Emphasis=Default · Inset=None · height fill (decorative)
+└── menu-trigger        ◇ Icon Button instance · same Variant/Color/Size · inner corners radius/none · inline-start stroke weight border/width/none · Icon = expand_more · Tooltip label = "More options"
 ```
 
 **Icons used:** `expand_more` — menu trigger chevron, Google · Material Symbols Rounded (D-18)
@@ -213,7 +220,7 @@ Split Button            ↔ horizontal · gap spacing/xxs · hug
 | `Variant` | VARIANT | `Filled` · `Tonal` · `Outlined` | `Filled` | `variant` |
 | `Color` | VARIANT | `Brand` · `Secondary` · `Neutral` | `Brand` | `color` |
 | `Size` | VARIANT | `SM` · `MD` · `LG` | `MD` | `size` |
-| `State` | VARIANT | `Default` · `Primary hover` · `Primary pressed` · `Trigger hover` · `Expanded` · `Focused primary` · `Focused trigger` · `Disabled` · `Loading` | `Default` | `disabled` / `loading`; others interaction only |
+| `State` | VARIANT | `Default` · `Primary hovered` · `Primary pressed` · `Trigger hovered` · `Expanded` · `Focused primary` · `Focused trigger` · `Disabled` · `Loading` | `Default` | `disabled` / `loading`; others interaction only |
 | `Language` | VARIANT | `EN` · `AR` | `EN` | — |
 | `Label` | TEXT (nested, exposed) | | `Export report` | `children` |
 | `Leading icon` · `Leading icon glyph` | BOOLEAN · INSTANCE_SWAP (nested, exposed) | | `false` | `startIcon` |

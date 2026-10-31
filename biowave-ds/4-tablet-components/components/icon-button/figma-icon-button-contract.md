@@ -1,4 +1,4 @@
-<!-- GENERATED from icon-button.md @ 00b630556251855c — do not edit; change the source and run: npm run contract -- tablet icon-button -->
+<!-- GENERATED from icon-button.md @ 6b1e2eea3f9753c2 — do not edit; change the source and run: npm run contract -- tablet icon-button -->
 # Icon button · زر أيقونة — Tablet — Figma contract
 
 > **Everything the Figma Agent needs to build Icon button in the Tablet Components file, with our variables and styles.** Read this file only. Generated from [`icon-button.md`](icon-button.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-29). Questions go to [D11 Execution log](icon-button.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
@@ -12,7 +12,7 @@
 | Component | Icon button · زر أيقونة |
 | Platform | Tablet · Flutter + Material 3 |
 | Version | 1.0 · 2026-10-16 |
-| Source | [`icon-button.md`](icon-button.md) @ `00b630556251855c` |
+| Source | [`icon-button.md`](icon-button.md) @ `6b1e2eea3f9753c2` |
 
 ## 1. Library connections in this file
 
@@ -141,7 +141,7 @@ Same as [Web D1](../../../3-web-components/components/button/button.md#d1-rules-
 
 As [Web D2–D4](../../../3-web-components/components/icon-button/icon-button.md#d2-component-structure), with these Tablet differences:
 - `Size` adds `XL`
-- No `Hover` state
+- No `Hovered` state
 - Default instance: `Variant=Text`, `Color=Neutral`, `Size=LG`
 - Docs page 09 shows the 48 hit area around `SM`/`MD`
 
@@ -155,7 +155,7 @@ As [Web D4](../../../3-web-components/components/icon-button/icon-button.md#d4-p
 
 ### D5 Variants to generate
 
-`.Icon Button/Appearance`: 18 × 5 states (no `Hover`) = 90 + selected (`Text`/`Outlined` × 5 colors × 5 states) = 50 → **140**; `Icon Button`: 4 sizes × 3 = **12**.
+`.Icon Button/Appearance`: 18 × 5 states (no `Hovered`) = 90 + selected (`Text`/`Outlined` × 5 colors × 5 states) = 50 → **140**; `Icon Button`: 4 sizes × 3 = **12**.
 
 ### After this build is `Approved`
 Report instances of the legacy reference above; move legacy sets to `_Deprecation Ground` in the Foundations file once product files use the Tablet library.
@@ -200,7 +200,7 @@ Icon Button              ↔ centered · width = height {B2} · padding 0
 |---|---|---|---|---|---|
 | `Variant` (on Appearance, exposed) | VARIANT | `Filled` · `Tonal` · `Outlined` · `Text` | `Text` | `variant` | |
 | `Color` (exposed) | VARIANT | `Brand` · `Secondary` · `Neutral` · `Error` · `Inverse` | `Neutral` | `color` | |
-| `State` (exposed) | VARIANT | `Default` · `Hover` · `Focused` · `Pressed` · `Disabled` · `Loading` | `Default` | `disabled` / `loading` | |
+| `State` (exposed) | VARIANT | `Default` · `Hovered` · `Focused` · `Pressed` · `Disabled` · `Loading` | `Default` | `disabled` / `loading` | |
 | `Size` | VARIANT | `SM` · `MD` · `LG` | `MD` | `size` | |
 | `Toggle` | VARIANT | `Off` · `On` | `Off` | `toggle` | |
 | `Selected` | VARIANT | `False` · `True` | `False` | `selected` | only with `Toggle=On` |
@@ -212,7 +212,7 @@ Icon Button              ↔ centered · width = height {B2} · padding 0
 
 #### D6 States, interactions and motion
 
-While hovering → Hover; while pressing → Pressed (B4). On click for `Toggle=On`: Selected False ↔ True, smart animate `motion-duration-sm`.
+While hovering → Hovered; while pressing → Pressed (B4). On click for `Toggle=On`: Selected False ↔ True, smart animate `motion-duration-sm`.
 
 #### D7 RTL
 

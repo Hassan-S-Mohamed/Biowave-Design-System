@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 
 import '../../common/bw_control_size.dart';
 import '../button/bw_button.dart';
+import '../button/bw_button_style.dart';
 import '../icon/bw_icon.dart';
 import '../icon_button/bw_icon_button.dart';
 
@@ -210,11 +211,11 @@ class _BwSplitButtonState extends State<BwSplitButton> {
       )..layout();
       final iconWidth = option.icon == null
           ? 0.0
-          : BwSize.iconMd + BwSpacing.controlGapMd;
-      final itemWidth = BwSpacing.controlPaddingInlineMd +
+          : BwSize.iconLg + BwSpacing.md;
+      final itemWidth = BwSpacing.xl +
           iconWidth +
           painter.width +
-          BwSpacing.controlPaddingInlineMd;
+          BwSpacing.xl;
       painter.dispose();
       if (itemWidth > maxWidth) {
         maxWidth = itemWidth;
@@ -330,9 +331,18 @@ class _BwSplitButtonState extends State<BwSplitButton> {
               focusNode: _primaryFocusNode,
               segment: BwButtonSegment.start,
             ),
-            const SizedBox(
-              key: ValueKey<String>('gap'),
-              width: BwSpacing.xxs,
+            // Divider between the joined segments (B2). Swap for
+            // BwDivider(orientation: vertical) once Divider is built on mobile.
+            SizedBox(
+              key: const ValueKey<String>('divider'),
+              height: BwButtonStyle.metrics(context, widget.size).height,
+              child: VerticalDivider(
+                width: BwBorder.widthDefault,
+                thickness: BwBorder.widthDefault,
+                indent: BwSpacing.none,
+                endIndent: BwSpacing.none,
+                color: context.bw.colors.borderDefault,
+              ),
             ),
             Focus(
               canRequestFocus: false,
@@ -402,10 +412,11 @@ class _BwSplitButtonState extends State<BwSplitButton> {
             if (option.icon != null) ...[
               BwIcon(
                 icon: option.icon!,
+                size: BwIconSize.lg,
                 color: enabled ? BwIconColor.subtle : null,
                 directional: option.icon!.matchTextDirection,
               ),
-              const SizedBox(width: BwSpacing.controlGapMd),
+              const SizedBox(width: BwSpacing.md),
             ],
             Flexible(child: Text(option.label)),
           ],
@@ -422,12 +433,12 @@ class _BwSplitButtonState extends State<BwSplitButton> {
       minimumSize: WidgetStatePropertyAll<Size>(
         Size(
           _containerWidth ?? BwLayout.mobile.minTarget,
-          BwSize.controlHeightMd,
+          BwSize.controlHeightLg,
         ),
       ),
       padding: const WidgetStatePropertyAll<EdgeInsetsGeometry>(
         EdgeInsetsDirectional.symmetric(
-          horizontal: BwSpacing.controlPaddingInlineMd,
+          horizontal: BwSpacing.xl,
         ),
       ),
       shape: const WidgetStatePropertyAll<OutlinedBorder>(

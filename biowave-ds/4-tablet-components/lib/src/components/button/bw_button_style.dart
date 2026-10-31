@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../../common/bw_control_size.dart';
 import 'bw_button.dart';
+import 'bw_segment_border.dart';
 
 /// Resolved dimensions used by both the button style and its child layout.
 final class BwButtonMetrics {
@@ -121,6 +122,17 @@ abstract final class BwButtonStyle {
     );
   }
 
+  /// Shape for standalone and segmented buttons (B2): a joined Split button
+  /// segment leaves its inner edge unstroked; the Divider is the shared edge.
+  @internal
+  static OutlinedBorder segmentShape(
+    BorderRadiusGeometry borderRadius,
+    BwButtonSegment? segment,
+  ) =>
+      segment == null
+          ? RoundedRectangleBorder(borderRadius: borderRadius)
+          : BwSegmentBorder(borderRadius: borderRadius, segment: segment);
+
   /// Resolves the corner radii for standalone and segmented buttons (B2).
   @internal
   static BorderRadiusDirectional segmentBorderRadius(
@@ -128,7 +140,7 @@ abstract final class BwButtonStyle {
     BwButtonSegment? segment,
   ) {
     final outerRadius = Radius.circular(dimensions.radius);
-    const innerRadius = Radius.circular(BwRadius.xs);
+    const innerRadius = Radius.circular(BwRadius.none);
 
     return switch (segment) {
       null => BorderRadiusDirectional.all(outerRadius),
@@ -167,7 +179,7 @@ abstract final class BwButtonStyle {
             BwButtonColor.error => colors.backgroundErrorDefault,
             BwButtonColor.inverse => colors.backgroundInverseDefault,
           },
-          backgroundHover: switch (color) {
+          backgroundHovered: switch (color) {
             BwButtonColor.brand => colors.backgroundBrandHovered,
             BwButtonColor.secondary => colors.backgroundSecondaryHovered,
             BwButtonColor.neutral => colors.backgroundNeutralHovered,
@@ -287,14 +299,14 @@ final class _ButtonPalette {
     required this.overlayDefault,
     required this.backgroundTransparentHovered,
     required this.backgroundTransparentPressed,
-    this.backgroundHover,
+    this.backgroundHovered,
     this.backgroundPressed,
     this.borderDefault,
     this.borderDisabled,
   });
 
   final Color backgroundDefault;
-  final Color? backgroundHover;
+  final Color? backgroundHovered;
   final Color? backgroundPressed;
   final Color backgroundDisabled;
   final Color foreground;
@@ -313,7 +325,7 @@ final class _ButtonPalette {
       return backgroundPressed ?? backgroundDefault;
     }
     if (states.contains(WidgetState.hovered)) {
-      return backgroundHover ?? backgroundDefault;
+      return backgroundHovered ?? backgroundDefault;
     }
     return backgroundDefault;
   }

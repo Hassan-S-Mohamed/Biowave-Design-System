@@ -40,8 +40,8 @@ const StyledMenu = styled(MuiMenu)(() => ({
 const StyledMenuItem = styled(MuiMenuItem)(() => ({
   ...biowaveVariants.bodyMd,
   minBlockSize: cssVars.size.control.height.md,
-  paddingInline: cssVars.spacing.control['padding-inline'].md,
-  gap: cssVars.spacing.control.gap.md,
+  paddingInline: cssVars.spacing.lg,
+  gap: cssVars.spacing.sm,
   color: cssVars.color.text.default,
   backgroundColor: cssVars.color.surface.raised,
   backgroundImage: 'none',

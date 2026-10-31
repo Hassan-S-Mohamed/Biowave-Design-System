@@ -1,4 +1,4 @@
-<!-- GENERATED from split-button.md @ b4147d17aa268253 — do not edit; change the source and run: npm run contract -- tablet split-button -->
+<!-- GENERATED from split-button.md @ 9dd4c2d9cbf0eb5c — do not edit; change the source and run: npm run contract -- tablet split-button -->
 # Split button · زر مقسّم — Tablet — Figma contract
 
 > **Everything the Figma Agent needs to build Split button in the Tablet Components file, with our variables and styles.** Read this file only. Generated from [`split-button.md`](split-button.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-29). Questions go to [D11 Execution log](split-button.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
@@ -11,8 +11,8 @@
 | Page | `↳ Split button` (one page per component) |
 | Component | Split button · زر مقسّم |
 | Platform | Tablet · Flutter + Material 3 |
-| Version | 1.0 · 2026-10-16 |
-| Source | [`split-button.md`](split-button.md) @ `b4147d17aa268253` |
+| Version | 1.1 · 2026-10-31 |
+| Source | [`split-button.md`](split-button.md) @ `9dd4c2d9cbf0eb5c` |
 
 ## 1. Library connections in this file
 
@@ -52,14 +52,14 @@ None yet — this component has no component tokens. Bind to the Foundations var
 | `color-text-disabled` | 1. Themes › `color/text/disabled` | `f88c10f90f454d356c14cc3240da0f04eafbbedd` | COLOR | TEXT_FILL | spec |
 | `radius-lg` | 2. Radius › `radius/lg` | `bb2122acd11d99ba9396f13390d02b70941a6cfa` | FLOAT | CORNER_RADIUS | spec |
 | `radius-md` | 2. Radius › `radius/md` | `0758e506cdfd4d7a4eef6369a4851133d7eab5a4` | FLOAT | CORNER_RADIUS | spec |
+| `radius-none` | 2. Radius › `radius/none` | `e8421984adf95aa6c48895673eac13c0a62604e1` | FLOAT | CORNER_RADIUS | spec |
 | `radius-xl` | 2. Radius › `radius/xl` | `a5042304656c42bab9b62a4f4ab9c6b1831b487c` | FLOAT | CORNER_RADIUS | spec |
-| `radius-xs` | 2. Radius › `radius/xs` | `213fc023e86a88779565677e47c64a4dea40c260` | FLOAT | CORNER_RADIUS | spec |
-| `size-control-height-md` | 4. Size › `size/control/height/md` | `cb6d23a09de76b9cea37c24579dbb2a9e6e6a079` | FLOAT | WIDTH_HEIGHT | spec |
-| `spacing-control-gap-md` | 3. Spacing › `spacing/control/gap/md` | `e2e6fc01e3a1245e8c3584798b5d224742a9a6bc` | FLOAT | GAP | spec |
-| `spacing-control-padding-inline-md` | 3. Spacing › `spacing/control/padding-inline/md` | `ece071c90fd7557c56f2a8918944c46d2672718e` | FLOAT | GAP | spec |
+| `size-control-height-lg` | 4. Size › `size/control/height/lg` | `14c0f56d2add6f7149374e67cf4d3a2656aeb5dc` | FLOAT | WIDTH_HEIGHT | spec |
+| `size-icon-lg` | 4. Size › `size/icon/lg` | `e79bd86fedcce89547674c84c9127d0149e60061` | FLOAT | WIDTH_HEIGHT | spec |
+| `spacing-md` | 3. Spacing › `spacing/md` | `58c93e3cec1b6ba603371a027483e101adcef4f0` | FLOAT | GAP | spec |
 | `spacing-none` | 3. Spacing › `spacing/none` | `4879183c164f25d975ac0a8664388a77a2073b80` | FLOAT | GAP | spec |
+| `spacing-xl` | 3. Spacing › `spacing/xl` | `5fa0c2ce8ae034e9696038d2704e520fd8383e55` | FLOAT | GAP | spec |
 | `spacing-xs` | 3. Spacing › `spacing/xs` | `9ea993d003d5368c5100b038d51c7c8f3e95c115` | FLOAT | GAP | spec |
-| `spacing-xxs` | 3. Spacing › `spacing/xxs` | `e772baca3a3110208bb2791461b6659a6d6e9ba8` | FLOAT | GAP | spec |
 | `target-min` | 6. Grid & Layout › `target/min` | `db23ec2826d3bfa3e600e5a82801e0c7d37ba298` | FLOAT | WIDTH_HEIGHT | spec |
 
 Code-only tokens (no Figma variable by design — motion, layers): `elevation-3` · `motion-duration-md` · `motion-duration-sm` · `motion-easing-standard-accelerate` · `motion-easing-standard-decelerate`. Use them only as written values in prototype settings and docs.
@@ -101,7 +101,7 @@ No icon named in this spec. Icons come only from the Google · Material Symbols 
 
 ### B2 Dimensions
 
-Two parts with `spacing-xxs` (`BwSpacing.xxs`) between; outer corners `radius-md` (`xl`: `radius-xl`), inner corners `radius-xs` via `BorderRadiusDirectional`; parts follow BwButton / BwIconButton B2. Menu: the [Web B2](../../../3-web-components/components/split-button/split-button.md#b2-dimensions) tokens, mapped on Tablet as below.
+The two parts touch (`spacing-none`) with a vertical `divider` between them: `VerticalDivider(width: BwBorder.widthDefault, thickness: BwBorder.widthDefault, indent/endIndent: BwSpacing.none, color: color-border-default)` in a `SizedBox` of the control height — the Divider spec values, same on every variant and color (swap for `BwDivider` vertical once Divider is built on Tablet). Outer corners `radius-md` (`xl`: `radius-xl`), inner corners `radius-none` via `BorderRadiusDirectional`; each part's shape is `BwSegmentBorder` (internal), which leaves the inner edge unstroked so an outlined control shows one line there. Parts follow BwButton / BwIconButton B2. Menu: the [Web B2](../../../3-web-components/components/split-button/split-button.md#b2-dimensions) tokens, mapped on Tablet as below (touch-sized rows).
 
 | Part | Property | Token | Tablet mapping |
 |---|---|---|---|
@@ -112,9 +112,9 @@ Two parts with `spacing-xxs` (`BwSpacing.xxs`) between; outer corners `radius-md
 | `menu` | radius | `radius-lg` | the decorated surface; `MenuStyle.shape` uses the same radius |
 | `menu` | elevation | `elevation-3` | the decorated surface: `boxShadow: context.bw.elevation.elevation3` |
 | `menu` | M3 surface (unused) | `color-background-transparent-default` | `MenuStyle.backgroundColor`, `shadowColor` and `surfaceTintColor` |
-| `menu` item | height | `size-control-height-md` | item `minimumSize` |
-| `menu` item | padding-inline | `spacing-control-padding-inline-md` | `EdgeInsetsDirectional` |
-| `menu` item | icon–label gap | `spacing-control-gap-md` | |
+| `menu` item | height | `size-control-height-lg` (touch row = `target-min`) | item `minimumSize` |
+| `menu` item | padding-inline | `spacing-xl` (menu-row padding on touch, component scale) | `EdgeInsetsDirectional` |
+| `menu` item | icon · icon–label gap | `size-icon-lg` · `spacing-md` | `BwIcon(size: BwIconSize.lg)` · `SizedBox` |
 | `menu` item | text style | `body-md` | `context.bw.text.bodyMd` |
 | `menu` item | focus ring width | `border-width-focus` | inner ring (B3); item corners square, clipped by the surface |
 
@@ -199,7 +199,7 @@ As [Web D4](../../../3-web-components/components/split-button/split-button.md#d4
 
 ### D5 Variants to generate
 
-8 allowed `Variant × Color` × 4 sizes × 7 states (no `Primary hover` / `Trigger hover`) × 2 languages = **448**.
+8 allowed `Variant × Color` × 4 sizes × 7 states (no `Primary hovered` / `Trigger hovered`) × 2 languages = **448**.
 
 ### After this build is `Approved`
 Report instances of the legacy reference above; move legacy sets to `_Deprecation Ground` in the Foundations file once product files use the Tablet library.
@@ -218,7 +218,7 @@ The Tablet Part D refers to these Web sections; they are copied here so you read
 
 #### D1 Rules for this build
 
-Same as [Button D1](../button/button.md#d1-rules-for-this-build). The two parts **must be instances** of `Button` and `Icon Button` (rule 6), with only their corner radii overridden (bound to `radius/xs` on the inner corners).
+Same as [Button D1](../button/button.md#d1-rules-for-this-build). The two parts **must be instances** of `Button` and `Icon Button` (rule 6), with only their inner corner radii (bound to `radius/none`) and inner-side stroke weight (bound to `border/width/none`) overridden; a `Divider` instance (Vertical · Default) sits between them. Build Divider before this set.
 
 #### D2 Component structure
 
@@ -230,9 +230,10 @@ Same as [Button D1](../button/button.md#d1-rules-for-this-build). The two parts 
 #### D3 Layer tree and auto layout
 
 ```
-Split Button            ↔ horizontal · gap spacing/xxs · hug
-├── primary-action      ◇ Button instance · Variant/Color/Size/Language follow the set · inner corners radius/xs · exposed: Label, Leading icon, Leading icon glyph
-└── menu-trigger        ◇ Icon Button instance · same Variant/Color/Size · inner corners radius/xs · Icon = expand_more · Tooltip label = "More options"
+Split Button            ↔ horizontal · gap spacing/none · hug · counter-axis stretch
+├── primary-action      ◇ Button instance · Variant/Color/Size/Language follow the set · inner corners radius/none · inline-end stroke weight border/width/none · exposed: Label, Leading icon, Leading icon glyph
+├── divider             ◇ Divider instance · Orientation=Vertical · Emphasis=Default · Inset=None · height fill (decorative)
+└── menu-trigger        ◇ Icon Button instance · same Variant/Color/Size · inner corners radius/none · inline-start stroke weight border/width/none · Icon = expand_more · Tooltip label = "More options"
 ```
 
 **Icons used:** `expand_more` — menu trigger chevron, Google · Material Symbols Rounded (D-18)
@@ -244,7 +245,7 @@ Split Button            ↔ horizontal · gap spacing/xxs · hug
 | `Variant` | VARIANT | `Filled` · `Tonal` · `Outlined` | `Filled` | `variant` |
 | `Color` | VARIANT | `Brand` · `Secondary` · `Neutral` | `Brand` | `color` |
 | `Size` | VARIANT | `SM` · `MD` · `LG` | `MD` | `size` |
-| `State` | VARIANT | `Default` · `Primary hover` · `Primary pressed` · `Trigger hover` · `Expanded` · `Focused primary` · `Focused trigger` · `Disabled` · `Loading` | `Default` | `disabled` / `loading`; others interaction only |
+| `State` | VARIANT | `Default` · `Primary hovered` · `Primary pressed` · `Trigger hovered` · `Expanded` · `Focused primary` · `Focused trigger` · `Disabled` · `Loading` | `Default` | `disabled` / `loading`; others interaction only |
 | `Language` | VARIANT | `EN` · `AR` | `EN` | — |
 | `Label` | TEXT (nested, exposed) | | `Export report` | `children` |
 | `Leading icon` · `Leading icon glyph` | BOOLEAN · INSTANCE_SWAP (nested, exposed) | | `false` | `startIcon` |

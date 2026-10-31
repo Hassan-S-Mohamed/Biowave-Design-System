@@ -150,7 +150,7 @@ class BwIconButton extends StatelessWidget {
             baseStyle.iconColor?.resolve(states),
       ),
       shape: WidgetStatePropertyAll<OutlinedBorder>(
-        RoundedRectangleBorder(borderRadius: borderRadius),
+        BwButtonStyle.segmentShape(borderRadius, segment),
       ),
       backgroundBuilder: (context, states, child) {
         assert(child != null);

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import '../../common/bw_control_size.dart';
 import '../../common/bw_focus_ring.dart';
 import 'bw_button.dart';
+import 'bw_segment_border.dart';
 
 /// Token-only style resolver for [BwButton].
 abstract final class BwButtonStyle {
@@ -38,7 +39,7 @@ abstract final class BwButtonStyle {
         return _filledPressed(colors, color);
       }
       if (states.contains(WidgetState.hovered)) {
-        return _filledHover(colors, color);
+        return _filledHovered(colors, color);
       }
       return _filledBackground(colors, color);
     }
@@ -138,6 +139,17 @@ abstract final class BwButtonStyle {
     );
   }
 
+  /// Shape for standalone and segmented buttons (B2): a joined Split button
+  /// segment leaves its inner edge unstroked; the Divider is the shared edge.
+  @internal
+  static OutlinedBorder segmentShape(
+    BorderRadiusGeometry borderRadius,
+    BwButtonSegment? segment,
+  ) =>
+      segment == null
+          ? RoundedRectangleBorder(borderRadius: borderRadius)
+          : BwSegmentBorder(borderRadius: borderRadius, segment: segment);
+
   /// Resolves the corner radii for standalone and segmented buttons (B2).
   @internal
   static BorderRadiusDirectional segmentBorderRadius(
@@ -145,7 +157,7 @@ abstract final class BwButtonStyle {
     BwButtonSegment? segment,
   ) {
     final outerRadius = Radius.circular(dimensions.radius);
-    const innerRadius = Radius.circular(BwRadius.xs);
+    const innerRadius = Radius.circular(BwRadius.none);
 
     return switch (segment) {
       null => BorderRadiusDirectional.all(outerRadius),
@@ -212,7 +224,7 @@ abstract final class BwButtonStyle {
         BwButtonColor.inverse => colors.backgroundInverseDefault,
       };
 
-  static Color _filledHover(BwColors colors, BwButtonColor color) =>
+  static Color _filledHovered(BwColors colors, BwButtonColor color) =>
       switch (color) {
         BwButtonColor.brand => colors.backgroundBrandHovered,
         BwButtonColor.secondary => colors.backgroundSecondaryHovered,

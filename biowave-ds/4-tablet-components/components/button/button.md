@@ -549,7 +549,7 @@ Same as [Web D1](../../../3-web-components/components/button/button.md#d1-rules-
 
 As [Web D2–D4](../../../3-web-components/components/button/button.md#d2-component-structure), with these Tablet differences:
 - `Size` adds `XL` (B2 `xl` row: `size/control/height/xl`, `spacing/control/padding-inline/xl`, `radius/xl`)
-- `State` = `Default` · `Focused` · `Pressed` · `Disabled` · `Loading` (no `Hover`)
+- `State` = `Default` · `Focused` · `Pressed` · `Disabled` · `Loading` (no `Hovered`)
 - Default instance size `LG`
 
 ### D3 Layer tree and auto layout
@@ -562,7 +562,7 @@ As [Web D4](../../../3-web-components/components/button/button.md#d4-properties)
 
 ### D5 Variants to generate
 
-18 allowed `Variant × Color` × 4 sizes (`SM` · `MD` · `LG` · `XL`) × 5 states (no `Hover`) × 2 languages = **720**.
+18 allowed `Variant × Color` × 4 sizes (`SM` · `MD` · `LG` · `XL`) × 5 states (no `Hovered`) × 2 languages = **720**.
 
 #### After this build is `Approved`
 Report instances of the legacy reference above; move legacy sets to `_Deprecation Ground` in the Foundations file once product files use the Tablet library.
@@ -831,3 +831,4 @@ Same focus-ring and test-font changes applied to the Mobile Button plan (not bui
 |---|---|---|---|---|
 | 1.0 | 2026-10-16 | Initial | No | — |
 | 1.1 | 2026-10-20 | Review round 1 Planner items: focus ring painted outside the visible container without layout (B2, B6, C3; `BwFocusRing` takes a radius and a caller key); real test fonts (C5 `flutter_test_config.dart`, `test/fonts/`); B9/C6 measurement tests; C7 AC-8–AC-10 and Fix round 1 task list | No | — |
+| 1.1 (naming) | 2026-10-31 | Component tokens `container/hover` · `state-layer/hover` → `…/hovered` (button.tokens.json, code keys, Figma variables renamed in place — IDs kept); Figma `State` `Hover` → `Hovered`. Internal `segment` (Split button only): inner corners `radius-none`, inner-side border none, Flutter `BwSegmentBorder` | No | Figma: none (renamed in place) |

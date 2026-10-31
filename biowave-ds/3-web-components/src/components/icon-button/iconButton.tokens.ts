@@ -7,7 +7,7 @@ const disabledBackground = cssVars.color.background.disabled;
 const disabledBorder = cssVars.color.border.disabled;
 const disabledIcon = cssVars.color.icon.disabled;
 const stateLayer = {
-  hover: cssVars.color.background.transparent.hovered,
+  hovered: cssVars.color.background.transparent.hovered,
   pressed: cssVars.color.background.transparent.pressed,
 } as const;
 

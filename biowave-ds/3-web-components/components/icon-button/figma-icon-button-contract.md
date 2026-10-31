@@ -1,4 +1,4 @@
-<!-- GENERATED from icon-button.md @ eb225a6889d7a376 — do not edit; change the source and run: npm run contract -- web icon-button -->
+<!-- GENERATED from icon-button.md @ db63bbe5f8ffb6d2 — do not edit; change the source and run: npm run contract -- web icon-button -->
 # Icon button · زر أيقونة — Web — Figma contract
 
 > **Everything the Figma Agent needs to build Icon button in the Web Components file, with our variables and styles.** Read this file only. Generated from [`icon-button.md`](icon-button.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-29). Questions go to [D11 Execution log](icon-button.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
@@ -12,7 +12,7 @@
 | Component | Icon button · زر أيقونة |
 | Platform | Web · React + MUI |
 | Version | 1.1 · 2026-10-21 |
-| Source | [`icon-button.md`](icon-button.md) @ `eb225a6889d7a376` |
+| Source | [`icon-button.md`](icon-button.md) @ `db63bbe5f8ffb6d2` |
 
 ## 1. Library connections in this file
 
@@ -248,7 +248,7 @@ Icon Button              ↔ centered · width = height {B2} · padding 0
 |---|---|---|---|---|---|
 | `Variant` (on Appearance, exposed) | VARIANT | `Filled` · `Tonal` · `Outlined` · `Text` | `Text` | `variant` | |
 | `Color` (exposed) | VARIANT | `Brand` · `Secondary` · `Neutral` · `Error` · `Inverse` | `Neutral` | `color` | |
-| `State` (exposed) | VARIANT | `Default` · `Hover` · `Focused` · `Pressed` · `Disabled` · `Loading` | `Default` | `disabled` / `loading` | |
+| `State` (exposed) | VARIANT | `Default` · `Hovered` · `Focused` · `Pressed` · `Disabled` · `Loading` | `Default` | `disabled` / `loading` | |
 | `Size` | VARIANT | `SM` · `MD` · `LG` | `MD` | `size` | |
 | `Toggle` | VARIANT | `Off` · `On` | `Off` | `toggle` | |
 | `Selected` | VARIANT | `False` · `True` | `False` | `selected` | only with `Toggle=On` |
@@ -279,7 +279,7 @@ In the Foundations file: report instances of the three legacy sets, then move th
 
 ### D6 States, interactions and motion
 
-While hovering → Hover; while pressing → Pressed (B4). On click for `Toggle=On`: Selected False ↔ True, smart animate `motion-duration-sm`.
+While hovering → Hovered; while pressing → Pressed (B4). On click for `Toggle=On`: Selected False ↔ True, smart animate `motion-duration-sm`.
 
 ### D7 RTL
 

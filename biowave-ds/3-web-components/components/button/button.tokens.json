@@ -82,7 +82,7 @@
           "default": {
             "$value": "{color.background.brand.default}"
           },
-          "hover": {
+          "hovered": {
             "$value": "{color.background.brand.hovered}"
           },
           "pressed": {
@@ -114,7 +114,7 @@
           "default": {
             "$value": "{color.background.secondary.default}"
           },
-          "hover": {
+          "hovered": {
             "$value": "{color.background.secondary.hovered}"
           },
           "pressed": {
@@ -146,7 +146,7 @@
           "default": {
             "$value": "{color.background.error.default}"
           },
-          "hover": {
+          "hovered": {
             "$value": "{color.background.error.hovered}"
           },
           "pressed": {
@@ -178,7 +178,7 @@
           "default": {
             "$value": "{color.background.neutral.default}"
           },
-          "hover": {
+          "hovered": {
             "$value": "{color.background.neutral.hovered}"
           },
           "pressed": {
@@ -210,7 +210,7 @@
           "default": {
             "$value": "{color.background.inverse.default}"
           },
-          "hover": {
+          "hovered": {
             "$value": "{color.background.inverse.hovered}"
           },
           "pressed": {
@@ -255,7 +255,7 @@
           }
         },
         "state-layer": {
-          "hover": {
+          "hovered": {
             "$value": "{color.background.transparent.hovered}"
           },
           "pressed": {
@@ -289,7 +289,7 @@
           }
         },
         "state-layer": {
-          "hover": {
+          "hovered": {
             "$value": "{color.background.transparent.hovered}"
           },
           "pressed": {
@@ -323,7 +323,7 @@
           }
         },
         "state-layer": {
-          "hover": {
+          "hovered": {
             "$value": "{color.background.transparent.hovered}"
           },
           "pressed": {
@@ -373,7 +373,7 @@
           }
         },
         "state-layer": {
-          "hover": {
+          "hovered": {
             "$value": "{color.background.transparent.hovered}"
           },
           "pressed": {
@@ -415,7 +415,7 @@
           }
         },
         "state-layer": {
-          "hover": {
+          "hovered": {
             "$value": "{color.background.transparent.hovered}"
           },
           "pressed": {
@@ -457,7 +457,7 @@
           }
         },
         "state-layer": {
-          "hover": {
+          "hovered": {
             "$value": "{color.background.transparent.hovered}"
           },
           "pressed": {
@@ -499,7 +499,7 @@
           }
         },
         "state-layer": {
-          "hover": {
+          "hovered": {
             "$value": "{color.background.transparent.hovered}"
           },
           "pressed": {
@@ -541,7 +541,7 @@
           }
         },
         "state-layer": {
-          "hover": {
+          "hovered": {
             "$value": "{color.background.transparent.hovered}"
           },
           "pressed": {
@@ -583,7 +583,7 @@
           }
         },
         "state-layer": {
-          "hover": {
+          "hovered": {
             "$value": "{color.background.transparent.hovered}"
           },
           "pressed": {
@@ -617,7 +617,7 @@
           }
         },
         "state-layer": {
-          "hover": {
+          "hovered": {
             "$value": "{color.background.transparent.hovered}"
           },
           "pressed": {
@@ -651,7 +651,7 @@
           }
         },
         "state-layer": {
-          "hover": {
+          "hovered": {
             "$value": "{color.background.transparent.hovered}"
           },
           "pressed": {
@@ -685,7 +685,7 @@
           }
         },
         "state-layer": {
-          "hover": {
+          "hovered": {
             "$value": "{color.background.transparent.hovered}"
           },
           "pressed": {
@@ -719,7 +719,7 @@
           }
         },
         "state-layer": {
-          "hover": {
+          "hovered": {
             "$value": "{color.background.transparent.hovered}"
           },
           "pressed": {

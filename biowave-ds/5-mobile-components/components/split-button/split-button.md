@@ -13,9 +13,9 @@
 | Built on | Composition of `BwButton` (`primary-action`) + `BwIconButton` (`menu-trigger`) + M3 `MenuAnchor` (temporary until the Menu component on Day 10) |
 | Import | `BwSplitButton` from `package:biowave_mobile/biowave_mobile.dart` |
 | Figma | **Biowave DS — Mobile Components** › `↳ Split Button` (page Typography mode `Mobile`) · [Part D](#d--figma-build) |
-| Version | 1.0 · 2026-10-16 |
+| Version | 1.1 · 2026-10-31 |
 | Plan | Finished |
-| Code | Approved |
+| Code | Built |
 | Figma build | Planned |
 | Review | Round 3 · 2026-10-24 · Approved |
 | Source code | `lib/src/components/split_button/bw_split_button.dart` |
@@ -38,7 +38,7 @@
 | Specs | [Web](../../../3-web-components/components/split-button/split-button.md#b--spec) · [Tablet](../../../4-tablet-components/components/split-button/split-button.md#b--spec) · [Mobile](#b--spec) |
 | Figma | `↳ Split Button` in **Biowave DS — Web Components** · **Tablet Components** · **Mobile Components** (one set per platform file, D-12; keys in `_sync/figma-files.json`) |
 | Family | [Button](../button/button.md#a--guidelines) · [Icon button](../icon-button/icon-button.md#a--guidelines) · Split button · [Button group](../button-group/button-group.md#a--guidelines) |
-| Version | 1.0 · 2026-10-16 |
+| Version | 1.1 · 2026-10-31 |
 
 ### A1 Overview
 
@@ -50,21 +50,21 @@ A split button joins a main action with a menu of related alternatives: "Export"
 
 ```
   ①
-  ┌──────────────────────┐ ┌─────┐
-  │ ②[◆]  Export report  │ │ ③[⌄]│      ④ menu (opens below, aligned to the end)
-  └──────────────────────┘ └─────┘      ┌────────────────────┐
-                         ⑤ gap          │ Export as PDF      │
-                                        │ Export as Excel    │
-                                        └────────────────────┘
+  ┌──────────────────────┬──────┐
+  │ ②[◆]  Export report  │ ③[⌄] │      ④ menu (opens below, aligned to the end)
+  └──────────────────────┴──────┘      ┌────────────────────┐
+                         ⑤ divider     │ Export as PDF      │
+                                       │ Export as Excel    │
+                                       └────────────────────┘
 ```
 
 | # | Part | Required | Role |
 |---|---|---|---|
-| 1 | `container` | Yes | Groups the two parts; outer corners rounded, inner corners tight |
+| 1 | `container` | Yes | Joins the two parts; outer corners rounded, inner corners square |
 | 2 | `primary-action` | Yes | A Button: runs the most common action |
 | 3 | `menu-trigger` | Yes | An Icon button with a chevron: opens the menu |
 | 4 | `menu` | Yes | The alternatives (Menu component) |
-| 5 | `gap` | Yes | Small gap that separates the two hit areas |
+| 5 | `divider` | Yes | A vertical [Divider](../divider/divider.md#a--guidelines) where the two parts meet. The parts touch (no gap), so this line is what separates the two hit areas |
 
 ### A3 Usage
 
@@ -181,7 +181,7 @@ Each part has its own states, the same as [Button A5](../button/button.md#a5-sta
 
 ### B2 Dimensions
 
-Two parts with `spacing-xxs` (`BwSpacing.xxs`) between; outer corners `radius-md` (`xl`: `radius-xl`), inner corners `radius-xs` via `BorderRadiusDirectional`; parts follow BwButton / BwIconButton B2. Menu: the [Web B2](../../../3-web-components/components/split-button/split-button.md#b2-dimensions) tokens, mapped on Mobile as below.
+The two parts touch (`spacing-none`) with a vertical `divider` between them: `VerticalDivider(width: BwBorder.widthDefault, thickness: BwBorder.widthDefault, indent/endIndent: BwSpacing.none, color: color-border-default)` in a `SizedBox` of the control height — the Divider spec values, same on every variant and color (swap for `BwDivider` vertical once Divider is built on Mobile). Outer corners `radius-md` (`xl`: `radius-xl`), inner corners `radius-none` via `BorderRadiusDirectional`; each part's shape is `BwSegmentBorder` (internal), which leaves the inner edge unstroked so an outlined control shows one line there. Parts follow BwButton / BwIconButton B2. Menu: the [Web B2](../../../3-web-components/components/split-button/split-button.md#b2-dimensions) tokens, mapped on Mobile as below (touch-sized rows).
 
 | Part | Property | Token | Mobile mapping |
 |---|---|---|---|
@@ -192,9 +192,9 @@ Two parts with `spacing-xxs` (`BwSpacing.xxs`) between; outer corners `radius-md
 | `menu` | radius | `radius-lg` | the decorated surface; `MenuStyle.shape` uses the same radius |
 | `menu` | elevation | `elevation-3` | the decorated surface: `boxShadow: context.bw.elevation.elevation3` |
 | `menu` | M3 surface (unused) | `color-background-transparent-default` | `MenuStyle.backgroundColor`, `shadowColor` and `surfaceTintColor` |
-| `menu` item | height | `size-control-height-md` | item `minimumSize` |
-| `menu` item | padding-inline | `spacing-control-padding-inline-md` | `EdgeInsetsDirectional` |
-| `menu` item | icon–label gap | `spacing-control-gap-md` | |
+| `menu` item | height | `size-control-height-lg` (touch row = `target-min`) | item `minimumSize` |
+| `menu` item | padding-inline | `spacing-xl` (menu-row padding on touch, component scale) | `EdgeInsetsDirectional` |
+| `menu` item | icon · icon–label gap | `size-icon-lg` · `spacing-md` | `BwIcon(size: BwIconSize.lg)` · `SizedBox` |
 | `menu` item | text style | `body-md` | `context.bw.text.bodyMd` |
 | `menu` item | focus ring width | `border-width-focus` | inner ring (B3); item corners square, clipped by the surface |
 
@@ -355,8 +355,8 @@ B9, plus earlier button-family tests still pass.
 
 **What was built:**
 Implemented `BwSplitButton` and `BwSplitButtonOption` in `lib/src/components/split_button/bw_split_button.dart` exported from `lib/biowave_mobile.dart`, strictly conforming to contract §1–§9.
-- Composed of `BwButton` (`primary-action`) and `BwIconButton` (`menu-trigger`) separated by `BwSpacing.xxs` (`gap`) with temporary M3 `MenuAnchor` (`menu`).
-- Corner radii: outer corners `radius-md` (or `radius-xl` for `size: BwControlSize.xl`), inner facing corners `radius-xs` (`BwRadius.xs`) using `BorderRadiusDirectional` via the internal `segment` parameter (`BwButtonSegment.start` and `BwButtonSegment.end`).
+- Composed of `BwButton` (`primary-action`) and `BwIconButton` (`menu-trigger`) joined with a vertical `divider` (no gap) with temporary M3 `MenuAnchor` (`menu`).
+- Corner radii: outer corners `radius-md` (or `radius-xl` for `size: BwControlSize.xl`), inner facing corners `radius-none` (`BwRadius.none`) using `BorderRadiusDirectional` via the internal `segment` parameter (`BwButtonSegment.start` and `BwButtonSegment.end`).
 - Changes to `BwButton` and `BwIconButton`: contract §9 explicitly specifies changing `bw_button.dart` and `bw_icon_button.dart` to support the internal `segment` parameter controlling corner radii and focus ring outlines. `BwIconButton` additionally wires `focusNode`, `expanded` (forcing `WidgetState.pressed` overlay and background per contract §4 while open), and `iconChild` (for `AnimatedRotation` chevron rotation with `BwDuration.md`).
 - Semantics and accessibility: outer `Semantics(container: true, label: label)` grouping the two focus stops, trigger with `Semantics(button: true, label: menuLabel, expanded: isOpen)` exposing single labelled button nodes with tap and focus actions (`tester.semantics.tap`, isFocused after Tab).
 - Reduced motion: honours `context.bw.reduceMotion`, setting chevron rotation and menu durations to `BwDuration.instant`.
@@ -387,6 +387,13 @@ Implemented `BwSplitButton` and `BwSplitButtonOption` in `lib/src/components/spl
 | #13 (🟢) `BwSplitButton.chevronHalfTurn` visibility | Marked `BwSplitButton.chevronHalfTurn` with `@visibleForTesting` in `5-mobile-components/lib/src/components/split_button/bw_split_button.dart:76` so it is not exposed as part of the public API | `cd 5-mobile-components && flutter analyze` (0 issues); `5-mobile-components/test/split_button_test.dart:456` |
 
 ---
+
+#### Fix round — 2026-10-31 (Claude) · plan 1.1
+Foundations Spacing 2.0 alignment, decided with Hassan: the parts touch and a Divider separates them; touch-sized menu rows on the component spacing scale.
+- `bw_split_button.dart`: `SizedBox(width: BwSpacing.xxs)` → `VerticalDivider` (`BwBorder.widthDefault`, `colors.borderDefault`, no indents) in a `SizedBox` of the control height, key `divider`; menu item `minimumSize` height `BwSize.controlHeightLg`, padding `BwSpacing.xl`, icon `BwIconSize.lg`, icon–label gap `BwSpacing.md` (and the menu-width measurement).
+- `bw_button_style.dart`: inner corners `BwRadius.none`; new internal `segmentShape` helper. New internal `bw_segment_border.dart` (`BwSegmentBorder`: rounded outer corners, no stroke on the inner edge). `bw_button.dart` / `bw_icon_button.dart` use it for segments.
+- `split_button_test.dart`: shapes are `BwSegmentBorder` with the right segment, inner radius `BwRadius.none`, divider width/thickness/height (and colour on mobile), parts 1px apart; menu row `minimumSize` and padding.
+- ⚠️ `flutter analyze` / `flutter test` not run (no Flutter SDK in the cloud workspace or the linked VM) — run in `5-mobile-components` and `4-tablet-components` before review.
 
 ## D · Figma build
 
@@ -428,7 +435,7 @@ As [Web D4](../../../3-web-components/components/split-button/split-button.md#d4
 
 ### D5 Variants to generate
 
-8 allowed `Variant × Color` × 4 sizes × 7 states (no `Primary hover` / `Trigger hover`) × 2 languages = **448**.
+8 allowed `Variant × Color` × 4 sizes × 7 states (no `Primary hovered` / `Trigger hovered`) × 2 languages = **448**.
 
 #### After this build is `Approved`
 Report instances of the legacy reference above; move legacy sets to `_Deprecation Ground` in the Foundations file once product files use the Mobile library.
@@ -774,6 +781,8 @@ Changes to the approved button components (`git diff main...HEAD -- lib/src/comp
 
 ### F0 Changes from previous version
 
+1.1 — the two parts touch and a vertical Divider (`color-border-default`) separates them; inner corners square (`radius-none`); menu rows use the component spacing scale and are touch-sized (48 high, `spacing-xl`, 24 px icon). No API change.
+
 None — version 1.0. Filled when the version is above 1.0; it feeds Figma doc page 10.
 
 ### F1 Guidelines changelog
@@ -781,6 +790,7 @@ None — version 1.0. Filled when the version is above 1.0; it feeds Figma doc p
 | Version | Date | Change | Migration | Author |
 |---|---|---|---|---|
 | 1.0 | 2026-10-16 | Initial. Re-models the Figma `Split Button/EN·AR` sets | `Type` (colors) → `color` brand/secondary/neutral · `State=Ghost` → `variant=outlined` · `Show Menu Buttons` removed (menu is a separate component) · two sets → one with `Language` | Planner (Claude) |
+| 1.1 | 2026-10-31 | A2: part ⑤ `gap` → `divider` — the parts touch and a vertical Divider separates them; inner corners square | None (visual) | Planner (Claude) |
 
 ### F2 Spec changelog
 
@@ -788,3 +798,4 @@ None — version 1.0. Filled when the version is above 1.0; it feeds Figma doc p
 |---|---|---|---|---|
 | 1.0 | 2026-10-24 | Plan 2 for Review Round 1 (findings 2, 4, 5, 7, 8, 9, 10; user-approved: mirror tablet plan 2.1 and its API names). B2: menu tokens listed, `elevation-3` mapped onto a decorated menu surface (transparent `MenuStyle`, `Clip.none`). B3: menu item states. B4: chevron open / close timing, `MenuAnchor` built-in fade, off under reduced motion. B6: menu arrows wrap; menu keys listed. C3 / C5: internal BwButton / BwIconButton parameters and the shared `BwButtonStyle.segmentBorderRadius` helper (same names as tablet), all `@internal` and hidden from the export; goldens folder added. Header Source code corrected. No new behaviour beyond the Web spec | No | — |
 | 1.0 | 2026-10-16 | Initial | No | — |
+| 1.1 | 2026-10-31 | Foundations Spacing 2.0: `container` gap `spacing-xxs` → `spacing-none` + vertical `divider` (Divider, `color-border-default`, every variant); inner corners `radius-xs` → `radius-none`, inner-side border none; menu rows on the component scale (`size-control-height-lg` · `spacing-xl` · `size-icon-lg` · `spacing-md`); Figma State `Primary/Trigger hover` → `hovered` | No (visual) | — |
