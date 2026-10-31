@@ -2,6 +2,17 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Figma — Button sets rebound to component variables (Web)] — 2026-10-31
+### Changed
+- **Existing Figma Button sets kept as they are** (Hassan: no new components, no change to properties, primitives or semantic tokens): `.Button _en` and `.Button _ar` in the Web Components file (360 + 360 variants, properties `Type` · `Color` · `State` · `Size` · Label · Leading/Trailing icon unchanged) now bind only Button component variables:
+  - container fill by state (`container/*`, `state-layer/*`), outlined stroke `border/*` + `border-width`, padding-inline, gap, height, radius, icon size, label and icon colours; explicit modes `Button / Size` (XLarge → lg, Medium → md, Small → sm) and `Button / Filled · Outlined · Text` (`Type` Primary · Secondary · Tertiary) by `Color`.
+  - Labels use the `action/lg · md · sm` text styles (old per-property bindings to `5. Typography (EN)` / `6. Typography (AR)` removed); AR variants get `5. Typography = Web · AR`.
+  - Focus: the shadow effects (`8. Shadows (deprecated)`) are removed from every variant; the hidden `Border` layer is now the `Focus ring` stroke (border.md recipe), visible only in `State=Focused`.
+  - Removed: bindings to `_deprecated/*`, the remote `Button size` collection and the `1. Themes = Light` pin (buttons now follow the frame theme). Audit after: 0 deprecated or foreign bindings, 0 effects.
+- **Component tokens** (`button.tokens.json`, all three files): Figma-only colour modes `success` · `warning` · `info` in `Button / Filled · Outlined · Text` (aliases of the existing semantic success/warning/info tokens; code `color` unchanged), `Button / Focus › width` (`border-width-focus`), `Button / Size › focus-ring-radius` (`radius-lg`; touch `xl`: `radius-2xl`). Button B3.6–3.7 document them. Web, Tablet and Mobile files verified 68/68, `sync:done:tokens:*`.
+### Next
+- Same rebind for Icon button and Split button sets (Web), then the Tablet and Mobile files' legacy sets.
+
 ## [Review — Text field against Foundations 29 Oct] — 2026-10-31
 ### Checked
 - Text field on Web, Tablet and Mobile (specs, `text-field.tokens.json`, contracts, web code and tests): every reference resolves; size tokens use the control level at the matching size, `label-gap` `spacing-sm` and `supporting-gap` `spacing-xs` match the new Use-for rules, `radius-md`, `color-border-bold` as the control boundary. The old dark-mode read-only finding (E2 #2) no longer applies: `background-base-subtlest` (#0A0A0A) now differs from `base-default` (#141414).

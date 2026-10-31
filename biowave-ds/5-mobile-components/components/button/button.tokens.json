@@ -22,6 +22,9 @@
         },
         "border-width": {
           "$value": "{border.width.default}"
+        },
+        "focus-ring-radius": {
+          "$value": "{radius.2xl}"
         }
       }
     }

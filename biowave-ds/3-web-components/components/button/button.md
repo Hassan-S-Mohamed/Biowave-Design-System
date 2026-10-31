@@ -336,6 +336,19 @@ The **state layer** is a second fill painted above the container fill (web: `bac
 
 Dark theme: same tokens, values switch automatically. No exceptions.
 
+#### 3.6 Legacy Figma colours (Figma only — no code prop)
+The Figma Button sets keep their legacy `Color` values **Success · Warning · Info** (decision 2026-10-31: keep every variant and property). They read extra modes of the same component collections; code `color` stays `brand · secondary · neutral · error · inverse`.
+
+| Variant | `container` default · hovered · pressed · disabled | `border` default · disabled | `label` · `icon` (default) |
+|---|---|---|---|
+| Filled (`Type=Primary`) | `color-background-success-default` · `color-background-success-hovered` · `color-background-success-pressed` · `color-background-disabled` (same for `warning`, `info`: `color-background-warning-default` · `color-background-warning-hovered` · `color-background-warning-pressed`, `color-background-info-default` · `color-background-info-hovered` · `color-background-info-pressed`) | — | `color-text-on-success` · `color-icon-on-success`; `color-text-on-warning` · `color-icon-on-warning`; `color-text-on-info` · `color-icon-on-info` |
+| Outlined (`Type=Secondary`) · Text (`Type=Tertiary`) | transparent; state layer as 3.3 / 3.4 | `color-border-success` · `color-border-warning` · `color-border-info` (outlined only) · `color-border-disabled` | `color-text-role-success` · `color-icon-role-success`; `color-text-role-warning` · `color-icon-role-warning`; `color-text-role-info` · `color-icon-role-info` |
+
+Disabled: `color-text-disabled` · `color-icon-disabled`, as every colour.
+
+#### 3.7 Figma focus ring layer
+`Focus ring` layer (border.md › Figma focus ring): stroke `Button / Focus › color`, weight `Button / Focus › width` = `border-width-focus`, corner radius `Button / Size › focus-ring-radius` = `radius-lg` (control `radius-md` + 2px offset; the touch `xl` size uses the next step up, see the Tablet and Mobile specs).
+
 ### B4 States and transitions
 
 | From → To | Trigger | Animated properties | Duration | Easing |

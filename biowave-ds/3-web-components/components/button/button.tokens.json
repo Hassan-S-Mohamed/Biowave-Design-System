@@ -1,6 +1,6 @@
 {
   "$schema": "component-tokens/v1",
-  "$description": "Button component tokens (D-13). Every value aliases a SEMANTIC token from 2-foundations \u2014 never a primitive or a raw value. Same facts as spec \u00a73 (checked by npm run component-tokens). Synced to the Web Components file as local collections whose variables alias the Foundations library.",
+  "$description": "Button component tokens (D-13). Every value aliases a SEMANTIC token from 2-foundations — never a primitive or a raw value. Same facts as spec §3 (checked by npm run component-tokens). Synced to the Web Components file as local collections whose variables alias the Foundations library.",
   "button": {
     "size": {
       "$extensions": {
@@ -27,6 +27,9 @@
         },
         "border-width": {
           "$value": "{border.width.default}"
+        },
+        "focus-ring-radius": {
+          "$value": "{radius.lg}"
         }
       },
       "md": {
@@ -47,6 +50,9 @@
         },
         "border-width": {
           "$value": "{border.width.default}"
+        },
+        "focus-ring-radius": {
+          "$value": "{radius.lg}"
         }
       },
       "lg": {
@@ -67,6 +73,9 @@
         },
         "border-width": {
           "$value": "{border.width.default}"
+        },
+        "focus-ring-radius": {
+          "$value": "{radius.lg}"
         }
       }
     },
@@ -231,6 +240,102 @@
         "icon": {
           "default": {
             "$value": "{color.icon.role.brand}"
+          },
+          "disabled": {
+            "$value": "{color.icon.disabled}"
+          }
+        }
+      },
+      "success": {
+        "container": {
+          "default": {
+            "$value": "{color.background.success.default}"
+          },
+          "hovered": {
+            "$value": "{color.background.success.hovered}"
+          },
+          "pressed": {
+            "$value": "{color.background.success.pressed}"
+          },
+          "disabled": {
+            "$value": "{color.background.disabled}"
+          }
+        },
+        "label": {
+          "default": {
+            "$value": "{color.text.on.success}"
+          },
+          "disabled": {
+            "$value": "{color.text.disabled}"
+          }
+        },
+        "icon": {
+          "default": {
+            "$value": "{color.icon.on.success}"
+          },
+          "disabled": {
+            "$value": "{color.icon.disabled}"
+          }
+        }
+      },
+      "warning": {
+        "container": {
+          "default": {
+            "$value": "{color.background.warning.default}"
+          },
+          "hovered": {
+            "$value": "{color.background.warning.hovered}"
+          },
+          "pressed": {
+            "$value": "{color.background.warning.pressed}"
+          },
+          "disabled": {
+            "$value": "{color.background.disabled}"
+          }
+        },
+        "label": {
+          "default": {
+            "$value": "{color.text.on.warning}"
+          },
+          "disabled": {
+            "$value": "{color.text.disabled}"
+          }
+        },
+        "icon": {
+          "default": {
+            "$value": "{color.icon.on.warning}"
+          },
+          "disabled": {
+            "$value": "{color.icon.disabled}"
+          }
+        }
+      },
+      "info": {
+        "container": {
+          "default": {
+            "$value": "{color.background.info.default}"
+          },
+          "hovered": {
+            "$value": "{color.background.info.hovered}"
+          },
+          "pressed": {
+            "$value": "{color.background.info.pressed}"
+          },
+          "disabled": {
+            "$value": "{color.background.disabled}"
+          }
+        },
+        "label": {
+          "default": {
+            "$value": "{color.text.on.info}"
+          },
+          "disabled": {
+            "$value": "{color.text.disabled}"
+          }
+        },
+        "icon": {
+          "default": {
+            "$value": "{color.icon.on.info}"
           },
           "disabled": {
             "$value": "{color.icon.disabled}"
@@ -564,6 +669,132 @@
             "$value": "{color.icon.disabled}"
           }
         }
+      },
+      "success": {
+        "container": {
+          "default": {
+            "$value": "{color.background.transparent.default}"
+          },
+          "disabled": {
+            "$value": "{color.background.transparent.default}"
+          }
+        },
+        "border": {
+          "default": {
+            "$value": "{color.border.success}"
+          },
+          "disabled": {
+            "$value": "{color.border.disabled}"
+          }
+        },
+        "state-layer": {
+          "hovered": {
+            "$value": "{color.background.transparent.hovered}"
+          },
+          "pressed": {
+            "$value": "{color.background.transparent.pressed}"
+          }
+        },
+        "label": {
+          "default": {
+            "$value": "{color.text.role.success}"
+          },
+          "disabled": {
+            "$value": "{color.text.disabled}"
+          }
+        },
+        "icon": {
+          "default": {
+            "$value": "{color.icon.role.success}"
+          },
+          "disabled": {
+            "$value": "{color.icon.disabled}"
+          }
+        }
+      },
+      "warning": {
+        "container": {
+          "default": {
+            "$value": "{color.background.transparent.default}"
+          },
+          "disabled": {
+            "$value": "{color.background.transparent.default}"
+          }
+        },
+        "border": {
+          "default": {
+            "$value": "{color.border.warning}"
+          },
+          "disabled": {
+            "$value": "{color.border.disabled}"
+          }
+        },
+        "state-layer": {
+          "hovered": {
+            "$value": "{color.background.transparent.hovered}"
+          },
+          "pressed": {
+            "$value": "{color.background.transparent.pressed}"
+          }
+        },
+        "label": {
+          "default": {
+            "$value": "{color.text.role.warning}"
+          },
+          "disabled": {
+            "$value": "{color.text.disabled}"
+          }
+        },
+        "icon": {
+          "default": {
+            "$value": "{color.icon.role.warning}"
+          },
+          "disabled": {
+            "$value": "{color.icon.disabled}"
+          }
+        }
+      },
+      "info": {
+        "container": {
+          "default": {
+            "$value": "{color.background.transparent.default}"
+          },
+          "disabled": {
+            "$value": "{color.background.transparent.default}"
+          }
+        },
+        "border": {
+          "default": {
+            "$value": "{color.border.info}"
+          },
+          "disabled": {
+            "$value": "{color.border.disabled}"
+          }
+        },
+        "state-layer": {
+          "hovered": {
+            "$value": "{color.background.transparent.hovered}"
+          },
+          "pressed": {
+            "$value": "{color.background.transparent.pressed}"
+          }
+        },
+        "label": {
+          "default": {
+            "$value": "{color.text.role.info}"
+          },
+          "disabled": {
+            "$value": "{color.text.disabled}"
+          }
+        },
+        "icon": {
+          "default": {
+            "$value": "{color.icon.role.info}"
+          },
+          "disabled": {
+            "$value": "{color.icon.disabled}"
+          }
+        }
       }
     },
     "text": {
@@ -742,6 +973,108 @@
             "$value": "{color.icon.disabled}"
           }
         }
+      },
+      "success": {
+        "container": {
+          "default": {
+            "$value": "{color.background.transparent.default}"
+          },
+          "disabled": {
+            "$value": "{color.background.transparent.default}"
+          }
+        },
+        "state-layer": {
+          "hovered": {
+            "$value": "{color.background.transparent.hovered}"
+          },
+          "pressed": {
+            "$value": "{color.background.transparent.pressed}"
+          }
+        },
+        "label": {
+          "default": {
+            "$value": "{color.text.role.success}"
+          },
+          "disabled": {
+            "$value": "{color.text.disabled}"
+          }
+        },
+        "icon": {
+          "default": {
+            "$value": "{color.icon.role.success}"
+          },
+          "disabled": {
+            "$value": "{color.icon.disabled}"
+          }
+        }
+      },
+      "warning": {
+        "container": {
+          "default": {
+            "$value": "{color.background.transparent.default}"
+          },
+          "disabled": {
+            "$value": "{color.background.transparent.default}"
+          }
+        },
+        "state-layer": {
+          "hovered": {
+            "$value": "{color.background.transparent.hovered}"
+          },
+          "pressed": {
+            "$value": "{color.background.transparent.pressed}"
+          }
+        },
+        "label": {
+          "default": {
+            "$value": "{color.text.role.warning}"
+          },
+          "disabled": {
+            "$value": "{color.text.disabled}"
+          }
+        },
+        "icon": {
+          "default": {
+            "$value": "{color.icon.role.warning}"
+          },
+          "disabled": {
+            "$value": "{color.icon.disabled}"
+          }
+        }
+      },
+      "info": {
+        "container": {
+          "default": {
+            "$value": "{color.background.transparent.default}"
+          },
+          "disabled": {
+            "$value": "{color.background.transparent.default}"
+          }
+        },
+        "state-layer": {
+          "hovered": {
+            "$value": "{color.background.transparent.hovered}"
+          },
+          "pressed": {
+            "$value": "{color.background.transparent.pressed}"
+          }
+        },
+        "label": {
+          "default": {
+            "$value": "{color.text.role.info}"
+          },
+          "disabled": {
+            "$value": "{color.text.disabled}"
+          }
+        },
+        "icon": {
+          "default": {
+            "$value": "{color.icon.role.info}"
+          },
+          "disabled": {
+            "$value": "{color.icon.disabled}"
+          }
+        }
       }
     },
     "focus-ring": {
@@ -754,11 +1087,17 @@
       "default": {
         "color": {
           "$value": "{color.border.focus}"
+        },
+        "width": {
+          "$value": "{border.width.focus}"
         }
       },
       "inverse": {
         "color": {
           "$value": "{color.border.inverse}"
+        },
+        "width": {
+          "$value": "{border.width.focus}"
         }
       }
     }
