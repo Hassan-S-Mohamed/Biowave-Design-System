@@ -1,7 +1,7 @@
-<!-- GENERATED from divider.md @ f57398aef152deff — do not edit; change the source and run: npm run contract -- web divider -->
+<!-- GENERATED from divider.md @ f9df0a84a08e5efd — do not edit; change the source and run: npm run contract -- web divider -->
 # Divider · فاصل — Web — Figma contract
 
-> **Everything the Figma Agent needs to build Divider in the Web Components file, with our variables and styles.** Read this file only. Generated from [`divider.md`](divider.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-29). Questions go to [D11 Execution log](divider.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
+> **Everything the Figma Agent needs to build Divider in the Web Components file, with our variables and styles.** Read this file only. Generated from [`divider.md`](divider.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-31). Questions go to [D11 Execution log](divider.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
 
 **Two phases, one review:** Phase 1 — build the component set (§7–§8). Phase 2 — as soon as Phase 1 is finished, the 12 documentation pages and the Components List card (§9).
 
@@ -12,7 +12,7 @@
 | Component | Divider · فاصل |
 | Platform | Web · React + MUI |
 | Version | 1.1 · 2026-10-23 |
-| Source | [`divider.md`](divider.md) @ `f57398aef152deff` |
+| Source | [`divider.md`](divider.md) @ `f9df0a84a08e5efd` |
 
 ## 1. Library connections in this file
 
