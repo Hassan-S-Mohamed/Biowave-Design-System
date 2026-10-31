@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 
 import '../../common/bw_control_size.dart';
 import '../button/bw_button.dart';
+import '../button/bw_button_style.dart';
 import '../icon/bw_icon.dart';
 import '../icon_button/bw_icon_button.dart';
 
@@ -245,7 +246,19 @@ class _BwSplitButtonState extends State<BwSplitButton> {
               loadingLabel: widget.loadingLabel,
               segment: BwButtonSegment.start,
             ),
-            const SizedBox(width: BwSpacing.xxs),
+            // Divider between the joined segments (B2). Swap for
+            // BwDivider(orientation: vertical) once Divider is built on tablet.
+            SizedBox(
+              key: const ValueKey<String>('divider'),
+              height: BwButtonStyle.metrics(widget.size).height,
+              child: VerticalDivider(
+                width: BwBorder.widthDefault,
+                thickness: BwBorder.widthDefault,
+                indent: BwSpacing.none,
+                endIndent: BwSpacing.none,
+                color: context.bw.colors.borderDefault,
+              ),
+            ),
             Focus(
               canRequestFocus: false,
               skipTraversal: true,
@@ -294,10 +307,11 @@ class _BwSplitButtonState extends State<BwSplitButton> {
           if (option.icon != null) ...[
             BwIcon(
               icon: option.icon!,
+              size: BwIconSize.lg,
               color: option.enabled ? BwIconColor.subtle : null,
               directional: option.icon!.matchTextDirection,
             ),
-            const SizedBox(width: BwSpacing.controlGapMd),
+            const SizedBox(width: BwSpacing.md),
           ],
           Flexible(child: Text(option.label)),
         ],
@@ -312,12 +326,12 @@ class _BwSplitButtonState extends State<BwSplitButton> {
       minimumSize: WidgetStatePropertyAll<Size>(
         Size(
           _containerWidth ?? BwLayout.tablet.minTarget,
-          BwSize.controlHeightMd,
+          BwSize.controlHeightLg,
         ),
       ),
       padding: const WidgetStatePropertyAll<EdgeInsetsGeometry>(
         EdgeInsetsDirectional.symmetric(
-          horizontal: BwSpacing.controlPaddingInlineMd,
+          horizontal: BwSpacing.xl,
         ),
       ),
       shape: const WidgetStatePropertyAll<OutlinedBorder>(

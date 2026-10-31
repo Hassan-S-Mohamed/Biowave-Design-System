@@ -230,7 +230,7 @@ class _BwIconButtonState extends State<BwIconButton> {
       shape: widget.segment == null
           ? null
           : WidgetStatePropertyAll<OutlinedBorder>(
-              RoundedRectangleBorder(borderRadius: borderRadius),
+              BwButtonStyle.segmentShape(borderRadius, widget.segment),
             ),
       backgroundBuilder: widget.segment == null
           ? null

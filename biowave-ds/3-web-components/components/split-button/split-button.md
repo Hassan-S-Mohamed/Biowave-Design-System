@@ -13,9 +13,9 @@
 | Built on | Composition of Biowave `Button` (`primary-action`) + `IconButton` (`menu-trigger`) + MUI `Menu`/`MenuItem` (temporary, until the Menu component on Day 10) |
 | Import | `import { SplitButton } from '@biowave/web'` |
 | Figma | **Biowave DS — Web Components** › `↳ Split Button` (legacy reference: Foundations `4298:3591`) · build: [Part D](#d--figma-build) |
-| Version | 1.1 · 2026-10-21 |
+| Version | 1.2 · 2026-10-31 |
 | Plan | Finished |
-| Code | Approved |
+| Code | Built |
 | Figma build | Planned |
 | Review | Round 3 · 2026-10-21 · Approved |
 | Source code | `src/components/split-button/` — not built yet (the Executor creates it) |
@@ -38,7 +38,7 @@
 | Specs | [Web](#b--spec) · [Tablet](../../../4-tablet-components/components/split-button/split-button.md#b--spec) · [Mobile](../../../5-mobile-components/components/split-button/split-button.md#b--spec) |
 | Figma | `↳ Split Button` in **Biowave DS — Web Components** · **Tablet Components** · **Mobile Components** (one set per platform file, D-12; keys in `_sync/figma-files.json`) |
 | Family | [Button](../button/button.md#a--guidelines) · [Icon button](../icon-button/icon-button.md#a--guidelines) · Split button · [Button group](../button-group/button-group.md#a--guidelines) |
-| Version | 1.0 · 2026-10-16 |
+| Version | 1.1 · 2026-10-31 |
 
 ### A1 Overview
 
@@ -50,21 +50,21 @@ A split button joins a main action with a menu of related alternatives: "Export"
 
 ```
   ①
-  ┌──────────────────────┐ ┌─────┐
-  │ ②[◆]  Export report  │ │ ③[⌄]│      ④ menu (opens below, aligned to the end)
-  └──────────────────────┘ └─────┘      ┌────────────────────┐
-                         ⑤ gap          │ Export as PDF      │
-                                        │ Export as Excel    │
-                                        └────────────────────┘
+  ┌──────────────────────┬──────┐
+  │ ②[◆]  Export report  │ ③[⌄] │      ④ menu (opens below, aligned to the end)
+  └──────────────────────┴──────┘      ┌────────────────────┐
+                         ⑤ divider     │ Export as PDF      │
+                                       │ Export as Excel    │
+                                       └────────────────────┘
 ```
 
 | # | Part | Required | Role |
 |---|---|---|---|
-| 1 | `container` | Yes | Groups the two parts; outer corners rounded, inner corners tight |
+| 1 | `container` | Yes | Joins the two parts; outer corners rounded, inner corners square |
 | 2 | `primary-action` | Yes | A Button: runs the most common action |
 | 3 | `menu-trigger` | Yes | An Icon button with a chevron: opens the menu |
 | 4 | `menu` | Yes | The alternatives (Menu component) |
-| 5 | `gap` | Yes | Small gap that separates the two hit areas |
+| 5 | `divider` | Yes | A vertical [Divider](../divider/divider.md#a--guidelines) where the two parts meet. The parts touch (no gap), so this line is what separates the two hit areas |
 
 ### A3 Usage
 
@@ -187,20 +187,22 @@ Each part has its own states, the same as [Button A5](../button/button.md#a5-sta
 ### B2 Dimensions
 
 ```
-  radius-md                    radius-xs │ │ radius-xs          radius-md
-  ┌──────────────────────────────────┐   ┌────────┐
-  │ [◆]  Export report               │   │  [⌄]   │   both: size-control-height-md
-  └──────────────────────────────────┘   └────────┘
-                                    ├──┤ spacing-xxs
+  radius-md                   radius-none │ radius-none        radius-md
+  ┌──────────────────────────────────┬────────┐
+  │ [◆]  Export report               │  [⌄]   │   both: size-control-height-md
+  └──────────────────────────────────┴────────┘
+                                     └ divider: border-width-default · color-border-default
+                                       (gap spacing-none — the parts touch)
 ```
 
 | Part | Property | Value |
 |---|---|---|
-| `container` | layout · gap | inline-flex · `spacing-xxs` |
-| `primary-action` | everything | Button of the same `variant`, `color`, `size` ([Button B2](../button/button.md#b2-dimensions)), except: radius start corners `radius-md`, end corners `radius-xs` |
-| `menu-trigger` | everything | IconButton of the same `variant`, `color`, `size` ([Icon button B2](../icon-button/icon-button.md#b2-dimensions)), except: start corners `radius-xs`, end corners `radius-md`; icon `expand_more` |
+| `container` | layout · gap | inline-flex, `align-items: center` · `spacing-none` (the parts touch) |
+| `divider` | everything | [Divider](../divider/divider.md#b2-dimensions) `orientation="vertical"`, `emphasis="default"` (`border-width-default` · `color-border-default`, every variant and color), `decorative`; height = the parts' `size-control-height-*`; between `primary-action` and `menu-trigger` |
+| `primary-action` | everything | Button of the same `variant`, `color`, `size` ([Button B2](../button/button.md#b2-dimensions)), except: radius start corners `radius-md`, end corners `radius-none`; no border on the inline-end side (`border-width-none`) — the divider is the shared edge |
+| `menu-trigger` | everything | IconButton of the same `variant`, `color`, `size` ([Icon button B2](../icon-button/icon-button.md#b2-dimensions)), except: start corners `radius-none`, end corners `radius-md`; no border on the inline-start side (`border-width-none`); icon `expand_more` |
 | `menu` (temporary) | min-width · background · elevation · radius | width of `container` · `color-surface-raised` · `elevation-3` · `radius-lg` |
-| `menu` item | height · padding-inline · gap · text style · text color | `size-control-height-md` · `spacing-control-padding-inline-md` · `spacing-control-gap-md` · `body-md` · `color-text-default` |
+| `menu` item | height · padding-inline · icon–label gap · icon · text style · text color | `size-control-height-md` · `spacing-lg` · `spacing-sm` · `size-icon-md` · `body-md` · `color-text-default` (menu rows use the component spacing scale, not `spacing-control-*` — spacing.md) |
 | `menu` | offset from container | `spacing-xs` |
 
 ### B3 Tokens by part and state
@@ -338,7 +340,8 @@ B9, plus: Button and IconButton tests still pass unchanged.
 - [ ] (1.1) Trigger keys (finding 4): Enter, Space and ArrowDown each open the menu and focus the first item; Space on an item chooses it, closes the menu and runs `onSelect` once
 - [ ] (1.1) Loading (finding 4): while `loading`, the trigger is disabled and focus stays on the primary action
 - [ ] (1.1) `ar` label (finding 4): the default `menuLabel` is "خيارات أخرى لـ{children}"
-- [ ] (1.1) Radii (finding 4): per corner — `start` segment start corners `radius-md`, end corners `radius-xs`; `end` segment the reverse — for every allowed `variant`
+- [ ] (1.1, 1.2) Radii: per corner — `start` segment start corners `radius-md`, end corners `radius-none`; `end` segment the reverse — for every allowed `variant`
+- [ ] (1.2) Joined parts: `container` gap `spacing-none`; a decorative (`aria-hidden`) vertical Divider with `color-border-default` sits between `primary-action` and `menu-trigger` in DOM order; `primary-action` has `border-inline-end-width: border-width-none`, `menu-trigger` `border-inline-start-width: border-width-none` — every variant, `en` and `ar`
 - [ ] (1.1) axe (finding 4): open and closed, in `en` and `ar`
 - [ ] (1.1) `aria-controls` (finding 7): absent while closed; while open it equals the menu's `id`
 - [ ] (1.1) No per-test timeout arguments in `SplitButton.test.tsx` (finding 5); every Split button test passes under the 5 s default in the full suite
@@ -408,6 +411,13 @@ Files the Executor may touch in this fix round: `3-web-components/src/components
 
 ---
 
+#### Fix round 3 — 2026-10-31 (Claude) · plan 1.2
+Foundations Spacing 2.0 alignment, decided with Hassan: the parts touch and a Divider separates them; menu rows on the component spacing scale.
+- `SplitButton.tsx`: container `gap` `spacing-xxs` → `spacing-none`; divider height = the size's `size-control-height-*`; Biowave `Divider` (`orientation="vertical"`, `decorative`, default emphasis) between the parts.
+- `Button.tsx` / `IconButton.tsx` (internal `segment` only): inner corners `radius-xs` → `radius-none`; inner-side border width `border-width-none`.
+- `SplitButtonMenu.tsx`: item `padding-inline` `spacing-control-padding-inline-md` → `spacing-lg`, gap `spacing-control-gap-md` → `spacing-sm` (same 12 / 6 px).
+- `SplitButton.test.tsx`: radii test → `radius-none`; new test for the joined parts (gap, divider, DOM order, inner borders) in `en` and `ar` for every variant. `test:web` all pass.
+
 ## D · Figma build
 
 > How to build Part B in Figma. The Figma Agent receives this through the generated `figma-split-button-contract.md`.
@@ -425,7 +435,7 @@ Files the Executor may touch in this fix round: `3-web-components/src/components
 
 ### D1 Rules for this build
 
-Same as [Button D1](../button/button.md#d1-rules-for-this-build). The two parts **must be instances** of `Button` and `Icon Button` (rule 6), with only their corner radii overridden (bound to `radius/xs` on the inner corners).
+Same as [Button D1](../button/button.md#d1-rules-for-this-build). The two parts **must be instances** of `Button` and `Icon Button` (rule 6), with only their inner corner radii (bound to `radius/none`) and inner-side stroke weight (bound to `border/width/none`) overridden; a `Divider` instance (Vertical · Default) sits between them. Build Divider before this set.
 
 ### D2 Component structure
 
@@ -437,9 +447,10 @@ Same as [Button D1](../button/button.md#d1-rules-for-this-build). The two parts 
 ### D3 Layer tree and auto layout
 
 ```
-Split Button            ↔ horizontal · gap spacing/xxs · hug
-├── primary-action      ◇ Button instance · Variant/Color/Size/Language follow the set · inner corners radius/xs · exposed: Label, Leading icon, Leading icon glyph
-└── menu-trigger        ◇ Icon Button instance · same Variant/Color/Size · inner corners radius/xs · Icon = expand_more · Tooltip label = "More options"
+Split Button            ↔ horizontal · gap spacing/none · hug · counter-axis stretch
+├── primary-action      ◇ Button instance · Variant/Color/Size/Language follow the set · inner corners radius/none · inline-end stroke weight border/width/none · exposed: Label, Leading icon, Leading icon glyph
+├── divider             ◇ Divider instance · Orientation=Vertical · Emphasis=Default · Inset=None · height fill (decorative)
+└── menu-trigger        ◇ Icon Button instance · same Variant/Color/Size · inner corners radius/none · inline-start stroke weight border/width/none · Icon = expand_more · Tooltip label = "More options"
 ```
 
 **Icons used:** `expand_more` — menu trigger chevron, Google · Material Symbols Rounded (D-18)
@@ -451,7 +462,7 @@ Split Button            ↔ horizontal · gap spacing/xxs · hug
 | `Variant` | VARIANT | `Filled` · `Tonal` · `Outlined` | `Filled` | `variant` |
 | `Color` | VARIANT | `Brand` · `Secondary` · `Neutral` | `Brand` | `color` |
 | `Size` | VARIANT | `SM` · `MD` · `LG` | `MD` | `size` |
-| `State` | VARIANT | `Default` · `Primary hover` · `Primary pressed` · `Trigger hover` · `Expanded` · `Focused primary` · `Focused trigger` · `Disabled` · `Loading` | `Default` | `disabled` / `loading`; others interaction only |
+| `State` | VARIANT | `Default` · `Primary hovered` · `Primary pressed` · `Trigger hovered` · `Expanded` · `Focused primary` · `Focused trigger` · `Disabled` · `Loading` | `Default` | `disabled` / `loading`; others interaction only |
 | `Language` | VARIANT | `EN` · `AR` | `EN` | — |
 | `Label` | TEXT (nested, exposed) | | `Export report` | `children` |
 | `Leading icon` · `Leading icon glyph` | BOOLEAN · INSTANCE_SWAP (nested, exposed) | | `false` | `startIcon` |
@@ -785,6 +796,8 @@ vitest split-button only ✓ 11/11 — keyboard test 4.7 s (limit 5 s), axe 9.0 
 
 ### F0 Changes from previous version
 
+1.2 — the two parts touch and a vertical Divider (`color-border-default`) separates them; inner corners square (`radius-none`); menu rows use the component spacing scale (same values). No API change.
+
 1.1 — the menu opens at the inline end in both directions (side chosen from the text direction, B5); the trigger's `aria-controls` is set only while the menu is open (B6). No API change.
 
 1.0 — initial Web implementation: real Button and IconButton segments, tokenized temporary MUI menu, controlled/uncontrolled open state, complete keyboard navigation, RTL logical corners, public exports and contract tests. No API change from the initial spec.
@@ -794,6 +807,7 @@ vitest split-button only ✓ 11/11 — keyboard test 4.7 s (limit 5 s), axe 9.0 
 | Version | Date | Change | Migration | Author |
 |---|---|---|---|---|
 | 1.0 | 2026-10-16 | Initial. Re-models the Figma `Split Button/EN·AR` sets | `Type` (colors) → `color` brand/secondary/neutral · `State=Ghost` → `variant=outlined` · `Show Menu Buttons` removed (menu is a separate component) · two sets → one with `Language` | Planner (Claude) |
+| 1.1 | 2026-10-31 | A2: part ⑤ `gap` → `divider` — the parts touch and a vertical Divider separates them; inner corners square | None (visual) | Planner (Claude) |
 
 ### F2 Spec changelog
 
@@ -801,3 +815,4 @@ vitest split-button only ✓ 11/11 — keyboard test 4.7 s (limit 5 s), axe 9.0 
 |---|---|---|---|---|
 | 1.0 | 2026-10-16 | Initial | No | — |
 | 1.1 · plan 1.1 | 2026-10-21 | Review round 1 Planner items: B5 menu side chosen from the text direction, `bottom-end` logical (#6, C3 corrected — MUI flips only default origins); B6 `aria-controls` only while open (#7). C3 records the shared speedy Emotion test cache (now on `main`); C6 tests and C7 AC-7/8 + Fix round 1 task list for Executor findings #1–#5, #8 | No | — |
+| 1.2 | 2026-10-31 | Foundations Spacing 2.0: `container` gap `spacing-xxs` → `spacing-none` + vertical `divider` (Divider, `color-border-default`, every variant); inner corners `radius-xs` → `radius-none`, inner-side border none; menu rows on the component scale (`spacing-lg` · `spacing-sm`, same values); Figma State `Primary/Trigger hover` → `hovered` | No (visual) | — |

@@ -1,4 +1,4 @@
-<!-- GENERATED from button.md @ a16944dbf236940b — do not edit; change the source and run: npm run contract -- web button -->
+<!-- GENERATED from button.md @ 057bae1166279351 — do not edit; change the source and run: npm run contract -- web button -->
 # Button · زر — Web — Figma contract
 
 > **Everything the Figma Agent needs to build Button in the Web Components file, with our variables and styles.** Read this file only. Generated from [`button.md`](button.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-29). Questions go to [D11 Execution log](button.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
@@ -12,7 +12,7 @@
 | Component | Button · زر |
 | Platform | Web · React + MUI |
 | Version | 1.1 · 2026-10-18 |
-| Source | [`button.md`](button.md) @ `a16944dbf236940b` |
+| Source | [`button.md`](button.md) @ `057bae1166279351` |
 
 ## 1. Library connections in this file
 
@@ -45,7 +45,7 @@ Already in this file, created by the sync tooling from [`button.tokens.json`](bu
 | Button / Size | sm · md · lg | `radius` | sm → 2. Radius › `radius/md`<br>md → 2. Radius › `radius/md`<br>lg → 2. Radius › `radius/md` |
 | Button / Size | sm · md · lg | `border-width` | sm → 7. Border › `border/width/default`<br>md → 7. Border › `border/width/default`<br>lg → 7. Border › `border/width/default` |
 | Button / Filled | brand · secondary · error · neutral · inverse | `container/default` | brand → 1. Themes › `color/background/brand/default`<br>secondary → 1. Themes › `color/background/secondary/default`<br>error → 1. Themes › `color/background/error/default`<br>neutral → 1. Themes › `color/background/neutral/default`<br>inverse → 1. Themes › `color/background/inverse/default` |
-| Button / Filled | brand · secondary · error · neutral · inverse | `container/hover` | brand → 1. Themes › `color/background/brand/hovered`<br>secondary → 1. Themes › `color/background/secondary/hovered`<br>error → 1. Themes › `color/background/error/hovered`<br>neutral → 1. Themes › `color/background/neutral/hovered`<br>inverse → 1. Themes › `color/background/inverse/hovered` |
+| Button / Filled | brand · secondary · error · neutral · inverse | `container/hovered` | brand → 1. Themes › `color/background/brand/hovered`<br>secondary → 1. Themes › `color/background/secondary/hovered`<br>error → 1. Themes › `color/background/error/hovered`<br>neutral → 1. Themes › `color/background/neutral/hovered`<br>inverse → 1. Themes › `color/background/inverse/hovered` |
 | Button / Filled | brand · secondary · error · neutral · inverse | `container/pressed` | brand → 1. Themes › `color/background/brand/pressed`<br>secondary → 1. Themes › `color/background/secondary/pressed`<br>error → 1. Themes › `color/background/error/pressed`<br>neutral → 1. Themes › `color/background/neutral/pressed`<br>inverse → 1. Themes › `color/background/inverse/pressed` |
 | Button / Filled | brand · secondary · error · neutral · inverse | `container/disabled` | brand → 1. Themes › `color/background/disabled`<br>secondary → 1. Themes › `color/background/disabled`<br>error → 1. Themes › `color/background/disabled`<br>neutral → 1. Themes › `color/background/disabled`<br>inverse → 1. Themes › `color/background/disabled` |
 | Button / Filled | brand · secondary · error · neutral · inverse | `label/default` | brand → 1. Themes › `color/text/on/brand`<br>secondary → 1. Themes › `color/text/on/secondary`<br>error → 1. Themes › `color/text/on/error`<br>neutral → 1. Themes › `color/text/default`<br>inverse → 1. Themes › `color/text/role/brand` |
@@ -54,7 +54,7 @@ Already in this file, created by the sync tooling from [`button.tokens.json`](bu
 | Button / Filled | brand · secondary · error · neutral · inverse | `icon/disabled` | brand → 1. Themes › `color/icon/disabled`<br>secondary → 1. Themes › `color/icon/disabled`<br>error → 1. Themes › `color/icon/disabled`<br>neutral → 1. Themes › `color/icon/disabled`<br>inverse → 1. Themes › `color/icon/disabled` |
 | Button / Tonal | brand · secondary · error | `container/default` | brand → 1. Themes › `color/background/brand/subtle`<br>secondary → 1. Themes › `color/background/secondary/subtle`<br>error → 1. Themes › `color/background/error/subtle` |
 | Button / Tonal | brand · secondary · error | `container/disabled` | brand → 1. Themes › `color/background/disabled`<br>secondary → 1. Themes › `color/background/disabled`<br>error → 1. Themes › `color/background/disabled` |
-| Button / Tonal | brand · secondary · error | `state-layer/hover` | brand → 1. Themes › `color/background/transparent/hovered`<br>secondary → 1. Themes › `color/background/transparent/hovered`<br>error → 1. Themes › `color/background/transparent/hovered` |
+| Button / Tonal | brand · secondary · error | `state-layer/hovered` | brand → 1. Themes › `color/background/transparent/hovered`<br>secondary → 1. Themes › `color/background/transparent/hovered`<br>error → 1. Themes › `color/background/transparent/hovered` |
 | Button / Tonal | brand · secondary · error | `state-layer/pressed` | brand → 1. Themes › `color/background/transparent/pressed`<br>secondary → 1. Themes › `color/background/transparent/pressed`<br>error → 1. Themes › `color/background/transparent/pressed` |
 | Button / Tonal | brand · secondary · error | `label/default` | brand → 1. Themes › `color/text/role/brand`<br>secondary → 1. Themes › `color/text/role/secondary`<br>error → 1. Themes › `color/text/role/error` |
 | Button / Tonal | brand · secondary · error | `label/disabled` | brand → 1. Themes › `color/text/disabled`<br>secondary → 1. Themes › `color/text/disabled`<br>error → 1. Themes › `color/text/disabled` |
@@ -64,7 +64,7 @@ Already in this file, created by the sync tooling from [`button.tokens.json`](bu
 | Button / Outlined | brand · secondary · error · neutral · inverse | `container/disabled` | brand → 1. Themes › `color/background/transparent/default`<br>secondary → 1. Themes › `color/background/transparent/default`<br>error → 1. Themes › `color/background/transparent/default`<br>neutral → 1. Themes › `color/background/transparent/default`<br>inverse → 1. Themes › `color/background/transparent/default` |
 | Button / Outlined | brand · secondary · error · neutral · inverse | `border/default` | brand → 1. Themes › `color/border/brand`<br>secondary → 1. Themes › `color/border/secondary`<br>error → 1. Themes › `color/border/error`<br>neutral → 1. Themes › `color/border/strong`<br>inverse → 1. Themes › `color/border/inverse` |
 | Button / Outlined | brand · secondary · error · neutral · inverse | `border/disabled` | brand → 1. Themes › `color/border/disabled`<br>secondary → 1. Themes › `color/border/disabled`<br>error → 1. Themes › `color/border/disabled`<br>neutral → 1. Themes › `color/border/disabled`<br>inverse → 1. Themes › `color/border/disabled` |
-| Button / Outlined | brand · secondary · error · neutral · inverse | `state-layer/hover` | brand → 1. Themes › `color/background/transparent/hovered`<br>secondary → 1. Themes › `color/background/transparent/hovered`<br>error → 1. Themes › `color/background/transparent/hovered`<br>neutral → 1. Themes › `color/background/transparent/hovered`<br>inverse → 1. Themes › `color/background/transparent/hovered` |
+| Button / Outlined | brand · secondary · error · neutral · inverse | `state-layer/hovered` | brand → 1. Themes › `color/background/transparent/hovered`<br>secondary → 1. Themes › `color/background/transparent/hovered`<br>error → 1. Themes › `color/background/transparent/hovered`<br>neutral → 1. Themes › `color/background/transparent/hovered`<br>inverse → 1. Themes › `color/background/transparent/hovered` |
 | Button / Outlined | brand · secondary · error · neutral · inverse | `state-layer/pressed` | brand → 1. Themes › `color/background/transparent/pressed`<br>secondary → 1. Themes › `color/background/transparent/pressed`<br>error → 1. Themes › `color/background/transparent/pressed`<br>neutral → 1. Themes › `color/background/transparent/pressed`<br>inverse → 1. Themes › `color/background/transparent/pressed` |
 | Button / Outlined | brand · secondary · error · neutral · inverse | `label/default` | brand → 1. Themes › `color/text/role/brand`<br>secondary → 1. Themes › `color/text/role/secondary`<br>error → 1. Themes › `color/text/role/error`<br>neutral → 1. Themes › `color/text/default`<br>inverse → 1. Themes › `color/text/on/brand` |
 | Button / Outlined | brand · secondary · error · neutral · inverse | `label/disabled` | brand → 1. Themes › `color/text/disabled`<br>secondary → 1. Themes › `color/text/disabled`<br>error → 1. Themes › `color/text/disabled`<br>neutral → 1. Themes › `color/text/disabled`<br>inverse → 1. Themes › `color/text/disabled` |
@@ -72,7 +72,7 @@ Already in this file, created by the sync tooling from [`button.tokens.json`](bu
 | Button / Outlined | brand · secondary · error · neutral · inverse | `icon/disabled` | brand → 1. Themes › `color/icon/disabled`<br>secondary → 1. Themes › `color/icon/disabled`<br>error → 1. Themes › `color/icon/disabled`<br>neutral → 1. Themes › `color/icon/disabled`<br>inverse → 1. Themes › `color/icon/disabled` |
 | Button / Text | brand · secondary · error · neutral · inverse | `container/default` | brand → 1. Themes › `color/background/transparent/default`<br>secondary → 1. Themes › `color/background/transparent/default`<br>error → 1. Themes › `color/background/transparent/default`<br>neutral → 1. Themes › `color/background/transparent/default`<br>inverse → 1. Themes › `color/background/transparent/default` |
 | Button / Text | brand · secondary · error · neutral · inverse | `container/disabled` | brand → 1. Themes › `color/background/transparent/default`<br>secondary → 1. Themes › `color/background/transparent/default`<br>error → 1. Themes › `color/background/transparent/default`<br>neutral → 1. Themes › `color/background/transparent/default`<br>inverse → 1. Themes › `color/background/transparent/default` |
-| Button / Text | brand · secondary · error · neutral · inverse | `state-layer/hover` | brand → 1. Themes › `color/background/transparent/hovered`<br>secondary → 1. Themes › `color/background/transparent/hovered`<br>error → 1. Themes › `color/background/transparent/hovered`<br>neutral → 1. Themes › `color/background/transparent/hovered`<br>inverse → 1. Themes › `color/background/transparent/hovered` |
+| Button / Text | brand · secondary · error · neutral · inverse | `state-layer/hovered` | brand → 1. Themes › `color/background/transparent/hovered`<br>secondary → 1. Themes › `color/background/transparent/hovered`<br>error → 1. Themes › `color/background/transparent/hovered`<br>neutral → 1. Themes › `color/background/transparent/hovered`<br>inverse → 1. Themes › `color/background/transparent/hovered` |
 | Button / Text | brand · secondary · error · neutral · inverse | `state-layer/pressed` | brand → 1. Themes › `color/background/transparent/pressed`<br>secondary → 1. Themes › `color/background/transparent/pressed`<br>error → 1. Themes › `color/background/transparent/pressed`<br>neutral → 1. Themes › `color/background/transparent/pressed`<br>inverse → 1. Themes › `color/background/transparent/pressed` |
 | Button / Text | brand · secondary · error · neutral · inverse | `label/default` | brand → 1. Themes › `color/text/role/brand`<br>secondary → 1. Themes › `color/text/role/secondary`<br>error → 1. Themes › `color/text/role/error`<br>neutral → 1. Themes › `color/text/default`<br>inverse → 1. Themes › `color/text/on/brand` |
 | Button / Text | brand · secondary · error · neutral · inverse | `label/disabled` | brand → 1. Themes › `color/text/disabled`<br>secondary → 1. Themes › `color/text/disabled`<br>error → 1. Themes › `color/text/disabled`<br>neutral → 1. Themes › `color/text/disabled`<br>inverse → 1. Themes › `color/text/disabled` |
@@ -350,7 +350,7 @@ RTL  │          إضافة جهاز  [◆]  │      │  [◂]  التالي 
 
 0. **Library first, component tokens only (D-13).** Text styles and icons come from the published library **Biowave DS — Foundations**. Visual values bind to the **Button component tokens** already in this file (created from [`button.tokens.json`](button.tokens.json) by the sync tooling): `Button / Size` (modes `sm`·`md`·`lg`), `Button / Filled` · `Button / Tonal` · `Button / Outlined` · `Button / Text` (modes = colors), `Button / Focus`. Each variant sets the explicit mode of its collections (e.g. `Variant=Filled, Color=Brand, Size=MD` → `Button / Filled`=`brand`, `Button / Size`=`md`). **Never create variables or styles** in this file; if a value is missing, stop and ask the Planner (it is added to `button.tokens.json` → synced).
 1. **Every value is bound.** Fills, strokes, radius, padding, gap, height → variables; text → text styles; focus → effect style. No raw hex / px. Opacity 0 for the hidden label in Loading is the only literal allowed.
-2. **Spec token → component token:** B3 table and `button.tokens.json` name the same semantic tokens; bind the component token that aliases it (`container/default`, `label/default`, `state-layer/hover`, `border/default`, `height`, `padding-inline`, `gap`, `icon`, `radius`, `border-width`, `Button / Focus › color`). Semantic variables are never bound directly. For reference, spec names map to Foundations variables as: `-` between segments becomes `/`: `color-background-brand-hovered` → `1. Themes › color/background/brand/hovered`; `size-control-height-md` → `4. Size › size/control/height/md`; `spacing-control-gap-md` → `3. Spacing › spacing/control/gap/md`; `radius-md` → `2. Radius › radius/md`; `border-width-default` → `7. Border › border/width/default`.
+2. **Spec token → component token:** B3 table and `button.tokens.json` name the same semantic tokens; bind the component token that aliases it (`container/default`, `label/default`, `state-layer/hovered`, `border/default`, `height`, `padding-inline`, `gap`, `icon`, `radius`, `border-width`, `Button / Focus › color`). Semantic variables are never bound directly. For reference, spec names map to Foundations variables as: `-` between segments becomes `/`: `color-background-brand-hovered` → `1. Themes › color/background/brand/hovered`; `size-control-height-md` → `4. Size › size/control/height/md`; `spacing-control-gap-md` → `3. Spacing › spacing/control/gap/md`; `radius-md` → `2. Radius › radius/md`; `border-width-default` → `7. Border › border/width/default`.
    Text styles: `action/{sm|md|lg}` (they are bound to the Typography variables, so Tablet/Mobile scale comes from the variable mode, not from a different style). Focus: the `Focus ring` layer (border.md › Figma focus ring: stroke `color/border/focus`, `color/border/inverse` on Inverse) — no effect style; borders and rings are never shadows.
 3. **Never** bind `_Primitive/*`, `_deprecated/*` or the old `Button size` collection.
 4. **Layer names = anatomy part names** (A2): `container` is the component itself, children `leading-icon`, `label`, `trailing-icon`, `spinner`, `state-layer`.
@@ -394,7 +394,7 @@ This table is the source for Code Connect (D9).
 | `Variant` | VARIANT | `Filled` · `Tonal` · `Outlined` · `Text` | `Filled` | `variant` | `'filled'` · `'tonal'` · `'outlined'` · `'text'` |
 | `Color` | VARIANT | `Brand` · `Secondary` · `Neutral` · `Error` · `Inverse` | `Brand` | `color` | `'brand'` … `'inverse'` |
 | `Size` | VARIANT | `SM` · `MD` · `LG` | `MD` | `size` | `'sm'` · `'md'` · `'lg'` |
-| `State` | VARIANT | `Default` · `Hover` · `Focused` · `Pressed` · `Disabled` · `Loading` | `Default` | `disabled` / `loading` | `Disabled` → `disabled`; `Loading` → `loading`; others are interaction states, not props |
+| `State` | VARIANT | `Default` · `Hovered` · `Focused` · `Pressed` · `Disabled` · `Loading` | `Default` | `disabled` / `loading` | `Disabled` → `disabled`; `Loading` → `loading`; others are interaction states, not props |
 | `Language` | VARIANT | `EN` · `AR` | `EN` | — | Figma only; code takes language and direction from the provider |
 | `Label` | TEXT | | `Save changes` (AR variants: `حفظ التغييرات`) | `children` | |
 | `Leading icon` | BOOLEAN | | `false` | `startIcon` | present / absent |
@@ -416,7 +416,7 @@ This table is the source for Code Connect (D9).
 | `Type` Primary · Secondary · Tertiary | `Variant` Filled · Outlined · Text (check visually; report if legacy Secondary looks tonal) |
 | `Color` Primary · White · Secondary · Neutral · Error | `Brand` · `Inverse` · `Secondary` · `Neutral` · `Error` |
 | `Color` Success · Warning · Info | removed → `Brand` (or `Error` if the label is destructive) |
-| `State` Idle · Hovered · Focused · Pressed · Disabled | `Default` · `Hover` · `Focused` · `Pressed` · `Disabled` (+ `Loading`) |
+| `State` Idle · Hovered · Focused · Pressed · Disabled | `Default` · `Hovered` · `Focused` · `Pressed` · `Disabled` (+ `Loading`) |
 | `Size` Small · Medium · XLarge | `SM` · `MD` · `LG` |
 | `.Button _ar` set | `Language=AR` |
 
@@ -430,8 +430,8 @@ Values from B3 (tokens per state) and D4 (transitions).
 
 | Interaction | From → To | Animation |
 |---|---|---|
-| While hovering | Default → Hover | Smart animate · `motion-duration-sm` · standard easing (B4) |
-| While pressing | Hover → Pressed | Smart animate · `motion-duration-xs` |
+| While hovering | Default → Hovered | Smart animate · `motion-duration-sm` · standard easing (B4) |
+| While pressing | Hovered → Pressed | Smart animate · `motion-duration-xs` |
 | On click | Default → Loading (prototype demo only, on the docs page) | Dissolve · `motion-duration-sm` |
 
 Focus is not an interaction in Figma; the `Focused` state shows the ring for docs and handoff.

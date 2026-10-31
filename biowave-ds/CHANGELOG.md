@@ -2,6 +2,19 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Review — Button family against Foundations 29 Oct (Spacing 2.0, Size/Grid, Radius)] — 2026-10-31
+### Checked
+- Button, Split button and Icon button on Web, Tablet and Mobile (specs, `button.tokens.json`, contracts, React and Flutter code, tests — 58 files): every token reference resolves in `dist/tokens.json`; nothing uses the removed `spacing-4xl…11xl`, `size-container-5xl/6xl` or `BwSpacing.xl4+`. Button size tokens use the control level at the matching size; radii follow the new pick-by-object rules.
+### Changed
+- **Button component tokens `hover` → `hovered`** (system naming, colour tokens 2.0): `container/hover` and `state-layer/hover` in `button.tokens.json` (18 entries); web code keys (`bgHovered`, `stateLayer.hovered`) in Button and Icon button; Flutter `backgroundHovered` (tablet) and `_filledHovered` (mobile). **Figma:** the 4 variables per file renamed in place in the Web, Tablet and Mobile component files (IDs kept, so no binding breaks); `figma-read-tokens` lint 0 and 66/66 component tokens match per file; `sync:done:tokens:web · tablet · mobile`. Figma `State` variant value `Hover` → `Hovered` (and `Primary/Trigger hovered` on Split button) in Part D of all nine specs and `_templates/component.md`.
+- **Split button: the parts touch and a Divider separates them** (Hassan): container gap `spacing-xxs` → `spacing-none` (the new `xxs` rule: not for gaps between interactive elements); a vertical Divider (`border-width-default`, `color-border-default` on every variant and colour, decorative) between the parts, as tall as the control; inner corners `radius-xs` → `radius-none`; the inner-side border is dropped so outlined shows one line. Web: Biowave `Divider`; Tablet/Mobile: `VerticalDivider` with the Divider tokens (swap for `BwDivider` once built) and a new internal `BwSegmentBorder` shape. Part A ⑤ `gap` → `divider` on all three platforms. Plans: web 1.2, tablet 1.1, mobile 1.1; Code → `Built` (needs a review round).
+- **Split button menu rows on the component spacing scale** (Spacing 2.0: control spacing is for the control itself): web `spacing-lg` · `spacing-sm` (same 12 / 6 px); Tablet/Mobile touch-sized rows — `size-control-height-lg`, `spacing-xl`, `size-icon-lg`, `spacing-md`.
+- Contracts regenerated for the three components on all platforms. Checks: `docs:check`, `component-tokens`, `typecheck`, `test:web` 225/225, `npm run sync` READY.
+### Not done
+- `flutter analyze` / `flutter test` not run — no Flutter SDK in the cloud workspace or the linked VM. Run both in `4-tablet-components` and `5-mobile-components` before the review.
+- Foundations descriptions still say `radius-xs` is for joined segments and `spacing-none` for "joined button groups"; updating them needs a Foundations Figma edit + publish + library re-read (§6) and is left for the Planner.
+- Text field (`text-field.tokens.ts`, Figma mode `hover`) and Link (`link.tokens.ts`) still use `hover` keys — outside this review.
+
 ## [Sync — Foundations published: library index and contracts] — 2026-10-29
 ### Changed
 - Publish confirmed from the Web file (7 collections, 281 variables, `spacing/layout/*` present, removed tokens gone, no primitives visible). Library index re-read: 281 variables, 23 text / 4 effect / 2 grid styles (deprecated styles no longer indexed); reach 281. All contracts regenerated; `docs:check` OK, `npm run sync` READY.

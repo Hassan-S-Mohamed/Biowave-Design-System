@@ -2,6 +2,10 @@ import 'dart:io';
 import 'dart:ui' as ui;
 
 import 'package:biowave_mobile/biowave_mobile.dart';
+import 'package:biowave_mobile/src/components/button/bw_button.dart'
+    show BwButtonSegment;
+import 'package:biowave_mobile/src/components/button/bw_button_style.dart';
+import 'package:biowave_mobile/src/components/button/bw_segment_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -185,14 +189,38 @@ void main() {
                 locale: locale,
               );
 
-              final gapBox = tester.widget<SizedBox>(
-                find.byKey(const ValueKey<String>('gap')),
+              // Segments touch; a 1px Divider (border-width-default,
+              // color-border-default) sits between them.
+              final dividerBox = tester.widget<SizedBox>(
+                find.byKey(const ValueKey<String>('divider')),
               );
-              expect(gapBox.width, BwSpacing.xxs);
+              final divider = tester.widget<VerticalDivider>(
+                find.descendant(
+                  of: find.byKey(const ValueKey<String>('divider')),
+                  matching: find.byType(VerticalDivider),
+                ),
+              );
+              expect(divider.width, BwBorder.widthDefault);
+              expect(divider.thickness, BwBorder.widthDefault);
+              expect(
+                divider.color,
+                tester
+                    .element(find.byKey(const ValueKey<String>('divider')))
+                    .bw
+                    .colors
+                    .borderDefault,
+              );
+              expect(
+                dividerBox.height,
+                BwButtonStyle.metrics(
+                  tester.element(find.byKey(const ValueKey<String>('divider'))),
+                  size,
+                ).height,
+              );
 
               final outerRadius =
                   size == BwControlSize.xl ? BwRadius.xl : BwRadius.md;
-              const innerRadius = BwRadius.xs;
+              const innerRadius = BwRadius.none;
               final direction = isRtl ? TextDirection.rtl : TextDirection.ltr;
 
               final primaryMaterial = tester.widget<Material>(
@@ -213,9 +241,11 @@ void main() {
                   .style!;
 
               final primaryShape =
-                  primaryMaterial.shape! as RoundedRectangleBorder;
+                  primaryMaterial.shape! as BwSegmentBorder;
               final triggerShape = triggerStyle.shape!.resolve(<WidgetState>{})!
-                  as RoundedRectangleBorder;
+                  as BwSegmentBorder;
+              expect(primaryShape.segment, BwButtonSegment.start);
+              expect(triggerShape.segment, BwButtonSegment.end);
 
               final primaryResolved =
                   primaryShape.borderRadius.resolve(direction);
@@ -604,6 +634,16 @@ void main() {
           find.byKey(const ValueKey<String>('BwSplitButton.option.0')),
         );
         expect(itemRect.top, closeTo(containerRect.bottom + BwSpacing.xs, 1.0));
+        // Touch menu rows: size-control-height-lg, spacing-xl.
+        final itemStyle = tester.widget<MenuItemButton>(find.byType(MenuItemButton).first).style!;
+        expect(
+          itemStyle.minimumSize!.resolve(<WidgetState>{})!.height,
+          BwSize.controlHeightLg,
+        );
+        expect(
+          itemStyle.padding!.resolve(<WidgetState>{}),
+          const EdgeInsetsDirectional.symmetric(horizontal: BwSpacing.xl),
+        );
         if (locale.languageCode == 'ar') {
           expect(itemRect.left, closeTo(containerRect.left, 1.0));
         } else {

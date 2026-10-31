@@ -631,7 +631,7 @@ Slowest Button tests in the full suite: render matrix 1.001 s; axe light 625 ms;
 
 0. **Library first, component tokens only (D-13).** Text styles and icons come from the published library **Biowave DS — Foundations**. Visual values bind to the **Button component tokens** already in this file (created from [`button.tokens.json`](button.tokens.json) by the sync tooling): `Button / Size` (modes `sm`·`md`·`lg`), `Button / Filled` · `Button / Tonal` · `Button / Outlined` · `Button / Text` (modes = colors), `Button / Focus`. Each variant sets the explicit mode of its collections (e.g. `Variant=Filled, Color=Brand, Size=MD` → `Button / Filled`=`brand`, `Button / Size`=`md`). **Never create variables or styles** in this file; if a value is missing, stop and ask the Planner (it is added to `button.tokens.json` → synced).
 1. **Every value is bound.** Fills, strokes, radius, padding, gap, height → variables; text → text styles; focus → effect style. No raw hex / px. Opacity 0 for the hidden label in Loading is the only literal allowed.
-2. **Spec token → component token:** B3 table and `button.tokens.json` name the same semantic tokens; bind the component token that aliases it (`container/default`, `label/default`, `state-layer/hover`, `border/default`, `height`, `padding-inline`, `gap`, `icon`, `radius`, `border-width`, `Button / Focus › color`). Semantic variables are never bound directly. For reference, spec names map to Foundations variables as: `-` between segments becomes `/`: `color-background-brand-hovered` → `1. Themes › color/background/brand/hovered`; `size-control-height-md` → `4. Size › size/control/height/md`; `spacing-control-gap-md` → `3. Spacing › spacing/control/gap/md`; `radius-md` → `2. Radius › radius/md`; `border-width-default` → `7. Border › border/width/default`.
+2. **Spec token → component token:** B3 table and `button.tokens.json` name the same semantic tokens; bind the component token that aliases it (`container/default`, `label/default`, `state-layer/hovered`, `border/default`, `height`, `padding-inline`, `gap`, `icon`, `radius`, `border-width`, `Button / Focus › color`). Semantic variables are never bound directly. For reference, spec names map to Foundations variables as: `-` between segments becomes `/`: `color-background-brand-hovered` → `1. Themes › color/background/brand/hovered`; `size-control-height-md` → `4. Size › size/control/height/md`; `spacing-control-gap-md` → `3. Spacing › spacing/control/gap/md`; `radius-md` → `2. Radius › radius/md`; `border-width-default` → `7. Border › border/width/default`.
    Text styles: `action/{sm|md|lg}` (they are bound to the Typography variables, so Tablet/Mobile scale comes from the variable mode, not from a different style). Focus: the `Focus ring` layer (border.md › Figma focus ring: stroke `color/border/focus`, `color/border/inverse` on Inverse) — no effect style; borders and rings are never shadows.
 3. **Never** bind `_Primitive/*`, `_deprecated/*` or the old `Button size` collection.
 4. **Layer names = anatomy part names** (A2): `container` is the component itself, children `leading-icon`, `label`, `trailing-icon`, `spinner`, `state-layer`.
@@ -675,7 +675,7 @@ This table is the source for Code Connect (D9).
 | `Variant` | VARIANT | `Filled` · `Tonal` · `Outlined` · `Text` | `Filled` | `variant` | `'filled'` · `'tonal'` · `'outlined'` · `'text'` |
 | `Color` | VARIANT | `Brand` · `Secondary` · `Neutral` · `Error` · `Inverse` | `Brand` | `color` | `'brand'` … `'inverse'` |
 | `Size` | VARIANT | `SM` · `MD` · `LG` | `MD` | `size` | `'sm'` · `'md'` · `'lg'` |
-| `State` | VARIANT | `Default` · `Hover` · `Focused` · `Pressed` · `Disabled` · `Loading` | `Default` | `disabled` / `loading` | `Disabled` → `disabled`; `Loading` → `loading`; others are interaction states, not props |
+| `State` | VARIANT | `Default` · `Hovered` · `Focused` · `Pressed` · `Disabled` · `Loading` | `Default` | `disabled` / `loading` | `Disabled` → `disabled`; `Loading` → `loading`; others are interaction states, not props |
 | `Language` | VARIANT | `EN` · `AR` | `EN` | — | Figma only; code takes language and direction from the provider |
 | `Label` | TEXT | | `Save changes` (AR variants: `حفظ التغييرات`) | `children` | |
 | `Leading icon` | BOOLEAN | | `false` | `startIcon` | present / absent |
@@ -697,7 +697,7 @@ This table is the source for Code Connect (D9).
 | `Type` Primary · Secondary · Tertiary | `Variant` Filled · Outlined · Text (check visually; report if legacy Secondary looks tonal) |
 | `Color` Primary · White · Secondary · Neutral · Error | `Brand` · `Inverse` · `Secondary` · `Neutral` · `Error` |
 | `Color` Success · Warning · Info | removed → `Brand` (or `Error` if the label is destructive) |
-| `State` Idle · Hovered · Focused · Pressed · Disabled | `Default` · `Hover` · `Focused` · `Pressed` · `Disabled` (+ `Loading`) |
+| `State` Idle · Hovered · Focused · Pressed · Disabled | `Default` · `Hovered` · `Focused` · `Pressed` · `Disabled` (+ `Loading`) |
 | `Size` Small · Medium · XLarge | `SM` · `MD` · `LG` |
 | `.Button _ar` set | `Language=AR` |
 
@@ -711,8 +711,8 @@ Values from B3 (tokens per state) and D4 (transitions).
 
 | Interaction | From → To | Animation |
 |---|---|---|
-| While hovering | Default → Hover | Smart animate · `motion-duration-sm` · standard easing (B4) |
-| While pressing | Hover → Pressed | Smart animate · `motion-duration-xs` |
+| While hovering | Default → Hovered | Smart animate · `motion-duration-sm` · standard easing (B4) |
+| While pressing | Hovered → Pressed | Smart animate · `motion-duration-xs` |
 | On click | Default → Loading (prototype demo only, on the docs page) | Dissolve · `motion-duration-sm` |
 
 Focus is not an interaction in Figma; the `Focused` state shows the ring for docs and handoff.
@@ -1114,3 +1114,4 @@ Executor items for round 2: #1, #2, #3, #5, #6, #7, #8 (C7 AC-9).
 | 1.1 | 2026-10-18 | Review round 1 Planner items: spinner uses `motion-duration-progress` (B4); loading content hidden by opacity, name kept (B2, C3); `mirrorInRtl` / `bw-icon-directional` defined (B5, C3); C6 tests and C7 AC-9/10 added | No | — |
 | 1.1 · plan 1.2 | 2026-10-19 | Review round 2 Planner items: shared test tooling fix (fresh speedy emotion cache per test, Foundations `createBiowaveEmotionCaches` + `emotionCaches` prop) in C2/C3/C5; live region always mounted (C3); `mirrorInRtl={false}` stripped (C3); C6 tests and C7 AC-11–15 + Fix round 1 task list added. Spec (B) unchanged | No | — |
 | 1.1 (wording) | 2026-10-29 | B3 prose: filled buttons switch to the `-hovered` / `-pressed` tokens (colour tokens 2.0 name); no token or value change | No | — |
+| 1.1 (naming) | 2026-10-31 | Component tokens `container/hover` · `state-layer/hover` → `…/hovered` (button.tokens.json, code keys, Figma variables renamed in place — IDs kept); Figma `State` `Hover` → `Hovered`. Internal `segment` (Split button only): inner corners `radius-none`, inner-side border none, Flutter `BwSegmentBorder` | No | Figma: none (renamed in place) |

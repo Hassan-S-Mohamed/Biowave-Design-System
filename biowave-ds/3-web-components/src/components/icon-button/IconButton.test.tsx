@@ -64,10 +64,10 @@ function expectVisualTokens(rules: string, visual: ButtonVisualTokens): void {
   const tokens = new Set(
     [
       visual.bg,
-      visual.bgHover,
+      visual.bgHovered,
       visual.bgPressed,
       visual.bgDisabled,
-      visual.stateLayer?.hover,
+      visual.stateLayer?.hovered,
       visual.stateLayer?.pressed,
       visual.border?.default,
       visual.border?.disabled,

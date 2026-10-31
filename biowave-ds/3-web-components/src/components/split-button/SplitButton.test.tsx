@@ -112,12 +112,45 @@ describe('SplitButton rendering', () => {
 
         expect(primaryRules).toContain(`border-start-start-radius:${cssVars.radius.md}`);
         expect(primaryRules).toContain(`border-end-start-radius:${cssVars.radius.md}`);
-        expect(primaryRules).toContain(`border-start-end-radius:${cssVars.radius.xs}`);
-        expect(primaryRules).toContain(`border-end-end-radius:${cssVars.radius.xs}`);
-        expect(triggerRules).toContain(`border-start-start-radius:${cssVars.radius.xs}`);
-        expect(triggerRules).toContain(`border-end-start-radius:${cssVars.radius.xs}`);
+        expect(primaryRules).toContain(`border-start-end-radius:${cssVars.radius.none}`);
+        expect(primaryRules).toContain(`border-end-end-radius:${cssVars.radius.none}`);
+        expect(triggerRules).toContain(`border-start-start-radius:${cssVars.radius.none}`);
+        expect(triggerRules).toContain(`border-end-start-radius:${cssVars.radius.none}`);
         expect(triggerRules).toContain(`border-start-end-radius:${cssVars.radius.md}`);
         expect(triggerRules).toContain(`border-end-end-radius:${cssVars.radius.md}`);
+        view.unmount();
+      }
+    }
+  });
+
+  it('joins the segments with no gap and a decorative vertical Divider', () => {
+    for (const locale of locales) {
+      for (const variant of variants) {
+        const view = renderWithBiowave(
+          <SplitButton variant={variant} onClick={vi.fn()} options={makeOptions()}>
+            Export report
+          </SplitButton>,
+          { locale },
+        );
+        const group = screen.getByRole('group');
+        const [primary, trigger] = screen.getAllByRole('button');
+        const divider = group.querySelector('.bw-split-button__divider');
+        expect(divider).not.toBeNull();
+        expect(divider).toHaveAttribute('aria-hidden', 'true');
+        // DOM order: primary · divider · trigger
+        const following = Node.DOCUMENT_POSITION_FOLLOWING;
+        expect(primary.compareDocumentPosition(divider as Node) & following).toBeTruthy();
+        expect((divider as Node).compareDocumentPosition(trigger) & following).toBeTruthy();
+        expect(cssRulesFor(group).replace(/\s+/g, '')).toContain(`gap:${cssVars.spacing.none}`);
+        const dividerRules = cssRulesFor(divider as HTMLElement).replace(/\s+/g, '');
+        expect(dividerRules).toContain(`border-color:${cssVars.color.border.default}`);
+        expect(dividerRules).toContain(`block-size:${cssVars.size.control.height.md}`);
+        expect(cssRulesFor(primary).replace(/\s+/g, '')).toContain(
+          `border-inline-end-width:${cssVars.border.width.none}`,
+        );
+        expect(cssRulesFor(trigger).replace(/\s+/g, '')).toContain(
+          `border-inline-start-width:${cssVars.border.width.none}`,
+        );
         view.unmount();
       }
     }

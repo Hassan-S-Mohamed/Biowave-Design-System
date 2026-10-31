@@ -1,4 +1,4 @@
-<!-- GENERATED from button.md @ 2be0ffda8a49ea5f — do not edit; change the source and run: npm run contract -- web button -->
+<!-- GENERATED from button.md @ 62a02982260edf9b — do not edit; change the source and run: npm run contract -- web button -->
 # Button · زر — Web — code contract
 
 > **Everything you need to build Button on Web, and nothing else.** Read this file only. Generated from [`button.md`](button.md) (Parts B and C). If something is unclear or impossible, stop and write it in [C8 Execution log → Questions](button.md#c8-execution-log-filled-by-the-executor) — never invent behaviour.
@@ -12,7 +12,7 @@
 | Version | 1.1 · 2026-10-18 |
 | Source code | [`src/components/button/`](../../src/components/button/) |
 | Tokens | [`button.tokens.json`](button.tokens.json) |
-| Source | [`button.md`](button.md) @ `2be0ffda8a49ea5f` |
+| Source | [`button.md`](button.md) @ `62a02982260edf9b` |
 
 ## 1. What it is
 
@@ -233,7 +233,7 @@ The code token map must equal [`button.tokens.json`](button.tokens.json) (tests 
 | Button / Size | radius | sm: `radius-md` · md: `radius-md` · lg: `radius-md` |
 | Button / Size | border-width | sm: `border-width-default` · md: `border-width-default` · lg: `border-width-default` |
 | Button / Filled | container/default | brand: `color-background-brand-default` · secondary: `color-background-secondary-default` · error: `color-background-error-default` · neutral: `color-background-neutral-default` · inverse: `color-background-inverse-default` |
-| Button / Filled | container/hover | brand: `color-background-brand-hovered` · secondary: `color-background-secondary-hovered` · error: `color-background-error-hovered` · neutral: `color-background-neutral-hovered` · inverse: `color-background-inverse-hovered` |
+| Button / Filled | container/hovered | brand: `color-background-brand-hovered` · secondary: `color-background-secondary-hovered` · error: `color-background-error-hovered` · neutral: `color-background-neutral-hovered` · inverse: `color-background-inverse-hovered` |
 | Button / Filled | container/pressed | brand: `color-background-brand-pressed` · secondary: `color-background-secondary-pressed` · error: `color-background-error-pressed` · neutral: `color-background-neutral-pressed` · inverse: `color-background-inverse-pressed` |
 | Button / Filled | container/disabled | brand: `color-background-disabled` · secondary: `color-background-disabled` · error: `color-background-disabled` · neutral: `color-background-disabled` · inverse: `color-background-disabled` |
 | Button / Filled | label/default | brand: `color-text-on-brand` · secondary: `color-text-on-secondary` · error: `color-text-on-error` · neutral: `color-text-default` · inverse: `color-text-role-brand` |
@@ -242,7 +242,7 @@ The code token map must equal [`button.tokens.json`](button.tokens.json) (tests 
 | Button / Filled | icon/disabled | brand: `color-icon-disabled` · secondary: `color-icon-disabled` · error: `color-icon-disabled` · neutral: `color-icon-disabled` · inverse: `color-icon-disabled` |
 | Button / Tonal | container/default | brand: `color-background-brand-subtle` · secondary: `color-background-secondary-subtle` · error: `color-background-error-subtle` |
 | Button / Tonal | container/disabled | brand: `color-background-disabled` · secondary: `color-background-disabled` · error: `color-background-disabled` |
-| Button / Tonal | state-layer/hover | brand: `color-background-transparent-hovered` · secondary: `color-background-transparent-hovered` · error: `color-background-transparent-hovered` |
+| Button / Tonal | state-layer/hovered | brand: `color-background-transparent-hovered` · secondary: `color-background-transparent-hovered` · error: `color-background-transparent-hovered` |
 | Button / Tonal | state-layer/pressed | brand: `color-background-transparent-pressed` · secondary: `color-background-transparent-pressed` · error: `color-background-transparent-pressed` |
 | Button / Tonal | label/default | brand: `color-text-role-brand` · secondary: `color-text-role-secondary` · error: `color-text-role-error` |
 | Button / Tonal | label/disabled | brand: `color-text-disabled` · secondary: `color-text-disabled` · error: `color-text-disabled` |
@@ -252,7 +252,7 @@ The code token map must equal [`button.tokens.json`](button.tokens.json) (tests 
 | Button / Outlined | container/disabled | brand: `color-background-transparent-default` · secondary: `color-background-transparent-default` · error: `color-background-transparent-default` · neutral: `color-background-transparent-default` · inverse: `color-background-transparent-default` |
 | Button / Outlined | border/default | brand: `color-border-brand` · secondary: `color-border-secondary` · error: `color-border-error` · neutral: `color-border-strong` · inverse: `color-border-inverse` |
 | Button / Outlined | border/disabled | brand: `color-border-disabled` · secondary: `color-border-disabled` · error: `color-border-disabled` · neutral: `color-border-disabled` · inverse: `color-border-disabled` |
-| Button / Outlined | state-layer/hover | brand: `color-background-transparent-hovered` · secondary: `color-background-transparent-hovered` · error: `color-background-transparent-hovered` · neutral: `color-background-transparent-hovered` · inverse: `color-background-transparent-hovered` |
+| Button / Outlined | state-layer/hovered | brand: `color-background-transparent-hovered` · secondary: `color-background-transparent-hovered` · error: `color-background-transparent-hovered` · neutral: `color-background-transparent-hovered` · inverse: `color-background-transparent-hovered` |
 | Button / Outlined | state-layer/pressed | brand: `color-background-transparent-pressed` · secondary: `color-background-transparent-pressed` · error: `color-background-transparent-pressed` · neutral: `color-background-transparent-pressed` · inverse: `color-background-transparent-pressed` |
 | Button / Outlined | label/default | brand: `color-text-role-brand` · secondary: `color-text-role-secondary` · error: `color-text-role-error` · neutral: `color-text-default` · inverse: `color-text-on-brand` |
 | Button / Outlined | label/disabled | brand: `color-text-disabled` · secondary: `color-text-disabled` · error: `color-text-disabled` · neutral: `color-text-disabled` · inverse: `color-text-disabled` |
@@ -260,7 +260,7 @@ The code token map must equal [`button.tokens.json`](button.tokens.json) (tests 
 | Button / Outlined | icon/disabled | brand: `color-icon-disabled` · secondary: `color-icon-disabled` · error: `color-icon-disabled` · neutral: `color-icon-disabled` · inverse: `color-icon-disabled` |
 | Button / Text | container/default | brand: `color-background-transparent-default` · secondary: `color-background-transparent-default` · error: `color-background-transparent-default` · neutral: `color-background-transparent-default` · inverse: `color-background-transparent-default` |
 | Button / Text | container/disabled | brand: `color-background-transparent-default` · secondary: `color-background-transparent-default` · error: `color-background-transparent-default` · neutral: `color-background-transparent-default` · inverse: `color-background-transparent-default` |
-| Button / Text | state-layer/hover | brand: `color-background-transparent-hovered` · secondary: `color-background-transparent-hovered` · error: `color-background-transparent-hovered` · neutral: `color-background-transparent-hovered` · inverse: `color-background-transparent-hovered` |
+| Button / Text | state-layer/hovered | brand: `color-background-transparent-hovered` · secondary: `color-background-transparent-hovered` · error: `color-background-transparent-hovered` · neutral: `color-background-transparent-hovered` · inverse: `color-background-transparent-hovered` |
 | Button / Text | state-layer/pressed | brand: `color-background-transparent-pressed` · secondary: `color-background-transparent-pressed` · error: `color-background-transparent-pressed` · neutral: `color-background-transparent-pressed` · inverse: `color-background-transparent-pressed` |
 | Button / Text | label/default | brand: `color-text-role-brand` · secondary: `color-text-role-secondary` · error: `color-text-role-error` · neutral: `color-text-default` · inverse: `color-text-on-brand` |
 | Button / Text | label/disabled | brand: `color-text-disabled` · secondary: `color-text-disabled` · error: `color-text-disabled` · neutral: `color-text-disabled` · inverse: `color-text-disabled` |

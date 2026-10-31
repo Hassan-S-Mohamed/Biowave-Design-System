@@ -1,4 +1,4 @@
-<!-- GENERATED from split-button.md @ f3afe04f2b82e9b4 — do not edit; change the source and run: npm run contract -- web split-button -->
+<!-- GENERATED from split-button.md @ c66597faf443e9c9 — do not edit; change the source and run: npm run contract -- web split-button -->
 # Split button · زر مقسّم — Web — code contract
 
 > **Everything you need to build Split button on Web, and nothing else.** Read this file only. Generated from [`split-button.md`](split-button.md) (Parts B and C). If something is unclear or impossible, stop and write it in [C8 Execution log → Questions](split-button.md#c8-execution-log-filled-by-the-executor) — never invent behaviour.
@@ -9,10 +9,10 @@
 | Platform | Web · React + MUI |
 | Built on | Composition of Biowave `Button` (`primary-action`) + `IconButton` (`menu-trigger`) + MUI `Menu`/`MenuItem` (temporary, until the Menu component on Day 10) |
 | Import | `import { SplitButton } from '@biowave/web'` |
-| Version | 1.1 · 2026-10-21 |
+| Version | 1.2 · 2026-10-31 |
 | Source code | `src/components/split-button/` — not built yet (the Executor creates it) |
 | Tokens | — |
-| Source | [`split-button.md`](split-button.md) @ `f3afe04f2b82e9b4` |
+| Source | [`split-button.md`](split-button.md) @ `c66597faf443e9c9` |
 
 ## 1. What it is
 
@@ -22,11 +22,11 @@ A split button joins a main action with a menu of related alternatives: "Export"
 
 | # | Part | Required | Role |
 |---|---|---|---|
-| 1 | `container` | Yes | Groups the two parts; outer corners rounded, inner corners tight |
+| 1 | `container` | Yes | Joins the two parts; outer corners rounded, inner corners square |
 | 2 | `primary-action` | Yes | A Button: runs the most common action |
 | 3 | `menu-trigger` | Yes | An Icon button with a chevron: opens the menu |
 | 4 | `menu` | Yes | The alternatives (Menu component) |
-| 5 | `gap` | Yes | Small gap that separates the two hit areas |
+| 5 | `divider` | Yes | A vertical [Divider](../divider/divider.md#a--guidelines) where the two parts meet. The parts touch (no gap), so this line is what separates the two hit areas |
 
 **Options** (names and values are the props in §2):
 
@@ -64,20 +64,22 @@ A split button joins a main action with a menu of related alternatives: "Export"
 ## 3. Dimensions
 
 ```
-  radius-md                    radius-xs │ │ radius-xs          radius-md
-  ┌──────────────────────────────────┐   ┌────────┐
-  │ [◆]  Export report               │   │  [⌄]   │   both: size-control-height-md
-  └──────────────────────────────────┘   └────────┘
-                                    ├──┤ spacing-xxs
+  radius-md                   radius-none │ radius-none        radius-md
+  ┌──────────────────────────────────┬────────┐
+  │ [◆]  Export report               │  [⌄]   │   both: size-control-height-md
+  └──────────────────────────────────┴────────┘
+                                     └ divider: border-width-default · color-border-default
+                                       (gap spacing-none — the parts touch)
 ```
 
 | Part | Property | Value |
 |---|---|---|
-| `container` | layout · gap | inline-flex · `spacing-xxs` |
-| `primary-action` | everything | Button of the same `variant`, `color`, `size` ([Button B2](../button/button.md#b2-dimensions)), except: radius start corners `radius-md`, end corners `radius-xs` |
-| `menu-trigger` | everything | IconButton of the same `variant`, `color`, `size` ([Icon button B2](../icon-button/icon-button.md#b2-dimensions)), except: start corners `radius-xs`, end corners `radius-md`; icon `expand_more` |
+| `container` | layout · gap | inline-flex, `align-items: center` · `spacing-none` (the parts touch) |
+| `divider` | everything | [Divider](../divider/divider.md#b2-dimensions) `orientation="vertical"`, `emphasis="default"` (`border-width-default` · `color-border-default`, every variant and color), `decorative`; height = the parts' `size-control-height-*`; between `primary-action` and `menu-trigger` |
+| `primary-action` | everything | Button of the same `variant`, `color`, `size` ([Button B2](../button/button.md#b2-dimensions)), except: radius start corners `radius-md`, end corners `radius-none`; no border on the inline-end side (`border-width-none`) — the divider is the shared edge |
+| `menu-trigger` | everything | IconButton of the same `variant`, `color`, `size` ([Icon button B2](../icon-button/icon-button.md#b2-dimensions)), except: start corners `radius-none`, end corners `radius-md`; no border on the inline-start side (`border-width-none`); icon `expand_more` |
 | `menu` (temporary) | min-width · background · elevation · radius | width of `container` · `color-surface-raised` · `elevation-3` · `radius-lg` |
-| `menu` item | height · padding-inline · gap · text style · text color | `size-control-height-md` · `spacing-control-padding-inline-md` · `spacing-control-gap-md` · `body-md` · `color-text-default` |
+| `menu` item | height · padding-inline · icon–label gap · icon · text style · text color | `size-control-height-md` · `spacing-lg` · `spacing-sm` · `size-icon-md` · `body-md` · `color-text-default` (menu rows use the component spacing scale, not `spacing-control-*` — spacing.md) |
 | `menu` | offset from container | `spacing-xs` |
 
 ## 4. Tokens by part and state
@@ -92,8 +94,11 @@ Values are for checking only — never paste a value.
 
 | Token | CSS / TS | Light | Dark |
 |---|---|---|---|
+| `border-width-default` | `var(--bw-border-width-default)` · `cssVars.border.width.default` | 1 | 1 |
+| `border-width-none` | `var(--bw-border-width-none)` · `cssVars.border.width.none` | 0 | 0 |
 | `color-background-transparent-hovered` | `var(--bw-color-background-transparent-hovered)` · `cssVars.color.background.transparent.hovered` | #5454541A | #54545466 |
 | `color-background-transparent-pressed` | `var(--bw-color-background-transparent-pressed)` · `cssVars.color.background.transparent.pressed` | #54545433 | #54545499 |
+| `color-border-default` | `var(--bw-color-border-default)` · `cssVars.color.border.default` | #DBDBDB | #404040 |
 | `color-border-focus` | `var(--bw-color-border-focus)` · `cssVars.color.border.focus` | #254471 | #90A3BC |
 | `color-icon-subtle` | `var(--bw-color-icon-subtle)` · `cssVars.color.icon.subtle` | #292929 | #DBDBDB |
 | `color-surface-raised` | `var(--bw-color-surface-raised)` · `cssVars.color.surface.raised` | #FFFFFF | #292929 |
@@ -106,12 +111,13 @@ Values are for checking only — never paste a value.
 | `motion-easing-standard-decelerate` | `var(--bw-motion-easing-standard-decelerate)` · `cssVars.motion.easing.standard-decelerate` | [0,0,0,1] | [0,0,0,1] |
 | `radius-lg` | `var(--bw-radius-lg)` · `cssVars.radius.lg` | 10 | 10 |
 | `radius-md` | `var(--bw-radius-md)` · `cssVars.radius.md` | 8 | 8 |
-| `radius-xs` | `var(--bw-radius-xs)` · `cssVars.radius.xs` | 4 | 4 |
+| `radius-none` | `var(--bw-radius-none)` · `cssVars.radius.none` | 0 | 0 |
 | `size-control-height-md` | `var(--bw-size-control-height-md)` · `cssVars.size.control.height.md` | 40 | 40 |
-| `spacing-control-gap-md` | `var(--bw-spacing-control-gap-md)` · `cssVars.spacing.control.gap.md` | 6 | 6 |
-| `spacing-control-padding-inline-md` | `var(--bw-spacing-control-padding-inline-md)` · `cssVars.spacing.control.padding-inline.md` | 12 | 12 |
+| `size-icon-md` | `var(--bw-size-icon-md)` · `cssVars.size.icon.md` | 20 | 20 |
+| `spacing-lg` | `var(--bw-spacing-lg)` · `cssVars.spacing.lg` | 12 | 12 |
+| `spacing-none` | `var(--bw-spacing-none)` · `cssVars.spacing.none` | 0 | 0 |
+| `spacing-sm` | `var(--bw-spacing-sm)` · `cssVars.spacing.sm` | 6 | 6 |
 | `spacing-xs` | `var(--bw-spacing-xs)` · `cssVars.spacing.xs` | 4 | 4 |
-| `spacing-xxs` | `var(--bw-spacing-xxs)` · `cssVars.spacing.xxs` | 2 | 2 |
 
 ## 5. States and transitions
 
@@ -223,7 +229,8 @@ B9, plus: Button and IconButton tests still pass unchanged.
 - [ ] (1.1) Trigger keys (finding 4): Enter, Space and ArrowDown each open the menu and focus the first item; Space on an item chooses it, closes the menu and runs `onSelect` once
 - [ ] (1.1) Loading (finding 4): while `loading`, the trigger is disabled and focus stays on the primary action
 - [ ] (1.1) `ar` label (finding 4): the default `menuLabel` is "خيارات أخرى لـ{children}"
-- [ ] (1.1) Radii (finding 4): per corner — `start` segment start corners `radius-md`, end corners `radius-xs`; `end` segment the reverse — for every allowed `variant`
+- [ ] (1.1, 1.2) Radii: per corner — `start` segment start corners `radius-md`, end corners `radius-none`; `end` segment the reverse — for every allowed `variant`
+- [ ] (1.2) Joined parts: `container` gap `spacing-none`; a decorative (`aria-hidden`) vertical Divider with `color-border-default` sits between `primary-action` and `menu-trigger` in DOM order; `primary-action` has `border-inline-end-width: border-width-none`, `menu-trigger` `border-inline-start-width: border-width-none` — every variant, `en` and `ar`
 - [ ] (1.1) axe (finding 4): open and closed, in `en` and `ar`
 - [ ] (1.1) `aria-controls` (finding 7): absent while closed; while open it equals the menu's `id`
 - [ ] (1.1) No per-test timeout arguments in `SplitButton.test.tsx` (finding 5); every Split button test passes under the 5 s default in the full suite

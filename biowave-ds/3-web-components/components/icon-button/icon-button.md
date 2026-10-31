@@ -505,7 +505,7 @@ Icon Button              ↔ centered · width = height {B2} · padding 0
 |---|---|---|---|---|---|
 | `Variant` (on Appearance, exposed) | VARIANT | `Filled` · `Tonal` · `Outlined` · `Text` | `Text` | `variant` | |
 | `Color` (exposed) | VARIANT | `Brand` · `Secondary` · `Neutral` · `Error` · `Inverse` | `Neutral` | `color` | |
-| `State` (exposed) | VARIANT | `Default` · `Hover` · `Focused` · `Pressed` · `Disabled` · `Loading` | `Default` | `disabled` / `loading` | |
+| `State` (exposed) | VARIANT | `Default` · `Hovered` · `Focused` · `Pressed` · `Disabled` · `Loading` | `Default` | `disabled` / `loading` | |
 | `Size` | VARIANT | `SM` · `MD` · `LG` | `MD` | `size` | |
 | `Toggle` | VARIANT | `Off` · `On` | `Off` | `toggle` | |
 | `Selected` | VARIANT | `False` · `True` | `False` | `selected` | only with `Toggle=On` |
@@ -536,7 +536,7 @@ In the Foundations file: report instances of the three legacy sets, then move th
 
 ### D6 States, interactions and motion
 
-While hovering → Hover; while pressing → Pressed (B4). On click for `Toggle=On`: Selected False ↔ True, smart animate `motion-duration-sm`.
+While hovering → Hovered; while pressing → Pressed (B4). On click for `Toggle=On`: Selected False ↔ True, smart animate `motion-duration-sm`.
 
 ### D7 RTL
 
@@ -832,3 +832,4 @@ Skipped — Figma build is `Planned` and `figma` is skipped in `_workflow/config
 | 1.0 | 2026-10-16 | Initial | No | — |
 | 1.1 | 2026-10-21 | Review round 1 Planner items: #8 B7 examples use the Biowave `Icon` (`<Icon name>`, `filled`), D4 code values, a D4 **Icons used** line and the header Source code updated; #6 C dependency on `ds/button-web` (PR #1) shared speedy Emotion cache, raised timeouts dropped. Executor findings #1–#5, #7, #9 folded into C3/C5/C6, C7 AC-7–AC-11 and the Fix round 1 task list. B1–B6 unchanged | No | — |
 | 1.1 (wording) | 2026-10-29 | D3 layer tree: state layer fill `{overlay-hover\|pressed}` → `{background-transparent-hovered\|pressed}` (colour tokens 2.1); same as B3, no value change | No | — |
+| 1.1 (naming) | 2026-10-31 | Code keys `stateLayer.hover` → `hovered`; Figma `State` `Hover` → `Hovered`. Internal `segment` (Split button only): inner corners `radius-none`, inner-side border none, Flutter `BwSegmentBorder` | No | — |

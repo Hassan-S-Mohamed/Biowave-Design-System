@@ -357,7 +357,7 @@ Same as [Web D1](../../../3-web-components/components/button/button.md#d1-rules-
 
 As [Web D2–D4](../../../3-web-components/components/icon-button/icon-button.md#d2-component-structure), with these Mobile differences:
 - `Size` adds `XL`
-- No `Hover` state
+- No `Hovered` state
 - Default instance: `Variant=Text`, `Color=Neutral`, `Size=LG`
 - Docs page 09 shows the 48 hit area around `SM`/`MD`
 
@@ -371,7 +371,7 @@ As [Web D4](../../../3-web-components/components/icon-button/icon-button.md#d4-p
 
 ### D5 Variants to generate
 
-`.Icon Button/Appearance`: 18 × 5 states (no `Hover`) = 90 + selected (`Text`/`Outlined` × 5 colors × 5 states) = 50 → **140**; `Icon Button`: 4 sizes × 3 = **12**.
+`.Icon Button/Appearance`: 18 × 5 states (no `Hovered`) = 90 + selected (`Text`/`Outlined` × 5 colors × 5 states) = 50 → **140**; `Icon Button`: 4 sizes × 3 = **12**.
 
 #### After this build is `Approved`
 Report instances of the legacy reference above; move legacy sets to `_Deprecation Ground` in the Foundations file once product files use the Mobile library.
@@ -659,3 +659,4 @@ None — version 1.0. Filled when the version is above 1.0; it feeds Figma doc p
 | Version | Date | Change | Breaking | Migration |
 |---|---|---|---|---|
 | 1.0 | 2026-10-16 | Initial | No | — |
+| 1.1 (naming) | 2026-10-31 | Code keys `stateLayer.hover` → `hovered`; Figma `State` `Hover` → `Hovered`. Internal `segment` (Split button only): inner corners `radius-none`, inner-side border none, Flutter `BwSegmentBorder` | No | — |
