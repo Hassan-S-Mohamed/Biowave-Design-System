@@ -18,7 +18,7 @@ Same value on every platform: a Tooltip looks the same on a phone and a desktop.
 
 | Token | Value | Use for | Not for |
 |---|---|---|---|
-| `spacing-none` | 0 | Explicitly removing padding or gap — flush lists, joined button groups, edge-to-edge media | Hiding content |
+| `spacing-none` | 0 | Explicitly removing padding or gap — flush lists, joined segments (split button: the parts touch and a Divider separates them), edge-to-edge media | Hiding content |
 | `spacing-xxs` | 2 | Optical nudges — badge offset on an avatar or icon, status dot position, gap between stacked lines in dense data | Padding of anything interactive; gaps between interactive elements |
 | `spacing-xs` | 4 | Icon-to-text in badges, chips and inline links; title-to-description in list items and card headers; badge padding; field-to-supporting-text gap | Control padding (use `control/*`); gaps between separate interactive elements (use `md`+) |
 | `spacing-sm` | 6 | Label-to-field gap, compact chip and tag padding, icon-to-text in small non-control elements | Layout or control padding |

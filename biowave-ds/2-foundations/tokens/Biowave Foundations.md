@@ -237,7 +237,7 @@ Raw ramps. Maintainers only: never bind these inside components.
 
 | Token | Value | Use |
 |---|---|---|
-| `spacing-none` | {"value":0,"unit":"px"} | Component · 0. Use for: explicitly removing padding or gap — flush lists, joined button groups, edge-to-edge media. Not for: hiding content. |
+| `spacing-none` | {"value":0,"unit":"px"} | Component · 0. Use for: explicitly removing padding or gap — flush lists, joined segments (split button: the parts touch and a Divider separates them), edge-to-edge media. Not for: hiding content. |
 | `spacing-xxs` | {"value":2,"unit":"px"} | Component · 2px optical nudge. Use for: badge offset on an avatar or icon, status dot position, gap between stacked lines in dense data. Not for: padding of anything interactive or gaps between interactive elements. |
 | `spacing-xs` | {"value":4,"unit":"px"} | Component · Tight gap inside a component. Use for: icon-to-text in badges, chips and inline links; title-to-description in list items and card headers; badge padding; field-to-supporting-text gap. Not for: control padding (use control/*) or gaps between separate interactive elements (use md or more). |
 | `spacing-sm` | {"value":6,"unit":"px"} | Component · Compact gap. Use for: label-to-field gap, compact chip and tag padding, icon-to-text in small non-control elements. Not for: layout or control padding. |
@@ -259,9 +259,9 @@ Raw ramps. Maintainers only: never bind these inside components.
 
 | Token | Value | Use |
 |---|---|---|
-| `radius-none` | {"value":0,"unit":"px"} | Square corners. Anything attached to a screen edge — app bar, sidebar, navigation rail, full-bleed media, table cells. |
+| `radius-none` | {"value":0,"unit":"px"} | Square corners. Anything attached to a screen edge — app bar, sidebar, navigation rail, full-bleed media, table cells — and the inner corners where joined segments touch (split button). |
 | `radius-xxs` | {"value":2,"unit":"px"} | Hairline rounding for tiny marks: progress and slider tracks, inline code. |
-| `radius-xs` | {"value":4,"unit":"px"} | Inner corners of joined segments (button group, split button), checkbox, small badge, tags inside dense text. |
+| `radius-xs` | {"value":4,"unit":"px"} | Focus ring of inline links, checkbox, small badge, tags inside dense text. |
 | `radius-sm` | {"value":6,"unit":"px"} | Tooltip, chips and tags, rounded-square avatar sm. |
 | `radius-md` | {"value":8,"unit":"px"} | Default control radius: Button, Icon button, Text field, Select, Segmented button at sm, md and lg; small popovers; rounded-square avatar md. |
 | `radius-lg` | {"value":10,"unit":"px"} | Menus, dropdown lists and popovers anchored to a control (split button menu); rounded-square avatar lg. |

@@ -2,6 +2,10 @@
 
 Every change to the design system is logged here **in the same task**, newest first (AGENTS.md rule 9). Format: [Keep a Changelog](https://keepachangelog.com); versions follow SemVer per package. Component detail also goes to that component's Part F.
 
+## [Foundations — Joined-segment descriptions] — 2026-10-31
+### Changed
+- Descriptions follow the Split button decision (parts touch, square inner corners, a Divider between them), in the token source and in Figma Foundations: `radius-none` adds "the inner corners where joined segments touch (split button)"; `radius-xs` → "Focus ring of inline links, checkbox, small badge, tags inside dense text." (joined segments no longer use it); `spacing-none` "joined button groups" → "joined segments (split button: the parts touch and a Divider separates them)". `radius.md` (pick table + joined-segments rule) and `spacing.md` updated. Values unchanged.
+
 ## [Review — Text field against Foundations 29 Oct] — 2026-10-31
 ### Checked
 - Text field on Web, Tablet and Mobile (specs, `text-field.tokens.json`, contracts, web code and tests): every reference resolves; size tokens use the control level at the matching size, `label-gap` `spacing-sm` and `supporting-gap` `spacing-xs` match the new Use-for rules, `radius-md`, `color-border-bold` as the control boundary. The old dark-mode read-only finding (E2 #2) no longer applies: `background-base-subtlest` (#0A0A0A) now differs from `base-default` (#141414).
@@ -19,7 +23,6 @@ Every change to the design system is logged here **in the same task**, newest fi
 - Contracts regenerated for the three components on all platforms. Checks: `docs:check`, `component-tokens`, `typecheck`, `test:web` 225/225, `npm run sync` READY.
 ### Not done
 - `flutter analyze` / `flutter test` not run — no Flutter SDK in the cloud workspace or the linked VM. Run both in `4-tablet-components` and `5-mobile-components` before the review.
-- Foundations descriptions still say `radius-xs` is for joined segments and `spacing-none` for "joined button groups"; updating them needs a Foundations Figma edit + publish + library re-read (§6) and is left for the Planner.
 - Link (`link.tokens.ts`) still uses `hover` as an internal code key (no token or Figma variable involved).
 
 ## [Sync — Foundations published: library index and contracts] — 2026-10-29
