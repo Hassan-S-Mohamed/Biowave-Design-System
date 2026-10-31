@@ -1,4 +1,4 @@
-<!-- GENERATED from text-field.md @ 6fdc0cab9a29632a — do not edit; change the source and run: npm run contract -- mobile text-field -->
+<!-- GENERATED from text-field.md @ 1f6fc73d65066958 — do not edit; change the source and run: npm run contract -- mobile text-field -->
 # Text field · حقل نص — Mobile — Figma contract
 
 > **Everything the Figma Agent needs to build Text field in the Mobile Components file, with our variables and styles.** Read this file only. Generated from [`text-field.md`](text-field.md) (Parts A, B, D) and the Figma library index (`_sync/figma-library.json`, read 2026-10-29). Questions go to [D11 Execution log](text-field.md#d11-execution-log-filled-by-the-figma-agent) — never invent.
@@ -12,7 +12,7 @@
 | Component | Text field · حقل نص |
 | Platform | Mobile · Flutter + Material 3 |
 | Version | 1.1 · 2026-10-18 (first Mobile version; same guidelines version as Web 1.1) |
-| Source | [`text-field.md`](text-field.md) @ `6fdc0cab9a29632a` |
+| Source | [`text-field.md`](text-field.md) @ `1f6fc73d65066958` |
 
 ## 1. Library connections in this file
 
@@ -48,19 +48,19 @@ Already in this file, created by the sync tooling from [`text-field.tokens.json`
 | Text field / Size | sm · md · lg | `border-width` | sm → 7. Border › `border/width/default`<br>md → 7. Border › `border/width/default`<br>lg → 7. Border › `border/width/default` |
 | Text field / Size | sm · md · lg | `action-box` | sm → 4. Size › `size/icon/lg`<br>md → 4. Size › `size/control/height/sm`<br>lg → 4. Size › `size/control/height/md` |
 | Text field / Size | sm · md · lg | `action-inset` | sm → 3. Spacing › `spacing/xs`<br>md → 3. Spacing › `spacing/xs`<br>lg → 3. Spacing › `spacing/xs` |
-| Text field / State | default · hover · focus · error · disabled · read-only | `background` | default → 1. Themes › `color/background/base/default`<br>hover → 1. Themes › `color/background/base/hovered`<br>focus → 1. Themes › `color/background/base/default`<br>error → 1. Themes › `color/background/base/default`<br>disabled → 1. Themes › `color/background/disabled`<br>read-only → 1. Themes › `color/background/base/subtlest` |
-| Text field / State | default · hover · focus · error · disabled · read-only | `border` | default → 1. Themes › `color/border/bold`<br>hover → 1. Themes › `color/border/bold`<br>focus → 1. Themes › `color/border/focus`<br>error → 1. Themes › `color/border/error`<br>disabled → 1. Themes › `color/border/disabled`<br>read-only → 1. Themes › `color/border/default` |
-| Text field / State | default · hover · focus · error · disabled · read-only | `border-width` | default → 7. Border › `border/width/default`<br>hover → 7. Border › `border/width/default`<br>focus → 7. Border › `border/width/focus`<br>error → 7. Border › `border/width/default`<br>disabled → 7. Border › `border/width/default`<br>read-only → 7. Border › `border/width/default` |
-| Text field / State | default · hover · focus · error · disabled · read-only | `label` | default → 1. Themes › `color/text/default`<br>hover → 1. Themes › `color/text/default`<br>focus → 1. Themes › `color/text/default`<br>error → 1. Themes › `color/text/default`<br>disabled → 1. Themes › `color/text/disabled`<br>read-only → 1. Themes › `color/text/default` |
-| Text field / State | default · hover · focus · error · disabled · read-only | `input` | default → 1. Themes › `color/text/default`<br>hover → 1. Themes › `color/text/default`<br>focus → 1. Themes › `color/text/default`<br>error → 1. Themes › `color/text/default`<br>disabled → 1. Themes › `color/text/disabled`<br>read-only → 1. Themes › `color/text/default` |
-| Text field / State | default · hover · focus · error · disabled · read-only | `placeholder` | default → 1. Themes › `color/text/subtlest`<br>hover → 1. Themes › `color/text/subtlest`<br>focus → 1. Themes › `color/text/subtlest`<br>error → 1. Themes › `color/text/subtlest`<br>disabled → 1. Themes › `color/text/disabled`<br>read-only → 1. Themes › `color/text/subtlest` |
-| Text field / State | default · hover · focus · error · disabled · read-only | `icon` | default → 1. Themes › `color/icon/subtlest`<br>hover → 1. Themes › `color/icon/subtlest`<br>focus → 1. Themes › `color/icon/default`<br>error → 1. Themes › `color/icon/subtlest`<br>disabled → 1. Themes › `color/icon/disabled`<br>read-only → 1. Themes › `color/icon/subtlest` |
-| Text field / State | default · hover · focus · error · disabled · read-only | `supporting` | default → 1. Themes › `color/text/subtlest`<br>hover → 1. Themes › `color/text/subtlest`<br>focus → 1. Themes › `color/text/subtlest`<br>error → 1. Themes › `color/text/role/error`<br>disabled → 1. Themes › `color/text/disabled`<br>read-only → 1. Themes › `color/text/subtlest` |
-| Text field / State | default · hover · focus · error · disabled · read-only | `counter` | default → 1. Themes › `color/text/subtlest`<br>hover → 1. Themes › `color/text/subtlest`<br>focus → 1. Themes › `color/text/subtlest`<br>error → 1. Themes › `color/text/role/error`<br>disabled → 1. Themes › `color/text/disabled`<br>read-only → 1. Themes › `color/text/subtlest` |
-| Text field / State | default · hover · focus · error · disabled · read-only | `required` | default → 1. Themes › `color/text/role/error`<br>hover → 1. Themes › `color/text/role/error`<br>focus → 1. Themes › `color/text/role/error`<br>error → 1. Themes › `color/text/role/error`<br>disabled → 1. Themes › `color/text/disabled`<br>read-only → 1. Themes › `color/text/role/error` |
-| Text field / State | default · hover · focus · error · disabled · read-only | `addon-background` | default → 1. Themes › `color/background/neutral/default`<br>hover → 1. Themes › `color/background/neutral/default`<br>focus → 1. Themes › `color/background/neutral/default`<br>error → 1. Themes › `color/background/neutral/default`<br>disabled → 1. Themes › `color/background/disabled`<br>read-only → 1. Themes › `color/background/neutral/default` |
-| Text field / State | default · hover · focus · error · disabled · read-only | `addon-text` | default → 1. Themes › `color/text/subtle`<br>hover → 1. Themes › `color/text/subtle`<br>focus → 1. Themes › `color/text/subtle`<br>error → 1. Themes › `color/text/subtle`<br>disabled → 1. Themes › `color/text/disabled`<br>read-only → 1. Themes › `color/text/subtle` |
-| Text field / State | default · hover · focus · error · disabled · read-only | `error-icon` | default → 1. Themes › `color/icon/role/error`<br>hover → 1. Themes › `color/icon/role/error`<br>focus → 1. Themes › `color/icon/role/error`<br>error → 1. Themes › `color/icon/role/error`<br>disabled → 1. Themes › `color/icon/disabled`<br>read-only → 1. Themes › `color/icon/role/error` |
+| Text field / State | default · hovered · focused · error · disabled · read-only | `background` | default → 1. Themes › `color/background/base/default`<br>hovered → 1. Themes › `color/background/base/hovered`<br>focused → 1. Themes › `color/background/base/default`<br>error → 1. Themes › `color/background/base/default`<br>disabled → 1. Themes › `color/background/disabled`<br>read-only → 1. Themes › `color/background/base/subtlest` |
+| Text field / State | default · hovered · focused · error · disabled · read-only | `border` | default → 1. Themes › `color/border/bold`<br>hovered → 1. Themes › `color/border/bold`<br>focused → 1. Themes › `color/border/focus`<br>error → 1. Themes › `color/border/error`<br>disabled → 1. Themes › `color/border/disabled`<br>read-only → 1. Themes › `color/border/default` |
+| Text field / State | default · hovered · focused · error · disabled · read-only | `border-width` | default → 7. Border › `border/width/default`<br>hovered → 7. Border › `border/width/default`<br>focused → 7. Border › `border/width/focus`<br>error → 7. Border › `border/width/default`<br>disabled → 7. Border › `border/width/default`<br>read-only → 7. Border › `border/width/default` |
+| Text field / State | default · hovered · focused · error · disabled · read-only | `label` | default → 1. Themes › `color/text/default`<br>hovered → 1. Themes › `color/text/default`<br>focused → 1. Themes › `color/text/default`<br>error → 1. Themes › `color/text/default`<br>disabled → 1. Themes › `color/text/disabled`<br>read-only → 1. Themes › `color/text/default` |
+| Text field / State | default · hovered · focused · error · disabled · read-only | `input` | default → 1. Themes › `color/text/default`<br>hovered → 1. Themes › `color/text/default`<br>focused → 1. Themes › `color/text/default`<br>error → 1. Themes › `color/text/default`<br>disabled → 1. Themes › `color/text/disabled`<br>read-only → 1. Themes › `color/text/default` |
+| Text field / State | default · hovered · focused · error · disabled · read-only | `placeholder` | default → 1. Themes › `color/text/subtlest`<br>hovered → 1. Themes › `color/text/subtlest`<br>focused → 1. Themes › `color/text/subtlest`<br>error → 1. Themes › `color/text/subtlest`<br>disabled → 1. Themes › `color/text/disabled`<br>read-only → 1. Themes › `color/text/subtlest` |
+| Text field / State | default · hovered · focused · error · disabled · read-only | `icon` | default → 1. Themes › `color/icon/subtlest`<br>hovered → 1. Themes › `color/icon/subtlest`<br>focused → 1. Themes › `color/icon/default`<br>error → 1. Themes › `color/icon/subtlest`<br>disabled → 1. Themes › `color/icon/disabled`<br>read-only → 1. Themes › `color/icon/subtlest` |
+| Text field / State | default · hovered · focused · error · disabled · read-only | `supporting` | default → 1. Themes › `color/text/subtlest`<br>hovered → 1. Themes › `color/text/subtlest`<br>focused → 1. Themes › `color/text/subtlest`<br>error → 1. Themes › `color/text/role/error`<br>disabled → 1. Themes › `color/text/disabled`<br>read-only → 1. Themes › `color/text/subtlest` |
+| Text field / State | default · hovered · focused · error · disabled · read-only | `counter` | default → 1. Themes › `color/text/subtlest`<br>hovered → 1. Themes › `color/text/subtlest`<br>focused → 1. Themes › `color/text/subtlest`<br>error → 1. Themes › `color/text/role/error`<br>disabled → 1. Themes › `color/text/disabled`<br>read-only → 1. Themes › `color/text/subtlest` |
+| Text field / State | default · hovered · focused · error · disabled · read-only | `required` | default → 1. Themes › `color/text/role/error`<br>hovered → 1. Themes › `color/text/role/error`<br>focused → 1. Themes › `color/text/role/error`<br>error → 1. Themes › `color/text/role/error`<br>disabled → 1. Themes › `color/text/disabled`<br>read-only → 1. Themes › `color/text/role/error` |
+| Text field / State | default · hovered · focused · error · disabled · read-only | `addon-background` | default → 1. Themes › `color/background/neutral/default`<br>hovered → 1. Themes › `color/background/neutral/default`<br>focused → 1. Themes › `color/background/neutral/default`<br>error → 1. Themes › `color/background/neutral/default`<br>disabled → 1. Themes › `color/background/disabled`<br>read-only → 1. Themes › `color/background/neutral/default` |
+| Text field / State | default · hovered · focused · error · disabled · read-only | `addon-text` | default → 1. Themes › `color/text/subtle`<br>hovered → 1. Themes › `color/text/subtle`<br>focused → 1. Themes › `color/text/subtle`<br>error → 1. Themes › `color/text/subtle`<br>disabled → 1. Themes › `color/text/disabled`<br>read-only → 1. Themes › `color/text/subtle` |
+| Text field / State | default · hovered · focused · error · disabled · read-only | `error-icon` | default → 1. Themes › `color/icon/role/error`<br>hovered → 1. Themes › `color/icon/role/error`<br>focused → 1. Themes › `color/icon/role/error`<br>error → 1. Themes › `color/icon/role/error`<br>disabled → 1. Themes › `color/icon/disabled`<br>read-only → 1. Themes › `color/icon/role/error` |
 
 ## 3. Foundations variables used (keys)
 
@@ -268,7 +268,7 @@ Same as [Web D1](../../../3-web-components/components/text-field/text-field.md#d
 
 As [Web D2](../../../3-web-components/components/text-field/text-field.md#d2-component-structure): `Text field` and `Text area` sets plus private `.Field/Label`, `.Field/Container`, `.Field/Add-on`, `.Field/Action`, `.Field/Supporting text`. Mobile differences:
 - `Size` = `LG` (default `LG`)
-- `State` = `Default` · `Focus` · `Disabled` · `Read-only` (no `Hover`)
+- `State` = `Default` · `Focused` · `Disabled` · `Read-only` (no `Hovered`)
 - `Text area`: no `Resize handle` property
 
 ### D3 Layer tree and auto layout
@@ -301,7 +301,7 @@ The Mobile Part D refers to these Web sections; they are copied here so you read
 
 0. Component tokens only: use `Text field / Size` and `Text field / State` already synced from [`text-field.tokens.json`](text-field.tokens.json). Never create variables or styles by hand
 1. Bind every fill, stroke, radius, padding, gap, height and icon size to a component token; text uses published Foundations text styles
-2. Each variant sets explicit collection modes for Size and State. Error uses the `error` State mode; an Error + Focus variant overrides only border width to the Focus mode's width while keeping error color
+2. Each variant sets explicit collection modes for Size and State. Error uses the `error` State mode; an Error + Focused variant overrides only border width to the `focused` mode's width while keeping error color
 3. Never bind primitives, deprecated variables or legacy input variables
 4. Layer names equal A2 anatomy names in kebab-case
 5. Auto layout on every frame. The only absolute layer allowed is the field border if needed to keep the focused border inside the component bounds
@@ -361,7 +361,7 @@ Text area                      same outer tree, no prefix / suffix / end-button
 |---|---|---|---|---|---|
 | `Type` | VARIANT | `Single line` · `Multiline` | `Single line` | `multiline` | `false` · `true` |
 | `Size` | VARIANT | `SM` · `MD` · `LG` | `MD` | `size` | `'sm'` · `'md'` · `'lg'` |
-| `State` | VARIANT | `Default` · `Hover` · `Focus` · `Disabled` · `Read-only` | `Default` | `disabled` / `readOnly` | Disabled and Read-only map to props; others are interaction states |
+| `State` | VARIANT | `Default` · `Hovered` · `Focused` · `Disabled` · `Read-only` | `Default` | `disabled` / `readOnly` | Disabled and Read-only map to props; others are interaction states |
 | `Filled` | VARIANT | `False` · `True` | `False` | `value` / `defaultValue` | empty · non-empty |
 | `Error` | VARIANT | `False` · `True` | `False` | `error` | `false` · `true` |
 | `Language` | VARIANT | `EN` · `AR` | `EN` | — | Provider locale controls code |

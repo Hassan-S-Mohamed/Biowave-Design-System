@@ -644,7 +644,7 @@ From E4 Round 2 (plan 1.2). Only these; nothing else changes.
 
 0. Component tokens only: use `Text field / Size` and `Text field / State` already synced from [`text-field.tokens.json`](text-field.tokens.json). Never create variables or styles by hand
 1. Bind every fill, stroke, radius, padding, gap, height and icon size to a component token; text uses published Foundations text styles
-2. Each variant sets explicit collection modes for Size and State. Error uses the `error` State mode; an Error + Focus variant overrides only border width to the Focus mode's width while keeping error color
+2. Each variant sets explicit collection modes for Size and State. Error uses the `error` State mode; an Error + Focused variant overrides only border width to the `focused` mode's width while keeping error color
 3. Never bind primitives, deprecated variables or legacy input variables
 4. Layer names equal A2 anatomy names in kebab-case
 5. Auto layout on every frame. The only absolute layer allowed is the field border if needed to keep the focused border inside the component bounds
@@ -701,7 +701,7 @@ Text area                      same outer tree, no prefix / suffix / end-button
 |---|---|---|---|---|---|
 | `Type` | VARIANT | `Single line` · `Multiline` | `Single line` | `multiline` | `false` · `true` |
 | `Size` | VARIANT | `SM` · `MD` · `LG` | `MD` | `size` | `'sm'` · `'md'` · `'lg'` |
-| `State` | VARIANT | `Default` · `Hover` · `Focus` · `Disabled` · `Read-only` | `Default` | `disabled` / `readOnly` | Disabled and Read-only map to props; others are interaction states |
+| `State` | VARIANT | `Default` · `Hovered` · `Focused` · `Disabled` · `Read-only` | `Default` | `disabled` / `readOnly` | Disabled and Read-only map to props; others are interaction states |
 | `Filled` | VARIANT | `False` · `True` | `False` | `value` / `defaultValue` | empty · non-empty |
 | `Error` | VARIANT | `False` · `True` | `False` | `error` | `false` · `true` |
 | `Language` | VARIANT | `EN` · `AR` | `EN` | — | Provider locale controls code |
@@ -1096,3 +1096,4 @@ Planner items from E2 closed in spec 1.1: **#2** read-only border `color-border-
 | 1.1 | 2026-10-18 | Overview playground controls added for example, size, state, required, supporting text, help tooltip and counter; controls drive the live React preview | No | — |
 | 1.1 | 2026-10-21 | Review round 2: Changes requested (E4) | No | — |
 | 1.2 | 2026-10-21 | E4 #9: one multiline trailing-action rule (`max(action-inset − padding-block, (line-height − action-box) / 2)`), action never closer than `spacing-xs` to the top border; B2, B9, C3, C6, C7 Fix round 2 task list. E4 #10: built-in glyphs and B7 examples use the Biowave `Icon` (`<Icon name="…" />`) | No — visual only: the multiline action moves down at `md` / `lg` | — |
+| 1.1 (naming) | 2026-10-31 | Foundations check (Spacing 2.0, Size, Radius): all tokens already follow the new rules. State modes `hover` → `hovered`, `focus` → `focused` (text-field.tokens.json, web code keys; Figma `Text field / State` modes renamed in place, IDs kept); Figma `State` `Hover` / `Focus` → `Hovered` / `Focused` | No | — |

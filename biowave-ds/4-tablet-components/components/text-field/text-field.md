@@ -523,7 +523,7 @@ Same as [Web D1](../../../3-web-components/components/text-field/text-field.md#d
 
 As [Web D2](../../../3-web-components/components/text-field/text-field.md#d2-component-structure): `Text field` and `Text area` sets plus private `.Field/Label`, `.Field/Container`, `.Field/Add-on`, `.Field/Action`, `.Field/Supporting text`. Tablet differences:
 - `Size` = `MD` · `LG` (default `LG`)
-- `State` = `Default` · `Focus` · `Disabled` · `Read-only` (no `Hover`)
+- `State` = `Default` · `Focused` · `Disabled` · `Read-only` (no `Hovered`)
 - `Text area`: no `Resize handle` property
 
 ### D3 Layer tree and auto layout
@@ -613,3 +613,4 @@ First Tablet version (1.1). Differences from Web 1.1 are listed in A8 and B1 (Fl
 | Version | Date | Change | Breaking | Migration |
 |---|---|---|---|---|
 | 1.1 | 2026-10-18 | Initial Tablet spec (Flutter `BwTextField`), aligned with Web 1.1 | No | — |
+| 1.1 (naming) | 2026-10-31 | Foundations check (Spacing 2.0, Size, Radius): all tokens already follow the new rules. State modes `hover` → `hovered`, `focus` → `focused` (text-field.tokens.json, web code keys; Figma `Text field / State` modes renamed in place, IDs kept); Figma `State` `Hover` / `Focus` → `Hovered` / `Focused` | No | — |

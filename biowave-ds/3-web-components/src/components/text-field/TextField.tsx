@@ -111,8 +111,8 @@ const FieldRoot = styled(OutlinedInput, {
 })<FieldRootProps>(({ $hasAction, $hasEndButton, $multiline, $readOnly, $resize, $size }) => {
   const size = textFieldSizeTokens[$size];
   const normal = textFieldStateTokens[$readOnly ? 'read-only' : 'default'];
-  const hover = textFieldStateTokens.hover;
-  const focus = textFieldStateTokens.focus;
+  const hovered = textFieldStateTokens.hovered;
+  const focused = textFieldStateTokens.focused;
   const error = textFieldStateTokens.error;
   const disabled = textFieldStateTokens.disabled;
 
@@ -158,22 +158,22 @@ const FieldRoot = styled(OutlinedInput, {
       display: 'none',
     },
     '&:hover:not(.Mui-disabled):not(.Mui-focused):not(.Mui-error):not([data-read-only="true"])': {
-      backgroundColor: hover.background,
+      backgroundColor: hovered.background,
     },
     '&:hover:not(.Mui-disabled):not(.Mui-focused):not(.Mui-error):not([data-read-only="true"]) .MuiOutlinedInput-notchedOutline': {
-      borderColor: hover.border,
-      borderWidth: hover.borderWidth,
+      borderColor: hovered.border,
+      borderWidth: hovered.borderWidth,
     },
     '&:hover:not(.Mui-disabled):not(.Mui-focused):not(.Mui-error):not([data-read-only="true"]) .bw-text-field__addon': {
-      borderColor: hover.border,
+      borderColor: hovered.border,
     },
     '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
-      borderColor: focus.border,
-      borderWidth: focus.borderWidth,
+      borderColor: focused.border,
+      borderWidth: focused.borderWidth,
       transitionDuration: textFieldMotionTokens.duration,
     },
     '&.Mui-focused .bw-text-field__addon': {
-      borderColor: focus.border,
+      borderColor: focused.border,
       transitionDuration: textFieldMotionTokens.duration,
     },
     '&.Mui-error .MuiOutlinedInput-notchedOutline': {
@@ -185,7 +185,7 @@ const FieldRoot = styled(OutlinedInput, {
     },
     '&.Mui-focused.Mui-error .MuiOutlinedInput-notchedOutline': {
       borderColor: error.border,
-      borderWidth: focus.borderWidth,
+      borderWidth: focused.borderWidth,
     },
     '&.Mui-disabled': {
       backgroundColor: disabled.background,
@@ -240,7 +240,7 @@ const FieldRoot = styled(OutlinedInput, {
       blockSize: '100%',
     },
     '&.Mui-focused .bw-text-field__leading-icon, &.Mui-focused .bw-text-field__trailing-icon': {
-      color: focus.icon,
+      color: focused.icon,
     },
     '&.Mui-disabled .bw-text-field__leading-icon, &.Mui-disabled .bw-text-field__trailing-icon': {
       color: disabled.icon,

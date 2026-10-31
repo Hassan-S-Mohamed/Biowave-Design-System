@@ -3,8 +3,8 @@ import { biowaveVariants, cssVars } from '@biowave/foundations';
 export type TextFieldSize = 'sm' | 'md' | 'lg';
 export type TextFieldState =
   | 'default'
-  | 'hover'
-  | 'focus'
+  | 'hovered'
+  | 'focused'
   | 'error'
   | 'disabled'
   | 'read-only';
@@ -101,11 +101,11 @@ const defaultState: TextFieldStateTokens = {
 
 export const textFieldStateTokens: Record<TextFieldState, TextFieldStateTokens> = {
   default: defaultState,
-  hover: {
+  hovered: {
     ...defaultState,
     background: cssVars.color.background.base.hovered,
   },
-  focus: {
+  focused: {
     ...defaultState,
     border: cssVars.color.border.focus,
     borderWidth: cssVars.border.width.focus,

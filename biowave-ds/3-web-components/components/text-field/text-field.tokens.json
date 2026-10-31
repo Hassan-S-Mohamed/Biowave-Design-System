@@ -154,7 +154,7 @@
           "$value": "{color.icon.role.error}"
         }
       },
-      "hover": {
+      "hovered": {
         "background": {
           "$value": "{color.background.base.hovered}"
         },
@@ -195,7 +195,7 @@
           "$value": "{color.icon.role.error}"
         }
       },
-      "focus": {
+      "focused": {
         "background": {
           "$value": "{color.background.base.default}"
         },
